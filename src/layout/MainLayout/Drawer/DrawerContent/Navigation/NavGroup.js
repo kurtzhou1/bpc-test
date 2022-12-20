@@ -13,10 +13,8 @@ import NavCollapse from './NavCollapse';
 const NavGroup = ({ item }) => {
     const menu = useSelector((state) => state.menu);
     const { drawerOpen } = menu;
-    // console.log('item=>>', item);
 
     const navCollapseMap = item.children?.map((menuItem) => {
-        // console.log('menuItem=>>', menuItem);
         switch (menuItem.type) {
             case 'collapse':
                 return <NavCollapse key={menuItem.id} item={menuItem} level={1} />;
@@ -33,17 +31,17 @@ const NavGroup = ({ item }) => {
 
     return (
         <List
-            subheader={
-                item.title &&
-                drawerOpen && (
-                    <Box sx={{ pl: 3, mb: 1.5 }}>
-                        <Typography variant="subtitle2" color="textSecondary">
-                            {item.title}
-                        </Typography>
-                        {/* only available in paid version */}
-                    </Box>
-                )
-            }
+            // subheader={
+            //     item.title &&
+            //     drawerOpen && (
+            //         <Box sx={{ pl: 3, mb: 1.5 }}>
+            //             <Typography variant="subtitle2" color="textSecondary">
+            //                 {item.title}
+            //             </Typography>
+            //             {/* only available in paid version */}
+            //         </Box>
+            //     )
+            // }
             sx={{ mb: drawerOpen ? 1.5 : 0, py: 0, zIndex: 0 }}
         >
             {navCollapseMap}

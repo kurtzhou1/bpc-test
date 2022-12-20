@@ -1,5 +1,5 @@
 // project import
-// import pages from './pages';
+import invoiceWorkManagePage from './invoiceWorkManagePage';
 import dashboard from './dashboard';
 // import utilities from './utilities';
 // import support from './support';
@@ -8,7 +8,7 @@ import dashboard from './dashboard';
 
 const menuItems = {
     // items: [dashboard, pages, utilities, support]
-    items: [dashboard]
+    items: [dashboard, invoiceWorkManagePage]
 };
 
 export default menuItems;

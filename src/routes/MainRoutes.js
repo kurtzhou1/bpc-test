@@ -11,6 +11,7 @@ const DashboardDefault = Loadable(lazy(() => import('pages/dashboard')));
 const SamplePage = Loadable(lazy(() => import('pages/extra-pages/SamplePage')));
 
 const InvoiceWorkManage = Loadable(lazy(() => import('pages/invoiceWorkManage')));
+const CreateJournal = Loadable(lazy(() => import('pages/createJournal')));
 
 // render - utilities
 const Typography = Loadable(lazy(() => import('pages/components-overview/Typography')));
@@ -60,6 +61,10 @@ const MainRoutes = {
         {
             path: 'InvoiceWorkManage',
             element: <InvoiceWorkManage />
+        },
+        {
+            path: 'CreateJournal',
+            element: <CreateJournal />
         }
     ]
 };
