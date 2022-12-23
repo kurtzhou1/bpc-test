@@ -1,14 +1,15 @@
 // project import
 import invoiceWorkManagePage from './invoiceWorkManagePage';
 import dashboard from './dashboard';
-// import utilities from './utilities';
-// import support from './support';
+import createJournal from './createJournal';
+import liabilityManage from './liabilityManage';
+import accountsReceivable from './accountsReceivable';
 
 // ==============================|| MENU ITEMS ||============================== //
 
 const menuItems = {
     // items: [dashboard, pages, utilities, support]
-    items: [dashboard, invoiceWorkManagePage]
+    items: [dashboard, invoiceWorkManagePage, createJournal, liabilityManage, accountsReceivable]
 };
 
 export default menuItems;

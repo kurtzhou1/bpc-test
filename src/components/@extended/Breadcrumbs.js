@@ -70,7 +70,7 @@ const Breadcrumbs = ({ navigation, title, ...others }) => {
             </Typography>
         );
 
-        // main
+        // main + 標題
         if (item.breadcrumbs !== false) {
             breadcrumbContent = (
                 <MainCard border={false} sx={{ mb: 3, bgcolor: 'transparent' }} {...others} content={false}>
@@ -84,11 +84,11 @@ const Breadcrumbs = ({ navigation, title, ...others }) => {
                                 {itemContent}
                             </MuiBreadcrumbs>
                         </Grid>
-                        {title && (
+                        {/* {title && (
                             <Grid item sx={{ mt: 2 }}>
                                 <Typography variant="h5">{item.title}</Typography>
                             </Grid>
-                        )}
+                        )} */}
                     </Grid>
                 </MainCard>
             );

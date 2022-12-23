@@ -34,8 +34,10 @@ const NavCollapse = ({ item, level }) => {
     }
 
     const itemHandler = (id) => {
-        setOpen(!open);
-        dispatch(activeItem({ openItem: [id] }));
+        if (drawerOpen) {
+            setOpen(!open);
+            dispatch(activeItem({ openItem: [id] }));
+        }
     };
 
     const Icon = item.icon;
@@ -54,6 +56,12 @@ const NavCollapse = ({ item, level }) => {
         }
         // eslint-disable-next-line
     }, []);
+
+    useEffect(() => {
+        if (!drawerOpen) {
+            setOpen(false);
+        }
+    }, [drawerOpen]);
 
     const textColor = 'text.primary';
     const iconSelectedColor = 'primary.main';

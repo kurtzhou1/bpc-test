@@ -1,39 +1,39 @@
 // assets
-import { FolderOpenOutlined, TagOutlined } from '@ant-design/icons';
+import { DollarCircleOutlined, TagOutlined } from '@ant-design/icons';
 
 // constant
 const icons = {
-    FolderOpenOutlined,
+    DollarCircleOutlined,
     TagOutlined
 };
 
 // ==============================|| EXTRA PAGES MENU ITEMS ||============================== //
 
-const invoiceWorkManagePage = {
+const accountsReceivable = {
     id: 'pages',
     title: 'Pages',
     caption: 'Pages Caption',
     type: 'group',
     children: [
         {
-            id: 'item1',
-            title: '發票工作管理',
+            id: 'item4',
+            title: '應收帳款管理',
             type: 'collapse',
             url: '/InvoiceWorkManage',
-            icon: icons.FolderOpenOutlined,
+            icon: icons.DollarCircleOutlined,
             breadcrumbs: true,
             children: [
                 {
-                    id: 'item11',
-                    title: '新增發票工作檔',
+                    id: 'item41',
+                    title: '產製應該帳款',
                     type: 'item',
-                    url: '/InvoiceWorkManage',
+                    url: '/CreateJournal',
                     icon: icons.TagOutlined,
                     breadcrumbs: true
                 },
                 {
-                    id: 'item12',
-                    title: '查詢/異動/刪除工作檔',
+                    id: 'item42',
+                    title: '銷帳、廠商付款處理',
                     type: 'item',
                     url: '/CreateJournal',
                     icon: icons.TagOutlined,
@@ -44,4 +44,4 @@ const invoiceWorkManagePage = {
     ]
 };
 
-export default invoiceWorkManagePage;
+export default accountsReceivable;
