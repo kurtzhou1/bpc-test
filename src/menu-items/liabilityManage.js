@@ -10,8 +10,8 @@ const icons = {
 // ==============================|| EXTRA PAGES MENU ITEMS ||============================== //
 
 const liabilityManage = {
-    id: 'pages',
-    title: 'Pages',
+    id: 'liabilityManage',
+    title: 'liabilityManage',
     caption: 'Pages Caption',
     type: 'group',
     children: [

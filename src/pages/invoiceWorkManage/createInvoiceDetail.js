@@ -46,8 +46,8 @@ const CreateInvoiceDetail = ({ setInvoiceDetailInfo }) => {
 
     const StyledTableCell = styled(TableCell)(({ theme }) => ({
         [`&.${tableCellClasses.head}`]: {
-            backgroundColor: theme.palette.common.black,
-            color: theme.palette.common.white,
+            // backgroundColor: theme.palette.common.gary,
+            color: theme.palette.common.black,
             paddingTop: '0.2rem',
             paddingBottom: '0.2rem'
         },
@@ -64,7 +64,7 @@ const CreateInvoiceDetail = ({ setInvoiceDetailInfo }) => {
 
     return (
         <MainCard title="發票工作明細檔建立" sx={{ height: '100%' }}>
-            <Grid container display="flex" justifyContent="center" alignItems="center" spacing={0.5}>
+            <Grid container display="flex" justifyContent="center" alignItems="center" spacing={1}>
                 {/* row1 */}
                 <Grid item xs={12} sm={6} md={4} lg={2}>
                     <Typography variant="h5" sx={{ fontSize: '0.88rem', ml: { lg: '0.5rem', xl: '1.5rem' } }}>
@@ -151,17 +151,17 @@ const CreateInvoiceDetail = ({ setInvoiceDetailInfo }) => {
                         onChange={(e) => setFeeAmount(e.target.value)}
                     />
                 </Grid>
-                <Grid item xs={12} sm={6} md={4} lg={3} />
-                <Grid item xs={12} sm={6} md={4} lg={3} display="flex" justifyContent="center" alignItems="center">
-                    <Button sx={{ ml: '0.25rem', mr: '0.25rem' }} variant="contained" onClick={itemDetailAdd}>
+                <Grid item xs={12} sm={6} md={4} lg={2} />
+                <Grid item xs={12} sm={6} md={4} lg={4} display="flex" justifyContent="end" alignItems="center">
+                    <Button sx={{ mr: '0.25rem' }} variant="contained" onClick={itemDetailAdd}>
                         新增
                     </Button>
-                    <Button sx={{ ml: '0.25rem', mr: '0.25rem' }} variant="contained" onClick={itemDetailInitial}>
+                    <Button sx={{ ml: '0.25rem' }} variant="contained" onClick={itemDetailInitial}>
                         清除
                     </Button>
                 </Grid>
                 <Grid item xs={12} sm={12} lg={12}>
-                    <TableContainer component={Paper} sx={{ maxHeight: 125 }}>
+                    <TableContainer component={Paper} sx={{ maxHeight: { lg: 125, md: 200 } }}>
                         <Table sx={{ minWidth: 300 }} stickyHeader aria-label="sticky table">
                             <TableHead>
                                 <TableRow>

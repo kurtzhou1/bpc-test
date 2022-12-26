@@ -10,8 +10,8 @@ const icons = {
 // ==============================|| EXTRA PAGES MENU ITEMS ||============================== //
 
 const accountsReceivable = {
-    id: 'pages',
-    title: 'Pages',
+    id: 'accountsReceivable',
+    title: 'accountsReceivable',
     caption: 'Pages Caption',
     type: 'group',
     children: [

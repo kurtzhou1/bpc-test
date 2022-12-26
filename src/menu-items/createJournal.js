@@ -9,9 +9,9 @@ const icons = {
 
 // ==============================|| EXTRA PAGES MENU ITEMS ||============================== //
 
-const CreateJournal = {
-    id: 'pages',
-    title: 'Pages',
+const createJournal = {
+    id: 'createJournal',
+    title: 'createJournal',
     caption: 'Pages Caption',
     type: 'group',
     children: [
@@ -44,4 +44,4 @@ const CreateJournal = {
     ]
 };
 
-export default CreateJournal;
+export default createJournal;

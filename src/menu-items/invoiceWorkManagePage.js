@@ -10,8 +10,8 @@ const icons = {
 // ==============================|| EXTRA PAGES MENU ITEMS ||============================== //
 
 const invoiceWorkManagePage = {
-    id: 'pages',
-    title: 'Pages',
+    id: 'invoiceWorkManagePage',
+    title: 'invoiceWorkManagePage',
     caption: 'Pages Caption',
     type: 'group',
     children: [

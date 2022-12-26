@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 // import dayjs, { Dayjs } from 'dayjs';
 
 // material-ui
@@ -8,6 +8,7 @@ import { Typography, Grid, Button, FormControl, InputLabel, Select, MenuItem, Ra
 import MainCard from 'components/MainCard';
 // import CreateInvoiceMain from './createInvoiceMain';
 import CreateInvoiceDetail from './createInvoiceDetail';
+import InvoiceDataList from './invoiceDataList';
 import { TextField } from '../../../node_modules/@mui/material/index';
 
 // material-ui
@@ -26,11 +27,28 @@ const InvoiceWorkManage = () => {
     const [contractType, setContractType] = useState(); //合約種類
     const [issueDate, setIssueDate] = useState(); //發票日期
     const [invoiceDueDate, setInvoiceDueDate] = useState(); //發票到期日
-    const [totalAmount, setTotalAmount] = useState(); //總金額
+    const [totalAmount, setTotalAmount] = useState(0); //總金額
     const [isPro, setIsPro] = useState(); //是否為Pro-forma
     const [isLiability, setIsLiability] = useState(); //是否需攤分
     const [isRecharge, setIsRecharge] = useState(); //是否為短腳補收
     const [partyID, setPartyID] = useState(); //會員代號
+
+    const [listInfo, setListInfo] = useState([]);
+
+    const itemDetailInitial = () => {
+        setSupplyID('');
+        setInvoiceNo('');
+        setSubmarineCable('');
+        setWorTitle('');
+        setContractType('');
+        setIssueDate(new Date());
+        setInvoiceDueDate(new Date());
+        setTotalAmount('');
+        setIsPro('');
+        setIsLiability();
+        setIsRecharge();
+        setPartyID;
+    };
 
     const createData = (
         supplyID,
@@ -61,13 +79,11 @@ const InvoiceWorkManage = () => {
             partyID
         };
     };
-    const fakeData = {
-        text: 'text'
-    };
 
     const fakeUrl = 'http://localhost:8000/api/v1/generateInvoiceWKMaster&InvoiceWKDetail&InvoiceMaster&InvoiceDetail';
 
     const addInvoiceInfo = () => {
+        let tmpList = listInfo;
         let tmpArray = createData(
             supplyID,
             invoiceNo,
@@ -86,14 +102,19 @@ const InvoiceWorkManage = () => {
             InvoiceWKMaster: tmpArray,
             InvoiceWKDetail: invoiceDetailInfo
         };
-        console.log('combineArray=>>', combineArray);
-        fetch(fakeUrl, { method: 'POST', body: JSON.stringify(combineArray) })
-            .then((res) => res.json())
-            .then((data) => {
-                console.log('data=>>', data);
-            })
-            .catch((e) => console.log('e=>>', e));
+        tmpList.push(combineArray);
+        setListInfo([...tmpList]);
+        // fetch(fakeUrl, { method: 'POST', body: JSON.stringify(combineArray) })
+        //     .then((res) => res.json())
+        //     .then((data) => {
+        //         console.log('data=>>', data);
+        //     })
+        //     .catch((e) => console.log('e=>>', e));
     };
+
+    useEffect(() => {
+        itemDetailInitial();
+    }, []);
 
     return (
         <Grid container spacing={1}>
@@ -103,7 +124,7 @@ const InvoiceWorkManage = () => {
                         {/* 左 */}
                         <Grid item xs={6}>
                             <MainCard title="發票工作主檔建立" sx={{ height: '100%' }}>
-                                <Grid container display="flex" justifyContent="center" alignItems="center" spacing={0.5}>
+                                <Grid container display="flex" justifyContent="center" alignItems="center" spacing={1}>
                                     {/* row1 */}
                                     <Grid item xs={12} sm={6} md={4} lg={2}>
                                         <Typography variant="h5" sx={{ fontSize: '0.88rem', ml: { lg: '0.5rem', xl: '1.5rem' } }}>
@@ -116,13 +137,13 @@ const InvoiceWorkManage = () => {
                                             <Select
                                                 // labelId="demo-simple-select-label"
                                                 // id="demo-simple-select"
-                                                value={supplyID}
+                                                // value={supplyID}
                                                 label="發票供應商"
                                                 onChange={(e) => setSupplyID(e.target.value)}
                                             >
-                                                <MenuItem value={10}>供應商1號</MenuItem>
-                                                <MenuItem value={20}>供應商2號</MenuItem>
-                                                <MenuItem value={30}>供應商3號</MenuItem>
+                                                <MenuItem value={'供應商1號'}>供應商1號</MenuItem>
+                                                <MenuItem value={'供應商2號'}>供應商2號</MenuItem>
+                                                <MenuItem value={'供應商3號'}>供應商3號</MenuItem>
                                             </Select>
                                         </FormControl>
                                     </Grid>
@@ -153,13 +174,13 @@ const InvoiceWorkManage = () => {
                                             <Select
                                                 // labelId="demo-simple-select-label"
                                                 // id="demo-simple-select"
-                                                value={submarineCable}
+                                                // value={submarineCable}
                                                 label="發票供應商"
                                                 onChange={(e) => setSubmarineCable(e.target.value)}
                                             >
-                                                <MenuItem value={10}>海纜1號</MenuItem>
-                                                <MenuItem value={20}>海纜2號</MenuItem>
-                                                <MenuItem value={30}>海纜3號</MenuItem>
+                                                <MenuItem value={'海纜1號'}>海纜1號</MenuItem>
+                                                <MenuItem value={'海纜2號'}>海纜2號</MenuItem>
+                                                <MenuItem value={'海纜3號'}>海纜3號</MenuItem>
                                             </Select>
                                         </FormControl>
                                     </Grid>
@@ -190,13 +211,13 @@ const InvoiceWorkManage = () => {
                                             <Select
                                                 // labelId="demo-simple-select-label"
                                                 // id="demo-simple-select"
-                                                value={contractType}
+                                                // value={contractType}
                                                 label="發票供應商"
                                                 onChange={(e) => setContractType(e.target.value)}
                                             >
-                                                <MenuItem value={10}>合約種類1</MenuItem>
-                                                <MenuItem value={20}>合約種類2</MenuItem>
-                                                <MenuItem value={30}>合約種類3</MenuItem>
+                                                <MenuItem value={'合約種類1'}>合約種類1</MenuItem>
+                                                <MenuItem value={'合約種類2'}>合約種類2</MenuItem>
+                                                <MenuItem value={'合約種類3'}>合約種類3</MenuItem>
                                             </Select>
                                         </FormControl>
                                     </Grid>
@@ -232,8 +253,11 @@ const InvoiceWorkManage = () => {
                                             fullWidth
                                             variant="outlined"
                                             size="small"
+                                            type="number"
                                             label="填寫發票總金額"
-                                            onChange={(e) => setTotalAmount(e)}
+                                            onChange={(e) => {
+                                                setTotalAmount(e.target.value);
+                                            }}
                                         />
                                     </Grid>
                                     <Grid item xs={12} sm={6} md={4} lg={2}>
@@ -263,7 +287,7 @@ const InvoiceWorkManage = () => {
                                         <FormControl>
                                             <RadioGroup
                                                 row
-                                                value={isPro}
+                                                // value={isPro}
                                                 aria-labelledby="demo-radio-buttons-group-label"
                                                 // defaultValue="female"
                                                 name="radio-buttons-group"
@@ -283,7 +307,7 @@ const InvoiceWorkManage = () => {
                                         <FormControl>
                                             <RadioGroup
                                                 row
-                                                value={isLiability}
+                                                // value={isLiability}
                                                 aria-labelledby="demo-radio-buttons-group-label"
                                                 // defaultValue="female"
                                                 name="radio-buttons-group"
@@ -304,7 +328,7 @@ const InvoiceWorkManage = () => {
                                         <FormControl>
                                             <RadioGroup
                                                 row
-                                                value={isRecharge}
+                                                // value={isRecharge}
                                                 aria-labelledby="demo-radio-buttons-group-label"
                                                 defaultValue="female"
                                                 name="radio-buttons-group"
@@ -337,10 +361,10 @@ const InvoiceWorkManage = () => {
                             <CreateInvoiceDetail setInvoiceDetailInfo={setInvoiceDetailInfo} />
                         </Grid>
                         <Grid item xs={12} display="flex" justifyContent="center" alignItems="center">
-                            <Button variant="contained" sx={{ m: '0.25rem' }} onClick={addInvoiceInfo}>
+                            <Button variant="contained" sx={{ ml: '0.25rem', mr: '0.25rem' }} onClick={addInvoiceInfo}>
                                 新增發票
                             </Button>
-                            <Button variant="contained" sx={{ m: '0.25rem' }}>
+                            <Button variant="contained" sx={{ ml: '0.25rem', mr: '0.25rem' }}>
                                 全部清除
                             </Button>
                         </Grid>
@@ -352,7 +376,7 @@ const InvoiceWorkManage = () => {
                     <Grid container display="flex" spacing={2}>
                         <Grid item xs={12}>
                             <MainCard title="發票資料建立列表">
-                                <Typography variant="body2">123</Typography>
+                                <InvoiceDataList listInfo={listInfo} />
                             </MainCard>
                         </Grid>
                     </Grid>
