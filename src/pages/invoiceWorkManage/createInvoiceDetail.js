@@ -18,7 +18,7 @@ import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import { styled } from '@mui/material/styles';
 
-const CreateInvoiceDetail = () => {
+const CreateInvoiceDetail = ({ setInvoiceDetailInfo }) => {
     const [billMilestone, setBillMilestone] = useState(''); //記帳段號
     const [feeType, setFeeType] = useState(''); //收費種類
     const [feeItem, setFeeItem] = useState('');
@@ -32,8 +32,6 @@ const CreateInvoiceDetail = () => {
         setFeeAmount(0);
     };
 
-    console.log('b=>>', feeItem, billMilestone, feeAmount, feeType);
-
     const createData = (feeItem, billMilestone, feeAmount, feeType) => {
         return { feeItem, billMilestone, feeAmount, feeType };
     };
@@ -41,18 +39,10 @@ const CreateInvoiceDetail = () => {
     const itemDetailAdd = () => {
         let tmpArray = itemArray;
         tmpArray.push(createData(feeItem, billMilestone, feeAmount, feeType));
-        console.log('tmpArray=>>', tmpArray);
         setItemArray(tmpArray);
+        setInvoiceDetailInfo(tmpArray);
         itemDetailInitial();
     };
-
-    // const rows = [
-    //     createData('費用項目一', 159, 6.0, 24),
-    //     createData('費用項目二', 237, 9.0, 37),
-    //     createData('費用項目三', 262, 16.0, 24),
-    //     createData('費用項目四', 305, 3.7, 67),
-    //     createData('費用項目五', 356, 16.0, 49)
-    // ];
 
     const StyledTableCell = styled(TableCell)(({ theme }) => ({
         [`&.${tableCellClasses.head}`]: {
@@ -71,12 +61,6 @@ const CreateInvoiceDetail = () => {
     useEffect(() => {
         itemDetailInitial();
     }, []);
-
-    useEffect(() => {
-        console.log('itemArray111=>>', itemArray);
-    }, [itemArray]);
-
-    console.log('itemArray222=>>', itemArray);
 
     return (
         <MainCard title="發票工作明細檔建立" sx={{ height: '100%' }}>
@@ -167,14 +151,12 @@ const CreateInvoiceDetail = () => {
                         onChange={(e) => setFeeAmount(e.target.value)}
                     />
                 </Grid>
-                <Grid item xs={12} sm={6} md={4} lg={2} xl={3} />
-                <Grid item xs={12} sm={6} md={4} lg={2} xl={1.5}>
-                    <Button variant="contained" onClick={itemDetailAdd}>
+                <Grid item xs={12} sm={6} md={4} lg={3} />
+                <Grid item xs={12} sm={6} md={4} lg={3} display="flex" justifyContent="center" alignItems="center">
+                    <Button sx={{ ml: '0.25rem', mr: '0.25rem' }} variant="contained" onClick={itemDetailAdd}>
                         新增
                     </Button>
-                </Grid>
-                <Grid item xs={12} sm={6} md={4} lg={2} xl={1.5}>
-                    <Button variant="contained" onClick={itemDetailInitial}>
+                    <Button sx={{ ml: '0.25rem', mr: '0.25rem' }} variant="contained" onClick={itemDetailInitial}>
                         清除
                     </Button>
                 </Grid>
