@@ -3,18 +3,17 @@ import { useEffect, useState } from 'react';
 
 // material-ui
 import { Typography, Grid, Button, FormControl, InputLabel, Select, MenuItem, RadioGroup, FormControlLabel, Radio } from '@mui/material';
-
+// material-ui
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { DesktopDatePicker } from '@mui/x-date-pickers/DesktopDatePicker';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import dayjs, { Dayjs } from 'dayjs';
 // project import
 import MainCard from 'components/MainCard';
 // import CreateInvoiceMain from './createInvoiceMain';
 import CreateInvoiceDetail from './createInvoiceDetail';
 import InvoiceDataList from './invoiceDataList';
 import { TextField } from '../../../node_modules/@mui/material/index';
-
-// material-ui
-import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import { DesktopDatePicker } from '@mui/x-date-pickers/DesktopDatePicker';
-import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 
 // ==============================|| SAMPLE PAGE ||============================== //
 
@@ -90,8 +89,8 @@ const InvoiceWorkManage = () => {
             submarineCable,
             workTitle,
             contractType,
-            issueDate,
-            invoiceDueDate,
+            dayjs(issueDate).format('YYYY/MM/DD'),
+            dayjs(invoiceDueDate).format('YYYY/MM/DD'),
             totalAmount,
             isPro,
             isLiability,
@@ -127,7 +126,10 @@ const InvoiceWorkManage = () => {
                                 <Grid container display="flex" justifyContent="center" alignItems="center" spacing={1}>
                                     {/* row1 */}
                                     <Grid item xs={12} sm={6} md={4} lg={2}>
-                                        <Typography variant="h5" sx={{ fontSize: '0.88rem', ml: { lg: '0.5rem', xl: '1.5rem' } }}>
+                                        <Typography
+                                            variant="h5"
+                                            sx={{ fontSize: { lg: '0.5rem', xl: '0.88rem' }, ml: { lg: '0.5rem', xl: '1.5rem' } }}
+                                        >
                                             供應商：
                                         </Typography>
                                     </Grid>
@@ -148,7 +150,10 @@ const InvoiceWorkManage = () => {
                                         </FormControl>
                                     </Grid>
                                     <Grid item xs={12} sm={6} md={4} lg={2}>
-                                        <Typography variant="h5" sx={{ fontSize: '0.88rem', ml: { lg: '0.5rem', xl: '1.5rem' } }}>
+                                        <Typography
+                                            variant="h5"
+                                            sx={{ fontSize: { lg: '0.5rem', xl: '0.88rem' }, ml: { lg: '0.5rem', xl: '1.5rem' } }}
+                                        >
                                             發票號碼：
                                         </Typography>
                                     </Grid>
@@ -164,7 +169,10 @@ const InvoiceWorkManage = () => {
                                     </Grid>
                                     {/* row2 */}
                                     <Grid item xs={12} sm={6} md={4} lg={2}>
-                                        <Typography variant="h5" sx={{ fontSize: '0.88rem', ml: { lg: '0.5rem', xl: '1.5rem' } }}>
+                                        <Typography
+                                            variant="h5"
+                                            sx={{ fontSize: { lg: '0.5rem', xl: '0.88rem' }, ml: { lg: '0.5rem', xl: '1.5rem' } }}
+                                        >
                                             海纜名稱：
                                         </Typography>
                                     </Grid>
@@ -185,7 +193,10 @@ const InvoiceWorkManage = () => {
                                         </FormControl>
                                     </Grid>
                                     <Grid item xs={12} sm={6} md={4} lg={2}>
-                                        <Typography variant="h5" sx={{ fontSize: '0.88rem', ml: { lg: '0.5rem', xl: '1.5rem' } }}>
+                                        <Typography
+                                            variant="h5"
+                                            sx={{ fontSize: { lg: '0.5rem', xl: '0.88rem' }, ml: { lg: '0.5rem', xl: '1.5rem' } }}
+                                        >
                                             海纜作業：
                                         </Typography>
                                     </Grid>
@@ -201,7 +212,10 @@ const InvoiceWorkManage = () => {
                                     </Grid>
                                     {/* row3 */}
                                     <Grid item xs={12} sm={6} md={4} lg={2}>
-                                        <Typography variant="h5" sx={{ fontSize: '0.88rem', ml: { lg: '0.5rem', xl: '1.5rem' } }}>
+                                        <Typography
+                                            variant="h5"
+                                            sx={{ fontSize: { lg: '0.5rem', xl: '0.88rem' }, ml: { lg: '0.5rem', xl: '1.5rem' } }}
+                                        >
                                             合約種類：
                                         </Typography>
                                     </Grid>
@@ -222,7 +236,10 @@ const InvoiceWorkManage = () => {
                                         </FormControl>
                                     </Grid>
                                     <Grid item xs={12} sm={6} md={4} lg={2}>
-                                        <Typography variant="h5" sx={{ fontSize: '0.88rem', ml: { lg: '0.5rem', xl: '1.5rem' } }}>
+                                        <Typography
+                                            variant="h5"
+                                            sx={{ fontSize: { lg: '0.5rem', xl: '0.88rem' }, ml: { lg: '0.5rem', xl: '1.5rem' } }}
+                                        >
                                             發票日期：
                                         </Typography>
                                     </Grid>
@@ -243,7 +260,10 @@ const InvoiceWorkManage = () => {
                                     </Grid>
                                     {/* row4 */}
                                     <Grid item xs={12} sm={6} md={4} lg={2}>
-                                        <Typography variant="h5" sx={{ fontSize: '0.88rem', ml: { lg: '0.5rem', xl: '1.5rem' } }}>
+                                        <Typography
+                                            variant="h5"
+                                            sx={{ fontSize: { lg: '0.5rem', xl: '0.88rem' }, ml: { lg: '0.5rem', xl: '1.5rem' } }}
+                                        >
                                             總金額：
                                         </Typography>
                                     </Grid>
@@ -261,7 +281,10 @@ const InvoiceWorkManage = () => {
                                         />
                                     </Grid>
                                     <Grid item xs={12} sm={6} md={4} lg={2}>
-                                        <Typography variant="h5" sx={{ fontSize: '0.88rem', ml: { lg: '0.5rem', xl: '1.5rem' } }}>
+                                        <Typography
+                                            variant="h5"
+                                            sx={{ fontSize: { lg: '0.5rem', xl: '0.88rem' }, ml: { lg: '0.5rem', xl: '1.5rem' } }}
+                                        >
                                             發票到期日：
                                         </Typography>
                                     </Grid>
@@ -279,7 +302,10 @@ const InvoiceWorkManage = () => {
                                     </Grid>
                                     {/* row5 */}
                                     <Grid item xs={12} sm={6} md={4} lg={3}>
-                                        <Typography variant="h5" sx={{ fontSize: '0.88rem', ml: { lg: '0.5rem', xl: '1.5rem' } }}>
+                                        <Typography
+                                            variant="h5"
+                                            sx={{ fontSize: { lg: '0.5rem', xl: '0.88rem' }, ml: { lg: '0.5rem', xl: '1.5rem' } }}
+                                        >
                                             是否為Pro-Forma：
                                         </Typography>
                                     </Grid>
@@ -299,7 +325,10 @@ const InvoiceWorkManage = () => {
                                         </FormControl>
                                     </Grid>
                                     <Grid item xs={12} sm={6} md={4} lg={3}>
-                                        <Typography variant="h5" sx={{ fontSize: '0.88rem', ml: { lg: '0.5rem', xl: '1.5rem' } }}>
+                                        <Typography
+                                            variant="h5"
+                                            sx={{ fontSize: { lg: '0.5rem', xl: '0.88rem' }, ml: { lg: '0.5rem', xl: '1.5rem' } }}
+                                        >
                                             是否需攤分：
                                         </Typography>
                                     </Grid>
@@ -320,7 +349,10 @@ const InvoiceWorkManage = () => {
                                     </Grid>
                                     {/* row6 */}
                                     <Grid item xs={12} sm={6} md={4} lg={3}>
-                                        <Typography variant="h5" sx={{ fontSize: '0.88rem', ml: { lg: '0.5rem', xl: '1.5rem' } }}>
+                                        <Typography
+                                            variant="h5"
+                                            sx={{ fontSize: { lg: '0.5rem', xl: '0.88rem' }, ml: { lg: '0.5rem', xl: '1.5rem' } }}
+                                        >
                                             是否為短繳補收：
                                         </Typography>
                                     </Grid>
@@ -340,18 +372,25 @@ const InvoiceWorkManage = () => {
                                         </FormControl>
                                     </Grid>
                                     <Grid item xs={12} sm={6} md={4} lg={2}>
-                                        <Typography variant="h5" sx={{ fontSize: '0.88rem', ml: { lg: '0.5rem', xl: '1.5rem' } }}>
-                                            會員代號：
+                                        <Typography
+                                            variant="h5"
+                                            sx={{ fontSize: { lg: '0.5rem', xl: '0.88rem' }, ml: { lg: '0.5rem', xl: '1.5rem' } }}
+                                        >
+                                            {isLiability === 'true' ? '會員代號：' : ''}
                                         </Typography>
                                     </Grid>
                                     <Grid item xs={12} sm={6} md={4} lg={4}>
-                                        <TextField
-                                            value={partyID}
-                                            variant="outlined"
-                                            size="small"
-                                            label="不須攤分請填寫代號"
-                                            onChange={(e) => setPartyID(e.target.value)}
-                                        />
+                                        {isLiability === 'true' ? (
+                                            <TextField
+                                                value={partyID}
+                                                variant="outlined"
+                                                size="small"
+                                                label="不須攤分請填寫代號"
+                                                onChange={(e) => setPartyID(e.target.value)}
+                                            />
+                                        ) : (
+                                            ''
+                                        )}
                                     </Grid>
                                 </Grid>
                             </MainCard>

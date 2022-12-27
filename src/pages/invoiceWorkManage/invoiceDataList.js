@@ -59,7 +59,7 @@ const InvoiceDataList = ({ listInfo }) => {
                                 <StyledTableCell align="center">{row.InvoiceWKMaster?.submarineCable}</StyledTableCell>
                                 <StyledTableCell align="center">{row.InvoiceWKMaster?.contractType}</StyledTableCell>
                                 {/* <StyledTableCell align="center">{row.InvoiceWKMaster?.issueDate}</StyledTableCell> */}
-                                <StyledTableCell align="center">Date</StyledTableCell>
+                                <StyledTableCell align="center">{row.InvoiceWKMaster?.issueDate}</StyledTableCell>
                                 <StyledTableCell align="center">{row.InvoiceWKDetail.length}</StyledTableCell>
                                 <StyledTableCell align="center">
                                     <Button color="primary">編輯</Button>

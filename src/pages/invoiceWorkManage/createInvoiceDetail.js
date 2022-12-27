@@ -67,7 +67,7 @@ const CreateInvoiceDetail = ({ setInvoiceDetailInfo }) => {
             <Grid container display="flex" justifyContent="center" alignItems="center" spacing={1}>
                 {/* row1 */}
                 <Grid item xs={12} sm={6} md={4} lg={2}>
-                    <Typography variant="h5" sx={{ fontSize: '0.88rem', ml: { lg: '0.5rem', xl: '1.5rem' } }}>
+                    <Typography variant="h5" sx={{ fontSize: { lg: '0.5rem', xl: '0.88rem' }, ml: { lg: '0.5rem', xl: '1.5rem' } }}>
                         記帳段號：
                     </Typography>
                 </Grid>
@@ -91,7 +91,7 @@ const CreateInvoiceDetail = ({ setInvoiceDetailInfo }) => {
                     </FormControl>
                 </Grid>
                 <Grid item xs={12} sm={6} md={4} lg={2}>
-                    <Typography variant="h5" sx={{ fontSize: '0.88rem', ml: { lg: '0.5rem', xl: '1.5rem' } }}>
+                    <Typography variant="h5" sx={{ fontSize: { lg: '0.5rem', xl: '0.88rem' }, ml: { lg: '0.5rem', xl: '1.5rem' } }}>
                         收費種類：
                     </Typography>
                 </Grid>
@@ -116,7 +116,11 @@ const CreateInvoiceDetail = ({ setInvoiceDetailInfo }) => {
                 </Grid>
                 {/* row2 */}
                 <Grid item lg={2}>
-                    <Typography variant="h5" size="small" sx={{ fontSize: '0.88rem', ml: { lg: '0.5rem', xl: '1.5rem' } }}>
+                    <Typography
+                        variant="h5"
+                        size="small"
+                        sx={{ fontSize: { lg: '0.5rem', xl: '0.88rem' }, ml: { lg: '0.5rem', xl: '1.5rem' } }}
+                    >
                         費用項目：
                     </Typography>
                 </Grid>
@@ -136,7 +140,7 @@ const CreateInvoiceDetail = ({ setInvoiceDetailInfo }) => {
                 </Grid>
                 {/* row3 */}
                 <Grid item xs={12} sm={6} md={4} lg={2}>
-                    <Typography variant="h5" sx={{ fontSize: '0.88rem', ml: { lg: '0.5rem', xl: '1.5rem' } }}>
+                    <Typography variant="h5" sx={{ fontSize: { lg: '0.5rem', xl: '0.88rem' }, ml: { lg: '0.5rem', xl: '1.5rem' } }}>
                         費用金額：
                     </Typography>
                 </Grid>
