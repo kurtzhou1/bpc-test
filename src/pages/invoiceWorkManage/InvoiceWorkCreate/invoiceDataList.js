@@ -29,7 +29,7 @@ const InvoiceDataList = ({ listInfo }) => {
     }));
 
     return (
-        <TableContainer component={Paper} sx={{ maxHeight: 125 }}>
+        <TableContainer component={Paper} sx={{ maxHeight: 250 }}>
             <Table sx={{ minWidth: 300 }} stickyHeader aria-label="sticky table">
                 <TableHead>
                     <TableRow>
@@ -40,12 +40,12 @@ const InvoiceDataList = ({ listInfo }) => {
                         <StyledTableCell align="center">合約種類</StyledTableCell>
                         <StyledTableCell align="center">發票日期</StyledTableCell>
                         <StyledTableCell align="center">明細數量</StyledTableCell>
-                        <StyledTableCell align="center">動作</StyledTableCell>
+                        <StyledTableCell align="center">總金額</StyledTableCell>
+                        <StyledTableCell align="center">Action</StyledTableCell>
                     </TableRow>
                 </TableHead>
                 <TableBody>
                     {listInfo?.map((row, id) => {
-                        console.log('row=>>', row);
                         return (
                             <TableRow
                                 key={row.InvoiceWKMaster?.invoiceNo + row.InvoiceWKMaster?.supplyID + id}
@@ -58,9 +58,9 @@ const InvoiceDataList = ({ listInfo }) => {
                                 <StyledTableCell align="center">{row.InvoiceWKMaster?.supplyID}</StyledTableCell>
                                 <StyledTableCell align="center">{row.InvoiceWKMaster?.submarineCable}</StyledTableCell>
                                 <StyledTableCell align="center">{row.InvoiceWKMaster?.contractType}</StyledTableCell>
-                                {/* <StyledTableCell align="center">{row.InvoiceWKMaster?.issueDate}</StyledTableCell> */}
                                 <StyledTableCell align="center">{row.InvoiceWKMaster?.issueDate}</StyledTableCell>
                                 <StyledTableCell align="center">{row.InvoiceWKDetail.length}</StyledTableCell>
+                                <StyledTableCell align="center">{row.InvoiceWKDetail.totalAmount}</StyledTableCell>
                                 <StyledTableCell align="center">
                                     <Button color="primary">編輯</Button>
                                     <Button color="error">刪除</Button>

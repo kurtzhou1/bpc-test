@@ -19,7 +19,7 @@ const invoiceWorkManagePage = {
             id: 'item1',
             title: '發票工作管理',
             type: 'collapse',
-            url: '/InvoiceWorkManage',
+            url: '/InvoiceWorkManage/InvoiceWorkCreate',
             icon: icons.FolderOpenOutlined,
             breadcrumbs: true,
             children: [
@@ -27,7 +27,7 @@ const invoiceWorkManagePage = {
                     id: 'item11',
                     title: '新增發票工作檔',
                     type: 'item',
-                    url: '/InvoiceWorkManage',
+                    url: '/InvoiceWorkManage/InvoiceWorkCreate',
                     icon: icons.TagOutlined,
                     breadcrumbs: true
                 },
@@ -35,7 +35,7 @@ const invoiceWorkManagePage = {
                     id: 'item12',
                     title: '查詢/異動/刪除工作檔',
                     type: 'item',
-                    url: '/CreateJournal',
+                    url: '/InvoiceWorkManage/InvoiceWorkEdit',
                     icon: icons.TagOutlined,
                     breadcrumbs: true
                 }

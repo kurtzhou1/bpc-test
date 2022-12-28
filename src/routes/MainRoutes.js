@@ -10,7 +10,9 @@ const DashboardDefault = Loadable(lazy(() => import('pages/dashboard')));
 // render - sample page
 const SamplePage = Loadable(lazy(() => import('pages/extra-pages/SamplePage')));
 
-const InvoiceWorkManage = Loadable(lazy(() => import('pages/invoiceWorkManage')));
+// 發票工作管理
+const InvoiceWorkManageCreate = Loadable(lazy(() => import('pages/invoiceWorkManage/InvoiceWorkCreate')));
+const InvoiceWorkManageEdit = Loadable(lazy(() => import('pages/invoiceWorkManage/InvoiceWorkEdit')));
 const CreateJournal = Loadable(lazy(() => import('pages/createJournal')));
 
 // render - utilities
@@ -60,7 +62,16 @@ const MainRoutes = {
         },
         {
             path: 'InvoiceWorkManage',
-            element: <InvoiceWorkManage />
+            children: [
+                {
+                    path: 'InvoiceWorkCreate',
+                    element: <InvoiceWorkManageCreate />
+                },
+                {
+                    path: 'InvoiceWorkEdit',
+                    element: <InvoiceWorkManageEdit />
+                }
+            ]
         },
         {
             path: 'CreateJournal',

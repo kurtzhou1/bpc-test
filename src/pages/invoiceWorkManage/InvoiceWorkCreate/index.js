@@ -13,7 +13,7 @@ import MainCard from 'components/MainCard';
 // import CreateInvoiceMain from './createInvoiceMain';
 import CreateInvoiceDetail from './createInvoiceDetail';
 import InvoiceDataList from './invoiceDataList';
-import { TextField } from '../../../node_modules/@mui/material/index';
+import { TextField } from '@mui/material/index';
 
 // ==============================|| SAMPLE PAGE ||============================== //
 
@@ -61,7 +61,8 @@ const InvoiceWorkManage = () => {
         isPro,
         isLiability,
         isRecharge,
-        partyID
+        partyID,
+        status
     ) => {
         return {
             supplyID,
@@ -75,7 +76,8 @@ const InvoiceWorkManage = () => {
             isPro,
             isLiability,
             isRecharge,
-            partyID
+            partyID,
+            status
         };
     };
 
@@ -95,7 +97,8 @@ const InvoiceWorkManage = () => {
             isPro,
             isLiability,
             isRecharge,
-            partyID
+            partyID,
+            'TEMP'
         );
         let combineArray = {
             InvoiceWKMaster: tmpArray,
@@ -319,8 +322,32 @@ const InvoiceWorkManage = () => {
                                                 name="radio-buttons-group"
                                                 onChange={(e) => setIsPro(e.target.value)}
                                             >
-                                                <FormControlLabel value={true} control={<Radio size="small" />} label="Y" />
-                                                <FormControlLabel value={false} control={<Radio size="small" />} label="N" />
+                                                <FormControlLabel
+                                                    value={true}
+                                                    control={
+                                                        <Radio
+                                                            sx={{
+                                                                '& .MuiSvgIcon-root': {
+                                                                    fontSize: { lg: 14, xl: 20 }
+                                                                }
+                                                            }}
+                                                        />
+                                                    }
+                                                    label="Y"
+                                                />
+                                                <FormControlLabel
+                                                    value={false}
+                                                    control={
+                                                        <Radio
+                                                            sx={{
+                                                                '& .MuiSvgIcon-root': {
+                                                                    fontSize: { lg: 14, xl: 20 }
+                                                                }
+                                                            }}
+                                                        />
+                                                    }
+                                                    label="N"
+                                                />
                                             </RadioGroup>
                                         </FormControl>
                                     </Grid>
@@ -342,8 +369,32 @@ const InvoiceWorkManage = () => {
                                                 name="radio-buttons-group"
                                                 onChange={(e) => setIsLiability(e.target.value)}
                                             >
-                                                <FormControlLabel value={true} control={<Radio size="small" />} label="Y" />
-                                                <FormControlLabel value={false} control={<Radio size="small" />} label="N" />
+                                                <FormControlLabel
+                                                    value={true}
+                                                    control={
+                                                        <Radio
+                                                            sx={{
+                                                                '& .MuiSvgIcon-root': {
+                                                                    fontSize: { lg: 14, xl: 20 }
+                                                                }
+                                                            }}
+                                                        />
+                                                    }
+                                                    label="Y"
+                                                />
+                                                <FormControlLabel
+                                                    value={false}
+                                                    control={
+                                                        <Radio
+                                                            sx={{
+                                                                '& .MuiSvgIcon-root': {
+                                                                    fontSize: { lg: 14, xl: 20 }
+                                                                }
+                                                            }}
+                                                        />
+                                                    }
+                                                    label="N"
+                                                />
                                             </RadioGroup>
                                         </FormControl>
                                     </Grid>
@@ -366,8 +417,32 @@ const InvoiceWorkManage = () => {
                                                 name="radio-buttons-group"
                                                 onChange={(e) => setIsRecharge(e.target.value)}
                                             >
-                                                <FormControlLabel value={true} control={<Radio size="small" />} label="Y" />
-                                                <FormControlLabel value={false} control={<Radio size="small" />} label="N" />
+                                                <FormControlLabel
+                                                    value={true}
+                                                    control={
+                                                        <Radio
+                                                            sx={{
+                                                                '& .MuiSvgIcon-root': {
+                                                                    fontSize: { lg: 14, xl: 20 }
+                                                                }
+                                                            }}
+                                                        />
+                                                    }
+                                                    label="Y"
+                                                />
+                                                <FormControlLabel
+                                                    value={false}
+                                                    control={
+                                                        <Radio
+                                                            sx={{
+                                                                '& .MuiSvgIcon-root': {
+                                                                    fontSize: { lg: 14, xl: 20 }
+                                                                }
+                                                            }}
+                                                        />
+                                                    }
+                                                    label="N"
+                                                />
                                             </RadioGroup>
                                         </FormControl>
                                     </Grid>

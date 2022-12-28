@@ -2,7 +2,7 @@ import { useState } from 'react';
 
 // project import
 import MainCard from 'components/MainCard';
-import { TextField } from '../../../node_modules/@mui/material/index';
+import { TextField } from '@mui/material/index';
 
 // material-ui
 import { Typography, Grid, FormControl, InputLabel, Select, MenuItem, RadioGroup, FormControlLabel, Radio, Button } from '@mui/material';
