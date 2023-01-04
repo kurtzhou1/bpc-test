@@ -18,7 +18,7 @@ import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import { styled } from '@mui/material/styles';
 
-const CreateInvoiceDetail = ({ setInvoiceDetailInfo }) => {
+const CreateInvoiceDetail = ({ setInvoiceDetailInfo, action }) => {
     const [billMilestone, setBillMilestone] = useState(''); //記帳段號
     const [feeType, setFeeType] = useState(''); //收費種類
     const [feeItem, setFeeItem] = useState(''); //費用項目
@@ -94,7 +94,7 @@ const CreateInvoiceDetail = ({ setInvoiceDetailInfo }) => {
     }, []);
 
     return (
-        <MainCard title="發票工作明細檔建立" sx={{ height: '100%' }}>
+        <MainCard title={`${action === 'Edit' ? '編輯' : ''}發票明細檔`} sx={{ height: '100%' }}>
             <Grid container display="flex" justifyContent="center" alignItems="center" spacing={1}>
                 {/* row1 */}
                 <Grid item xs={12} sm={6} md={4} lg={2}>
@@ -104,13 +104,14 @@ const CreateInvoiceDetail = ({ setInvoiceDetailInfo }) => {
                 </Grid>
                 <Grid item xs={12} sm={6} md={4} lg={4}>
                     <FormControl fullWidth>
-                        <InputLabel size="small" id="billMilestone">
+                        <InputLabel size="small" id="billMilestone" disabled={action === 'View'}>
                             選擇記帳段號
                         </InputLabel>
                         <Select
                             // labelId="demo-simple-select-label"
                             // id="demo-simple-select"
                             value={billMilestone}
+                            disabled={action === 'View'}
                             label="發票供應商"
                             size="small"
                             onChange={(e) => setBillMilestone(e.target.value)}
@@ -128,12 +129,13 @@ const CreateInvoiceDetail = ({ setInvoiceDetailInfo }) => {
                 </Grid>
                 <Grid item xs={12} sm={6} md={4} lg={4}>
                     <FormControl fullWidth>
-                        <InputLabel size="small" id="feeType">
+                        <InputLabel size="small" id="feeType" disabled={action === 'View'}>
                             選擇收費種類
                         </InputLabel>
                         <Select
                             // labelId="demo-simple-select-label"
                             // id="demo-simple-select"
+                            disabled={action === 'View'}
                             value={feeType}
                             label="收費種類"
                             size="small"
@@ -162,6 +164,7 @@ const CreateInvoiceDetail = ({ setInvoiceDetailInfo }) => {
                                 required
                                 value={feeItem}
                                 placeholder="填寫費用項目"
+                                disabled={action === 'View'}
                                 minRows={2}
                                 maxRows={2}
                                 onChange={(e) => setFeeItem(e.target.value)}
@@ -180,6 +183,7 @@ const CreateInvoiceDetail = ({ setInvoiceDetailInfo }) => {
                         fullWidth
                         variant="outlined"
                         value={feeAmount}
+                        disabled={action === 'View'}
                         type="number"
                         size="small"
                         label="填寫費用金額"
@@ -187,26 +191,30 @@ const CreateInvoiceDetail = ({ setInvoiceDetailInfo }) => {
                     />
                 </Grid>
                 <Grid item xs={12} sm={6} md={4} lg={2} />
-                <Grid item xs={12} sm={6} md={4} lg={4} display="flex" justifyContent="end" alignItems="center">
-                    {isEdit ? (
-                        <Button sx={{ mr: '0.25rem' }} variant="contained" onClick={itemDetailSave}>
-                            儲存
-                        </Button>
-                    ) : (
-                        <Button sx={{ mr: '0.25rem' }} variant="contained" onClick={itemDetailAdd}>
-                            新增
-                        </Button>
-                    )}
-                    {isEdit ? (
-                        <Button sx={{ ml: '0.25rem' }} variant="contained" onClick={itemDetailCancel}>
-                            取消
-                        </Button>
-                    ) : (
-                        <Button sx={{ ml: '0.25rem' }} variant="contained" onClick={itemDetailInitial}>
-                            清除
-                        </Button>
-                    )}
-                </Grid>
+                {action !== 'View' ? (
+                    <Grid item xs={12} sm={6} md={4} lg={4} display="flex" justifyContent="end" alignItems="center">
+                        {isEdit ? (
+                            <Button sx={{ mr: '0.25rem' }} variant="contained" onClick={itemDetailSave}>
+                                儲存
+                            </Button>
+                        ) : (
+                            <Button sx={{ mr: '0.25rem' }} variant="contained" onClick={itemDetailAdd}>
+                                新增
+                            </Button>
+                        )}
+                        {isEdit ? (
+                            <Button sx={{ ml: '0.25rem' }} variant="contained" onClick={itemDetailCancel}>
+                                取消
+                            </Button>
+                        ) : (
+                            <Button sx={{ ml: '0.25rem' }} variant="contained" onClick={itemDetailInitial}>
+                                清除
+                            </Button>
+                        )}
+                    </Grid>
+                ) : (
+                    ''
+                )}
                 <Grid item xs={12} sm={12} lg={12}>
                     <TableContainer component={Paper} sx={{ maxHeight: { lg: 125, md: 200 } }}>
                         <Table sx={{ minWidth: 300 }} stickyHeader aria-label="sticky table">

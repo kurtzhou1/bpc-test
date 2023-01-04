@@ -13,7 +13,6 @@ import Paper from '@mui/material/Paper';
 import { styled } from '@mui/material/styles';
 
 const InvoiceDataList = ({ listInfo }) => {
-    console.log('listInfo=>>', listInfo);
     const StyledTableCell = styled(TableCell)(({ theme }) => ({
         [`&.${tableCellClasses.head}`]: {
             // backgroundColor: theme.palette.common.gary,

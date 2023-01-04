@@ -15,6 +15,9 @@ const InvoiceWorkManageCreate = Loadable(lazy(() => import('pages/invoiceWorkMan
 const InvoiceWorkManageEdit = Loadable(lazy(() => import('pages/invoiceWorkManage/InvoiceWorkEdit')));
 const CreateJournal = Loadable(lazy(() => import('pages/createJournal')));
 
+//Liability
+const LiabilityManage = Loadable(lazy(() => import('pages/liability/LiabilityManage')));
+
 // render - utilities
 const Typography = Loadable(lazy(() => import('pages/components-overview/Typography')));
 const Color = Loadable(lazy(() => import('pages/components-overview/Color')));
@@ -70,6 +73,15 @@ const MainRoutes = {
                 {
                     path: 'InvoiceWorkEdit',
                     element: <InvoiceWorkManageEdit />
+                }
+            ]
+        },
+        {
+            path: 'Liability',
+            children: [
+                {
+                    path: 'LiabilityManage',
+                    element: <LiabilityManage />
                 }
             ]
         },

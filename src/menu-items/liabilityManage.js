@@ -17,9 +17,9 @@ const liabilityManage = {
     children: [
         {
             id: 'item3',
-            title: 'Liability管理',
+            title: 'Liability',
             type: 'collapse',
-            url: '/InvoiceWorkManage',
+            url: '/Liability/LiabilityManage',
             icon: icons.BarChartOutlined,
             breadcrumbs: true,
             children: [
@@ -27,15 +27,7 @@ const liabilityManage = {
                     id: 'item31',
                     title: 'Liability管理',
                     type: 'item',
-                    url: '/CreateJournal',
-                    icon: icons.TagOutlined,
-                    breadcrumbs: true
-                },
-                {
-                    id: 'item32',
-                    title: 'Liability管理',
-                    type: 'item',
-                    url: '/CreateJournal',
+                    url: '/Liability/LiabilityManage',
                     icon: icons.TagOutlined,
                     breadcrumbs: true
                 }

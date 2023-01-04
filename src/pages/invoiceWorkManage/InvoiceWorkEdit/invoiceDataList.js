@@ -4,7 +4,7 @@ import { useState } from 'react';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 
 // material-ui
-import { Typography, Button, Table, IconButton, Menu, MenuItem } from '@mui/material';
+import { Typography, Button, Table, IconButton, Menu, MenuItem, ListItemText, ListItemIcon } from '@mui/material';
 import TableBody from '@mui/material/TableBody';
 import TableCell, { tableCellClasses } from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
@@ -13,7 +13,10 @@ import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import { styled } from '@mui/material/styles';
 
-const InvoiceDataList = () => {
+//<InfoCircleOutlined />
+import { InfoCircleOutlined } from '@ant-design/icons';
+
+const InvoiceDataList = ({ listInfo, setAction, setModifyItem }) => {
     const StyledTableCell = styled(TableCell)(({ theme }) => ({
         [`&.${tableCellClasses.head}`]: {
             // backgroundColor: theme.palette.common.gary,
@@ -31,32 +34,13 @@ const InvoiceDataList = () => {
     const [anchorEl, setAnchorEl] = useState(null);
     const open = Boolean(anchorEl);
     const handleClick = (event) => {
-        console.log('event=>>', event);
         setAnchorEl(event.currentTarget);
     };
     const handleClose = () => {
         setAnchorEl(null);
     };
     const ITEM_HEIGHT = 48;
-    const options = ['None', 'Atria', 'Callisto', 'Dione', 'Ganymede', 'Hangouts Call', 'Luna', 'Oberon'];
-
-    const fakeData = [
-        {
-            InvoiceWKMaster: {
-                invoiceNo: 'M88989',
-                supplyID: '供應商1號',
-                submarineCable: '海纜海纜',
-                contractType: '合約種類2號',
-                issueDate: '2022/12/28',
-                totalAmount: 98989898898,
-                Status: 'TEMP'
-            },
-            InvoiceWKDetail: [
-                { billMilestone: '第一段', feeType: '收費種類1', feeItem: '收費項目2', feeAmount: 123123123 },
-                { billMilestone: '第二段', feeType: '收費種類2', feeItem: '收費項目3', feeAmount: 123123123 }
-            ]
-        }
-    ];
+    const options = ['View', 'Validated', 'Edit', 'Delete'];
 
     return (
         <TableContainer component={Paper} sx={{ maxHeight: 250 }}>
@@ -77,15 +61,15 @@ const InvoiceDataList = () => {
                     </TableRow>
                 </TableHead>
                 <TableBody>
-                    {fakeData?.map((row, id) => {
+                    {listInfo?.map((row, itemID) => {
                         return (
                             <TableRow
-                                key={row.InvoiceWKMaster?.invoiceNo + row.InvoiceWKMaster?.supplyID + id}
+                                key={row.InvoiceWKMaster?.invoiceNo + row.InvoiceWKMaster?.supplyID + itemID}
                                 sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                             >
-                                <StyledTableCell align="center">{id + 1}</StyledTableCell>
+                                <StyledTableCell align="center">{itemID + 1}</StyledTableCell>
                                 <StyledTableCell component="th" scope="row" align="center">
-                                    {row.InvoiceWKMaster.invoiceNo + row.InvoiceWKMaster?.supplyID + id}
+                                    {row.InvoiceWKMaster.invoiceNo + row.InvoiceWKMaster?.supplyID + itemID}
                                 </StyledTableCell>
                                 <StyledTableCell align="center">{row.InvoiceWKMaster?.invoiceNo}</StyledTableCell>
                                 <StyledTableCell align="center">{row.InvoiceWKMaster?.supplyID}</StyledTableCell>
@@ -95,7 +79,7 @@ const InvoiceDataList = () => {
                                 <StyledTableCell align="center">{row.InvoiceWKDetail.length}</StyledTableCell>
                                 <StyledTableCell align="center">{row.InvoiceWKMaster.totalAmount}</StyledTableCell>
                                 <StyledTableCell align="center">{row.InvoiceWKMaster.Status === 'TEMP' ? '暫存' : '???'}</StyledTableCell>
-                                <StyledTableCell align="center">
+                                <TableCell align="center">
                                     <IconButton
                                         aria-label="more"
                                         id="long-button"
@@ -121,15 +105,27 @@ const InvoiceDataList = () => {
                                             }
                                         }}
                                     >
-                                        {options.map((option) => (
-                                            <MenuItem key={option} selected={option === 'Pyxis'} onClick={handleClose}>
-                                                {option}
-                                            </MenuItem>
-                                        ))}
+                                        {options.map((option) => {
+                                            return (
+                                                <MenuItem key={option} selected={option === 'Pyxis'} onClick={handleClose}>
+                                                    <ListItemIcon>
+                                                        <InfoCircleOutlined fontSize="small" />
+                                                    </ListItemIcon>
+                                                    <ListItemText
+                                                        onClick={() => {
+                                                            setAction(option);
+                                                            setModifyItem(row.InvoiceWKMaster?.invoiceNo);
+                                                        }}
+                                                    >
+                                                        {option}
+                                                    </ListItemText>
+                                                </MenuItem>
+                                            );
+                                        })}
                                     </Menu>
                                     {/* <Button color="primary">編輯</Button>
                                     <Button color="error">刪除</Button> */}
-                                </StyledTableCell>
+                                </TableCell>
                             </TableRow>
                         );
                     })}
