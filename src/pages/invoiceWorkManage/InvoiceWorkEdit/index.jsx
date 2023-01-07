@@ -19,18 +19,18 @@ import { TextField } from '@mui/material/index';
 
 const InvoiceWorkManage = () => {
     const [invoiceDetailInfo, setInvoiceDetailInfo] = useState([]);
-    const [supplyID, setSupplyID] = useState(); //供應商
-    const [invoiceNo, setInvoiceNo] = useState(); //發票號碼
-    const [submarineCable, setSubmarineCable] = useState(); //海纜名稱
-    const [workTitle, setWorTitle] = useState(); //海纜作業
-    const [contractType, setContractType] = useState(); //合約種類
-    const [issueDate, setIssueDate] = useState(); //發票日期
-    const [invoiceDueDate, setInvoiceDueDate] = useState(); //發票到期日
+    const [supplyID, setSupplyID] = useState(''); //供應商
+    const [invoiceNo, setInvoiceNo] = useState(''); //發票號碼
+    const [submarineCable, setSubmarineCable] = useState(''); //海纜名稱
+    const [workTitle, setWorTitle] = useState(''); //海纜作業
+    const [contractType, setContractType] = useState(''); //合約種類
+    const [issueDate, setIssueDate] = useState(new Date()); //發票日期
+    const [invoiceDueDate, setInvoiceDueDate] = useState(new Date()); //發票到期日
     const [totalAmount, setTotalAmount] = useState(0); //總金額
-    const [isPro, setIsPro] = useState(); //是否為Pro-forma
-    const [isLiability, setIsLiability] = useState(); //是否需攤分
-    const [isRecharge, setIsRecharge] = useState(); //是否為短腳補收
-    const [partyID, setPartyID] = useState(); //會員代號
+    const [isPro, setIsPro] = useState(false); //是否為Pro-forma
+    const [isLiability, setIsLiability] = useState(false); //是否需攤分
+    const [isRecharge, setIsRecharge] = useState(false); //是否為短腳補收
+    const [partyID, setPartyID] = useState(''); //會員代號
 
     const [listInfo, setListInfo] = useState([]);
     const [action, setAction] = useState('');

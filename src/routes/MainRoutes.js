@@ -13,7 +13,7 @@ const SamplePage = Loadable(lazy(() => import('pages/extra-pages/SamplePage')));
 // 發票工作管理
 const InvoiceWorkManageCreate = Loadable(lazy(() => import('pages/invoiceWorkManage/InvoiceWorkCreate')));
 const InvoiceWorkManageEdit = Loadable(lazy(() => import('pages/invoiceWorkManage/InvoiceWorkEdit')));
-const CreateJournal = Loadable(lazy(() => import('pages/createJournal')));
+// const CreateJournal = Loadable(lazy(() => import('pages/createJournal')));
 
 //Liability
 const LiabilityManage = Loadable(lazy(() => import('pages/liability/LiabilityManage')));
@@ -84,11 +84,11 @@ const MainRoutes = {
                     element: <LiabilityManage />
                 }
             ]
-        },
-        {
-            path: 'CreateJournal',
-            element: <CreateJournal />
         }
+        // {
+        //     path: 'CreateJournal',
+        //     element: <CreateJournal />
+        // }
     ]
 };
 

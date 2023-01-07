@@ -1,4 +1,4 @@
-// import { useState } from 'react';
+import { useState } from 'react';
 
 // project import
 
@@ -11,8 +11,9 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import { styled } from '@mui/material/styles';
+import { EditLocationAltSharp } from '../../../../node_modules/@mui/icons-material/index';
 
-const InvoiceDataList = ({ listInfo }) => {
+const InvoiceDataList = ({ listInfo, setEditItem, deletelistInfoItem }) => {
     const StyledTableCell = styled(TableCell)(({ theme }) => ({
         [`&.${tableCellClasses.head}`]: {
             // backgroundColor: theme.palette.common.gary,
@@ -26,6 +27,7 @@ const InvoiceDataList = ({ listInfo }) => {
             paddingBottom: '0.2rem'
         }
     }));
+    console.log('listInfo=>>', listInfo);
 
     return (
         <TableContainer component={Paper} sx={{ maxHeight: 250 }}>
@@ -59,10 +61,24 @@ const InvoiceDataList = ({ listInfo }) => {
                                 <StyledTableCell align="center">{row.InvoiceWKMaster?.contractType}</StyledTableCell>
                                 <StyledTableCell align="center">{row.InvoiceWKMaster?.issueDate}</StyledTableCell>
                                 <StyledTableCell align="center">{row.InvoiceWKDetail.length}</StyledTableCell>
-                                <StyledTableCell align="center">{row.InvoiceWKDetail.totalAmount}</StyledTableCell>
+                                <StyledTableCell align="center">{row.InvoiceWKMaster.totalAmount}</StyledTableCell>
                                 <StyledTableCell align="center">
-                                    <Button color="primary">編輯</Button>
-                                    <Button color="error">刪除</Button>
+                                    <Button
+                                        color="primary"
+                                        onClick={() => {
+                                            setEditItem(id);
+                                        }}
+                                    >
+                                        編輯
+                                    </Button>
+                                    <Button
+                                        color="error"
+                                        onClick={() => {
+                                            deletelistInfoItem(id);
+                                        }}
+                                    >
+                                        刪除
+                                    </Button>
                                 </StyledTableCell>
                             </TableRow>
                         );

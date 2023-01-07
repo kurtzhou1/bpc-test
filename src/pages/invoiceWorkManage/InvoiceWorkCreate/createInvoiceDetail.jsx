@@ -18,15 +18,14 @@ import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import { styled } from '@mui/material/styles';
 
-const CreateInvoiceDetail = ({ setInvoiceDetailInfo }) => {
+const CreateInvoiceDetail = ({ invoiceDetailInfo, setInvoiceDetailInfo }) => {
+    console.log('invoiceDetailInfo=>>', invoiceDetailInfo);
     const [billMilestone, setBillMilestone] = useState(''); //記帳段號
     const [feeType, setFeeType] = useState(''); //收費種類
     const [feeItem, setFeeItem] = useState(''); //費用項目
-    const [feeAmount, setFeeAmount] = useState(); //費用金額
-    const [itemArray, setItemArray] = useState([]);
+    const [feeAmount, setFeeAmount] = useState(0); //費用金額
     const [isEdit, setIsEdit] = useState(false);
-    // const [editItem, setEditItem] = useState();
-    const editItem = useRef();
+    const editItem = useRef(0);
 
     const itemDetailInitial = () => {
         setBillMilestone('');
@@ -54,23 +53,23 @@ const CreateInvoiceDetail = ({ setInvoiceDetailInfo }) => {
     }));
 
     const itemDetailAdd = () => {
-        let tmpArray = itemArray;
+        let tmpArray = invoiceDetailInfo;
         tmpArray.push(createData(feeItem, billMilestone, feeAmount, feeType));
-        setItemArray([...tmpArray]);
+        setInvoiceDetailInfo([...tmpArray]);
         setInvoiceDetailInfo(tmpArray);
         itemDetailInitial();
     };
 
     const itemDetailDelete = (id) => {
-        let tmpArray = itemArray;
+        let tmpArray = invoiceDetailInfo;
         tmpArray.splice(id, 1);
-        setItemArray([...tmpArray]);
+        setInvoiceDetailInfo([...tmpArray]);
     };
 
     const itemDetailEdit = (id) => {
         setIsEdit(true);
         editItem.current = id;
-        let tmpArray = itemArray[id];
+        let tmpArray = invoiceDetailInfo[id];
         setBillMilestone(tmpArray.billMilestone);
         setFeeType(tmpArray.feeType);
         setFeeItem(tmpArray.feeItem);
@@ -88,6 +87,8 @@ const CreateInvoiceDetail = ({ setInvoiceDetailInfo }) => {
         itemDetailInitial();
         setIsEdit(false);
     };
+
+    useEffect(() => {}, [invoiceDetailInfo]);
 
     useEffect(() => {
         itemDetailInitial();
@@ -111,17 +112,33 @@ const CreateInvoiceDetail = ({ setInvoiceDetailInfo }) => {
                             // labelId="demo-simple-select-label"
                             // id="demo-simple-select"
                             value={billMilestone}
-                            label="發票供應商"
+                            label="記帳段號"
                             size="small"
                             onChange={(e) => setBillMilestone(e.target.value)}
                         >
-                            <MenuItem value={'第1段'}>第1段</MenuItem>
-                            <MenuItem value={'第2段'}>第2段</MenuItem>
-                            <MenuItem value={'第3段'}>第3段</MenuItem>
+                            <MenuItem value={'BM9'}>BM9</MenuItem>
+                            <MenuItem value={'BM10'}>BM10</MenuItem>
+                            <MenuItem value={'BM12'}>BM12</MenuItem>
                         </Select>
                     </FormControl>
                 </Grid>
                 <Grid item xs={12} sm={6} md={4} lg={2}>
+                    <Typography variant="h5" sx={{ fontSize: { lg: '0.5rem', xl: '0.88rem' }, ml: { lg: '0.5rem', xl: '1.5rem' } }}>
+                        費用金額：
+                    </Typography>
+                </Grid>
+                <Grid item xs={12} sm={6} md={4} lg={4}>
+                    <TextField
+                        fullWidth
+                        variant="outlined"
+                        value={feeAmount}
+                        type="number"
+                        size="small"
+                        label="填寫費用金額"
+                        onChange={(e) => setFeeAmount(e.target.value)}
+                    />
+                </Grid>
+                {/* <Grid item xs={12} sm={6} md={4} lg={2}>
                     <Typography variant="h5" sx={{ fontSize: { lg: '0.5rem', xl: '0.88rem' }, ml: { lg: '0.5rem', xl: '1.5rem' } }}>
                         收費種類：
                     </Typography>
@@ -144,7 +161,7 @@ const CreateInvoiceDetail = ({ setInvoiceDetailInfo }) => {
                             <MenuItem value={'種類3'}>種類3</MenuItem>
                         </Select>
                     </FormControl>
-                </Grid>
+                </Grid> */}
                 {/* row2 */}
                 <Grid item lg={2}>
                     <Typography
@@ -170,24 +187,7 @@ const CreateInvoiceDetail = ({ setInvoiceDetailInfo }) => {
                     </StyledEngineProvider>
                 </Grid>
                 {/* row3 */}
-                <Grid item xs={12} sm={6} md={4} lg={2}>
-                    <Typography variant="h5" sx={{ fontSize: { lg: '0.5rem', xl: '0.88rem' }, ml: { lg: '0.5rem', xl: '1.5rem' } }}>
-                        費用金額：
-                    </Typography>
-                </Grid>
-                <Grid item xs={12} sm={6} md={4} lg={4}>
-                    <TextField
-                        fullWidth
-                        variant="outlined"
-                        value={feeAmount}
-                        type="number"
-                        size="small"
-                        label="填寫費用金額"
-                        onChange={(e) => setFeeAmount(e.target.value)}
-                    />
-                </Grid>
-                <Grid item xs={12} sm={6} md={4} lg={2} />
-                <Grid item xs={12} sm={6} md={4} lg={4} display="flex" justifyContent="end" alignItems="center">
+                <Grid item xs={12} sm={12} md={12} lg={12} display="flex" justifyContent="end" alignItems="center">
                     {isEdit ? (
                         <Button sx={{ mr: '0.25rem' }} variant="contained" onClick={itemDetailSave}>
                             儲存
@@ -219,7 +219,7 @@ const CreateInvoiceDetail = ({ setInvoiceDetailInfo }) => {
                                 </TableRow>
                             </TableHead>
                             <TableBody>
-                                {itemArray?.map((row, id) => (
+                                {invoiceDetailInfo?.map((row, id) => (
                                     <TableRow
                                         key={row.feeItem + row.billMilestone}
                                         sx={{ '&:last-child td, &:last-child th': { border: 0 } }}

@@ -12,7 +12,7 @@ import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import { styled } from '@mui/material/styles';
 
-const LiabilityDataList = ({ listInfo }) => {
+const LiabilityDataList = ({ listInfo, setDialogAction, setIsDialogOpen }) => {
     const StyledTableCell = styled(TableCell)(({ theme }) => ({
         [`&.${tableCellClasses.head}`]: {
             // backgroundColor: theme.palette.common.gary,
@@ -55,8 +55,24 @@ const LiabilityDataList = ({ listInfo }) => {
                         <StyledTableCell align="center">測試</StyledTableCell>
                         <StyledTableCell align="center">2022/12/31</StyledTableCell>
                         <StyledTableCell align="center">
-                            <Button color="primary">編輯</Button>
-                            <Button color="success">分段</Button>
+                            <Button
+                                color="primary"
+                                onClick={() => {
+                                    setDialogAction('Edit');
+                                    setIsDialogOpen(true);
+                                }}
+                            >
+                                編輯
+                            </Button>
+                            <Button
+                                color="success"
+                                onClick={() => {
+                                    setDialogAction('Split');
+                                    setIsDialogOpen(true);
+                                }}
+                            >
+                                分段
+                            </Button>
                             <Button color="error">刪除</Button>
                         </StyledTableCell>
                     </TableRow>

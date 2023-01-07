@@ -14,18 +14,18 @@ import { TextField } from '@mui/material/index';
 
 // ==============================|| SAMPLE PAGE ||============================== //
 
-const LiabilityQuery = (liabilityQuery) => {
+const LiabilityQuery = ({ liabilityQuery }) => {
     const [issueDate, setIssueDate] = useState([null, null]); //發票日期
     return (
-        <MainCard sx={{ width: '100%' }}>
-            <Grid container display="flex" spacing={2}>
+        <MainCard title="Liability條件查詢" sx={{ width: '100%' }}>
+            <Grid container display="flex" justifyContent="center" alignItems="center" spacing={2}>
                 {/* row1 */}
-                <Grid item xs={12} sm={6} md={4} lg={1} xl={1}>
+                <Grid item xs={1} sm={1} md={1} lg={1} xl={1}>
                     <Typography variant="h5" sx={{ fontSize: { lg: '0.5rem', xl: '0.88rem' }, ml: { lg: '0.5rem', xl: '1.5rem' } }}>
                         記帳段號：
                     </Typography>
                 </Grid>
-                <Grid item xs={12} sm={6} md={4} lg={2} xl={2}>
+                <Grid item xs={2} sm={2} md={2} lg={2} xl={2}>
                     <FormControl fullWidth size="small">
                         <InputLabel id="demo-simple-select-label">選擇記帳段號</InputLabel>
                         <Select
@@ -41,12 +41,12 @@ const LiabilityQuery = (liabilityQuery) => {
                         </Select>
                     </FormControl>
                 </Grid>
-                <Grid item xs={12} sm={6} md={4} lg={1} xl={1}>
+                <Grid item xs={1} sm={1} md={1} lg={1} xl={1}>
                     <Typography variant="h5" sx={{ fontSize: { lg: '0.5rem', xl: '0.88rem' }, ml: { lg: '0.5rem', xl: '1.5rem' } }}>
                         會員名稱：
                     </Typography>
                 </Grid>
-                <Grid item xs={12} sm={6} md={4} lg={2} xl={2}>
+                <Grid item xs={2} sm={2} md={2} lg={2} xl={2}>
                     <FormControl fullWidth size="small">
                         <InputLabel id="demo-simple-select-label">選擇會員</InputLabel>
                         <Select
@@ -62,12 +62,12 @@ const LiabilityQuery = (liabilityQuery) => {
                         </Select>
                     </FormControl>
                 </Grid>
-                <Grid item xs={12} sm={6} md={4} lg={1} xl={1}>
+                <Grid item xs={1} sm={1} md={1} lg={1} xl={1}>
                     <Typography variant="h5" sx={{ fontSize: { lg: '0.5rem', xl: '0.88rem' }, ml: { lg: '0.5rem', xl: '1.5rem' } }}>
                         建立日期：
                     </Typography>
                 </Grid>
-                <Grid item xs={12} sm={6} md={4} lg={5} xl={5}>
+                <Grid item xs={5} sm={5} md={5} lg={5} xl={5}>
                     <LocalizationProvider dateAdapter={AdapterDayjs} localeText={{ start: '起始日', end: '結束日' }}>
                         <DateRangePicker
                             inputFormat="YYYY/MM/DD"
@@ -77,9 +77,9 @@ const LiabilityQuery = (liabilityQuery) => {
                             }}
                             renderInput={(startProps, endProps) => (
                                 <>
-                                    <TextField size="small" {...startProps} />
+                                    <TextField fullWidth size="small" {...startProps} />
                                     <Box sx={{ mx: 2 }}> to </Box>
-                                    <TextField size="small" {...endProps} />
+                                    <TextField fullWidth size="small" {...endProps} />
                                 </>
                             )}
                         />
@@ -87,14 +87,12 @@ const LiabilityQuery = (liabilityQuery) => {
                 </Grid>
 
                 {/* row2 */}
-                <Grid item xs={12} sm={6} md={4} lg={9}></Grid>
-                <Grid item xs={12} sm={6} md={4} lg={3} display="flex" justifyContent="end" alignItems="center">
-                    <Button sx={{ mr: '0.25rem' }} variant="contained" onClick={liabilityQuery}>
+                <Grid item xs={9} sm={9} md={9} lg={9}></Grid>
+                <Grid item xs={3} sm={3} md={3} lg={3} display="flex" justifyContent="end" alignItems="center">
+                    <Button sx={{ mr: '0.5rem' }} variant="contained" onClick={liabilityQuery}>
                         查詢
                     </Button>
-                    <Button sx={{ mr: '0.25rem' }} variant="contained">
-                        清除
-                    </Button>
+                    <Button variant="contained">清除</Button>
                 </Grid>
             </Grid>
         </MainCard>

@@ -19,20 +19,22 @@ import { TextField } from '@mui/material/index';
 
 const InvoiceWorkManage = () => {
     const [invoiceDetailInfo, setInvoiceDetailInfo] = useState([]);
-    const [supplyID, setSupplyID] = useState(); //供應商
-    const [invoiceNo, setInvoiceNo] = useState(); //發票號碼
-    const [submarineCable, setSubmarineCable] = useState(); //海纜名稱
-    const [workTitle, setWorTitle] = useState(); //海纜作業
-    const [contractType, setContractType] = useState(); //合約種類
-    const [issueDate, setIssueDate] = useState(); //發票日期
-    const [invoiceDueDate, setInvoiceDueDate] = useState(); //發票到期日
+    const [supplyID, setSupplyID] = useState(''); //供應商
+    const [invoiceNo, setInvoiceNo] = useState(''); //發票號碼
+    const [submarineCable, setSubmarineCable] = useState(''); //海纜名稱
+    const [workTitle, setWorTitle] = useState(''); //海纜作業
+    const [contractType, setContractType] = useState(''); //合約種類
+    const [issueDate, setIssueDate] = useState(new Date()); //發票日期
+    const [invoiceDueDate, setInvoiceDueDate] = useState(new Date()); //發票到期日
     const [totalAmount, setTotalAmount] = useState(0); //總金額
-    const [isPro, setIsPro] = useState(); //是否為Pro-forma
-    const [isLiability, setIsLiability] = useState(); //是否需攤分
-    const [isRecharge, setIsRecharge] = useState(); //是否為短腳補收
-    const [partyID, setPartyID] = useState(); //會員代號
+    const [isPro, setIsPro] = useState(false); //是否為Pro-forma
+    const [isLiability, setIsLiability] = useState(false); //是否需攤分
+    const [isRecharge, setIsRecharge] = useState(false); //是否為短腳補收
+    const [partyID, setPartyID] = useState(''); //會員代號
 
+    const [editItem, setEditItem] = useState(NaN);
     const [listInfo, setListInfo] = useState([]);
+    const [isListEdit, setIsListEdit] = useState(false);
 
     const itemDetailInitial = () => {
         setSupplyID('');
@@ -42,11 +44,12 @@ const InvoiceWorkManage = () => {
         setContractType('');
         setIssueDate(new Date());
         setInvoiceDueDate(new Date());
-        setTotalAmount('');
-        setIsPro('');
-        setIsLiability();
-        setIsRecharge();
-        setPartyID;
+        setTotalAmount(0);
+        setIsPro(false);
+        setIsLiability(false);
+        setIsRecharge(false);
+        setPartyID('');
+        setInvoiceDetailInfo([]);
     };
 
     const createData = (
@@ -106,6 +109,8 @@ const InvoiceWorkManage = () => {
         };
         tmpList.push(combineArray);
         setListInfo([...tmpList]);
+        itemDetailInitial();
+        setInvoiceDetailInfo([]);
         // fetch(fakeUrl, { method: 'POST', body: JSON.stringify(combineArray) })
         //     .then((res) => res.json())
         //     .then((data) => {
@@ -113,6 +118,57 @@ const InvoiceWorkManage = () => {
         //     })
         //     .catch((e) => console.log('e=>>', e));
     };
+
+    //儲存編輯
+    const saveEdit = () => {
+        setEditItem(NaN);
+        console.log('editItem=>>', editItem);
+        deletelistInfoItem(editItem);
+        addInvoiceInfo();
+        setIsListEdit(false);
+    };
+
+    //取消編輯
+    const cancelEdit = () => {
+        setEditItem(NaN);
+        itemDetailInitial();
+        setIsListEdit(false);
+    };
+
+    //編輯
+    const editlistInfoItem = () => {
+        let tmpArray = listInfo[editItem];
+        if (tmpArray) {
+            setSupplyID(tmpArray?.InvoiceWKMaster.supplyID);
+            setInvoiceNo(tmpArray?.InvoiceWKMaster.invoiceNo);
+            setSubmarineCable(tmpArray?.InvoiceWKMaster.submarineCable);
+            setWorTitle(tmpArray.InvoiceWKMaster.workTitle);
+            setContractType(tmpArray?.InvoiceWKMaster.contractType);
+            setIssueDate(tmpArray?.InvoiceWKMaster.issueDate);
+            setInvoiceDueDate(tmpArray?.InvoiceWKMaster.invoiceDueDate);
+            setTotalAmount(tmpArray?.InvoiceWKMaster.totalAmount);
+            setIsPro(tmpArray?.InvoiceWKMaster.isPro);
+            setIsLiability(tmpArray?.InvoiceWKMaster.isLiability);
+            setIsRecharge(tmpArray?.InvoiceWKMaster.isLiability);
+            setPartyID(tmpArray?.InvoiceWKMaster.partyID);
+            setInvoiceDetailInfo(tmpArray?.InvoiceWKDetail);
+            setEditItem(editItem);
+        }
+    };
+
+    const deletelistInfoItem = (deleteItem) => {
+        let tmpArray = listInfo;
+        tmpArray.splice(deleteItem, 1);
+        setListInfo([...tmpArray]);
+    };
+
+    useEffect(() => {
+        itemDetailInitial();
+        if (editItem >= 0) {
+            editlistInfoItem();
+            setIsListEdit(true);
+        }
+    }, [editItem]);
 
     useEffect(() => {
         itemDetailInitial();
@@ -142,13 +198,12 @@ const InvoiceWorkManage = () => {
                                             <Select
                                                 // labelId="demo-simple-select-label"
                                                 // id="demo-simple-select"
-                                                // value={supplyID}
+                                                value={supplyID}
                                                 label="發票供應商"
                                                 onChange={(e) => setSupplyID(e.target.value)}
                                             >
-                                                <MenuItem value={'供應商1號'}>供應商1號</MenuItem>
-                                                <MenuItem value={'供應商2號'}>供應商2號</MenuItem>
-                                                <MenuItem value={'供應商3號'}>供應商3號</MenuItem>
+                                                <MenuItem value={'NEC'}>NEC</MenuItem>
+                                                <MenuItem value={'CIENA'}>CIENA</MenuItem>
                                             </Select>
                                         </FormControl>
                                     </Grid>
@@ -176,7 +231,7 @@ const InvoiceWorkManage = () => {
                                             variant="h5"
                                             sx={{ fontSize: { lg: '0.5rem', xl: '0.88rem' }, ml: { lg: '0.5rem', xl: '1.5rem' } }}
                                         >
-                                            海纜名稱：
+                                            海纜代號：
                                         </Typography>
                                     </Grid>
                                     <Grid item xs={12} sm={6} md={4} lg={4}>
@@ -185,13 +240,12 @@ const InvoiceWorkManage = () => {
                                             <Select
                                                 // labelId="demo-simple-select-label"
                                                 // id="demo-simple-select"
-                                                // value={submarineCable}
+                                                value={submarineCable}
                                                 label="發票供應商"
                                                 onChange={(e) => setSubmarineCable(e.target.value)}
                                             >
-                                                <MenuItem value={'海纜1號'}>海纜1號</MenuItem>
-                                                <MenuItem value={'海纜2號'}>海纜2號</MenuItem>
-                                                <MenuItem value={'海纜3號'}>海纜3號</MenuItem>
+                                                <MenuItem value={'SJC2'}>SJC2</MenuItem>
+                                                <MenuItem value={'NCP'}>NCP</MenuItem>
                                             </Select>
                                         </FormControl>
                                     </Grid>
@@ -228,13 +282,12 @@ const InvoiceWorkManage = () => {
                                             <Select
                                                 // labelId="demo-simple-select-label"
                                                 // id="demo-simple-select"
-                                                // value={contractType}
+                                                value={contractType}
                                                 label="發票供應商"
                                                 onChange={(e) => setContractType(e.target.value)}
                                             >
-                                                <MenuItem value={'合約種類1'}>合約種類1</MenuItem>
-                                                <MenuItem value={'合約種類2'}>合約種類2</MenuItem>
-                                                <MenuItem value={'合約種類3'}>合約種類3</MenuItem>
+                                                <MenuItem value={'SC'}>SC</MenuItem>
+                                                <MenuItem value={'NSC'}>NSC</MenuItem>
                                             </Select>
                                         </FormControl>
                                     </Grid>
@@ -324,28 +377,12 @@ const InvoiceWorkManage = () => {
                                             >
                                                 <FormControlLabel
                                                     value={true}
-                                                    control={
-                                                        <Radio
-                                                            sx={{
-                                                                '& .MuiSvgIcon-root': {
-                                                                    fontSize: { lg: 14, xl: 20 }
-                                                                }
-                                                            }}
-                                                        />
-                                                    }
+                                                    control={<Radio sx={{ '& .MuiSvgIcon-root': { fontSize: { lg: 14, xl: 20 } } }} />}
                                                     label="Y"
                                                 />
                                                 <FormControlLabel
                                                     value={false}
-                                                    control={
-                                                        <Radio
-                                                            sx={{
-                                                                '& .MuiSvgIcon-root': {
-                                                                    fontSize: { lg: 14, xl: 20 }
-                                                                }
-                                                            }}
-                                                        />
-                                                    }
+                                                    control={<Radio sx={{ '& .MuiSvgIcon-root': { fontSize: { lg: 14, xl: 20 } } }} />}
                                                     label="N"
                                                 />
                                             </RadioGroup>
@@ -371,28 +408,12 @@ const InvoiceWorkManage = () => {
                                             >
                                                 <FormControlLabel
                                                     value={true}
-                                                    control={
-                                                        <Radio
-                                                            sx={{
-                                                                '& .MuiSvgIcon-root': {
-                                                                    fontSize: { lg: 14, xl: 20 }
-                                                                }
-                                                            }}
-                                                        />
-                                                    }
+                                                    control={<Radio sx={{ '& .MuiSvgIcon-root': { fontSize: { lg: 14, xl: 20 } } }} />}
                                                     label="Y"
                                                 />
                                                 <FormControlLabel
                                                     value={false}
-                                                    control={
-                                                        <Radio
-                                                            sx={{
-                                                                '& .MuiSvgIcon-root': {
-                                                                    fontSize: { lg: 14, xl: 20 }
-                                                                }
-                                                            }}
-                                                        />
-                                                    }
+                                                    control={<Radio sx={{ '& .MuiSvgIcon-root': { fontSize: { lg: 14, xl: 20 } } }} />}
                                                     label="N"
                                                 />
                                             </RadioGroup>
@@ -419,28 +440,12 @@ const InvoiceWorkManage = () => {
                                             >
                                                 <FormControlLabel
                                                     value={true}
-                                                    control={
-                                                        <Radio
-                                                            sx={{
-                                                                '& .MuiSvgIcon-root': {
-                                                                    fontSize: { lg: 14, xl: 20 }
-                                                                }
-                                                            }}
-                                                        />
-                                                    }
+                                                    control={<Radio sx={{ '& .MuiSvgIcon-root': { fontSize: { lg: 14, xl: 20 } } }} />}
                                                     label="Y"
                                                 />
                                                 <FormControlLabel
                                                     value={false}
-                                                    control={
-                                                        <Radio
-                                                            sx={{
-                                                                '& .MuiSvgIcon-root': {
-                                                                    fontSize: { lg: 14, xl: 20 }
-                                                                }
-                                                            }}
-                                                        />
-                                                    }
+                                                    control={<Radio sx={{ '& .MuiSvgIcon-root': { fontSize: { lg: 14, xl: 20 } } }} />}
                                                     label="N"
                                                 />
                                             </RadioGroup>
@@ -472,15 +477,28 @@ const InvoiceWorkManage = () => {
                         </Grid>
                         {/* 右 */}
                         <Grid item xs={6}>
-                            <CreateInvoiceDetail setInvoiceDetailInfo={setInvoiceDetailInfo} />
+                            <CreateInvoiceDetail invoiceDetailInfo={invoiceDetailInfo} setInvoiceDetailInfo={setInvoiceDetailInfo} />
                         </Grid>
                         <Grid item xs={12} display="flex" justifyContent="center" alignItems="center">
-                            <Button variant="contained" sx={{ ml: '0.25rem', mr: '0.25rem' }} onClick={addInvoiceInfo}>
-                                新增發票
-                            </Button>
-                            <Button variant="contained" sx={{ ml: '0.25rem', mr: '0.25rem' }}>
-                                全部清除
-                            </Button>
+                            {isListEdit ? (
+                                <>
+                                    <Button variant="contained" sx={{ ml: '0.25rem', mr: '0.25rem' }} onClick={saveEdit}>
+                                        儲存編輯
+                                    </Button>
+                                    <Button variant="contained" sx={{ ml: '0.25rem', mr: '0.25rem' }} onClick={cancelEdit}>
+                                        取消編輯
+                                    </Button>
+                                </>
+                            ) : (
+                                <>
+                                    <Button variant="contained" sx={{ ml: '0.25rem', mr: '0.25rem' }} onClick={addInvoiceInfo}>
+                                        新增發票
+                                    </Button>
+                                    <Button variant="contained" sx={{ ml: '0.25rem', mr: '0.25rem' }}>
+                                        全部清除
+                                    </Button>
+                                </>
+                            )}
                         </Grid>
                     </Grid>
                 </MainCard>
@@ -490,7 +508,7 @@ const InvoiceWorkManage = () => {
                     <Grid container display="flex" spacing={2}>
                         <Grid item xs={12}>
                             <MainCard title="發票資料建立列表">
-                                <InvoiceDataList listInfo={listInfo} />
+                                <InvoiceDataList listInfo={listInfo} setEditItem={setEditItem} deletelistInfoItem={deletelistInfoItem} />
                             </MainCard>
                         </Grid>
                     </Grid>
