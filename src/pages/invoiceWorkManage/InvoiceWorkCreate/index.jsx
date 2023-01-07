@@ -308,7 +308,6 @@ const InvoiceWorkManage = () => {
                                                     onChange={(e) => {
                                                         setIssueDate(e);
                                                     }}
-                                                    // onChange={(e) => setIssueDate(e.target.value)}
                                                     renderInput={(params) => <TextField size="small" {...params} />}
                                                 />
                                             </LocalizationProvider>
@@ -369,7 +368,7 @@ const InvoiceWorkManage = () => {
                                         <FormControl>
                                             <RadioGroup
                                                 row
-                                                // value={isPro}
+                                                value={isPro}
                                                 aria-labelledby="demo-radio-buttons-group-label"
                                                 // defaultValue="female"
                                                 name="radio-buttons-group"
@@ -400,7 +399,7 @@ const InvoiceWorkManage = () => {
                                         <FormControl>
                                             <RadioGroup
                                                 row
-                                                // value={isLiability}
+                                                value={isLiability}
                                                 aria-labelledby="demo-radio-buttons-group-label"
                                                 // defaultValue="female"
                                                 name="radio-buttons-group"
@@ -432,7 +431,7 @@ const InvoiceWorkManage = () => {
                                         <FormControl>
                                             <RadioGroup
                                                 row
-                                                // value={isRecharge}
+                                                value={isRecharge}
                                                 aria-labelledby="demo-radio-buttons-group-label"
                                                 defaultValue="female"
                                                 name="radio-buttons-group"

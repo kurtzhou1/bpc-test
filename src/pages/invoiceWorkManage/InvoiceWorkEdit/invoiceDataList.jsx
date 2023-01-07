@@ -86,7 +86,10 @@ const InvoiceDataList = ({ listInfo, setAction, setModifyItem }) => {
                                         aria-controls={open ? 'long-menu' : undefined}
                                         aria-expanded={open ? 'true' : undefined}
                                         aria-haspopup="true"
-                                        onClick={handleClick}
+                                        onClick={(e) => {
+                                            handleClick(e);
+                                            setModifyItem(itemID);
+                                        }}
                                     >
                                         <MoreVertIcon />
                                     </IconButton>
@@ -114,7 +117,7 @@ const InvoiceDataList = ({ listInfo, setAction, setModifyItem }) => {
                                                     <ListItemText
                                                         onClick={() => {
                                                             setAction(option);
-                                                            setModifyItem(row.InvoiceWKMaster?.invoiceNo);
+                                                            // setModifyItem(row.InvoiceWKMaster?.invoiceNo);
                                                         }}
                                                     >
                                                         {option}

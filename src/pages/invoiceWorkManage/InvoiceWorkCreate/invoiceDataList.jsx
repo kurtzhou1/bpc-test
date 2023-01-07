@@ -27,7 +27,6 @@ const InvoiceDataList = ({ listInfo, setEditItem, deletelistInfoItem }) => {
             paddingBottom: '0.2rem'
         }
     }));
-    console.log('listInfo=>>', listInfo);
 
     return (
         <TableContainer component={Paper} sx={{ maxHeight: 250 }}>

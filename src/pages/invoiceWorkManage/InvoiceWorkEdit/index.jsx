@@ -34,38 +34,72 @@ const InvoiceWorkManage = () => {
 
     const [listInfo, setListInfo] = useState([]);
     const [action, setAction] = useState('');
-    const [modifyItem, setModifyItem] = useState('');
+    const [modifyItem, setModifyItem] = useState(NaN);
 
     const fakeData = [
         {
             InvoiceWKMaster: {
-                invoiceNo: 'M88989',
-                supplyID: '供應商1號',
-                submarineCable: '海纜海纜',
-                contractType: '合約種類2號',
-                issueDate: '2022/12/28',
-                totalAmount: 98989898898,
-                Status: 'TEMP'
+                invoiceNo: 'No Number',
+                supplyID: 'NEC',
+                submarineCable: 'SJC2',
+                workTitle: 'Construction',
+                contractType: 'SC',
+                issueDate: '2022/9/9',
+                totalAmount: 15466.92,
+                Status: 'TEMP',
+                isPro: true,
+                isLiability: false,
+                isRecharge: false
             },
             InvoiceWKDetail: [
-                { billMilestone: '第一段', feeType: '收費種類1', feeItem: '收費項目2', feeAmount: 123123123 },
-                { billMilestone: '第二段', feeType: '收費種類2', feeItem: '收費項目3', feeAmount: 123123123 }
+                {
+                    billMilestone: 'BM9b',
+                    feeType: '收費種類1',
+                    feeItem: 'BM9b Sea cable manufactured (8.5km spare cable)- Equipment (Off-Shore Korea)',
+                    feeAmount: 6849.91
+                },
+                {
+                    billMilestone: 'BM9b',
+                    feeType: '收費種類2',
+                    feeItem: 'BM9b Sea cable manufactured (8.5km spare cable)- Equipment (On-Shore Korea)',
+                    feeAmount: 1210.06
+                },
+                {
+                    billMilestone: 'BM9b',
+                    feeType: '收費種類2',
+                    feeItem: 'BM9b Sea cable manufactured (8.5km spare cable)- Service (Off-Shore Korea)',
+                    feeAmount: 7406.95
+                }
             ]
         },
         {
             InvoiceWKMaster: {
-                invoiceNo: '9M88',
-                supplyID: '供應商2號',
-                submarineCable: '海纜二號',
-                contractType: '合約種類3號',
-                issueDate: '2022/12/30',
-                totalAmount: 8888,
-                Status: 'TEMP'
+                invoiceNo: 'DT0170168-1',
+                supplyID: 'NEC',
+                submarineCable: 'SJC2',
+                workTitle: 'Construction',
+                contractType: 'SC',
+                issueDate: '2022/9/9',
+                totalAmount: 5582012.72,
+                Status: 'TEMP',
+                isPro: true,
+                isLiability: false,
+                isRecharge: false
             },
             InvoiceWKDetail: [
-                { billMilestone: '第一段', feeType: '收費種類1', feeItem: '收費項目2', feeAmount: 12313123 },
-                { billMilestone: '第二段', feeType: '收費種類2', feeItem: '收費項目3', feeAmount: 1231223 },
-                { billMilestone: '第三段', feeType: '收費種類3', feeItem: '收費項目3', feeAmount: 12312 }
+                {
+                    billMilestone: 'BM9a',
+                    feeType: '收費種類1',
+                    feeItem: 'BM9a Sea cable manufactured (except 8.5km spare cable))- Equipment',
+                    feeAmount: 1288822.32
+                },
+                {
+                    billMilestone: 'BM9a',
+                    feeType: '收費種類2',
+                    feeItem: 'BM9a Sea cable manufactured (except 8.5km spare cable))- Service',
+                    feeAmount: 1178227.94
+                },
+                { billMilestone: 'BM12', feeType: '收費種類3', feeItem: 'BM12 Branching Units (100%)-Equipment', feeAmount: 1627300.92 }
             ]
         }
     ];
@@ -102,10 +136,23 @@ const InvoiceWorkManage = () => {
 
     useEffect(() => {
         if (action === 'Edit' || action === 'View') {
-            console.log('=>>', modifyItem);
-            // setSupplyID(fakeData[modifyItem]);
+            console.log('modifyItem=>>', fakeData[modifyItem]);
+            setSupplyID(fakeData[modifyItem].InvoiceWKMaster.supplyID);
+            setInvoiceNo(fakeData[modifyItem].InvoiceWKMaster.invoiceNo);
+            setSubmarineCable(fakeData[modifyItem].InvoiceWKMaster.submarineCable);
+            setWorTitle(fakeData[modifyItem].InvoiceWKMaster.workTitle);
+            setContractType(fakeData[modifyItem].InvoiceWKMaster.contractType);
+            setIssueDate(fakeData[modifyItem].InvoiceWKMaster.issueDate);
+            setInvoiceDueDate(fakeData[modifyItem].InvoiceWKMaster.invoiceDueDate);
+            setTotalAmount(fakeData[modifyItem].InvoiceWKMaster.totalAmount);
+            setIsPro(fakeData[modifyItem].InvoiceWKMaster.isPro);
+            setIsLiability(fakeData[modifyItem].InvoiceWKMaster.isLiability);
+            setIsRecharge(fakeData[modifyItem].InvoiceWKMaster.isLiability);
+            setPartyID(fakeData[modifyItem].InvoiceWKMaster.partyID);
+            setInvoiceDetailInfo(fakeData[modifyItem].InvoiceWKDetail);
+            // setEditItem(editItem);
         }
-    }, [action]);
+    }, [action, modifyItem]);
 
     const fakeUrl = 'http://localhost:8000/api/v1/generateInvoiceWKMaster&InvoiceWKDetail&InvoiceMaster&InvoiceDetail';
 
@@ -190,14 +237,13 @@ const InvoiceWorkManage = () => {
                                                 <Select
                                                     // labelId="demo-simple-select-label"
                                                     // id="demo-simple-select"
-                                                    // value={supplyID}
+                                                    value={supplyID}
                                                     disabled={action === 'View'}
                                                     label="發票供應商"
                                                     onChange={(e) => setSupplyID(e.target.value)}
                                                 >
-                                                    <MenuItem value={'供應商1號'}>供應商1號</MenuItem>
-                                                    <MenuItem value={'供應商2號'}>供應商2號</MenuItem>
-                                                    <MenuItem value={'供應商3號'}>供應商3號</MenuItem>
+                                                    <MenuItem value={'NEC'}>NEC</MenuItem>
+                                                    <MenuItem value={'CIENA'}>CIENA</MenuItem>
                                                 </Select>
                                             </FormControl>
                                         </Grid>
@@ -226,7 +272,7 @@ const InvoiceWorkManage = () => {
                                                 variant="h5"
                                                 sx={{ fontSize: { lg: '0.5rem', xl: '0.88rem' }, ml: { lg: '0.5rem', xl: '1.5rem' } }}
                                             >
-                                                海纜名稱：
+                                                海纜代號：
                                             </Typography>
                                         </Grid>
                                         <Grid item xs={12} sm={6} md={4} lg={4}>
@@ -237,14 +283,13 @@ const InvoiceWorkManage = () => {
                                                 <Select
                                                     // labelId="demo-simple-select-label"
                                                     // id="demo-simple-select"
-                                                    // value={submarineCable}
+                                                    value={submarineCable}
                                                     label="發票供應商"
                                                     disabled={action === 'View'}
                                                     onChange={(e) => setSubmarineCable(e.target.value)}
                                                 >
-                                                    <MenuItem value={'海纜1號'}>海纜1號</MenuItem>
-                                                    <MenuItem value={'海纜2號'}>海纜2號</MenuItem>
-                                                    <MenuItem value={'海纜3號'}>海纜3號</MenuItem>
+                                                    <MenuItem value={'SJC2'}>SJC2</MenuItem>
+                                                    <MenuItem value={'NCP'}>NCP</MenuItem>
                                                 </Select>
                                             </FormControl>
                                         </Grid>
@@ -284,14 +329,13 @@ const InvoiceWorkManage = () => {
                                                 <Select
                                                     // labelId="demo-simple-select-label"
                                                     // id="demo-simple-select"
-                                                    // value={contractType}
+                                                    value={contractType}
                                                     label="發票供應商"
                                                     disabled={action === 'View'}
                                                     onChange={(e) => setContractType(e.target.value)}
                                                 >
-                                                    <MenuItem value={'合約種類1'}>合約種類1</MenuItem>
-                                                    <MenuItem value={'合約種類2'}>合約種類2</MenuItem>
-                                                    <MenuItem value={'合約種類3'}>合約種類3</MenuItem>
+                                                    <MenuItem value={'SC'}>SC</MenuItem>
+                                                    <MenuItem value={'NSC'}>NSC</MenuItem>
                                                 </Select>
                                             </FormControl>
                                         </Grid>
@@ -376,7 +420,7 @@ const InvoiceWorkManage = () => {
                                             <FormControl>
                                                 <RadioGroup
                                                     row
-                                                    // value={isPro}
+                                                    value={isPro}
                                                     aria-labelledby="demo-radio-buttons-group-label"
                                                     // defaultValue="female"
                                                     name="radio-buttons-group"
@@ -385,29 +429,13 @@ const InvoiceWorkManage = () => {
                                                     <FormControlLabel
                                                         value={true}
                                                         disabled={action === 'View'}
-                                                        control={
-                                                            <Radio
-                                                                sx={{
-                                                                    '& .MuiSvgIcon-root': {
-                                                                        fontSize: { lg: 14, xl: 20 }
-                                                                    }
-                                                                }}
-                                                            />
-                                                        }
+                                                        control={<Radio sx={{ '& .MuiSvgIcon-root': { fontSize: { lg: 14, xl: 20 } } }} />}
                                                         label="Y"
                                                     />
                                                     <FormControlLabel
                                                         value={false}
                                                         disabled={action === 'View'}
-                                                        control={
-                                                            <Radio
-                                                                sx={{
-                                                                    '& .MuiSvgIcon-root': {
-                                                                        fontSize: { lg: 14, xl: 20 }
-                                                                    }
-                                                                }}
-                                                            />
-                                                        }
+                                                        control={<Radio sx={{ '& .MuiSvgIcon-root': { fontSize: { lg: 14, xl: 20 } } }} />}
                                                         label="N"
                                                     />
                                                 </RadioGroup>
@@ -425,7 +453,7 @@ const InvoiceWorkManage = () => {
                                             <FormControl>
                                                 <RadioGroup
                                                     row
-                                                    // value={isLiability}
+                                                    value={isLiability}
                                                     aria-labelledby="demo-radio-buttons-group-label"
                                                     // defaultValue="female"
                                                     name="radio-buttons-group"
@@ -434,29 +462,13 @@ const InvoiceWorkManage = () => {
                                                     <FormControlLabel
                                                         value={true}
                                                         disabled={action === 'View'}
-                                                        control={
-                                                            <Radio
-                                                                sx={{
-                                                                    '& .MuiSvgIcon-root': {
-                                                                        fontSize: { lg: 14, xl: 20 }
-                                                                    }
-                                                                }}
-                                                            />
-                                                        }
+                                                        control={<Radio sx={{ '& .MuiSvgIcon-root': { fontSize: { lg: 14, xl: 20 } } }} />}
                                                         label="Y"
                                                     />
                                                     <FormControlLabel
                                                         value={false}
                                                         disabled={action === 'View'}
-                                                        control={
-                                                            <Radio
-                                                                sx={{
-                                                                    '& .MuiSvgIcon-root': {
-                                                                        fontSize: { lg: 14, xl: 20 }
-                                                                    }
-                                                                }}
-                                                            />
-                                                        }
+                                                        control={<Radio sx={{ '& .MuiSvgIcon-root': { fontSize: { lg: 14, xl: 20 } } }} />}
                                                         label="N"
                                                     />
                                                 </RadioGroup>
@@ -475,7 +487,7 @@ const InvoiceWorkManage = () => {
                                             <FormControl>
                                                 <RadioGroup
                                                     row
-                                                    // value={isRecharge}
+                                                    value={isRecharge}
                                                     aria-labelledby="demo-radio-buttons-group-label"
                                                     defaultValue="female"
                                                     name="radio-buttons-group"
@@ -484,29 +496,13 @@ const InvoiceWorkManage = () => {
                                                     <FormControlLabel
                                                         value={true}
                                                         disabled={action === 'View'}
-                                                        control={
-                                                            <Radio
-                                                                sx={{
-                                                                    '& .MuiSvgIcon-root': {
-                                                                        fontSize: { lg: 14, xl: 20 }
-                                                                    }
-                                                                }}
-                                                            />
-                                                        }
+                                                        control={<Radio sx={{ '& .MuiSvgIcon-root': { fontSize: { lg: 14, xl: 20 } } }} />}
                                                         label="Y"
                                                     />
                                                     <FormControlLabel
                                                         value={false}
                                                         disabled={action === 'View'}
-                                                        control={
-                                                            <Radio
-                                                                sx={{
-                                                                    '& .MuiSvgIcon-root': {
-                                                                        fontSize: { lg: 14, xl: 20 }
-                                                                    }
-                                                                }}
-                                                            />
-                                                        }
+                                                        control={<Radio sx={{ '& .MuiSvgIcon-root': { fontSize: { lg: 14, xl: 20 } } }} />}
                                                         label="N"
                                                     />
                                                 </RadioGroup>
@@ -538,7 +534,11 @@ const InvoiceWorkManage = () => {
                             </Grid>
                             {/* 右 */}
                             <Grid item xs={6}>
-                                <CreateInvoiceDetail setInvoiceDetailInfo={setInvoiceDetailInfo} action={action} />
+                                <CreateInvoiceDetail
+                                    setInvoiceDetailInfo={setInvoiceDetailInfo}
+                                    invoiceDetailInfo={invoiceDetailInfo}
+                                    action={action}
+                                />
                             </Grid>
                             {action === 'Edit' ? (
                                 <Grid item xs={12} display="flex" justifyContent="center" alignItems="center">

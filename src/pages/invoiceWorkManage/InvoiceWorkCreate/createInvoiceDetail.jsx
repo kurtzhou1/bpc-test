@@ -19,7 +19,6 @@ import Paper from '@mui/material/Paper';
 import { styled } from '@mui/material/styles';
 
 const CreateInvoiceDetail = ({ invoiceDetailInfo, setInvoiceDetailInfo }) => {
-    console.log('invoiceDetailInfo=>>', invoiceDetailInfo);
     const [billMilestone, setBillMilestone] = useState(''); //記帳段號
     const [feeType, setFeeType] = useState(''); //收費種類
     const [feeItem, setFeeItem] = useState(''); //費用項目
