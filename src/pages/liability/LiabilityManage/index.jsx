@@ -20,6 +20,11 @@ const LiabilityManage = () => {
     const [isDialogOpen, setIsDialogOpen] = useState(false);
     const [dialogAction, setDialogAction] = useState('');
 
+    const [billMilestone, setBillMilestone] = useState(''); //記帳段號
+    const [partyName, setPartyName] = useState(''); //會員名稱
+    const [lbRatio, setLBRatio] = useState(NaN); //攤分比例
+    const [modifyNote, setModifyNote] = useState('');
+
     const liabilityQuery = () => {
         console.log('liabilityQueryFunction');
     };
@@ -31,6 +36,19 @@ const LiabilityManage = () => {
 
     const handleDialogClose = () => {
         setIsDialogOpen(false);
+    };
+
+    const addLiability = () => {
+        let tmpArray = listInfo;
+        tmpArray.push({
+            billMilestone: billMilestone,
+            partyName: partyName,
+            lbRatio: lbRatio,
+            createTime: new Date(),
+            modifyNote: ''
+        });
+        setListInfo([...tmpArray]);
+        handleDialogClose();
     };
 
     const BootstrapDialogTitle = (props) => {
@@ -68,7 +86,7 @@ const LiabilityManage = () => {
                         新增Liability
                     </BootstrapDialogTitle>
                     <DialogContent dividers>
-                        <Grid container spacing={1}>
+                        <Grid container spacing={1} display="flex" justifyContent="center" alignItems="center">
                             <Grid item xs={2} sm={2} md={2} lg={2} xl={2}>
                                 <Typography
                                     variant="h5"
@@ -83,9 +101,9 @@ const LiabilityManage = () => {
                                     <Select
                                         // labelId="demo-simple-select-label"
                                         // id="demo-simple-select"
-                                        // value={supplyID}
+                                        value={billMilestone}
                                         label="記帳段號"
-                                        onChange={(e) => setSupplyID(e.target.value)}
+                                        onChange={(e) => setBillMilestone(e.target.value)}
                                     >
                                         <MenuItem value={'記帳段號1號'}>記帳段號1號</MenuItem>
                                         <MenuItem value={'記帳段號2號'}>記帳段號2號</MenuItem>
@@ -107,13 +125,13 @@ const LiabilityManage = () => {
                                     <Select
                                         // labelId="demo-simple-select-label"
                                         // id="demo-simple-select"
-                                        // value={submarineCable}
+                                        value={partyName}
                                         label="發票供應商"
-                                        onChange={(e) => setSubmarineCable(e.target.value)}
+                                        onChange={(e) => setPartyName(e.target.value)}
                                     >
-                                        <MenuItem value={'發票供應商1號'}>發票供應商1號</MenuItem>
-                                        <MenuItem value={'發票供應商2號'}>發票供應商2號</MenuItem>
-                                        <MenuItem value={'發票供應商3號'}>發票供應商3號</MenuItem>
+                                        <MenuItem value={'Taiwan'}>Taiwan</MenuItem>
+                                        <MenuItem value={'Vietnam'}>Vietnam</MenuItem>
+                                        <MenuItem value={'Korean'}>Korean</MenuItem>
                                     </Select>
                                 </FormControl>
                             </Grid>
@@ -131,44 +149,46 @@ const LiabilityManage = () => {
                                     <Select
                                         // labelId="demo-simple-select-label"
                                         // id="demo-simple-select"
-                                        // value={submarineCable}
+                                        value={lbRatio}
                                         label="發票供應商"
-                                        onChange={(e) => setSubmarineCable(e.target.value)}
+                                        onChange={(e) => setLBRatio(e.target.value)}
                                     >
-                                        <MenuItem value={'5%'}>5%</MenuItem>
-                                        <MenuItem value={'10%'}>10%</MenuItem>
-                                        <MenuItem value={'15%'}>15%</MenuItem>
+                                        <MenuItem value={5}>5%</MenuItem>
+                                        <MenuItem value={10}>10%</MenuItem>
+                                        <MenuItem value={15}>15%</MenuItem>
                                     </Select>
                                 </FormControl>
                             </Grid>
-                            {dialogAction === 'Edit' ? (
-                                <>
-                                    <Grid item xs={2} sm={2} md={2} lg={2} xl={2}>
-                                        <Typography
-                                            variant="h5"
-                                            sx={{ fontSize: { lg: '0.5rem', xl: '0.88rem' }, ml: { lg: '0.5rem', xl: '1.5rem' } }}
-                                        >
-                                            異動原因：
-                                        </Typography>
-                                    </Grid>
-                                    <Grid item xs={4} sm={4} md={4} lg={4} xl={4}>
-                                        <TextField
-                                            fullWidth
-                                            variant="outlined"
-                                            // value={}
-                                            size="small"
-                                            label="填寫異動原因"
-                                            onChange={(e) => setInvoiceNo(e.target.value)}
-                                        />
-                                    </Grid>
-                                </>
-                            ) : (
-                                ''
-                            )}
+                            <Grid item xs={2} sm={2} md={2} lg={2} xl={2}>
+                                {dialogAction === 'Edit' ? (
+                                    <Typography
+                                        variant="h5"
+                                        sx={{ fontSize: { lg: '0.5rem', xl: '0.88rem' }, ml: { lg: '0.5rem', xl: '1.5rem' } }}
+                                    >
+                                        異動原因：
+                                    </Typography>
+                                ) : (
+                                    ''
+                                )}
+                            </Grid>
+                            <Grid item xs={4} sm={4} md={4} lg={4} xl={4}>
+                                {dialogAction === 'Edit' ? (
+                                    <TextField
+                                        fullWidth
+                                        variant="outlined"
+                                        // value={}
+                                        size="small"
+                                        label="填寫異動原因"
+                                        onChange={(e) => setInvoiceNo(e.target.value)}
+                                    />
+                                ) : (
+                                    ''
+                                )}
+                            </Grid>
                         </Grid>
                     </DialogContent>
                     <DialogActions>
-                        <Button sx={{ mr: '0.05rem' }} variant="contained" onClick={handleDialogClose}>
+                        <Button sx={{ mr: '0.05rem' }} variant="contained" onClick={addLiability}>
                             新增
                         </Button>
                         <Button sx={{ mr: '0.05rem' }} variant="contained" onClick={handleDialogClose}>

@@ -12,7 +12,10 @@ import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import { styled } from '@mui/material/styles';
 
+import dayjs, { Dayjs } from 'dayjs';
+
 const LiabilityDataList = ({ listInfo, setDialogAction, setIsDialogOpen }) => {
+    console.log('listInfo=>>', listInfo);
     const StyledTableCell = styled(TableCell)(({ theme }) => ({
         [`&.${tableCellClasses.head}`]: {
             // backgroundColor: theme.palette.common.gary,
@@ -42,42 +45,43 @@ const LiabilityDataList = ({ listInfo, setDialogAction, setIsDialogOpen }) => {
                     </TableRow>
                 </TableHead>
                 <TableBody>
-                    {/* {listInfo?.map((row, id) => {
-                        return ( */}
-                    <TableRow
-                        // key={row.InvoiceWKMaster?.invoiceNo + row.InvoiceWKMaster?.supplyID + id}
-                        sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-                    >
-                        <StyledTableCell align="center">1</StyledTableCell>
-                        <StyledTableCell align="center">BM 0-a</StyledTableCell>
-                        <StyledTableCell align="center">Taiwan</StyledTableCell>
-                        <StyledTableCell align="center">10%</StyledTableCell>
-                        <StyledTableCell align="center">測試</StyledTableCell>
-                        <StyledTableCell align="center">2022/12/31</StyledTableCell>
-                        <StyledTableCell align="center">
-                            <Button
-                                color="primary"
-                                onClick={() => {
-                                    setDialogAction('Edit');
-                                    setIsDialogOpen(true);
-                                }}
+                    {listInfo?.map((row, id) => {
+                        console.log('row=>', row);
+                        return (
+                            <TableRow
+                                // key={row.InvoiceWKMaster?.invoiceNo + row.InvoiceWKMaster?.supplyID + id}
+                                sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                             >
-                                編輯
-                            </Button>
-                            <Button
-                                color="success"
-                                onClick={() => {
-                                    setDialogAction('Split');
-                                    setIsDialogOpen(true);
-                                }}
-                            >
-                                分段
-                            </Button>
-                            <Button color="error">刪除</Button>
-                        </StyledTableCell>
-                    </TableRow>
-                    {/* ); */}
-                    {/* })} */}
+                                <StyledTableCell align="center">{id + 1}</StyledTableCell>
+                                <StyledTableCell align="center">{row.billMilestone}</StyledTableCell>
+                                <StyledTableCell align="center">{row.partyName}</StyledTableCell>
+                                <StyledTableCell align="center">{`${row.lbRatio}%`}</StyledTableCell>
+                                <StyledTableCell align="center">{row.modifyNote}</StyledTableCell>
+                                <StyledTableCell align="center"> {dayjs(row.createTime).format('YYYY/MM/DD')}</StyledTableCell>
+                                <StyledTableCell align="center">
+                                    <Button
+                                        color="primary"
+                                        onClick={() => {
+                                            setDialogAction('Edit');
+                                            setIsDialogOpen(true);
+                                        }}
+                                    >
+                                        編輯
+                                    </Button>
+                                    <Button
+                                        color="success"
+                                        onClick={() => {
+                                            setDialogAction('Split');
+                                            setIsDialogOpen(true);
+                                        }}
+                                    >
+                                        分段
+                                    </Button>
+                                    <Button color="error">刪除</Button>
+                                </StyledTableCell>
+                            </TableRow>
+                        );
+                    })}
                 </TableBody>
             </Table>
         </TableContainer>
