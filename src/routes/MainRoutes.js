@@ -15,8 +15,11 @@ const InvoiceWorkManageCreate = Loadable(lazy(() => import('pages/invoiceWorkMan
 const InvoiceWorkManageEdit = Loadable(lazy(() => import('pages/invoiceWorkManage/InvoiceWorkEdit')));
 // const CreateJournal = Loadable(lazy(() => import('pages/createJournal')));
 
-//Liability
+// Liability
 const LiabilityManage = Loadable(lazy(() => import('pages/liability/LiabilityManage')));
+
+// 立帳管理
+const CreateJournal = Loadable(lazy(() => import('pages/createJournal/CreateJournal')));
 
 // render - utilities
 const Typography = Loadable(lazy(() => import('pages/components-overview/Typography')));
@@ -82,6 +85,15 @@ const MainRoutes = {
                 {
                     path: 'LiabilityManage',
                     element: <LiabilityManage />
+                }
+            ]
+        },
+        {
+            path: 'CreateJournal',
+            children: [
+                {
+                    path: 'CreateJournal',
+                    element: <CreateJournal />
                 }
             ]
         }

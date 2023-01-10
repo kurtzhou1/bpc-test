@@ -13,13 +13,14 @@ import Dialog from '@mui/material/Dialog';
 import DialogTitle from '@mui/material/DialogTitle';
 import DialogContent from '@mui/material/DialogContent';
 import DialogActions from '@mui/material/DialogActions';
+import { useRef } from 'react';
 
 //icon
 import Autocomplete from '@mui/material/Autocomplete';
 // import CheckBoxOutlineBlankIcon from '@mui/icons-material/CheckBoxOutlineBlank';
 // import CheckBoxIcon from '@mui/icons-material/CheckBox';
 
-const LiabilityManage = () => {
+const CreateJournal = () => {
     const [listInfo, setListInfo] = useState([]);
     const [isDialogOpen, setIsDialogOpen] = useState(false);
     const [dialogAction, setDialogAction] = useState('');
@@ -132,9 +133,12 @@ const LiabilityManage = () => {
     return (
         <Grid container spacing={1}>
             <Grid item xs={12} display="flex" justifyContent="right">
+                <Button sx={{ mr: '0.25rem' }} variant="contained" onClick={handleDialogOpen}>
+                    + 新增Liability
+                </Button>
                 <Dialog onClose={handleDialogClose} maxWidth="sm" fullWidth open={isDialogOpen}>
                     <BootstrapDialogTitle id="customized-dialog-title" onClose={handleDialogClose}>
-                        發票查詢
+                        新增Liability
                     </BootstrapDialogTitle>
                     <DialogContent dividers>
                         <Grid container spacing={1} display="flex" justifyContent="center" alignItems="center">
@@ -287,4 +291,4 @@ const LiabilityManage = () => {
     );
 };
 
-export default LiabilityManage;
+export default CreateJournal;

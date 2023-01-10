@@ -26,13 +26,6 @@ const CreateInvoiceDetail = ({ invoiceDetailInfo, setInvoiceDetailInfo }) => {
     const [isEdit, setIsEdit] = useState(false);
     const editItem = useRef(0);
 
-    const itemDetailInitial = () => {
-        setBillMilestone('');
-        setFeeType('');
-        setFeeItem('');
-        setFeeAmount(0);
-    };
-
     const createData = (feeItem, billMilestone, feeAmount, feeType) => {
         return { feeItem, billMilestone, feeAmount, feeType };
     };
@@ -51,6 +44,14 @@ const CreateInvoiceDetail = ({ invoiceDetailInfo, setInvoiceDetailInfo }) => {
         }
     }));
 
+    const itemDetailInitial = () => {
+        setBillMilestone('');
+        setFeeType('');
+        setFeeItem('');
+        setFeeAmount(0);
+    };
+
+    // 新增
     const itemDetailAdd = () => {
         let tmpArray = invoiceDetailInfo;
         tmpArray.push(createData(feeItem, billMilestone, feeAmount, feeType));
@@ -59,12 +60,14 @@ const CreateInvoiceDetail = ({ invoiceDetailInfo, setInvoiceDetailInfo }) => {
         itemDetailInitial();
     };
 
+    //刪除
     const itemDetailDelete = (id) => {
         let tmpArray = invoiceDetailInfo;
         tmpArray.splice(id, 1);
         setInvoiceDetailInfo([...tmpArray]);
     };
 
+    //編輯
     const itemDetailEdit = (id) => {
         setIsEdit(true);
         editItem.current = id;
@@ -75,6 +78,7 @@ const CreateInvoiceDetail = ({ invoiceDetailInfo, setInvoiceDetailInfo }) => {
         setFeeAmount(tmpArray.feeAmount);
     };
 
+    //儲存編輯
     const itemDetailSave = () => {
         setIsEdit(false);
         itemDetailDelete(editItem.current);
@@ -82,12 +86,11 @@ const CreateInvoiceDetail = ({ invoiceDetailInfo, setInvoiceDetailInfo }) => {
         editItem.current = 0;
     };
 
+    //取消編輯
     const itemDetailCancel = () => {
         itemDetailInitial();
         setIsEdit(false);
     };
-
-    useEffect(() => {}, [invoiceDetailInfo]);
 
     useEffect(() => {
         itemDetailInitial();

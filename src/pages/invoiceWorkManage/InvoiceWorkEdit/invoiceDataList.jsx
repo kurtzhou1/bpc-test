@@ -16,7 +16,7 @@ import { styled } from '@mui/material/styles';
 //<InfoCircleOutlined />
 import { InfoCircleOutlined } from '@ant-design/icons';
 
-const InvoiceDataList = ({ listInfo, setAction, setModifyItem }) => {
+const InvoiceDataList = ({ listInfo, setAction, setModifyItem, isValidated }) => {
     const StyledTableCell = styled(TableCell)(({ theme }) => ({
         [`&.${tableCellClasses.head}`]: {
             // backgroundColor: theme.palette.common.gary,
@@ -40,7 +40,8 @@ const InvoiceDataList = ({ listInfo, setAction, setModifyItem }) => {
         setAnchorEl(null);
     };
     const ITEM_HEIGHT = 48;
-    const options = ['View', 'Validated', 'Edit', 'Delete'];
+    const options1 = ['View', 'Validated', 'Edit', 'Delete'];
+    const options2 = ['View', '作廢'];
 
     return (
         <TableContainer component={Paper} sx={{ maxHeight: 250 }}>
@@ -93,39 +94,73 @@ const InvoiceDataList = ({ listInfo, setAction, setModifyItem }) => {
                                     >
                                         <MoreVertIcon />
                                     </IconButton>
-                                    <Menu
-                                        id="long-menu"
-                                        MenuListProps={{
-                                            'aria-labelledby': 'long-button'
-                                        }}
-                                        anchorEl={anchorEl}
-                                        open={open}
-                                        onClose={handleClose}
-                                        PaperProps={{
-                                            style: {
-                                                maxHeight: ITEM_HEIGHT * 4.5,
-                                                width: '20ch'
-                                            }
-                                        }}
-                                    >
-                                        {options.map((option) => {
-                                            return (
-                                                <MenuItem key={option} selected={option === 'Pyxis'} onClick={handleClose}>
-                                                    <ListItemIcon>
-                                                        <InfoCircleOutlined fontSize="small" />
-                                                    </ListItemIcon>
-                                                    <ListItemText
-                                                        onClick={() => {
-                                                            setAction(option);
-                                                            // setModifyItem(row.InvoiceWKMaster?.invoiceNo);
-                                                        }}
-                                                    >
-                                                        {option}
-                                                    </ListItemText>
-                                                </MenuItem>
-                                            );
-                                        })}
-                                    </Menu>
+                                    {row.InvoiceWKMaster.Status === 'Validated' || isValidated ? (
+                                        <Menu
+                                            id="long-menu"
+                                            MenuListProps={{
+                                                'aria-labelledby': 'long-button'
+                                            }}
+                                            anchorEl={anchorEl}
+                                            open={open}
+                                            onClose={handleClose}
+                                            PaperProps={{
+                                                style: {
+                                                    maxHeight: ITEM_HEIGHT * 4.5,
+                                                    width: '20ch'
+                                                }
+                                            }}
+                                        >
+                                            {options2.map((option) => {
+                                                return (
+                                                    <MenuItem key={option} selected={option === 'Pyxis'} onClick={handleClose}>
+                                                        <ListItemIcon>
+                                                            <InfoCircleOutlined fontSize="small" />
+                                                        </ListItemIcon>
+                                                        <ListItemText
+                                                            onClick={() => {
+                                                                setAction(option);
+                                                            }}
+                                                        >
+                                                            {option}
+                                                        </ListItemText>
+                                                    </MenuItem>
+                                                );
+                                            })}
+                                        </Menu>
+                                    ) : (
+                                        <Menu
+                                            id="long-menu"
+                                            MenuListProps={{
+                                                'aria-labelledby': 'long-button'
+                                            }}
+                                            anchorEl={anchorEl}
+                                            open={open}
+                                            onClose={handleClose}
+                                            PaperProps={{
+                                                style: {
+                                                    maxHeight: ITEM_HEIGHT * 4.5,
+                                                    width: '20ch'
+                                                }
+                                            }}
+                                        >
+                                            {options1.map((option) => {
+                                                return (
+                                                    <MenuItem key={option} selected={option === 'Pyxis'} onClick={handleClose}>
+                                                        <ListItemIcon>
+                                                            <InfoCircleOutlined fontSize="small" />
+                                                        </ListItemIcon>
+                                                        <ListItemText
+                                                            onClick={() => {
+                                                                setAction(option);
+                                                            }}
+                                                        >
+                                                            {option}
+                                                        </ListItemText>
+                                                    </MenuItem>
+                                                );
+                                            })}
+                                        </Menu>
+                                    )}
                                     {/* <Button color="primary">編輯</Button>
                                     <Button color="error">刪除</Button> */}
                                 </TableCell>

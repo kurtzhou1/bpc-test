@@ -17,25 +17,17 @@ const createJournal = {
     children: [
         {
             id: 'item2',
-            title: '立帳管理',
+            title: '立帳',
             type: 'collapse',
-            url: '/CreateJournal',
+            url: '/CreateJournal/Journal',
             icon: icons.AuditOutlined,
             breadcrumbs: true,
             children: [
                 {
                     id: 'item21',
-                    title: '有Liability',
+                    title: '立帳管理',
                     type: 'item',
-                    url: '/CreateJournal',
-                    icon: icons.TagOutlined,
-                    breadcrumbs: true
-                },
-                {
-                    id: 'item22',
-                    title: '無Liability',
-                    type: 'item',
-                    url: '/CreateJournal',
+                    url: '/CreateJournal/CreateJournal',
                     icon: icons.TagOutlined,
                     breadcrumbs: true
                 }

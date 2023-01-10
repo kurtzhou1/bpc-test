@@ -11,6 +11,7 @@ import dayjs, { Dayjs } from 'dayjs';
 // project import
 import MainCard from 'components/MainCard';
 import InvoiceQuery from './invoiceQuery';
+import CreateInvoiceMain from './createInvoiceMain';
 import CreateInvoiceDetail from './createInvoiceDetail';
 import InvoiceDataList from './invoiceDataList';
 import { TextField } from '@mui/material/index';
@@ -32,9 +33,9 @@ const InvoiceWorkManage = () => {
     const [isRecharge, setIsRecharge] = useState(false); //是否為短腳補收
     const [partyID, setPartyID] = useState(''); //會員代號
 
-    const [listInfo, setListInfo] = useState([]);
     const [action, setAction] = useState('');
     const [modifyItem, setModifyItem] = useState(NaN);
+    const [isValidated, setIsValidated] = useState(false);
 
     const fakeData = [
         {
@@ -104,6 +105,8 @@ const InvoiceWorkManage = () => {
         }
     ];
 
+    const [listInfo, setListInfo] = useState(fakeData);
+
     const createData = (
         supplyID,
         invoiceNo,
@@ -136,22 +139,32 @@ const InvoiceWorkManage = () => {
 
     useEffect(() => {
         if (action === 'Edit' || action === 'View') {
-            console.log('modifyItem=>>', fakeData[modifyItem]);
-            setSupplyID(fakeData[modifyItem].InvoiceWKMaster.supplyID);
-            setInvoiceNo(fakeData[modifyItem].InvoiceWKMaster.invoiceNo);
-            setSubmarineCable(fakeData[modifyItem].InvoiceWKMaster.submarineCable);
-            setWorTitle(fakeData[modifyItem].InvoiceWKMaster.workTitle);
-            setContractType(fakeData[modifyItem].InvoiceWKMaster.contractType);
-            setIssueDate(fakeData[modifyItem].InvoiceWKMaster.issueDate);
-            setInvoiceDueDate(fakeData[modifyItem].InvoiceWKMaster.invoiceDueDate);
-            setTotalAmount(fakeData[modifyItem].InvoiceWKMaster.totalAmount);
-            setIsPro(fakeData[modifyItem].InvoiceWKMaster.isPro);
-            setIsLiability(fakeData[modifyItem].InvoiceWKMaster.isLiability);
-            setIsRecharge(fakeData[modifyItem].InvoiceWKMaster.isLiability);
-            setPartyID(fakeData[modifyItem].InvoiceWKMaster.partyID);
-            setInvoiceDetailInfo(fakeData[modifyItem].InvoiceWKDetail);
+            console.log('modifyItem=>>', listInfo[modifyItem]);
+            setSupplyID(listInfo[modifyItem].InvoiceWKMaster.supplyID);
+            setInvoiceNo(listInfo[modifyItem].InvoiceWKMaster.invoiceNo);
+            setSubmarineCable(listInfo[modifyItem].InvoiceWKMaster.submarineCable);
+            setWorTitle(listInfo[modifyItem].InvoiceWKMaster.workTitle);
+            setContractType(listInfo[modifyItem].InvoiceWKMaster.contractType);
+            setIssueDate(listInfo[modifyItem].InvoiceWKMaster.issueDate);
+            setInvoiceDueDate(listInfo[modifyItem].InvoiceWKMaster.invoiceDueDate);
+            setTotalAmount(listInfo[modifyItem].InvoiceWKMaster.totalAmount);
+            setIsPro(listInfo[modifyItem].InvoiceWKMaster.isPro);
+            setIsLiability(listInfo[modifyItem].InvoiceWKMaster.isLiability);
+            setIsRecharge(listInfo[modifyItem].InvoiceWKMaster.isLiability);
+            setPartyID(listInfo[modifyItem].InvoiceWKMaster.partyID);
+            setInvoiceDetailInfo(listInfo[modifyItem].InvoiceWKDetail);
             // setEditItem(editItem);
         }
+        if (action === 'Validated') {
+            setIsValidated(true);
+        }
+        if (action === '作廢') {
+            console.log('作廢');
+        }
+        if (action === 'Delete') {
+            deletelistInfoItem(modifyItem);
+        }
+        setAction('');
     }, [action, modifyItem]);
 
     const fakeUrl = 'http://localhost:8000/api/v1/generateInvoiceWKMaster&InvoiceWKDetail&InvoiceMaster&InvoiceDetail';
@@ -178,12 +191,13 @@ const InvoiceWorkManage = () => {
         };
         tmpList.push(combineArray);
         setListInfo([...tmpList]);
-        // fetch(fakeUrl, { method: 'POST', body: JSON.stringify(combineArray) })
-        //     .then((res) => res.json())
-        //     .then((data) => {
-        //         console.log('data=>>', data);
-        //     })
-        //     .catch((e) => console.log('e=>>', e));
+    };
+
+    const deletelistInfoItem = (deleteItem) => {
+        console.log('deleteItem=>>', deleteItem);
+        let tmpArray = listInfo;
+        tmpArray.splice(deleteItem, 1);
+        setListInfo([...tmpArray]);
     };
 
     const invoiceQuery = () => {
@@ -206,7 +220,12 @@ const InvoiceWorkManage = () => {
                     <Grid container display="flex" spacing={2}>
                         <Grid item xs={12}>
                             <MainCard>
-                                <InvoiceDataList listInfo={fakeData} setAction={setAction} setModifyItem={setModifyItem} />
+                                <InvoiceDataList
+                                    listInfo={listInfo}
+                                    setAction={setAction}
+                                    setModifyItem={setModifyItem}
+                                    isValidated={isValidated}
+                                />
                             </MainCard>
                         </Grid>
                     </Grid>
