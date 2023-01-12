@@ -90,7 +90,7 @@ const InvoiceWorkManage = () => {
     //新增發票
     const addInvoiceInfo = () => {
         let tmpList = listInfo;
-        console.log('totalAmount=>>', totalAmount, typeof totalAmount);
+        console.log('SupplierName =>>', supplierName, typeof supplierName);
         let tmpArray = createData(
             invoiceNo.trim() === '' ? 'No.' + dayjs(new Date()).format('YYYYMMDDHHmmss') : invoiceNo,
             supplierName,

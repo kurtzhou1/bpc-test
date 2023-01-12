@@ -17,8 +17,8 @@ import { TextField } from '@mui/material/index';
 // ==============================|| SAMPLE PAGE ||============================== //
 
 const InvoiceWorkManage = ({
-    supplyName,
-    setSupplyName,
+    supplierName,
+    setSupplierName,
     invoiceNo,
     setInvoiceNo,
     submarineCable,
@@ -58,9 +58,9 @@ const InvoiceWorkManage = ({
                         <Select
                             // labelId="demo-simple-select-label"
                             // id="demo-simple-select"
-                            value={supplyName}
+                            value={supplierName}
                             label="發票供應商"
-                            onChange={(e) => setSupplyName(e.target.value)}
+                            onChange={(e) => setSupplierName(e.target.value)}
                         >
                             <MenuItem value={'NEC'}>NEC</MenuItem>
                             <MenuItem value={'CIENA'}>CIENA</MenuItem>
