@@ -12,6 +12,7 @@ import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import { styled } from '@mui/material/styles';
 import { EditLocationAltSharp } from '../../../../node_modules/@mui/icons-material/index';
+import dayjs from 'dayjs';
 
 const InvoiceDataList = ({ listInfo, setEditItem, deletelistInfoItem }) => {
     const StyledTableCell = styled(TableCell)(({ theme }) => ({
@@ -58,7 +59,9 @@ const InvoiceDataList = ({ listInfo, setEditItem, deletelistInfoItem }) => {
                                 <StyledTableCell align="center">{row.InvoiceWKMaster?.SupplierName}</StyledTableCell>
                                 <StyledTableCell align="center">{row.InvoiceWKMaster?.SubmarineCable}</StyledTableCell>
                                 <StyledTableCell align="center">{row.InvoiceWKMaster?.ContractType}</StyledTableCell>
-                                <StyledTableCell align="center">{row.InvoiceWKMaster?.IssueDate}</StyledTableCell>
+                                <StyledTableCell align="center">
+                                    {dayjs(row.InvoiceWKMaster?.IssueDate).format('YYYY/MM/DD')}
+                                </StyledTableCell>
                                 <StyledTableCell align="center">{row.InvoiceWKDetail.length}</StyledTableCell>
                                 <StyledTableCell align="center">{row.InvoiceWKMaster.TotalAmount}</StyledTableCell>
                                 <StyledTableCell align="center">

@@ -46,9 +46,9 @@ const InvoiceWorkManage = () => {
         setIssueDate(new Date());
         setDueDate(new Date());
         setTotalAmount(0);
-        setIsPro(false);
-        setIsLiability(false);
-        setIsRecharge(false);
+        setIsPro();
+        setIsLiability();
+        setIsRecharge();
         setPartyName('');
         setInvoiceDetailInfo([]);
     };
@@ -66,7 +66,8 @@ const InvoiceWorkManage = () => {
         IsPro,
         IsRecharge,
         IsLiability,
-        TotalAmount
+        TotalAmount,
+        CreateDate
     ) => {
         return {
             InvoiceNo,
@@ -81,13 +82,13 @@ const InvoiceWorkManage = () => {
             IsPro,
             IsRecharge,
             IsLiability,
-            TotalAmount
+            TotalAmount,
+            CreateDate
         };
     };
 
     //新增發票
     const addInvoiceInfo = () => {
-        console.log('totalAmount=>>', totalAmount);
         let tmpList = listInfo;
         let tmpArray = createData(
             invoiceNo.trim() === '' ? 'No.' + dayjs(new Date()).format('YYYYMMDDHHmmss') : invoiceNo,
@@ -95,14 +96,17 @@ const InvoiceWorkManage = () => {
             submarineCable,
             workTitle,
             contractType,
-            dayjs(issueDate).format('YYYY/MM/DD'),
-            dayjs(dueDate).format('YYYY/MM/DD'),
+            dayjs(issueDate).format('YYYY-MM-DD hh:mm:ss'),
+            // issueDate,
+            dayjs(dueDate).format('YYYY-MM-DD hh:mm:ss'),
+            // dueDate,
             partyName,
             'TEMPPORARY',
             isPro,
             isRecharge,
             isLiability,
-            totalAmount
+            totalAmount,
+            dayjs(new Date()).format('YYYY-MM-DD hh:mm:ss')
         );
         let combineArray = {
             InvoiceWKMaster: tmpArray,
