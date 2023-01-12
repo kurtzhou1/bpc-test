@@ -48,14 +48,14 @@ const InvoiceDataList = ({ listInfo, setEditItem, deletelistInfoItem }) => {
                     {listInfo?.map((row, id) => {
                         return (
                             <TableRow
-                                key={row.InvoiceWKMaster?.InvoiceNo + row.InvoiceWKMaster?.SupplyName + id}
+                                key={row.InvoiceWKMaster?.InvoiceNo + row.InvoiceWKMaster?.SupplierName + id}
                                 sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                             >
                                 <StyledTableCell component="th" scope="row" align="center">
-                                    {row.InvoiceWKMaster.InvoiceNo + row.InvoiceWKMaster?.SupplyName + id}
+                                    {row.InvoiceWKMaster.InvoiceNo + row.InvoiceWKMaster?.SupplierName + id}
                                 </StyledTableCell>
                                 <StyledTableCell align="center">{row.InvoiceWKMaster?.InvoiceNo}</StyledTableCell>
-                                <StyledTableCell align="center">{row.InvoiceWKMaster?.SupplyName}</StyledTableCell>
+                                <StyledTableCell align="center">{row.InvoiceWKMaster?.SupplierName}</StyledTableCell>
                                 <StyledTableCell align="center">{row.InvoiceWKMaster?.SubmarineCable}</StyledTableCell>
                                 <StyledTableCell align="center">{row.InvoiceWKMaster?.ContractType}</StyledTableCell>
                                 <StyledTableCell align="center">{row.InvoiceWKMaster?.IssueDate}</StyledTableCell>

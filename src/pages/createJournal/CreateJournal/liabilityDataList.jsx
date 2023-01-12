@@ -49,7 +49,7 @@ const LiabilityDataList = ({ listInfo, setDialogAction, setIsDialogOpen, setEdit
                         console.log('row=>', row);
                         return (
                             <TableRow
-                                // key={row.InvoiceWKMaster?.invoiceNo + row.InvoiceWKMaster?.supplyName + id}
+                                // key={row.InvoiceWKMaster?.invoiceNo + row.InvoiceWKMaster?.supplierName + id}
                                 sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                             >
                                 <StyledTableCell align="center">{id + 1}</StyledTableCell>

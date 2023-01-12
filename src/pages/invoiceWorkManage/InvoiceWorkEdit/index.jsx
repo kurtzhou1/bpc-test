@@ -20,7 +20,7 @@ import { TextField } from '@mui/material/index';
 
 const InvoiceWorkManage = () => {
     const [invoiceDetailInfo, setInvoiceDetailInfo] = useState([]);
-    const [supplyName, setSupplyName] = useState(''); //供應商
+    const [supplierName, setSupplierName] = useState(''); //供應商
     const [invoiceNo, setInvoiceNo] = useState(''); //發票號碼
     const [submarineCable, setSubmarineCable] = useState(''); //海纜名稱
     const [workTitle, setWorTitle] = useState(''); //海纜作業
@@ -41,7 +41,7 @@ const InvoiceWorkManage = () => {
         {
             InvoiceWKMaster: {
                 invoiceNo: 'No Number',
-                supplyName: 'NEC',
+                supplierName: 'NEC',
                 submarineCable: 'SJC2',
                 workTitle: 'Construction',
                 contractType: 'SC',
@@ -76,7 +76,7 @@ const InvoiceWorkManage = () => {
         {
             InvoiceWKMaster: {
                 invoiceNo: 'DT0170168-1',
-                supplyName: 'NEC',
+                supplierName: 'NEC',
                 submarineCable: 'SJC2',
                 workTitle: 'Construction',
                 contractType: 'SC',
@@ -109,7 +109,7 @@ const InvoiceWorkManage = () => {
 
     const createData = (
         InvoiceNo,
-        SupplyName,
+        SupplierName,
         SubmarineCable,
         WorkTitle,
         ContractType,
@@ -124,7 +124,7 @@ const InvoiceWorkManage = () => {
     ) => {
         return {
             InvoiceNo,
-            SupplyName,
+            SupplierName,
             SubmarineCable,
             WorkTitle,
             ContractType,
@@ -146,7 +146,7 @@ const InvoiceWorkManage = () => {
             listInfo.forEach((i) => {
                 console.log('i=>>', i);
                 if (i.InvoiceWKMaster.InvoiceNo === modifyItem) {
-                    setSupplyName(i.InvoiceWKMaster.SupplyName);
+                    setSupplierName(i.InvoiceWKMaster.SupplierName);
                     setInvoiceNo(i.InvoiceWKMaster.InvoiceNo);
                     setSubmarineCable(i.InvoiceWKMaster.SubmarineCable);
                     setWorTitle(i.InvoiceWKMaster.WorkTitle);
@@ -181,7 +181,7 @@ const InvoiceWorkManage = () => {
     const addInvoiceInfo = () => {
         let tmpList = listInfo;
         let tmpArray = createData(
-            supplyName,
+            supplierName,
             invoiceNo,
             submarineCable,
             workTitle,
@@ -265,10 +265,10 @@ const InvoiceWorkManage = () => {
                                                 <Select
                                                     // labelId="demo-simple-select-label"
                                                     // id="demo-simple-select"
-                                                    value={supplyName}
+                                                    value={supplierName}
                                                     disabled={action === 'View'}
                                                     label="發票供應商"
-                                                    onChange={(e) => setSupplyName(e.target.value)}
+                                                    onChange={(e) => setSupplierName(e.target.value)}
                                                 >
                                                     <MenuItem value={'NEC'}>NEC</MenuItem>
                                                     <MenuItem value={'CIENA'}>CIENA</MenuItem>

@@ -37,9 +37,9 @@ const InvoiceQueryBlock = ({ invoiceQuery }) => {
                         <Select
                             // labelId="demo-simple-select-label"
                             // id="demo-simple-select"
-                            // value={supplyName}
+                            // value={supplierName}
                             label="發票供應商"
-                            onChange={(e) => setSupplyName(e.target.value)}
+                            onChange={(e) => setSupplierName(e.target.value)}
                         >
                             <MenuItem value={'供應商1號'}>供應商1號</MenuItem>
                             <MenuItem value={'供應商2號'}>供應商2號</MenuItem>
