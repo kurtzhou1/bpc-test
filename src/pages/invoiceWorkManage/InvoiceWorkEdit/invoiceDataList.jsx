@@ -49,7 +49,6 @@ const InvoiceDataList = ({ listInfo, setAction, setModifyItem, isValidated }) =>
                 <TableHead>
                     <TableRow>
                         <StyledTableCell align="center">NO</StyledTableCell>
-                        <StyledTableCell align="center">工作主檔ID</StyledTableCell>
                         <StyledTableCell align="center">發票號碼</StyledTableCell>
                         <StyledTableCell align="center">供應商</StyledTableCell>
                         <StyledTableCell align="center">海纜名稱</StyledTableCell>
@@ -69,9 +68,6 @@ const InvoiceDataList = ({ listInfo, setAction, setModifyItem, isValidated }) =>
                                 sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                             >
                                 <StyledTableCell align="center">{itemID + 1}</StyledTableCell>
-                                <StyledTableCell component="th" scope="row" align="center">
-                                    {row.InvoiceWKMaster.InvoiceNo + row.InvoiceWKMaster?.supplierName + itemID}
-                                </StyledTableCell>
                                 <StyledTableCell align="center">{row.InvoiceWKMaster?.invoiceNo}</StyledTableCell>
                                 <StyledTableCell align="center">{row.InvoiceWKMaster?.supplierName}</StyledTableCell>
                                 <StyledTableCell align="center">{row.InvoiceWKMaster?.submarineCable}</StyledTableCell>

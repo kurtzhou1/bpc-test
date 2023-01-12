@@ -34,7 +34,6 @@ const InvoiceDataList = ({ listInfo, setEditItem, deletelistInfoItem }) => {
             <Table sx={{ minWidth: 300 }} stickyHeader aria-label="sticky table">
                 <TableHead>
                     <TableRow>
-                        <StyledTableCell align="center">工作主檔ID</StyledTableCell>
                         <StyledTableCell align="center">發票號碼</StyledTableCell>
                         <StyledTableCell align="center">供應商</StyledTableCell>
                         <StyledTableCell align="center">海纜名稱</StyledTableCell>
@@ -52,9 +51,6 @@ const InvoiceDataList = ({ listInfo, setEditItem, deletelistInfoItem }) => {
                                 key={row.InvoiceWKMaster?.InvoiceNo + row.InvoiceWKMaster?.SupplierName + id}
                                 sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                             >
-                                <StyledTableCell component="th" scope="row" align="center">
-                                    {row.InvoiceWKMaster.InvoiceNo + row.InvoiceWKMaster?.SupplierName + id}
-                                </StyledTableCell>
                                 <StyledTableCell align="center">{row.InvoiceWKMaster?.InvoiceNo}</StyledTableCell>
                                 <StyledTableCell align="center">{row.InvoiceWKMaster?.SupplierName}</StyledTableCell>
                                 <StyledTableCell align="center">{row.InvoiceWKMaster?.SubmarineCable}</StyledTableCell>
