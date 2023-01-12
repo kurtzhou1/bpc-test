@@ -20,34 +20,34 @@ import { TextField } from '@mui/material/index';
 
 const InvoiceWorkManage = () => {
     const [invoiceDetailInfo, setInvoiceDetailInfo] = useState([]);
-    const [supplyID, setSupplyID] = useState(''); //供應商
+    const [supplyName, setSupplyName] = useState(''); //供應商
     const [invoiceNo, setInvoiceNo] = useState(''); //發票號碼
     const [submarineCable, setSubmarineCable] = useState(''); //海纜名稱
     const [workTitle, setWorTitle] = useState(''); //海纜作業
     const [contractType, setContractType] = useState(''); //合約種類
     const [issueDate, setIssueDate] = useState(new Date()); //發票日期
-    const [invoiceDueDate, setInvoiceDueDate] = useState(new Date()); //發票到期日
+    const [dueDate, setDueDate] = useState(new Date()); //發票到期日
     const [totalAmount, setTotalAmount] = useState(0); //總金額
     const [isPro, setIsPro] = useState(false); //是否為Pro-forma
     const [isLiability, setIsLiability] = useState(false); //是否需攤分
     const [isRecharge, setIsRecharge] = useState(false); //是否為短腳補收
-    const [partyID, setPartyID] = useState(''); //會員代號
+    const [partyName, setPartyName] = useState(''); //會員代號
 
     const [action, setAction] = useState('');
-    const [modifyItem, setModifyItem] = useState(NaN);
+    const [modifyItem, setModifyItem] = useState('');
     const [isValidated, setIsValidated] = useState(false);
 
     const fakeData = [
         {
             InvoiceWKMaster: {
                 invoiceNo: 'No Number',
-                supplyID: 'NEC',
+                supplyName: 'NEC',
                 submarineCable: 'SJC2',
                 workTitle: 'Construction',
                 contractType: 'SC',
                 issueDate: '2022/9/9',
                 totalAmount: 15466.92,
-                Status: 'TEMP',
+                Status: 'TEMPPORARY',
                 isPro: true,
                 isLiability: false,
                 isRecharge: false
@@ -76,13 +76,13 @@ const InvoiceWorkManage = () => {
         {
             InvoiceWKMaster: {
                 invoiceNo: 'DT0170168-1',
-                supplyID: 'NEC',
+                supplyName: 'NEC',
                 submarineCable: 'SJC2',
                 workTitle: 'Construction',
                 contractType: 'SC',
                 issueDate: '2022/9/9',
                 totalAmount: 5582012.72,
-                Status: 'TEMP',
+                Status: 'TEMPPORARY',
                 isPro: true,
                 isLiability: false,
                 isRecharge: false
@@ -108,51 +108,60 @@ const InvoiceWorkManage = () => {
     const [listInfo, setListInfo] = useState(fakeData);
 
     const createData = (
-        supplyID,
-        invoiceNo,
-        submarineCable,
-        workTitle,
-        contractType,
-        issueDate,
-        invoiceDueDate,
-        totalAmount,
-        isPro,
-        isLiability,
-        isRecharge,
-        partyID
+        InvoiceNo,
+        SupplyName,
+        SubmarineCable,
+        WorkTitle,
+        ContractType,
+        IssueDate,
+        DueDate,
+        PartyName,
+        Status,
+        IsPro,
+        IsRecharge,
+        IsLiability,
+        TotalAmount
     ) => {
         return {
-            supplyID,
-            invoiceNo,
-            submarineCable,
-            workTitle,
-            contractType,
-            issueDate,
-            invoiceDueDate,
-            totalAmount,
-            isPro,
-            isLiability,
-            isRecharge,
-            partyID
+            InvoiceNo,
+            SupplyName,
+            SubmarineCable,
+            WorkTitle,
+            ContractType,
+            IssueDate,
+            DueDate,
+            PartyName,
+            Status,
+            IsPro,
+            IsRecharge,
+            IsLiability,
+            TotalAmount
         };
     };
 
     useEffect(() => {
+        console.log('modifyItem=>>', modifyItem);
+        console.log('action=>>', action);
         if (action === 'Edit' || action === 'View') {
-            console.log('modifyItem=>>', listInfo[modifyItem]);
-            setSupplyID(listInfo[modifyItem].InvoiceWKMaster.supplyID);
-            setInvoiceNo(listInfo[modifyItem].InvoiceWKMaster.invoiceNo);
-            setSubmarineCable(listInfo[modifyItem].InvoiceWKMaster.submarineCable);
-            setWorTitle(listInfo[modifyItem].InvoiceWKMaster.workTitle);
-            setContractType(listInfo[modifyItem].InvoiceWKMaster.contractType);
-            setIssueDate(listInfo[modifyItem].InvoiceWKMaster.issueDate);
-            setInvoiceDueDate(listInfo[modifyItem].InvoiceWKMaster.invoiceDueDate);
-            setTotalAmount(listInfo[modifyItem].InvoiceWKMaster.totalAmount);
-            setIsPro(listInfo[modifyItem].InvoiceWKMaster.isPro);
-            setIsLiability(listInfo[modifyItem].InvoiceWKMaster.isLiability);
-            setIsRecharge(listInfo[modifyItem].InvoiceWKMaster.isLiability);
-            setPartyID(listInfo[modifyItem].InvoiceWKMaster.partyID);
-            setInvoiceDetailInfo(listInfo[modifyItem].InvoiceWKDetail);
+            listInfo.forEach((i) => {
+                console.log('i=>>', i);
+                if (i.InvoiceWKMaster.InvoiceNo === modifyItem) {
+                    setSupplyName(i.InvoiceWKMaster.SupplyName);
+                    setInvoiceNo(i.InvoiceWKMaster.InvoiceNo);
+                    setSubmarineCable(i.InvoiceWKMaster.SubmarineCable);
+                    setWorTitle(i.InvoiceWKMaster.WorkTitle);
+                    setContractType(i.InvoiceWKMaster.ContractType);
+                    setIssueDate(i.InvoiceWKMaster.IssueDate);
+                    setDueDate(i.InvoiceWKMaster.DueDate);
+                    setTotalAmount(i.InvoiceWKMaster.TotalAmount);
+                    setIsPro(i.InvoiceWKMaster.IsPro);
+                    setIsLiability(i.InvoiceWKMaster.IsLiability);
+                    setIsRecharge(i.InvoiceWKMaster.IsRecharge);
+                    setPartyName(i.InvoiceWKMaster.PartyName);
+                    setInvoiceDetailInfo(i.InvoiceWKDetail);
+                }
+            });
+
             // setEditItem(editItem);
         }
         if (action === 'Validated') {
@@ -164,7 +173,7 @@ const InvoiceWorkManage = () => {
         if (action === 'Delete') {
             deletelistInfoItem(modifyItem);
         }
-        setAction('');
+        // setAction('');
     }, [action, modifyItem]);
 
     const fakeUrl = 'http://localhost:8000/api/v1/generateInvoiceWKMaster&InvoiceWKDetail&InvoiceMaster&InvoiceDetail';
@@ -172,18 +181,18 @@ const InvoiceWorkManage = () => {
     const addInvoiceInfo = () => {
         let tmpList = listInfo;
         let tmpArray = createData(
-            supplyID,
+            supplyName,
             invoiceNo,
             submarineCable,
             workTitle,
             contractType,
             dayjs(issueDate).format('YYYY/MM/DD'),
-            dayjs(invoiceDueDate).format('YYYY/MM/DD'),
+            dayjs(dueDate).format('YYYY/MM/DD'),
             totalAmount,
             isPro,
             isLiability,
             isRecharge,
-            partyID
+            partyName
         );
         let combineArray = {
             InvoiceWKMaster: tmpArray,
@@ -256,10 +265,10 @@ const InvoiceWorkManage = () => {
                                                 <Select
                                                     // labelId="demo-simple-select-label"
                                                     // id="demo-simple-select"
-                                                    value={supplyID}
+                                                    value={supplyName}
                                                     disabled={action === 'View'}
                                                     label="發票供應商"
-                                                    onChange={(e) => setSupplyID(e.target.value)}
+                                                    onChange={(e) => setSupplyName(e.target.value)}
                                                 >
                                                     <MenuItem value={'NEC'}>NEC</MenuItem>
                                                     <MenuItem value={'CIENA'}>CIENA</MenuItem>
@@ -419,8 +428,8 @@ const InvoiceWorkManage = () => {
                                                     <DesktopDatePicker
                                                         inputFormat="YYYY/MM/DD"
                                                         disabled={action === 'View'}
-                                                        value={invoiceDueDate}
-                                                        onChange={(e) => setInvoiceDueDate(e)}
+                                                        value={dueDate}
+                                                        onChange={(e) => setDueDate(e)}
                                                         renderInput={(params) => <TextField size="small" {...params} />}
                                                     />
                                                 </LocalizationProvider>
@@ -538,11 +547,11 @@ const InvoiceWorkManage = () => {
                                         <Grid item xs={12} sm={6} md={4} lg={4}>
                                             {isLiability === 'true' ? (
                                                 <TextField
-                                                    value={partyID}
+                                                    value={partyName}
                                                     variant="outlined"
                                                     size="small"
                                                     label="不須攤分請填寫代號"
-                                                    onChange={(e) => setPartyID(e.target.value)}
+                                                    onChange={(e) => setPartyName(e.target.value)}
                                                 />
                                             ) : (
                                                 ''

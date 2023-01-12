@@ -16,8 +16,8 @@ import DialogActions from '@mui/material/DialogActions';
 
 //icon
 import Autocomplete from '@mui/material/Autocomplete';
-// import CheckBoxOutlineBlankIcon from '@mui/icons-material/CheckBoxOutlineBlank';
-// import CheckBoxIcon from '@mui/icons-material/CheckBox';
+import CheckBoxOutlineBlankIcon from '@mui/icons-material/CheckBoxOutlineBlank';
+import CheckBoxIcon from '@mui/icons-material/CheckBox';
 
 const LiabilityManage = () => {
     const [listInfo, setListInfo] = useState([]);
@@ -26,14 +26,14 @@ const LiabilityManage = () => {
 
     const [billMilestone, setBillMilestone] = useState(''); //記帳段號
     const [partyName, setPartyName] = useState([]); //會員名稱
-    const [lbRatio, setLBRatio] = useState(NaN); //攤分比例
+    const [lbRatio, setLBRatio] = useState(''); //攤分比例
     const [editItem, setEditItem] = useState(NaN);
     const [modifyNote, setModifyNote] = useState('');
 
-    // const icon = <CheckBoxOutlineBlankIcon fontSize="small" />;
-    // const checkedIcon = <CheckBoxIcon fontSize="small" />;
+    const icon = <CheckBoxOutlineBlankIcon fontSize="small" />;
+    const checkedIcon = <CheckBoxIcon fontSize="small" />;
 
-    const parties = [{ title: 'Taiwan' }, { title: 'Vietnam' }, { title: 'Japan' }, { title: 'Korean' }];
+    const parties = [{ partyName: 'Taiwan' }, { partyName: 'Vietnam' }, { partyName: 'Japan' }, { partyName: 'Korean' }];
 
     const liabilityQuery = () => {
         console.log('liabilityQueryFunction');
@@ -51,7 +51,7 @@ const LiabilityManage = () => {
     const itemDetailInitial = () => {
         setBillMilestone('');
         setPartyName('');
-        setLBRatio(NaN);
+        setLBRatio('');
         setModifyNote('');
     };
 
@@ -132,13 +132,16 @@ const LiabilityManage = () => {
     return (
         <Grid container spacing={1}>
             <Grid item xs={12} display="flex" justifyContent="right">
+                <Button sx={{ mr: '0.25rem' }} variant="contained" onClick={handleDialogOpen}>
+                    + 新增Liability
+                </Button>
                 <Dialog onClose={handleDialogClose} maxWidth="sm" fullWidth open={isDialogOpen}>
                     <BootstrapDialogTitle id="customized-dialog-title" onClose={handleDialogClose}>
-                        發票查詢
+                        新增Liability
                     </BootstrapDialogTitle>
                     <DialogContent dividers>
                         <Grid container spacing={1} display="flex" justifyContent="center" alignItems="center">
-                            <Grid item xs={2} sm={2} md={2} lg={2} xl={2}>
+                            <Grid item xs={2} sm={2} md={2} lg={2} display="flex" justifyContent="end">
                                 <Typography
                                     variant="h5"
                                     sx={{ fontSize: { lg: '0.5rem', xl: '0.88rem' }, ml: { lg: '0.5rem', xl: '1.5rem' } }}
@@ -146,7 +149,7 @@ const LiabilityManage = () => {
                                     記帳段號：
                                 </Typography>
                             </Grid>
-                            <Grid item xs={4} sm={4} md={4} lg={4} xl={4}>
+                            <Grid item xs={3} sm={3} md={3} lg={3}>
                                 <FormControl fullWidth size="small">
                                     <InputLabel id="demo-simple-select-label">選擇記帳段號</InputLabel>
                                     <Select
@@ -162,31 +165,7 @@ const LiabilityManage = () => {
                                     </Select>
                                 </FormControl>
                             </Grid>
-                            <Grid item xs={2} sm={2} md={2} lg={2} xl={2}>
-                                <Typography
-                                    variant="h5"
-                                    sx={{ fontSize: { lg: '0.5rem', xl: '0.88rem' }, ml: { lg: '0.5rem', xl: '1.5rem' } }}
-                                >
-                                    攤分比例：
-                                </Typography>
-                            </Grid>
-                            <Grid item xs={4} sm={4} md={4} lg={4} xl={4}>
-                                <FormControl fullWidth size="small">
-                                    <InputLabel id="demo-simple-select-label">選擇攤分比例</InputLabel>
-                                    <Select
-                                        // labelId="demo-simple-select-label"
-                                        // id="demo-simple-select"
-                                        value={lbRatio}
-                                        label="發票供應商"
-                                        onChange={(e) => setLBRatio(e.target.value)}
-                                    >
-                                        <MenuItem value={5}>5%</MenuItem>
-                                        <MenuItem value={10}>10%</MenuItem>
-                                        <MenuItem value={15}>15%</MenuItem>
-                                    </Select>
-                                </FormControl>
-                            </Grid>
-                            <Grid item xs={2} sm={2} md={2} lg={2} xl={2}>
+                            <Grid item xs={2} sm={2} md={2} lg={2} xl={2} display="flex" justifyContent="end">
                                 {dialogAction === 'Edit' ? (
                                     <Typography
                                         variant="h5"
@@ -198,7 +177,7 @@ const LiabilityManage = () => {
                                     ''
                                 )}
                             </Grid>
-                            <Grid item xs={4} sm={4} md={4} lg={4} xl={4}>
+                            <Grid item xs={3} sm={3} md={3} lg={3} xl={3}>
                                 {dialogAction === 'Edit' ? (
                                     <TextField
                                         fullWidth
@@ -212,8 +191,27 @@ const LiabilityManage = () => {
                                     ''
                                 )}
                             </Grid>
-                            <Grid item xs={6} sm={6} md={6} lg={6} xl={6} />
-                            <Grid item xs={2} sm={2} md={2} lg={2} xl={2}>
+                            <Grid item xs={2} sm={2} md={2} lg={2} />
+                            <Grid item xs={2} sm={2} md={2} lg={2} display="flex" justifyContent="end">
+                                <Typography
+                                    variant="h5"
+                                    sx={{ fontSize: { lg: '0.5rem', xl: '0.88rem' }, ml: { lg: '0.5rem', xl: '1.5rem' } }}
+                                >
+                                    攤分比例(%)：
+                                </Typography>
+                            </Grid>
+                            <Grid item xs={3} sm={3} md={3} lg={3}>
+                                <TextField
+                                    fullWidth
+                                    variant="outlined"
+                                    value={lbRatio}
+                                    size="small"
+                                    label="填寫攤分比例"
+                                    onChange={(e) => setModifyNote(e.target.value)}
+                                />
+                            </Grid>
+                            {/* <Grid item xs={6} sm={6} md={6} lg={6} xl={6} /> */}
+                            <Grid item xs={2} sm={2} md={2} lg={2} xl={2} display="flex" justifyContent="end">
                                 <Typography
                                     variant="h5"
                                     sx={{ fontSize: { lg: '0.5rem', xl: '0.88rem' }, ml: { lg: '0.5rem', xl: '1.5rem' } }}
@@ -221,31 +219,38 @@ const LiabilityManage = () => {
                                     會員名稱：
                                 </Typography>
                             </Grid>
-                            <Grid item xs={10} sm={10} md={10} lg={10} xl={10}>
+                            <Grid item xs={3} sm={3} md={3} lg={3} xl={3}>
                                 <Autocomplete
-                                    // multiple
-                                    // id="checkboxes-tags-demo"
+                                    multiple
+                                    id="checkboxes-tags-demo"
                                     options={parties}
-                                    // disableCloseOnSelect
+                                    size="small"
+                                    disableCloseOnSelect
                                     onChange={(event, newValue) => {
                                         setPartyName(newValue);
                                     }}
-                                    getOptionLabel={(option) => option.title}
+                                    getOptionLabel={(option) => option.partyName}
                                     renderOption={(props, option, { selected }) => (
                                         <li {...props}>
-                                            {/* <Checkbox
+                                            <Checkbox
                                                 icon={icon}
                                                 checkedIcon={checkedIcon}
                                                 style={{ marginRight: 10 }}
                                                 checked={selected}
-                                            /> */}
-                                            {option.title}
+                                            />
+                                            {option.partyName}
                                         </li>
                                     )}
                                     // style={{ width: 500 }}
                                     // renderInput={(params) => <TextField {...params} label="選擇會員名稱" placeholder="Favorites" />
                                     renderInput={(params) => <TextField {...params} label="選擇會員名稱" />}
                                 />
+                            </Grid>
+                            <Grid item xs={1} sm={1} md={1} lg={1} />
+                            <Grid item xs={1} sm={1} md={1} lg={1} display="flex" justifyContent="end" alignItems="center">
+                                <Button size="small" sx={{ ml: '0.05rem' }} variant="contained" onClick={saveEdit}>
+                                    +
+                                </Button>
                             </Grid>
                         </Grid>
                     </DialogContent>
@@ -259,7 +264,7 @@ const LiabilityManage = () => {
                         ) : (
                             <>
                                 <Button sx={{ mr: '0.05rem' }} variant="contained" onClick={addLiability}>
-                                    新增
+                                    儲存
                                 </Button>
                             </>
                         )}

@@ -20,7 +20,7 @@ import { styled } from '@mui/material/styles';
 
 const CreateInvoiceDetail = ({ setInvoiceDetailInfo, invoiceDetailInfo, action }) => {
     const [billMilestone, setBillMilestone] = useState(''); //記帳段號
-    const [feeType, setFeeType] = useState(''); //收費種類
+    // const [feeType, setFeeType] = useState(''); //收費種類
     const [feeItem, setFeeItem] = useState(''); //費用項目
     const [feeAmount, setFeeAmount] = useState(); //費用金額
     const [isEdit, setIsEdit] = useState(false);
@@ -29,13 +29,13 @@ const CreateInvoiceDetail = ({ setInvoiceDetailInfo, invoiceDetailInfo, action }
 
     const itemDetailInitial = () => {
         setBillMilestone('');
-        setFeeType('');
+        // setFeeType('');
         setFeeItem('');
         setFeeAmount(0);
     };
 
-    const createData = (feeItem, billMilestone, feeAmount, feeType) => {
-        return { feeItem, billMilestone, feeAmount, feeType };
+    const createData = (FeeItem, BillMilestone, FeeAmount) => {
+        return { FeeItem, BillMilestone, FeeAmount };
     };
 
     const StyledTableCell = styled(TableCell)(({ theme }) => ({
@@ -54,7 +54,7 @@ const CreateInvoiceDetail = ({ setInvoiceDetailInfo, invoiceDetailInfo, action }
 
     const itemDetailAdd = () => {
         let tmpArray = invoiceDetailInfo;
-        tmpArray.push(createData(feeItem, billMilestone, feeAmount, feeType));
+        tmpArray.push(createData(feeItem, billMilestone, feeAmount));
         setInvoiceDetailInfo([...tmpArray]);
         setInvoiceDetailInfo(tmpArray);
         itemDetailInitial();
@@ -71,7 +71,7 @@ const CreateInvoiceDetail = ({ setInvoiceDetailInfo, invoiceDetailInfo, action }
         editItem.current = id;
         let tmpArray = invoiceDetailInfo[id];
         setBillMilestone(tmpArray.billMilestone);
-        setFeeType(tmpArray.feeType);
+        // setFeeType(tmpArray.feeType);
         setFeeItem(tmpArray.feeItem);
         setFeeAmount(tmpArray.feeAmount);
     };

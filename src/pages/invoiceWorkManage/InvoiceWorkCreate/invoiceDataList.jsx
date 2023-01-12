@@ -48,19 +48,19 @@ const InvoiceDataList = ({ listInfo, setEditItem, deletelistInfoItem }) => {
                     {listInfo?.map((row, id) => {
                         return (
                             <TableRow
-                                key={row.InvoiceWKMaster?.invoiceNo + row.InvoiceWKMaster?.supplyID + id}
+                                key={row.InvoiceWKMaster?.InvoiceNo + row.InvoiceWKMaster?.SupplyName + id}
                                 sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                             >
                                 <StyledTableCell component="th" scope="row" align="center">
-                                    {row.InvoiceWKMaster.invoiceNo + row.InvoiceWKMaster?.supplyID + id}
+                                    {row.InvoiceWKMaster.InvoiceNo + row.InvoiceWKMaster?.SupplyName + id}
                                 </StyledTableCell>
-                                <StyledTableCell align="center">{row.InvoiceWKMaster?.invoiceNo}</StyledTableCell>
-                                <StyledTableCell align="center">{row.InvoiceWKMaster?.supplyID}</StyledTableCell>
-                                <StyledTableCell align="center">{row.InvoiceWKMaster?.submarineCable}</StyledTableCell>
-                                <StyledTableCell align="center">{row.InvoiceWKMaster?.contractType}</StyledTableCell>
-                                <StyledTableCell align="center">{row.InvoiceWKMaster?.issueDate}</StyledTableCell>
+                                <StyledTableCell align="center">{row.InvoiceWKMaster?.InvoiceNo}</StyledTableCell>
+                                <StyledTableCell align="center">{row.InvoiceWKMaster?.SupplyName}</StyledTableCell>
+                                <StyledTableCell align="center">{row.InvoiceWKMaster?.SubmarineCable}</StyledTableCell>
+                                <StyledTableCell align="center">{row.InvoiceWKMaster?.ContractType}</StyledTableCell>
+                                <StyledTableCell align="center">{row.InvoiceWKMaster?.IssueDate}</StyledTableCell>
                                 <StyledTableCell align="center">{row.InvoiceWKDetail.length}</StyledTableCell>
-                                <StyledTableCell align="center">{row.InvoiceWKMaster.totalAmount}</StyledTableCell>
+                                <StyledTableCell align="center">{row.InvoiceWKMaster.TotalAmount}</StyledTableCell>
                                 <StyledTableCell align="center">
                                     <Button
                                         color="primary"

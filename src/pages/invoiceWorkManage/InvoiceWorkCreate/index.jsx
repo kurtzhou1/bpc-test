@@ -18,18 +18,18 @@ import { TextField } from '@mui/material/index';
 
 const InvoiceWorkManage = () => {
     const [invoiceDetailInfo, setInvoiceDetailInfo] = useState([]);
-    const [supplyID, setSupplyID] = useState(''); //供應商
+    const [supplyName, setSupplyName] = useState(''); //供應商
     const [invoiceNo, setInvoiceNo] = useState(''); //發票號碼
     const [submarineCable, setSubmarineCable] = useState(''); //海纜名稱
     const [workTitle, setWorTitle] = useState(''); //海纜作業
     const [contractType, setContractType] = useState(''); //合約種類
     const [issueDate, setIssueDate] = useState(new Date()); //發票日期
-    const [invoiceDueDate, setInvoiceDueDate] = useState(new Date()); //發票到期日
+    const [dueDate, setDueDate] = useState(new Date()); //發票到期日
     const [totalAmount, setTotalAmount] = useState(0); //總金額
-    const [isPro, setIsPro] = useState(false); //是否為Pro-forma
-    const [isLiability, setIsLiability] = useState(false); //是否需攤分
-    const [isRecharge, setIsRecharge] = useState(false); //是否為短腳補收
-    const [partyID, setPartyID] = useState(''); //會員代號
+    const [isPro, setIsPro] = useState(); //是否為Pro-forma
+    const [isLiability, setIsLiability] = useState(); //是否需攤分
+    const [isRecharge, setIsRecharge] = useState(); //是否為短腳補收
+    const [partyName, setPartyName] = useState(''); //會員代號
 
     const [editItem, setEditItem] = useState(NaN);
     const [listInfo, setListInfo] = useState([]);
@@ -38,70 +38,71 @@ const InvoiceWorkManage = () => {
     const fakeUrl = 'http://127.0.0.1:8000/api/v1/generateInvoiceWKMaster&InvoiceWKDetail&InvoiceMaster&InvoiceDetail';
 
     const itemDetailInitial = () => {
-        setSupplyID('');
+        setSupplyName('');
         setInvoiceNo('');
         setSubmarineCable('');
         setWorTitle('');
         setContractType('');
         setIssueDate(new Date());
-        setInvoiceDueDate(new Date());
+        setDueDate(new Date());
         setTotalAmount(0);
         setIsPro(false);
         setIsLiability(false);
         setIsRecharge(false);
-        setPartyID('');
+        setPartyName('');
         setInvoiceDetailInfo([]);
     };
 
     const createData = (
-        supplyID,
-        invoiceNo,
-        submarineCable,
-        workTitle,
-        contractType,
-        issueDate,
-        invoiceDueDate,
-        totalAmount,
-        isPro,
-        isLiability,
-        isRecharge,
-        partyID,
-        status
+        InvoiceNo,
+        SupplyName,
+        SubmarineCable,
+        WorkTitle,
+        ContractType,
+        IssueDate,
+        DueDate,
+        PartyName,
+        Status,
+        IsPro,
+        IsRecharge,
+        IsLiability,
+        TotalAmount
     ) => {
         return {
-            supplyID,
-            invoiceNo,
-            submarineCable,
-            workTitle,
-            contractType,
-            issueDate,
-            invoiceDueDate,
-            totalAmount,
-            isPro,
-            isLiability,
-            isRecharge,
-            partyID,
-            status
+            InvoiceNo,
+            SupplyName,
+            SubmarineCable,
+            WorkTitle,
+            ContractType,
+            IssueDate,
+            DueDate,
+            PartyName,
+            Status,
+            IsPro,
+            IsRecharge,
+            IsLiability,
+            TotalAmount
         };
     };
 
     //新增發票
     const addInvoiceInfo = () => {
+        console.log('totalAmount=>>', totalAmount);
         let tmpList = listInfo;
         let tmpArray = createData(
-            supplyID,
-            invoiceNo,
+            invoiceNo.trim() === '' ? 'No.' + dayjs(new Date()).format('YYYYMMDDHHmmss') : invoiceNo,
+            supplyName,
             submarineCable,
             workTitle,
             contractType,
             dayjs(issueDate).format('YYYY/MM/DD'),
-            dayjs(invoiceDueDate).format('YYYY/MM/DD'),
-            totalAmount,
+            dayjs(dueDate).format('YYYY/MM/DD'),
+            partyName,
+            'TEMPPORARY',
             isPro,
-            isLiability,
             isRecharge,
-            partyID,
-            'TEMP'
+            isLiability,
+            totalAmount
         );
         let combineArray = {
             InvoiceWKMaster: tmpArray,
@@ -112,6 +113,8 @@ const InvoiceWorkManage = () => {
         itemDetailInitial();
         setInvoiceDetailInfo([]);
     };
+
+    console.log('listInfo=>>', listInfo);
 
     //刪除
     const deletelistInfoItem = (deleteItem) => {
@@ -124,18 +127,18 @@ const InvoiceWorkManage = () => {
     const editlistInfoItem = () => {
         let tmpArray = listInfo[editItem];
         if (tmpArray) {
-            setSupplyID(tmpArray?.InvoiceWKMaster.supplyID);
-            setInvoiceNo(tmpArray?.InvoiceWKMaster.invoiceNo);
-            setSubmarineCable(tmpArray?.InvoiceWKMaster.submarineCable);
-            setWorTitle(tmpArray.InvoiceWKMaster.workTitle);
-            setContractType(tmpArray?.InvoiceWKMaster.contractType);
-            setIssueDate(tmpArray?.InvoiceWKMaster.issueDate);
-            setInvoiceDueDate(tmpArray?.InvoiceWKMaster.invoiceDueDate);
-            setTotalAmount(tmpArray?.InvoiceWKMaster.totalAmount);
-            setIsPro(tmpArray?.InvoiceWKMaster.isPro);
-            setIsLiability(tmpArray?.InvoiceWKMaster.isLiability);
-            setIsRecharge(tmpArray?.InvoiceWKMaster.isLiability);
-            setPartyID(tmpArray?.InvoiceWKMaster.partyID);
+            setSupplyName(tmpArray?.InvoiceWKMaster.SupplyName);
+            setInvoiceNo(tmpArray?.InvoiceWKMaster.InvoiceNo);
+            setSubmarineCable(tmpArray?.InvoiceWKMaster.SubmarineCable);
+            setWorTitle(tmpArray.InvoiceWKMaster.WorkTitle);
+            setContractType(tmpArray?.InvoiceWKMaster.ContractType);
+            setIssueDate(tmpArray?.InvoiceWKMaster.IssueDate);
+            setDueDate(tmpArray?.InvoiceWKMaster.DueDate);
+            setTotalAmount(tmpArray?.InvoiceWKMaster.TotalAmount);
+            setIsPro(tmpArray?.InvoiceWKMaster.IsPro);
+            setIsLiability(tmpArray?.InvoiceWKMaster.IsLiability);
+            setIsRecharge(tmpArray?.InvoiceWKMaster.IsRecharge);
+            setPartyName(tmpArray?.InvoiceWKMaster.PartyName);
             setInvoiceDetailInfo(tmpArray?.InvoiceWKDetail);
             setEditItem(editItem);
         }
@@ -189,8 +192,8 @@ const InvoiceWorkManage = () => {
                         {/* 左 */}
                         <Grid item xs={6}>
                             <CreateInvoiceMain
-                                supplyID={supplyID}
-                                setSupplyID={setSupplyID}
+                                supplyName={supplyName}
+                                setSupplyName={setSupplyName}
                                 invoiceNo={invoiceNo}
                                 setInvoiceNo={setInvoiceNo}
                                 submarineCable={submarineCable}
@@ -201,8 +204,8 @@ const InvoiceWorkManage = () => {
                                 setContractType={setContractType}
                                 issueDate={issueDate}
                                 setIssueDate={setIssueDate}
-                                invoiceDueDate={invoiceDueDate}
-                                setInvoiceDueDate={setInvoiceDueDate}
+                                dueDate={dueDate}
+                                setDueDate={setDueDate}
                                 totalAmount={totalAmount}
                                 setTotalAmount={setTotalAmount}
                                 isPro={isPro}
@@ -211,8 +214,8 @@ const InvoiceWorkManage = () => {
                                 setIsLiability={setIsLiability}
                                 isRecharge={isRecharge}
                                 setIsRecharge={setIsRecharge}
-                                partyID={partyID}
-                                setPartyID={setPartyID}
+                                partyName={partyName}
+                                setPartyName={setPartyName}
                             />
                         </Grid>
                         {/* 右 */}

@@ -65,20 +65,20 @@ const InvoiceDataList = ({ listInfo, setAction, setModifyItem, isValidated }) =>
                     {listInfo?.map((row, itemID) => {
                         return (
                             <TableRow
-                                key={row.InvoiceWKMaster?.invoiceNo + row.InvoiceWKMaster?.supplyID + itemID}
+                                key={row.InvoiceWKMaster?.invoiceNo + row.InvoiceWKMaster?.supplyName + itemID}
                                 sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                             >
                                 <StyledTableCell align="center">{itemID + 1}</StyledTableCell>
                                 <StyledTableCell component="th" scope="row" align="center">
-                                    {row.InvoiceWKMaster.invoiceNo + row.InvoiceWKMaster?.supplyID + itemID}
+                                    {row.InvoiceWKMaster.InvoiceNo + row.InvoiceWKMaster?.supplyName + itemID}
                                 </StyledTableCell>
                                 <StyledTableCell align="center">{row.InvoiceWKMaster?.invoiceNo}</StyledTableCell>
-                                <StyledTableCell align="center">{row.InvoiceWKMaster?.supplyID}</StyledTableCell>
+                                <StyledTableCell align="center">{row.InvoiceWKMaster?.supplyName}</StyledTableCell>
                                 <StyledTableCell align="center">{row.InvoiceWKMaster?.submarineCable}</StyledTableCell>
                                 <StyledTableCell align="center">{row.InvoiceWKMaster?.contractType}</StyledTableCell>
                                 <StyledTableCell align="center">{row.InvoiceWKMaster?.issueDate}</StyledTableCell>
                                 <StyledTableCell align="center">{row.InvoiceWKDetail.length}</StyledTableCell>
-                                <StyledTableCell align="center">{row.InvoiceWKMaster.totalAmount}</StyledTableCell>
+                                <StyledTableCell align="center">{row.InvoiceWKMaster.TotalAmount}</StyledTableCell>
                                 <StyledTableCell align="center">{row.InvoiceWKMaster.Status === 'TEMP' ? '暫存' : '???'}</StyledTableCell>
                                 <TableCell align="center">
                                     <IconButton

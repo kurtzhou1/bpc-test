@@ -31,9 +31,9 @@ const LiabilityQuery = ({ liabilityQuery }) => {
                         <Select
                             // labelId="demo-simple-select-label"
                             // id="demo-simple-select"
-                            // value={supplyID}
+                            // value={supplyName}
                             label="記帳段號"
-                            onChange={(e) => setSupplyID(e.target.value)}
+                            onChange={(e) => setSupplyName(e.target.value)}
                         >
                             <MenuItem value={'記帳段號1號'}>記帳段號1號</MenuItem>
                             <MenuItem value={'記帳段號2號'}>記帳段號2號</MenuItem>

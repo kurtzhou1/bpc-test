@@ -20,14 +20,13 @@ import { styled } from '@mui/material/styles';
 
 const CreateInvoiceDetail = ({ invoiceDetailInfo, setInvoiceDetailInfo }) => {
     const [billMilestone, setBillMilestone] = useState(''); //記帳段號
-    const [feeType, setFeeType] = useState(''); //收費種類
     const [feeItem, setFeeItem] = useState(''); //費用項目
     const [feeAmount, setFeeAmount] = useState(0); //費用金額
     const [isEdit, setIsEdit] = useState(false);
     const editItem = useRef(0);
 
-    const createData = (feeItem, billMilestone, feeAmount, feeType) => {
-        return { feeItem, billMilestone, feeAmount, feeType };
+    const createData = (FeeItem, BillMilestone, FeeAmount) => {
+        return { FeeItem, BillMilestone, FeeAmount };
     };
 
     const StyledTableCell = styled(TableCell)(({ theme }) => ({
@@ -46,7 +45,7 @@ const CreateInvoiceDetail = ({ invoiceDetailInfo, setInvoiceDetailInfo }) => {
 
     const itemDetailInitial = () => {
         setBillMilestone('');
-        setFeeType('');
+        // setFeeType('');
         setFeeItem('');
         setFeeAmount(0);
     };
@@ -54,7 +53,7 @@ const CreateInvoiceDetail = ({ invoiceDetailInfo, setInvoiceDetailInfo }) => {
     // 新增
     const itemDetailAdd = () => {
         let tmpArray = invoiceDetailInfo;
-        tmpArray.push(createData(feeItem, billMilestone, feeAmount, feeType));
+        tmpArray.push(createData(feeItem, billMilestone, feeAmount));
         setInvoiceDetailInfo([...tmpArray]);
         setInvoiceDetailInfo(tmpArray);
         itemDetailInitial();
@@ -72,10 +71,9 @@ const CreateInvoiceDetail = ({ invoiceDetailInfo, setInvoiceDetailInfo }) => {
         setIsEdit(true);
         editItem.current = id;
         let tmpArray = invoiceDetailInfo[id];
-        setBillMilestone(tmpArray.billMilestone);
-        setFeeType(tmpArray.feeType);
-        setFeeItem(tmpArray.feeItem);
-        setFeeAmount(tmpArray.feeAmount);
+        setBillMilestone(tmpArray.BillMilestone);
+        setFeeItem(tmpArray.FeeItem);
+        setFeeAmount(tmpArray.FeeAmount);
     };
 
     //儲存編輯
@@ -140,30 +138,6 @@ const CreateInvoiceDetail = ({ invoiceDetailInfo, setInvoiceDetailInfo }) => {
                         onChange={(e) => setFeeAmount(e.target.value)}
                     />
                 </Grid>
-                {/* <Grid item xs={12} sm={6} md={4} lg={2}>
-                    <Typography variant="h5" sx={{ fontSize: { lg: '0.5rem', xl: '0.88rem' }, ml: { lg: '0.5rem', xl: '1.5rem' } }}>
-                        收費種類：
-                    </Typography>
-                </Grid>
-                <Grid item xs={12} sm={6} md={4} lg={4}>
-                    <FormControl fullWidth>
-                        <InputLabel size="small" id="feeType">
-                            選擇收費種類
-                        </InputLabel>
-                        <Select
-                            // labelId="demo-simple-select-label"
-                            // id="demo-simple-select"
-                            value={feeType}
-                            label="收費種類"
-                            size="small"
-                            onChange={(e) => setFeeType(e.target.value)}
-                        >
-                            <MenuItem value={'種類1'}>種類1</MenuItem>
-                            <MenuItem value={'種類2'}>種類2</MenuItem>
-                            <MenuItem value={'種類3'}>種類3</MenuItem>
-                        </Select>
-                    </FormControl>
-                </Grid> */}
                 {/* row2 */}
                 <Grid item lg={2}>
                     <Typography
@@ -216,21 +190,21 @@ const CreateInvoiceDetail = ({ invoiceDetailInfo, setInvoiceDetailInfo }) => {
                                 <TableRow>
                                     <StyledTableCell align="center">費用項目</StyledTableCell>
                                     <StyledTableCell align="center">記帳段號</StyledTableCell>
-                                    <StyledTableCell align="center">費用項目</StyledTableCell>
+                                    <StyledTableCell align="center">費用金額</StyledTableCell>
                                     <StyledTableCell align="center">Action</StyledTableCell>
                                 </TableRow>
                             </TableHead>
                             <TableBody>
                                 {invoiceDetailInfo?.map((row, id) => (
                                     <TableRow
-                                        key={row.feeItem + row.billMilestone}
+                                        key={row.FeeItem + row.BillMilestone}
                                         sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                                     >
                                         <StyledTableCell component="th" scope="row">
-                                            {row.feeItem}
+                                            {row.FeeItem}
                                         </StyledTableCell>
-                                        <StyledTableCell align="center">{row.billMilestone}</StyledTableCell>
-                                        <StyledTableCell align="center">{row.feeAmount}</StyledTableCell>
+                                        <StyledTableCell align="center">{row.BillMilestone}</StyledTableCell>
+                                        <StyledTableCell align="center">{row.FeeAmount}</StyledTableCell>
                                         <StyledTableCell align="center">
                                             <Button
                                                 color="primary"

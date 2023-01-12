@@ -17,8 +17,8 @@ import { TextField } from '@mui/material/index';
 // ==============================|| SAMPLE PAGE ||============================== //
 
 const InvoiceWorkManage = ({
-    supplyID,
-    setSupplyID,
+    supplyName,
+    setSupplyName,
     invoiceNo,
     setInvoiceNo,
     submarineCable,
@@ -29,8 +29,8 @@ const InvoiceWorkManage = ({
     setContractType,
     issueDate,
     setIssueDate,
-    invoiceDueDate,
-    setInvoiceDueDate,
+    dueDate,
+    setDueDate,
     totalAmount,
     setTotalAmount,
     isPro,
@@ -39,8 +39,8 @@ const InvoiceWorkManage = ({
     setIsLiability,
     isRecharge,
     setIsRecharge,
-    partyID,
-    setPartyID
+    partyName,
+    setPartyName
 }) => {
     return (
         <MainCard title="發票工作主檔建立" sx={{ height: '100%' }}>
@@ -57,9 +57,9 @@ const InvoiceWorkManage = ({
                         <Select
                             // labelId="demo-simple-select-label"
                             // id="demo-simple-select"
-                            value={supplyID}
+                            value={supplyName}
                             label="發票供應商"
-                            onChange={(e) => setSupplyID(e.target.value)}
+                            onChange={(e) => setSupplyName(e.target.value)}
                         >
                             <MenuItem value={'NEC'}>NEC</MenuItem>
                             <MenuItem value={'CIENA'}>CIENA</MenuItem>
@@ -108,14 +108,28 @@ const InvoiceWorkManage = ({
                     </Typography>
                 </Grid>
                 <Grid item xs={12} sm={6} md={4} lg={4}>
-                    <TextField
+                    <FormControl fullWidth size="small">
+                        <InputLabel id="demo-simple-select-label">選擇合約種類</InputLabel>
+                        <Select
+                            // labelId="demo-simple-select-label"
+                            // id="demo-simple-select"
+                            value={workTitle}
+                            label="填寫海纜作業"
+                            onChange={(e) => setWorTitle(e.target.value)}
+                        >
+                            <MenuItem value={'Construction'}>Construction</MenuItem>
+                            <MenuItem value={'Upgrade'}>Upgrade</MenuItem>
+                            <MenuItem value={'O&M'}>O&M</MenuItem>
+                        </Select>
+                    </FormControl>
+                    {/* <TextField
                         value={workTitle}
                         fullWidth
                         variant="outlined"
                         size="small"
                         label="填寫海纜作業"
                         onChange={(e) => setWorTitle(e.target.value)}
-                    />
+                    /> */}
                 </Grid>
                 {/* row3 */}
                 <Grid item xs={12} sm={6} md={4} lg={2}>
@@ -186,8 +200,8 @@ const InvoiceWorkManage = ({
                         <LocalizationProvider dateAdapter={AdapterDayjs}>
                             <DesktopDatePicker
                                 inputFormat="YYYY/MM/DD"
-                                value={invoiceDueDate}
-                                onChange={(e) => setInvoiceDueDate(e)}
+                                value={dueDate}
+                                onChange={(e) => setDueDate(e)}
                                 renderInput={(params) => <TextField size="small" {...params} />}
                             />
                         </LocalizationProvider>
@@ -240,12 +254,12 @@ const InvoiceWorkManage = ({
                             <FormControlLabel
                                 value={true}
                                 control={<Radio sx={{ '& .MuiSvgIcon-root': { fontSize: { lg: 14, xl: 20 } } }} />}
-                                label="Y"
+                                label="攤分"
                             />
                             <FormControlLabel
                                 value={false}
                                 control={<Radio sx={{ '& .MuiSvgIcon-root': { fontSize: { lg: 14, xl: 20 } } }} />}
-                                label="N"
+                                label="不攤分"
                             />
                         </RadioGroup>
                     </FormControl>
@@ -281,17 +295,17 @@ const InvoiceWorkManage = ({
                 </Grid>
                 <Grid item xs={12} sm={6} md={4} lg={2}>
                     <Typography variant="h5" sx={{ fontSize: { lg: '0.5rem', xl: '0.88rem' }, ml: { lg: '0.5rem', xl: '1.5rem' } }}>
-                        {isLiability === 'true' ? '會員代號：' : ''}
+                        {isLiability === 'false' ? '會員名稱：' : ''}
                     </Typography>
                 </Grid>
                 <Grid item xs={12} sm={6} md={4} lg={4}>
-                    {isLiability === 'true' ? (
+                    {isLiability === 'false' ? (
                         <TextField
-                            value={partyID}
+                            value={partyName}
                             variant="outlined"
                             size="small"
-                            label="不須攤分請填寫代號"
-                            onChange={(e) => setPartyID(e.target.value)}
+                            label="不須攤分請填寫名稱"
+                            onChange={(e) => setPartyName(e.target.value)}
                         />
                     ) : (
                         ''
