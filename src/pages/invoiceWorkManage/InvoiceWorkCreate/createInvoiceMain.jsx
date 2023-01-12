@@ -17,8 +17,8 @@ import { TextField } from '@mui/material/index';
 // ==============================|| SAMPLE PAGE ||============================== //
 
 const InvoiceWorkManage = ({
-    supplierName,
-    setSupplierName,
+    supplyName,
+    setSupplyName,
     invoiceNo,
     setInvoiceNo,
     submarineCable,
@@ -42,6 +42,7 @@ const InvoiceWorkManage = ({
     partyName,
     setPartyName
 }) => {
+    console.log('isLiability=>>', isLiability, typeof isLiability);
     return (
         <MainCard title="發票工作主檔建立" sx={{ height: '100%' }}>
             <Grid container display="flex" justifyContent="center" alignItems="center" spacing={1}>
@@ -57,9 +58,9 @@ const InvoiceWorkManage = ({
                         <Select
                             // labelId="demo-simple-select-label"
                             // id="demo-simple-select"
-                            value={supplierName}
+                            value={supplyName}
                             label="發票供應商"
-                            onChange={(e) => setSupplierName(e.target.value)}
+                            onChange={(e) => setSupplyName(e.target.value)}
                         >
                             <MenuItem value={'NEC'}>NEC</MenuItem>
                             <MenuItem value={'CIENA'}>CIENA</MenuItem>
@@ -295,11 +296,11 @@ const InvoiceWorkManage = ({
                 </Grid>
                 <Grid item xs={12} sm={6} md={4} lg={2}>
                     <Typography variant="h5" sx={{ fontSize: { lg: '0.5rem', xl: '0.88rem' }, ml: { lg: '0.5rem', xl: '1.5rem' } }}>
-                        {isLiability === 'false' ? '會員名稱：' : ''}
+                        {isLiability === false || isLiability === 'false' ? '會員名稱：' : ''}
                     </Typography>
                 </Grid>
                 <Grid item xs={12} sm={6} md={4} lg={4}>
-                    {isLiability === 'false' ? (
+                    {isLiability === false || isLiability === 'false' ? (
                         <TextField
                             value={partyName}
                             variant="outlined"

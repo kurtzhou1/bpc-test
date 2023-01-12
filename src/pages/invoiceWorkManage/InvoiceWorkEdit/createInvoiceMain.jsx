@@ -281,11 +281,11 @@ const InvoiceWorkManage = ({
                 </Grid>
                 <Grid item xs={12} sm={6} md={4} lg={2}>
                     <Typography variant="h5" sx={{ fontSize: { lg: '0.5rem', xl: '0.88rem' }, ml: { lg: '0.5rem', xl: '1.5rem' } }}>
-                        {isLiability === 'true' ? '會員名稱：' : ''}
+                        {isLiability === false || isLiability === 'false' ? '會員名稱：' : ''}
                     </Typography>
                 </Grid>
                 <Grid item xs={12} sm={6} md={4} lg={4}>
-                    {isLiability === 'true' ? (
+                    {isLiability === false || isLiability === 'false' ? (
                         <TextField
                             value={partyName}
                             variant="outlined"

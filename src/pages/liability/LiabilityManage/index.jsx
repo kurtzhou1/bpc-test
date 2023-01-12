@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import {
     Typography,
     Grid,
@@ -37,7 +37,8 @@ const LiabilityManage = () => {
     const [dialogAction, setDialogAction] = useState('');
 
     const [billMilestone, setBillMilestone] = useState(''); //記帳段號
-    const [partyName, setPartyName] = useState([]); //會員名稱
+    // const [partyName, setPartyName] = useState([]); //會員名稱
+    const partyName = useRef();
     const [lbRatio, setLBRatio] = useState(''); //攤分比例
     const [editItem, setEditItem] = useState(NaN);
     const [modifyNote, setModifyNote] = useState('');
@@ -45,7 +46,7 @@ const LiabilityManage = () => {
     const icon = <CheckBoxOutlineBlankIcon fontSize="small" />;
     const checkedIcon = <CheckBoxIcon fontSize="small" />;
 
-    const parties = [{ partyName: 'Taiwan' }, { partyName: 'Vietnam' }, { partyName: 'Japan' }, { partyName: 'Korean' }];
+    const parties = [{ name: 'Taiwan' }, { name: 'Vietnam' }, { name: 'Japan' }, { name: 'Korean' }];
 
     const liabilityQuery = () => {
         console.log('liabilityQueryFunction');
@@ -62,7 +63,8 @@ const LiabilityManage = () => {
 
     const itemDetailInitial = () => {
         setBillMilestone('');
-        setPartyName('');
+        // setPartyName([]);
+        partyName.current = [];
         setLBRatio('');
         setModifyNote('');
     };
@@ -72,7 +74,7 @@ const LiabilityManage = () => {
         let tmpArray = listInfo;
         tmpArray.push({
             billMilestone: billMilestone,
-            partyName: partyName,
+            partyName: partyName.current,
             lbRatio: lbRatio,
             createTime: new Date(),
             modifyNote: modifyNote === '' ? '' : modifyNote
@@ -94,7 +96,8 @@ const LiabilityManage = () => {
         let tmpArray = listInfo[editItem];
         if (tmpArray) {
             setBillMilestone(tmpArray?.billMilestone);
-            setPartyName(tmpArray?.partyName);
+            // setPartyName(tmpArray?.partyName);
+            partyName.current = tmpArray?.partyName;
             setLBRatio(tmpArray?.lbRatio);
             setModifyNote(tmpArray?.modifyNote);
         }
@@ -153,7 +156,7 @@ const LiabilityManage = () => {
                     </BootstrapDialogTitle>
                     <DialogContent dividers>
                         <Grid container spacing={1} display="flex" justifyContent="center" alignItems="center">
-                            <Grid item xs={2} sm={2} md={2} lg={2} display="flex" justifyContent="end">
+                            <Grid item xs={2} sm={2} md={2} lg={1} display="flex" justifyContent="end">
                                 <Typography
                                     variant="h5"
                                     sx={{ fontSize: { lg: '0.5rem', xl: '0.88rem' }, ml: { lg: '0.5rem', xl: '1.5rem' } }}
@@ -177,7 +180,7 @@ const LiabilityManage = () => {
                                     </Select>
                                 </FormControl>
                             </Grid>
-                            <Grid item xs={2} sm={2} md={2} lg={2} xl={2} display="flex" justifyContent="end">
+                            <Grid item xs={2} sm={2} md={2} lg={1} xl={1} display="flex" justifyContent="end">
                                 {dialogAction === 'Edit' ? (
                                     <Typography
                                         variant="h5"
@@ -189,7 +192,7 @@ const LiabilityManage = () => {
                                     ''
                                 )}
                             </Grid>
-                            <Grid item xs={3} sm={3} md={3} lg={3} xl={3}>
+                            <Grid item xs={3} sm={3} md={3} lg={6} xl={6}>
                                 {dialogAction === 'Edit' ? (
                                     <TextField
                                         fullWidth
@@ -203,8 +206,8 @@ const LiabilityManage = () => {
                                     ''
                                 )}
                             </Grid>
-                            <Grid item xs={2} sm={2} md={2} lg={2} />
-                            <Grid item xs={2} sm={2} md={2} lg={2} display="flex" justifyContent="end">
+                            <Grid item xs={2} sm={2} md={2} lg={1} />
+                            <Grid item xs={2} sm={2} md={2} lg={1} display="flex" justifyContent="end">
                                 <Typography
                                     variant="h5"
                                     sx={{ fontSize: { lg: '0.5rem', xl: '0.88rem' }, ml: { lg: '0.5rem', xl: '1.5rem' } }}
@@ -223,7 +226,7 @@ const LiabilityManage = () => {
                                 />
                             </Grid>
                             {/* <Grid item xs={6} sm={6} md={6} lg={6} xl={6} /> */}
-                            <Grid item xs={2} sm={2} md={2} lg={2} xl={2} display="flex" justifyContent="end">
+                            <Grid item xs={2} sm={2} md={2} lg={1} display="flex" justifyContent="end">
                                 <Typography
                                     variant="h5"
                                     sx={{ fontSize: { lg: '0.5rem', xl: '0.88rem' }, ml: { lg: '0.5rem', xl: '1.5rem' } }}
@@ -231,7 +234,7 @@ const LiabilityManage = () => {
                                     會員名稱：
                                 </Typography>
                             </Grid>
-                            <Grid item xs={3} sm={3} md={3} lg={3} xl={3}>
+                            <Grid item xs={3} sm={3} md={3} lg={6}>
                                 <Autocomplete
                                     multiple
                                     id="checkboxes-tags-demo"
@@ -239,13 +242,15 @@ const LiabilityManage = () => {
                                     size="small"
                                     disableCloseOnSelect
                                     onChange={(event, newValue) => {
-                                        setPartyName(newValue);
+                                        // setPartyName(newValue);
+                                        // console.log('newValue=>>', newValue);
+                                        partyName.current = newValue;
                                     }}
-                                    getOptionLabel={(option) => option.partyName}
+                                    getOptionLabel={(option) => option.name}
                                     renderOption={(props, option, { selected }) => (
                                         <li {...props}>
                                             <Checkbox icon={icon} checkedIcon={checkedIcon} style={{ marginRight: 8 }} checked={selected} />
-                                            {option.partyName}
+                                            {option.name}
                                         </li>
                                     )}
                                     // style={{ width: 500 }}
@@ -253,9 +258,13 @@ const LiabilityManage = () => {
                                     renderInput={(params) => <TextField {...params} label="選擇會員名稱" />}
                                 />
                             </Grid>
-                            <Grid item xs={1} sm={1} md={1} lg={1} />
                             <Grid item xs={1} sm={1} md={1} lg={1} display="flex" justifyContent="end" alignItems="center">
-                                <Button size="small" sx={{ ml: '0.05rem' }} variant="contained" onClick={saveEdit}>
+                                <Button
+                                    size="small"
+                                    style={{ maxWidth: '2rem', maxHeight: '2rem', minWidth: '2rem', minHeight: '2rem' }}
+                                    variant="contained"
+                                    onClick={saveEdit}
+                                >
                                     +
                                 </Button>
                             </Grid>

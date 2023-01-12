@@ -54,7 +54,7 @@ const CreateInvoiceDetail = ({ setInvoiceDetailInfo, invoiceDetailInfo, action }
 
     const itemDetailAdd = () => {
         let tmpArray = invoiceDetailInfo;
-        tmpArray.push(createData(feeItem, billMilestone, feeAmount));
+        tmpArray.push(createData(feeItem, billMilestone, Number(feeAmount)));
         setInvoiceDetailInfo([...tmpArray]);
         setInvoiceDetailInfo(tmpArray);
         itemDetailInitial();

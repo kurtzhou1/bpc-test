@@ -197,7 +197,7 @@ const InvoiceWorkManage = () => {
             isPro === 'true' ? true : false,
             isRecharge === 'true' ? true : false,
             isLiability === 'true' ? true : false,
-            totalAmount,
+            Number(totalAmount),
             dayjs(new Date()).format('YYYY-MM-DD hh:mm:ss')
         );
         let combineArray = {
