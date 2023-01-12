@@ -1,5 +1,18 @@
 import { useEffect, useState } from 'react';
-import { Typography, Grid, Button, FormControl, InputLabel, Select, MenuItem, Box, IconButton, TextField, Checkbox } from '@mui/material';
+import {
+    Typography,
+    Grid,
+    Button,
+    FormControl,
+    InputLabel,
+    Select,
+    MenuItem,
+    Box,
+    IconButton,
+    TextField,
+    Checkbox,
+    Autocomplete
+} from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 import { styled } from '@mui/material/styles';
 
@@ -14,8 +27,7 @@ import DialogTitle from '@mui/material/DialogTitle';
 import DialogContent from '@mui/material/DialogContent';
 import DialogActions from '@mui/material/DialogActions';
 
-//icon
-import Autocomplete from '@mui/material/Autocomplete';
+// autocomplete
 import CheckBoxOutlineBlankIcon from '@mui/icons-material/CheckBoxOutlineBlank';
 import CheckBoxIcon from '@mui/icons-material/CheckBox';
 
@@ -197,7 +209,7 @@ const LiabilityManage = () => {
                                     variant="h5"
                                     sx={{ fontSize: { lg: '0.5rem', xl: '0.88rem' }, ml: { lg: '0.5rem', xl: '1.5rem' } }}
                                 >
-                                    攤分比例(%)：
+                                    攤分比例：
                                 </Typography>
                             </Grid>
                             <Grid item xs={3} sm={3} md={3} lg={3}>
@@ -232,12 +244,7 @@ const LiabilityManage = () => {
                                     getOptionLabel={(option) => option.partyName}
                                     renderOption={(props, option, { selected }) => (
                                         <li {...props}>
-                                            <Checkbox
-                                                icon={icon}
-                                                checkedIcon={checkedIcon}
-                                                style={{ marginRight: 10 }}
-                                                checked={selected}
-                                            />
+                                            <Checkbox icon={icon} checkedIcon={checkedIcon} style={{ marginRight: 8 }} checked={selected} />
                                             {option.partyName}
                                         </li>
                                     )}

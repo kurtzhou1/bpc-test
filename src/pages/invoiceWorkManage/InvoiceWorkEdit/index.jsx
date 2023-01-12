@@ -120,7 +120,8 @@ const InvoiceWorkManage = () => {
         IsPro,
         IsRecharge,
         IsLiability,
-        TotalAmount
+        TotalAmount,
+        CreateDate
     ) => {
         return {
             InvoiceNo,
@@ -135,7 +136,8 @@ const InvoiceWorkManage = () => {
             IsPro,
             IsRecharge,
             IsLiability,
-            TotalAmount
+            TotalAmount,
+            CreateDate
         };
     };
 
@@ -181,18 +183,22 @@ const InvoiceWorkManage = () => {
     const addInvoiceInfo = () => {
         let tmpList = listInfo;
         let tmpArray = createData(
+            invoiceNo.trim() === '' ? 'No.' + dayjs(new Date()).format('YYYYMMDDHHmmss') : invoiceNo,
             supplierName,
-            invoiceNo,
             submarineCable,
             workTitle,
             contractType,
-            dayjs(issueDate).format('YYYY/MM/DD'),
-            dayjs(dueDate).format('YYYY/MM/DD'),
+            dayjs(issueDate).format('YYYY-MM-DD hh:mm:ss'),
+            // issueDate,
+            dayjs(dueDate).format('YYYY-MM-DD hh:mm:ss'),
+            // dueDate,
+            partyName,
+            'TEMPPORARY',
+            isPro === 'true' ? true : false,
+            isRecharge === 'true' ? true : false,
+            isLiability === 'true' ? true : false,
             totalAmount,
-            isPro,
-            isLiability,
-            isRecharge,
-            partyName
+            dayjs(new Date()).format('YYYY-MM-DD hh:mm:ss')
         );
         let combineArray = {
             InvoiceWKMaster: tmpArray,
@@ -200,6 +206,8 @@ const InvoiceWorkManage = () => {
         };
         tmpList.push(combineArray);
         setListInfo([...tmpList]);
+        itemDetailInitial();
+        setInvoiceDetailInfo([]);
     };
 
     const deletelistInfoItem = (deleteItem) => {

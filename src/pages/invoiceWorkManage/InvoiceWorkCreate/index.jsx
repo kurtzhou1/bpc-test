@@ -26,9 +26,9 @@ const InvoiceWorkManage = () => {
     const [issueDate, setIssueDate] = useState(new Date()); //發票日期
     const [dueDate, setDueDate] = useState(new Date()); //發票到期日
     const [totalAmount, setTotalAmount] = useState(0); //總金額
-    const [isPro, setIsPro] = useState(); //是否為Pro-forma
-    const [isLiability, setIsLiability] = useState(); //是否需攤分
-    const [isRecharge, setIsRecharge] = useState(); //是否為短腳補收
+    const [isPro, setIsPro] = useState(false); //是否為Pro-forma
+    const [isLiability, setIsLiability] = useState(false); //是否需攤分
+    const [isRecharge, setIsRecharge] = useState(false); //是否為短腳補收
     const [partyName, setPartyName] = useState(''); //會員代號
 
     const [editItem, setEditItem] = useState(NaN);
@@ -102,9 +102,9 @@ const InvoiceWorkManage = () => {
             // dueDate,
             partyName,
             'TEMPPORARY',
-            isPro,
-            isRecharge,
-            isLiability,
+            isPro === 'true' ? true : false,
+            isRecharge === 'true' ? true : false,
+            isLiability === 'true' ? true : false,
             totalAmount,
             dayjs(new Date()).format('YYYY-MM-DD hh:mm:ss')
         );
