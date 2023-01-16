@@ -11,15 +11,10 @@ import {
     IconButton,
     TextField,
     Checkbox,
-    Autocomplete
+    Autocomplete,
+    Table
 } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
-import { styled } from '@mui/material/styles';
-
-// project import
-import MainCard from 'components/MainCard';
-import LiabilityQuery from './liabilityQuery';
-import LiabilityDataList from './liabilityDataList';
 
 // day
 import Dialog from '@mui/material/Dialog';
@@ -31,19 +26,84 @@ import DialogActions from '@mui/material/DialogActions';
 import CheckBoxOutlineBlankIcon from '@mui/icons-material/CheckBoxOutlineBlank';
 import CheckBoxIcon from '@mui/icons-material/CheckBox';
 
-const LiabilityManage = ({ handleDialogClose, addLiability, saveEdit, partyName }) => {
-    const [listInfo, setListInfo] = useState([]);
-    const [isDialogOpen, setIsDialogOpen] = useState(false);
-    const [dialogAction, setDialogAction] = useState('');
+// table
+import TableBody from '@mui/material/TableBody';
+import TableContainer from '@mui/material/TableContainer';
+import TableHead from '@mui/material/TableHead';
+import TableRow from '@mui/material/TableRow';
+import TableCell, { tableCellClasses } from '@mui/material/TableCell';
+import Paper from '@mui/material/Paper';
+import { styled } from '@mui/material/styles';
 
-    const [billMilestone, setBillMilestone] = useState(''); //記帳段號
-    const [lbRatio, setLBRatio] = useState(''); //攤分比例
+const LiabilityManage = ({
+    handleDialogClose,
+    addLiability,
+    saveEdit,
+    partyName,
+    setPartyName,
+    isDialogOpen,
+    billMilestone,
+    setBillMilestone,
+    dialogAction,
+    lbRatio,
+    setLBRatio
+}) => {
     const [modifyNote, setModifyNote] = useState('');
+    const [listInfo, setListInfo] = useState([]);
+    // const [editItem, setEditItem] = useState(NaN);
+    const [isEdit, setIsEdit] = useState(false);
 
     const icon = <CheckBoxOutlineBlankIcon fontSize="small" />;
     const checkedIcon = <CheckBoxIcon fontSize="small" />;
 
-    const parties = [{ name: 'Taiwan' }, { name: 'Vietnam' }, { name: 'Japan' }, { name: 'Korean' }];
+    const parties = ['Taiwan', 'Vietnam', 'Japan', 'Korean'];
+
+    const itemDetailInitial = () => {
+        setPartyName([]);
+        setLBRatio('');
+        setIsEdit(false);
+    };
+
+    // //編輯
+    // const editlistInfoItem = () => {
+    //     let tmpArray = listInfo[editItem];
+
+    //     if (tmpArray) {
+    //         setPartyName([tmpArray?.PartyName]);
+    //         setLBRatio(tmpArray?.LbRatio);
+    //     }
+    //     setIsEdit(true);
+    // };
+
+    //新增
+    const addList = () => {
+        let tmpArray = listInfo;
+        console.log('=>>', partyName);
+        let partyArray = partyName;
+        partyArray.forEach((e) => {
+            tmpArray.push({
+                BillMilestone: billMilestone,
+                PartyName: e,
+                LbRatio: lbRatio
+            });
+        });
+        setListInfo([...tmpArray]);
+        itemDetailInitial();
+    };
+
+    //刪除
+    const deletelistInfoItem = (deleteItem) => {
+        let tmpArray = listInfo;
+        tmpArray.splice(deleteItem, 1);
+        setListInfo([...tmpArray]);
+    };
+
+    // useEffect(() => {
+    //     if (editItem >= 0) {
+    //         editlistInfoItem();
+    //         // setIsListEdit(true);
+    //     }
+    // }, [editItem]);
 
     const BootstrapDialogTitle = (props) => {
         const { children, onClose, ...other } = props;
@@ -69,6 +129,20 @@ const LiabilityManage = ({ handleDialogClose, addLiability, saveEdit, partyName 
         );
     };
 
+    const StyledTableCell = styled(TableCell)(({ theme }) => ({
+        [`&.${tableCellClasses.head}`]: {
+            // backgroundColor: theme.palette.common.gary,
+            color: theme.palette.common.black,
+            paddingTop: '0.2rem',
+            paddingBottom: '0.2rem'
+        },
+        [`&.${tableCellClasses.body}`]: {
+            fontSize: 14,
+            paddingTop: '0.2rem',
+            paddingBottom: '0.2rem'
+        }
+    }));
+
     return (
         <Dialog onClose={handleDialogClose} maxWidth="md" fullWidth open={isDialogOpen}>
             <BootstrapDialogTitle id="customized-dialog-title" onClose={handleDialogClose}>
@@ -83,18 +157,15 @@ const LiabilityManage = ({ handleDialogClose, addLiability, saveEdit, partyName 
                     </Grid>
                     <Grid item xs={3} sm={3} md={3} lg={3}>
                         <FormControl fullWidth size="small">
-                            <InputLabel id="demo-simple-select-label">選擇記帳段號</InputLabel>
-                            <Select
-                                // labelId="demo-simple-select-label"
-                                // id="demo-simple-select"
+                            <TextField
+                                fullWidth
+                                variant="outlined"
+                                disabled={listInfo.length > 0}
                                 value={billMilestone}
-                                label="記帳段號"
+                                size="small"
+                                label="填寫記帳段號"
                                 onChange={(e) => setBillMilestone(e.target.value)}
-                            >
-                                <MenuItem value={'記帳段號1號'}>記帳段號1號</MenuItem>
-                                <MenuItem value={'記帳段號2號'}>記帳段號2號</MenuItem>
-                                <MenuItem value={'記帳段號3號'}>記帳段號3號</MenuItem>
-                            </Select>
+                            />
                         </FormControl>
                     </Grid>
                     <Grid item xs={2} sm={2} md={2} lg={1} xl={1} display="flex" justifyContent="end">
@@ -147,16 +218,21 @@ const LiabilityManage = ({ handleDialogClose, addLiability, saveEdit, partyName 
                             multiple
                             id="checkboxes-tags-demo"
                             options={parties}
+                            value={partyName}
+                            disabled={isEdit}
                             size="small"
                             disableCloseOnSelect
+                            // getOptionDisabled={(option) =>
+                            //     option === timeSlots[0] || option === timeSlots[2] haha
+                            //   }
                             onChange={(event, newValue) => {
-                                partyName.current = newValue;
+                                setPartyName(newValue);
                             }}
-                            getOptionLabel={(option) => option.name}
+                            getOptionLabel={(option) => option}
                             renderOption={(props, option, { selected }) => (
                                 <li {...props}>
                                     <Checkbox icon={icon} checkedIcon={checkedIcon} style={{ marginRight: 8 }} checked={selected} />
-                                    {option.name}
+                                    {option}
                                 </li>
                             )}
                             // style={{ width: 500 }}
@@ -169,10 +245,48 @@ const LiabilityManage = ({ handleDialogClose, addLiability, saveEdit, partyName 
                             size="small"
                             style={{ maxWidth: '2rem', maxHeight: '2rem', minWidth: '2rem', minHeight: '2rem' }}
                             variant="contained"
-                            onClick={saveEdit}
+                            onClick={addList}
                         >
                             +
                         </Button>
+                    </Grid>
+                    <Grid item xs={12} sm={12} md={12} lg={12}>
+                        <TableContainer component={Paper} sx={{ maxHeight: 250 }}>
+                            <Table sx={{ minWidth: 300 }} stickyHeader aria-label="sticky table">
+                                <TableHead>
+                                    <TableRow>
+                                        <StyledTableCell align="center">記帳段號</StyledTableCell>
+                                        <StyledTableCell align="center">會員名稱</StyledTableCell>
+                                        <StyledTableCell align="center">攤分比例</StyledTableCell>
+                                        <StyledTableCell align="center">Action</StyledTableCell>
+                                    </TableRow>
+                                </TableHead>
+                                <TableBody>
+                                    {listInfo?.map((row, id) => {
+                                        return (
+                                            <TableRow
+                                                // key={row.InvoiceWKMaster?.invoiceNo + row.InvoiceWKMaster?.supplierName + id}
+                                                sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                                            >
+                                                <StyledTableCell align="center">{row.BillMilestone}</StyledTableCell>
+                                                <StyledTableCell align="center">{row.PartyName}</StyledTableCell>
+                                                <StyledTableCell align="center">{`${row.LbRatio}%`}</StyledTableCell>
+                                                <StyledTableCell align="center">
+                                                    <Button
+                                                        color="error"
+                                                        onClick={() => {
+                                                            deletelistInfoItem(id);
+                                                        }}
+                                                    >
+                                                        刪除
+                                                    </Button>
+                                                </StyledTableCell>
+                                            </TableRow>
+                                        );
+                                    })}
+                                </TableBody>
+                            </Table>
+                        </TableContainer>
                     </Grid>
                 </Grid>
             </DialogContent>
@@ -185,12 +299,26 @@ const LiabilityManage = ({ handleDialogClose, addLiability, saveEdit, partyName 
                     </>
                 ) : (
                     <>
-                        <Button sx={{ mr: '0.05rem' }} variant="contained" onClick={addLiability}>
+                        <Button
+                            sx={{ mr: '0.05rem' }}
+                            variant="contained"
+                            onClick={() => {
+                                addLiability(listInfo);
+                                setListInfo([]);
+                            }}
+                        >
                             儲存
                         </Button>
                     </>
                 )}
-                <Button sx={{ mr: '0.05rem' }} variant="contained" onClick={handleDialogClose}>
+                <Button
+                    sx={{ mr: '0.05rem' }}
+                    variant="contained"
+                    onClick={() => {
+                        handleDialogClose();
+                        itemDetailInitial();
+                    }}
+                >
                     取消
                 </Button>
             </DialogActions>

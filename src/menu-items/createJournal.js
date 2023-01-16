@@ -17,9 +17,9 @@ const createJournal = {
     children: [
         {
             id: 'item2',
-            title: '立帳',
+            title: '立帳管理',
             type: 'collapse',
-            url: '/CreateJournal/Journal',
+            url: '/CreateJournal/CreateJournal',
             icon: icons.AuditOutlined,
             breadcrumbs: true,
             children: [

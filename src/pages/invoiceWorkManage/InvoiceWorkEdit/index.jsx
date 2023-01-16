@@ -34,73 +34,73 @@ const InvoiceWorkManage = () => {
     const [partyName, setPartyName] = useState(''); //會員代號
 
     const [action, setAction] = useState('');
-    const [modifyItem, setModifyItem] = useState('');
+    const [modifyItem, setModifyItem] = useState(-1);
     const [isValidated, setIsValidated] = useState(false);
 
     const fakeData = [
         {
             InvoiceWKMaster: {
-                invoiceNo: 'No Number',
-                supplierName: 'NEC',
-                submarineCable: 'SJC2',
-                workTitle: 'Construction',
-                contractType: 'SC',
-                issueDate: '2022/9/9',
-                totalAmount: 15466.92,
+                InvoiceNo: 'No Number',
+                SupplierName: 'NEC',
+                SubmarineCable: 'SJC2',
+                WorkTitle: 'Construction',
+                ContractType: 'SC',
+                IssueDate: '2022/9/9',
+                TotalAmount: 15466.92,
                 Status: 'TEMPPORARY',
-                isPro: true,
-                isLiability: false,
-                isRecharge: false
+                IsPro: true,
+                IsLiability: false,
+                IsRecharge: false
             },
             InvoiceWKDetail: [
                 {
-                    billMilestone: 'BM9b',
-                    feeType: '收費種類1',
-                    feeItem: 'BM9b Sea cable manufactured (8.5km spare cable)- Equipment (Off-Shore Korea)',
-                    feeAmount: 6849.91
+                    BillMilestone: 'BM9b',
+                    FeeType: '收費種類1',
+                    FeeItem: 'BM9b Sea cable manufactured (8.5km spare cable)- Equipment (Off-Shore Korea)',
+                    FeeAmount: 6849.91
                 },
                 {
-                    billMilestone: 'BM9b',
-                    feeType: '收費種類2',
-                    feeItem: 'BM9b Sea cable manufactured (8.5km spare cable)- Equipment (On-Shore Korea)',
-                    feeAmount: 1210.06
+                    BillMilestone: 'BM9b',
+                    FeeType: '收費種類2',
+                    FeeItem: 'BM9b Sea cable manufactured (8.5km spare cable)- Equipment (On-Shore Korea)',
+                    FeeAmount: 1210.06
                 },
                 {
-                    billMilestone: 'BM9b',
-                    feeType: '收費種類2',
-                    feeItem: 'BM9b Sea cable manufactured (8.5km spare cable)- Service (Off-Shore Korea)',
-                    feeAmount: 7406.95
+                    BillMilestone: 'BM9b',
+                    FeeType: '收費種類2',
+                    FeeItem: 'BM9b Sea cable manufactured (8.5km spare cable)- Service (Off-Shore Korea)',
+                    FeeAmount: 7406.95
                 }
             ]
         },
         {
             InvoiceWKMaster: {
-                invoiceNo: 'DT0170168-1',
-                supplierName: 'NEC',
-                submarineCable: 'SJC2',
-                workTitle: 'Construction',
-                contractType: 'SC',
-                issueDate: '2022/9/9',
-                totalAmount: 5582012.72,
+                InvoiceNo: 'DT0170168-1',
+                SupplierName: 'NEC',
+                SubmarineCable: 'SJC2',
+                WorkTitle: 'Construction',
+                ContractType: 'SC',
+                IssueDate: '2022/9/9',
+                TotalAmount: 5582012.72,
                 Status: 'TEMPPORARY',
-                isPro: true,
-                isLiability: false,
-                isRecharge: false
+                IsPro: true,
+                IsLiability: false,
+                IsRecharge: false
             },
             InvoiceWKDetail: [
                 {
-                    billMilestone: 'BM9a',
-                    feeType: '收費種類1',
-                    feeItem: 'BM9a Sea cable manufactured (except 8.5km spare cable))- Equipment',
-                    feeAmount: 1288822.32
+                    BillMilestone: 'BM9a',
+                    FeeType: '收費種類1',
+                    FeeItem: 'BM9a Sea cable manufactured (except 8.5km spare cable))- Equipment',
+                    FeeAmount: 1288822.32
                 },
                 {
-                    billMilestone: 'BM9a',
-                    feeType: '收費種類2',
-                    feeItem: 'BM9a Sea cable manufactured (except 8.5km spare cable))- Service',
-                    feeAmount: 1178227.94
+                    BillMilestone: 'BM9a',
+                    FeeType: '收費種類2',
+                    FeeItem: 'BM9a Sea cable manufactured (except 8.5km spare cable))- Service',
+                    FeeAmount: 1178227.94
                 },
-                { billMilestone: 'BM12', feeType: '收費種類3', feeItem: 'BM12 Branching Units (100%)-Equipment', feeAmount: 1627300.92 }
+                { BillMilestone: 'BM12', FeeType: '收費種類3', FeeItem: 'BM12 Branching Units (100%)-Equipment', FeeAmount: 1627300.92 }
             ]
         }
     ];
@@ -144,39 +144,39 @@ const InvoiceWorkManage = () => {
     useEffect(() => {
         console.log('modifyItem=>>', modifyItem);
         console.log('action=>>', action);
-        if (action === 'Edit' || action === 'View') {
-            listInfo.forEach((i) => {
-                console.log('i=>>', i);
-                if (i.InvoiceWKMaster.InvoiceNo === modifyItem) {
-                    setSupplierName(i.InvoiceWKMaster.SupplierName);
-                    setInvoiceNo(i.InvoiceWKMaster.InvoiceNo);
-                    setSubmarineCable(i.InvoiceWKMaster.SubmarineCable);
-                    setWorTitle(i.InvoiceWKMaster.WorkTitle);
-                    setContractType(i.InvoiceWKMaster.ContractType);
-                    setIssueDate(i.InvoiceWKMaster.IssueDate);
-                    setDueDate(i.InvoiceWKMaster.DueDate);
-                    setTotalAmount(i.InvoiceWKMaster.TotalAmount);
-                    setIsPro(i.InvoiceWKMaster.IsPro);
-                    setIsLiability(i.InvoiceWKMaster.IsLiability);
-                    setIsRecharge(i.InvoiceWKMaster.IsRecharge);
-                    setPartyName(i.InvoiceWKMaster.PartyName);
-                    setInvoiceDetailInfo(i.InvoiceWKDetail);
-                }
-            });
-
-            // setEditItem(editItem);
+        if ((modifyItem >= 0 && action === 'Edit') || (modifyItem >= 0 && action === '') || (modifyItem >= 0 && action === 'View')) {
+            console.log('listInfo=>>', listInfo[modifyItem], listInfo[modifyItem], listInfo[modifyItem].InvoiceWKMaster);
+            setSupplierName(listInfo[modifyItem].InvoiceWKMaster.SupplierName);
+            setInvoiceNo(listInfo[modifyItem].InvoiceWKMaster.InvoiceNo);
+            setSubmarineCable(listInfo[modifyItem].InvoiceWKMaster.SubmarineCable);
+            setWorTitle(listInfo[modifyItem].InvoiceWKMaster.WorkTitle);
+            setContractType(listInfo[modifyItem].InvoiceWKMaster.ContractType);
+            setIssueDate(listInfo[modifyItem].InvoiceWKMaster.IssueDate);
+            setDueDate(listInfo[modifyItem].InvoiceWKMaster.DueDate);
+            setTotalAmount(listInfo[modifyItem].InvoiceWKMaster.TotalAmount);
+            setIsPro(listInfo[modifyItem].InvoiceWKMaster.IsPro);
+            setIsLiability(listInfo[modifyItem].InvoiceWKMaster.IsLiability);
+            setIsRecharge(listInfo[modifyItem].InvoiceWKMaster.IsRecharge);
+            setPartyName(listInfo[modifyItem].InvoiceWKMaster.PartyName);
+            setInvoiceDetailInfo(listInfo[modifyItem].InvoiceWKDetail);
+            setAction('');
         }
+    }, [modifyItem]);
+
+    useEffect(() => {
         if (action === 'Validated') {
             setIsValidated(true);
+            setAction('');
         }
         if (action === '作廢') {
             console.log('作廢');
+            setAction('');
         }
         if (action === 'Delete') {
             deletelistInfoItem(modifyItem);
+            setAction('');
         }
-        // setAction('');
-    }, [action, modifyItem]);
+    }, [action]);
 
     const fakeUrl = 'http://localhost:8000/api/v1/generateInvoiceWKMaster&InvoiceWKDetail&InvoiceMaster&InvoiceDetail';
 

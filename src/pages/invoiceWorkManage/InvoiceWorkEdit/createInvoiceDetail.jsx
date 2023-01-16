@@ -227,14 +227,14 @@ const CreateInvoiceDetail = ({ setInvoiceDetailInfo, invoiceDetailInfo, action }
                             <TableBody>
                                 {invoiceDetailInfo?.map((row, id) => (
                                     <TableRow
-                                        key={row.feeItem + row.billMilestone}
+                                        key={row.FeeItem + row.BillMilestone}
                                         sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                                     >
                                         <StyledTableCell component="th" scope="row">
-                                            {row.feeItem}
+                                            {row.FeeItem}
                                         </StyledTableCell>
-                                        <StyledTableCell align="center">{row.billMilestone}</StyledTableCell>
-                                        <StyledTableCell align="center">{row.feeAmount}</StyledTableCell>
+                                        <StyledTableCell align="center">{row.BillMilestone}</StyledTableCell>
+                                        <StyledTableCell align="center">{row.FeeAmount}</StyledTableCell>
                                         <StyledTableCell align="center">
                                             {action !== 'View' ? (
                                                 <>

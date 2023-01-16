@@ -5,7 +5,7 @@ import { styled } from '@mui/material/styles';
 
 // project import
 import MainCard from 'components/MainCard';
-import LiabilityQuery from './liabilityQuery';
+import JournalQuery from './journalQuery';
 import LiabilityDataList from './liabilityDataList';
 
 // day
@@ -36,7 +36,7 @@ const CreateJournal = () => {
 
     const parties = [{ title: 'Taiwan' }, { title: 'Vietnam' }, { title: 'Japan' }, { title: 'Korean' }];
 
-    const liabilityQuery = () => {
+    const jounaryQuery = () => {
         console.log('liabilityQueryFunction');
     };
 
@@ -133,12 +133,9 @@ const CreateJournal = () => {
     return (
         <Grid container spacing={1}>
             <Grid item xs={12} display="flex" justifyContent="right">
-                <Button sx={{ mr: '0.25rem' }} variant="contained" onClick={handleDialogOpen}>
-                    + 新增Liability
-                </Button>
                 <Dialog onClose={handleDialogClose} maxWidth="sm" fullWidth open={isDialogOpen}>
                     <BootstrapDialogTitle id="customized-dialog-title" onClose={handleDialogClose}>
-                        新增Liability
+                        發票查詢
                     </BootstrapDialogTitle>
                     <DialogContent dividers>
                         <Grid container spacing={1} display="flex" justifyContent="center" alignItems="center">
@@ -147,12 +144,12 @@ const CreateJournal = () => {
                                     variant="h5"
                                     sx={{ fontSize: { lg: '0.5rem', xl: '0.88rem' }, ml: { lg: '0.5rem', xl: '1.5rem' } }}
                                 >
-                                    記帳段號：
+                                    供應商：
                                 </Typography>
                             </Grid>
                             <Grid item xs={4} sm={4} md={4} lg={4} xl={4}>
                                 <FormControl fullWidth size="small">
-                                    <InputLabel id="demo-simple-select-label">選擇記帳段號</InputLabel>
+                                    <InputLabel id="demo-simple-select-label">選擇供應商</InputLabel>
                                     <Select
                                         // labelId="demo-simple-select-label"
                                         // id="demo-simple-select"
@@ -160,9 +157,9 @@ const CreateJournal = () => {
                                         label="記帳段號"
                                         onChange={(e) => setBillMilestone(e.target.value)}
                                     >
-                                        <MenuItem value={'記帳段號1號'}>記帳段號1號</MenuItem>
-                                        <MenuItem value={'記帳段號2號'}>記帳段號2號</MenuItem>
-                                        <MenuItem value={'記帳段號3號'}>記帳段號3號</MenuItem>
+                                        <MenuItem value={'供應商1號'}>供應商1號</MenuItem>
+                                        <MenuItem value={'供應商2號'}>供應商2號</MenuItem>
+                                        <MenuItem value={'供應商3號'}>供應商3號</MenuItem>
                                     </Select>
                                 </FormControl>
                             </Grid>
@@ -171,17 +168,17 @@ const CreateJournal = () => {
                                     variant="h5"
                                     sx={{ fontSize: { lg: '0.5rem', xl: '0.88rem' }, ml: { lg: '0.5rem', xl: '1.5rem' } }}
                                 >
-                                    攤分比例：
+                                    海纜名稱：
                                 </Typography>
                             </Grid>
                             <Grid item xs={4} sm={4} md={4} lg={4} xl={4}>
                                 <FormControl fullWidth size="small">
-                                    <InputLabel id="demo-simple-select-label">選擇攤分比例</InputLabel>
+                                    <InputLabel id="demo-simple-select-label">選擇海纜</InputLabel>
                                     <Select
                                         // labelId="demo-simple-select-label"
                                         // id="demo-simple-select"
                                         value={lbRatio}
-                                        label="發票供應商"
+                                        label="海纜"
                                         onChange={(e) => setLBRatio(e.target.value)}
                                     >
                                         <MenuItem value={5}>5%</MenuItem>
@@ -274,7 +271,7 @@ const CreateJournal = () => {
                 </Dialog>
             </Grid>
             <Grid item xs={12}>
-                <LiabilityQuery liabilityQuery={liabilityQuery} />
+                <JournalQuery jounaryQuery={jounaryQuery} />
             </Grid>
             <Grid item xs={12}>
                 <MainCard title="發票資料建立列表">

@@ -39,6 +39,7 @@ const InvoiceDataList = ({ listInfo, setAction, setModifyItem, isValidated }) =>
     const handleClose = () => {
         setAnchorEl(null);
     };
+
     const ITEM_HEIGHT = 48;
     const options1 = ['View', 'Validated', 'Edit', 'Delete'];
     const options2 = ['View', '作廢'];
@@ -68,11 +69,11 @@ const InvoiceDataList = ({ listInfo, setAction, setModifyItem, isValidated }) =>
                                 sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                             >
                                 <StyledTableCell align="center">{itemID + 1}</StyledTableCell>
-                                <StyledTableCell align="center">{row.InvoiceWKMaster?.invoiceNo}</StyledTableCell>
-                                <StyledTableCell align="center">{row.InvoiceWKMaster?.supplierName}</StyledTableCell>
-                                <StyledTableCell align="center">{row.InvoiceWKMaster?.submarineCable}</StyledTableCell>
-                                <StyledTableCell align="center">{row.InvoiceWKMaster?.contractType}</StyledTableCell>
-                                <StyledTableCell align="center">{row.InvoiceWKMaster?.issueDate}</StyledTableCell>
+                                <StyledTableCell align="center">{row.InvoiceWKMaster?.InvoiceNo}</StyledTableCell>
+                                <StyledTableCell align="center">{row.InvoiceWKMaster?.SupplierName}</StyledTableCell>
+                                <StyledTableCell align="center">{row.InvoiceWKMaster?.SubmarineCable}</StyledTableCell>
+                                <StyledTableCell align="center">{row.InvoiceWKMaster?.ContractType}</StyledTableCell>
+                                <StyledTableCell align="center">{row.InvoiceWKMaster?.IssueDate}</StyledTableCell>
                                 <StyledTableCell align="center">{row.InvoiceWKDetail.length}</StyledTableCell>
                                 <StyledTableCell align="center">{row.InvoiceWKMaster.TotalAmount}</StyledTableCell>
                                 <StyledTableCell align="center">{row.InvoiceWKMaster.Status === 'TEMP' ? '暫存' : '???'}</StyledTableCell>
@@ -83,8 +84,9 @@ const InvoiceDataList = ({ listInfo, setAction, setModifyItem, isValidated }) =>
                                         aria-controls={open ? 'long-menu' : undefined}
                                         aria-expanded={open ? 'true' : undefined}
                                         aria-haspopup="true"
-                                        onClick={(e) => {
+                                        onClick={(e, index) => {
                                             handleClick(e);
+
                                             setModifyItem(itemID);
                                         }}
                                     >

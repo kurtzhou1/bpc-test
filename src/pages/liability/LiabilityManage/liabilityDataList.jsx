@@ -53,13 +53,8 @@ const LiabilityDataList = ({ listInfo, setDialogAction, setIsDialogOpen, setEdit
                                 sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                             >
                                 <StyledTableCell align="center">{id + 1}</StyledTableCell>
-                                <StyledTableCell align="center">{row.billMilestone}</StyledTableCell>
-                                <StyledTableCell align="center">
-                                    {row.partyName.map((i) => {
-                                        console.log('i=>>', i);
-                                        return i === 0 ? <sapn>{i.title}</sapn> : <sapn>、{i.title}</sapn>;
-                                    })}
-                                </StyledTableCell>
+                                <StyledTableCell align="center">{row.BillMilestone}</StyledTableCell>
+                                <StyledTableCell align="center">{row.PartyName}</StyledTableCell>
                                 <StyledTableCell align="center">{`${row.lbRatio}%`}</StyledTableCell>
                                 <StyledTableCell align="center">{row.modifyNote}</StyledTableCell>
                                 <StyledTableCell align="center"> {dayjs(row.createTime).format('YYYY/MM/DD')}</StyledTableCell>
@@ -90,7 +85,7 @@ const LiabilityDataList = ({ listInfo, setDialogAction, setIsDialogOpen, setEdit
                                             deletelistInfoItem(id);
                                         }}
                                     >
-                                        刪除
+                                        終止
                                     </Button>
                                 </StyledTableCell>
                             </TableRow>

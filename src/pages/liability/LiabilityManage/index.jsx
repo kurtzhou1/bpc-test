@@ -28,23 +28,16 @@ import DialogTitle from '@mui/material/DialogTitle';
 import DialogContent from '@mui/material/DialogContent';
 import DialogActions from '@mui/material/DialogActions';
 
-// autocomplete
-import CheckBoxOutlineBlankIcon from '@mui/icons-material/CheckBoxOutlineBlank';
-import CheckBoxIcon from '@mui/icons-material/CheckBox';
-
 const LiabilityManage = () => {
     const [listInfo, setListInfo] = useState([]);
     const [isDialogOpen, setIsDialogOpen] = useState(false);
     const [dialogAction, setDialogAction] = useState('');
 
     const [billMilestone, setBillMilestone] = useState(''); //記帳段號
-    const partyName = useRef();
+    const [partyName, setPartyName] = useState([]); //會員名稱
     const [lbRatio, setLBRatio] = useState(''); //攤分比例
     const [editItem, setEditItem] = useState(NaN);
     const [modifyNote, setModifyNote] = useState('');
-
-    const icon = <CheckBoxOutlineBlankIcon fontSize="small" />;
-    const checkedIcon = <CheckBoxIcon fontSize="small" />;
 
     const parties = [{ name: 'Taiwan' }, { name: 'Vietnam' }, { name: 'Japan' }, { name: 'Korean' }];
 
@@ -63,25 +56,30 @@ const LiabilityManage = () => {
 
     const itemDetailInitial = () => {
         setBillMilestone('');
-        // setPartyName([]);
-        partyName.current = [];
+        setPartyName([]);
         setLBRatio('');
         setModifyNote('');
     };
 
     //新增
-    const addLiability = () => {
-        let tmpArray = listInfo;
-        tmpArray.push({
-            billMilestone: billMilestone,
-            partyName: partyName.current,
-            lbRatio: lbRatio,
-            createTime: new Date(),
-            modifyNote: modifyNote === '' ? '' : modifyNote
-        });
-        setListInfo([...tmpArray]);
-        handleDialogClose();
-        itemDetailInitial();
+    const addLiability = (list) => {
+        console.log('list=>>', list);
+        if (list.length > 0) {
+            let tmpArray = listInfo;
+            list.forEach((i) => {
+                tmpArray.push({
+                    BillMilestone: i.BillMilestone,
+                    PartyName: i.PartyName,
+                    LbRatio: i.LbRatio,
+                    createTime: new Date(),
+                    modifyNote: modifyNote.trim() === '' ? '' : modifyNote
+                });
+            });
+
+            setListInfo([...tmpArray]);
+            handleDialogClose();
+            itemDetailInitial();
+        }
     };
 
     //刪除
@@ -149,7 +147,19 @@ const LiabilityManage = () => {
                 <Button sx={{ mr: '0.25rem' }} variant="contained" onClick={handleDialogOpen}>
                     + 新增Liability
                 </Button>
-                <LiabilityAdd handleDialogClose={handleDialogClose} addLiability={addLiability} saveEdit={saveEdit} partyName={partyName} />
+                <LiabilityAdd
+                    handleDialogClose={handleDialogClose}
+                    addLiability={addLiability}
+                    saveEdit={saveEdit}
+                    partyName={partyName}
+                    setPartyName={setPartyName}
+                    isDialogOpen={isDialogOpen}
+                    billMilestone={billMilestone}
+                    setBillMilestone={setBillMilestone}
+                    dialogAction={dialogAction}
+                    lbRatio={lbRatio}
+                    setLBRatio={setLBRatio}
+                />
             </Grid>
             <Grid item xs={12}>
                 <LiabilityQuery liabilityQuery={liabilityQuery} />
