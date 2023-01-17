@@ -35,7 +35,7 @@ const InvoiceWorkManage = () => {
     const [listInfo, setListInfo] = useState([]);
     const [isListEdit, setIsListEdit] = useState(false);
 
-    const fakeUrl = 'http://127.0.0.1:8000/api/v1/generateInvoiceWKMaster&InvoiceWKDetail&InvoiceMaster&InvoiceDetail';
+    const fakeUrl = 'http://127.0.0.1:8000/api/v1/generateInvoiceWKMaster&InvoiceWKDetail';
 
     const itemDetailInitial = () => {
         setSupplierName('');
@@ -82,15 +82,14 @@ const InvoiceWorkManage = () => {
             IsPro,
             IsRecharge,
             IsLiability,
-            TotalAmount,
-            CreateDate
+            TotalAmount
+            // CreateDate
         };
     };
 
     //新增發票
     const addInvoiceInfo = () => {
         let tmpList = listInfo;
-        console.log('SupplierName =>>', supplierName, typeof supplierName);
         let tmpArray = createData(
             invoiceNo.trim() === '' ? 'No.' + dayjs(new Date()).format('YYYYMMDDHHmmss') : invoiceNo,
             supplierName,
@@ -106,13 +105,14 @@ const InvoiceWorkManage = () => {
             isPro === 'true' ? true : false,
             isRecharge === 'true' ? true : false,
             isLiability === 'true' ? true : false,
-            Number(totalAmount),
-            dayjs(new Date()).format('YYYY-MM-DD hh:mm:ss')
+            Number(totalAmount)
+            // dayjs(new Date()).format('YYYY-MM-DD hh:mm:ss')
         );
         let combineArray = {
             InvoiceWKMaster: tmpArray,
             InvoiceWKDetail: invoiceDetailInfo
         };
+        console.log('combineArray=>>', combineArray);
         tmpList.push(combineArray);
         setListInfo([...tmpList]);
         itemDetailInitial();

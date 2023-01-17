@@ -14,7 +14,8 @@ import { styled } from '@mui/material/styles';
 
 import dayjs, { Dayjs } from 'dayjs';
 
-const LiabilityDataList = ({ listInfo, setDialogAction, setIsDialogOpen, setEditItem, deletelistInfoItem }) => {
+const BilledDataList = ({ listInfo, setDialogAction, setIsDialogOpen, setEditItem, deletelistInfoItem }) => {
+    console.log('listInfo=>>', listInfo);
     const StyledTableCell = styled(TableCell)(({ theme }) => ({
         [`&.${tableCellClasses.head}`]: {
             // backgroundColor: theme.palette.common.gary,
@@ -35,11 +36,14 @@ const LiabilityDataList = ({ listInfo, setDialogAction, setIsDialogOpen, setEdit
                 <TableHead>
                     <TableRow>
                         <StyledTableCell align="center">NO</StyledTableCell>
-                        <StyledTableCell align="center">帳務計費段</StyledTableCell>
-                        <StyledTableCell align="center">會員名稱</StyledTableCell>
-                        <StyledTableCell align="center">攤分比例</StyledTableCell>
-                        <StyledTableCell align="center">異動原因</StyledTableCell>
-                        <StyledTableCell align="center">終止日期</StyledTableCell>
+                        <StyledTableCell align="center">工作主檔ID</StyledTableCell>
+                        <StyledTableCell align="center">發票代碼</StyledTableCell>
+                        <StyledTableCell align="center">供應商</StyledTableCell>
+                        <StyledTableCell align="center">海纜名稱</StyledTableCell>
+                        <StyledTableCell align="center">合約種類</StyledTableCell>
+                        <StyledTableCell align="center">發票日期</StyledTableCell>
+                        <StyledTableCell align="center">明細數量</StyledTableCell>
+                        <StyledTableCell align="center">總價</StyledTableCell>
                         <StyledTableCell align="center">Action</StyledTableCell>
                     </TableRow>
                 </TableHead>
@@ -52,8 +56,13 @@ const LiabilityDataList = ({ listInfo, setDialogAction, setIsDialogOpen, setEdit
                                 sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                             >
                                 <StyledTableCell align="center">{id + 1}</StyledTableCell>
-                                <StyledTableCell align="center">{row.BillMilestone}</StyledTableCell>
-                                <StyledTableCell align="center">{row.PartyName}</StyledTableCell>
+                                <StyledTableCell align="center">{row.billMilestone}</StyledTableCell>
+                                <StyledTableCell align="center">
+                                    {row.partyName.map((i) => {
+                                        console.log('i=>>', i);
+                                        return i === 0 ? <sapn>{i.title}</sapn> : <sapn>、{i.title}</sapn>;
+                                    })}
+                                </StyledTableCell>
                                 <StyledTableCell align="center">{`${row.lbRatio}%`}</StyledTableCell>
                                 <StyledTableCell align="center">{row.modifyNote}</StyledTableCell>
                                 <StyledTableCell align="center"> {dayjs(row.createTime).format('YYYY/MM/DD')}</StyledTableCell>
@@ -84,7 +93,7 @@ const LiabilityDataList = ({ listInfo, setDialogAction, setIsDialogOpen, setEdit
                                             deletelistInfoItem(id);
                                         }}
                                     >
-                                        終止
+                                        刪除
                                     </Button>
                                 </StyledTableCell>
                             </TableRow>
@@ -96,4 +105,4 @@ const LiabilityDataList = ({ listInfo, setDialogAction, setIsDialogOpen, setEdit
     );
 };
 
-export default LiabilityDataList;
+export default BilledDataList;

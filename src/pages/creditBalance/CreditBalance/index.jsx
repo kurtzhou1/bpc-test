@@ -18,9 +18,9 @@ import { styled } from '@mui/material/styles';
 
 // project import
 import MainCard from 'components/MainCard';
-import LiabilityQuery from './liabilityQuery';
-import LiabilityDataList from './liabilityDataList';
-import LiabilityAdd from './liabilityAdd';
+import CreditBalanceQuery from './creditBalanceQuery';
+import CreditBalanceDataList from './creditBalanceDataList';
+import CreditBalanceAdd from './creditBalanceAdd';
 
 // day
 import Dialog from '@mui/material/Dialog';
@@ -28,7 +28,7 @@ import DialogTitle from '@mui/material/DialogTitle';
 import DialogContent from '@mui/material/DialogContent';
 import DialogActions from '@mui/material/DialogActions';
 
-const LiabilityManage = () => {
+const CreditBalance = () => {
     const [listInfo, setListInfo] = useState([]);
     const [isDialogOpen, setIsDialogOpen] = useState(false);
     const [dialogAction, setDialogAction] = useState('');
@@ -39,12 +39,10 @@ const LiabilityManage = () => {
     const [editItem, setEditItem] = useState(NaN);
     const [modifyNote, setModifyNote] = useState('');
 
-    // const [searched, setSearched] = useState('');
-
     const parties = [{ name: 'Taiwan' }, { name: 'Vietnam' }, { name: 'Japan' }, { name: 'Korean' }];
 
-    const liabilityQuery = () => {
-        console.log('liabilityQueryFunction');
+    const creditBalanceQuery = () => {
+        console.log('CreditBalanceQueryFunction');
     };
 
     const handleDialogOpen = () => {
@@ -111,18 +109,6 @@ const LiabilityManage = () => {
         itemDetailInitial();
     };
 
-    // const requestSearch = (searchedVal) => {
-    //     const filteredRows = originalRows.filter((row) => {
-    //         return row.name.toLowerCase().includes(searchedVal.toLowerCase());
-    //     });
-    //     setRows(filteredRows);
-    // };
-
-    // const cancelSearch = () => {
-    //     setSearched('');
-    //     requestSearch(searched);
-    // };
-
     useEffect(() => {
         itemDetailInitial();
         if (editItem >= 0) {
@@ -159,9 +145,9 @@ const LiabilityManage = () => {
         <Grid container spacing={1}>
             <Grid item xs={12} display="flex" justifyContent="right">
                 <Button sx={{ mr: '0.25rem' }} variant="contained" onClick={handleDialogOpen}>
-                    + 新增Liability
+                    + 新增Credit Balance
                 </Button>
-                <LiabilityAdd
+                <CreditBalanceAdd
                     handleDialogClose={handleDialogClose}
                     addLiability={addLiability}
                     saveEdit={saveEdit}
@@ -176,11 +162,11 @@ const LiabilityManage = () => {
                 />
             </Grid>
             <Grid item xs={12}>
-                <LiabilityQuery liabilityQuery={liabilityQuery} />
+                <CreditBalanceQuery creditBalanceQuery={creditBalanceQuery} />
             </Grid>
             <Grid item xs={12}>
-                <MainCard title="發票資料建立列表">
-                    <LiabilityDataList
+                <MainCard title="Credit Balance資料列表">
+                    <CreditBalanceDataList
                         listInfo={listInfo}
                         setDialogAction={setDialogAction}
                         setIsDialogOpen={setIsDialogOpen}
@@ -193,4 +179,4 @@ const LiabilityManage = () => {
     );
 };
 
-export default LiabilityManage;
+export default CreditBalance;

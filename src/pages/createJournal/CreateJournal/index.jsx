@@ -1,12 +1,27 @@
 import { useEffect, useState } from 'react';
-import { Typography, Grid, Button, FormControl, InputLabel, Select, MenuItem, Box, IconButton, TextField, Checkbox } from '@mui/material';
+import {
+    Typography,
+    Grid,
+    Button,
+    FormControl,
+    InputLabel,
+    Select,
+    MenuItem,
+    Box,
+    IconButton,
+    TextField,
+    Checkbox,
+    Tabs,
+    Tab
+} from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 import { styled } from '@mui/material/styles';
 
 // project import
 import MainCard from 'components/MainCard';
 import JournalQuery from './journalQuery';
-import LiabilityDataList from './liabilityDataList';
+import ToBillDataList from './toBillDataList';
+import BilledDataList from './billedDataList';
 
 // day
 import Dialog from '@mui/material/Dialog';
@@ -30,6 +45,8 @@ const CreateJournal = () => {
     const [lbRatio, setLBRatio] = useState(NaN); //攤分比例
     const [editItem, setEditItem] = useState(NaN);
     const [modifyNote, setModifyNote] = useState('');
+
+    const [value, setValue] = useState(0);
 
     // const icon = <CheckBoxOutlineBlankIcon fontSize="small" />;
     // const checkedIcon = <CheckBoxIcon fontSize="small" />;
@@ -128,6 +145,37 @@ const CreateJournal = () => {
                 ) : null}
             </DialogTitle>
         );
+    };
+
+    const TabPanel = (props) => {
+        const { children, value, index, ...other } = props;
+
+        return (
+            <div
+                role="tabpanel"
+                hidden={value !== index}
+                id={`simple-tabpanel-${index}`}
+                aria-labelledby={`simple-tab-${index}`}
+                {...other}
+            >
+                {value === index && (
+                    <Box sx={{ p: 3 }}>
+                        <Typography>{children}</Typography>
+                    </Box>
+                )}
+            </div>
+        );
+    };
+
+    const a11yProps = (index) => {
+        return {
+            id: `simple-tab-${index}`,
+            'aria-controls': `simple-tabpanel-${index}`
+        };
+    };
+
+    const handleChange = (event, newValue) => {
+        setValue(newValue);
     };
 
     return (
@@ -274,14 +322,31 @@ const CreateJournal = () => {
                 <JournalQuery jounaryQuery={jounaryQuery} />
             </Grid>
             <Grid item xs={12}>
-                <MainCard title="發票資料建立列表">
-                    <LiabilityDataList
-                        listInfo={listInfo}
-                        setDialogAction={setDialogAction}
-                        setIsDialogOpen={setIsDialogOpen}
-                        setEditItem={setEditItem}
-                        deletelistInfoItem={deletelistInfoItem}
-                    />
+                <MainCard title="發票資料列表">
+                    <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
+                        <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
+                            <Tab label="尚未立帳" {...a11yProps(0)} />
+                            <Tab label="已立帳" {...a11yProps(1)} />
+                        </Tabs>
+                    </Box>
+                    <TabPanel value={value} index={0}>
+                        <ToBillDataList
+                            listInfo={listInfo}
+                            setDialogAction={setDialogAction}
+                            setIsDialogOpen={setIsDialogOpen}
+                            setEditItem={setEditItem}
+                            deletelistInfoItem={deletelistInfoItem}
+                        />
+                    </TabPanel>
+                    <TabPanel value={value} index={1}>
+                        <BilledDataList
+                            listInfo={listInfo}
+                            setDialogAction={setDialogAction}
+                            setIsDialogOpen={setIsDialogOpen}
+                            setEditItem={setEditItem}
+                            deletelistInfoItem={deletelistInfoItem}
+                        />
+                    </TabPanel>
                 </MainCard>
             </Grid>
         </Grid>

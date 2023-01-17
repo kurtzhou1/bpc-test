@@ -21,6 +21,9 @@ const LiabilityManage = Loadable(lazy(() => import('pages/liability/LiabilityMan
 // 立帳管理
 const CreateJournal = Loadable(lazy(() => import('pages/createJournal/CreateJournal')));
 
+// Credit Balance
+const CreditBalance = Loadable(lazy(() => import('pages/creditBalance/CreditBalance')));
+
 // render - utilities
 const Typography = Loadable(lazy(() => import('pages/components-overview/Typography')));
 const Color = Loadable(lazy(() => import('pages/components-overview/Color')));
@@ -85,6 +88,15 @@ const MainRoutes = {
                 {
                     path: 'LiabilityManage',
                     element: <LiabilityManage />
+                }
+            ]
+        },
+        {
+            path: 'CreditBalance',
+            children: [
+                {
+                    path: 'CreditBalanceManage',
+                    element: <CreditBalance />
                 }
             ]
         },

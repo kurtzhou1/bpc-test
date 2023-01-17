@@ -165,26 +165,26 @@ const CreateInvoiceDetail = ({ invoiceDetailInfo, setInvoiceDetailInfo }) => {
                 {/* row3 */}
                 <Grid item xs={12} sm={12} md={12} lg={12} display="flex" justifyContent="end" alignItems="center">
                     {isEdit ? (
-                        <Button sx={{ mr: '0.25rem' }} variant="contained" onClick={itemDetailSave}>
+                        <Button size="small" sx={{ mr: '0.25rem' }} variant="contained" onClick={itemDetailSave}>
                             儲存
                         </Button>
                     ) : (
-                        <Button sx={{ mr: '0.25rem' }} variant="contained" onClick={itemDetailAdd}>
+                        <Button size="small" sx={{ mr: '0.25rem' }} variant="contained" onClick={itemDetailAdd}>
                             新增
                         </Button>
                     )}
                     {isEdit ? (
-                        <Button sx={{ ml: '0.25rem' }} variant="contained" onClick={itemDetailCancel}>
+                        <Button size="small" sx={{ ml: '0.25rem' }} variant="contained" onClick={itemDetailCancel}>
                             取消
                         </Button>
                     ) : (
-                        <Button sx={{ ml: '0.25rem' }} variant="contained" onClick={itemDetailInitial}>
+                        <Button size="small" sx={{ ml: '0.25rem' }} variant="contained" onClick={itemDetailInitial}>
                             清除
                         </Button>
                     )}
                 </Grid>
                 <Grid item xs={12} sm={12} lg={12}>
-                    <TableContainer component={Paper} sx={{ maxHeight: { lg: 125, md: 200 } }}>
+                    <TableContainer component={Paper} sx={{ maxHeight: { lg: 175, md: 250 } }}>
                         <Table sx={{ minWidth: 300 }} stickyHeader aria-label="sticky table">
                             <TableHead>
                                 <TableRow>
