@@ -160,14 +160,14 @@ const InvoiceQueryBlock = ({ invoiceQuery }) => {
                     />
                 </Grid>
                 <Grid item xs={12} sm={6} md={4} lg={3} xl={3} />
-
                 {/* row3 */}
-                <Grid item xs={12} sm={6} md={4} lg={2}>
-                    <Typography variant="h5" sx={{ fontSize: { lg: '0.5rem', xl: '0.88rem' }, ml: { lg: '0.5rem', xl: '1.5rem' } }}>
+                <Grid item xs={12} sm={6} md={4} lg={9} display="flex" alignItems="center">
+                    <Typography
+                        variant="h5"
+                        sx={{ fontSize: { lg: '0.5rem', xl: '0.88rem' }, ml: { lg: '0.5rem', xl: '1.5rem' }, mr: { lg: '1rem' } }}
+                    >
                         日期條件及區間：
                     </Typography>
-                </Grid>
-                <Grid item display="flex" xs={12} sm={6} md={4} lg={8}>
                     <FormControl>
                         <RadioGroup
                             row
@@ -225,7 +225,7 @@ const InvoiceQueryBlock = ({ invoiceQuery }) => {
                 {/* <Grid item xs={12} sm={6} md={4} lg={4}>
                  
                 </Grid> */}
-                <Grid item xs={12} sm={6} md={4} lg={2} display="flex" justifyContent="end" alignItems="center">
+                <Grid item xs={12} sm={6} md={4} lg={3} display="flex" justifyContent="end" alignItems="center">
                     <Button sx={{ mr: '0.25rem' }} variant="contained" onClick={invoiceQuery}>
                         查詢
                     </Button>

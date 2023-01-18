@@ -138,31 +138,6 @@ const CreateInvoiceDetail = ({ setInvoiceDetailInfo, invoiceDetailInfo, action }
                         onChange={(e) => setFeeAmount(e.target.value)}
                     />
                 </Grid>
-                {/* <Grid item xs={12} sm={6} md={4} lg={2}>
-                    <Typography variant="h5" sx={{ fontSize: { lg: '0.5rem', xl: '0.88rem' }, ml: { lg: '0.5rem', xl: '1.5rem' } }}>
-                        收費種類：
-                    </Typography>
-                </Grid>
-                <Grid item xs={12} sm={6} md={4} lg={4}>
-                    <FormControl fullWidth>
-                        <InputLabel size="small" id="feeType" disabled={action === 'View'}>
-                            選擇收費種類
-                        </InputLabel>
-                        <Select
-                            // labelId="demo-simple-select-label"
-                            // id="demo-simple-select"
-                            disabled={action === 'View'}
-                            value={feeType}
-                            label="收費種類"
-                            size="small"
-                            onChange={(e) => setFeeType(e.target.value)}
-                        >
-                            <MenuItem value={'種類1'}>種類1</MenuItem>
-                            <MenuItem value={'種類2'}>種類2</MenuItem>
-                            <MenuItem value={'種類3'}>種類3</MenuItem>
-                        </Select>
-                    </FormControl>
-                </Grid> */}
                 {/* row2 */}
                 <Grid item lg={2}>
                     <Typography

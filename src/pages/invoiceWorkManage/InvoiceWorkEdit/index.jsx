@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 // import dayjs, { Dayjs } from 'dayjs';
 
 // material-ui
@@ -16,6 +16,9 @@ import CreateInvoiceDetail from './createInvoiceDetail';
 import InvoiceDataList from './invoiceDataList';
 import { TextField } from '@mui/material/index';
 
+// api
+import { generateInvoice, updateInvoice, deleteInvoiceWKMaster, deleteInvoiceWKDetail } from 'components/api';
+
 // ==============================|| SAMPLE PAGE ||============================== //
 
 const InvoiceWorkManage = () => {
@@ -32,14 +35,18 @@ const InvoiceWorkManage = () => {
     const [isLiability, setIsLiability] = useState(false); //是否需攤分
     const [isRecharge, setIsRecharge] = useState(false); //是否為短腳補收
     const [partyName, setPartyName] = useState(''); //會員代號
+    const wKMasterID = useRef(); //工作檔ID
 
     const [action, setAction] = useState('');
     const [modifyItem, setModifyItem] = useState(-1);
     const [isValidated, setIsValidated] = useState(false);
 
+    console.log('deleteInvoiceWKMaster=>>', deleteInvoiceWKMaster);
+
     const fakeData = [
         {
             InvoiceWKMaster: {
+                WKMasterID: 123,
                 InvoiceNo: 'No Number',
                 SupplierName: 'NEC',
                 SubmarineCable: 'SJC2',
@@ -55,19 +62,16 @@ const InvoiceWorkManage = () => {
             InvoiceWKDetail: [
                 {
                     BillMilestone: 'BM9b',
-                    FeeType: '收費種類1',
                     FeeItem: 'BM9b Sea cable manufactured (8.5km spare cable)- Equipment (Off-Shore Korea)',
                     FeeAmount: 6849.91
                 },
                 {
                     BillMilestone: 'BM9b',
-                    FeeType: '收費種類2',
                     FeeItem: 'BM9b Sea cable manufactured (8.5km spare cable)- Equipment (On-Shore Korea)',
                     FeeAmount: 1210.06
                 },
                 {
                     BillMilestone: 'BM9b',
-                    FeeType: '收費種類2',
                     FeeItem: 'BM9b Sea cable manufactured (8.5km spare cable)- Service (Off-Shore Korea)',
                     FeeAmount: 7406.95
                 }
@@ -75,6 +79,7 @@ const InvoiceWorkManage = () => {
         },
         {
             InvoiceWKMaster: {
+                WKMasterID: 456,
                 InvoiceNo: 'DT0170168-1',
                 SupplierName: 'NEC',
                 SubmarineCable: 'SJC2',
@@ -90,24 +95,40 @@ const InvoiceWorkManage = () => {
             InvoiceWKDetail: [
                 {
                     BillMilestone: 'BM9a',
-                    FeeType: '收費種類1',
                     FeeItem: 'BM9a Sea cable manufactured (except 8.5km spare cable))- Equipment',
                     FeeAmount: 1288822.32
                 },
                 {
                     BillMilestone: 'BM9a',
-                    FeeType: '收費種類2',
                     FeeItem: 'BM9a Sea cable manufactured (except 8.5km spare cable))- Service',
                     FeeAmount: 1178227.94
                 },
-                { BillMilestone: 'BM12', FeeType: '收費種類3', FeeItem: 'BM12 Branching Units (100%)-Equipment', FeeAmount: 1627300.92 }
+                { BillMilestone: 'BM12', FeeItem: 'BM12 Branching Units (100%)-Equipment', FeeAmount: 1627300.92 }
             ]
         }
     ];
 
+    const itemDetailInitial = () => {
+        wKMasterID.current = 0;
+        setSupplierName('');
+        setInvoiceNo('');
+        setSubmarineCable('');
+        setWorTitle('');
+        setContractType('');
+        setIssueDate(new Date());
+        setDueDate(new Date());
+        setTotalAmount(0);
+        setIsPro();
+        setIsLiability();
+        setIsRecharge();
+        setPartyName('');
+        setInvoiceDetailInfo([]);
+    };
+
     const [listInfo, setListInfo] = useState(fakeData);
 
     const createData = (
+        WKMasterID,
         InvoiceNo,
         SupplierName,
         SubmarineCable,
@@ -120,10 +141,11 @@ const InvoiceWorkManage = () => {
         IsPro,
         IsRecharge,
         IsLiability,
-        TotalAmount,
-        CreateDate
+        TotalAmount
+        // CreateDate
     ) => {
         return {
+            WKMasterID,
             InvoiceNo,
             SupplierName,
             SubmarineCable,
@@ -136,16 +158,13 @@ const InvoiceWorkManage = () => {
             IsPro,
             IsRecharge,
             IsLiability,
-            TotalAmount,
-            CreateDate
+            TotalAmount
+            // CreateDate
         };
     };
 
     useEffect(() => {
-        console.log('modifyItem=>>', modifyItem);
-        console.log('action=>>', action);
         if ((modifyItem >= 0 && action === 'Edit') || (modifyItem >= 0 && action === '') || (modifyItem >= 0 && action === 'View')) {
-            console.log('listInfo=>>', listInfo[modifyItem], listInfo[modifyItem], listInfo[modifyItem].InvoiceWKMaster);
             setSupplierName(listInfo[modifyItem].InvoiceWKMaster.SupplierName);
             setInvoiceNo(listInfo[modifyItem].InvoiceWKMaster.InvoiceNo);
             setSubmarineCable(listInfo[modifyItem].InvoiceWKMaster.SubmarineCable);
@@ -159,12 +178,25 @@ const InvoiceWorkManage = () => {
             setIsRecharge(listInfo[modifyItem].InvoiceWKMaster.IsRecharge);
             setPartyName(listInfo[modifyItem].InvoiceWKMaster.PartyName);
             setInvoiceDetailInfo(listInfo[modifyItem].InvoiceWKDetail);
+            wKMasterID.current = listInfo[modifyItem].InvoiceWKMaster.WKMasterID;
             setAction('');
         }
     }, [modifyItem]);
 
     useEffect(() => {
         if (action === 'Validated') {
+            console.log('modifyItem=>>', listInfo[modifyItem].InvoiceWKMaster.WKMasterID);
+            console.log('action=>>', action);
+            let tmpArray = {
+                WKMasterID: listInfo[modifyItem].InvoiceWKMaster.WKMasterID,
+                Status: 'VALIDATED'
+            };
+            fetch(updateInvoice, { method: 'POST', body: JSON.stringify(tmpArray) })
+                .then((res) => res.json())
+                .then((data) => {
+                    console.log('data1=>>', data);
+                })
+                .catch((e) => console.log('e1=>>', e));
             setIsValidated(true);
             setAction('');
         }
@@ -173,41 +205,69 @@ const InvoiceWorkManage = () => {
             setAction('');
         }
         if (action === 'Delete') {
+            let tmpArray = {
+                WKMasterID: listInfo[modifyItem].InvoiceWKMaster.WKMasterID
+            };
+            fetch(deleteInvoiceWKMaster, { method: 'POST', body: JSON.stringify(tmpArray) })
+                .then((res) => res.json())
+                .then((data) => {
+                    console.log('data1=>>', data);
+                })
+                .catch((e) => console.log('e1=>>', e));
+            fetch(deleteInvoiceWKDetail, { method: 'POST', body: JSON.stringify(tmpArray) })
+                .then((res) => res.json())
+                .then((data) => {
+                    console.log('data1=>>', data);
+                })
+                .catch((e) => console.log('e1=>>', e));
             deletelistInfoItem(modifyItem);
             setAction('');
         }
     }, [action]);
 
-    const fakeUrl = 'http://localhost:8000/api/v1/generateInvoiceWKMaster&InvoiceWKDetail&InvoiceMaster&InvoiceDetail';
-
     const addInvoiceInfo = () => {
-        let tmpList = listInfo;
         let tmpArray = createData(
+            wKMasterID.current,
             invoiceNo.trim() === '' ? 'No.' + dayjs(new Date()).format('YYYYMMDDHHmmss') : invoiceNo,
             supplierName,
             submarineCable,
             workTitle,
             contractType,
             dayjs(issueDate).format('YYYY-MM-DD hh:mm:ss'),
-            // issueDate,
             dayjs(dueDate).format('YYYY-MM-DD hh:mm:ss'),
-            // dueDate,
             partyName,
             'TEMPPORARY',
             isPro === 'true' ? true : false,
             isRecharge === 'true' ? true : false,
             isLiability === 'true' ? true : false,
-            Number(totalAmount),
-            dayjs(new Date()).format('YYYY-MM-DD hh:mm:ss')
+            Number(totalAmount)
+            // dayjs(new Date()).format('YYYY-MM-DD hh:mm:ss')
         );
         let combineArray = {
             InvoiceWKMaster: tmpArray,
             InvoiceWKDetail: invoiceDetailInfo
         };
-        tmpList.push(combineArray);
-        setListInfo([...tmpList]);
+        fetch(deleteInvoiceWKMaster, { method: 'POST', body: JSON.stringify(wKMasterID.current) })
+            .then((res) => res.json())
+            .then((data) => {
+                console.log('data1=>>', data);
+            })
+            .catch((e) => console.log('e1=>>', e));
+        fetch(deleteInvoiceWKDetail, { method: 'POST', body: JSON.stringify(wKMasterID.current) })
+            .then((res) => res.json())
+            .then((data) => {
+                console.log('data2=>>', data);
+            })
+            .catch((e) => console.log('e2=>>', e));
+        fetch(generateInvoice, { method: 'POST', body: JSON.stringify(combineArray) })
+            .then((res) => res.json())
+            .then((data) => {
+                console.log('data3=>>', data);
+            })
+            .catch((e) => console.log('e3=>>', e));
         itemDetailInitial();
         setInvoiceDetailInfo([]);
+        setAction('');
     };
 
     const deletelistInfoItem = (deleteItem) => {

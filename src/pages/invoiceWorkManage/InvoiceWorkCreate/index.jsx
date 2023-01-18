@@ -166,7 +166,6 @@ const InvoiceWorkManage = () => {
 
     //送出
     const sendInvoice = () => {
-        console.log('listInfo=>>', listInfo);
         listInfo.forEach((dataInfo) => {
             fetch(fakeUrl, { method: 'POST', body: JSON.stringify(dataInfo) })
                 .then((res) => res.json())

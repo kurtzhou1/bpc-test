@@ -76,7 +76,9 @@ const InvoiceDataList = ({ listInfo, setAction, setModifyItem, isValidated }) =>
                                 <StyledTableCell align="center">{row.InvoiceWKMaster?.IssueDate}</StyledTableCell>
                                 <StyledTableCell align="center">{row.InvoiceWKDetail.length}</StyledTableCell>
                                 <StyledTableCell align="center">{row.InvoiceWKMaster.TotalAmount}</StyledTableCell>
-                                <StyledTableCell align="center">{row.InvoiceWKMaster.Status === 'TEMP' ? '暫存' : '???'}</StyledTableCell>
+                                <StyledTableCell align="center">
+                                    {row.InvoiceWKMaster.Status === 'TEMPPORARY' ? '暫存' : '???'}
+                                </StyledTableCell>
                                 <TableCell align="center">
                                     <IconButton
                                         aria-label="more"
