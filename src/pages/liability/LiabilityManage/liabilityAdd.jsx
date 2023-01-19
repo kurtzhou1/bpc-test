@@ -46,12 +46,13 @@ const LiabilityManage = ({
     setBillMilestone,
     dialogAction,
     lbRatio,
-    setLBRatio
+    setLBRatio,
+    modifyNote,
+    setModifyNote
 }) => {
-    const [modifyNote, setModifyNote] = useState('');
     const [listInfo, setListInfo] = useState([]);
     // const [editItem, setEditItem] = useState(NaN);
-    const [isEdit, setIsEdit] = useState(false);
+    // const [isEdit, setIsEdit] = useState(false);
 
     const icon = <CheckBoxOutlineBlankIcon fontSize="small" />;
     const checkedIcon = <CheckBoxIcon fontSize="small" />;
@@ -61,7 +62,7 @@ const LiabilityManage = ({
     const itemDetailInitial = () => {
         setPartyName([]);
         setLBRatio('');
-        setIsEdit(false);
+        // setIsEdit(false);
     };
 
     // //編輯
@@ -160,7 +161,7 @@ const LiabilityManage = ({
                             <TextField
                                 fullWidth
                                 variant="outlined"
-                                disabled={listInfo.length > 0}
+                                disabled={listInfo.length > 0 || dialogAction === 'Edit'}
                                 value={billMilestone}
                                 size="small"
                                 label="填寫記帳段號"
@@ -219,12 +220,10 @@ const LiabilityManage = ({
                             id="checkboxes-tags-demo"
                             options={parties}
                             value={partyName}
-                            disabled={isEdit}
+                            // disabled={isEdit}
+                            disabled={dialogAction === 'Edit'}
                             size="small"
                             disableCloseOnSelect
-                            // getOptionDisabled={(option) =>
-                            //     option === timeSlots[0] || option === timeSlots[2] haha
-                            //   }
                             onChange={(event, newValue) => {
                                 setPartyName(newValue);
                             }}
@@ -241,53 +240,61 @@ const LiabilityManage = ({
                         />
                     </Grid>
                     <Grid item xs={1} sm={1} md={1} lg={1} display="flex" justifyContent="end" alignItems="center">
-                        <Button
-                            size="small"
-                            style={{ maxWidth: '2rem', maxHeight: '2rem', minWidth: '2rem', minHeight: '2rem' }}
-                            variant="contained"
-                            onClick={addList}
-                        >
-                            +
-                        </Button>
+                        {dialogAction !== 'Edit' ? (
+                            <Button
+                                size="small"
+                                style={{ maxWidth: '2rem', maxHeight: '2rem', minWidth: '2rem', minHeight: '2rem' }}
+                                variant="contained"
+                                onClick={addList}
+                            >
+                                +
+                            </Button>
+                        ) : (
+                            ''
+                        )}
                     </Grid>
-                    <Grid item xs={12} sm={12} md={12} lg={12}>
-                        <TableContainer component={Paper} sx={{ maxHeight: 250 }}>
-                            <Table sx={{ minWidth: 300 }} stickyHeader aria-label="sticky table">
-                                <TableHead>
-                                    <TableRow>
-                                        <StyledTableCell align="center">記帳段號</StyledTableCell>
-                                        <StyledTableCell align="center">會員名稱</StyledTableCell>
-                                        <StyledTableCell align="center">攤分比例</StyledTableCell>
-                                        <StyledTableCell align="center">Action</StyledTableCell>
-                                    </TableRow>
-                                </TableHead>
-                                <TableBody>
-                                    {listInfo?.map((row, id) => {
-                                        return (
-                                            <TableRow
-                                                // key={row.InvoiceWKMaster?.invoiceNo + row.InvoiceWKMaster?.supplierName + id}
-                                                sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-                                            >
-                                                <StyledTableCell align="center">{row.BillMilestone}</StyledTableCell>
-                                                <StyledTableCell align="center">{row.PartyName}</StyledTableCell>
-                                                <StyledTableCell align="center">{`${row.LbRatio}%`}</StyledTableCell>
-                                                <StyledTableCell align="center">
-                                                    <Button
-                                                        color="error"
-                                                        onClick={() => {
-                                                            deletelistInfoItem(id);
-                                                        }}
-                                                    >
-                                                        刪除
-                                                    </Button>
-                                                </StyledTableCell>
-                                            </TableRow>
-                                        );
-                                    })}
-                                </TableBody>
-                            </Table>
-                        </TableContainer>
-                    </Grid>
+                    {dialogAction !== 'Edit' ? (
+                        <Grid item xs={12} sm={12} md={12} lg={12}>
+                            <TableContainer component={Paper} sx={{ maxHeight: 250 }}>
+                                <Table sx={{ minWidth: 300 }} stickyHeader aria-label="sticky table">
+                                    <TableHead>
+                                        <TableRow>
+                                            <StyledTableCell align="center">記帳段號</StyledTableCell>
+                                            <StyledTableCell align="center">會員名稱</StyledTableCell>
+                                            <StyledTableCell align="center">攤分比例</StyledTableCell>
+                                            <StyledTableCell align="center">Action</StyledTableCell>
+                                        </TableRow>
+                                    </TableHead>
+                                    <TableBody>
+                                        {listInfo?.map((row, id) => {
+                                            return (
+                                                <TableRow
+                                                    // key={row.InvoiceWKMaster?.invoiceNo + row.InvoiceWKMaster?.supplierName + id}
+                                                    sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                                                >
+                                                    <StyledTableCell align="center">{row.BillMilestone}</StyledTableCell>
+                                                    <StyledTableCell align="center">{row.PartyName}</StyledTableCell>
+                                                    <StyledTableCell align="center">{`${row.LbRatio}%`}</StyledTableCell>
+                                                    <StyledTableCell align="center">
+                                                        <Button
+                                                            color="error"
+                                                            onClick={() => {
+                                                                deletelistInfoItem(id);
+                                                            }}
+                                                        >
+                                                            刪除
+                                                        </Button>
+                                                    </StyledTableCell>
+                                                </TableRow>
+                                            );
+                                        })}
+                                    </TableBody>
+                                </Table>
+                            </TableContainer>
+                        </Grid>
+                    ) : (
+                        ''
+                    )}
                 </Grid>
             </DialogContent>
             <DialogActions>

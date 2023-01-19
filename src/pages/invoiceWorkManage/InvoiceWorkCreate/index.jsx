@@ -102,9 +102,9 @@ const InvoiceWorkManage = () => {
             // dueDate,
             partyName,
             'TEMPPORARY',
-            isPro === 'true' ? true : false,
-            isRecharge === 'true' ? true : false,
-            isLiability === 'true' ? true : false,
+            isPro === 'true' ? 1 : 0,
+            isRecharge === 'true' ? 1 : 0,
+            isLiability === 'true' ? 1 : 0,
             Number(totalAmount)
             // dayjs(new Date()).format('YYYY-MM-DD hh:mm:ss')
         );

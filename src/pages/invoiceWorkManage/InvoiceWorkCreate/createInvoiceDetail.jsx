@@ -45,7 +45,6 @@ const CreateInvoiceDetail = ({ invoiceDetailInfo, setInvoiceDetailInfo }) => {
 
     const itemDetailInitial = () => {
         setBillMilestone('');
-        // setFeeType('');
         setFeeItem('');
         setFeeAmount(0);
     };

@@ -1,5 +1,5 @@
 import { useEffect, useState, useRef } from 'react';
-// import dayjs, { Dayjs } from 'dayjs';
+// import dayjs from 'dayjs';
 
 // material-ui
 import { Typography, Grid, Button, FormControl, InputLabel, Select, MenuItem, RadioGroup, FormControlLabel, Radio } from '@mui/material';
@@ -7,7 +7,7 @@ import { Typography, Grid, Button, FormControl, InputLabel, Select, MenuItem, Ra
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DesktopDatePicker } from '@mui/x-date-pickers/DesktopDatePicker';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import dayjs, { Dayjs } from 'dayjs';
+import dayjs from 'dayjs';
 // project import
 import MainCard from 'components/MainCard';
 import InvoiceQuery from './invoiceQuery';
@@ -17,7 +17,7 @@ import InvoiceDataList from './invoiceDataList';
 import { TextField } from '@mui/material/index';
 
 // api
-import { generateInvoice, updateInvoice, deleteInvoiceWKMaster, deleteInvoiceWKDetail } from 'components/api';
+import { generateInvoice, updateInvoice, deleteInvoiceWKMaster, deleteInvoiceWKDetail } from 'components/apis';
 
 // ==============================|| SAMPLE PAGE ||============================== //
 
@@ -40,8 +40,6 @@ const InvoiceWorkManage = () => {
     const [action, setAction] = useState('');
     const [modifyItem, setModifyItem] = useState(-1);
     const [isValidated, setIsValidated] = useState(false);
-
-    console.log('deleteInvoiceWKMaster=>>', deleteInvoiceWKMaster);
 
     const fakeData = [
         {
@@ -237,9 +235,9 @@ const InvoiceWorkManage = () => {
             dayjs(dueDate).format('YYYY-MM-DD hh:mm:ss'),
             partyName,
             'TEMPPORARY',
-            isPro === 'true' ? true : false,
-            isRecharge === 'true' ? true : false,
-            isLiability === 'true' ? true : false,
+            isPro === 'true' ? 1 : 0,
+            isRecharge === 'true' ? 1 : 0,
+            isLiability === 'true' ? 1 : 0,
             Number(totalAmount)
             // dayjs(new Date()).format('YYYY-MM-DD hh:mm:ss')
         );
@@ -277,17 +275,13 @@ const InvoiceWorkManage = () => {
         setListInfo([...tmpArray]);
     };
 
-    const invoiceQuery = () => {
-        console.log('invoiceQuery');
-    };
-
     return (
         <Grid container spacing={1}>
             <Grid item xs={12}>
                 <MainCard sx={{ width: '100%' }}>
                     <Grid container display="flex" spacing={2}>
                         <Grid item xs={12}>
-                            <InvoiceQuery invoiceQuery={invoiceQuery} setAction={setAction} />
+                            <InvoiceQuery setAction={setAction} />
                         </Grid>
                     </Grid>
                 </MainCard>

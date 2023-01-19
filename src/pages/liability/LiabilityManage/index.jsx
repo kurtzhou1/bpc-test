@@ -23,6 +23,7 @@ import LiabilityDataList from './liabilityDataList';
 import LiabilityAdd from './liabilityAdd';
 
 // day
+import dayjs from 'dayjs';
 import Dialog from '@mui/material/Dialog';
 import DialogTitle from '@mui/material/DialogTitle';
 import DialogContent from '@mui/material/DialogContent';
@@ -65,7 +66,6 @@ const LiabilityManage = () => {
 
     //新增
     const addLiability = (list) => {
-        console.log('list=>>', list);
         if (list.length > 0) {
             let tmpArray = listInfo;
             list.forEach((i) => {
@@ -73,21 +73,20 @@ const LiabilityManage = () => {
                     BillMilestone: i.BillMilestone,
                     PartyName: i.PartyName,
                     LbRatio: i.LbRatio,
-                    createTime: new Date(),
-                    modifyNote: modifyNote.trim() === '' ? '' : modifyNote
+                    CreateTime: '',
+                    ModifyNote: modifyNote.trim() === '' ? '' : modifyNote
                 });
             });
-
             setListInfo([...tmpArray]);
             handleDialogClose();
             itemDetailInitial();
         }
     };
 
-    //刪除
-    const deletelistInfoItem = (deleteItem) => {
+    //終止
+    const updatelistInfoItem = (updateItem) => {
         let tmpArray = listInfo;
-        tmpArray.splice(deleteItem, 1);
+        tmpArray[updateItem].CreateTime = dayjs(new Date()).format('YYYY-MM-DD hh:mm:ss');
         setListInfo([...tmpArray]);
     };
 
@@ -95,20 +94,25 @@ const LiabilityManage = () => {
     const editlistInfoItem = () => {
         let tmpArray = listInfo[editItem];
         if (tmpArray) {
-            setBillMilestone(tmpArray?.billMilestone);
-            partyName.current = tmpArray?.partyName;
-            setLBRatio(tmpArray?.lbRatio);
-            setModifyNote(tmpArray?.modifyNote);
+            setBillMilestone(tmpArray?.BillMilestone);
+            setPartyName([tmpArray?.PartyName]);
+            setLBRatio(tmpArray?.LbRatio);
+            setModifyNote(tmpArray?.ModifyNote);
         }
     };
 
     //儲存編輯
     const saveEdit = () => {
+        let tmpArray = listInfo;
+        // console.log('lbRatio=>>', lbRatio);
+        tmpArray[editItem].LbRatio = lbRatio;
+        tmpArray[editItem].ModifyNote = modifyNote;
+        console.log('tmpArray=>>>>', tmpArray);
+        setListInfo([...tmpArray]);
         setEditItem(NaN);
-        deletelistInfoItem(editItem);
-        addLiability();
-        setIsListEdit(false);
-        itemDetailInitial();
+        // addLiability();
+        // setIsListEdit(false);
+        // itemDetailInitial();
     };
 
     // const requestSearch = (searchedVal) => {
@@ -173,6 +177,8 @@ const LiabilityManage = () => {
                     dialogAction={dialogAction}
                     lbRatio={lbRatio}
                     setLBRatio={setLBRatio}
+                    modifyNote={modifyNote}
+                    setModifyNote={setModifyNote}
                 />
             </Grid>
             <Grid item xs={12}>
@@ -185,7 +191,7 @@ const LiabilityManage = () => {
                         setDialogAction={setDialogAction}
                         setIsDialogOpen={setIsDialogOpen}
                         setEditItem={setEditItem}
-                        deletelistInfoItem={deletelistInfoItem}
+                        updatelistInfoItem={updatelistInfoItem}
                     />
                 </MainCard>
             </Grid>

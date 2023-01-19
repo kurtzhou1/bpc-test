@@ -12,9 +12,9 @@ import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import { styled } from '@mui/material/styles';
 
-import dayjs, { Dayjs } from 'dayjs';
+import dayjs from 'dayjs';
 
-const LiabilityDataList = ({ listInfo, setDialogAction, setIsDialogOpen, setEditItem, deletelistInfoItem }) => {
+const LiabilityDataList = ({ listInfo, setDialogAction, setIsDialogOpen, setEditItem, updatelistInfoItem }) => {
     const StyledTableCell = styled(TableCell)(({ theme }) => ({
         [`&.${tableCellClasses.head}`]: {
             // backgroundColor: theme.palette.common.gary,
@@ -28,6 +28,8 @@ const LiabilityDataList = ({ listInfo, setDialogAction, setIsDialogOpen, setEdit
             paddingBottom: '0.2rem'
         }
     }));
+
+    console.log('listInfo=>>', listInfo);
 
     return (
         <TableContainer component={Paper} sx={{ maxHeight: 250 }}>
@@ -54,38 +56,52 @@ const LiabilityDataList = ({ listInfo, setDialogAction, setIsDialogOpen, setEdit
                                 <StyledTableCell align="center">{id + 1}</StyledTableCell>
                                 <StyledTableCell align="center">{row.BillMilestone}</StyledTableCell>
                                 <StyledTableCell align="center">{row.PartyName}</StyledTableCell>
-                                <StyledTableCell align="center">{`${row.lbRatio}%`}</StyledTableCell>
-                                <StyledTableCell align="center">{row.modifyNote}</StyledTableCell>
-                                <StyledTableCell align="center"> {dayjs(row.createTime).format('YYYY/MM/DD')}</StyledTableCell>
+                                <StyledTableCell align="center">{`${row.LbRatio}%`}</StyledTableCell>
+                                <StyledTableCell align="center">{row.ModifyNote}</StyledTableCell>
                                 <StyledTableCell align="center">
-                                    <Button
-                                        color="primary"
-                                        onClick={() => {
-                                            setDialogAction('Edit');
-                                            setIsDialogOpen(true);
-                                            setEditItem(id);
-                                        }}
-                                    >
-                                        編輯
-                                    </Button>
-                                    <Button
-                                        color="success"
-                                        onClick={() => {
-                                            setDialogAction('Split');
-                                            setIsDialogOpen(true);
-                                            setEditItem(id);
-                                        }}
-                                    >
-                                        分段
-                                    </Button>
-                                    <Button
-                                        color="error"
-                                        onClick={() => {
-                                            deletelistInfoItem(id);
-                                        }}
-                                    >
-                                        終止
-                                    </Button>
+                                    {row.CreateTime === '' ? '' : dayjs(row.CreateTime).format('YYYY/MM/DD')}
+                                </StyledTableCell>
+                                <StyledTableCell align="center">
+                                    {row.CreateTime === '' ? (
+                                        <Button
+                                            color="primary"
+                                            onClick={() => {
+                                                setDialogAction('Edit');
+                                                setIsDialogOpen(true);
+                                                setEditItem(id);
+                                            }}
+                                        >
+                                            編輯
+                                        </Button>
+                                    ) : (
+                                        ''
+                                    )}
+                                    {row.CreateTime === '' ? (
+                                        <Button
+                                            color="success"
+                                            onClick={() => {
+                                                setDialogAction('Split');
+                                                setIsDialogOpen(true);
+                                                setEditItem(id);
+                                            }}
+                                        >
+                                            分段
+                                        </Button>
+                                    ) : (
+                                        ''
+                                    )}
+                                    {row.CreateTime === '' ? (
+                                        <Button
+                                            color="error"
+                                            onClick={() => {
+                                                updatelistInfoItem(id);
+                                            }}
+                                        >
+                                            終止
+                                        </Button>
+                                    ) : (
+                                        ''
+                                    )}
                                 </StyledTableCell>
                             </TableRow>
                         );
