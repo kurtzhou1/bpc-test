@@ -52,10 +52,10 @@ const InvoiceWorkManage = () => {
                 ContractType: 'SC',
                 IssueDate: '2022/9/9',
                 TotalAmount: 15466.92,
-                Status: 'TEMPPORARY',
-                IsPro: true,
-                IsLiability: false,
-                IsRecharge: false
+                Status: 'TEMPORARY',
+                IsPro: 1,
+                IsLiability: 0,
+                IsRecharge: 0
             },
             InvoiceWKDetail: [
                 {
@@ -85,10 +85,10 @@ const InvoiceWorkManage = () => {
                 ContractType: 'SC',
                 IssueDate: '2022/9/9',
                 TotalAmount: 5582012.72,
-                Status: 'TEMPPORARY',
-                IsPro: true,
-                IsLiability: false,
-                IsRecharge: false
+                Status: 'TEMPORARY',
+                IsPro: 1,
+                IsLiability: 0,
+                IsRecharge: 0
             },
             InvoiceWKDetail: [
                 {
@@ -106,6 +106,8 @@ const InvoiceWorkManage = () => {
         }
     ];
 
+    const [listInfo, setListInfo] = useState(fakeData);
+
     const itemDetailInitial = () => {
         wKMasterID.current = 0;
         setSupplierName('');
@@ -122,8 +124,6 @@ const InvoiceWorkManage = () => {
         setPartyName('');
         setInvoiceDetailInfo([]);
     };
-
-    const [listInfo, setListInfo] = useState(fakeData);
 
     const createData = (
         WKMasterID,
@@ -162,6 +162,8 @@ const InvoiceWorkManage = () => {
     };
 
     useEffect(() => {
+        console.log('modifyItem=>>', modifyItem);
+        console.log('action=>>', action);
         if ((modifyItem >= 0 && action === 'Edit') || (modifyItem >= 0 && action === '') || (modifyItem >= 0 && action === 'View')) {
             setSupplierName(listInfo[modifyItem].InvoiceWKMaster.SupplierName);
             setInvoiceNo(listInfo[modifyItem].InvoiceWKMaster.InvoiceNo);
@@ -234,10 +236,10 @@ const InvoiceWorkManage = () => {
             dayjs(issueDate).format('YYYY-MM-DD hh:mm:ss'),
             dayjs(dueDate).format('YYYY-MM-DD hh:mm:ss'),
             partyName,
-            'TEMPPORARY',
-            isPro === 'true' ? 1 : 0,
-            isRecharge === 'true' ? 1 : 0,
-            isLiability === 'true' ? 1 : 0,
+            'TEMPORARY',
+            isPro === '1' ? 1 : 0,
+            isRecharge === '1' ? 1 : 0,
+            isLiability === '1' ? 1 : 0,
             Number(totalAmount)
             // dayjs(new Date()).format('YYYY-MM-DD hh:mm:ss')
         );
@@ -275,13 +277,19 @@ const InvoiceWorkManage = () => {
         setListInfo([...tmpArray]);
     };
 
+    const cancelAdd = () => {
+        itemDetailInitial();
+        setAction('');
+        setModifyItem(-1);
+    };
+
     return (
         <Grid container spacing={1}>
             <Grid item xs={12}>
                 <MainCard sx={{ width: '100%' }}>
                     <Grid container display="flex" spacing={2}>
                         <Grid item xs={12}>
-                            <InvoiceQuery setAction={setAction} />
+                            <InvoiceQuery setListInfo={setListInfo} />
                         </Grid>
                     </Grid>
                 </MainCard>
@@ -517,13 +525,13 @@ const InvoiceWorkManage = () => {
                                                     onChange={(e) => setIsPro(e.target.value)}
                                                 >
                                                     <FormControlLabel
-                                                        value={true}
+                                                        value={'1'}
                                                         disabled={action === 'View'}
                                                         control={<Radio sx={{ '& .MuiSvgIcon-root': { fontSize: { lg: 14, xl: 20 } } }} />}
                                                         label="Y"
                                                     />
                                                     <FormControlLabel
-                                                        value={false}
+                                                        value={'0'}
                                                         disabled={action === 'View'}
                                                         control={<Radio sx={{ '& .MuiSvgIcon-root': { fontSize: { lg: 14, xl: 20 } } }} />}
                                                         label="N"
@@ -550,13 +558,13 @@ const InvoiceWorkManage = () => {
                                                     onChange={(e) => setIsLiability(e.target.value)}
                                                 >
                                                     <FormControlLabel
-                                                        value={true}
+                                                        value={'1'}
                                                         disabled={action === 'View'}
                                                         control={<Radio sx={{ '& .MuiSvgIcon-root': { fontSize: { lg: 14, xl: 20 } } }} />}
                                                         label="Y"
                                                     />
                                                     <FormControlLabel
-                                                        value={false}
+                                                        value={'0'}
                                                         disabled={action === 'View'}
                                                         control={<Radio sx={{ '& .MuiSvgIcon-root': { fontSize: { lg: 14, xl: 20 } } }} />}
                                                         label="N"
@@ -584,13 +592,13 @@ const InvoiceWorkManage = () => {
                                                     onChange={(e) => setIsRecharge(e.target.value)}
                                                 >
                                                     <FormControlLabel
-                                                        value={true}
+                                                        value={'1'}
                                                         disabled={action === 'View'}
                                                         control={<Radio sx={{ '& .MuiSvgIcon-root': { fontSize: { lg: 14, xl: 20 } } }} />}
                                                         label="Y"
                                                     />
                                                     <FormControlLabel
-                                                        value={false}
+                                                        value={'0'}
                                                         disabled={action === 'View'}
                                                         control={<Radio sx={{ '& .MuiSvgIcon-root': { fontSize: { lg: 14, xl: 20 } } }} />}
                                                         label="N"
@@ -635,7 +643,7 @@ const InvoiceWorkManage = () => {
                                     <Button variant="contained" sx={{ ml: '0.25rem', mr: '0.25rem' }} onClick={addInvoiceInfo}>
                                         儲存編輯
                                     </Button>
-                                    <Button variant="contained" sx={{ ml: '0.25rem', mr: '0.25rem' }}>
+                                    <Button variant="contained" sx={{ ml: '0.25rem', mr: '0.25rem' }} onClick={cancelAdd}>
                                         取消編輯
                                     </Button>
                                 </Grid>

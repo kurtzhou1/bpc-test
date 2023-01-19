@@ -101,7 +101,7 @@ const InvoiceWorkManage = () => {
             dayjs(dueDate).format('YYYY-MM-DD hh:mm:ss'),
             // dueDate,
             partyName,
-            'TEMPPORARY',
+            'TEMPORARY',
             isPro === 'true' ? 1 : 0,
             isRecharge === 'true' ? 1 : 0,
             isLiability === 'true' ? 1 : 0,
@@ -174,6 +174,7 @@ const InvoiceWorkManage = () => {
                 })
                 .catch((e) => console.log('e=>>', e));
         });
+        setListInfo([]);
     };
 
     useEffect(() => {
