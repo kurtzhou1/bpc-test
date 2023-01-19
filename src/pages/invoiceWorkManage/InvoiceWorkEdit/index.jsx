@@ -41,6 +41,8 @@ const InvoiceWorkManage = () => {
     const [modifyItem, setModifyItem] = useState(-1);
     const [isValidated, setIsValidated] = useState(false);
 
+    const queryApi = useRef();
+
     const fakeData = [
         {
             InvoiceWKMaster: {
@@ -197,14 +199,38 @@ const InvoiceWorkManage = () => {
                     console.log('data1=>>', data);
                 })
                 .catch((e) => console.log('e1=>>', e));
+            fetch(queryApi.current, { method: 'GET' })
+                .then((res) => res.json())
+                .then((data) => {
+                    console.log('data1=>>', data);
+                    setListInfo(data);
+                })
+                .catch((e) => console.log('e1=>>', e));
             setIsValidated(true);
             setAction('');
         }
-        if (action === '作廢') {
-            console.log('作廢');
+        if (action === '作廢' && listInfo[modifyItem].Status === 'VALIDATED') {
+            let tmpArray = {
+                WKMasterID: listInfo[modifyItem].InvoiceWKMaster.WKMasterID,
+                Status: 'INVALID'
+            };
+            fetch(updateInvoice, { method: 'POST', body: JSON.stringify(tmpArray) })
+                .then((res) => res.json())
+                .then((data) => {
+                    console.log('data1=>>', data);
+                })
+                .catch((e) => console.log('e1=>>', e));
+            fetch(queryApi.current, { method: 'GET' })
+                .then((res) => res.json())
+                .then((data) => {
+                    console.log('data1=>>', data);
+                    setListInfo(data);
+                })
+                .catch((e) => console.log('e1=>>', e));
             setAction('');
         }
-        if (action === 'Delete') {
+        if (action === 'Delete' && listInfo[modifyItem].Status === 'TEMPORARY') {
+            console.log('listInfo[modifyItem].InvoiceWKMaster=>>', listInfo[modifyItem].InvoiceWKMaster);
             let tmpArray = {
                 WKMasterID: listInfo[modifyItem].InvoiceWKMaster.WKMasterID
             };
@@ -220,7 +246,14 @@ const InvoiceWorkManage = () => {
                     console.log('data1=>>', data);
                 })
                 .catch((e) => console.log('e1=>>', e));
-            deletelistInfoItem(modifyItem);
+            // deletelistInfoItem(modifyItem);
+            fetch(queryApi.current, { method: 'GET' })
+                .then((res) => res.json())
+                .then((data) => {
+                    console.log('data1=>>', data);
+                    setListInfo(data);
+                })
+                .catch((e) => console.log('e1=>>', e));
             setAction('');
         }
     }, [action]);
@@ -270,12 +303,12 @@ const InvoiceWorkManage = () => {
         setAction('');
     };
 
-    const deletelistInfoItem = (deleteItem) => {
-        console.log('deleteItem=>>', deleteItem);
-        let tmpArray = listInfo;
-        tmpArray.splice(deleteItem, 1);
-        setListInfo([...tmpArray]);
-    };
+    // const deletelistInfoItem = (deleteItem) => {
+    //     console.log('deleteItem=>>', deleteItem);
+    //     let tmpArray = listInfo;
+    //     tmpArray.splice(deleteItem, 1);
+    //     setListInfo([...tmpArray]);
+    // };
 
     const cancelAdd = () => {
         itemDetailInitial();
@@ -289,7 +322,7 @@ const InvoiceWorkManage = () => {
                 <MainCard sx={{ width: '100%' }}>
                     <Grid container display="flex" spacing={2}>
                         <Grid item xs={12}>
-                            <InvoiceQuery setListInfo={setListInfo} />
+                            <InvoiceQuery setListInfo={setListInfo} queryApi={queryApi} />
                         </Grid>
                     </Grid>
                 </MainCard>

@@ -9,4 +9,4 @@ export const updateInvoice = 'http://127.0.0.1:8000/api/v1/updateInvoiceWKMaster
 
 // 刪除發票工作檔
 export const deleteInvoiceWKMaster = 'http://127.0.0.1:8000/api/v1/deleteInvoiceWKMaster';
-export const deleteInvoiceWKDetail = 'http://127.0.0.1:8000/api/vi/deleteInvoiceWKDetail';
+export const deleteInvoiceWKDetail = 'http://127.0.0.1:8000/api/v1/deleteInvoiceWKDetail';

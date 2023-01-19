@@ -151,7 +151,7 @@ const LiabilityManage = ({
             </BootstrapDialogTitle>
             <DialogContent dividers>
                 <Grid container spacing={1} display="flex" justifyContent="center" alignItems="center">
-                    <Grid item xs={2} sm={2} md={2} lg={1} display="flex" justifyContent="end">
+                    <Grid item xs={2} sm={2} md={2} lg={1} display="flex">
                         <Typography variant="h5" sx={{ fontSize: { lg: '0.5rem', xl: '0.88rem' }, ml: { lg: '0.5rem', xl: '1.5rem' } }}>
                             記帳段號：
                         </Typography>
@@ -169,31 +169,44 @@ const LiabilityManage = ({
                             />
                         </FormControl>
                     </Grid>
-                    <Grid item xs={2} sm={2} md={2} lg={1} xl={1} display="flex" justifyContent="end">
-                        {dialogAction === 'Edit' ? (
-                            <Typography variant="h5" sx={{ fontSize: { lg: '0.5rem', xl: '0.88rem' }, ml: { lg: '0.5rem', xl: '1.5rem' } }}>
-                                異動原因：
-                            </Typography>
-                        ) : (
-                            ''
-                        )}
+                    <Grid item xs={2} sm={2} md={2} lg={1} display="flex">
+                        <Typography variant="h5" sx={{ fontSize: { lg: '0.5rem', xl: '0.88rem' }, ml: { lg: '0.5rem', xl: '1.5rem' } }}>
+                            海纜名稱：
+                        </Typography>
                     </Grid>
-                    <Grid item xs={3} sm={3} md={3} lg={6} xl={6}>
-                        {dialogAction === 'Edit' ? (
+                    <Grid item xs={3} sm={3} md={3} lg={3}>
+                        <FormControl fullWidth size="small">
                             <TextField
                                 fullWidth
                                 variant="outlined"
-                                value={modifyNote}
+                                disabled={listInfo.length > 0 || dialogAction === 'Edit'}
+                                value={billMilestone}
                                 size="small"
-                                label="填寫異動原因"
-                                onChange={(e) => setModifyNote(e.target.value)}
+                                label="選擇海纜名稱"
+                                onChange={(e) => setBillMilestone(e.target.value)}
                             />
-                        ) : (
-                            ''
-                        )}
+                        </FormControl>
                     </Grid>
-                    <Grid item xs={2} sm={2} md={2} lg={1} />
-                    <Grid item xs={2} sm={2} md={2} lg={1} display="flex" justifyContent="end">
+                    <Grid item xs={2} sm={2} md={2} lg={1} display="flex">
+                        <Typography variant="h5" sx={{ fontSize: { lg: '0.5rem', xl: '0.88rem' }, ml: { lg: '0.5rem', xl: '1.5rem' } }}>
+                            海纜作業：
+                        </Typography>
+                    </Grid>
+                    <Grid item xs={3} sm={3} md={3} lg={3}>
+                        <FormControl fullWidth size="small">
+                            <TextField
+                                fullWidth
+                                variant="outlined"
+                                disabled={listInfo.length > 0 || dialogAction === 'Edit'}
+                                value={billMilestone}
+                                size="small"
+                                label="選擇海纜作業"
+                                onChange={(e) => setBillMilestone(e.target.value)}
+                            />
+                        </FormControl>
+                    </Grid>
+                    {/* <Grid item xs={2} sm={2} md={2} lg={1} /> */}
+                    <Grid item xs={2} sm={2} md={2} lg={1} display="flex">
                         <Typography variant="h5" sx={{ fontSize: { lg: '0.5rem', xl: '0.88rem' }, ml: { lg: '0.5rem', xl: '1.5rem' } }}>
                             攤分比例：
                         </Typography>
@@ -208,13 +221,13 @@ const LiabilityManage = ({
                             onChange={(e) => setLBRatio(e.target.value)}
                         />
                     </Grid>
-                    {/* <Grid item xs={6} sm={6} md={6} lg={6} xl={6} /> */}
-                    <Grid item xs={2} sm={2} md={2} lg={1} display="flex" justifyContent="end">
+                    {/* <Grid item xs={6} sm={6} md={6} lg={6} /> */}
+                    <Grid item xs={2} sm={2} md={2} lg={1} display="flex">
                         <Typography variant="h5" sx={{ fontSize: { lg: '0.5rem', xl: '0.88rem' }, ml: { lg: '0.5rem', xl: '1.5rem' } }}>
                             會員名稱：
                         </Typography>
                     </Grid>
-                    <Grid item xs={3} sm={3} md={3} lg={6}>
+                    <Grid item xs={3} sm={3} md={3} lg={7}>
                         <Autocomplete
                             multiple
                             id="checkboxes-tags-demo"
@@ -239,7 +252,31 @@ const LiabilityManage = ({
                             renderInput={(params) => <TextField {...params} label="選擇會員名稱" />}
                         />
                     </Grid>
-                    <Grid item xs={1} sm={1} md={1} lg={1} display="flex" justifyContent="end" alignItems="center">
+                    {/* row3 */}
+                    <Grid item xs={2} sm={2} md={2} lg={1} display="flex">
+                        {dialogAction === 'Edit' ? (
+                            <Typography variant="h5" sx={{ fontSize: { lg: '0.5rem', xl: '0.88rem' }, ml: { lg: '0.5rem', xl: '1.5rem' } }}>
+                                異動原因：
+                            </Typography>
+                        ) : (
+                            ''
+                        )}
+                    </Grid>
+                    <Grid item xs={3} sm={3} md={3} lg={10}>
+                        {dialogAction === 'Edit' ? (
+                            <TextField
+                                fullWidth
+                                variant="outlined"
+                                value={modifyNote}
+                                size="small"
+                                label="填寫異動原因"
+                                onChange={(e) => setModifyNote(e.target.value)}
+                            />
+                        ) : (
+                            ''
+                        )}
+                    </Grid>
+                    <Grid item xs={1} sm={1} md={1} lg={1} display="flex" alignItems="center" justifyContent="end">
                         {dialogAction !== 'Edit' ? (
                             <Button
                                 size="small"

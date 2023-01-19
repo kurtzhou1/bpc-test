@@ -25,7 +25,7 @@ import MainCard from 'components/MainCard';
 import { queryInvoice } from 'components/apis';
 import dayjs from 'dayjs';
 
-const InvoiceQueryBlock = ({ setListInfo }) => {
+const InvoiceQueryBlock = ({ setListInfo, queryApi }) => {
     const [issueDate, setIssueDate] = useState([null, null]); //發票日期
     const [supplierNameQuery, setSupplierNameQuery] = useState(''); //供應商
     const [submarineCableQuery, setSubmarineCableQuery] = useState(''); //海纜名稱
@@ -89,6 +89,7 @@ const InvoiceQueryBlock = ({ setListInfo }) => {
             tmpQuery = tmpQuery + 'all';
         }
         tmpQuery = queryInvoice + tmpQuery;
+        queryApi.current = tmpQuery;
         console.log('tmpQuery=>>', tmpQuery);
         fetch(tmpQuery, { method: 'GET' })
             .then((res) => res.json())
