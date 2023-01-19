@@ -86,15 +86,14 @@ const InvoiceDataList = ({ listInfo, setAction, setModifyItem }) => {
                                         aria-controls={open ? 'long-menu' : undefined}
                                         aria-expanded={open ? 'true' : undefined}
                                         aria-haspopup="true"
-                                        onClick={(e, index) => {
+                                        onClick={(e) => {
                                             handleClick(e);
-
                                             setModifyItem(itemID);
                                         }}
                                     >
                                         <MoreVertIcon />
                                     </IconButton>
-                                    {row.InvoiceWKMaster.Status === 'Validated' ? (
+                                    {row.InvoiceWKMaster.Status === 'VALIDATED' ? (
                                         <Menu
                                             id="long-menu"
                                             MenuListProps={{
