@@ -39,7 +39,7 @@ const InvoiceWorkManage = () => {
 
     const [action, setAction] = useState('');
     const [modifyItem, setModifyItem] = useState(-1);
-    const [isValidated, setIsValidated] = useState(false);
+    // const [isValidated, setIsValidated] = useState(false);
 
     const queryApi = useRef();
 
@@ -206,7 +206,7 @@ const InvoiceWorkManage = () => {
                     setListInfo(data);
                 })
                 .catch((e) => console.log('e1=>>', e));
-            setIsValidated(true);
+            // setIsValidated(true);
             setAction('');
         }
         if (action === '作廢' && listInfo[modifyItem].Status === 'VALIDATED') {
@@ -336,7 +336,7 @@ const InvoiceWorkManage = () => {
                                     listInfo={listInfo}
                                     setAction={setAction}
                                     setModifyItem={setModifyItem}
-                                    isValidated={isValidated}
+                                    // isValidated={isValidated}
                                 />
                             </MainCard>
                         </Grid>

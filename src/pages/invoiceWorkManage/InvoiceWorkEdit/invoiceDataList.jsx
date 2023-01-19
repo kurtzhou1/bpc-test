@@ -16,7 +16,7 @@ import { styled } from '@mui/material/styles';
 //<InfoCircleOutlined />
 import { InfoCircleOutlined } from '@ant-design/icons';
 
-const InvoiceDataList = ({ listInfo, setAction, setModifyItem, isValidated }) => {
+const InvoiceDataList = ({ listInfo, setAction, setModifyItem }) => {
     const StyledTableCell = styled(TableCell)(({ theme }) => ({
         [`&.${tableCellClasses.head}`]: {
             // backgroundColor: theme.palette.common.gary,
@@ -94,7 +94,7 @@ const InvoiceDataList = ({ listInfo, setAction, setModifyItem, isValidated }) =>
                                     >
                                         <MoreVertIcon />
                                     </IconButton>
-                                    {row.InvoiceWKMaster.Status === 'Validated' || isValidated ? (
+                                    {row.InvoiceWKMaster.Status === 'Validated' ? (
                                         <Menu
                                             id="long-menu"
                                             MenuListProps={{
