@@ -27,13 +27,13 @@ import dayjs from 'dayjs';
 
 const InvoiceQueryBlock = () => {
     const [issueDate, setIssueDate] = useState([null, null]); //發票日期
-    const [supplierNameQuery, setSupplierNameQuery] = useState(); //供應商
-    const [submarineCableQuery, setSubmarineCableQuery] = useState(); //海纜名稱
+    const [supplierNameQuery, setSupplierNameQuery] = useState(''); //供應商
+    const [submarineCableQuery, setSubmarineCableQuery] = useState(''); //海纜名稱
     const [invoiceStatusQuery, setInvoiceStatusQuery] = useState(); //處理狀態
-    const [partyNameQuery, setPartyNameQuery] = useState(); //會員代號
-    const [billMilestoneQuery, setBillMilestoneQuery] = useState(); //記帳段號
-    const [invoiceNoQuery, setInvoiceNoQuery] = useState(); //發票號碼
-    const [isIssueDate, setIsIssueDate] = useState(); //是否為發票日期
+    const [partyNameQuery, setPartyNameQuery] = useState(''); //會員代號
+    const [billMilestoneQuery, setBillMilestoneQuery] = useState(''); //記帳段號
+    const [invoiceNoQuery, setInvoiceNoQuery] = useState(''); //發票號碼
+    const [isIssueDate, setIsIssueDate] = useState(''); //是否為發票日期
 
     const handleChange = (event) => {
         console.log('event=>>', event.target.name);
@@ -42,19 +42,19 @@ const InvoiceQueryBlock = () => {
 
     const invoiceQuery = () => {
         let tmpQuery = '/';
-        if (supplierNameQuery) {
+        if (supplierNameQuery && supplierNameQuery !== '') {
             tmpQuery = tmpQuery + 'SupplierName=' + supplierNameQuery + '&';
         }
-        if (submarineCableQuery) {
+        if (submarineCableQuery && submarineCableQuery !== '') {
             tmpQuery = tmpQuery + 'SubmarineCable=' + submarineCableQuery + '&';
         }
-        if (partyNameQuery) {
+        if (partyNameQuery && partyNameQuery !== '') {
             tmpQuery = tmpQuery + 'PartyName=' + partyNameQuery + '&';
         }
-        if (invoiceNoQuery) {
+        if (invoiceNoQuery && invoiceNoQuery !== '') {
             tmpQuery = tmpQuery + 'InvoiceNo=' + invoiceNoQuery + '&';
         }
-        if (billMilestoneQuery) {
+        if (billMilestoneQuery && billMilestoneQuery !== '') {
             tmpQuery = tmpQuery + 'BillMilestone=' + billMilestoneQuery + '&';
         }
         if (isIssueDate === 'true') {
@@ -90,7 +90,7 @@ const InvoiceQueryBlock = () => {
         }
         tmpQuery = queryInvoice + tmpQuery;
         console.log('tmpQuery=>>', tmpQuery);
-        fetch(updateInvoice, { method: 'GET' })
+        fetch(tmpQuery, { method: 'GET' })
             .then((res) => res.json())
             .then((data) => {
                 console.log('data1=>>', data);
