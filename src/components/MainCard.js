@@ -47,9 +47,10 @@ const MainCard = forwardRef(
         const StyledInputBase = styled(InputBase)(({ theme }) => ({
             color: 'inherit',
             '& .MuiInputBase-input': {
-                padding: theme.spacing(1, 1, 1, 0),
                 // vertical padding + font size from searchIcon
                 paddingLeft: `calc(1em + ${theme.spacing(4)})`,
+                paddingTop: 0,
+                paddingBottom: 0,
                 transition: theme.transitions.create('width'),
                 width: '100%',
                 [theme.breakpoints.up('sm')]: {
@@ -117,7 +118,7 @@ const MainCard = forwardRef(
                         sx={headerSX}
                         titleTypographyProps={{ variant: 'subtitle1' }}
                         title={
-                            <Typography sx={{ display: 'flex' }}>
+                            <Typography sx={{ display: 'flex', justifyContent: 'space-between' }}>
                                 <Typography>{title}</Typography>
                                 {search && (
                                     <Search>
