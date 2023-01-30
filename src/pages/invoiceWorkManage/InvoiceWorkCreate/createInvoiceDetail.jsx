@@ -119,9 +119,9 @@ const CreateInvoiceDetail = ({ invoiceDetailInfo, setInvoiceDetailInfo, bmStoneL
                             size="small"
                             onChange={(e) => setBillMilestone(e.target.value)}
                         >
-                            {bmStoneList.map((i) => {
-                                <MenuItem value={i}>{i}</MenuItem>;
-                            })}
+                            {bmStoneList.map((i) => (
+                                <MenuItem value={i}>{i}</MenuItem>
+                            ))}
                         </Select>
                     </FormControl>
                 </Grid>

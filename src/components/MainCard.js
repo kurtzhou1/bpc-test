@@ -3,7 +3,11 @@ import { forwardRef } from 'react';
 
 // material-ui
 import { useTheme } from '@mui/material/styles';
-import { Card, CardContent, CardHeader, Divider, Typography } from '@mui/material';
+import { Card, CardContent, CardHeader, Divider, Typography, InputBase } from '@mui/material';
+
+//search
+import { styled, alpha } from '@mui/material/styles';
+import SearchIcon from '@mui/icons-material/Search';
 
 // project import
 import Highlighter from './third-party/Highlighter';
@@ -39,6 +43,48 @@ const MainCard = forwardRef(
         const theme = useTheme();
         boxShadow = theme.palette.mode === 'dark' ? boxShadow || true : boxShadow;
 
+        const StyledInputBase = styled(InputBase)(({ theme }) => ({
+            color: 'inherit',
+            '& .MuiInputBase-input': {
+                padding: theme.spacing(1, 1, 1, 0),
+                // vertical padding + font size from searchIcon
+                paddingLeft: `calc(1em + ${theme.spacing(4)})`,
+                transition: theme.transitions.create('width'),
+                width: '100%',
+                [theme.breakpoints.up('sm')]: {
+                    width: '12ch',
+                    '&:focus': {
+                        width: '20ch'
+                    }
+                }
+            }
+        }));
+
+        const SearchIconWrapper = styled('div')(({ theme }) => ({
+            padding: theme.spacing(0, 2),
+            height: '100%',
+            position: 'absolute',
+            pointerEvents: 'none',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center'
+        }));
+
+        const Search = styled('div')(({ theme }) => ({
+            position: 'abo',
+            borderRadius: theme.shape.borderRadius,
+            backgroundColor: alpha(theme.palette.common.white, 0.15),
+            '&:hover': {
+                backgroundColor: alpha(theme.palette.common.white, 0.25)
+            },
+            marginLeft: 0,
+            width: '100%',
+            [theme.breakpoints.up('sm')]: {
+                marginLeft: theme.spacing(1),
+                width: 'auto'
+            }
+        }));
+
         return (
             <Card
                 elevation={elevation || 0}
@@ -62,8 +108,26 @@ const MainCard = forwardRef(
                 }}
             >
                 {/* card header and action */}
-                {!darkTitle && title && (
+                {/* {!darkTitle && title && (
                     <CardHeader sx={headerSX} titleTypographyProps={{ variant: 'subtitle1' }} title={title} action={secondary} />
+                )} */}
+                {!darkTitle && title && (
+                    <CardHeader
+                        sx={headerSX}
+                        titleTypographyProps={{ variant: 'subtitle1' }}
+                        title={
+                            <>
+                                <Typography>{title}</Typography>
+                                {/* <Search>
+                                    <SearchIconWrapper>
+                                        <SearchIcon />
+                                    </SearchIconWrapper>
+                                    <StyledInputBase placeholder="Search…" inputProps={{ 'aria-label': 'search' }} />
+                                </Search> */}
+                            </>
+                        }
+                        action={secondary}
+                    />
                 )}
                 {darkTitle && title && (
                     <CardHeader sx={headerSX} title={<Typography variant="h3">{title}</Typography>} action={secondary} />

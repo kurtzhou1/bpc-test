@@ -185,7 +185,7 @@ const LiabilityManage = () => {
                 <LiabilityQuery liabilityQuery={liabilityQuery} />
             </Grid>
             <Grid item xs={12}>
-                <MainCard title="發票資料建立列表">
+                <MainCard title="Liability資料列表">
                     <LiabilityDataList
                         listInfo={listInfo}
                         setDialogAction={setDialogAction}
