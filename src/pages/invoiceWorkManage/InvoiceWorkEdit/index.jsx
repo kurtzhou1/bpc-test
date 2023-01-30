@@ -207,6 +207,7 @@ const InvoiceWorkManage = () => {
             setAction('');
         }
         if (action === '作廢') {
+            console.log('作廢大成功!!!!');
             let tmpArray = {
                 WKMasterID: listInfo[modifyItem].InvoiceWKMaster.WKMasterID,
                 Status: 'INVALID'

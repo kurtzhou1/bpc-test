@@ -93,7 +93,7 @@ const InvoiceDataList = ({ listInfo, setAction, setModifyItem }) => {
                                     >
                                         <MoreVertIcon />
                                     </IconButton>
-                                    {row.InvoiceWKMaster.Status === 'VALIDATED' ? (
+                                    {row.InvoiceWKMaster.Status !== 'VALIDATED' ? (
                                         <Menu
                                             id="long-menu"
                                             MenuListProps={{
