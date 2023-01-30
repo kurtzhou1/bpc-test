@@ -220,7 +220,6 @@ const InvoiceWorkManage = () => {
             fetch(bmApi, { method: 'GET' })
                 .then((res) => res.json())
                 .then((data) => {
-                    console.log('here1=>>', data);
                     setBmStoneList(data);
                 })
                 .catch((e) => console.log('e1=>>', e));

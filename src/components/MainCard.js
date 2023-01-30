@@ -36,6 +36,7 @@ const MainCard = forwardRef(
             sx = {},
             title,
             codeHighlight,
+            search,
             ...others
         },
         ref
@@ -71,7 +72,7 @@ const MainCard = forwardRef(
         }));
 
         const Search = styled('div')(({ theme }) => ({
-            position: 'abo',
+            position: 'relative',
             borderRadius: theme.shape.borderRadius,
             backgroundColor: alpha(theme.palette.common.white, 0.15),
             '&:hover': {
@@ -115,17 +116,18 @@ const MainCard = forwardRef(
                     <CardHeader
                         sx={headerSX}
                         titleTypographyProps={{ variant: 'subtitle1' }}
-                        display="flex"
                         title={
-                            <>
+                            <Typography sx={{ display: 'flex' }}>
                                 <Typography>{title}</Typography>
-                                {/* <Search>
-                                    <SearchIconWrapper>
-                                        <SearchIcon />
-                                    </SearchIconWrapper>
-                                    <StyledInputBase placeholder="Search…" inputProps={{ 'aria-label': 'search' }} />
-                                </Search> */}
-                            </>
+                                {search && (
+                                    <Search>
+                                        <SearchIconWrapper>
+                                            <SearchIcon />
+                                        </SearchIconWrapper>
+                                        <StyledInputBase placeholder="Search…" inputProps={{ 'aria-label': 'search' }} />
+                                    </Search>
+                                )}
+                            </Typography>
                         }
                         action={secondary}
                     />

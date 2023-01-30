@@ -64,7 +64,7 @@ const InvoiceWorkManage = ({
                             onChange={(e) => setSupplierName(e.target.value)}
                         >
                             {supNmList.map((i) => (
-                                <MenuItem value={i.SupplierID}>{i.SupplierName}</MenuItem>
+                                <MenuItem value={i.SupplierName}>{i.SupplierName}</MenuItem>
                             ))}
                         </Select>
                     </FormControl>
@@ -101,7 +101,7 @@ const InvoiceWorkManage = ({
                             onChange={(e) => setSubmarineCable(e.target.value)}
                         >
                             {subCableList.map((i) => (
-                                <MenuItem value={i.CableID}>{i.CableName}</MenuItem>
+                                <MenuItem value={i.CableName}>{i.CableName}</MenuItem>
                             ))}
                         </Select>
                     </FormControl>
