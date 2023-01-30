@@ -24,6 +24,7 @@ const CreateInvoiceDetail = ({ invoiceDetailInfo, setInvoiceDetailInfo, bmStoneL
     const [feeAmount, setFeeAmount] = useState(0); //費用金額
     const [isEdit, setIsEdit] = useState(false);
     const editItem = useRef(0);
+    console.log('here2=>>', bmStoneList);
 
     const createData = (FeeItem, BillMilestone, FeeAmount) => {
         return { FeeItem, BillMilestone, FeeAmount };

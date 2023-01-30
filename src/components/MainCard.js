@@ -115,6 +115,7 @@ const MainCard = forwardRef(
                     <CardHeader
                         sx={headerSX}
                         titleTypographyProps={{ variant: 'subtitle1' }}
+                        display="flex"
                         title={
                             <>
                                 <Typography>{title}</Typography>
