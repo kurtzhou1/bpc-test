@@ -47,10 +47,7 @@ const InvoiceDataList = ({ listInfo, setEditItem, deletelistInfoItem }) => {
                 <TableBody>
                     {listInfo?.map((row, id) => {
                         return (
-                            <TableRow
-                                key={row.InvoiceWKMaster?.InvoiceNo + row.InvoiceWKMaster?.SupplierName + id}
-                                sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-                            >
+                            <TableRow key={row.InvoiceWKMaster?.InvoiceNo} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
                                 <StyledTableCell align="center">{row.InvoiceWKMaster?.InvoiceNo}</StyledTableCell>
                                 <StyledTableCell align="center">{row.InvoiceWKMaster?.SupplierName}</StyledTableCell>
                                 <StyledTableCell align="center">{row.InvoiceWKMaster?.SubmarineCable}</StyledTableCell>

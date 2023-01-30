@@ -64,10 +64,7 @@ const InvoiceDataList = ({ listInfo, setAction, setModifyItem }) => {
                 <TableBody>
                     {listInfo?.map((row, itemID) => {
                         return (
-                            <TableRow
-                                key={row.InvoiceWKMaster?.invoiceNo + row.InvoiceWKMaster?.supplierName + itemID}
-                                sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-                            >
+                            <TableRow key={row.InvoiceWKMaster?.invoiceNo} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
                                 <StyledTableCell align="center">{itemID + 1}</StyledTableCell>
                                 <StyledTableCell align="center">{row.InvoiceWKMaster?.InvoiceNo}</StyledTableCell>
                                 <StyledTableCell align="center">{row.InvoiceWKMaster?.SupplierName}</StyledTableCell>
@@ -93,7 +90,7 @@ const InvoiceDataList = ({ listInfo, setAction, setModifyItem }) => {
                                     >
                                         <MoreVertIcon />
                                     </IconButton>
-                                    {row.InvoiceWKMaster.Status !== 'VALIDATED' ? (
+                                    {row.InvoiceWKMaster.Status === 'VALIDATED' ? (
                                         <Menu
                                             id="long-menu"
                                             MenuListProps={{
