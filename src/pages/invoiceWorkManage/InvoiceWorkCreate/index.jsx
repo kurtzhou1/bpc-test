@@ -14,6 +14,9 @@ import CreateInvoiceDetail from './createInvoiceDetail';
 import InvoiceDataList from './invoiceDataList';
 import { TextField } from '@mui/material/index';
 
+// api
+import { supplierNameList, submarineCableList, billMilestoneList } from 'components/apis';
+
 // ==============================|| SAMPLE PAGE ||============================== //
 
 const InvoiceWorkManage = () => {
@@ -30,6 +33,10 @@ const InvoiceWorkManage = () => {
     const [isLiability, setIsLiability] = useState(-1); //是否需攤分
     const [isRecharge, setIsRecharge] = useState(-1); //是否為短腳補收
     const [partyName, setPartyName] = useState(''); //會員代號
+
+    const [supNmList, setSupNmList] = useState([]); //供應商下拉選單
+    const [subCableList, setSubCableList] = useState([]); //海纜名稱下拉選單
+    const [bmStoneList, setBmStoneList] = useState([]); //記帳段號下拉選單
 
     const [editItem, setEditItem] = useState(NaN);
     const [listInfo, setListInfo] = useState([]);
@@ -85,31 +92,47 @@ const InvoiceWorkManage = () => {
         };
     };
 
+    const infoCheck = () => {
+        // 金額確認
+        let detailAmount = 0;
+        invoiceDetailInfo.forEach((i) => {
+            detailAmount = detailAmount + i.FeeAmount;
+        });
+        if (totalAmount !== detailAmount) {
+            alert('總金額不等於費用項目金額加總');
+            return false;
+        }
+        return true;
+    };
+
     //新增發票
     const addInvoiceInfo = () => {
-        let tmpList = listInfo.map((i) => i);
-        let tmpArray = createData(
-            invoiceNo.trim() === '' ? 'No.' + dayjs(new Date()).format('YYYYMMDDHHmmss') : invoiceNo,
-            supplierName,
-            submarineCable,
-            workTitle,
-            contractType,
-            dayjs(issueDate).format('YYYY-MM-DD hh:mm:ss'),
-            dayjs(dueDate).format('YYYY-MM-DD hh:mm:ss'),
-            partyName,
-            'TEMPORARY',
-            isPro === '1' || isPro === 1 ? 1 : 0,
-            isRecharge === '1' || isRecharge === 1 ? 1 : 0,
-            isLiability === '1' || isLiability === 1 ? 1 : 0,
-            Number(totalAmount)
-        );
-        let combineArray = {
-            InvoiceWKMaster: tmpArray,
-            InvoiceWKDetail: invoiceDetailInfo
-        };
-        tmpList.push(combineArray);
-        setListInfo([...tmpList]);
-        itemDetailInitial();
+        //防呆
+        if (infoCheck()) {
+            let tmpList = listInfo.map((i) => i);
+            let tmpArray = createData(
+                invoiceNo.trim() === '' ? 'No.' + dayjs(new Date()).format('YYYYMMDDHHmmss') : invoiceNo,
+                supplierName,
+                submarineCable,
+                workTitle,
+                contractType,
+                dayjs(issueDate).format('YYYY-MM-DD hh:mm:ss'),
+                dayjs(dueDate).format('YYYY-MM-DD hh:mm:ss'),
+                partyName,
+                'TEMPORARY',
+                isPro === '1' || isPro === 1 ? 1 : 0,
+                isRecharge === '1' || isRecharge === 1 ? 1 : 0,
+                isLiability === '1' || isLiability === 1 ? 1 : 0,
+                Number(totalAmount)
+            );
+            let combineArray = {
+                InvoiceWKMaster: tmpArray,
+                InvoiceWKDetail: invoiceDetailInfo
+            };
+            tmpList.push(combineArray);
+            setListInfo([...tmpList]);
+            itemDetailInitial();
+        }
     };
 
     //刪除
@@ -192,6 +215,33 @@ const InvoiceWorkManage = () => {
     };
 
     useEffect(() => {
+        if (workTitle && submarineCable) {
+            let bmApi = billMilestoneList + 'SubmarineCable=' + submarineCable + '&WorkTitle=' + workTitle;
+            fetch(bmApi, { method: 'GET' })
+                .then((res) => res.json())
+                .then((data) => {
+                    setBmStoneList(data);
+                })
+                .catch((e) => console.log('e1=>>', e));
+        }
+    }, [workTitle, submarineCable]);
+
+    useEffect(() => {
+        fetch(supplierNameList, { method: 'GET' })
+            .then((res) => res.json())
+            .then((data) => {
+                setSupNmList(data);
+            })
+            .catch((e) => console.log('e1=>>', e));
+        fetch(submarineCableList, { method: 'GET' })
+            .then((res) => res.json())
+            .then((data) => {
+                setSubCableList(data);
+            })
+            .catch((e) => console.log('e1=>>', e));
+    }, []);
+
+    useEffect(() => {
         itemDetailInitial();
         if (editItem >= 0) {
             editlistInfoItem();
@@ -235,11 +285,17 @@ const InvoiceWorkManage = () => {
                                 setIsRecharge={setIsRecharge}
                                 partyName={partyName}
                                 setPartyName={setPartyName}
+                                supNmList={supNmList}
+                                subCableList={subCableList}
                             />
                         </Grid>
                         {/* 右 */}
                         <Grid item xs={6}>
-                            <CreateInvoiceDetail invoiceDetailInfo={invoiceDetailInfo} setInvoiceDetailInfo={setInvoiceDetailInfo} />
+                            <CreateInvoiceDetail
+                                invoiceDetailInfo={invoiceDetailInfo}
+                                setInvoiceDetailInfo={setInvoiceDetailInfo}
+                                bmStoneList={bmStoneList}
+                            />
                         </Grid>
                         {/* 按鈕 */}
                         <Grid item xs={12} display="flex" justifyContent="center" alignItems="center">

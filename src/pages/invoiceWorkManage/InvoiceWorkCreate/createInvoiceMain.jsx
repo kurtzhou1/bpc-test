@@ -40,7 +40,9 @@ const InvoiceWorkManage = ({
     isRecharge,
     setIsRecharge,
     partyName,
-    setPartyName
+    setPartyName,
+    supNmList,
+    subCableList
 }) => {
     return (
         <MainCard title="發票工作主檔建立" sx={{ height: '100%' }}>
@@ -61,8 +63,9 @@ const InvoiceWorkManage = ({
                             label="發票供應商"
                             onChange={(e) => setSupplierName(e.target.value)}
                         >
-                            <MenuItem value={'NEC'}>NEC</MenuItem>
-                            <MenuItem value={'CIENA'}>CIENA</MenuItem>
+                            {supNmList.map((i) => (
+                                <MenuItem value={i.SupplierID}>{i.SupplierName}</MenuItem>
+                            ))}
                         </Select>
                     </FormControl>
                 </Grid>
@@ -84,7 +87,7 @@ const InvoiceWorkManage = ({
                 {/* row2 */}
                 <Grid item xs={12} sm={6} md={4} lg={2}>
                     <Typography variant="h5" sx={{ fontSize: { lg: '0.5rem', xl: '0.88rem' }, ml: { lg: '0.5rem', xl: '1.5rem' } }}>
-                        海纜代號：
+                        海纜名稱：
                     </Typography>
                 </Grid>
                 <Grid item xs={12} sm={6} md={4} lg={4}>
@@ -97,8 +100,9 @@ const InvoiceWorkManage = ({
                             label="發票供應商"
                             onChange={(e) => setSubmarineCable(e.target.value)}
                         >
-                            <MenuItem value={'SJC2'}>SJC2</MenuItem>
-                            <MenuItem value={'NCP'}>NCP</MenuItem>
+                            {subCableList.map((i) => (
+                                <MenuItem value={i.CableID}>{i.CableName}</MenuItem>
+                            ))}
                         </Select>
                     </FormControl>
                 </Grid>

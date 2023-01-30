@@ -1,3 +1,8 @@
+//下拉選單
+export const supplierNameList = 'http://127.0.0.1:8000/api/v1/Suppliers/all';
+export const submarineCableList = 'http://127.0.0.1:8000/api/v1/SubmarineCables/all';
+export const billMilestoneList = 'http://127.0.0.1:8000/api/v1/BillMilestone/SubmarineCable/';
+
 // 產生發票工作檔
 export const generateInvoice = 'http://127.0.0.1:8000/api/v1/generateInvoiceWKMaster&InvoiceWKDetail';
 

@@ -92,7 +92,6 @@ const InvoiceQueryBlock = ({ setListInfo, queryApi }) => {
         fetch(tmpQuery, { method: 'GET' })
             .then((res) => res.json())
             .then((data) => {
-                console.log('data1=>>', data);
                 setListInfo(data);
             })
             .catch((e) => console.log('e1=>>', e));
