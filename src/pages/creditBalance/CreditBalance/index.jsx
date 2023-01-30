@@ -65,7 +65,7 @@ const CreditBalance = () => {
     const addLiability = (list) => {
         console.log('list=>>', list);
         if (list.length > 0) {
-            let tmpArray = listInfo;
+            let tmpArray = listInfo.map((i) => i);
             list.forEach((i) => {
                 tmpArray.push({
                     BillMilestone: i.BillMilestone,
@@ -84,7 +84,7 @@ const CreditBalance = () => {
 
     //刪除
     const deletelistInfoItem = (deleteItem) => {
-        let tmpArray = listInfo;
+        let tmpArray = listInfo.map((i) => i);
         tmpArray.splice(deleteItem, 1);
         setListInfo([...tmpArray]);
     };

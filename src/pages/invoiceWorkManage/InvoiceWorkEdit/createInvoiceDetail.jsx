@@ -55,8 +55,8 @@ const CreateInvoiceDetail = ({ setInvoiceDetailInfo, invoiceDetailInfo, action }
     const itemDetailAdd = () => {
         let tmpArray = invoiceDetailInfo;
         tmpArray.push(createData(feeItem, billMilestone, Number(feeAmount)));
+        tmpArray.reverse();
         setInvoiceDetailInfo([...tmpArray]);
-        setInvoiceDetailInfo(tmpArray);
         itemDetailInitial();
     };
 
@@ -70,10 +70,9 @@ const CreateInvoiceDetail = ({ setInvoiceDetailInfo, invoiceDetailInfo, action }
         setIsEdit(true);
         editItem.current = id;
         let tmpArray = invoiceDetailInfo[id];
-        setBillMilestone(tmpArray.billMilestone);
-        // setFeeType(tmpArray.feeType);
-        setFeeItem(tmpArray.feeItem);
-        setFeeAmount(tmpArray.feeAmount);
+        setBillMilestone(tmpArray.BillMilestone);
+        setFeeItem(tmpArray.FeeItem);
+        setFeeAmount(tmpArray.FeeAmount);
     };
 
     const itemDetailSave = () => {
@@ -189,7 +188,7 @@ const CreateInvoiceDetail = ({ setInvoiceDetailInfo, invoiceDetailInfo, action }
                     ''
                 )}
                 <Grid item xs={12} sm={12} lg={12}>
-                    <TableContainer component={Paper} sx={{ maxHeight: { lg: 125, md: 200 } }}>
+                    <TableContainer component={Paper} sx={{ maxHeight: { lg: 175, md: 250 } }}>
                         <Table sx={{ minWidth: 300 }} stickyHeader aria-label="sticky table">
                             <TableHead>
                                 <TableRow>

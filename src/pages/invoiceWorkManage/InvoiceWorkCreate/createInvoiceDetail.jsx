@@ -51,16 +51,16 @@ const CreateInvoiceDetail = ({ invoiceDetailInfo, setInvoiceDetailInfo }) => {
 
     // 新增
     const itemDetailAdd = () => {
-        let tmpArray = invoiceDetailInfo;
+        let tmpArray = invoiceDetailInfo.map((i) => i);
         tmpArray.push(createData(feeItem, billMilestone, Number(feeAmount)));
+        tmpArray.reverse();
         setInvoiceDetailInfo([...tmpArray]);
-        setInvoiceDetailInfo(tmpArray);
         itemDetailInitial();
     };
 
     //刪除
     const itemDetailDelete = (id) => {
-        let tmpArray = invoiceDetailInfo;
+        let tmpArray = invoiceDetailInfo.map((i) => i);
         tmpArray.splice(id, 1);
         setInvoiceDetailInfo([...tmpArray]);
     };
@@ -78,8 +78,12 @@ const CreateInvoiceDetail = ({ invoiceDetailInfo, setInvoiceDetailInfo }) => {
     //儲存編輯
     const itemDetailSave = () => {
         setIsEdit(false);
-        itemDetailDelete(editItem.current);
-        itemDetailAdd();
+        let tmpArray = invoiceDetailInfo.map((i) => i);
+        tmpArray.splice(editItem.current, 1);
+        tmpArray.push(createData(feeItem, billMilestone, Number(feeAmount)));
+        tmpArray.reverse();
+        setInvoiceDetailInfo([...tmpArray]);
+        itemDetailInitial();
         editItem.current = 0;
     };
 

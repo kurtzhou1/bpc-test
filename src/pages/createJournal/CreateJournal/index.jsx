@@ -75,7 +75,7 @@ const CreateJournal = () => {
 
     //新增
     const addLiability = () => {
-        let tmpArray = listInfo;
+        let tmpArray = listInfo.map((i) => i);
         tmpArray.push({
             billMilestone: billMilestone,
             partyName: partyName,
@@ -90,7 +90,7 @@ const CreateJournal = () => {
 
     //刪除
     const deletelistInfoItem = (deleteItem) => {
-        let tmpArray = listInfo;
+        let tmpArray = listInfo.map((i) => i);
         tmpArray.splice(deleteItem, 1);
         setListInfo([...tmpArray]);
     };

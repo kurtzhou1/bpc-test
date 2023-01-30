@@ -42,7 +42,6 @@ const InvoiceWorkManage = ({
     partyName,
     setPartyName
 }) => {
-    console.log('isLiability=>>', isLiability, typeof isLiability);
     return (
         <MainCard title="發票工作主檔建立" sx={{ height: '100%' }}>
             <Grid container display="flex" justifyContent="center" alignItems="center" spacing={1}>
@@ -123,14 +122,6 @@ const InvoiceWorkManage = ({
                             <MenuItem value={'O&M'}>O&M</MenuItem>
                         </Select>
                     </FormControl>
-                    {/* <TextField
-                        value={workTitle}
-                        fullWidth
-                        variant="outlined"
-                        size="small"
-                        label="填寫海纜作業"
-                        onChange={(e) => setWorTitle(e.target.value)}
-                    /> */}
                 </Grid>
                 {/* row3 */}
                 <Grid item xs={12} sm={6} md={4} lg={2}>
@@ -225,12 +216,12 @@ const InvoiceWorkManage = ({
                             onChange={(e) => setIsPro(e.target.value)}
                         >
                             <FormControlLabel
-                                value={true}
+                                value={1}
                                 control={<Radio sx={{ '& .MuiSvgIcon-root': { fontSize: { lg: 14, xl: 20 } } }} />}
                                 label="Y"
                             />
                             <FormControlLabel
-                                value={false}
+                                value={0}
                                 control={<Radio sx={{ '& .MuiSvgIcon-root': { fontSize: { lg: 14, xl: 20 } } }} />}
                                 label="N"
                             />
@@ -253,12 +244,12 @@ const InvoiceWorkManage = ({
                             onChange={(e) => setIsLiability(e.target.value)}
                         >
                             <FormControlLabel
-                                value={true}
+                                value={1}
                                 control={<Radio sx={{ '& .MuiSvgIcon-root': { fontSize: { lg: 14, xl: 20 } } }} />}
                                 label="攤分"
                             />
                             <FormControlLabel
-                                value={false}
+                                value={0}
                                 control={<Radio sx={{ '& .MuiSvgIcon-root': { fontSize: { lg: 14, xl: 20 } } }} />}
                                 label="不攤分"
                             />
@@ -282,12 +273,12 @@ const InvoiceWorkManage = ({
                             onChange={(e) => setIsRecharge(e.target.value)}
                         >
                             <FormControlLabel
-                                value={true}
+                                value={1}
                                 control={<Radio sx={{ '& .MuiSvgIcon-root': { fontSize: { lg: 14, xl: 20 } } }} />}
                                 label="Y"
                             />
                             <FormControlLabel
-                                value={false}
+                                value={0}
                                 control={<Radio sx={{ '& .MuiSvgIcon-root': { fontSize: { lg: 14, xl: 20 } } }} />}
                                 label="N"
                             />

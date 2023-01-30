@@ -67,7 +67,7 @@ const LiabilityManage = () => {
     //新增
     const addLiability = (list) => {
         if (list.length > 0) {
-            let tmpArray = listInfo;
+            let tmpArray = listInfo.map((i) => i);
             list.forEach((i) => {
                 tmpArray.push({
                     BillMilestone: i.BillMilestone,
@@ -85,7 +85,7 @@ const LiabilityManage = () => {
 
     //終止
     const updatelistInfoItem = (updateItem) => {
-        let tmpArray = listInfo;
+        let tmpArray = listInfo.map((i) => i);
         tmpArray[updateItem].CreateTime = dayjs(new Date()).format('YYYY-MM-DD hh:mm:ss');
         setListInfo([...tmpArray]);
     };
@@ -103,7 +103,7 @@ const LiabilityManage = () => {
 
     //儲存編輯
     const saveEdit = () => {
-        let tmpArray = listInfo;
+        let tmpArray = listInfo.map((i) => i);
         // console.log('lbRatio=>>', lbRatio);
         tmpArray[editItem].LbRatio = lbRatio;
         tmpArray[editItem].ModifyNote = modifyNote;

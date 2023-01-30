@@ -17,7 +17,7 @@ import InvoiceDataList from './invoiceDataList';
 import { TextField } from '@mui/material/index';
 
 // api
-import { generateInvoice, updateInvoice, deleteInvoiceWKMaster, deleteInvoiceWKDetail } from 'components/apis';
+import { queryInvoice, generateInvoice, updateInvoice, deleteInvoiceWKMaster, deleteInvoiceWKDetail } from 'components/apis';
 
 // ==============================|| SAMPLE PAGE ||============================== //
 
@@ -39,9 +39,8 @@ const InvoiceWorkManage = () => {
 
     const [action, setAction] = useState('');
     const [modifyItem, setModifyItem] = useState(-1);
-    // const [isValidated, setIsValidated] = useState(false);
 
-    const queryApi = useRef();
+    const queryApi = useRef(queryInvoice + '/all');
 
     const fakeData = [
         {
@@ -164,8 +163,6 @@ const InvoiceWorkManage = () => {
     };
 
     useEffect(() => {
-        console.log('modifyItem=>>', modifyItem);
-        console.log('action=>>', action);
         if ((modifyItem >= 0 && action === 'Edit') || (modifyItem >= 0 && action === '') || (modifyItem >= 0 && action === 'View')) {
             setSupplierName(listInfo[modifyItem].InvoiceWKMaster.SupplierName);
             setInvoiceNo(listInfo[modifyItem].InvoiceWKMaster.InvoiceNo);
@@ -186,6 +183,7 @@ const InvoiceWorkManage = () => {
     }, [modifyItem]);
 
     useEffect(() => {
+        console.log('action=>>', action);
         if (action === 'Validated') {
             console.log('modifyItem=>>', listInfo[modifyItem].InvoiceWKMaster.WKMasterID);
             console.log('action=>>', action);
@@ -206,10 +204,9 @@ const InvoiceWorkManage = () => {
                     setListInfo(data);
                 })
                 .catch((e) => console.log('e1=>>', e));
-            // setIsValidated(true);
             setAction('');
         }
-        if (action === '作廢' && listInfo[modifyItem].Status === 'VALIDATED') {
+        if (action === '作廢') {
             let tmpArray = {
                 WKMasterID: listInfo[modifyItem].InvoiceWKMaster.WKMasterID,
                 Status: 'INVALID'
@@ -270,11 +267,10 @@ const InvoiceWorkManage = () => {
             dayjs(dueDate).format('YYYY-MM-DD hh:mm:ss'),
             partyName,
             'TEMPORARY',
-            isPro === '1' ? 1 : 0,
-            isRecharge === '1' ? 1 : 0,
-            isLiability === '1' ? 1 : 0,
+            isPro === '1' || isPro === 1 ? 1 : 0,
+            isRecharge === '1' || isRecharge === 1 ? 1 : 0,
+            isLiability === '1' || isLiability === 1 ? 1 : 0,
             Number(totalAmount)
-            // dayjs(new Date()).format('YYYY-MM-DD hh:mm:ss')
         );
         let combineArray = {
             InvoiceWKMaster: tmpArray,
@@ -298,8 +294,16 @@ const InvoiceWorkManage = () => {
                 console.log('data3=>>', data);
             })
             .catch((e) => console.log('e3=>>', e));
+        // 重新query
+        console.log('queryApi.current=>>', queryApi.current);
+        fetch(queryApi.current, { method: 'GET' })
+            .then((res) => res.json())
+            .then((data) => {
+                console.log('data1=>>', data);
+                setListInfo(data);
+            })
+            .catch((e) => console.log('e1=>>', e));
         itemDetailInitial();
-        setInvoiceDetailInfo([]);
         setAction('');
     };
 
@@ -332,12 +336,7 @@ const InvoiceWorkManage = () => {
                     <Grid container display="flex" spacing={2}>
                         <Grid item xs={12}>
                             <MainCard>
-                                <InvoiceDataList
-                                    listInfo={listInfo}
-                                    setAction={setAction}
-                                    setModifyItem={setModifyItem}
-                                    // isValidated={isValidated}
-                                />
+                                <InvoiceDataList listInfo={listInfo} setAction={setAction} setModifyItem={setModifyItem} />
                             </MainCard>
                         </Grid>
                     </Grid>
@@ -644,11 +643,11 @@ const InvoiceWorkManage = () => {
                                                 variant="h5"
                                                 sx={{ fontSize: { lg: '0.5rem', xl: '0.88rem' }, ml: { lg: '0.5rem', xl: '1.5rem' } }}
                                             >
-                                                {isLiability === 'true' ? '會員代號：' : ''}
+                                                {isLiability === '1' || isLiability === 1 ? '會員代號：' : ''}
                                             </Typography>
                                         </Grid>
                                         <Grid item xs={12} sm={6} md={4} lg={4}>
-                                            {isLiability === 'true' ? (
+                                            {isLiability === '1' || isLiability === 1 ? (
                                                 <TextField
                                                     value={partyName}
                                                     variant="outlined"

@@ -36,7 +36,6 @@ const InvoiceQueryBlock = ({ setListInfo, queryApi }) => {
     const [isIssueDate, setIsIssueDate] = useState(''); //是否為發票日期
 
     const handleChange = (event) => {
-        console.log('event=>>', event.target.name);
         setInvoiceStatusQuery({ ...invoiceStatusQuery, [event.target.name]: event.target.checked });
     };
 
@@ -90,7 +89,6 @@ const InvoiceQueryBlock = ({ setListInfo, queryApi }) => {
         }
         tmpQuery = queryInvoice + tmpQuery;
         queryApi.current = tmpQuery;
-        console.log('tmpQuery=>>', tmpQuery);
         fetch(tmpQuery, { method: 'GET' })
             .then((res) => res.json())
             .then((data) => {

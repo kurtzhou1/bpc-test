@@ -78,7 +78,7 @@ const LiabilityManage = ({
 
     //新增
     const addList = () => {
-        let tmpArray = listInfo;
+        let tmpArray = listInfo.map((i) => i);
         console.log('=>>', partyName);
         let partyArray = partyName;
         partyArray.forEach((e) => {
@@ -94,7 +94,7 @@ const LiabilityManage = ({
 
     //刪除
     const deletelistInfoItem = (deleteItem) => {
-        let tmpArray = listInfo;
+        let tmpArray = listInfo.map((i) => i);
         tmpArray.splice(deleteItem, 1);
         setListInfo([...tmpArray]);
     };

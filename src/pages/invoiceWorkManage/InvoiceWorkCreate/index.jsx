@@ -26,9 +26,9 @@ const InvoiceWorkManage = () => {
     const [issueDate, setIssueDate] = useState(new Date()); //發票日期
     const [dueDate, setDueDate] = useState(new Date()); //發票到期日
     const [totalAmount, setTotalAmount] = useState(0); //總金額
-    const [isPro, setIsPro] = useState(); //是否為Pro-forma
-    const [isLiability, setIsLiability] = useState(); //是否需攤分
-    const [isRecharge, setIsRecharge] = useState(); //是否為短腳補收
+    const [isPro, setIsPro] = useState(-1); //是否為Pro-forma
+    const [isLiability, setIsLiability] = useState(-1); //是否需攤分
+    const [isRecharge, setIsRecharge] = useState(-1); //是否為短腳補收
     const [partyName, setPartyName] = useState(''); //會員代號
 
     const [editItem, setEditItem] = useState(NaN);
@@ -46,9 +46,9 @@ const InvoiceWorkManage = () => {
         setIssueDate(new Date());
         setDueDate(new Date());
         setTotalAmount(0);
-        setIsPro();
-        setIsLiability();
-        setIsRecharge();
+        setIsPro(-1);
+        setIsLiability(-1);
+        setIsRecharge(-1);
         setPartyName('');
         setInvoiceDetailInfo([]);
     };
@@ -66,8 +66,7 @@ const InvoiceWorkManage = () => {
         IsPro,
         IsRecharge,
         IsLiability,
-        TotalAmount,
-        CreateDate
+        TotalAmount
     ) => {
         return {
             InvoiceNo,
@@ -83,13 +82,12 @@ const InvoiceWorkManage = () => {
             IsRecharge,
             IsLiability,
             TotalAmount
-            // CreateDate
         };
     };
 
     //新增發票
     const addInvoiceInfo = () => {
-        let tmpList = listInfo;
+        let tmpList = listInfo.map((i) => i);
         let tmpArray = createData(
             invoiceNo.trim() === '' ? 'No.' + dayjs(new Date()).format('YYYYMMDDHHmmss') : invoiceNo,
             supplierName,
@@ -97,33 +95,26 @@ const InvoiceWorkManage = () => {
             workTitle,
             contractType,
             dayjs(issueDate).format('YYYY-MM-DD hh:mm:ss'),
-            // issueDate,
             dayjs(dueDate).format('YYYY-MM-DD hh:mm:ss'),
-            // dueDate,
             partyName,
             'TEMPORARY',
-            isPro === 'true' ? 1 : 0,
-            isRecharge === 'true' ? 1 : 0,
-            isLiability === 'true' ? 1 : 0,
+            isPro === '1' || isPro === 1 ? 1 : 0,
+            isRecharge === '1' || isRecharge === 1 ? 1 : 0,
+            isLiability === '1' || isLiability === 1 ? 1 : 0,
             Number(totalAmount)
-            // dayjs(new Date()).format('YYYY-MM-DD hh:mm:ss')
         );
         let combineArray = {
             InvoiceWKMaster: tmpArray,
             InvoiceWKDetail: invoiceDetailInfo
         };
-        console.log('combineArray=>>', combineArray);
         tmpList.push(combineArray);
         setListInfo([...tmpList]);
         itemDetailInitial();
-        setInvoiceDetailInfo([]);
     };
-
-    console.log('listInfo=>>', listInfo);
 
     //刪除
     const deletelistInfoItem = (deleteItem) => {
-        let tmpArray = listInfo;
+        let tmpArray = listInfo.map((i) => i);
         tmpArray.splice(deleteItem, 1);
         setListInfo([...tmpArray]);
     };
@@ -141,7 +132,7 @@ const InvoiceWorkManage = () => {
             setDueDate(tmpArray?.InvoiceWKMaster.DueDate);
             setTotalAmount(tmpArray?.InvoiceWKMaster.TotalAmount);
             setIsPro(tmpArray?.InvoiceWKMaster.IsPro);
-            setIsLiability(tmpArray?.InvoiceWKMaster.IsLiability === 'true' ? true : false);
+            setIsLiability(tmpArray?.InvoiceWKMaster.IsLiability);
             setIsRecharge(tmpArray?.InvoiceWKMaster.IsRecharge);
             setPartyName(tmpArray?.InvoiceWKMaster.PartyName);
             setInvoiceDetailInfo(tmpArray?.InvoiceWKDetail);
@@ -152,8 +143,31 @@ const InvoiceWorkManage = () => {
     //儲存編輯
     const saveEdit = () => {
         setEditItem(NaN);
-        deletelistInfoItem(editItem);
-        addInvoiceInfo();
+        let tmpArray = listInfo.map((i) => i);
+        tmpArray.splice(editItem, 1);
+        let tmpAddArray = createData(
+            invoiceNo.trim() === '' ? 'No.' + dayjs(new Date()).format('YYYYMMDDHHmmss') : invoiceNo,
+            supplierName,
+            submarineCable,
+            workTitle,
+            contractType,
+            dayjs(issueDate).format('YYYY-MM-DD hh:mm:ss'),
+            dayjs(dueDate).format('YYYY-MM-DD hh:mm:ss'),
+            partyName,
+            'TEMPORARY',
+            isPro === '1' || isPro === 1 ? 1 : 0,
+            isRecharge === '1' || isRecharge === 1 ? 1 : 0,
+            isLiability === '1' || isLiability === 1 ? 1 : 0,
+            Number(totalAmount)
+        );
+        let combineArray = {
+            InvoiceWKMaster: tmpAddArray,
+            InvoiceWKDetail: invoiceDetailInfo
+        };
+        tmpArray.push(combineArray);
+        tmpArray.reverse();
+        setListInfo([...tmpArray]);
+        itemDetailInitial();
         setIsListEdit(false);
     };
 
