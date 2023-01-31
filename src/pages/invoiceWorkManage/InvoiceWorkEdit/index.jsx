@@ -88,8 +88,8 @@ const InvoiceWorkManage = () => {
                 TotalAmount: 5582012.72,
                 Status: 'TEMPORARY',
                 IsPro: 1,
-                IsLiability: 0,
-                IsRecharge: 0
+                IsLiability: 1,
+                IsRecharge: 1
             },
             InvoiceWKDetail: [
                 {

@@ -210,12 +210,12 @@ const InvoiceWorkManage = ({
                             onChange={(e) => setIsPro(e.target.value)}
                         >
                             <FormControlLabel
-                                value={true}
+                                value={1}
                                 control={<Radio sx={{ '& .MuiSvgIcon-root': { fontSize: { lg: 14, xl: 20 } } }} />}
                                 label="Y"
                             />
                             <FormControlLabel
-                                value={false}
+                                value={0}
                                 control={<Radio sx={{ '& .MuiSvgIcon-root': { fontSize: { lg: 14, xl: 20 } } }} />}
                                 label="N"
                             />
@@ -238,12 +238,12 @@ const InvoiceWorkManage = ({
                             onChange={(e) => setIsLiability(e.target.value)}
                         >
                             <FormControlLabel
-                                value={true}
+                                value={1}
                                 control={<Radio sx={{ '& .MuiSvgIcon-root': { fontSize: { lg: 14, xl: 20 } } }} />}
                                 label="攤分"
                             />
                             <FormControlLabel
-                                value={false}
+                                value={0}
                                 control={<Radio sx={{ '& .MuiSvgIcon-root': { fontSize: { lg: 14, xl: 20 } } }} />}
                                 label="不攤分"
                             />
@@ -267,12 +267,12 @@ const InvoiceWorkManage = ({
                             onChange={(e) => setIsRecharge(e.target.value)}
                         >
                             <FormControlLabel
-                                value={true}
+                                value={1}
                                 control={<Radio sx={{ '& .MuiSvgIcon-root': { fontSize: { lg: 14, xl: 20 } } }} />}
                                 label="Y"
                             />
                             <FormControlLabel
-                                value={false}
+                                value={0}
                                 control={<Radio sx={{ '& .MuiSvgIcon-root': { fontSize: { lg: 14, xl: 20 } } }} />}
                                 label="N"
                             />
