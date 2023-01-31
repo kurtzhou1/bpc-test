@@ -102,7 +102,7 @@ const InvoiceWorkManage = () => {
         });
         console.log('detailAmount=>>', detailAmount);
         console.log('totalAmount=>>', totalAmount);
-        if (totalAmount.toString() !== detailAmount.toString()) {
+        if (Number(totalAmount).toFixed(2) !== Number(detailAmount).toFixed(2)) {
             alert('總金額不等於費用項目金額加總');
             return false;
         }

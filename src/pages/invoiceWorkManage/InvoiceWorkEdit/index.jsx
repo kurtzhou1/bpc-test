@@ -265,13 +265,11 @@ const InvoiceWorkManage = () => {
         // 金額確認
         let detailAmount = 0;
         invoiceDetailInfo.forEach((i) => {
-            console.log('迴圈前=>>', detailAmount);
             detailAmount = detailAmount + i.FeeAmount;
-            console.log('迴圈後=>>', detailAmount);
         });
         console.log('detailAmount=>>', detailAmount);
         console.log('totalAmount=>>', totalAmount);
-        if (totalAmount.toString() != detailAmount.toString()) {
+        if (Number(totalAmount).toFixed(2) !== Number(detailAmount).toFixed(2)) {
             alert('總金額不等於費用項目金額加總');
             return false;
         }
