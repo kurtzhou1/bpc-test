@@ -96,7 +96,9 @@ const InvoiceWorkManage = () => {
         // 金額確認
         let detailAmount = 0;
         invoiceDetailInfo.forEach((i) => {
+            console.log('迴圈前=>>', detailAmount);
             detailAmount = detailAmount + i.FeeAmount;
+            console.log('迴圈後=>>', detailAmount);
         });
         console.log('detailAmount=>>', detailAmount);
         console.log('totalAmount=>>', totalAmount);
