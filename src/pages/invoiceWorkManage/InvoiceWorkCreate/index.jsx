@@ -98,6 +98,8 @@ const InvoiceWorkManage = () => {
         invoiceDetailInfo.forEach((i) => {
             detailAmount = detailAmount + i.FeeAmount;
         });
+        console.log('detailAmount=>>', detailAmount);
+        console.log('totalAmount=>>', totalAmount);
         if (Number(totalAmount) !== Number(detailAmount)) {
             alert('總金額不等於費用項目金額加總');
             return false;
