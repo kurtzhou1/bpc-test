@@ -102,7 +102,12 @@ const InvoiceWorkManage = () => {
                     FeeItem: 'BM9a Sea cable manufactured (except 8.5km spare cable))- Service',
                     FeeAmount: 1178227.94
                 },
-                { BillMilestone: 'BM12', FeeItem: 'BM12 Branching Units (100%)-Equipment', FeeAmount: 1627300.92 }
+                { BillMilestone: 'BM12', FeeItem: 'BM12 Branching Units (100%)-Equipment', FeeAmount: 1627300.92 },
+                {
+                    BillMilestone: 'BM12',
+                    FeeAmount: 1487661.54,
+                    FeeItem: 'BM12 Branching Units (100%)-Service'
+                }
             ]
         }
     ];
@@ -256,56 +261,76 @@ const InvoiceWorkManage = () => {
         }
     }, [action]);
 
+    const infoCheck = () => {
+        // 金額確認
+        let detailAmount = 0;
+        invoiceDetailInfo.forEach((i) => {
+            console.log('迴圈前=>>', detailAmount);
+            detailAmount = detailAmount + i.FeeAmount;
+            console.log('迴圈後=>>', detailAmount);
+        });
+        console.log('detailAmount=>>', detailAmount);
+        console.log('totalAmount=>>', totalAmount);
+        if (totalAmount.toString() != detailAmount.toString()) {
+            alert('總金額不等於費用項目金額加總');
+            return false;
+        }
+        return true;
+    };
+
     const addInvoiceInfo = () => {
-        let tmpArray = createData(
-            wKMasterID.current,
-            invoiceNo.trim() === '' ? 'No.' + dayjs(new Date()).format('YYYYMMDDHHmmss') : invoiceNo,
-            supplierName,
-            submarineCable,
-            workTitle,
-            contractType,
-            dayjs(issueDate).format('YYYY-MM-DD hh:mm:ss'),
-            dayjs(dueDate).format('YYYY-MM-DD hh:mm:ss'),
-            partyName,
-            'TEMPORARY',
-            isPro === '1' || isPro === 1 ? 1 : 0,
-            isRecharge === '1' || isRecharge === 1 ? 1 : 0,
-            isLiability === '1' || isLiability === 1 ? 1 : 0,
-            Number(totalAmount)
-        );
-        let combineArray = {
-            InvoiceWKMaster: tmpArray,
-            InvoiceWKDetail: invoiceDetailInfo
-        };
-        fetch(deleteInvoiceWKMaster, { method: 'POST', body: JSON.stringify(wKMasterID.current) })
-            .then((res) => res.json())
-            .then((data) => {
-                console.log('data1=>>', data);
-            })
-            .catch((e) => console.log('e1=>>', e));
-        fetch(deleteInvoiceWKDetail, { method: 'POST', body: JSON.stringify(wKMasterID.current) })
-            .then((res) => res.json())
-            .then((data) => {
-                console.log('data2=>>', data);
-            })
-            .catch((e) => console.log('e2=>>', e));
-        fetch(generateInvoice, { method: 'POST', body: JSON.stringify(combineArray) })
-            .then((res) => res.json())
-            .then((data) => {
-                console.log('data3=>>', data);
-            })
-            .catch((e) => console.log('e3=>>', e));
-        // 重新query
-        console.log('queryApi.current=>>', queryApi.current);
-        fetch(queryApi.current, { method: 'GET' })
-            .then((res) => res.json())
-            .then((data) => {
-                console.log('data1=>>', data);
-                setListInfo(data);
-            })
-            .catch((e) => console.log('e1=>>', e));
-        itemDetailInitial();
-        setAction('');
+        //防呆
+        if (infoCheck()) {
+            let tmpArray = createData(
+                wKMasterID.current,
+                invoiceNo.trim() === '' ? 'No.' + dayjs(new Date()).format('YYYYMMDDHHmmss') : invoiceNo,
+                supplierName,
+                submarineCable,
+                workTitle,
+                contractType,
+                dayjs(issueDate).format('YYYY-MM-DD hh:mm:ss'),
+                dayjs(dueDate).format('YYYY-MM-DD hh:mm:ss'),
+                partyName,
+                'TEMPORARY',
+                isPro === '1' || isPro === 1 ? 1 : 0,
+                isRecharge === '1' || isRecharge === 1 ? 1 : 0,
+                isLiability === '1' || isLiability === 1 ? 1 : 0,
+                Number(totalAmount)
+            );
+            let combineArray = {
+                InvoiceWKMaster: tmpArray,
+                InvoiceWKDetail: invoiceDetailInfo
+            };
+            fetch(deleteInvoiceWKMaster, { method: 'POST', body: JSON.stringify(wKMasterID.current) })
+                .then((res) => res.json())
+                .then((data) => {
+                    console.log('data1=>>', data);
+                })
+                .catch((e) => console.log('e1=>>', e));
+            fetch(deleteInvoiceWKDetail, { method: 'POST', body: JSON.stringify(wKMasterID.current) })
+                .then((res) => res.json())
+                .then((data) => {
+                    console.log('data2=>>', data);
+                })
+                .catch((e) => console.log('e2=>>', e));
+            fetch(generateInvoice, { method: 'POST', body: JSON.stringify(combineArray) })
+                .then((res) => res.json())
+                .then((data) => {
+                    console.log('data3=>>', data);
+                })
+                .catch((e) => console.log('e3=>>', e));
+            // 重新query
+            console.log('queryApi.current=>>', queryApi.current);
+            fetch(queryApi.current, { method: 'GET' })
+                .then((res) => res.json())
+                .then((data) => {
+                    console.log('data1=>>', data);
+                    setListInfo(data);
+                })
+                .catch((e) => console.log('e1=>>', e));
+            itemDetailInitial();
+            setAction('');
+        }
     };
 
     // const deletelistInfoItem = (deleteItem) => {
