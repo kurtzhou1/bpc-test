@@ -184,6 +184,7 @@ const InvoiceWorkManage = () => {
             setInvoiceDetailInfo(listInfo[modifyItem].InvoiceWKDetail);
             wKMasterID.current = listInfo[modifyItem].InvoiceWKMaster.WKMasterID;
             setAction('');
+            setModifyItem(-1);
         }
     }, [modifyItem]);
 
