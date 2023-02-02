@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import { forwardRef } from 'react';
+import { forwardRef, useState, useRef } from 'react';
 
 // material-ui
 import { useTheme } from '@mui/material/styles';
@@ -37,12 +37,16 @@ const MainCard = forwardRef(
             title,
             codeHighlight,
             search,
+            // searchWord,
+            requestSearch,
+            searchTitle,
             ...others
         },
         ref
     ) => {
         const theme = useTheme();
         boxShadow = theme.palette.mode === 'dark' ? boxShadow || true : boxShadow;
+        const searchWord = useRef();
 
         const StyledInputBase = styled(InputBase)(({ theme }) => ({
             color: 'inherit',
@@ -75,9 +79,9 @@ const MainCard = forwardRef(
         const Search = styled('div')(({ theme }) => ({
             position: 'relative',
             borderRadius: theme.shape.borderRadius,
-            backgroundColor: alpha(theme.palette.common.white, 0.15),
+            backgroundColor: alpha(theme.palette.common.black, 0.05),
             '&:hover': {
-                backgroundColor: alpha(theme.palette.common.white, 0.25)
+                backgroundColor: alpha(theme.palette.common.black, 0.15)
             },
             marginLeft: 0,
             width: '100%',
@@ -86,6 +90,11 @@ const MainCard = forwardRef(
                 width: 'auto'
             }
         }));
+
+        const searchFunction = (e) => {
+            requestSearch(e);
+            searchWord.current = e;
+        };
 
         return (
             <Card
@@ -121,11 +130,15 @@ const MainCard = forwardRef(
                             <Typography sx={{ display: 'flex', justifyContent: 'space-between' }}>
                                 <Typography>{title}</Typography>
                                 {search && (
-                                    <Search>
+                                    <Search onChange={(e) => searchFunction(e.target.value)}>
                                         <SearchIconWrapper>
                                             <SearchIcon />
                                         </SearchIconWrapper>
-                                        <StyledInputBase placeholder="Search…" inputProps={{ 'aria-label': 'search' }} />
+                                        <StyledInputBase
+                                            placeholder={searchTitle ? searchTitle : 'Search…'}
+                                            // value={searchWord.current}
+                                            inputProps={{ 'aria-label': 'search' }}
+                                        />
                                     </Search>
                                 )}
                             </Typography>

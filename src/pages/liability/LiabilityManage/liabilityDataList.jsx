@@ -29,8 +29,6 @@ const LiabilityDataList = ({ listInfo, setDialogAction, setIsDialogOpen, setEdit
         }
     }));
 
-    console.log('listInfo=>>', listInfo);
-
     return (
         <TableContainer component={Paper} sx={{ maxHeight: 250 }}>
             <Table sx={{ minWidth: 300 }} stickyHeader aria-label="sticky table">
@@ -39,6 +37,8 @@ const LiabilityDataList = ({ listInfo, setDialogAction, setIsDialogOpen, setEdit
                         <StyledTableCell align="center">NO</StyledTableCell>
                         <StyledTableCell align="center">帳務計費段</StyledTableCell>
                         <StyledTableCell align="center">會員名稱</StyledTableCell>
+                        {/* <StyledTableCell align="center">海纜名稱</StyledTableCell> */}
+                        {/* <StyledTableCell align="center">海纜作業</StyledTableCell> */}
                         <StyledTableCell align="center">攤分比例</StyledTableCell>
                         <StyledTableCell align="center">異動原因</StyledTableCell>
                         <StyledTableCell align="center">終止日期</StyledTableCell>

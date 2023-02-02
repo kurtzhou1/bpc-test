@@ -24,7 +24,7 @@ const InvoiceWorkManage = ({
     submarineCable,
     setSubmarineCable,
     workTitle,
-    setWorTitle,
+    setWorkTitle,
     contractType,
     setContractType,
     issueDate,
@@ -113,13 +113,13 @@ const InvoiceWorkManage = ({
                 </Grid>
                 <Grid item xs={12} sm={6} md={4} lg={4}>
                     <FormControl fullWidth size="small">
-                        <InputLabel id="demo-simple-select-label">選擇合約種類</InputLabel>
+                        <InputLabel id="demo-simple-select-label">選擇海纜作業</InputLabel>
                         <Select
                             // labelId="demo-simple-select-label"
                             // id="demo-simple-select"
                             value={workTitle}
                             label="填寫海纜作業"
-                            onChange={(e) => setWorTitle(e.target.value)}
+                            onChange={(e) => setWorkTitle(e.target.value)}
                         >
                             <MenuItem value={'Construction'}>Construction</MenuItem>
                             <MenuItem value={'Upgrade'}>Upgrade</MenuItem>

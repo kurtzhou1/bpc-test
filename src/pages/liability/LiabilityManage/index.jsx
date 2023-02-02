@@ -35,10 +35,15 @@ const LiabilityManage = () => {
     const [dialogAction, setDialogAction] = useState('');
 
     const [billMilestone, setBillMilestone] = useState(''); //記帳段號
+    const [workTitle, setWorkTitle] = useState(''); //海纜作業
+    const [submarineCable, setSubmarineCable] = useState(''); //海纜名稱
     const [partyName, setPartyName] = useState([]); //會員名稱
     const [lbRatio, setLBRatio] = useState(''); //攤分比例
     const [editItem, setEditItem] = useState(NaN);
     const [modifyNote, setModifyNote] = useState('');
+
+    const [filterList, setFilterList] = useState(listInfo);
+    const searchWord = useRef();
 
     // const [searched, setSearched] = useState('');
 
@@ -115,25 +120,10 @@ const LiabilityManage = () => {
         // itemDetailInitial();
     };
 
-    // const requestSearch = (searchedVal) => {
-    //     const filteredRows = originalRows.filter((row) => {
-    //         return row.name.toLowerCase().includes(searchedVal.toLowerCase());
-    //     });
-    //     setRows(filteredRows);
-    // };
-
     // const cancelSearch = () => {
     //     setSearched('');
     //     requestSearch(searched);
     // };
-
-    useEffect(() => {
-        itemDetailInitial();
-        if (editItem >= 0) {
-            editlistInfoItem();
-            setIsDialogOpen(true);
-        }
-    }, [editItem]);
 
     const BootstrapDialogTitle = (props) => {
         const { children, onClose, ...other } = props;
@@ -159,6 +149,25 @@ const LiabilityManage = () => {
         );
     };
 
+    const requestSearch = (searchedVal) => {
+        console.log('requestSearch=>>', searchedVal);
+        const filteredRows = listInfo.filter((row) => {
+            return row.PartyName.toLowerCase().includes(searchedVal.toLowerCase());
+        });
+        console.log('filteredRows=>>', filteredRows);
+        // setFilterList(filteredRows);
+        searchWord.current = searchedVal;
+        // filterList.current = filteredRows;
+    };
+
+    useEffect(() => {
+        itemDetailInitial();
+        if (editItem >= 0) {
+            editlistInfoItem();
+            setIsDialogOpen(true);
+        }
+    }, [editItem]);
+
     return (
         <Grid container spacing={1}>
             <Grid item xs={12} display="flex" justifyContent="right">
@@ -174,6 +183,10 @@ const LiabilityManage = () => {
                     isDialogOpen={isDialogOpen}
                     billMilestone={billMilestone}
                     setBillMilestone={setBillMilestone}
+                    workTitle={workTitle}
+                    setWorkTitle={setWorkTitle}
+                    submarineCable={submarineCable}
+                    setSubmarineCable={setSubmarineCable}
                     dialogAction={dialogAction}
                     lbRatio={lbRatio}
                     setLBRatio={setLBRatio}
@@ -185,9 +198,15 @@ const LiabilityManage = () => {
                 <LiabilityQuery liabilityQuery={liabilityQuery} />
             </Grid>
             <Grid item xs={12}>
-                <MainCard title="Liability資料列表" search>
+                <MainCard
+                    title="Liability資料列表"
+                    search
+                    requestSearch={requestSearch}
+                    searchWord={searchWord.current}
+                    searchTitle={'會員搜尋'}
+                >
                     <LiabilityDataList
-                        listInfo={listInfo}
+                        listInfo={filterList.length > 0 ? filterList : listInfo}
                         setDialogAction={setDialogAction}
                         setIsDialogOpen={setIsDialogOpen}
                         setEditItem={setEditItem}

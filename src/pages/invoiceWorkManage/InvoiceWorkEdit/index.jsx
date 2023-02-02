@@ -26,7 +26,7 @@ const InvoiceWorkManage = () => {
     const [supplierName, setSupplierName] = useState(''); //供應商
     const [invoiceNo, setInvoiceNo] = useState(''); //發票號碼
     const [submarineCable, setSubmarineCable] = useState(''); //海纜名稱
-    const [workTitle, setWorTitle] = useState(''); //海纜作業
+    const [workTitle, setWorkTitle] = useState(''); //海纜作業
     const [contractType, setContractType] = useState(''); //合約種類
     const [issueDate, setIssueDate] = useState(new Date()); //發票日期
     const [dueDate, setDueDate] = useState(new Date()); //發票到期日
@@ -119,7 +119,7 @@ const InvoiceWorkManage = () => {
         setSupplierName('');
         setInvoiceNo('');
         setSubmarineCable('');
-        setWorTitle('');
+        setWorkTitle('');
         setContractType('');
         setIssueDate(new Date());
         setDueDate(new Date());
@@ -172,7 +172,7 @@ const InvoiceWorkManage = () => {
             setSupplierName(listInfo[modifyItem].InvoiceWKMaster.SupplierName);
             setInvoiceNo(listInfo[modifyItem].InvoiceWKMaster.InvoiceNo);
             setSubmarineCable(listInfo[modifyItem].InvoiceWKMaster.SubmarineCable);
-            setWorTitle(listInfo[modifyItem].InvoiceWKMaster.WorkTitle);
+            setWorkTitle(listInfo[modifyItem].InvoiceWKMaster.WorkTitle);
             setContractType(listInfo[modifyItem].InvoiceWKMaster.ContractType);
             setIssueDate(listInfo[modifyItem].InvoiceWKMaster.IssueDate);
             setDueDate(listInfo[modifyItem].InvoiceWKMaster.DueDate);
@@ -464,7 +464,7 @@ const InvoiceWorkManage = () => {
                                                 size="small"
                                                 label="填寫海纜作業"
                                                 disabled={action === 'View'}
-                                                onChange={(e) => setWorTitle(e.target.value)}
+                                                onChange={(e) => setWorkTitle(e.target.value)}
                                             />
                                         </Grid>
                                         {/* row3 */}

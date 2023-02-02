@@ -33,7 +33,7 @@ const LiabilityQuery = ({ liabilityQuery }) => {
                             // id="demo-simple-select"
                             // value={supplierName}
                             label="記帳段號"
-                            onChange={(e) => setSupplierName(e.target.value)}
+                            // onChange={(e) => setSupplierName(e.target.value)}
                         >
                             <MenuItem value={'記帳段號1號'}>記帳段號1號</MenuItem>
                             <MenuItem value={'記帳段號2號'}>記帳段號2號</MenuItem>
@@ -54,7 +54,7 @@ const LiabilityQuery = ({ liabilityQuery }) => {
                             // id="demo-simple-select"
                             // value={submarineCable}
                             label="發票供應商"
-                            onChange={(e) => setSubmarineCable(e.target.value)}
+                            // onChange={(e) => setSubmarineCable(e.target.value)}
                         >
                             <MenuItem value={'發票供應商1號'}>發票供應商1號</MenuItem>
                             <MenuItem value={'發票供應商2號'}>發票供應商2號</MenuItem>
@@ -87,7 +87,55 @@ const LiabilityQuery = ({ liabilityQuery }) => {
                 </Grid>
 
                 {/* row2 */}
-                <Grid item xs={9} sm={9} md={9} lg={9}></Grid>
+                <Grid item xs={1} sm={1} md={1} lg={1} display="flex">
+                    <Typography variant="h5" sx={{ fontSize: { lg: '0.5rem', xl: '0.88rem' }, ml: { lg: '0.5rem', xl: '1.5rem' } }}>
+                        海纜名稱：
+                    </Typography>
+                </Grid>
+                <Grid item xs={2} sm={2} md={2} lg={2}>
+                    <FormControl fullWidth size="small">
+                        <InputLabel size="small" id="billMilestone">
+                            選擇海纜名稱
+                        </InputLabel>
+                        <Select
+                            // labelId="demo-simple-select-label"
+                            // id="demo-simple-select"
+                            size="small"
+                            // value={submarineCable}
+                            label="填寫海纜名稱"
+                            // onChange={(e) => setSubmarineCable(e.target.value)}
+                        >
+                            <MenuItem value={'海纜1號'}>海纜1號</MenuItem>
+                            <MenuItem value={'海纜2號'}>海纜2號</MenuItem>
+                            <MenuItem value={'海纜3號'}>海纜3號</MenuItem>
+                        </Select>
+                    </FormControl>
+                </Grid>
+                <Grid item xs={1} sm={1} md={1} lg={1} display="flex">
+                    <Typography variant="h5" sx={{ fontSize: { lg: '0.5rem', xl: '0.88rem' }, ml: { lg: '0.5rem', xl: '1.5rem' } }}>
+                        海纜作業：
+                    </Typography>
+                </Grid>
+                <Grid item xs={2} sm={2} md={2} lg={2}>
+                    <FormControl fullWidth size="small">
+                        <InputLabel size="small" id="billMilestone">
+                            選擇海纜作業
+                        </InputLabel>
+                        <Select
+                            // labelId="demo-simple-select-label"
+                            // id="demo-simple-select"
+                            size="small"
+                            // value={workTitle}
+                            label="填寫海纜作業"
+                            // onChange={(e) => setWorkTitle(e.target.value)}
+                        >
+                            <MenuItem value={'Construction'}>Construction</MenuItem>
+                            <MenuItem value={'Upgrade'}>Upgrade</MenuItem>
+                            <MenuItem value={'O&M'}>O&M</MenuItem>
+                        </Select>
+                    </FormControl>
+                </Grid>
+                <Grid item xs={3} sm={3} md={3} lg={3}></Grid>
                 <Grid item xs={3} sm={3} md={3} lg={3} display="flex" justifyContent="end" alignItems="center">
                     <Button sx={{ mr: '0.5rem' }} variant="contained" onClick={liabilityQuery}>
                         查詢

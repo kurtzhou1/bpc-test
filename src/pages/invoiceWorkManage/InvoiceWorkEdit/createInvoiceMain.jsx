@@ -24,7 +24,7 @@ const InvoiceWorkManage = ({
     submarineCable,
     setSubmarineCable,
     workTitle,
-    setWorTitle,
+    setWorkTitle,
     contractType,
     setContractType,
     issueDate,
@@ -114,7 +114,7 @@ const InvoiceWorkManage = ({
                         variant="outlined"
                         size="small"
                         label="填寫海纜作業"
-                        onChange={(e) => setWorTitle(e.target.value)}
+                        onChange={(e) => setWorkTitle(e.target.value)}
                     />
                 </Grid>
                 {/* row3 */}

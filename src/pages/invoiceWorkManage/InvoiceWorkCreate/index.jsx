@@ -24,7 +24,7 @@ const InvoiceWorkManage = () => {
     const [supplierName, setSupplierName] = useState(''); //供應商
     const [invoiceNo, setInvoiceNo] = useState(''); //發票號碼
     const [submarineCable, setSubmarineCable] = useState(''); //海纜名稱
-    const [workTitle, setWorTitle] = useState(''); //海纜作業
+    const [workTitle, setWorkTitle] = useState(''); //海纜作業
     const [contractType, setContractType] = useState(''); //合約種類
     const [issueDate, setIssueDate] = useState(new Date()); //發票日期
     const [dueDate, setDueDate] = useState(new Date()); //發票到期日
@@ -48,7 +48,7 @@ const InvoiceWorkManage = () => {
         setSupplierName('');
         setInvoiceNo('');
         setSubmarineCable('');
-        setWorTitle('');
+        setWorkTitle('');
         setContractType('');
         setIssueDate(new Date());
         setDueDate(new Date());
@@ -153,7 +153,7 @@ const InvoiceWorkManage = () => {
             setSupplierName(tmpArray?.InvoiceWKMaster.SupplierName);
             setInvoiceNo(tmpArray?.InvoiceWKMaster.InvoiceNo);
             setSubmarineCable(tmpArray?.InvoiceWKMaster.SubmarineCable);
-            setWorTitle(tmpArray.InvoiceWKMaster.WorkTitle);
+            setWorkTitle(tmpArray.InvoiceWKMaster.WorkTitle);
             setContractType(tmpArray?.InvoiceWKMaster.ContractType);
             setIssueDate(tmpArray?.InvoiceWKMaster.IssueDate);
             setDueDate(tmpArray?.InvoiceWKMaster.DueDate);
@@ -272,7 +272,7 @@ const InvoiceWorkManage = () => {
                                 submarineCable={submarineCable}
                                 setSubmarineCable={setSubmarineCable}
                                 workTitle={workTitle}
-                                setWorTitle={setWorTitle}
+                                setWorkTitle={setWorkTitle}
                                 contractType={contractType}
                                 setContractType={setContractType}
                                 issueDate={issueDate}

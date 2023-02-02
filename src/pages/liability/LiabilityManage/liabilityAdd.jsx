@@ -35,7 +35,7 @@ import TableCell, { tableCellClasses } from '@mui/material/TableCell';
 import Paper from '@mui/material/Paper';
 import { styled } from '@mui/material/styles';
 
-const LiabilityManage = ({
+const LiabilityAdd = ({
     handleDialogClose,
     addLiability,
     saveEdit,
@@ -44,6 +44,10 @@ const LiabilityManage = ({
     isDialogOpen,
     billMilestone,
     setBillMilestone,
+    workTitle,
+    setWorkTitle,
+    submarineCable,
+    setSubmarineCable,
     dialogAction,
     lbRatio,
     setLBRatio,
@@ -85,7 +89,9 @@ const LiabilityManage = ({
             tmpArray.push({
                 BillMilestone: billMilestone,
                 PartyName: e,
-                LbRatio: lbRatio
+                LbRatio: lbRatio,
+                SubmarineCable: submarineCable,
+                WorkTitle: workTitle
             });
         });
         setListInfo([...tmpArray]);
@@ -158,15 +164,22 @@ const LiabilityManage = ({
                     </Grid>
                     <Grid item xs={3} sm={3} md={3} lg={3}>
                         <FormControl fullWidth size="small">
-                            <TextField
+                            <InputLabel size="small" id="billMilestone">
+                                選擇記帳段號
+                            </InputLabel>
+                            <Select
+                                // labelId="demo-simple-select-label"
+                                // id="demo-simple-select"
                                 fullWidth
-                                variant="outlined"
-                                disabled={listInfo.length > 0 || dialogAction === 'Edit'}
                                 value={billMilestone}
+                                label="記帳段號"
                                 size="small"
-                                label="填寫記帳段號"
                                 onChange={(e) => setBillMilestone(e.target.value)}
-                            />
+                            >
+                                <MenuItem value={'BM9a'}>BM9a</MenuItem>
+                                <MenuItem value={'BM9b'}>BM9b</MenuItem>
+                                <MenuItem value={'BM12'}>BM12</MenuItem>
+                            </Select>
                         </FormControl>
                     </Grid>
                     <Grid item xs={2} sm={2} md={2} lg={1} display="flex">
@@ -176,15 +189,21 @@ const LiabilityManage = ({
                     </Grid>
                     <Grid item xs={3} sm={3} md={3} lg={3}>
                         <FormControl fullWidth size="small">
-                            <TextField
-                                fullWidth
-                                variant="outlined"
-                                disabled={listInfo.length > 0 || dialogAction === 'Edit'}
-                                value={billMilestone}
+                            <InputLabel size="small" id="billMilestone">
+                                選擇海纜名稱
+                            </InputLabel>
+                            <Select
+                                // labelId="demo-simple-select-label"
+                                // id="demo-simple-select"
                                 size="small"
-                                label="選擇海纜名稱"
-                                onChange={(e) => setBillMilestone(e.target.value)}
-                            />
+                                value={submarineCable}
+                                label="填寫海纜名稱"
+                                onChange={(e) => setSubmarineCable(e.target.value)}
+                            >
+                                <MenuItem value={'海纜1號'}>海纜1號</MenuItem>
+                                <MenuItem value={'海纜2號'}>海纜2號</MenuItem>
+                                <MenuItem value={'海纜3號'}>海纜3號</MenuItem>
+                            </Select>
                         </FormControl>
                     </Grid>
                     <Grid item xs={2} sm={2} md={2} lg={1} display="flex">
@@ -194,15 +213,21 @@ const LiabilityManage = ({
                     </Grid>
                     <Grid item xs={3} sm={3} md={3} lg={3}>
                         <FormControl fullWidth size="small">
-                            <TextField
-                                fullWidth
-                                variant="outlined"
-                                disabled={listInfo.length > 0 || dialogAction === 'Edit'}
-                                value={billMilestone}
+                            <InputLabel size="small" id="billMilestone">
+                                選擇海纜作業
+                            </InputLabel>
+                            <Select
+                                // labelId="demo-simple-select-label"
+                                // id="demo-simple-select"
                                 size="small"
-                                label="選擇海纜作業"
-                                onChange={(e) => setBillMilestone(e.target.value)}
-                            />
+                                value={workTitle}
+                                label="填寫海纜作業"
+                                onChange={(e) => setWorkTitle(e.target.value)}
+                            >
+                                <MenuItem value={'Construction'}>Construction</MenuItem>
+                                <MenuItem value={'Upgrade'}>Upgrade</MenuItem>
+                                <MenuItem value={'O&M'}>O&M</MenuItem>
+                            </Select>
                         </FormControl>
                     </Grid>
                     {/* <Grid item xs={2} sm={2} md={2} lg={1} /> */}
@@ -299,6 +324,8 @@ const LiabilityManage = ({
                                             <StyledTableCell align="center">記帳段號</StyledTableCell>
                                             <StyledTableCell align="center">會員名稱</StyledTableCell>
                                             <StyledTableCell align="center">攤分比例</StyledTableCell>
+                                            <StyledTableCell align="center">海纜名稱</StyledTableCell>
+                                            <StyledTableCell align="center">海纜作業</StyledTableCell>
                                             <StyledTableCell align="center">Action</StyledTableCell>
                                         </TableRow>
                                     </TableHead>
@@ -312,6 +339,8 @@ const LiabilityManage = ({
                                                     <StyledTableCell align="center">{row.BillMilestone}</StyledTableCell>
                                                     <StyledTableCell align="center">{row.PartyName}</StyledTableCell>
                                                     <StyledTableCell align="center">{`${row.LbRatio}%`}</StyledTableCell>
+                                                    <StyledTableCell align="center">{row.WorkTitle}</StyledTableCell>
+                                                    <StyledTableCell align="center">{row.SubmarineCable}</StyledTableCell>
                                                     <StyledTableCell align="center">
                                                         <Button
                                                             color="error"
@@ -370,4 +399,4 @@ const LiabilityManage = ({
     );
 };
 
-export default LiabilityManage;
+export default LiabilityAdd;
