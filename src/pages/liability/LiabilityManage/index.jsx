@@ -43,6 +43,7 @@ const LiabilityManage = () => {
     const [modifyNote, setModifyNote] = useState('');
 
     const [filterList, setFilterList] = useState(listInfo);
+    const test = useRef();
     const searchWord = useRef();
 
     // const [searched, setSearched] = useState('');
@@ -149,16 +150,21 @@ const LiabilityManage = () => {
         );
     };
 
-    const requestSearch = (searchedVal) => {
+    const searchFunction = (searchedVal) => {
         console.log('requestSearch=>>', searchedVal);
         const filteredRows = listInfo.filter((row) => {
             return row.PartyName.toLowerCase().includes(searchedVal.toLowerCase());
         });
         console.log('filteredRows=>>', filteredRows);
-        // setFilterList(filteredRows);
-        searchWord.current = searchedVal;
+        setFilterList(filteredRows);
+        // test.current = filteredRows;
+        // searchWord.current = searchedVal;
         // filterList.current = filteredRows;
     };
+
+    useEffect(() => {
+        console.log('123123123');
+    }, [test.current]);
 
     useEffect(() => {
         itemDetailInitial();
@@ -201,7 +207,7 @@ const LiabilityManage = () => {
                 <MainCard
                     title="Liability資料列表"
                     search
-                    requestSearch={requestSearch}
+                    searchFunction={searchFunction}
                     searchWord={searchWord.current}
                     searchTitle={'會員搜尋'}
                 >

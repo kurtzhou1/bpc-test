@@ -28,6 +28,7 @@ const LiabilityDataList = ({ listInfo, setDialogAction, setIsDialogOpen, setEdit
             paddingBottom: '0.2rem'
         }
     }));
+    console.log('131123123123=>>', listInfo);
 
     return (
         <TableContainer component={Paper} sx={{ maxHeight: 250 }}>
@@ -47,7 +48,6 @@ const LiabilityDataList = ({ listInfo, setDialogAction, setIsDialogOpen, setEdit
                 </TableHead>
                 <TableBody>
                     {listInfo?.map((row, id) => {
-                        console.log('row=>', row);
                         return (
                             <TableRow
                                 // key={row.InvoiceWKMaster?.invoiceNo + row.InvoiceWKMaster?.supplierName + id}

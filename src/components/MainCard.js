@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import { forwardRef, useState, useRef } from 'react';
+import { forwardRef, useState } from 'react';
 
 // material-ui
 import { useTheme } from '@mui/material/styles';
@@ -37,8 +37,8 @@ const MainCard = forwardRef(
             title,
             codeHighlight,
             search,
-            // searchWord,
-            requestSearch,
+            searchWord,
+            searchFunction,
             searchTitle,
             ...others
         },
@@ -46,7 +46,7 @@ const MainCard = forwardRef(
     ) => {
         const theme = useTheme();
         boxShadow = theme.palette.mode === 'dark' ? boxShadow || true : boxShadow;
-        const searchWord = useRef();
+        console.log('searchWord=>>', searchWord);
 
         const StyledInputBase = styled(InputBase)(({ theme }) => ({
             color: 'inherit',
@@ -91,10 +91,9 @@ const MainCard = forwardRef(
             }
         }));
 
-        const searchFunction = (e) => {
-            requestSearch(e);
-            searchWord.current = e;
-        };
+        // const searchFunction = (e) => {
+        //     requestSearch(e);
+        // };
 
         return (
             <Card
@@ -130,14 +129,15 @@ const MainCard = forwardRef(
                             <Typography sx={{ display: 'flex', justifyContent: 'space-between' }}>
                                 <Typography>{title}</Typography>
                                 {search && (
-                                    <Search onChange={(e) => searchFunction(e.target.value)}>
+                                    <Search>
                                         <SearchIconWrapper>
                                             <SearchIcon />
                                         </SearchIconWrapper>
                                         <StyledInputBase
                                             placeholder={searchTitle ? searchTitle : 'Search…'}
-                                            // value={searchWord.current}
+                                            // value={searchWord}
                                             inputProps={{ 'aria-label': 'search' }}
+                                            onChange={(e) => searchFunction(e.target.value)}
                                         />
                                     </Search>
                                 )}
