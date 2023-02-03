@@ -163,10 +163,6 @@ const LiabilityManage = () => {
     };
 
     useEffect(() => {
-        console.log('123123123');
-    }, [test.current]);
-
-    useEffect(() => {
         itemDetailInitial();
         if (editItem >= 0) {
             editlistInfoItem();

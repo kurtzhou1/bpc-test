@@ -28,7 +28,7 @@ const LiabilityDataList = ({ listInfo, setDialogAction, setIsDialogOpen, setEdit
             paddingBottom: '0.2rem'
         }
     }));
-    console.log('131123123123=>>', listInfo);
+    // console.log('131123123123=>>', listInfo);
 
     return (
         <TableContainer component={Paper} sx={{ maxHeight: 250 }}>

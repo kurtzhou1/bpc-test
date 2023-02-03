@@ -48,48 +48,48 @@ const MainCard = forwardRef(
         boxShadow = theme.palette.mode === 'dark' ? boxShadow || true : boxShadow;
         console.log('searchWord=>>', searchWord);
 
-        const StyledInputBase = styled(InputBase)(({ theme }) => ({
-            color: 'inherit',
-            '& .MuiInputBase-input': {
-                // vertical padding + font size from searchIcon
-                paddingLeft: `calc(1em + ${theme.spacing(4)})`,
-                paddingTop: 0,
-                paddingBottom: 0,
-                transition: theme.transitions.create('width'),
-                width: '100%',
-                [theme.breakpoints.up('sm')]: {
-                    width: '12ch',
-                    '&:focus': {
-                        width: '20ch'
-                    }
-                }
-            }
-        }));
+        // const StyledInputBase = styled(InputBase)(({ theme }) => ({
+        //     color: 'inherit',
+        //     '& .MuiInputBase-input': {
+        //         // vertical padding + font size from searchIcon
+        //         paddingLeft: `calc(1em + ${theme.spacing(4)})`,
+        //         paddingTop: 0,
+        //         paddingBottom: 0,
+        //         transition: theme.transitions.create('width'),
+        //         width: '100%',
+        //         [theme.breakpoints.up('sm')]: {
+        //             width: '12ch',
+        //             '&:focus': {
+        //                 width: '20ch'
+        //             }
+        //         }
+        //     }
+        // }));
 
-        const SearchIconWrapper = styled('div')(({ theme }) => ({
-            padding: theme.spacing(0, 2),
-            height: '100%',
-            position: 'absolute',
-            pointerEvents: 'none',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center'
-        }));
+        // const SearchIconWrapper = styled('div')(({ theme }) => ({
+        //     padding: theme.spacing(0, 2),
+        //     height: '100%',
+        //     position: 'absolute',
+        //     pointerEvents: 'none',
+        //     display: 'flex',
+        //     alignItems: 'center',
+        //     justifyContent: 'center'
+        // }));
 
-        const Search = styled('div')(({ theme }) => ({
-            position: 'relative',
-            borderRadius: theme.shape.borderRadius,
-            backgroundColor: alpha(theme.palette.common.black, 0.05),
-            '&:hover': {
-                backgroundColor: alpha(theme.palette.common.black, 0.15)
-            },
-            marginLeft: 0,
-            width: '100%',
-            [theme.breakpoints.up('sm')]: {
-                marginLeft: theme.spacing(1),
-                width: 'auto'
-            }
-        }));
+        // const Search = styled('div')(({ theme }) => ({
+        //     position: 'relative',
+        //     borderRadius: theme.shape.borderRadius,
+        //     backgroundColor: alpha(theme.palette.common.black, 0.05),
+        //     '&:hover': {
+        //         backgroundColor: alpha(theme.palette.common.black, 0.15)
+        //     },
+        //     marginLeft: 0,
+        //     width: '100%',
+        //     [theme.breakpoints.up('sm')]: {
+        //         marginLeft: theme.spacing(1),
+        //         width: 'auto'
+        //     }
+        // }));
 
         // const searchFunction = (e) => {
         //     requestSearch(e);
@@ -129,17 +129,18 @@ const MainCard = forwardRef(
                             <Typography sx={{ display: 'flex', justifyContent: 'space-between' }}>
                                 <Typography>{title}</Typography>
                                 {search && (
-                                    <Search>
-                                        <SearchIconWrapper>
-                                            <SearchIcon />
-                                        </SearchIconWrapper>
-                                        <StyledInputBase
-                                            placeholder={searchTitle ? searchTitle : 'Search…'}
-                                            // value={searchWord}
-                                            inputProps={{ 'aria-label': 'search' }}
-                                            onChange={(e) => searchFunction(e.target.value)}
-                                        />
-                                    </Search>
+                                    // <Search>
+                                    //     <SearchIconWrapper>
+                                    //         <SearchIcon />
+                                    //     </SearchIconWrapper>
+                                    <InputBase
+                                        placeholder={searchTitle ? searchTitle : 'Search…'}
+                                        // value={searchWord}
+                                        inputProps={{ 'aria-label': 'search' }}
+                                        onChange={(e) => searchFunction(e.target.value)}
+                                        size="small"
+                                    />
+                                    // </Search>
                                 )}
                             </Typography>
                         }
