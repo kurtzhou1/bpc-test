@@ -83,7 +83,6 @@ const LiabilityAdd = ({
     //新增
     const addList = () => {
         let tmpArray = listInfo.map((i) => i);
-        console.log('=>>', partyName);
         let partyArray = partyName;
         partyArray.forEach((e) => {
             tmpArray.push({
@@ -157,7 +156,7 @@ const LiabilityAdd = ({
             </BootstrapDialogTitle>
             <DialogContent dividers>
                 <Grid container spacing={1} display="flex" justifyContent="center" alignItems="center">
-                    <Grid item xs={2} sm={2} md={2} lg={1} display="flex">
+                    <Grid item xs={1} sm={1} md={1} lg={1} display="flex">
                         <Typography variant="h5" sx={{ fontSize: { lg: '0.5rem', xl: '0.88rem' }, ml: { lg: '0.5rem', xl: '1.5rem' } }}>
                             記帳段號：
                         </Typography>
@@ -182,7 +181,7 @@ const LiabilityAdd = ({
                             </Select>
                         </FormControl>
                     </Grid>
-                    <Grid item xs={2} sm={2} md={2} lg={1} display="flex">
+                    <Grid item xs={1} sm={1} md={1} lg={1} display="flex">
                         <Typography variant="h5" sx={{ fontSize: { lg: '0.5rem', xl: '0.88rem' }, ml: { lg: '0.5rem', xl: '1.5rem' } }}>
                             海纜名稱：
                         </Typography>
@@ -206,7 +205,7 @@ const LiabilityAdd = ({
                             </Select>
                         </FormControl>
                     </Grid>
-                    <Grid item xs={2} sm={2} md={2} lg={1} display="flex">
+                    <Grid item xs={1} sm={1} md={1} lg={1} display="flex">
                         <Typography variant="h5" sx={{ fontSize: { lg: '0.5rem', xl: '0.88rem' }, ml: { lg: '0.5rem', xl: '1.5rem' } }}>
                             海纜作業：
                         </Typography>
@@ -231,7 +230,7 @@ const LiabilityAdd = ({
                         </FormControl>
                     </Grid>
                     {/* <Grid item xs={2} sm={2} md={2} lg={1} /> */}
-                    <Grid item xs={2} sm={2} md={2} lg={1} display="flex">
+                    <Grid item xs={1} sm={1} md={1} lg={1} display="flex">
                         <Typography variant="h5" sx={{ fontSize: { lg: '0.5rem', xl: '0.88rem' }, ml: { lg: '0.5rem', xl: '1.5rem' } }}>
                             攤分比例：
                         </Typography>
@@ -247,12 +246,12 @@ const LiabilityAdd = ({
                         />
                     </Grid>
                     {/* <Grid item xs={6} sm={6} md={6} lg={6} /> */}
-                    <Grid item xs={2} sm={2} md={2} lg={1} display="flex">
+                    <Grid item xs={1} sm={1} md={1} lg={1} display="flex">
                         <Typography variant="h5" sx={{ fontSize: { lg: '0.5rem', xl: '0.88rem' }, ml: { lg: '0.5rem', xl: '1.5rem' } }}>
                             會員名稱：
                         </Typography>
                     </Grid>
-                    <Grid item xs={3} sm={3} md={3} lg={7}>
+                    <Grid item xs={7} sm={7} md={7} lg={7}>
                         <Autocomplete
                             multiple
                             id="checkboxes-tags-demo"
@@ -287,7 +286,7 @@ const LiabilityAdd = ({
                             ''
                         )}
                     </Grid>
-                    <Grid item xs={11} sm={11} md={11} lg={11}>
+                    <Grid item xs={10} sm={10} md={10} lg={10}>
                         {dialogAction === 'Edit' ? (
                             <TextField
                                 fullWidth

@@ -17,7 +17,16 @@ import InvoiceDataList from './invoiceDataList';
 import { TextField } from '@mui/material/index';
 
 // api
-import { queryInvoice, generateInvoice, updateInvoice, deleteInvoiceWKMaster, deleteInvoiceWKDetail } from 'components/apis.jsx';
+import {
+    queryInvoice,
+    generateInvoice,
+    updateInvoice,
+    deleteInvoiceWKMaster,
+    deleteInvoiceWKDetail,
+    supplierNameList,
+    submarineCableList,
+    billMilestoneList
+} from 'components/apis.jsx';
 
 // ==============================|| SAMPLE PAGE ||============================== //
 
@@ -37,6 +46,10 @@ const InvoiceWorkManage = () => {
     const [partyName, setPartyName] = useState(''); //會員代號
     const wKMasterID = useRef(); //工作檔ID
 
+    const [supNmList, setSupNmList] = useState([]); //供應商下拉選單
+    const [subCableList, setSubCableList] = useState([]); //海纜名稱下拉選單
+    const [bmStoneList, setBmStoneList] = useState([]); //記帳段號下拉選單
+
     const [action, setAction] = useState('');
     const [modifyItem, setModifyItem] = useState(-1);
 
@@ -54,9 +67,9 @@ const InvoiceWorkManage = () => {
                 IssueDate: '2022/9/9',
                 TotalAmount: 15466.92,
                 Status: 'TEMPORARY',
-                IsPro: 1,
-                IsLiability: 0,
-                IsRecharge: 0
+                IsPro: true,
+                IsLiability: false,
+                IsRecharge: false
             },
             InvoiceWKDetail: [
                 {
@@ -87,9 +100,9 @@ const InvoiceWorkManage = () => {
                 IssueDate: '2022/9/9',
                 TotalAmount: 5582012.72,
                 Status: 'TEMPORARY',
-                IsPro: 1,
-                IsLiability: 1,
-                IsRecharge: 1
+                IsPro: true,
+                IsLiability: true,
+                IsRecharge: true
             },
             InvoiceWKDetail: [
                 {
@@ -274,8 +287,7 @@ const InvoiceWorkManage = () => {
         invoiceDetailInfo.forEach((i) => {
             detailAmount = detailAmount + i.FeeAmount;
         });
-        console.log('detailAmount=>>', detailAmount);
-        console.log('totalAmount=>>', totalAmount);
+
         if (Number(totalAmount).toFixed(2) !== Number(detailAmount).toFixed(2)) {
             alert('總金額不等於費用項目金額加總');
             return false;
@@ -351,6 +363,33 @@ const InvoiceWorkManage = () => {
         setModifyItem(-1);
     };
 
+    useEffect(() => {
+        if (workTitle && submarineCable) {
+            let bmApi = billMilestoneList + 'SubmarineCable=' + submarineCable + '&WorkTitle=' + workTitle;
+            fetch(bmApi, { method: 'GET' })
+                .then((res) => res.json())
+                .then((data) => {
+                    setBmStoneList(data);
+                })
+                .catch((e) => console.log('e1=>>', e));
+        }
+    }, [workTitle, submarineCable]);
+
+    useEffect(() => {
+        fetch(supplierNameList, { method: 'GET' })
+            .then((res) => res.json())
+            .then((data) => {
+                setSupNmList(data);
+            })
+            .catch((e) => console.log('e1=>>', e));
+        fetch(submarineCableList, { method: 'GET' })
+            .then((res) => res.json())
+            .then((data) => {
+                setSubCableList(data);
+            })
+            .catch((e) => console.log('e1=>>', e));
+    }, []);
+
     return (
         <Grid container spacing={1}>
             <Grid item xs={12}>
@@ -403,8 +442,9 @@ const InvoiceWorkManage = () => {
                                                     label="發票供應商"
                                                     onChange={(e) => setSupplierName(e.target.value)}
                                                 >
-                                                    <MenuItem value={'NEC'}>NEC</MenuItem>
-                                                    <MenuItem value={'CIENA'}>CIENA</MenuItem>
+                                                    {supNmList.map((i) => (
+                                                        <MenuItem value={i.SupplierName}>{i.SupplierName}</MenuItem>
+                                                    ))}
                                                 </Select>
                                             </FormControl>
                                         </Grid>
@@ -449,8 +489,9 @@ const InvoiceWorkManage = () => {
                                                     disabled={action === 'View'}
                                                     onChange={(e) => setSubmarineCable(e.target.value)}
                                                 >
-                                                    <MenuItem value={'SJC2'}>SJC2</MenuItem>
-                                                    <MenuItem value={'NCP'}>NCP</MenuItem>
+                                                    {subCableList.map((i) => (
+                                                        <MenuItem value={i.CableName}>{i.CableName}</MenuItem>
+                                                    ))}
                                                 </Select>
                                             </FormControl>
                                         </Grid>
@@ -698,6 +739,7 @@ const InvoiceWorkManage = () => {
                                 <CreateInvoiceDetail
                                     setInvoiceDetailInfo={setInvoiceDetailInfo}
                                     invoiceDetailInfo={invoiceDetailInfo}
+                                    bmStoneList={bmStoneList}
                                     action={action}
                                 />
                             </Grid>

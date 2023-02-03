@@ -77,6 +77,8 @@ const LiabilityManage = () => {
                     BillMilestone: i.BillMilestone,
                     PartyName: i.PartyName,
                     LbRatio: i.LbRatio,
+                    SubmarineCable: i.SubmarineCable,
+                    WorkTitle: i.WorkTitle,
                     CreateTime: '',
                     ModifyNote: modifyNote.trim() === '' ? '' : modifyNote
                 });
@@ -108,11 +110,8 @@ const LiabilityManage = () => {
     //儲存編輯
     const saveEdit = () => {
         let tmpArray = listInfo.map((i) => i);
-        console.log('lbRatio=>>', lbRatio);
-        console.log('modifyNote=>>', modifyNote);
         tmpArray[editItem].LbRatio = lbRatio;
         tmpArray[editItem].ModifyNote = modifyNote;
-        console.log('tmpArray=>>>>', tmpArray);
         setListInfo([...tmpArray]);
         setEditItem(NaN);
         handleDialogClose();

@@ -18,7 +18,7 @@ import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import { styled } from '@mui/material/styles';
 
-const CreateInvoiceDetail = ({ setInvoiceDetailInfo, invoiceDetailInfo, action }) => {
+const CreateInvoiceDetail = ({ setInvoiceDetailInfo, bmStoneList, invoiceDetailInfo, action }) => {
     const [billMilestone, setBillMilestone] = useState(''); //記帳段號
     // const [feeType, setFeeType] = useState(''); //收費種類
     const [feeItem, setFeeItem] = useState(''); //費用項目
@@ -114,9 +114,9 @@ const CreateInvoiceDetail = ({ setInvoiceDetailInfo, invoiceDetailInfo, action }
                             size="small"
                             onChange={(e) => setBillMilestone(e.target.value)}
                         >
-                            <MenuItem value={'BM9a'}>BM9a</MenuItem>
-                            <MenuItem value={'BM9b'}>BM9b</MenuItem>
-                            <MenuItem value={'BM12'}>BM12</MenuItem>
+                            {bmStoneList.map((i) => (
+                                <MenuItem value={i}>{i}</MenuItem>
+                            ))}
                         </Select>
                     </FormControl>
                 </Grid>

@@ -28,7 +28,7 @@ const LiabilityDataList = ({ listInfo, setDialogAction, setIsDialogOpen, setEdit
             paddingBottom: '0.2rem'
         }
     }));
-    // console.log('131123123123=>>', listInfo);
+    console.log('131123123123=>>', listInfo);
 
     return (
         <TableContainer component={Paper} sx={{ maxHeight: 250 }}>
@@ -38,8 +38,8 @@ const LiabilityDataList = ({ listInfo, setDialogAction, setIsDialogOpen, setEdit
                         <StyledTableCell align="center">NO</StyledTableCell>
                         <StyledTableCell align="center">帳務計費段</StyledTableCell>
                         <StyledTableCell align="center">會員名稱</StyledTableCell>
-                        {/* <StyledTableCell align="center">海纜名稱</StyledTableCell> */}
-                        {/* <StyledTableCell align="center">海纜作業</StyledTableCell> */}
+                        <StyledTableCell align="center">海纜名稱</StyledTableCell>
+                        <StyledTableCell align="center">海纜作業</StyledTableCell>
                         <StyledTableCell align="center">攤分比例</StyledTableCell>
                         <StyledTableCell align="center">異動原因</StyledTableCell>
                         <StyledTableCell align="center">終止日期</StyledTableCell>
@@ -56,6 +56,8 @@ const LiabilityDataList = ({ listInfo, setDialogAction, setIsDialogOpen, setEdit
                                 <StyledTableCell align="center">{id + 1}</StyledTableCell>
                                 <StyledTableCell align="center">{row.BillMilestone}</StyledTableCell>
                                 <StyledTableCell align="center">{row.PartyName}</StyledTableCell>
+                                <StyledTableCell align="center">{row.WorkTitle}</StyledTableCell>
+                                <StyledTableCell align="center">{row.SubmarineCable}</StyledTableCell>
                                 <StyledTableCell align="center">{`${row.LbRatio}%`}</StyledTableCell>
                                 <StyledTableCell align="center">{row.ModifyNote}</StyledTableCell>
                                 <StyledTableCell align="center">
