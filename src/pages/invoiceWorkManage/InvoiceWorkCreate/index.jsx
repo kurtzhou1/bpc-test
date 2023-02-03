@@ -120,9 +120,9 @@ const InvoiceWorkManage = () => {
                 dayjs(dueDate).format('YYYY-MM-DD hh:mm:ss'),
                 partyName,
                 'TEMPORARY',
-                isPro === '1' || isPro === 1 ? 1 : 0,
-                isRecharge === '1' || isRecharge === 1 ? 1 : 0,
-                isLiability === '1' || isLiability === 1 ? 1 : 0,
+                isPro === 'true' || isPro === true ? true : false,
+                isRecharge === 'true' || isRecharge === true ? true : false,
+                isLiability === 'true' || isLiability === true ? true : false,
                 Number(totalAmount)
             );
             let combineArray = {
@@ -178,9 +178,9 @@ const InvoiceWorkManage = () => {
             dayjs(dueDate).format('YYYY-MM-DD hh:mm:ss'),
             partyName,
             'TEMPORARY',
-            isPro === '1' || isPro === 1 ? 1 : 0,
-            isRecharge === '1' || isRecharge === 1 ? 1 : 0,
-            isLiability === '1' || isLiability === 1 ? 1 : 0,
+            isPro === 'true' || isPro === true ? true : false,
+            isRecharge === 'true' || isRecharge === true ? true : false,
+            isLiability === 'true' || isLiability === true ? true : false,
             Number(totalAmount)
         );
         let combineArray = {

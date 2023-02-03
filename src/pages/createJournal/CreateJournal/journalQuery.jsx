@@ -116,12 +116,12 @@ const JournalQuery = ({ jounaryQuery }) => {
                             // onChange={(e) => setIsLiability(e.target.value)}
                         >
                             <FormControlLabel
-                                value={1}
+                                value={true}
                                 control={<Checkbox sx={{ '& .MuiSvgIcon-root': { fontSize: { lg: 14, xl: 20 } } }} />}
                                 label="攤分"
                             />
                             <FormControlLabel
-                                value={0}
+                                value={false}
                                 control={<Checkbox sx={{ '& .MuiSvgIcon-root': { fontSize: { lg: 14, xl: 20 } } }} />}
                                 label="不攤分"
                             />

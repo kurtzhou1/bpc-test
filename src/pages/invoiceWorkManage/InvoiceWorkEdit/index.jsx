@@ -292,9 +292,9 @@ const InvoiceWorkManage = () => {
                 dayjs(dueDate).format('YYYY-MM-DD hh:mm:ss'),
                 partyName,
                 'TEMPORARY',
-                isPro === '1' || isPro === 1 ? 1 : 0,
-                isRecharge === '1' || isRecharge === 1 ? 1 : 0,
-                isLiability === '1' || isLiability === 1 ? 1 : 0,
+                isPro === 'true' || isPro === true ? true : false,
+                isRecharge === 'true' || isRecharge === true ? true : false,
+                isLiability === 'true' || isLiability === true ? true : false,
                 Number(totalAmount)
             );
             let combineArray = {
@@ -583,13 +583,13 @@ const InvoiceWorkManage = () => {
                                                     onChange={(e) => setIsPro(e.target.value)}
                                                 >
                                                     <FormControlLabel
-                                                        value={'1'}
+                                                        value={true}
                                                         disabled={action === 'View'}
                                                         control={<Radio sx={{ '& .MuiSvgIcon-root': { fontSize: { lg: 14, xl: 20 } } }} />}
                                                         label="Y"
                                                     />
                                                     <FormControlLabel
-                                                        value={'0'}
+                                                        value={false}
                                                         disabled={action === 'View'}
                                                         control={<Radio sx={{ '& .MuiSvgIcon-root': { fontSize: { lg: 14, xl: 20 } } }} />}
                                                         label="N"
@@ -616,13 +616,13 @@ const InvoiceWorkManage = () => {
                                                     onChange={(e) => setIsLiability(e.target.value)}
                                                 >
                                                     <FormControlLabel
-                                                        value={'1'}
+                                                        value={true}
                                                         disabled={action === 'View'}
                                                         control={<Radio sx={{ '& .MuiSvgIcon-root': { fontSize: { lg: 14, xl: 20 } } }} />}
                                                         label="Y"
                                                     />
                                                     <FormControlLabel
-                                                        value={'0'}
+                                                        value={false}
                                                         disabled={action === 'View'}
                                                         control={<Radio sx={{ '& .MuiSvgIcon-root': { fontSize: { lg: 14, xl: 20 } } }} />}
                                                         label="N"
@@ -650,13 +650,13 @@ const InvoiceWorkManage = () => {
                                                     onChange={(e) => setIsRecharge(e.target.value)}
                                                 >
                                                     <FormControlLabel
-                                                        value={'1'}
+                                                        value={true}
                                                         disabled={action === 'View'}
                                                         control={<Radio sx={{ '& .MuiSvgIcon-root': { fontSize: { lg: 14, xl: 20 } } }} />}
                                                         label="Y"
                                                     />
                                                     <FormControlLabel
-                                                        value={'0'}
+                                                        value={false}
                                                         disabled={action === 'View'}
                                                         control={<Radio sx={{ '& .MuiSvgIcon-root': { fontSize: { lg: 14, xl: 20 } } }} />}
                                                         label="N"
