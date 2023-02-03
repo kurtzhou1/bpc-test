@@ -126,8 +126,8 @@ const InvoiceWorkManage = () => {
             ]
         }
     ];
-    const [listInfo, setListInfo] = useState(fakeData);
-    // const [listInfo, setListInfo] = useState([]);
+    // const [listInfo, setListInfo] = useState(fakeData);
+    const [listInfo, setListInfo] = useState([]);
 
     const itemInfoInitial = () => {
         wKMasterID.current = 0;
