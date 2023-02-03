@@ -3,7 +3,7 @@ import { forwardRef, useState } from 'react';
 
 // material-ui
 import { useTheme } from '@mui/material/styles';
-import { Card, CardContent, CardHeader, Divider, Typography, InputBase } from '@mui/material';
+import { Card, CardContent, CardHeader, Divider, Typography, InputBase, TextField, Input, InputAdornment } from '@mui/material';
 
 //search
 import { styled, alpha } from '@mui/material/styles';
@@ -37,7 +37,6 @@ const MainCard = forwardRef(
             title,
             codeHighlight,
             search,
-            searchWord,
             searchFunction,
             searchTitle,
             ...others
@@ -46,7 +45,6 @@ const MainCard = forwardRef(
     ) => {
         const theme = useTheme();
         boxShadow = theme.palette.mode === 'dark' ? boxShadow || true : boxShadow;
-        console.log('searchWord=>>', searchWord);
 
         // const StyledInputBase = styled(InputBase)(({ theme }) => ({
         //     color: 'inherit',
@@ -126,21 +124,20 @@ const MainCard = forwardRef(
                         sx={headerSX}
                         titleTypographyProps={{ variant: 'subtitle1' }}
                         title={
-                            <Typography sx={{ display: 'flex', justifyContent: 'space-between' }}>
+                            <Typography sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                                 <Typography>{title}</Typography>
                                 {search && (
-                                    // <Search>
-                                    //     <SearchIconWrapper>
-                                    //         <SearchIcon />
-                                    //     </SearchIconWrapper>
-                                    <InputBase
+                                    <Input
                                         placeholder={searchTitle ? searchTitle : 'Search…'}
-                                        // value={searchWord}
-                                        inputProps={{ 'aria-label': 'search' }}
+                                        sx={{ padding: '0' }}
                                         onChange={(e) => searchFunction(e.target.value)}
                                         size="small"
+                                        startAdornment={
+                                            <InputAdornment position="start">
+                                                <SearchIcon />
+                                            </InputAdornment>
+                                        }
                                     />
-                                    // </Search>
                                 )}
                             </Typography>
                         }

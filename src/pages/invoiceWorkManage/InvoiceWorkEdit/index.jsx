@@ -169,6 +169,7 @@ const InvoiceWorkManage = () => {
 
     useEffect(() => {
         if ((modifyItem >= 0 && action === 'Edit') || (modifyItem >= 0 && action === '') || (modifyItem >= 0 && action === 'View')) {
+            console.log('listInfo[modifyItem]=>>', listInfo[modifyItem]);
             setSupplierName(listInfo[modifyItem].InvoiceWKMaster.SupplierName);
             setInvoiceNo(listInfo[modifyItem].InvoiceWKMaster.InvoiceNo);
             setSubmarineCable(listInfo[modifyItem].InvoiceWKMaster.SubmarineCable);

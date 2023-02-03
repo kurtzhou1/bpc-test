@@ -29,7 +29,7 @@ const InvoiceWorkManage = ({
     setContractType,
     issueDate,
     setIssueDate,
-    DueDate,
+    // DueDate,
     setDueDate,
     totalAmount,
     setTotalAmount,

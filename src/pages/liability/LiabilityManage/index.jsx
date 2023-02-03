@@ -44,7 +44,6 @@ const LiabilityManage = () => {
 
     const [filterList, setFilterList] = useState(listInfo);
     const test = useRef();
-    const searchWord = useRef();
 
     // const [searched, setSearched] = useState('');
 
@@ -110,12 +109,15 @@ const LiabilityManage = () => {
     //儲存編輯
     const saveEdit = () => {
         let tmpArray = listInfo.map((i) => i);
-        // console.log('lbRatio=>>', lbRatio);
+        console.log('lbRatio=>>', lbRatio);
+        console.log('modifyNote=>>', modifyNote);
         tmpArray[editItem].LbRatio = lbRatio;
         tmpArray[editItem].ModifyNote = modifyNote;
         console.log('tmpArray=>>>>', tmpArray);
         setListInfo([...tmpArray]);
         setEditItem(NaN);
+        handleDialogClose();
+        // setIsDialogOpen(false);
         // addLiability();
         // setIsListEdit(false);
         // itemDetailInitial();
@@ -158,7 +160,6 @@ const LiabilityManage = () => {
         console.log('filteredRows=>>', filteredRows);
         setFilterList(filteredRows);
         // test.current = filteredRows;
-        // searchWord.current = searchedVal;
         // filterList.current = filteredRows;
     };
 
@@ -200,13 +201,7 @@ const LiabilityManage = () => {
                 <LiabilityQuery liabilityQuery={liabilityQuery} />
             </Grid>
             <Grid item xs={12}>
-                <MainCard
-                    title="Liability資料列表"
-                    search
-                    searchFunction={searchFunction}
-                    searchWord={searchWord.current}
-                    searchTitle={'會員搜尋'}
-                >
+                <MainCard title="Liability資料列表" search searchFunction={searchFunction} searchTitle={'會員搜尋'}>
                     <LiabilityDataList
                         listInfo={filterList.length > 0 ? filterList : listInfo}
                         setDialogAction={setDialogAction}
