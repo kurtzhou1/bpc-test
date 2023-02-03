@@ -168,6 +168,11 @@ const InvoiceWorkManage = () => {
     };
 
     useEffect(() => {
+        itemDetailInitial();
+        setAction('');
+    }, []);
+
+    useEffect(() => {
         if ((modifyItem >= 0 && action === 'Edit') || (modifyItem >= 0 && action === '') || (modifyItem >= 0 && action === 'View')) {
             console.log('listInfo[modifyItem]=>>', listInfo[modifyItem]);
             setSupplierName(listInfo[modifyItem].InvoiceWKMaster.SupplierName);
