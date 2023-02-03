@@ -125,6 +125,7 @@ const InvoiceWorkManage = () => {
         }
     ];
 
+    // const [listInfo, setListInfo] = useState([]);
     const [listInfo, setListInfo] = useState(fakeData);
 
     const itemDetailInitial = () => {
@@ -203,15 +204,11 @@ const InvoiceWorkManage = () => {
             setInvoiceDetailInfo(listInfo[modifyItem].InvoiceWKDetail);
             wKMasterID.current = listInfo[modifyItem].InvoiceWKMaster.WKMasterID;
             setAction('');
-            setModifyItem(-1);
         }
     }, [modifyItem]);
 
     useEffect(() => {
-        console.log('action=>>', action);
         if (action === 'Validated') {
-            console.log('modifyItem=>>', listInfo[modifyItem].InvoiceWKMaster.WKMasterID);
-            console.log('action=>>', action);
             let tmpArray = {
                 WKMasterID: listInfo[modifyItem].InvoiceWKMaster.WKMasterID,
                 Status: 'VALIDATED'
@@ -253,7 +250,6 @@ const InvoiceWorkManage = () => {
             setAction('');
         }
         if (action === 'Delete' && listInfo[modifyItem].Status === 'TEMPORARY') {
-            console.log('listInfo[modifyItem].InvoiceWKMaster=>>', listInfo[modifyItem].InvoiceWKMaster);
             let tmpArray = {
                 WKMasterID: listInfo[modifyItem].InvoiceWKMaster.WKMasterID
             };

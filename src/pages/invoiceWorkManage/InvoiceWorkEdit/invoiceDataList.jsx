@@ -84,6 +84,7 @@ const InvoiceDataList = ({ listInfo, setAction, setModifyItem }) => {
                                         aria-expanded={open ? 'true' : undefined}
                                         aria-haspopup="true"
                                         onClick={(e) => {
+                                            console.log('itemID=>>', itemID);
                                             handleClick(e);
                                             setModifyItem(itemID);
                                         }}
