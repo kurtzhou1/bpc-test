@@ -77,91 +77,39 @@ const InvoiceDataList = ({ listInfo, setAction, setModifyItem }) => {
                                     {row.InvoiceWKMaster.Status === 'TEMPORARY' ? '暫存' : 'Validated'}
                                 </StyledTableCell>
                                 <TableCell align="center">
-                                    <IconButton
-                                        aria-label="more"
-                                        id="long-button"
-                                        aria-controls={open ? 'long-menu' : undefined}
-                                        aria-expanded={open ? 'true' : undefined}
-                                        aria-haspopup="true"
-                                        onClick={(e) => {
-                                            console.log('itemID=>>', itemID);
-                                            handleClick(e);
-                                            setModifyItem(itemID);
-                                        }}
-                                    >
-                                        <MoreVertIcon />
-                                    </IconButton>
-                                    {row.InvoiceWKMaster.Status === 'VALIDATED' ? (
-                                        <Menu
-                                            id="long-menu"
-                                            MenuListProps={{
-                                                'aria-labelledby': 'long-button'
-                                            }}
-                                            anchorEl={anchorEl}
-                                            open={open}
-                                            onClose={handleClose}
-                                            PaperProps={{
-                                                style: {
-                                                    maxHeight: ITEM_HEIGHT * 4.5,
-                                                    width: '20ch'
-                                                }
-                                            }}
-                                        >
-                                            {options2.map((option) => {
-                                                return (
-                                                    <MenuItem key={option} selected={option === 'Pyxis'} onClick={handleClose}>
-                                                        <ListItemIcon>
-                                                            <InfoCircleOutlined fontSize="small" />
-                                                        </ListItemIcon>
-                                                        <ListItemText
-                                                            onClick={() => {
-                                                                console.log('option=>>', option);
-                                                                setAction(option);
-                                                            }}
-                                                        >
-                                                            {option}
-                                                        </ListItemText>
-                                                    </MenuItem>
-                                                );
-                                            })}
-                                        </Menu>
-                                    ) : (
-                                        <Menu
-                                            id="long-menu"
-                                            MenuListProps={{
-                                                'aria-labelledby': 'long-button'
-                                            }}
-                                            anchorEl={anchorEl}
-                                            open={open}
-                                            onClose={handleClose}
-                                            PaperProps={{
-                                                style: {
-                                                    maxHeight: ITEM_HEIGHT * 4.5,
-                                                    width: '20ch'
-                                                }
-                                            }}
-                                        >
+                                    {row.InvoiceWKMaster.Status === 'TEMPORARY' ? (
+                                        <>
                                             {options1.map((option) => {
                                                 return (
-                                                    <MenuItem key={option} selected={option === 'Pyxis'} onClick={handleClose}>
-                                                        <ListItemIcon>
-                                                            <InfoCircleOutlined fontSize="small" />
-                                                        </ListItemIcon>
-                                                        <ListItemText
-                                                            onClick={() => {
-                                                                console.log('option=>>', option);
-                                                                setAction(option);
-                                                            }}
-                                                        >
-                                                            {option}
-                                                        </ListItemText>
-                                                    </MenuItem>
+                                                    <Button
+                                                        color="primary"
+                                                        onClick={() => {
+                                                            setModifyItem(itemID);
+                                                            setAction(option);
+                                                        }}
+                                                    >
+                                                        {option}
+                                                    </Button>
                                                 );
                                             })}
-                                        </Menu>
+                                        </>
+                                    ) : (
+                                        <>
+                                            {options2.map((option) => {
+                                                return (
+                                                    <Button
+                                                        color="primary"
+                                                        onClick={() => {
+                                                            setModifyItem(itemID);
+                                                            setAction(option);
+                                                        }}
+                                                    >
+                                                        {option}
+                                                    </Button>
+                                                );
+                                            })}
+                                        </>
                                     )}
-                                    {/* <Button color="primary">編輯</Button>
-                                    <Button color="error">刪除</Button> */}
                                 </TableCell>
                             </TableRow>
                         );

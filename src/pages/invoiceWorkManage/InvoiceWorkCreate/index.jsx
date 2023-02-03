@@ -38,11 +38,15 @@ const InvoiceWorkManage = () => {
     const [subCableList, setSubCableList] = useState([]); //海纜名稱下拉選單
     const [bmStoneList, setBmStoneList] = useState([]); //記帳段號下拉選單
 
+    const [billMilestone, setBillMilestone] = useState(''); //記帳段號
+    const [feeItem, setFeeItem] = useState(''); //費用項目
+    const [feeAmount, setFeeAmount] = useState(0); //費用金額
+
     const [editItem, setEditItem] = useState(NaN);
     const [listInfo, setListInfo] = useState([]);
     const [isListEdit, setIsListEdit] = useState(false);
 
-    const itemDetailInitial = () => {
+    const itemInfoInitial = () => {
         setSupplierName('');
         setInvoiceNo('');
         setSubmarineCable('');
@@ -56,6 +60,13 @@ const InvoiceWorkManage = () => {
         setIsRecharge(-1);
         setPartyName('');
         setInvoiceDetailInfo([]);
+        itemDetailInitial();
+    };
+
+    const itemDetailInitial = () => {
+        setBillMilestone('');
+        setFeeItem('');
+        setFeeAmount(0);
     };
 
     const createData = (
@@ -129,7 +140,7 @@ const InvoiceWorkManage = () => {
             };
             tmpList.push(combineArray);
             setListInfo([...tmpList]);
-            itemDetailInitial();
+            itemInfoInitial();
         }
     };
 
@@ -163,39 +174,42 @@ const InvoiceWorkManage = () => {
 
     //儲存編輯
     const saveEdit = () => {
-        setEditItem(NaN);
-        let tmpArray = listInfo.map((i) => i);
-        tmpArray.splice(editItem, 1);
-        let tmpAddArray = createData(
-            invoiceNo.trim() === '' ? 'No.' + dayjs(new Date()).format('YYYYMMDDHHmmss') : invoiceNo,
-            supplierName,
-            submarineCable,
-            workTitle,
-            contractType,
-            dayjs(issueDate).format('YYYY-MM-DD hh:mm:ss'),
-            dayjs(dueDate).format('YYYY-MM-DD hh:mm:ss'),
-            partyName,
-            'TEMPORARY',
-            isPro === 'true' || isPro === true ? true : false,
-            isRecharge === 'true' || isRecharge === true ? true : false,
-            isLiability === 'true' || isLiability === true ? true : false,
-            Number(totalAmount)
-        );
-        let combineArray = {
-            InvoiceWKMaster: tmpAddArray,
-            InvoiceWKDetail: invoiceDetailInfo
-        };
-        tmpArray.push(combineArray);
-        tmpArray.reverse();
-        setListInfo([...tmpArray]);
-        itemDetailInitial();
-        setIsListEdit(false);
+        //防呆
+        if (infoCheck()) {
+            setEditItem(NaN);
+            let tmpArray = listInfo.map((i) => i);
+            tmpArray.splice(editItem, 1);
+            let tmpAddArray = createData(
+                invoiceNo.trim() === '' ? 'No.' + dayjs(new Date()).format('YYYYMMDDHHmmss') : invoiceNo,
+                supplierName,
+                submarineCable,
+                workTitle,
+                contractType,
+                dayjs(issueDate).format('YYYY-MM-DD hh:mm:ss'),
+                dayjs(dueDate).format('YYYY-MM-DD hh:mm:ss'),
+                partyName,
+                'TEMPORARY',
+                isPro === 'true' || isPro === true ? true : false,
+                isRecharge === 'true' || isRecharge === true ? true : false,
+                isLiability === 'true' || isLiability === true ? true : false,
+                Number(totalAmount)
+            );
+            let combineArray = {
+                InvoiceWKMaster: tmpAddArray,
+                InvoiceWKDetail: invoiceDetailInfo
+            };
+            tmpArray.push(combineArray);
+            tmpArray.reverse();
+            setListInfo([...tmpArray]);
+            itemInfoInitial();
+            setIsListEdit(false);
+        }
     };
 
     //取消編輯
     const cancelEdit = () => {
         setEditItem(NaN);
-        itemDetailInitial();
+        itemInfoInitial();
         setIsListEdit(false);
     };
 
@@ -240,7 +254,7 @@ const InvoiceWorkManage = () => {
     }, []);
 
     useEffect(() => {
-        itemDetailInitial();
+        itemInfoInitial();
         if (editItem >= 0) {
             editlistInfoItem();
             setIsListEdit(true);
@@ -248,7 +262,7 @@ const InvoiceWorkManage = () => {
     }, [editItem]);
 
     useEffect(() => {
-        itemDetailInitial();
+        itemInfoInitial();
     }, []);
 
     return (
@@ -293,6 +307,13 @@ const InvoiceWorkManage = () => {
                                 invoiceDetailInfo={invoiceDetailInfo}
                                 setInvoiceDetailInfo={setInvoiceDetailInfo}
                                 bmStoneList={bmStoneList}
+                                itemDetailInitial={itemDetailInitial}
+                                billMilestone={billMilestone}
+                                setBillMilestone={setBillMilestone}
+                                feeItem={feeItem}
+                                setFeeItem={setFeeItem}
+                                feeAmount={feeAmount}
+                                setFeeAmount={setFeeAmount}
                             />
                         </Grid>
                         {/* 按鈕 */}
@@ -311,7 +332,7 @@ const InvoiceWorkManage = () => {
                                     <Button variant="contained" sx={{ ml: '0.25rem', mr: '0.25rem' }} onClick={addInvoiceInfo}>
                                         新增發票
                                     </Button>
-                                    <Button variant="contained" sx={{ ml: '0.25rem', mr: '0.25rem' }} onClick={itemDetailInitial}>
+                                    <Button variant="contained" sx={{ ml: '0.25rem', mr: '0.25rem' }} onClick={itemInfoInitial}>
                                         全部清除
                                     </Button>
                                 </>

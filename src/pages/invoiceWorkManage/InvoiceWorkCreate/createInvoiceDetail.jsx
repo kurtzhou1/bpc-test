@@ -18,10 +18,18 @@ import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import { styled } from '@mui/material/styles';
 
-const CreateInvoiceDetail = ({ invoiceDetailInfo, setInvoiceDetailInfo, bmStoneList }) => {
-    const [billMilestone, setBillMilestone] = useState(''); //記帳段號
-    const [feeItem, setFeeItem] = useState(''); //費用項目
-    const [feeAmount, setFeeAmount] = useState(0); //費用金額
+const CreateInvoiceDetail = ({
+    invoiceDetailInfo,
+    setInvoiceDetailInfo,
+    bmStoneList,
+    itemDetailInitial,
+    billMilestone,
+    setBillMilestone,
+    feeItem,
+    setFeeItem,
+    feeAmount,
+    setFeeAmount
+}) => {
     const [isEdit, setIsEdit] = useState(false);
     const editItem = useRef(0);
 
@@ -42,12 +50,6 @@ const CreateInvoiceDetail = ({ invoiceDetailInfo, setInvoiceDetailInfo, bmStoneL
             paddingBottom: '0.2rem'
         }
     }));
-
-    const itemDetailInitial = () => {
-        setBillMilestone('');
-        setFeeItem('');
-        setFeeAmount(0);
-    };
 
     // 新增
     const itemDetailAdd = () => {

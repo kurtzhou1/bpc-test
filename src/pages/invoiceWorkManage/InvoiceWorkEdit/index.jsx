@@ -11,7 +11,6 @@ import dayjs from 'dayjs';
 // project import
 import MainCard from 'components/MainCard';
 import InvoiceQuery from './invoiceQuery';
-import CreateInvoiceMain from './createInvoiceMain';
 import CreateInvoiceDetail from './createInvoiceDetail';
 import InvoiceDataList from './invoiceDataList';
 import { TextField } from '@mui/material/index';
@@ -50,13 +49,87 @@ const InvoiceWorkManage = () => {
     const [subCableList, setSubCableList] = useState([]); //海纜名稱下拉選單
     const [bmStoneList, setBmStoneList] = useState([]); //記帳段號下拉選單
 
+    const [billMilestone, setBillMilestone] = useState(''); //記帳段號
+    const [feeItem, setFeeItem] = useState(''); //費用項目
+    const [feeAmount, setFeeAmount] = useState(0); //費用金額
+
     const [action, setAction] = useState('');
     const [modifyItem, setModifyItem] = useState(-1);
 
     const queryApi = useRef(queryInvoice + '/all');
-    const [listInfo, setListInfo] = useState([]);
+    const fakeData = [
+        {
+            InvoiceWKMaster: {
+                WKMasterID: 123,
+                InvoiceNo: 'No Number',
+                SupplierName: 'NEC',
+                SubmarineCable: 'SJC2',
+                WorkTitle: 'Construction',
+                ContractType: 'SC',
+                IssueDate: '2022/9/9',
+                TotalAmount: 15466.92,
+                Status: 'TEMPORARY',
+                IsPro: true,
+                IsLiability: false,
+                IsRecharge: false
+            },
+            InvoiceWKDetail: [
+                {
+                    BillMilestone: 'BM9b',
+                    FeeItem: 'BM9b Sea cable manufactured (8.5km spare cable)- Equipment (Off-Shore Korea)',
+                    FeeAmount: 6849.91
+                },
+                {
+                    BillMilestone: 'BM9b',
+                    FeeItem: 'BM9b Sea cable manufactured (8.5km spare cable)- Equipment (On-Shore Korea)',
+                    FeeAmount: 1210.06
+                },
+                {
+                    BillMilestone: 'BM9b',
+                    FeeItem: 'BM9b Sea cable manufactured (8.5km spare cable)- Service (Off-Shore Korea)',
+                    FeeAmount: 7406.95
+                }
+            ]
+        },
+        {
+            InvoiceWKMaster: {
+                WKMasterID: 456,
+                InvoiceNo: 'DT0170168-1',
+                SupplierName: 'NEC',
+                SubmarineCable: 'SJC2',
+                WorkTitle: 'Construction',
+                ContractType: 'SC',
+                IssueDate: '2022/9/9',
+                TotalAmount: 5582012.72,
+                Status: 'TEMPORARY',
+                IsPro: true,
+                IsLiability: true,
+                IsRecharge: true
+            },
+            InvoiceWKDetail: [
+                {
+                    BillMilestone: 'BM9a',
+                    FeeItem: 'BM9a Sea cable manufactured (except 8.5km spare cable))- Equipment',
+                    FeeAmount: 1288822.32
+                },
+                {
+                    BillMilestone: 'BM9a',
+                    FeeItem: 'BM9a Sea cable manufactured (except 8.5km spare cable))- Service',
+                    FeeAmount: 1178227.94
+                },
+                { BillMilestone: 'BM12', FeeItem: 'BM12 Branching Units (100%)-Equipment', FeeAmount: 1627300.92 },
+                {
+                    BillMilestone: 'BM12',
+                    FeeAmount: 1487661.54,
+                    FeeItem: 'BM12 Branching Units (100%)-Service'
+                }
+            ]
+        }
+    ];
+    const [listInfo, setListInfo] = useState(fakeData);
+    // const [listInfo, setListInfo] = useState([]);
 
-    const itemDetailInitial = () => {
+    const itemInfoInitial = () => {
         wKMasterID.current = 0;
         setSupplierName('');
         setInvoiceNo('');
@@ -71,6 +144,12 @@ const InvoiceWorkManage = () => {
         setIsRecharge();
         setPartyName('');
         setInvoiceDetailInfo([]);
+    };
+
+    const itemDetailInitial = () => {
+        setBillMilestone('');
+        setFeeItem('');
+        setFeeAmount(0);
     };
 
     const queryInit = () => {
@@ -118,13 +197,15 @@ const InvoiceWorkManage = () => {
     };
 
     useEffect(() => {
-        itemDetailInitial();
+        itemInfoInitial();
         setAction('');
+        setModifyItem(-1);
     }, []);
 
     useEffect(() => {
-        if ((modifyItem >= 0 && action === 'Edit') || (modifyItem >= 0 && action === '') || (modifyItem >= 0 && action === 'View')) {
-            console.log('listInfo[modifyItem]=>>', listInfo[modifyItem]);
+        console.log('1234=>>', action === 'Edit', action, modifyItem, modifyItem >= 0);
+        if ((modifyItem >= 0 && action === 'Edit') || (modifyItem >= 0 && action === 'View')) {
+            console.log('1234=>>', listInfo[modifyItem].InvoiceWKMaster.IsPro, typeof listInfo[modifyItem].InvoiceWKMaster.IsPro);
             setSupplierName(listInfo[modifyItem].InvoiceWKMaster.SupplierName);
             setInvoiceNo(listInfo[modifyItem].InvoiceWKMaster.InvoiceNo);
             setSubmarineCable(listInfo[modifyItem].InvoiceWKMaster.SubmarineCable);
@@ -139,9 +220,8 @@ const InvoiceWorkManage = () => {
             setPartyName(listInfo[modifyItem].InvoiceWKMaster.PartyName);
             setInvoiceDetailInfo(listInfo[modifyItem].InvoiceWKDetail);
             wKMasterID.current = listInfo[modifyItem].InvoiceWKMaster.WKMasterID;
-            setAction('');
         }
-    }, [modifyItem]);
+    }, [modifyItem, action]);
 
     useEffect(() => {
         if (action === 'Validated') {
@@ -156,7 +236,7 @@ const InvoiceWorkManage = () => {
                 })
                 .catch((e) => console.log('e1=>>', e));
             queryInit();
-            setAction('');
+            // setAction('');
         }
         if (action === '作廢') {
             let tmpArray = {
@@ -170,7 +250,7 @@ const InvoiceWorkManage = () => {
                 })
                 .catch((e) => console.log('e1=>>', e));
             queryInit();
-            setAction('');
+            // setAction('');
         }
         if (action === 'Delete' && listInfo[modifyItem].InvoiceWKMaster.Status === 'TEMPORARY') {
             let tmpArray = {
@@ -189,7 +269,7 @@ const InvoiceWorkManage = () => {
                 })
                 .catch((e) => console.log('e1=>>', e));
             queryInit();
-            setAction('');
+            // setAction('');
         }
     }, [action]);
 
@@ -250,7 +330,7 @@ const InvoiceWorkManage = () => {
                 .catch((e) => console.log('e3=>>', e));
             // 重新query
             queryInit();
-            itemDetailInitial();
+            itemInfoInitial();
             setAction('');
         }
     };
@@ -263,7 +343,7 @@ const InvoiceWorkManage = () => {
     // };
 
     const cancelAdd = () => {
-        itemDetailInitial();
+        itemInfoInitial();
         setAction('');
         setModifyItem(-1);
     };
@@ -294,6 +374,10 @@ const InvoiceWorkManage = () => {
             })
             .catch((e) => console.log('e1=>>', e));
     }, []);
+
+    console.log('isPro=>>', isPro);
+    console.log('IsLiability=>>', isLiability);
+    console.log('supNmList=>>', supNmList);
 
     return (
         <Grid container spacing={1}>
@@ -409,15 +493,24 @@ const InvoiceWorkManage = () => {
                                             </Typography>
                                         </Grid>
                                         <Grid item xs={12} sm={6} md={4} lg={4}>
-                                            <TextField
-                                                value={workTitle}
-                                                fullWidth
-                                                variant="outlined"
-                                                size="small"
-                                                label="填寫海纜作業"
-                                                disabled={action === 'View'}
-                                                onChange={(e) => setWorkTitle(e.target.value)}
-                                            />
+                                            <FormControl fullWidth size="small">
+                                                <InputLabel size="small" id="billMilestone">
+                                                    選擇海纜作業
+                                                </InputLabel>
+                                                <Select
+                                                    // labelId="demo-simple-select-label"
+                                                    // id="demo-simple-select"
+                                                    size="small"
+                                                    value={workTitle}
+                                                    disabled={action === 'View'}
+                                                    label="填寫海纜作業"
+                                                    onChange={(e) => setWorkTitle(e.target.value)}
+                                                >
+                                                    <MenuItem value={'Construction'}>Construction</MenuItem>
+                                                    <MenuItem value={'Upgrade'}>Upgrade</MenuItem>
+                                                    <MenuItem value={'O&M'}>O&M</MenuItem>
+                                                </Select>
+                                            </FormControl>
                                         </Grid>
                                         {/* row3 */}
                                         <Grid item xs={12} sm={6} md={4} lg={2}>
@@ -529,19 +622,16 @@ const InvoiceWorkManage = () => {
                                                     row
                                                     value={isPro}
                                                     aria-labelledby="demo-radio-buttons-group-label"
-                                                    // defaultValue="female"
                                                     name="radio-buttons-group"
                                                     onChange={(e) => setIsPro(e.target.value)}
                                                 >
                                                     <FormControlLabel
                                                         value={true}
-                                                        disabled={action === 'View'}
                                                         control={<Radio sx={{ '& .MuiSvgIcon-root': { fontSize: { lg: 14, xl: 20 } } }} />}
                                                         label="Y"
                                                     />
                                                     <FormControlLabel
                                                         value={false}
-                                                        disabled={action === 'View'}
                                                         control={<Radio sx={{ '& .MuiSvgIcon-root': { fontSize: { lg: 14, xl: 20 } } }} />}
                                                         label="N"
                                                     />
@@ -567,13 +657,13 @@ const InvoiceWorkManage = () => {
                                                     onChange={(e) => setIsLiability(e.target.value)}
                                                 >
                                                     <FormControlLabel
-                                                        value={true}
+                                                        value={'true'}
                                                         disabled={action === 'View'}
                                                         control={<Radio sx={{ '& .MuiSvgIcon-root': { fontSize: { lg: 14, xl: 20 } } }} />}
                                                         label="Y"
                                                     />
                                                     <FormControlLabel
-                                                        value={false}
+                                                        value={'false'}
                                                         disabled={action === 'View'}
                                                         control={<Radio sx={{ '& .MuiSvgIcon-root': { fontSize: { lg: 14, xl: 20 } } }} />}
                                                         label="N"
@@ -646,6 +736,13 @@ const InvoiceWorkManage = () => {
                                     invoiceDetailInfo={invoiceDetailInfo}
                                     bmStoneList={bmStoneList}
                                     action={action}
+                                    itemDetailInitial={itemDetailInitial}
+                                    billMilestone={billMilestone}
+                                    setBillMilestone={setBillMilestone}
+                                    feeItem={feeItem}
+                                    setFeeItem={setFeeItem}
+                                    feeAmount={feeAmount}
+                                    setFeeAmount={setFeeAmount}
                                 />
                             </Grid>
                             {action === 'Edit' ? (

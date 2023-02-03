@@ -215,7 +215,6 @@ const InvoiceWorkManage = ({
                             row
                             value={isPro}
                             aria-labelledby="demo-radio-buttons-group-label"
-                            // defaultValue="female"
                             name="radio-buttons-group"
                             onChange={(e) => setIsPro(e.target.value)}
                         >

@@ -18,21 +18,22 @@ import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import { styled } from '@mui/material/styles';
 
-const CreateInvoiceDetail = ({ setInvoiceDetailInfo, bmStoneList, invoiceDetailInfo, action }) => {
-    const [billMilestone, setBillMilestone] = useState(''); //記帳段號
-    // const [feeType, setFeeType] = useState(''); //收費種類
-    const [feeItem, setFeeItem] = useState(''); //費用項目
-    const [feeAmount, setFeeAmount] = useState(); //費用金額
+const CreateInvoiceDetail = ({
+    setInvoiceDetailInfo,
+    bmStoneList,
+    invoiceDetailInfo,
+    action,
+    itemDetailInitial,
+    billMilestone,
+    setBillMilestone,
+    feeItem,
+    setFeeItem,
+    feeAmount,
+    setFeeAmount
+}) => {
     const [isEdit, setIsEdit] = useState(false);
     // const [editItem, setEditItem] = useState();
     const editItem = useRef();
-
-    const itemDetailInitial = () => {
-        setBillMilestone('');
-        // setFeeType('');
-        setFeeItem('');
-        setFeeAmount(0);
-    };
 
     const createData = (FeeItem, BillMilestone, FeeAmount) => {
         return { FeeItem, BillMilestone, FeeAmount };
@@ -95,7 +96,7 @@ const CreateInvoiceDetail = ({ setInvoiceDetailInfo, bmStoneList, invoiceDetailI
         <MainCard title={`${action === 'Edit' ? '編輯' : ''}發票明細檔`} sx={{ height: '100%' }}>
             <Grid container display="flex" justifyContent="center" alignItems="center" spacing={1}>
                 {/* row1 */}
-                <Grid item xs={12} sm={6} md={4} lg={2}>
+                <Grid item xs={12} sm={6} md={2} lg={2}>
                     <Typography variant="h5" sx={{ fontSize: { lg: '0.5rem', xl: '0.88rem' }, ml: { lg: '0.5rem', xl: '1.5rem' } }}>
                         記帳段號：
                     </Typography>
@@ -120,7 +121,7 @@ const CreateInvoiceDetail = ({ setInvoiceDetailInfo, bmStoneList, invoiceDetailI
                         </Select>
                     </FormControl>
                 </Grid>
-                <Grid item xs={12} sm={6} md={4} lg={2}>
+                <Grid item xs={12} sm={6} md={2} lg={2}>
                     <Typography variant="h5" sx={{ fontSize: { lg: '0.5rem', xl: '0.88rem' }, ml: { lg: '0.5rem', xl: '1.5rem' } }}>
                         費用金額：
                     </Typography>
@@ -138,7 +139,7 @@ const CreateInvoiceDetail = ({ setInvoiceDetailInfo, bmStoneList, invoiceDetailI
                     />
                 </Grid>
                 {/* row2 */}
-                <Grid item lg={2}>
+                <Grid item md={2} lg={2}>
                     <Typography
                         variant="h5"
                         size="small"
@@ -147,7 +148,7 @@ const CreateInvoiceDetail = ({ setInvoiceDetailInfo, bmStoneList, invoiceDetailI
                         費用項目：
                     </Typography>
                 </Grid>
-                <Grid item lg={10}>
+                <Grid item md={10} lg={10}>
                     <StyledEngineProvider injectFirst>
                         <CssVarsProvider>
                             <Textarea
@@ -162,7 +163,6 @@ const CreateInvoiceDetail = ({ setInvoiceDetailInfo, bmStoneList, invoiceDetailI
                         </CssVarsProvider>
                     </StyledEngineProvider>
                 </Grid>
-                {/* <Grid item xs={12} sm={12} md={12} lg={12} /> */}
                 {action !== 'View' ? (
                     <Grid item xs={12} sm={12} md={12} lg={12} display="flex" justifyContent="end" alignItems="center">
                         {isEdit ? (
