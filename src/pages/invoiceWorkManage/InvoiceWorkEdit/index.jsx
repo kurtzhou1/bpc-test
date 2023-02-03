@@ -54,79 +54,7 @@ const InvoiceWorkManage = () => {
     const [modifyItem, setModifyItem] = useState(-1);
 
     const queryApi = useRef(queryInvoice + '/all');
-
-    const fakeData = [
-        {
-            InvoiceWKMaster: {
-                WKMasterID: 123,
-                InvoiceNo: 'No Number',
-                SupplierName: 'NEC',
-                SubmarineCable: 'SJC2',
-                WorkTitle: 'Construction',
-                ContractType: 'SC',
-                IssueDate: '2022/9/9',
-                TotalAmount: 15466.92,
-                Status: 'TEMPORARY',
-                IsPro: true,
-                IsLiability: false,
-                IsRecharge: false
-            },
-            InvoiceWKDetail: [
-                {
-                    BillMilestone: 'BM9b',
-                    FeeItem: 'BM9b Sea cable manufactured (8.5km spare cable)- Equipment (Off-Shore Korea)',
-                    FeeAmount: 6849.91
-                },
-                {
-                    BillMilestone: 'BM9b',
-                    FeeItem: 'BM9b Sea cable manufactured (8.5km spare cable)- Equipment (On-Shore Korea)',
-                    FeeAmount: 1210.06
-                },
-                {
-                    BillMilestone: 'BM9b',
-                    FeeItem: 'BM9b Sea cable manufactured (8.5km spare cable)- Service (Off-Shore Korea)',
-                    FeeAmount: 7406.95
-                }
-            ]
-        },
-        {
-            InvoiceWKMaster: {
-                WKMasterID: 456,
-                InvoiceNo: 'DT0170168-1',
-                SupplierName: 'NEC',
-                SubmarineCable: 'SJC2',
-                WorkTitle: 'Construction',
-                ContractType: 'SC',
-                IssueDate: '2022/9/9',
-                TotalAmount: 5582012.72,
-                Status: 'TEMPORARY',
-                IsPro: true,
-                IsLiability: true,
-                IsRecharge: true
-            },
-            InvoiceWKDetail: [
-                {
-                    BillMilestone: 'BM9a',
-                    FeeItem: 'BM9a Sea cable manufactured (except 8.5km spare cable))- Equipment',
-                    FeeAmount: 1288822.32
-                },
-                {
-                    BillMilestone: 'BM9a',
-                    FeeItem: 'BM9a Sea cable manufactured (except 8.5km spare cable))- Service',
-                    FeeAmount: 1178227.94
-                },
-                { BillMilestone: 'BM12', FeeItem: 'BM12 Branching Units (100%)-Equipment', FeeAmount: 1627300.92 },
-                {
-                    BillMilestone: 'BM12',
-                    FeeAmount: 1487661.54,
-                    FeeItem: 'BM12 Branching Units (100%)-Service'
-                }
-            ]
-        }
-    ];
-
-    // const [listInfo, setListInfo] = useState([]);
-    const [listInfo, setListInfo] = useState(fakeData);
+    const [listInfo, setListInfo] = useState([]);
 
     const itemDetailInitial = () => {
         wKMasterID.current = 0;
@@ -145,6 +73,16 @@ const InvoiceWorkManage = () => {
         setInvoiceDetailInfo([]);
     };
 
+    const queryInit = () => {
+        fetch(queryApi.current, { method: 'GET' })
+            .then((res) => res.json())
+            .then((data) => {
+                console.log('data1=>>', data);
+                setListInfo(data);
+            })
+            .catch((e) => console.log('e1=>>', e));
+    };
+
     const createData = (
         WKMasterID,
         InvoiceNo,
@@ -160,7 +98,6 @@ const InvoiceWorkManage = () => {
         IsRecharge,
         IsLiability,
         TotalAmount
-        // CreateDate
     ) => {
         return {
             WKMasterID,
@@ -177,7 +114,6 @@ const InvoiceWorkManage = () => {
             IsRecharge,
             IsLiability,
             TotalAmount
-            // CreateDate
         };
     };
 
@@ -219,17 +155,10 @@ const InvoiceWorkManage = () => {
                     console.log('data1=>>', data);
                 })
                 .catch((e) => console.log('e1=>>', e));
-            fetch(queryApi.current, { method: 'GET' })
-                .then((res) => res.json())
-                .then((data) => {
-                    console.log('data1=>>', data);
-                    setListInfo(data);
-                })
-                .catch((e) => console.log('e1=>>', e));
+            queryInit();
             setAction('');
         }
         if (action === '作廢') {
-            console.log('作廢大成功!!!!');
             let tmpArray = {
                 WKMasterID: listInfo[modifyItem].InvoiceWKMaster.WKMasterID,
                 Status: 'INVALID'
@@ -240,16 +169,10 @@ const InvoiceWorkManage = () => {
                     console.log('data1=>>', data);
                 })
                 .catch((e) => console.log('e1=>>', e));
-            fetch(queryApi.current, { method: 'GET' })
-                .then((res) => res.json())
-                .then((data) => {
-                    console.log('data1=>>', data);
-                    setListInfo(data);
-                })
-                .catch((e) => console.log('e1=>>', e));
+            queryInit();
             setAction('');
         }
-        if (action === 'Delete' && listInfo[modifyItem].Status === 'TEMPORARY') {
+        if (action === 'Delete' && listInfo[modifyItem].InvoiceWKMaster.Status === 'TEMPORARY') {
             let tmpArray = {
                 WKMasterID: listInfo[modifyItem].InvoiceWKMaster.WKMasterID
             };
@@ -265,14 +188,7 @@ const InvoiceWorkManage = () => {
                     console.log('data1=>>', data);
                 })
                 .catch((e) => console.log('e1=>>', e));
-            // deletelistInfoItem(modifyItem);
-            fetch(queryApi.current, { method: 'GET' })
-                .then((res) => res.json())
-                .then((data) => {
-                    console.log('data1=>>', data);
-                    setListInfo(data);
-                })
-                .catch((e) => console.log('e1=>>', e));
+            queryInit();
             setAction('');
         }
     }, [action]);
@@ -333,14 +249,7 @@ const InvoiceWorkManage = () => {
                 })
                 .catch((e) => console.log('e3=>>', e));
             // 重新query
-            console.log('queryApi.current=>>', queryApi.current);
-            fetch(queryApi.current, { method: 'GET' })
-                .then((res) => res.json())
-                .then((data) => {
-                    console.log('data1=>>', data);
-                    setListInfo(data);
-                })
-                .catch((e) => console.log('e1=>>', e));
+            queryInit();
             itemDetailInitial();
             setAction('');
         }

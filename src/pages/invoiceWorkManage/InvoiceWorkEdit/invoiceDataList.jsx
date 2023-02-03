@@ -74,7 +74,7 @@ const InvoiceDataList = ({ listInfo, setAction, setModifyItem }) => {
                                 <StyledTableCell align="center">{row.InvoiceWKDetail.length}</StyledTableCell>
                                 <StyledTableCell align="center">{row.InvoiceWKMaster.TotalAmount}</StyledTableCell>
                                 <StyledTableCell align="center">
-                                    {row.InvoiceWKMaster.Status === 'TEMPORARY' ? '暫存' : '???'}
+                                    {row.InvoiceWKMaster.Status === 'TEMPORARY' ? '暫存' : 'Validated'}
                                 </StyledTableCell>
                                 <TableCell align="center">
                                     <IconButton
@@ -115,6 +115,7 @@ const InvoiceDataList = ({ listInfo, setAction, setModifyItem }) => {
                                                         </ListItemIcon>
                                                         <ListItemText
                                                             onClick={() => {
+                                                                console.log('option=>>', option);
                                                                 setAction(option);
                                                             }}
                                                         >
@@ -148,6 +149,7 @@ const InvoiceDataList = ({ listInfo, setAction, setModifyItem }) => {
                                                         </ListItemIcon>
                                                         <ListItemText
                                                             onClick={() => {
+                                                                console.log('option=>>', option);
                                                                 setAction(option);
                                                             }}
                                                         >
