@@ -22,7 +22,7 @@ import { TextField } from '@mui/material/index';
 import MainCard from 'components/MainCard';
 
 // api
-import { queryInvoice } from 'components/apis';
+import { queryInvoice } from 'components/apis.jsx';
 import dayjs from 'dayjs';
 
 const InvoiceQueryBlock = ({ setListInfo, queryApi }) => {

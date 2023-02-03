@@ -17,7 +17,7 @@ import InvoiceDataList from './invoiceDataList';
 import { TextField } from '@mui/material/index';
 
 // api
-import { queryInvoice, generateInvoice, updateInvoice, deleteInvoiceWKMaster, deleteInvoiceWKDetail } from 'components/apis';
+import { queryInvoice, generateInvoice, updateInvoice, deleteInvoiceWKMaster, deleteInvoiceWKDetail } from 'components/apis.jsx';
 
 // ==============================|| SAMPLE PAGE ||============================== //
 

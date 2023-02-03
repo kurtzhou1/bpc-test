@@ -43,7 +43,6 @@ const LiabilityManage = () => {
     const [modifyNote, setModifyNote] = useState('');
 
     const [filterList, setFilterList] = useState(listInfo);
-    const test = useRef();
 
     // const [searched, setSearched] = useState('');
 
@@ -159,7 +158,6 @@ const LiabilityManage = () => {
         });
         console.log('filteredRows=>>', filteredRows);
         setFilterList(filteredRows);
-        // test.current = filteredRows;
         // filterList.current = filteredRows;
     };
 

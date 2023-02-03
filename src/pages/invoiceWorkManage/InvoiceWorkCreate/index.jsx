@@ -15,7 +15,7 @@ import InvoiceDataList from './invoiceDataList';
 import { TextField } from '@mui/material/index';
 
 // api
-import { supplierNameList, submarineCableList, billMilestoneList } from 'components/apis';
+import { supplierNameList, submarineCableList, billMilestoneList, generateInvoice } from 'components/apis.jsx';
 
 // ==============================|| SAMPLE PAGE ||============================== //
 
@@ -41,8 +41,6 @@ const InvoiceWorkManage = () => {
     const [editItem, setEditItem] = useState(NaN);
     const [listInfo, setListInfo] = useState([]);
     const [isListEdit, setIsListEdit] = useState(false);
-
-    const fakeUrl = 'http://127.0.0.1:8000/api/v1/generateInvoiceWKMaster&InvoiceWKDetail';
 
     const itemDetailInitial = () => {
         setSupplierName('');
@@ -204,7 +202,7 @@ const InvoiceWorkManage = () => {
     //送出
     const sendInvoice = () => {
         listInfo.forEach((dataInfo) => {
-            fetch(fakeUrl, { method: 'POST', body: JSON.stringify(dataInfo) })
+            fetch(generateInvoice, { method: 'POST', body: JSON.stringify(dataInfo) })
                 .then((res) => res.json())
                 .then((data) => {
                     console.log('data=>>', data);
