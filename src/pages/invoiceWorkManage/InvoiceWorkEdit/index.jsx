@@ -11,6 +11,7 @@ import dayjs from 'dayjs';
 // project import
 import MainCard from 'components/MainCard';
 import InvoiceQuery from './invoiceQuery';
+import CreateInvoiceMain from './createInvoiceMain';
 import CreateInvoiceDetail from './createInvoiceDetail';
 import InvoiceDataList from './invoiceDataList';
 import { TextField } from '@mui/material/index';
@@ -39,9 +40,9 @@ const InvoiceWorkManage = () => {
     const [issueDate, setIssueDate] = useState(new Date()); //發票日期
     const [dueDate, setDueDate] = useState(new Date()); //發票到期日
     const [totalAmount, setTotalAmount] = useState(0); //總金額
-    const [isPro, setIsPro] = useState(false); //是否為Pro-forma
-    const [isLiability, setIsLiability] = useState(false); //是否需攤分
-    const [isRecharge, setIsRecharge] = useState(false); //是否為短腳補收
+    const [isPro, setIsPro] = useState(null); //是否為Pro-forma
+    const [isLiability, setIsLiability] = useState(null); //是否需攤分
+    const [isRecharge, setIsRecharge] = useState(null); //是否為短腳補收
     const [partyName, setPartyName] = useState(''); //會員代號
     const wKMasterID = useRef(); //工作檔ID
 
@@ -126,8 +127,8 @@ const InvoiceWorkManage = () => {
             ]
         }
     ];
-    // const [listInfo, setListInfo] = useState(fakeData);
-    const [listInfo, setListInfo] = useState([]);
+    const [listInfo, setListInfo] = useState(fakeData);
+    // const [listInfo, setListInfo] = useState([]);
 
     const itemInfoInitial = () => {
         wKMasterID.current = 0;
@@ -139,9 +140,9 @@ const InvoiceWorkManage = () => {
         setIssueDate(new Date());
         setDueDate(new Date());
         setTotalAmount(0);
-        setIsPro();
-        setIsLiability();
-        setIsRecharge();
+        setIsPro(null);
+        setIsLiability(null);
+        setIsRecharge(null);
         setPartyName('');
         setInvoiceDetailInfo([]);
     };
@@ -156,7 +157,7 @@ const InvoiceWorkManage = () => {
         fetch(queryApi.current, { method: 'GET' })
             .then((res) => res.json())
             .then((data) => {
-                console.log('data1=>>', data);
+                console.log('查詢資料=>>', data);
                 setListInfo(data);
             })
             .catch((e) => console.log('e1=>>', e));
@@ -203,9 +204,8 @@ const InvoiceWorkManage = () => {
     }, []);
 
     useEffect(() => {
-        console.log('1234=>>', action === 'Edit', action, modifyItem, modifyItem >= 0);
         if ((modifyItem >= 0 && action === 'Edit') || (modifyItem >= 0 && action === 'View')) {
-            console.log('1234=>>', listInfo[modifyItem].InvoiceWKMaster.IsPro, typeof listInfo[modifyItem].InvoiceWKMaster.IsPro);
+            console.log('1234=>>', listInfo[modifyItem].InvoiceWKMaster.IsPro, '456=>>', typeof listInfo[modifyItem].InvoiceWKMaster.IsPro);
             setSupplierName(listInfo[modifyItem].InvoiceWKMaster.SupplierName);
             setInvoiceNo(listInfo[modifyItem].InvoiceWKMaster.InvoiceNo);
             setSubmarineCable(listInfo[modifyItem].InvoiceWKMaster.SubmarineCable);
@@ -216,7 +216,7 @@ const InvoiceWorkManage = () => {
             setTotalAmount(listInfo[modifyItem].InvoiceWKMaster.TotalAmount);
             setIsPro(listInfo[modifyItem].InvoiceWKMaster.IsPro);
             setIsLiability(listInfo[modifyItem].InvoiceWKMaster.IsLiability);
-            setIsRecharge(listInfo[modifyItem].InvoiceWKMaster.IsRecharge);
+            setIsRecharge(listInfo[modifyItem].InvoiceWKMaster.IsRecharge ? 1 : 0);
             setPartyName(listInfo[modifyItem].InvoiceWKMaster.PartyName);
             setInvoiceDetailInfo(listInfo[modifyItem].InvoiceWKDetail);
             wKMasterID.current = listInfo[modifyItem].InvoiceWKMaster.WKMasterID;
@@ -335,13 +335,6 @@ const InvoiceWorkManage = () => {
         }
     };
 
-    // const deletelistInfoItem = (deleteItem) => {
-    //     console.log('deleteItem=>>', deleteItem);
-    //     let tmpArray = listInfo;
-    //     tmpArray.splice(deleteItem, 1);
-    //     setListInfo([...tmpArray]);
-    // };
-
     const cancelAdd = () => {
         itemInfoInitial();
         setAction('');
@@ -375,10 +368,6 @@ const InvoiceWorkManage = () => {
             .catch((e) => console.log('e1=>>', e));
     }, []);
 
-    console.log('isPro=>>', isPro);
-    console.log('IsLiability=>>', isLiability);
-    console.log('supNmList=>>', supNmList);
-
     return (
         <Grid container spacing={1}>
             <Grid item xs={12}>
@@ -407,327 +396,35 @@ const InvoiceWorkManage = () => {
                         <Grid container display="flex" spacing={2}>
                             {/* 左 */}
                             <Grid item xs={6}>
-                                <MainCard title={`${action === 'Edit' ? '編輯' : ''}發票主檔案`} sx={{ height: '100%' }}>
-                                    <Grid container display="flex" justifyContent="center" alignItems="center" spacing={1}>
-                                        {/* row1 */}
-                                        <Grid item xs={12} sm={6} md={4} lg={2}>
-                                            <Typography
-                                                variant="h5"
-                                                sx={{ fontSize: { lg: '0.5rem', xl: '0.88rem' }, ml: { lg: '0.5rem', xl: '1.5rem' } }}
-                                            >
-                                                供應商：
-                                            </Typography>
-                                        </Grid>
-                                        <Grid item xs={12} sm={6} md={4} lg={4}>
-                                            <FormControl fullWidth size="small">
-                                                <InputLabel id="demo-simple-select-label" disabled={action === 'View'}>
-                                                    選擇供應商
-                                                </InputLabel>
-                                                <Select
-                                                    // labelId="demo-simple-select-label"
-                                                    // id="demo-simple-select"
-                                                    value={supplierName}
-                                                    disabled={action === 'View'}
-                                                    label="發票供應商"
-                                                    onChange={(e) => setSupplierName(e.target.value)}
-                                                >
-                                                    {supNmList.map((i) => (
-                                                        <MenuItem value={i.SupplierName}>{i.SupplierName}</MenuItem>
-                                                    ))}
-                                                </Select>
-                                            </FormControl>
-                                        </Grid>
-                                        <Grid item xs={12} sm={6} md={4} lg={2}>
-                                            <Typography
-                                                variant="h5"
-                                                sx={{ fontSize: { lg: '0.5rem', xl: '0.88rem' }, ml: { lg: '0.5rem', xl: '1.5rem' } }}
-                                            >
-                                                發票號碼：
-                                            </Typography>
-                                        </Grid>
-                                        <Grid item xs={12} sm={6} md={4} lg={4}>
-                                            <TextField
-                                                fullWidth
-                                                variant="outlined"
-                                                value={invoiceNo}
-                                                disabled={action === 'View'}
-                                                size="small"
-                                                label="發票號碼"
-                                                onChange={(e) => setInvoiceNo(e.target.value)}
-                                            />
-                                        </Grid>
-                                        {/* row2 */}
-                                        <Grid item xs={12} sm={6} md={4} lg={2}>
-                                            <Typography
-                                                variant="h5"
-                                                sx={{ fontSize: { lg: '0.5rem', xl: '0.88rem' }, ml: { lg: '0.5rem', xl: '1.5rem' } }}
-                                            >
-                                                海纜名稱：
-                                            </Typography>
-                                        </Grid>
-                                        <Grid item xs={12} sm={6} md={4} lg={4}>
-                                            <FormControl fullWidth size="small">
-                                                <InputLabel id="demo-simple-select-label" disabled={action === 'View'}>
-                                                    選擇海纜
-                                                </InputLabel>
-                                                <Select
-                                                    // labelId="demo-simple-select-label"
-                                                    // id="demo-simple-select"
-                                                    value={submarineCable}
-                                                    label="發票供應商"
-                                                    disabled={action === 'View'}
-                                                    onChange={(e) => setSubmarineCable(e.target.value)}
-                                                >
-                                                    {subCableList.map((i) => (
-                                                        <MenuItem value={i.CableName}>{i.CableName}</MenuItem>
-                                                    ))}
-                                                </Select>
-                                            </FormControl>
-                                        </Grid>
-                                        <Grid item xs={12} sm={6} md={4} lg={2}>
-                                            <Typography
-                                                variant="h5"
-                                                sx={{ fontSize: { lg: '0.5rem', xl: '0.88rem' }, ml: { lg: '0.5rem', xl: '1.5rem' } }}
-                                            >
-                                                海纜作業：
-                                            </Typography>
-                                        </Grid>
-                                        <Grid item xs={12} sm={6} md={4} lg={4}>
-                                            <FormControl fullWidth size="small">
-                                                <InputLabel size="small" id="billMilestone">
-                                                    選擇海纜作業
-                                                </InputLabel>
-                                                <Select
-                                                    // labelId="demo-simple-select-label"
-                                                    // id="demo-simple-select"
-                                                    size="small"
-                                                    value={workTitle}
-                                                    disabled={action === 'View'}
-                                                    label="填寫海纜作業"
-                                                    onChange={(e) => setWorkTitle(e.target.value)}
-                                                >
-                                                    <MenuItem value={'Construction'}>Construction</MenuItem>
-                                                    <MenuItem value={'Upgrade'}>Upgrade</MenuItem>
-                                                    <MenuItem value={'O&M'}>O&M</MenuItem>
-                                                </Select>
-                                            </FormControl>
-                                        </Grid>
-                                        {/* row3 */}
-                                        <Grid item xs={12} sm={6} md={4} lg={2}>
-                                            <Typography
-                                                variant="h5"
-                                                sx={{ fontSize: { lg: '0.5rem', xl: '0.88rem' }, ml: { lg: '0.5rem', xl: '1.5rem' } }}
-                                            >
-                                                合約種類：
-                                            </Typography>
-                                        </Grid>
-                                        <Grid item xs={12} sm={6} md={4} lg={4}>
-                                            <FormControl fullWidth size="small">
-                                                <InputLabel id="demo-simple-select-label" disabled={action === 'View'}>
-                                                    選擇合約種類
-                                                </InputLabel>
-                                                <Select
-                                                    // labelId="demo-simple-select-label"
-                                                    // id="demo-simple-select"
-                                                    value={contractType}
-                                                    label="發票供應商"
-                                                    disabled={action === 'View'}
-                                                    onChange={(e) => setContractType(e.target.value)}
-                                                >
-                                                    <MenuItem value={'SC'}>SC</MenuItem>
-                                                    <MenuItem value={'NSC'}>NSC</MenuItem>
-                                                </Select>
-                                            </FormControl>
-                                        </Grid>
-                                        <Grid item xs={12} sm={6} md={4} lg={2}>
-                                            <Typography
-                                                variant="h5"
-                                                sx={{ fontSize: { lg: '0.5rem', xl: '0.88rem' }, ml: { lg: '0.5rem', xl: '1.5rem' } }}
-                                            >
-                                                發票日期：
-                                            </Typography>
-                                        </Grid>
-                                        <Grid item xs={12} sm={6} md={4} lg={4}>
-                                            <FormControl>
-                                                <LocalizationProvider dateAdapter={AdapterDayjs}>
-                                                    <DesktopDatePicker
-                                                        inputFormat="YYYY/MM/DD"
-                                                        value={issueDate}
-                                                        disabled={action === 'View'}
-                                                        onChange={(e) => {
-                                                            setIssueDate(e);
-                                                        }}
-                                                        // onChange={(e) => setIssueDate(e.target.value)}
-                                                        renderInput={(params) => <TextField size="small" {...params} />}
-                                                    />
-                                                </LocalizationProvider>
-                                            </FormControl>
-                                        </Grid>
-                                        {/* row4 */}
-                                        <Grid item xs={12} sm={6} md={4} lg={2}>
-                                            <Typography
-                                                variant="h5"
-                                                sx={{ fontSize: { lg: '0.5rem', xl: '0.88rem' }, ml: { lg: '0.5rem', xl: '1.5rem' } }}
-                                            >
-                                                總金額：
-                                            </Typography>
-                                        </Grid>
-                                        <Grid item xs={12} sm={6} md={4} lg={4}>
-                                            <TextField
-                                                value={totalAmount}
-                                                fullWidth
-                                                variant="outlined"
-                                                size="small"
-                                                type="number"
-                                                label="填寫發票總金額"
-                                                disabled={action === 'View'}
-                                                onChange={(e) => {
-                                                    setTotalAmount(e.target.value);
-                                                }}
-                                            />
-                                        </Grid>
-                                        <Grid item xs={12} sm={6} md={4} lg={2}>
-                                            <Typography
-                                                variant="h5"
-                                                sx={{ fontSize: { lg: '0.5rem', xl: '0.88rem' }, ml: { lg: '0.5rem', xl: '1.5rem' } }}
-                                            >
-                                                發票到期日：
-                                            </Typography>
-                                        </Grid>
-                                        <Grid item xs={12} sm={6} md={4} lg={4}>
-                                            <FormControl fullWidth>
-                                                <LocalizationProvider dateAdapter={AdapterDayjs}>
-                                                    <DesktopDatePicker
-                                                        inputFormat="YYYY/MM/DD"
-                                                        disabled={action === 'View'}
-                                                        value={dueDate}
-                                                        onChange={(e) => setDueDate(e)}
-                                                        renderInput={(params) => <TextField size="small" {...params} />}
-                                                    />
-                                                </LocalizationProvider>
-                                            </FormControl>
-                                        </Grid>
-                                        {/* row5 */}
-                                        <Grid item xs={12} sm={6} md={4} lg={3}>
-                                            <Typography
-                                                variant="h5"
-                                                sx={{ fontSize: { lg: '0.5rem', xl: '0.88rem' }, ml: { lg: '0.5rem', xl: '1.5rem' } }}
-                                            >
-                                                是否為Pro-Forma：
-                                            </Typography>
-                                        </Grid>
-                                        <Grid item xs={12} sm={6} md={4} lg={3}>
-                                            <FormControl>
-                                                <RadioGroup
-                                                    row
-                                                    value={isPro}
-                                                    aria-labelledby="demo-radio-buttons-group-label"
-                                                    name="radio-buttons-group"
-                                                    onChange={(e) => setIsPro(e.target.value)}
-                                                >
-                                                    <FormControlLabel
-                                                        value={true}
-                                                        control={<Radio sx={{ '& .MuiSvgIcon-root': { fontSize: { lg: 14, xl: 20 } } }} />}
-                                                        label="Y"
-                                                    />
-                                                    <FormControlLabel
-                                                        value={false}
-                                                        control={<Radio sx={{ '& .MuiSvgIcon-root': { fontSize: { lg: 14, xl: 20 } } }} />}
-                                                        label="N"
-                                                    />
-                                                </RadioGroup>
-                                            </FormControl>
-                                        </Grid>
-                                        <Grid item xs={12} sm={6} md={4} lg={3}>
-                                            <Typography
-                                                variant="h5"
-                                                sx={{ fontSize: { lg: '0.5rem', xl: '0.88rem' }, ml: { lg: '0.5rem', xl: '1.5rem' } }}
-                                            >
-                                                是否需攤分：
-                                            </Typography>
-                                        </Grid>
-                                        <Grid item xs={12} sm={6} md={4} lg={3}>
-                                            <FormControl>
-                                                <RadioGroup
-                                                    row
-                                                    value={isLiability}
-                                                    aria-labelledby="demo-radio-buttons-group-label"
-                                                    // defaultValue="female"
-                                                    name="radio-buttons-group"
-                                                    onChange={(e) => setIsLiability(e.target.value)}
-                                                >
-                                                    <FormControlLabel
-                                                        value={'true'}
-                                                        disabled={action === 'View'}
-                                                        control={<Radio sx={{ '& .MuiSvgIcon-root': { fontSize: { lg: 14, xl: 20 } } }} />}
-                                                        label="Y"
-                                                    />
-                                                    <FormControlLabel
-                                                        value={'false'}
-                                                        disabled={action === 'View'}
-                                                        control={<Radio sx={{ '& .MuiSvgIcon-root': { fontSize: { lg: 14, xl: 20 } } }} />}
-                                                        label="N"
-                                                    />
-                                                </RadioGroup>
-                                            </FormControl>
-                                        </Grid>
-                                        {/* row6 */}
-                                        <Grid item xs={12} sm={6} md={4} lg={3}>
-                                            <Typography
-                                                variant="h5"
-                                                sx={{ fontSize: { lg: '0.5rem', xl: '0.88rem' }, ml: { lg: '0.5rem', xl: '1.5rem' } }}
-                                            >
-                                                是否為短繳補收：
-                                            </Typography>
-                                        </Grid>
-                                        <Grid item xs={12} sm={6} md={4} lg={3}>
-                                            <FormControl>
-                                                <RadioGroup
-                                                    row
-                                                    value={isRecharge}
-                                                    aria-labelledby="demo-radio-buttons-group-label"
-                                                    defaultValue="female"
-                                                    name="radio-buttons-group"
-                                                    onChange={(e) => setIsRecharge(e.target.value)}
-                                                >
-                                                    <FormControlLabel
-                                                        value={true}
-                                                        disabled={action === 'View'}
-                                                        control={<Radio sx={{ '& .MuiSvgIcon-root': { fontSize: { lg: 14, xl: 20 } } }} />}
-                                                        label="Y"
-                                                    />
-                                                    <FormControlLabel
-                                                        value={false}
-                                                        disabled={action === 'View'}
-                                                        control={<Radio sx={{ '& .MuiSvgIcon-root': { fontSize: { lg: 14, xl: 20 } } }} />}
-                                                        label="N"
-                                                    />
-                                                </RadioGroup>
-                                            </FormControl>
-                                        </Grid>
-                                        <Grid item xs={12} sm={6} md={4} lg={2}>
-                                            <Typography
-                                                variant="h5"
-                                                sx={{ fontSize: { lg: '0.5rem', xl: '0.88rem' }, ml: { lg: '0.5rem', xl: '1.5rem' } }}
-                                            >
-                                                {isLiability === '1' || isLiability === 1 ? '會員代號：' : ''}
-                                            </Typography>
-                                        </Grid>
-                                        <Grid item xs={12} sm={6} md={4} lg={4}>
-                                            {isLiability === '1' || isLiability === 1 ? (
-                                                <TextField
-                                                    value={partyName}
-                                                    variant="outlined"
-                                                    size="small"
-                                                    label="不須攤分請填寫代號"
-                                                    onChange={(e) => setPartyName(e.target.value)}
-                                                />
-                                            ) : (
-                                                ''
-                                            )}
-                                        </Grid>
-                                    </Grid>
-                                </MainCard>
+                                <CreateInvoiceMain
+                                    supplierName={supplierName}
+                                    setSupplierName={setSupplierName}
+                                    invoiceNo={invoiceNo}
+                                    setInvoiceNo={setInvoiceNo}
+                                    submarineCable={submarineCable}
+                                    setSubmarineCable={setSubmarineCable}
+                                    workTitle={workTitle}
+                                    setWorkTitle={setWorkTitle}
+                                    contractType={contractType}
+                                    setContractType={setContractType}
+                                    issueDate={issueDate}
+                                    setIssueDate={setIssueDate}
+                                    dueDate={dueDate}
+                                    setDueDate={setDueDate}
+                                    totalAmount={totalAmount}
+                                    setTotalAmount={setTotalAmount}
+                                    isPro={isPro}
+                                    setIsPro={setIsPro}
+                                    isLiability={isLiability}
+                                    setIsLiability={setIsLiability}
+                                    isRecharge={isRecharge}
+                                    setIsRecharge={setIsRecharge}
+                                    partyName={partyName}
+                                    setPartyName={setPartyName}
+                                    supNmList={supNmList}
+                                    subCableList={subCableList}
+                                    action={action}
+                                />
                             </Grid>
                             {/* 右 */}
                             <Grid item xs={6}>

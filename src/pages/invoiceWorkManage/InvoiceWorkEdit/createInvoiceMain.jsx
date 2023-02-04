@@ -9,7 +9,6 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import dayjs from 'dayjs';
 // project import
 import MainCard from 'components/MainCard';
-// import CreateInvoiceMain from './createInvoiceMain';
 import CreateInvoiceDetail from './createInvoiceDetail';
 import InvoiceDataList from './invoiceDataList';
 import { TextField } from '@mui/material/index';
@@ -17,6 +16,7 @@ import { TextField } from '@mui/material/index';
 // ==============================|| SAMPLE PAGE ||============================== //
 
 const InvoiceWorkManage = ({
+    action,
     supplierName,
     setSupplierName,
     invoiceNo,
@@ -44,7 +44,6 @@ const InvoiceWorkManage = ({
     supNmList,
     subCableList
 }) => {
-    console.log('isPro=>>', isPro, typeof isPro);
     return (
         <MainCard title="發票工作主檔建立" sx={{ height: '100%' }}>
             <Grid container display="flex" justifyContent="center" alignItems="center" spacing={1}>
@@ -62,6 +61,7 @@ const InvoiceWorkManage = ({
                             // id="demo-simple-select"
                             value={supplierName}
                             label="發票供應商"
+                            disabled={action === 'View'}
                             onChange={(e) => setSupplierName(e.target.value)}
                         >
                             {supNmList.map((i) => (
@@ -81,6 +81,7 @@ const InvoiceWorkManage = ({
                     <TextField
                         fullWidth
                         variant="outlined"
+                        disabled={action === 'View'}
                         value={invoiceNo}
                         size="small"
                         label="發票號碼"
@@ -99,6 +100,7 @@ const InvoiceWorkManage = ({
                         <Select
                             // labelId="demo-simple-select-label"
                             // id="demo-simple-select"
+                            disabled={action === 'View'}
                             value={submarineCable}
                             label="發票供應商"
                             onChange={(e) => setSubmarineCable(e.target.value)}
@@ -122,6 +124,7 @@ const InvoiceWorkManage = ({
                         <Select
                             // labelId="demo-simple-select-label"
                             // id="demo-simple-select"
+                            disabled={action === 'View'}
                             value={workTitle}
                             label="填寫海纜作業"
                             onChange={(e) => setWorkTitle(e.target.value)}
@@ -144,6 +147,7 @@ const InvoiceWorkManage = ({
                         <Select
                             // labelId="demo-simple-select-label"
                             // id="demo-simple-select"
+                            disabled={action === 'View'}
                             value={contractType}
                             label="發票供應商"
                             onChange={(e) => setContractType(e.target.value)}
@@ -164,6 +168,7 @@ const InvoiceWorkManage = ({
                             <DesktopDatePicker
                                 inputFormat="YYYY/MM/DD"
                                 value={issueDate}
+                                disabled={action === 'View'}
                                 onChange={(e) => {
                                     setIssueDate(e);
                                 }}
@@ -181,6 +186,7 @@ const InvoiceWorkManage = ({
                 <Grid item xs={12} sm={6} md={4} lg={4}>
                     <TextField
                         value={totalAmount}
+                        disabled={action === 'View'}
                         fullWidth
                         variant="outlined"
                         size="small"
@@ -202,6 +208,7 @@ const InvoiceWorkManage = ({
                             <DesktopDatePicker
                                 inputFormat="YYYY/MM/DD"
                                 value={dueDate}
+                                disabled={action === 'View'}
                                 onChange={(e) => setDueDate(e)}
                                 renderInput={(params) => <TextField size="small" {...params} />}
                             />
@@ -221,15 +228,18 @@ const InvoiceWorkManage = ({
                             value={isPro}
                             aria-labelledby="demo-radio-buttons-group-label"
                             name="radio-buttons-group"
+                            disabled={action === 'View'}
                             onChange={(e) => setIsPro(e.target.value)}
                         >
                             <FormControlLabel
                                 value={true}
+                                disabled={action === 'View'}
                                 control={<Radio sx={{ '& .MuiSvgIcon-root': { fontSize: { lg: 14, xl: 20 } } }} />}
                                 label="Y"
                             />
                             <FormControlLabel
                                 value={false}
+                                disabled={action === 'View'}
                                 control={<Radio sx={{ '& .MuiSvgIcon-root': { fontSize: { lg: 14, xl: 20 } } }} />}
                                 label="N"
                             />
@@ -247,17 +257,18 @@ const InvoiceWorkManage = ({
                             row
                             value={isLiability}
                             aria-labelledby="demo-radio-buttons-group-label"
-                            // defaultValue="female"
                             name="radio-buttons-group"
                             onChange={(e) => setIsLiability(e.target.value)}
                         >
                             <FormControlLabel
                                 value={true}
+                                disabled={action === 'View'}
                                 control={<Radio sx={{ '& .MuiSvgIcon-root': { fontSize: { lg: 14, xl: 20 } } }} />}
                                 label="攤分"
                             />
                             <FormControlLabel
                                 value={false}
+                                disabled={action === 'View'}
                                 control={<Radio sx={{ '& .MuiSvgIcon-root': { fontSize: { lg: 14, xl: 20 } } }} />}
                                 label="不攤分"
                             />
@@ -282,11 +293,13 @@ const InvoiceWorkManage = ({
                         >
                             <FormControlLabel
                                 value={true}
+                                disabled={action === 'View'}
                                 control={<Radio sx={{ '& .MuiSvgIcon-root': { fontSize: { lg: 14, xl: 20 } } }} />}
                                 label="Y"
                             />
                             <FormControlLabel
                                 value={false}
+                                disabled={action === 'View'}
                                 control={<Radio sx={{ '& .MuiSvgIcon-root': { fontSize: { lg: 14, xl: 20 } } }} />}
                                 label="N"
                             />
@@ -303,6 +316,7 @@ const InvoiceWorkManage = ({
                         <TextField
                             value={partyName}
                             variant="outlined"
+                            disabled={action === 'View'}
                             size="small"
                             label="不須攤分請填寫名稱"
                             onChange={(e) => setPartyName(e.target.value)}

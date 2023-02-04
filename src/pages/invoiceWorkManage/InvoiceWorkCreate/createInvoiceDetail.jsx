@@ -103,7 +103,7 @@ const CreateInvoiceDetail = ({
         <MainCard title="發票工作明細檔建立" sx={{ height: '100%' }}>
             <Grid container display="flex" justifyContent="center" alignItems="center" spacing={1}>
                 {/* row1 */}
-                <Grid item xs={12} sm={6} md={4} lg={2}>
+                <Grid item xs={12} sm={6} md={2} lg={2}>
                     <Typography variant="h5" sx={{ fontSize: { lg: '0.5rem', xl: '0.88rem' }, ml: { lg: '0.5rem', xl: '1.5rem' } }}>
                         記帳段號：
                     </Typography>
@@ -122,12 +122,14 @@ const CreateInvoiceDetail = ({
                             onChange={(e) => setBillMilestone(e.target.value)}
                         >
                             {bmStoneList.map((i) => (
-                                <MenuItem value={i}>{i}</MenuItem>
+                                <MenuItem key={i} value={i}>
+                                    {i}
+                                </MenuItem>
                             ))}
                         </Select>
                     </FormControl>
                 </Grid>
-                <Grid item xs={12} sm={6} md={4} lg={2}>
+                <Grid item xs={12} sm={6} md={2} lg={2}>
                     <Typography variant="h5" sx={{ fontSize: { lg: '0.5rem', xl: '0.88rem' }, ml: { lg: '0.5rem', xl: '1.5rem' } }}>
                         費用金額：
                     </Typography>
@@ -144,7 +146,7 @@ const CreateInvoiceDetail = ({
                     />
                 </Grid>
                 {/* row2 */}
-                <Grid item lg={2}>
+                <Grid item md={2} lg={2}>
                     <Typography
                         variant="h5"
                         size="small"
@@ -153,7 +155,7 @@ const CreateInvoiceDetail = ({
                         費用項目：
                     </Typography>
                 </Grid>
-                <Grid item lg={10}>
+                <Grid item md={10} lg={10}>
                     <StyledEngineProvider injectFirst>
                         <CssVarsProvider>
                             <Textarea
@@ -189,7 +191,7 @@ const CreateInvoiceDetail = ({
                     )}
                 </Grid>
                 <Grid item xs={12} sm={12} lg={12}>
-                    <TableContainer component={Paper} sx={{ maxHeight: { lg: 175, md: 250 } }}>
+                    <TableContainer component={Paper} sx={{ maxHeight: { lg: 200, md: 275 } }}>
                         <Table sx={{ minWidth: 300 }} stickyHeader aria-label="sticky table">
                             <TableHead>
                                 <TableRow>

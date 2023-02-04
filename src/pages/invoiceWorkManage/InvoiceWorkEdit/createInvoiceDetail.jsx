@@ -116,7 +116,9 @@ const CreateInvoiceDetail = ({
                             onChange={(e) => setBillMilestone(e.target.value)}
                         >
                             {bmStoneList.map((i) => (
-                                <MenuItem value={i}>{i}</MenuItem>
+                                <MenuItem key={i} value={i}>
+                                    {i}
+                                </MenuItem>
                             ))}
                         </Select>
                     </FormControl>
@@ -188,7 +190,7 @@ const CreateInvoiceDetail = ({
                     ''
                 )}
                 <Grid item xs={12} sm={12} lg={12}>
-                    <TableContainer component={Paper} sx={{ maxHeight: { lg: 175, md: 250 } }}>
+                    <TableContainer component={Paper} sx={{ maxHeight: { lg: 200, md: 275 } }}>
                         <Table sx={{ minWidth: 300 }} stickyHeader aria-label="sticky table">
                             <TableHead>
                                 <TableRow>

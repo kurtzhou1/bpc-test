@@ -29,9 +29,9 @@ const InvoiceWorkManage = () => {
     const [issueDate, setIssueDate] = useState(new Date()); //發票日期
     const [dueDate, setDueDate] = useState(new Date()); //發票到期日
     const [totalAmount, setTotalAmount] = useState(0); //總金額
-    const [isPro, setIsPro] = useState(-1); //是否為Pro-forma
-    const [isLiability, setIsLiability] = useState(-1); //是否需攤分
-    const [isRecharge, setIsRecharge] = useState(-1); //是否為短腳補收
+    const [isPro, setIsPro] = useState(null); //是否為Pro-forma
+    const [isLiability, setIsLiability] = useState(null); //是否需攤分
+    const [isRecharge, setIsRecharge] = useState(null); //是否為短腳補收
     const [partyName, setPartyName] = useState(''); //會員代號
 
     const [supNmList, setSupNmList] = useState([]); //供應商下拉選單
@@ -55,9 +55,9 @@ const InvoiceWorkManage = () => {
         setIssueDate(new Date());
         setDueDate(new Date());
         setTotalAmount(0);
-        setIsPro(-1);
-        setIsLiability(-1);
-        setIsRecharge(-1);
+        setIsPro(null);
+        setIsLiability(null);
+        setIsRecharge(null);
         setPartyName('');
         setInvoiceDetailInfo([]);
         itemDetailInitial();
@@ -269,7 +269,7 @@ const InvoiceWorkManage = () => {
         <Grid container spacing={1}>
             <Grid item xs={12}>
                 <MainCard sx={{ width: '100%' }}>
-                    <Grid container display="flex" spacing={2}>
+                    <Grid container display="flex" spacing={1}>
                         {/* 左 */}
                         <Grid item xs={6}>
                             <CreateInvoiceMain
