@@ -16,7 +16,7 @@ import { TextField } from '@mui/material/index';
 
 const LiabilityQuery = ({ liabilityQuery, bmStoneList, partyList, subCableList, workTitleList }) => {
     const [issueDate, setIssueDate] = useState([null, null]); //發票日期
-    console.log('=>>', bmStoneList, subCableList, workTitleList);
+    console.log('=>>', partyList, bmStoneList, subCableList, workTitleList);
     return (
         <MainCard title="Liability條件查詢" sx={{ width: '100%' }}>
             <Grid container display="flex" justifyContent="center" alignItems="center" spacing={2}>
@@ -36,11 +36,11 @@ const LiabilityQuery = ({ liabilityQuery, bmStoneList, partyList, subCableList, 
                             label="記帳段號"
                             // onChange={(e) => setSupplierName(e.target.value)}
                         >
-                            {/* {bmStoneList?.map((i) => (
+                            {bmStoneList?.map((i) => (
                                 <MenuItem key={i} value={i}>
                                     {i}
                                 </MenuItem>
-                            ))} */}
+                            ))}
                         </Select>
                     </FormControl>
                 </Grid>
@@ -110,11 +110,11 @@ const LiabilityQuery = ({ liabilityQuery, bmStoneList, partyList, subCableList, 
                             label="填寫海纜名稱"
                             // onChange={(e) => setSubmarineCable(e.target.value)}
                         >
-                            {/* {subCableList.map((i) => (
+                            {subCableList.map((i) => (
                                 <MenuItem key={i} value={i}>
                                     {i}
                                 </MenuItem>
-                            ))} */}
+                            ))}
                         </Select>
                     </FormControl>
                 </Grid>
@@ -136,11 +136,11 @@ const LiabilityQuery = ({ liabilityQuery, bmStoneList, partyList, subCableList, 
                             label="填寫海纜作業"
                             // onChange={(e) => setWorkTitle(e.target.value)}
                         >
-                            {/* {workTitleList.map((i) => (
+                            {workTitleList.map((i) => (
                                 <MenuItem key={i} value={i}>
                                     {i}
                                 </MenuItem>
-                            ))} */}
+                            ))}
                         </Select>
                     </FormControl>
                 </Grid>
