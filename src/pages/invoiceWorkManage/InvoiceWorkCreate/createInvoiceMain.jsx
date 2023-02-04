@@ -44,7 +44,6 @@ const InvoiceWorkManage = ({
     supNmList,
     subCableList
 }) => {
-    console.log('isPro=>>', isPro, typeof isPro);
     return (
         <MainCard title="發票工作主檔建立" sx={{ height: '100%' }}>
             <Grid container display="flex" justifyContent="center" alignItems="center" spacing={1}>

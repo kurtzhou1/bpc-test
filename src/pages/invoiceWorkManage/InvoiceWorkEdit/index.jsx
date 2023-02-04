@@ -40,9 +40,9 @@ const InvoiceWorkManage = () => {
     const [issueDate, setIssueDate] = useState(new Date()); //發票日期
     const [dueDate, setDueDate] = useState(new Date()); //發票到期日
     const [totalAmount, setTotalAmount] = useState(0); //總金額
-    const [isPro, setIsPro] = useState(null); //是否為Pro-forma
-    const [isLiability, setIsLiability] = useState(null); //是否需攤分
-    const [isRecharge, setIsRecharge] = useState(null); //是否為短腳補收
+    const [isPro, setIsPro] = useState(true); //是否為Pro-forma
+    const [isLiability, setIsLiability] = useState(true); //是否需攤分
+    const [isRecharge, setIsRecharge] = useState(true); //是否為短腳補收
     const [partyName, setPartyName] = useState(''); //會員代號
     const wKMasterID = useRef(); //工作檔ID
 
@@ -140,9 +140,9 @@ const InvoiceWorkManage = () => {
         setIssueDate(new Date());
         setDueDate(new Date());
         setTotalAmount(0);
-        setIsPro(null);
-        setIsLiability(null);
-        setIsRecharge(null);
+        setIsPro(true);
+        setIsLiability(true);
+        setIsRecharge(true);
         setPartyName('');
         setInvoiceDetailInfo([]);
     };
@@ -205,7 +205,6 @@ const InvoiceWorkManage = () => {
 
     useEffect(() => {
         if ((modifyItem >= 0 && action === 'Edit') || (modifyItem >= 0 && action === 'View')) {
-            console.log('1234=>>', listInfo[modifyItem].InvoiceWKMaster.IsPro, '456=>>', typeof listInfo[modifyItem].InvoiceWKMaster.IsPro);
             setSupplierName(listInfo[modifyItem].InvoiceWKMaster.SupplierName);
             setInvoiceNo(listInfo[modifyItem].InvoiceWKMaster.InvoiceNo);
             setSubmarineCable(listInfo[modifyItem].InvoiceWKMaster.SubmarineCable);
@@ -231,11 +230,11 @@ const InvoiceWorkManage = () => {
             };
             fetch(updateInvoice, { method: 'POST', body: JSON.stringify(tmpArray) })
                 .then((res) => res.json())
-                .then((data) => {
-                    console.log('data1=>>', data);
+                .then(() => {
+                    alert('Validated成功');
+                    queryInit();
                 })
                 .catch((e) => console.log('e1=>>', e));
-            queryInit();
         }
         if (action === '作廢') {
             let tmpArray = {
@@ -244,11 +243,11 @@ const InvoiceWorkManage = () => {
             };
             fetch(updateInvoice, { method: 'POST', body: JSON.stringify(tmpArray) })
                 .then((res) => res.json())
-                .then((data) => {
-                    console.log('data1=>>', data);
+                .then(() => {
+                    alert('作廢成功');
+                    queryInit();
                 })
                 .catch((e) => console.log('e1=>>', e));
-            queryInit();
         }
         if (action === 'Delete' && listInfo[modifyItem].InvoiceWKMaster.Status === 'TEMPORARY') {
             let tmpArray = {
@@ -322,14 +321,14 @@ const InvoiceWorkManage = () => {
                                     alert('儲存成功');
                                     // 重新query
                                     queryInit();
+                                    itemInfoInitial();
+                                    setAction('');
                                 })
                                 .catch((e) => console.log('e3=>>', e));
                         })
                         .catch((e) => console.log('e2=>>', e));
                 })
                 .catch((e) => console.log('e1=>>', e));
-            itemInfoInitial();
-            setAction('');
         }
     };
 
