@@ -374,7 +374,7 @@ const InvoiceWorkManage = () => {
                 <MainCard sx={{ width: '100%' }}>
                     <Grid container display="flex" spacing={2}>
                         <Grid item xs={12}>
-                            <InvoiceQuery setListInfo={setListInfo} queryApi={queryApi} />
+                            <InvoiceQuery setListInfo={setListInfo} queryApi={queryApi} supNmList={supNmList} subCableList={subCableList} />
                         </Grid>
                     </Grid>
                 </MainCard>

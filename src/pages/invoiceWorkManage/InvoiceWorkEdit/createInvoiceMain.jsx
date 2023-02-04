@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+// import { useEffect, useState } from 'react';
 
 // material-ui
 import { Typography, Grid, Button, FormControl, InputLabel, Select, MenuItem, RadioGroup, FormControlLabel, Radio } from '@mui/material';
@@ -6,11 +6,8 @@ import { Typography, Grid, Button, FormControl, InputLabel, Select, MenuItem, Ra
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DesktopDatePicker } from '@mui/x-date-pickers/DesktopDatePicker';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import dayjs from 'dayjs';
 // project import
 import MainCard from 'components/MainCard';
-import CreateInvoiceDetail from './createInvoiceDetail';
-import InvoiceDataList from './invoiceDataList';
 import { TextField } from '@mui/material/index';
 
 // ==============================|| SAMPLE PAGE ||============================== //
@@ -44,7 +41,6 @@ const InvoiceWorkManage = ({
     supNmList,
     subCableList
 }) => {
-    console.log('=>>', isRecharge, typeof isRecharge);
     return (
         <MainCard title="發票工作主檔建立" sx={{ height: '100%' }}>
             <Grid container display="flex" justifyContent="center" alignItems="center" spacing={1}>

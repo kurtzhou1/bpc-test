@@ -29,6 +29,9 @@ import DialogTitle from '@mui/material/DialogTitle';
 import DialogContent from '@mui/material/DialogContent';
 import DialogActions from '@mui/material/DialogActions';
 
+// api
+import { billMilestoneLiabilityList, submarineCableLiabilityList, partiesLiabilityList, workTitleLiabilityList } from 'components/apis.jsx';
+
 const LiabilityManage = () => {
     const [listInfo, setListInfo] = useState([]);
     const [isDialogOpen, setIsDialogOpen] = useState(false); //新增編輯Liability
@@ -39,10 +42,16 @@ const LiabilityManage = () => {
     const [submarineCable, setSubmarineCable] = useState(''); //海纜名稱
     const [partyName, setPartyName] = useState([]); //會員名稱
     const [lbRatio, setLBRatio] = useState(''); //攤分比例
-    const [editItem, setEditItem] = useState(NaN);
+    const [editItem, setEditItem] = useState(NaN); //編輯項目
+    const [splitItem, setSplitItem] = useState(NaN); //分段項目
     const [modifyNote, setModifyNote] = useState('');
 
     const [filterList, setFilterList] = useState(listInfo);
+
+    const [bmStoneList, setBmStoneList] = useState([]); //記帳段號下拉選單
+    const [partyList, setPartyList] = useState([]); //會員名稱下拉選單
+    const [subCableList, setSubCableList] = useState([]); //海纜名稱下拉選單
+    const [workTitleList, setWorkTitleList] = useState([]); //海纜作業下拉選單
 
     // const [searched, setSearched] = useState('');
 
@@ -103,6 +112,8 @@ const LiabilityManage = () => {
             setBillMilestone(tmpArray?.BillMilestone);
             setPartyName([tmpArray?.PartyName]);
             setLBRatio(tmpArray?.LbRatio);
+            setWorkTitle(tmpArray?.WorkTitle);
+            setSubmarineCable(tmpArray?.SubmarineCable);
             setModifyNote(tmpArray?.ModifyNote);
         }
     };
@@ -168,6 +179,33 @@ const LiabilityManage = () => {
         }
     }, [editItem]);
 
+    useEffect(() => {
+        fetch(billMilestoneLiabilityList, { method: 'GET' })
+            .then((res) => res.json())
+            .then((data) => {
+                setBmStoneList(data);
+            })
+            .catch((e) => console.log('e1=>>', e));
+        fetch(submarineCableLiabilityList, { method: 'GET' })
+            .then((res) => res.json())
+            .then((data) => {
+                setSubCableList(data);
+            })
+            .catch((e) => console.log('e1=>>', e));
+        fetch(partiesLiabilityList, { method: 'GET' })
+            .then((res) => res.json())
+            .then((data) => {
+                setPartyList(data);
+            })
+            .catch((e) => console.log('e1=>>', e));
+        fetch(workTitleLiabilityList, { method: 'GET' })
+            .then((res) => res.json())
+            .then((data) => {
+                setWorkTitleList(data);
+            })
+            .catch((e) => console.log('e1=>>', e));
+    }, []);
+
     return (
         <Grid container spacing={1}>
             <Grid item xs={12} display="flex" justifyContent="right">
@@ -192,10 +230,17 @@ const LiabilityManage = () => {
                     setLBRatio={setLBRatio}
                     modifyNote={modifyNote}
                     setModifyNote={setModifyNote}
+                    setEditItem={setEditItem}
                 />
             </Grid>
             <Grid item xs={12}>
-                <LiabilityQuery liabilityQuery={liabilityQuery} />
+                <LiabilityQuery
+                    liabilityQuery={liabilityQuery}
+                    bmStoneList={bmStoneList}
+                    partyList={partyList}
+                    subCableList={subCableList}
+                    workTitleList={workTitleList}
+                />
             </Grid>
             <Grid item xs={12}>
                 <MainCard title="Liability資料列表" search searchFunction={searchFunction} searchTitle={'會員搜尋'}>
@@ -204,6 +249,7 @@ const LiabilityManage = () => {
                         setDialogAction={setDialogAction}
                         setIsDialogOpen={setIsDialogOpen}
                         setEditItem={setEditItem}
+                        setSplitItem={setSplitItem}
                     />
                 </MainCard>
             </Grid>

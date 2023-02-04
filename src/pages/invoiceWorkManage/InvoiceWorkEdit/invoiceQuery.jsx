@@ -25,7 +25,7 @@ import MainCard from 'components/MainCard';
 import { queryInvoice } from 'components/apis.jsx';
 import dayjs from 'dayjs';
 
-const InvoiceQueryBlock = ({ setListInfo, queryApi }) => {
+const InvoiceQueryBlock = ({ setListInfo, queryApi, supNmList, subCableList }) => {
     const [issueDate, setIssueDate] = useState([null, null]); //發票日期
     const [supplierNameQuery, setSupplierNameQuery] = useState(''); //供應商
     const [submarineCableQuery, setSubmarineCableQuery] = useState(''); //海纜名稱
@@ -116,9 +116,11 @@ const InvoiceQueryBlock = ({ setListInfo, queryApi }) => {
                             label="發票供應商"
                             onChange={(e) => setSupplierNameQuery(e.target.value)}
                         >
-                            <MenuItem value={'供應商1號'}>供應商1號</MenuItem>
-                            <MenuItem value={'供應商2號'}>供應商2號</MenuItem>
-                            <MenuItem value={'供應商3號'}>供應商3號</MenuItem>
+                            {supNmList.map((i) => (
+                                <MenuItem key={i.SupplierName} value={i.SupplierName}>
+                                    {i.SupplierName}
+                                </MenuItem>
+                            ))}
                         </Select>
                     </FormControl>
                 </Grid>
@@ -137,9 +139,11 @@ const InvoiceQueryBlock = ({ setListInfo, queryApi }) => {
                             label="發票供應商"
                             onChange={(e) => setSubmarineCableQuery(e.target.value)}
                         >
-                            <MenuItem value={'海纜1號'}>海纜1號</MenuItem>
-                            <MenuItem value={'海纜2號'}>海纜2號</MenuItem>
-                            <MenuItem value={'海纜3號'}>海纜3號</MenuItem>
+                            {subCableList.map((i) => (
+                                <MenuItem key={i.CableName} value={i.CableName}>
+                                    {i.CableName}
+                                </MenuItem>
+                            ))}
                         </Select>
                     </FormControl>
                 </Grid>

@@ -52,10 +52,11 @@ const LiabilityAdd = ({
     lbRatio,
     setLBRatio,
     modifyNote,
-    setModifyNote
+    setModifyNote,
+    setEditItem
 }) => {
     const [listInfo, setListInfo] = useState([]);
-    // const [editItem, setEditItem] = useState(NaN);
+    const [splitNumber, setSplitNumber] = useState('');
     // const [isEdit, setIsEdit] = useState(false);
 
     const icon = <CheckBoxOutlineBlankIcon fontSize="small" />;
@@ -64,22 +65,12 @@ const LiabilityAdd = ({
     const parties = ['Taiwan', 'Vietnam', 'Japan', 'Korean'];
 
     const itemDetailInitial = () => {
+        setBillMilestone('');
         setPartyName([]);
         setLBRatio('');
         setWorkTitle('');
         setSubmarineCable('');
     };
-
-    // //編輯
-    // const editlistInfoItem = () => {
-    //     let tmpArray = listInfo[editItem];
-
-    //     if (tmpArray) {
-    //         setPartyName([tmpArray?.PartyName]);
-    //         setLBRatio(tmpArray?.LbRatio);
-    //     }
-    //     setIsEdit(true);
-    // };
 
     //新增
     const addList = () => {
@@ -98,19 +89,28 @@ const LiabilityAdd = ({
         itemDetailInitial();
     };
 
+    const addSplit = () => {
+        let tmpArray = listInfo.map((i) => i);
+        let partyArray = partyName;
+        partyArray.forEach((e) => {
+            tmpArray.push({
+                BillMilestone: billMilestone + splitNumber,
+                PartyName: e,
+                LbRatio: lbRatio,
+                SubmarineCable: submarineCable,
+                WorkTitle: workTitle
+            });
+        });
+        setListInfo([...tmpArray]);
+        setSplitNumber('');
+    };
+
     //刪除
     const deletelistInfoItem = (deleteItem) => {
         let tmpArray = listInfo.map((i) => i);
         tmpArray.splice(deleteItem, 1);
         setListInfo([...tmpArray]);
     };
-
-    // useEffect(() => {
-    //     if (editItem >= 0) {
-    //         editlistInfoItem();
-    //         // setIsListEdit(true);
-    //     }
-    // }, [editItem]);
 
     const BootstrapDialogTitle = (props) => {
         const { children, onClose, ...other } = props;
@@ -153,7 +153,7 @@ const LiabilityAdd = ({
     return (
         <Dialog onClose={handleDialogClose} maxWidth="md" fullWidth open={isDialogOpen}>
             <BootstrapDialogTitle id="customized-dialog-title" onClose={handleDialogClose}>
-                新增Liability
+                {dialogAction === 'Split' ? `切割計費段${billMilestone}的Liabilty` : '新增Liability'}
             </BootstrapDialogTitle>
             <DialogContent dividers>
                 <Grid container spacing={1} display="flex" justifyContent="center" alignItems="center">
@@ -162,27 +162,43 @@ const LiabilityAdd = ({
                             記帳段號：
                         </Typography>
                     </Grid>
-                    <Grid item xs={3} sm={3} md={3} lg={3}>
-                        <FormControl fullWidth size="small">
-                            <InputLabel size="small" id="billMilestone">
-                                選擇記帳段號
-                            </InputLabel>
-                            <Select
-                                // labelId="demo-simple-select-label"
-                                // id="demo-simple-select"
-                                disabled={dialogAction === 'Edit'}
+                    {dialogAction === 'Split' ? (
+                        <Grid item xs={3} sm={3} md={3} lg={3} display="flex">
+                            <TextField
                                 fullWidth
+                                variant="outlined"
+                                disabled={dialogAction === 'Split'}
                                 value={billMilestone}
-                                label="記帳段號"
                                 size="small"
+                                label="填寫記帳段號"
+                                inputProps={{ style: { textTransform: 'uppercase' } }}
                                 onChange={(e) => setBillMilestone(e.target.value)}
-                            >
-                                <MenuItem value={'BM9a'}>BM9a</MenuItem>
-                                <MenuItem value={'BM9b'}>BM9b</MenuItem>
-                                <MenuItem value={'BM12'}>BM12</MenuItem>
-                            </Select>
-                        </FormControl>
-                    </Grid>
+                            />
+                            <TextField
+                                fullWidth
+                                variant="outlined"
+                                value={splitNumber}
+                                size="small"
+                                label="填寫分段段號"
+                                inputProps={{ maxLength: 1, style: { textTransform: 'lowercase' } }}
+                                onChange={(e) => setSplitNumber(e.target.value)}
+                            />
+                        </Grid>
+                    ) : (
+                        <Grid item xs={3} sm={3} md={3} lg={3}>
+                            <TextField
+                                fullWidth
+                                variant="outlined"
+                                disabled={dialogAction === 'Edit'}
+                                value={billMilestone}
+                                size="small"
+                                label="填寫記帳段號"
+                                inputProps={{ style: { textTransform: 'uppercase' } }}
+                                onChange={(e) => setBillMilestone(e.target.value)}
+                            />
+                        </Grid>
+                    )}
+
                     <Grid item xs={1} sm={1} md={1} lg={1} display="flex">
                         <Typography variant="h5" sx={{ fontSize: { lg: '0.5rem', xl: '0.88rem' }, ml: { lg: '0.5rem', xl: '1.5rem' } }}>
                             海纜名稱：
@@ -196,7 +212,7 @@ const LiabilityAdd = ({
                             <Select
                                 // labelId="demo-simple-select-label"
                                 // id="demo-simple-select"
-                                disabled={dialogAction === 'Edit'}
+                                disabled={dialogAction === 'Edit' || dialogAction === 'Split'}
                                 size="small"
                                 value={submarineCable}
                                 label="填寫海纜名稱"
@@ -221,7 +237,7 @@ const LiabilityAdd = ({
                             <Select
                                 // labelId="demo-simple-select-label"
                                 // id="demo-simple-select"
-                                disabled={dialogAction === 'Edit'}
+                                disabled={dialogAction === 'Edit' || dialogAction === 'Split'}
                                 size="small"
                                 value={workTitle}
                                 label="填寫海纜作業"
@@ -243,6 +259,7 @@ const LiabilityAdd = ({
                         <TextField
                             fullWidth
                             variant="outlined"
+                            disabled={dialogAction === 'Split'}
                             value={lbRatio}
                             size="small"
                             label="填寫攤分比例"
@@ -262,7 +279,7 @@ const LiabilityAdd = ({
                             options={parties}
                             value={partyName}
                             // disabled={isEdit}
-                            disabled={dialogAction === 'Edit'}
+                            disabled={dialogAction === 'Edit' || dialogAction === 'Split'}
                             size="small"
                             disableCloseOnSelect
                             onChange={(event, newValue) => {
@@ -310,7 +327,7 @@ const LiabilityAdd = ({
                                 size="small"
                                 style={{ maxWidth: '2rem', maxHeight: '2rem', minWidth: '2rem', minHeight: '2rem' }}
                                 variant="contained"
-                                onClick={addList}
+                                onClick={dialogAction === 'Split' ? addSplit : addList}
                             >
                                 +
                             </Button>
@@ -389,6 +406,8 @@ const LiabilityAdd = ({
                     onClick={() => {
                         handleDialogClose();
                         itemDetailInitial();
+                        setEditItem(NaN);
+                        setListInfo([]);
                     }}
                 >
                     取消

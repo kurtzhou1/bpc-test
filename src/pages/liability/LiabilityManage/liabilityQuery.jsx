@@ -14,8 +14,9 @@ import { TextField } from '@mui/material/index';
 
 // ==============================|| SAMPLE PAGE ||============================== //
 
-const LiabilityQuery = ({ liabilityQuery }) => {
+const LiabilityQuery = ({ liabilityQuery, bmStoneList, partyList, subCableList, workTitleList }) => {
     const [issueDate, setIssueDate] = useState([null, null]); //發票日期
+    console.log('=>>', bmStoneList, subCableList, workTitleList);
     return (
         <MainCard title="Liability條件查詢" sx={{ width: '100%' }}>
             <Grid container display="flex" justifyContent="center" alignItems="center" spacing={2}>
@@ -35,9 +36,11 @@ const LiabilityQuery = ({ liabilityQuery }) => {
                             label="記帳段號"
                             // onChange={(e) => setSupplierName(e.target.value)}
                         >
-                            <MenuItem value={'記帳段號1號'}>記帳段號1號</MenuItem>
-                            <MenuItem value={'記帳段號2號'}>記帳段號2號</MenuItem>
-                            <MenuItem value={'記帳段號3號'}>記帳段號3號</MenuItem>
+                            {/* {bmStoneList?.map((i) => (
+                                <MenuItem key={i} value={i}>
+                                    {i}
+                                </MenuItem>
+                            ))} */}
                         </Select>
                     </FormControl>
                 </Grid>
@@ -53,12 +56,14 @@ const LiabilityQuery = ({ liabilityQuery }) => {
                             // labelId="demo-simple-select-label"
                             // id="demo-simple-select"
                             // value={submarineCable}
-                            label="發票供應商"
+                            label="會員"
                             // onChange={(e) => setSubmarineCable(e.target.value)}
                         >
-                            <MenuItem value={'發票供應商1號'}>發票供應商1號</MenuItem>
-                            <MenuItem value={'發票供應商2號'}>發票供應商2號</MenuItem>
-                            <MenuItem value={'發票供應商3號'}>發票供應商3號</MenuItem>
+                            {partyList.map((i) => (
+                                <MenuItem key={i} value={i}>
+                                    {i}
+                                </MenuItem>
+                            ))}
                         </Select>
                     </FormControl>
                 </Grid>
@@ -105,9 +110,11 @@ const LiabilityQuery = ({ liabilityQuery }) => {
                             label="填寫海纜名稱"
                             // onChange={(e) => setSubmarineCable(e.target.value)}
                         >
-                            <MenuItem value={'海纜1號'}>海纜1號</MenuItem>
-                            <MenuItem value={'海纜2號'}>海纜2號</MenuItem>
-                            <MenuItem value={'海纜3號'}>海纜3號</MenuItem>
+                            {/* {subCableList.map((i) => (
+                                <MenuItem key={i} value={i}>
+                                    {i}
+                                </MenuItem>
+                            ))} */}
                         </Select>
                     </FormControl>
                 </Grid>
@@ -129,9 +136,11 @@ const LiabilityQuery = ({ liabilityQuery }) => {
                             label="填寫海纜作業"
                             // onChange={(e) => setWorkTitle(e.target.value)}
                         >
-                            <MenuItem value={'Construction'}>Construction</MenuItem>
-                            <MenuItem value={'Upgrade'}>Upgrade</MenuItem>
-                            <MenuItem value={'O&M'}>O&M</MenuItem>
+                            {/* {workTitleList.map((i) => (
+                                <MenuItem key={i} value={i}>
+                                    {i}
+                                </MenuItem>
+                            ))} */}
                         </Select>
                     </FormControl>
                 </Grid>

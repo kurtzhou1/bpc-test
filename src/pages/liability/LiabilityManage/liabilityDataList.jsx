@@ -16,8 +16,9 @@ import { styled } from '@mui/material/styles';
 import dayjs from 'dayjs';
 import { useState } from 'react';
 
-const LiabilityDataList = ({ listInfo, setDialogAction, setIsDialogOpen, setEditItem }) => {
+const LiabilityDataList = ({ listInfo, setDialogAction, setIsDialogOpen, setEditItem, setSplitItem }) => {
     const [dialogTerminate, setDialogTerminate] = useState(false);
+    const [terminateInfo, setTerminateInfo] = useState({});
 
     const handleDialogClose = () => {
         setDialogTerminate(false);
@@ -105,6 +106,10 @@ const LiabilityDataList = ({ listInfo, setDialogAction, setIsDialogOpen, setEdit
                                                 color="error"
                                                 onClick={() => {
                                                     setDialogTerminate(true);
+                                                    setTerminateInfo({
+                                                        billMilestone: row.BillMilestone,
+                                                        partyName: row.PartyName
+                                                    });
                                                 }}
                                             >
                                                 終止
@@ -119,7 +124,7 @@ const LiabilityDataList = ({ listInfo, setDialogAction, setIsDialogOpen, setEdit
                     </TableBody>
                 </Table>
             </TableContainer>
-            <LiabilityTerminate dialogTerminate={dialogTerminate} handleDialogClose={handleDialogClose} />
+            <LiabilityTerminate dialogTerminate={dialogTerminate} handleDialogClose={handleDialogClose} terminateInfo={terminateInfo} />
         </>
     );
 };

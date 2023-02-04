@@ -1,7 +1,13 @@
-//下拉選單
+//發票管理下拉選單
 export const supplierNameList = 'http://10.193.130.7:8000/api/v1/Suppliers/all';
 export const submarineCableList = 'http://10.193.130.7:8000/api/v1/SubmarineCables/all';
 export const billMilestoneList = 'http://10.193.130.7:8000/api/v1/BillMilestone/';
+
+//Liability下拉選單
+export const billMilestoneLiabilityList = 'http://10.193.130.7:8000/api/v1/dropdownmenuBillMilestone';
+export const submarineCableLiabilityList = 'http://10.193.130.7:8000/api/v1/dropdownmenuSubmarineCable';
+export const partiesLiabilityList = 'http://10.193.130.7:8000/api/v1/dropdownmenuParties';
+export const workTitleLiabilityList = 'http://10.193.130.7:8000/api/v1/dropdownmenuWorkTitle';
 
 // 產生發票工作檔
 export const generateInvoice = 'http://10.193.130.7:8000/api/v1/generateInvoiceWKMaster&InvoiceWKDetail';

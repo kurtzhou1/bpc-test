@@ -1,4 +1,4 @@
-import { useEffect, useState, useRef } from 'react';
+import { useState } from 'react';
 import {
     Typography,
     Grid,
@@ -26,7 +26,7 @@ import DialogActions from '@mui/material/DialogActions';
 import CheckBoxOutlineBlankIcon from '@mui/icons-material/CheckBoxOutlineBlank';
 import CheckBoxIcon from '@mui/icons-material/CheckBox';
 
-const LiabilityTerminate = ({ dialogTerminate, handleDialogClose }) => {
+const LiabilityTerminate = ({ dialogTerminate, handleDialogClose, terminateInfo }) => {
     const [listInfo, setListInfo] = useState([]);
 
     const icon = <CheckBoxOutlineBlankIcon fontSize="small" />;
@@ -58,16 +58,16 @@ const LiabilityTerminate = ({ dialogTerminate, handleDialogClose }) => {
     };
 
     return (
-        <Dialog onClose={handleDialogClose} maxWidth="md" fullWidth open={dialogTerminate}>
+        <Dialog onClose={handleDialogClose} maxWidth="xs" fullWidth open={dialogTerminate}>
             <BootstrapDialogTitle id="customized-dialog-title" onClose={handleDialogClose}>
                 確認刪除訊息
             </BootstrapDialogTitle>
             <DialogContent dividers>
                 <Grid container spacing={1} display="flex" justifyContent="center" alignItems="center">
                     {/* row3 */}
-                    <Grid item xs={1} sm={1} md={1} lg={1} display="flex">
+                    <Grid item xs={12} sm={12} md={12} lg={12} display="flex">
                         <Typography variant="h5" sx={{ fontSize: { lg: '0.5rem', xl: '0.88rem' }, ml: { lg: '0.5rem', xl: '1.5rem' } }}>
-                            異動原因：
+                            {`是否確定刪除${terminateInfo.billMilestone}、${terminateInfo.partyName}的Liability資料`}
                         </Typography>
                     </Grid>
                 </Grid>
@@ -84,14 +84,7 @@ const LiabilityTerminate = ({ dialogTerminate, handleDialogClose }) => {
                     確定
                 </Button>
 
-                <Button
-                    sx={{ mr: '0.05rem' }}
-                    variant="contained"
-                    onClick={() => {
-                        handleDialogClose();
-                        itemDetailInitial();
-                    }}
-                >
+                <Button sx={{ mr: '0.05rem' }} variant="contained" onClick={handleDialogClose}>
                     取消
                 </Button>
             </DialogActions>
