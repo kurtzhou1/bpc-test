@@ -310,24 +310,24 @@ const InvoiceWorkManage = () => {
             };
             fetch(deleteInvoiceWKMaster, { method: 'POST', body: JSON.stringify(wKMasterID.current) })
                 .then((res) => res.json())
-                .then((data) => {
-                    console.log('data1=>>', data);
+                .then(() => {
+                    console.log('刪除主檔成功');
+                    fetch(deleteInvoiceWKDetail, { method: 'POST', body: JSON.stringify(wKMasterID.current) })
+                        .then((res) => res.json())
+                        .then(() => {
+                            console.log('刪除明細成功');
+                            fetch(generateInvoice, { method: 'POST', body: JSON.stringify(combineArray) })
+                                .then((res) => res.json())
+                                .then(() => {
+                                    alert('儲存成功');
+                                    // 重新query
+                                    queryInit();
+                                })
+                                .catch((e) => console.log('e3=>>', e));
+                        })
+                        .catch((e) => console.log('e2=>>', e));
                 })
                 .catch((e) => console.log('e1=>>', e));
-            fetch(deleteInvoiceWKDetail, { method: 'POST', body: JSON.stringify(wKMasterID.current) })
-                .then((res) => res.json())
-                .then((data) => {
-                    console.log('data2=>>', data);
-                })
-                .catch((e) => console.log('e2=>>', e));
-            fetch(generateInvoice, { method: 'POST', body: JSON.stringify(combineArray) })
-                .then((res) => res.json())
-                .then((data) => {
-                    console.log('data3=>>', data);
-                })
-                .catch((e) => console.log('e3=>>', e));
-            // 重新query
-            queryInit();
             itemInfoInitial();
             setAction('');
         }
