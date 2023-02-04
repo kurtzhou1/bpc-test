@@ -66,7 +66,8 @@ const LiabilityAdd = ({
     const itemDetailInitial = () => {
         setPartyName([]);
         setLBRatio('');
-        // setIsEdit(false);
+        setWorkTitle('');
+        setSubmarineCable('');
     };
 
     // //編輯

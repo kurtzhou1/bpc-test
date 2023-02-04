@@ -30,31 +30,8 @@ const LiabilityTerminate = ({ dialogTerminate, handleDialogClose }) => {
     const [listInfo, setListInfo] = useState([]);
 
     const icon = <CheckBoxOutlineBlankIcon fontSize="small" />;
-    const checkedIcon = <CheckBoxIcon fontSize="small" />;
 
     const parties = ['Taiwan', 'Vietnam', 'Japan', 'Korean'];
-
-    const itemDetailInitial = () => {
-        setPartyName([]);
-        setLBRatio('');
-    };
-
-    //新增
-    const addList = () => {
-        let tmpArray = listInfo.map((i) => i);
-        let partyArray = partyName;
-        partyArray.forEach((e) => {
-            tmpArray.push({
-                BillMilestone: billMilestone,
-                PartyName: e,
-                LbRatio: lbRatio,
-                SubmarineCable: submarineCable,
-                WorkTitle: workTitle
-            });
-        });
-        setListInfo([...tmpArray]);
-        itemDetailInitial();
-    };
 
     const BootstrapDialogTitle = (props) => {
         const { children, onClose, ...other } = props;
