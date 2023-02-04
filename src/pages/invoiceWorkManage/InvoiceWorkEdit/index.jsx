@@ -127,8 +127,8 @@ const InvoiceWorkManage = () => {
             ]
         }
     ];
-    // const [listInfo, setListInfo] = useState(fakeData);
-    const [listInfo, setListInfo] = useState([]);
+    const [listInfo, setListInfo] = useState(fakeData);
+    // const [listInfo, setListInfo] = useState([]);
 
     const itemInfoInitial = () => {
         wKMasterID.current = 0;
@@ -307,11 +307,14 @@ const InvoiceWorkManage = () => {
                 InvoiceWKMaster: tmpArray,
                 InvoiceWKDetail: invoiceDetailInfo
             };
-            fetch(deleteInvoiceWKMaster, { method: 'POST', body: JSON.stringify(wKMasterID.current) })
+            let tmpWKMasterID = {
+                WKMasterID: listInfo[modifyItem].InvoiceWKMaster.WKMasterID
+            };
+            fetch(deleteInvoiceWKMaster, { method: 'POST', body: JSON.stringify(tmpWKMasterID) })
                 .then((res) => res.json())
                 .then(() => {
                     console.log('刪除主檔成功');
-                    fetch(deleteInvoiceWKDetail, { method: 'POST', body: JSON.stringify(wKMasterID.current) })
+                    fetch(deleteInvoiceWKDetail, { method: 'POST', body: JSON.stringify(tmpWKMasterID) })
                         .then((res) => res.json())
                         .then(() => {
                             console.log('刪除明細成功');

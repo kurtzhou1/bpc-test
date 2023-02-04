@@ -31,7 +31,7 @@ import DialogActions from '@mui/material/DialogActions';
 
 const LiabilityManage = () => {
     const [listInfo, setListInfo] = useState([]);
-    const [isDialogOpen, setIsDialogOpen] = useState(false);
+    const [isDialogOpen, setIsDialogOpen] = useState(false); //新增編輯Liability
     const [dialogAction, setDialogAction] = useState('');
 
     const [billMilestone, setBillMilestone] = useState(''); //記帳段號
@@ -90,11 +90,11 @@ const LiabilityManage = () => {
     };
 
     //終止
-    const updatelistInfoItem = (updateItem) => {
-        let tmpArray = listInfo.map((i) => i);
-        tmpArray[updateItem].CreateTime = dayjs(new Date()).format('YYYY-MM-DD hh:mm:ss');
-        setListInfo([...tmpArray]);
-    };
+    // const updatelistInfoItem = (updateItem) => {
+    //     let tmpArray = listInfo.map((i) => i);
+    //     tmpArray[updateItem].CreateTime = dayjs(new Date()).format('YYYY-MM-DD hh:mm:ss');
+    //     setListInfo([...tmpArray]);
+    // };
 
     //編輯
     const editlistInfoItem = () => {
@@ -204,7 +204,6 @@ const LiabilityManage = () => {
                         setDialogAction={setDialogAction}
                         setIsDialogOpen={setIsDialogOpen}
                         setEditItem={setEditItem}
-                        updatelistInfoItem={updatelistInfoItem}
                     />
                 </MainCard>
             </Grid>

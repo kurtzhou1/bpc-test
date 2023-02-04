@@ -169,6 +169,7 @@ const LiabilityAdd = ({
                             <Select
                                 // labelId="demo-simple-select-label"
                                 // id="demo-simple-select"
+                                disabled={dialogAction === 'Edit'}
                                 fullWidth
                                 value={billMilestone}
                                 label="記帳段號"
@@ -194,6 +195,7 @@ const LiabilityAdd = ({
                             <Select
                                 // labelId="demo-simple-select-label"
                                 // id="demo-simple-select"
+                                disabled={dialogAction === 'Edit'}
                                 size="small"
                                 value={submarineCable}
                                 label="填寫海纜名稱"
@@ -218,6 +220,7 @@ const LiabilityAdd = ({
                             <Select
                                 // labelId="demo-simple-select-label"
                                 // id="demo-simple-select"
+                                disabled={dialogAction === 'Edit'}
                                 size="small"
                                 value={workTitle}
                                 label="填寫海纜作業"
@@ -364,24 +367,20 @@ const LiabilityAdd = ({
             </DialogContent>
             <DialogActions>
                 {dialogAction === 'Edit' ? (
-                    <>
-                        <Button sx={{ mr: '0.05rem' }} variant="contained" onClick={saveEdit}>
-                            儲存
-                        </Button>
-                    </>
+                    <Button sx={{ mr: '0.05rem' }} variant="contained" onClick={saveEdit}>
+                        儲存
+                    </Button>
                 ) : (
-                    <>
-                        <Button
-                            sx={{ mr: '0.05rem' }}
-                            variant="contained"
-                            onClick={() => {
-                                addLiability(listInfo);
-                                setListInfo([]);
-                            }}
-                        >
-                            儲存
-                        </Button>
-                    </>
+                    <Button
+                        sx={{ mr: '0.05rem' }}
+                        variant="contained"
+                        onClick={() => {
+                            addLiability(listInfo);
+                            setListInfo([]);
+                        }}
+                    >
+                        儲存
+                    </Button>
                 )}
                 <Button
                     sx={{ mr: '0.05rem' }}

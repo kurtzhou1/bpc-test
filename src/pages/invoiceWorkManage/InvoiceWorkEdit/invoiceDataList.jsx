@@ -15,6 +15,7 @@ import { styled } from '@mui/material/styles';
 
 //<InfoCircleOutlined />
 import { InfoCircleOutlined } from '@ant-design/icons';
+import dayjs from 'dayjs';
 
 const InvoiceDataList = ({ listInfo, setAction, setModifyItem }) => {
     const StyledTableCell = styled(TableCell)(({ theme }) => ({
@@ -73,7 +74,9 @@ const InvoiceDataList = ({ listInfo, setAction, setModifyItem }) => {
                                 <StyledTableCell align="center">{row.InvoiceWKMaster?.SupplierName}</StyledTableCell>
                                 <StyledTableCell align="center">{row.InvoiceWKMaster?.SubmarineCable}</StyledTableCell>
                                 <StyledTableCell align="center">{row.InvoiceWKMaster?.ContractType}</StyledTableCell>
-                                <StyledTableCell align="center">{row.InvoiceWKMaster?.IssueDate}</StyledTableCell>
+                                <StyledTableCell align="center">
+                                    {dayjs(row.InvoiceWKMaster?.IssueDate).format('YYYY/MM/DD')}
+                                </StyledTableCell>
                                 <StyledTableCell align="center">{row.InvoiceWKDetail.length}</StyledTableCell>
                                 <StyledTableCell align="center">{row.InvoiceWKMaster.TotalAmount}</StyledTableCell>
                                 <StyledTableCell align="center">
@@ -85,8 +88,19 @@ const InvoiceDataList = ({ listInfo, setAction, setModifyItem }) => {
                                             {options1.map((option) => {
                                                 return (
                                                     <Button
-                                                        color="primary"
+                                                        // color="primary"
+                                                        color={
+                                                            option === 'View'
+                                                                ? 'primary'
+                                                                : option === 'Validated'
+                                                                ? 'success'
+                                                                : option === 'Edit'
+                                                                ? 'warning'
+                                                                : 'error'
+                                                        }
+                                                        // variant="outlined"
                                                         key={option}
+                                                        size="small"
                                                         onClick={() => {
                                                             setModifyItem(itemID);
                                                             setAction(option);
@@ -102,7 +116,7 @@ const InvoiceDataList = ({ listInfo, setAction, setModifyItem }) => {
                                             {options2.map((option) => {
                                                 return (
                                                     <Button
-                                                        color="primary"
+                                                        color={option === 'View' ? 'primary' : 'error'}
                                                         key={option}
                                                         onClick={() => {
                                                             setModifyItem(itemID);
