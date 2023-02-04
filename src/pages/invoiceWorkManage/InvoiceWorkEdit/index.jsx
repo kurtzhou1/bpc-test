@@ -157,7 +157,7 @@ const InvoiceWorkManage = () => {
         fetch(queryApi.current, { method: 'GET' })
             .then((res) => res.json())
             .then((data) => {
-                console.log('查詢資料=>>', data);
+                console.log('查詢資料成功=>>', data);
                 setListInfo(data);
             })
             .catch((e) => console.log('e1=>>', e));
@@ -236,7 +236,6 @@ const InvoiceWorkManage = () => {
                 })
                 .catch((e) => console.log('e1=>>', e));
             queryInit();
-            // setAction('');
         }
         if (action === '作廢') {
             let tmpArray = {
@@ -250,7 +249,6 @@ const InvoiceWorkManage = () => {
                 })
                 .catch((e) => console.log('e1=>>', e));
             queryInit();
-            // setAction('');
         }
         if (action === 'Delete' && listInfo[modifyItem].InvoiceWKMaster.Status === 'TEMPORARY') {
             let tmpArray = {
@@ -258,18 +256,18 @@ const InvoiceWorkManage = () => {
             };
             fetch(deleteInvoiceWKMaster, { method: 'POST', body: JSON.stringify(tmpArray) })
                 .then((res) => res.json())
-                .then((data) => {
-                    console.log('data1=>>', data);
+                .then(() => {
+                    console.log('刪除主檔成功');
+                    fetch(deleteInvoiceWKDetail, { method: 'POST', body: JSON.stringify(tmpArray) })
+                        .then((res) => res.json())
+                        .then(() => {
+                            console.log('刪除明細成功');
+                            alert('刪除成功');
+                            queryInit();
+                        })
+                        .catch((e) => console.log('e1=>>', e));
                 })
                 .catch((e) => console.log('e1=>>', e));
-            fetch(deleteInvoiceWKDetail, { method: 'POST', body: JSON.stringify(tmpArray) })
-                .then((res) => res.json())
-                .then((data) => {
-                    console.log('data1=>>', data);
-                })
-                .catch((e) => console.log('e1=>>', e));
-            queryInit();
-            // setAction('');
         }
     }, [action]);
 

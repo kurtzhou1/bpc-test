@@ -78,8 +78,12 @@ const CreateInvoiceDetail = ({
 
     const itemDetailSave = () => {
         setIsEdit(false);
-        itemDetailDelete(editItem.current);
-        itemDetailAdd();
+        let tmpArray = invoiceDetailInfo.map((i) => i);
+        tmpArray.splice(editItem.current, 1);
+        tmpArray.push(createData(feeItem, billMilestone, Number(feeAmount)));
+        tmpArray.reverse();
+        setInvoiceDetailInfo([...tmpArray]);
+        itemDetailInitial();
         editItem.current = 0;
     };
 
