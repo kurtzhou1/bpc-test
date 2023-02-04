@@ -127,8 +127,8 @@ const InvoiceWorkManage = () => {
             ]
         }
     ];
-    const [listInfo, setListInfo] = useState(fakeData);
-    // const [listInfo, setListInfo] = useState([]);
+    // const [listInfo, setListInfo] = useState(fakeData);
+    const [listInfo, setListInfo] = useState([]);
 
     const itemInfoInitial = () => {
         wKMasterID.current = 0;
@@ -216,7 +216,7 @@ const InvoiceWorkManage = () => {
             setTotalAmount(listInfo[modifyItem].InvoiceWKMaster.TotalAmount);
             setIsPro(listInfo[modifyItem].InvoiceWKMaster.IsPro);
             setIsLiability(listInfo[modifyItem].InvoiceWKMaster.IsLiability);
-            setIsRecharge(listInfo[modifyItem].InvoiceWKMaster.IsRecharge ? 1 : 0);
+            setIsRecharge(listInfo[modifyItem].InvoiceWKMaster.IsRecharge);
             setPartyName(listInfo[modifyItem].InvoiceWKMaster.PartyName);
             setInvoiceDetailInfo(listInfo[modifyItem].InvoiceWKDetail);
             wKMasterID.current = listInfo[modifyItem].InvoiceWKMaster.WKMasterID;
