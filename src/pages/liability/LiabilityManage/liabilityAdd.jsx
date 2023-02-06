@@ -80,8 +80,6 @@ const LiabilityAdd = ({
     const addList = () => {
         let tmpArray = listInfo.map((i) => i);
         let partyArray = partyName;
-        console.log('tmpArray=>>', tmpArray);
-        console.log('partyArray=>>', partyArray);
         partyArray.forEach((e) => {
             tmpArray.push({
                 BillMilestone: billMilestone,
@@ -416,8 +414,7 @@ const LiabilityAdd = ({
                         sx={{ mr: '0.05rem' }}
                         variant="contained"
                         onClick={() => {
-                            addLiability(listInfo);
-                            setListInfo([]);
+                            addLiability(listInfo, setListInfo);
                         }}
                     >
                         儲存

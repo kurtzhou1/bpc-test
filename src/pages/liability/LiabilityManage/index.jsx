@@ -84,22 +84,23 @@ const LiabilityManage = () => {
     };
 
     //新增
-    const addLiability = (list) => {
+    const addLiability = (list, setAdd) => {
         console.log('list=>>', list);
         if (list.length > 0) {
             fetch(compareLiability, { method: 'POST', body: JSON.stringify(list) })
                 .then((res) => res.json())
                 .then((data) => {
-                    console.log('compareLiability成功');
-                    if (data.length > 0) {
+                    console.log('compareLiability成功', data, data.compareResult);
+                    if (data.compareResult.length > 0) {
+                        alert('已經增加過此會員');
+                    } else {
                         fetch(addLiabilityapi, { method: 'POST', body: JSON.stringify(list) })
                             .then((res) => res.json())
                             .then(() => {
                                 alert('新增成功');
+                                setAdd([]);
                             })
                             .catch((e) => console.log('e1=>>', e));
-                    } else {
-                        alert('已經增加過此會員');
                     }
                 })
                 .catch((e) => console.log('e1=>>', e));
