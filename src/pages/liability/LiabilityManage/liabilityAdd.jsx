@@ -35,6 +35,9 @@ import TableCell, { tableCellClasses } from '@mui/material/TableCell';
 import Paper from '@mui/material/Paper';
 import { styled } from '@mui/material/styles';
 
+// api
+import { submarineCableList, partiesList } from 'components/apis.jsx';
+
 const LiabilityAdd = ({
     handleDialogClose,
     addLiability,
@@ -59,10 +62,13 @@ const LiabilityAdd = ({
     const [splitNumber, setSplitNumber] = useState('');
     // const [isEdit, setIsEdit] = useState(false);
 
+    const [partyList, setPartyList] = useState([]); //會員名稱下拉選單
+    const [subCableList, setSubCableList] = useState([]); //海纜名稱下拉選單
+
     const icon = <CheckBoxOutlineBlankIcon fontSize="small" />;
     const checkedIcon = <CheckBoxIcon fontSize="small" />;
 
-    const parties = ['Taiwan', 'Vietnam', 'Japan', 'Korean'];
+    // const parties = ['Taiwan', 'Vietnam', 'Japan', 'Korean'];
 
     const itemDetailInitial = () => {
         setBillMilestone('');
@@ -150,6 +156,23 @@ const LiabilityAdd = ({
         }
     }));
 
+    useEffect(() => {
+        fetch(partiesList, { method: 'GET' })
+            .then((res) => res.json())
+            .then((data) => {
+                console.log('party下拉選單', data);
+                setPartyList(data);
+            })
+            .catch((e) => console.log('e1=>>', e));
+        fetch(submarineCableList, { method: 'GET' })
+            .then((res) => res.json())
+            .then((data) => {
+                console.log('submarineCableList下拉選單', data);
+                setSubCableList(data);
+            })
+            .catch((e) => console.log('e1=>>', e));
+    }, []);
+
     return (
         <Dialog onClose={handleDialogClose} maxWidth="md" fullWidth open={isDialogOpen}>
             <BootstrapDialogTitle id="customized-dialog-title" onClose={handleDialogClose}>
@@ -218,9 +241,11 @@ const LiabilityAdd = ({
                                 label="填寫海纜名稱"
                                 onChange={(e) => setSubmarineCable(e.target.value)}
                             >
-                                <MenuItem value={'海纜1號'}>海纜1號</MenuItem>
-                                <MenuItem value={'海纜2號'}>海纜2號</MenuItem>
-                                <MenuItem value={'海纜3號'}>海纜3號</MenuItem>
+                                {subCableList.map((i) => (
+                                    <MenuItem key={i.CableName} value={i.CableName}>
+                                        {i.CableName}
+                                    </MenuItem>
+                                ))}
                             </Select>
                         </FormControl>
                     </Grid>
@@ -276,8 +301,8 @@ const LiabilityAdd = ({
                         <Autocomplete
                             multiple
                             id="checkboxes-tags-demo"
-                            options={parties}
-                            value={partyName}
+                            options={partyList}
+                            value={partyList}
                             // disabled={isEdit}
                             disabled={dialogAction === 'Edit' || dialogAction === 'Split'}
                             size="small"

@@ -35,8 +35,7 @@ import {
     submarineCableLiabilityList,
     partiesLiabilityList,
     workTitleLiabilityList,
-    queryLiability,
-    submarineCableList
+    queryLiability
 } from 'components/apis.jsx';
 
 const LiabilityManage = () => {

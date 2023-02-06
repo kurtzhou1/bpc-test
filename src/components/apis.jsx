@@ -1,6 +1,10 @@
+// 共通的下拉選單
+export const submarineCableList = 'http://10.193.130.7:8000/api/v1/SubmarineCables/all'; // 海纜名稱
+export const partiesList = 'http://10.193.130.7:8000/api/v1/Parties/all'; // 會員名稱
+
 //發票管理下拉選單
 export const supplierNameList = 'http://10.193.130.7:8000/api/v1/Suppliers/all';
-export const submarineCableList = 'http://10.193.130.7:8000/api/v1/SubmarineCables/all';
+
 export const billMilestoneList = 'http://10.193.130.7:8000/api/v1/BillMilestone/';
 
 // 產生發票工作檔
