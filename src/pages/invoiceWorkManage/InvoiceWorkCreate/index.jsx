@@ -265,6 +265,8 @@ const InvoiceWorkManage = () => {
         itemInfoInitial();
     }, []);
 
+    console.log('bmStoneList=>>', bmStoneList);
+
     return (
         <Grid container spacing={1}>
             <Grid item xs={12}>

@@ -54,8 +54,10 @@ const CreateInvoiceDetail = ({
     // 新增
     const itemDetailAdd = () => {
         let tmpArray = invoiceDetailInfo.map((i) => i);
+        console.log('原本=>>', tmpArray);
         tmpArray.push(createData(feeItem, billMilestone, Number(feeAmount)));
         tmpArray.reverse();
+        console.log('新增=>>', tmpArray);
         setInvoiceDetailInfo([...tmpArray]);
         itemDetailInitial();
     };
@@ -126,6 +128,8 @@ const CreateInvoiceDetail = ({
                                     {i}
                                 </MenuItem>
                             ))}
+                            {/* <MenuItem value={'BM9'}>BM9</MenuItem>
+                            <MenuItem value={'BM12a'}>BM12a</MenuItem> */}
                         </Select>
                     </FormControl>
                 </Grid>
@@ -204,7 +208,7 @@ const CreateInvoiceDetail = ({
                             <TableBody>
                                 {invoiceDetailInfo?.map((row, id) => (
                                     <TableRow
-                                        key={row.FeeItem + row.BillMilestone}
+                                        key={id + row.FeeItem + row.BillMilestone}
                                         sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                                     >
                                         <StyledTableCell component="th" scope="row">

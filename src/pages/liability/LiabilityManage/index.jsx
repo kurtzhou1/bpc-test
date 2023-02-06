@@ -30,7 +30,13 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogActions from '@mui/material/DialogActions';
 
 // api
-import { billMilestoneLiabilityList, submarineCableLiabilityList, partiesLiabilityList, workTitleLiabilityList } from 'components/apis.jsx';
+import {
+    billMilestoneLiabilityList,
+    submarineCableLiabilityList,
+    partiesLiabilityList,
+    workTitleLiabilityList,
+    queryLiability
+} from 'components/apis.jsx';
 
 const LiabilityManage = () => {
     const [listInfo, setListInfo] = useState([]);
@@ -53,13 +59,11 @@ const LiabilityManage = () => {
     const [subCableList, setSubCableList] = useState([]); //海纜名稱下拉選單
     const [workTitleList, setWorkTitleList] = useState([]); //海纜作業下拉選單
 
+    const queryApi = useRef(queryLiability + '/all');
+
     // const [searched, setSearched] = useState('');
 
     const parties = [{ name: 'Taiwan' }, { name: 'Vietnam' }, { name: 'Japan' }, { name: 'Korean' }];
-
-    const liabilityQuery = () => {
-        console.log('liabilityQueryFunction');
-    };
 
     const handleDialogOpen = () => {
         setIsDialogOpen(true);
@@ -235,11 +239,11 @@ const LiabilityManage = () => {
             </Grid>
             <Grid item xs={12}>
                 <LiabilityQuery
-                    liabilityQuery={liabilityQuery}
                     bmStoneList={bmStoneList}
                     partyList={partyList}
                     subCableList={subCableList}
                     workTitleList={workTitleList}
+                    queryApi={queryApi}
                 />
             </Grid>
             <Grid item xs={12}>
