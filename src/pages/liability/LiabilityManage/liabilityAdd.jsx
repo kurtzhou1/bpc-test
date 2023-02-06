@@ -36,7 +36,7 @@ import Paper from '@mui/material/Paper';
 import { styled } from '@mui/material/styles';
 
 // api
-import { submarineCableList, partiesList } from 'components/apis.jsx';
+import { submarineCableList, partiesList, compareLiability } from 'components/apis.jsx';
 
 const LiabilityAdd = ({
     handleDialogClose,
@@ -68,7 +68,18 @@ const LiabilityAdd = ({
     const icon = <CheckBoxOutlineBlankIcon fontSize="small" />;
     const checkedIcon = <CheckBoxIcon fontSize="small" />;
 
-    // const parties = ['Taiwan', 'Vietnam', 'Japan', 'Korean'];
+    const parties = [
+        {
+            Email: 'cbptest@cht.com.tw',
+            PartyID: 1,
+            PartyName: 'SKB'
+        },
+        {
+            Email: 'cbptest@cht.com.tw',
+            PartyID: 2,
+            PartyName: 'SK2'
+        }
+    ];
 
     const itemDetailInitial = () => {
         setBillMilestone('');
@@ -298,19 +309,18 @@ const LiabilityAdd = ({
                         </Typography>
                     </Grid>
                     <Grid item xs={7} sm={7} md={7} lg={7}>
-                        <Autocomplete
-                            multiple
+                        {/* <Autocomplete
+                            
                             id="checkboxes-tags-demo"
-                            options={partyList}
-                            value={partyList}
-                            // disabled={isEdit}
+                            options={parties}
+                            // value={parties.PartyName}
                             disabled={dialogAction === 'Edit' || dialogAction === 'Split'}
                             size="small"
                             disableCloseOnSelect
-                            onChange={(event, newValue) => {
-                                setPartyName(newValue);
-                            }}
-                            getOptionLabel={(option) => option}
+                            // onChange={(event, newValue) => {
+                            //     setPartyName(newValue);
+                            // }}
+                            getOptionLabel={(option) => option.PartyName}
                             renderOption={(props, option, { selected }) => (
                                 <li {...props}>
                                     <Checkbox icon={icon} checkedIcon={checkedIcon} style={{ marginRight: 8 }} checked={selected} />
@@ -318,7 +328,15 @@ const LiabilityAdd = ({
                                 </li>
                             )}
                             // style={{ width: 500 }}
-                            // renderInput={(params) => <TextField {...params} label="選擇會員名稱" placeholder="Favorites" />
+                            renderInput={(params) => <TextField {...params} label="選擇會員名稱" />}
+                        /> */}
+                        <Autocomplete
+                            disablePortal
+                            id="combo-box-demo"
+                            options={parties}
+                            sx={{ width: 300 }}
+                            getOptionLabel={(option) => option.PartyName}
+                            size="small"
                             renderInput={(params) => <TextField {...params} label="選擇會員名稱" />}
                         />
                     </Grid>

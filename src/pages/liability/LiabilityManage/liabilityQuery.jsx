@@ -56,7 +56,7 @@ const LiabilityQuery = ({ bmStoneList, partyList, subCableList, workTitleList, q
 
         tmpQuery = queryLiability + tmpQuery;
         queryApi.current = tmpQuery;
-        fetch(tmpQuery, { method: 'POST' })
+        fetch(tmpQuery, { method: 'GET' })
             .then((res) => res.json())
             .then((data) => {
                 console.log('查詢成功=>>', data);
