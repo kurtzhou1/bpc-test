@@ -56,16 +56,14 @@ const ToBillDataList = ({ listInfo, setDialogAction, setIsDialogOpen, setEditIte
                                 sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                             >
                                 <StyledTableCell align="center">{id + 1}</StyledTableCell>
-                                <StyledTableCell align="center">{row.billMilestone}</StyledTableCell>
-                                <StyledTableCell align="center">
-                                    {row.partyName.map((i) => {
-                                        console.log('i=>>', i);
-                                        return i === 0 ? <sapn>{i.title}</sapn> : <sapn>、{i.title}</sapn>;
-                                    })}
-                                </StyledTableCell>
-                                <StyledTableCell align="center">{`${row.lbRatio}%`}</StyledTableCell>
-                                <StyledTableCell align="center">{row.modifyNote}</StyledTableCell>
-                                <StyledTableCell align="center"> {dayjs(row.createTime).format('YYYY/MM/DD')}</StyledTableCell>
+                                <StyledTableCell align="center">{row.WKMasterID}</StyledTableCell>
+                                <StyledTableCell align="center">{row.InvoiceNo}</StyledTableCell>
+                                <StyledTableCell align="center">{row.SupplierName}</StyledTableCell>
+                                <StyledTableCell align="center">{row.SubmarineCable}</StyledTableCell>
+                                <StyledTableCell align="center">{row.WorkTitle}</StyledTableCell>
+                                <StyledTableCell align="center">{dayjs(row.IssueDate).format('YYYY/MM/DD')}</StyledTableCell>
+                                <StyledTableCell align="center">{row.InvoiceWKDetail.length}</StyledTableCell>
+                                <StyledTableCell align="center">{row.TotalAmount}</StyledTableCell>
                                 <StyledTableCell align="center">
                                     <Button
                                         color="primary"
@@ -75,25 +73,7 @@ const ToBillDataList = ({ listInfo, setDialogAction, setIsDialogOpen, setEditIte
                                             setEditItem(id);
                                         }}
                                     >
-                                        編輯
-                                    </Button>
-                                    <Button
-                                        color="success"
-                                        onClick={() => {
-                                            setDialogAction('Split');
-                                            setIsDialogOpen(true);
-                                            setEditItem(id);
-                                        }}
-                                    >
-                                        分段
-                                    </Button>
-                                    <Button
-                                        color="error"
-                                        onClick={() => {
-                                            deletelistInfoItem(id);
-                                        }}
-                                    >
-                                        刪除
+                                        立帳作業
                                     </Button>
                                 </StyledTableCell>
                             </TableRow>

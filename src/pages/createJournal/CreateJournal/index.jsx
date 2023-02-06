@@ -36,7 +36,76 @@ import Autocomplete from '@mui/material/Autocomplete';
 // import CheckBoxIcon from '@mui/icons-material/CheckBox';
 
 const CreateJournal = () => {
-    const [listInfo, setListInfo] = useState([]);
+    const fakeData = [
+        {
+            InvoiceWKMaster: {
+                WKMasterID: 123,
+                InvoiceNo: 'No Number',
+                SupplierName: 'NEC',
+                SubmarineCable: 'SJC2',
+                WorkTitle: 'Construction',
+                ContractType: 'SC',
+                IssueDate: '2022/9/9',
+                TotalAmount: 15466.92,
+                Status: 'TEMPORARY',
+                IsPro: true,
+                IsLiability: false,
+                IsRecharge: false
+            },
+            InvoiceWKDetail: [
+                {
+                    BillMilestone: 'BM9b',
+                    FeeItem: 'BM9b Sea cable manufactured (8.5km spare cable)- Equipment (Off-Shore Korea)',
+                    FeeAmount: 6849.91
+                },
+                {
+                    BillMilestone: 'BM9b',
+                    FeeItem: 'BM9b Sea cable manufactured (8.5km spare cable)- Equipment (On-Shore Korea)',
+                    FeeAmount: 1210.06
+                },
+                {
+                    BillMilestone: 'BM9b',
+                    FeeItem: 'BM9b Sea cable manufactured (8.5km spare cable)- Service (Off-Shore Korea)',
+                    FeeAmount: 7406.95
+                }
+            ]
+        },
+        {
+            InvoiceWKMaster: {
+                WKMasterID: 456,
+                InvoiceNo: 'DT0170168-1',
+                SupplierName: 'NEC',
+                SubmarineCable: 'SJC2',
+                WorkTitle: 'Construction',
+                ContractType: 'SC',
+                IssueDate: '2022/9/9',
+                TotalAmount: 5582012.72,
+                Status: 'TEMPORARY',
+                IsPro: true,
+                IsLiability: true,
+                IsRecharge: true
+            },
+            InvoiceWKDetail: [
+                {
+                    BillMilestone: 'BM9a',
+                    FeeItem: 'BM9a Sea cable manufactured (except 8.5km spare cable))- Equipment',
+                    FeeAmount: 1288822.32
+                },
+                {
+                    BillMilestone: 'BM9a',
+                    FeeItem: 'BM9a Sea cable manufactured (except 8.5km spare cable))- Service',
+                    FeeAmount: 1178227.94
+                },
+                { BillMilestone: 'BM12', FeeItem: 'BM12 Branching Units (100%)-Equipment', FeeAmount: 1627300.92 },
+                {
+                    BillMilestone: 'BM12',
+                    FeeAmount: 1487661.54,
+                    FeeItem: 'BM12 Branching Units (100%)-Service'
+                }
+            ]
+        }
+    ];
+    const [listInfo, setListInfo] = useState(fakeData);
     const [isDialogOpen, setIsDialogOpen] = useState(false);
     const [dialogAction, setDialogAction] = useState('');
 

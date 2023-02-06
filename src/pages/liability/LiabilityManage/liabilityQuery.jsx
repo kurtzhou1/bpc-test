@@ -19,7 +19,7 @@ import { queryLiability } from 'components/apis.jsx';
 const LiabilityQuery = ({ bmStoneList, partyList, subCableList, workTitleList, queryApi }) => {
     const [billMilestoneQuery, setBillMilestoneQuery] = useState(''); //記帳段號
     const [partyNameQuery, setPartyNameQuery] = useState(''); //會員代號
-    const [issueDate, setIssueDate] = useState([null, null]); //建立日期
+    const [createDate, setCreateDate] = useState([null, null]); //建立日期
     const [submarineCableQuery, setSubmarineCableQuery] = useState(''); //海纜名稱
     const [workTitle, setWorkTitle] = useState(''); //海纜作業
 
@@ -37,14 +37,14 @@ const LiabilityQuery = ({ bmStoneList, partyList, subCableList, workTitleList, q
         if (workTitle && workTitle !== '') {
             tmpQuery = tmpQuery + 'WorkTitle=' + workTitle + '&';
         }
-        if (issueDate[0] && issueDate[1]) {
+        if (createDate[0] && createDate[1]) {
             tmpQuery =
                 tmpQuery +
-                'startIssueDate=' +
-                dayjs(issueDate[0]).format('YYYYMMDD') +
+                'startCreateDate=' +
+                dayjs(createDate[0]).format('YYYYMMDD') +
                 '&' +
-                'endIssueDate=' +
-                dayjs(issueDate[1]).format('YYYYMMDD') +
+                'endCreateDate=' +
+                dayjs(createDate[1]).format('YYYYMMDD') +
                 '&';
         }
 
@@ -124,9 +124,9 @@ const LiabilityQuery = ({ bmStoneList, partyList, subCableList, workTitleList, q
                     <LocalizationProvider dateAdapter={AdapterDayjs} localeText={{ start: '起始日', end: '結束日' }}>
                         <DateRangePicker
                             inputFormat="YYYY/MM/DD"
-                            value={issueDate}
+                            value={createDate}
                             onChange={(e) => {
-                                setIssueDate(e);
+                                setCreateDate(e);
                             }}
                             renderInput={(startProps, endProps) => (
                                 <>
