@@ -68,19 +68,6 @@ const LiabilityAdd = ({
     const icon = <CheckBoxOutlineBlankIcon fontSize="small" />;
     const checkedIcon = <CheckBoxIcon fontSize="small" />;
 
-    const parties = [
-        {
-            Email: 'cbptest@cht.com.tw',
-            PartyID: 1,
-            PartyName: 'SKB'
-        },
-        {
-            Email: 'cbptest@cht.com.tw',
-            PartyID: 2,
-            PartyName: 'SK2'
-        }
-    ];
-
     const itemDetailInitial = () => {
         setBillMilestone('');
         setPartyName([]);
@@ -93,10 +80,12 @@ const LiabilityAdd = ({
     const addList = () => {
         let tmpArray = listInfo.map((i) => i);
         let partyArray = partyName;
+        console.log('tmpArray=>>', tmpArray);
+        console.log('partyArray=>>', partyArray);
         partyArray.forEach((e) => {
             tmpArray.push({
                 BillMilestone: billMilestone,
-                PartyName: e,
+                PartyName: e.PartyName,
                 LbRatio: lbRatio,
                 SubmarineCable: submarineCable,
                 WorkTitle: workTitle
@@ -191,13 +180,13 @@ const LiabilityAdd = ({
             </BootstrapDialogTitle>
             <DialogContent dividers>
                 <Grid container spacing={1} display="flex" justifyContent="center" alignItems="center">
-                    <Grid item xs={1} sm={1} md={1} lg={1} display="flex">
+                    <Grid item xs={2} sm={2} md={2} lg={2} display="flex" justifyContent="center">
                         <Typography variant="h5" sx={{ fontSize: { lg: '0.5rem', xl: '0.88rem' }, ml: { lg: '0.5rem', xl: '1.5rem' } }}>
                             記帳段號：
                         </Typography>
                     </Grid>
                     {dialogAction === 'Split' ? (
-                        <Grid item xs={3} sm={3} md={3} lg={3} display="flex">
+                        <Grid item xs={2} sm={2} md={2} lg={2} display="flex" justifyContent="center">
                             <TextField
                                 fullWidth
                                 variant="outlined"
@@ -219,7 +208,7 @@ const LiabilityAdd = ({
                             />
                         </Grid>
                     ) : (
-                        <Grid item xs={3} sm={3} md={3} lg={3}>
+                        <Grid item xs={2} sm={2} md={2} lg={2} display="flex" justifyContent="center">
                             <TextField
                                 fullWidth
                                 variant="outlined"
@@ -233,12 +222,12 @@ const LiabilityAdd = ({
                         </Grid>
                     )}
 
-                    <Grid item xs={1} sm={1} md={1} lg={1} display="flex">
+                    <Grid item xs={2} sm={2} md={2} lg={2} display="flex" justifyContent="center">
                         <Typography variant="h5" sx={{ fontSize: { lg: '0.5rem', xl: '0.88rem' }, ml: { lg: '0.5rem', xl: '1.5rem' } }}>
                             海纜名稱：
                         </Typography>
                     </Grid>
-                    <Grid item xs={3} sm={3} md={3} lg={3}>
+                    <Grid item xs={2} sm={2} md={2} lg={2} display="flex" justifyContent="center">
                         <FormControl fullWidth size="small">
                             <InputLabel size="small" id="billMilestone">
                                 選擇海纜名稱
@@ -260,12 +249,12 @@ const LiabilityAdd = ({
                             </Select>
                         </FormControl>
                     </Grid>
-                    <Grid item xs={1} sm={1} md={1} lg={1} display="flex">
+                    <Grid item xs={2} sm={2} md={2} lg={2} display="flex" justifyContent="center">
                         <Typography variant="h5" sx={{ fontSize: { lg: '0.5rem', xl: '0.88rem' }, ml: { lg: '0.5rem', xl: '1.5rem' } }}>
                             海纜作業：
                         </Typography>
                     </Grid>
-                    <Grid item xs={3} sm={3} md={3} lg={3}>
+                    <Grid item xs={2} sm={2} md={2} lg={2} display="flex" justifyContent="center">
                         <FormControl fullWidth size="small">
                             <InputLabel size="small" id="billMilestone">
                                 選擇海纜作業
@@ -286,12 +275,12 @@ const LiabilityAdd = ({
                         </FormControl>
                     </Grid>
                     {/* <Grid item xs={2} sm={2} md={2} lg={1} /> */}
-                    <Grid item xs={1} sm={1} md={1} lg={1} display="flex">
+                    <Grid item xs={2} sm={2} md={2} lg={2} display="flex" justifyContent="center">
                         <Typography variant="h5" sx={{ fontSize: { lg: '0.5rem', xl: '0.88rem' }, ml: { lg: '0.5rem', xl: '1.5rem' } }}>
                             攤分比例：
                         </Typography>
                     </Grid>
-                    <Grid item xs={3} sm={3} md={3} lg={3}>
+                    <Grid item xs={2} sm={2} md={2} lg={2}>
                         <TextField
                             fullWidth
                             variant="outlined"
@@ -303,45 +292,36 @@ const LiabilityAdd = ({
                         />
                     </Grid>
                     {/* <Grid item xs={6} sm={6} md={6} lg={6} /> */}
-                    <Grid item xs={1} sm={1} md={1} lg={1} display="flex">
+                    <Grid item xs={2} sm={2} md={2} lg={2} display="flex" justifyContent="center">
                         <Typography variant="h5" sx={{ fontSize: { lg: '0.5rem', xl: '0.88rem' }, ml: { lg: '0.5rem', xl: '1.5rem' } }}>
                             會員名稱：
                         </Typography>
                     </Grid>
-                    <Grid item xs={7} sm={7} md={7} lg={7}>
-                        {/* <Autocomplete
-                            
-                            id="checkboxes-tags-demo"
-                            options={parties}
-                            // value={parties.PartyName}
+                    <Grid item xs={6} sm={6} md={6} lg={6}>
+                        <Autocomplete
+                            multiple
+                            options={partyList}
+                            value={partyName}
                             disabled={dialogAction === 'Edit' || dialogAction === 'Split'}
                             size="small"
                             disableCloseOnSelect
-                            // onChange={(event, newValue) => {
-                            //     setPartyName(newValue);
-                            // }}
+                            onChange={(event, newValue) => {
+                                setPartyName(newValue);
+                            }}
                             getOptionLabel={(option) => option.PartyName}
-                            renderOption={(props, option, { selected }) => (
-                                <li {...props}>
-                                    <Checkbox icon={icon} checkedIcon={checkedIcon} style={{ marginRight: 8 }} checked={selected} />
-                                    {option}
-                                </li>
-                            )}
-                            // style={{ width: 500 }}
-                            renderInput={(params) => <TextField {...params} label="選擇會員名稱" />}
-                        /> */}
-                        <Autocomplete
-                            disablePortal
-                            id="combo-box-demo"
-                            options={parties}
-                            sx={{ width: 300 }}
-                            getOptionLabel={(option) => option.PartyName}
-                            size="small"
+                            renderOption={(props, option, { selected }) => {
+                                return (
+                                    <li {...props}>
+                                        <Checkbox icon={icon} checkedIcon={checkedIcon} style={{ marginRight: 8 }} checked={selected} />
+                                        {option.PartyName}
+                                    </li>
+                                );
+                            }}
                             renderInput={(params) => <TextField {...params} label="選擇會員名稱" />}
                         />
                     </Grid>
                     {/* row3 */}
-                    <Grid item xs={1} sm={1} md={1} lg={1} display="flex">
+                    <Grid item xs={1} sm={1} md={1} lg={1} display="flex" justifyContent="center">
                         {dialogAction === 'Edit' ? (
                             <Typography variant="h5" sx={{ fontSize: { lg: '0.5rem', xl: '0.88rem' }, ml: { lg: '0.5rem', xl: '1.5rem' } }}>
                                 異動原因：

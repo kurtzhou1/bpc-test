@@ -35,7 +35,9 @@ import {
     submarineCableLiabilityList,
     partiesLiabilityList,
     workTitleLiabilityList,
-    queryLiability
+    queryLiability,
+    compareLiability,
+    addLiabilityapi
 } from 'components/apis.jsx';
 
 const LiabilityManage = () => {
@@ -83,23 +85,42 @@ const LiabilityManage = () => {
 
     //新增
     const addLiability = (list) => {
+        console.log('list=>>', list);
         if (list.length > 0) {
-            let tmpArray = listInfo.map((i) => i);
-            list.forEach((i) => {
-                tmpArray.push({
-                    BillMilestone: i.BillMilestone,
-                    PartyName: i.PartyName,
-                    LbRatio: i.LbRatio,
-                    SubmarineCable: i.SubmarineCable,
-                    WorkTitle: i.WorkTitle,
-                    CreateTime: '',
-                    ModifyNote: modifyNote.trim() === '' ? '' : modifyNote
-                });
-            });
-            setListInfo([...tmpArray]);
-            handleDialogClose();
-            itemDetailInitial();
+            fetch(compareLiability, { method: 'POST', body: JSON.stringify(list) })
+                .then((res) => res.json())
+                .then((data) => {
+                    console.log('compareLiability成功');
+                    if (data.length > 0) {
+                        fetch(addLiabilityapi, { method: 'POST', body: JSON.stringify(list) })
+                            .then((res) => res.json())
+                            .then(() => {
+                                alert('新增成功');
+                            })
+                            .catch((e) => console.log('e1=>>', e));
+                    } else {
+                        alert('已經增加過此會員');
+                    }
+                })
+                .catch((e) => console.log('e1=>>', e));
         }
+        // if (list.length > 0) {
+        //     let tmpArray = listInfo.map((i) => i);
+        //     list.forEach((i) => {
+        //         tmpArray.push({
+        //             BillMilestone: i.BillMilestone,
+        //             PartyName: i.PartyName,
+        //             LbRatio: i.LbRatio,
+        //             SubmarineCable: i.SubmarineCable,
+        //             WorkTitle: i.WorkTitle,
+        //             CreateTime: '',
+        //             ModifyNote: modifyNote.trim() === '' ? '' : modifyNote
+        //         });
+        //     });
+        //     setListInfo([...tmpArray]);
+        //     handleDialogClose();
+        //     itemDetailInitial();
+        // }
     };
 
     //終止

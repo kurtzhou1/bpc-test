@@ -27,4 +27,5 @@ export const workTitleLiabilityList = 'http://10.193.130.7:8000/api/v1/dropdownm
 
 // 查詢Liability
 export const queryLiability = 'http://10.193.130.7:8000/api/v1/Liability';
-export const compareLiability = 'http://10.193.130:8000/api/v1/compareLiability';
+export const compareLiability = 'http://10.193.130.7:8000/api/v1/compareLiability';
+export const addLiability = 'http:/10.193.130.7:8000/api/v1/batchAddLiability';
