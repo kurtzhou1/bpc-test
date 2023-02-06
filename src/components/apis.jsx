@@ -23,4 +23,4 @@ export const partiesLiabilityList = 'http://10.193.130.7:8000/api/v1/dropdownmen
 export const workTitleLiabilityList = 'http://10.193.130.7:8000/api/v1/dropdownmenuWorkTitle';
 
 // 查詢Liability
-export const queryLiability = 'http://127.0.0.1:8000/api/v1/Liability';
+export const queryLiability = 'http://10.193.130.7:8000/api/v1/Liability';
