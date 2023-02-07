@@ -31,12 +31,20 @@ import { queryJounary } from 'components/apis.jsx';
 
 // ==============================|| SAMPLE PAGE ||============================== //
 
-const JournalQuery = ({ setListInfo }) => {
+const JournalQuery = ({ setListInfo, queryApi, invoiceStatus }) => {
     const [supplierName, setSupplierName] = useState(''); //供應商
     const [submarineCable, setSubmarineCable] = useState(''); //海纜名稱
     const [issueDate, setIssueDate] = useState([null, null]); //發票日期
-    const [isLiability, setIsLiability] = useState([]); //是否需攤分
+    const [isLiability, setIsLiability] = useState(true); //是否需攤分
     const [partyName, setPartyName] = useState(''); //會員代號
+
+    const initQuery = () => {
+        setSupplierName('');
+        setSubmarineCable('');
+        setIssueDate([null, null]);
+        setIsLiability(true);
+        setPartyName('');
+    };
 
     const jounaryQuery = () => {
         let tmpQuery = '/';
@@ -49,37 +57,37 @@ const JournalQuery = ({ setListInfo }) => {
         if (partyName && partyName !== '') {
             tmpQuery = tmpQuery + 'PartyName=' + partyName + '&';
         }
-        console.log('isLiability=>>', isLiability);
 
-        // if (workTitle && workTitle !== '') {
-        //     tmpQuery = tmpQuery + 'IsLiability=' + workTitle + '&';
-        // }
-        // if (createDate[0] && createDate[1]) {
-        //     tmpQuery =
-        //         tmpQuery +
-        //         'startCreateDate=' +
-        //         dayjs(createDate[0]).format('YYYYMMDD') +
-        //         '&' +
-        //         'endCreateDate=' +
-        //         dayjs(createDate[1]).format('YYYYMMDD') +
-        //         '&';
-        // }
+        if (issueDate[0] && issueDate[1]) {
+            tmpQuery =
+                tmpQuery +
+                'startCreateDate=' +
+                dayjs(issueDate[0]).format('YYYYMMDD') +
+                '&' +
+                'endCreateDate=' +
+                dayjs(issueDate[1]).format('YYYYMMDD') +
+                '&';
+        }
+        if (invoiceStatus === '0' || invoiceStatus === 0) {
+            tmpQuery = tmpQuery + 'Status=' + 'VALIDATED' + '&';
+        } else {
+            tmpQuery = tmpQuery + 'Status=' + 'BILLED' + '&';
+        }
 
-        // if (tmpQuery.includes('&')) {
-        //     tmpQuery = tmpQuery.slice(0, -1);
-        // } else {
-        //     tmpQuery = tmpQuery + 'all';
-        // }
+        if (tmpQuery.includes('&')) {
+            tmpQuery = tmpQuery.slice(0, -1);
+        }
 
-        // tmpQuery = queryLiability + tmpQuery;
-        // queryApi.current = tmpQuery;
-        // fetch(tmpQuery, { method: 'GET' })
-        //     .then((res) => res.json())
-        //     .then((data) => {
-        //         console.log('查詢成功=>>', data);
-        //         setListInfo(data);
-        //     })
-        //     .catch((e) => console.log('e1=>>', e));
+        tmpQuery = queryJounary + tmpQuery;
+        queryApi.current = tmpQuery;
+        fetch(tmpQuery, { method: 'GET' })
+            .then((res) => res.json())
+            .then((data) => {
+                console.log('查詢成功=>>', data);
+                setListInfo(data);
+                initQuery();
+            })
+            .catch((e) => console.log('e1=>>', e));
     };
 
     return (
@@ -154,7 +162,8 @@ const JournalQuery = ({ setListInfo }) => {
                 {/* row2 */}
                 <Grid item xs={1} sm={1} md={1} lg={1} display="flex" alignItems="center">
                     <Typography variant="h5" sx={{ fontSize: { lg: '0.5rem', xl: '0.88rem' }, ml: { lg: '0.5rem', xl: '1.5rem' } }}>
-                        有無Liability：
+                        {/* 有無Liability： */}
+                        是否需攤分：
                     </Typography>
                 </Grid>
                 <Grid item xs={2} sm={2} md={2} lg={2} display="flex" justifyContent="space-between">
@@ -228,7 +237,9 @@ const JournalQuery = ({ setListInfo }) => {
                     <Button sx={{ mr: '0.5rem' }} variant="contained" onClick={jounaryQuery}>
                         查詢
                     </Button>
-                    <Button variant="contained">清除</Button>
+                    <Button variant="contained" onClick={initQuery}>
+                        清除
+                    </Button>
                 </Grid>
             </Grid>
         </MainCard>

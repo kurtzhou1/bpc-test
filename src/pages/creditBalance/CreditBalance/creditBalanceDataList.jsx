@@ -15,7 +15,6 @@ import { styled } from '@mui/material/styles';
 import dayjs from 'dayjs';
 
 const CreditBalanceDataList = ({ listInfo, setDialogAction, setIsDialogOpen, setEditItem, deletelistInfoItem }) => {
-    console.log('listInfo=>>', listInfo);
     const StyledTableCell = styled(TableCell)(({ theme }) => ({
         [`&.${tableCellClasses.head}`]: {
             // backgroundColor: theme.palette.common.gary,
@@ -48,7 +47,6 @@ const CreditBalanceDataList = ({ listInfo, setDialogAction, setIsDialogOpen, set
                 </TableHead>
                 <TableBody>
                     {listInfo?.map((row, id) => {
-                        console.log('row=>', row);
                         return (
                             <TableRow
                                 // key={row.InvoiceWKMaster?.invoiceNo + row.InvoiceWKMaster?.supplierName + id}

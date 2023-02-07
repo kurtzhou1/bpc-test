@@ -34,8 +34,6 @@ import avatar2 from 'assets/images/users/avatar-2.png';
 import avatar3 from 'assets/images/users/avatar-3.png';
 import avatar4 from 'assets/images/users/avatar-4.png';
 
-import { ima } from './bg.png';
-
 // avatar style
 const avatarSX = {
     width: 36,
@@ -77,15 +75,17 @@ const DashboardDefault = () => {
 
     const styles = {
         paperContainer: {
-            backgroundImage: `url(${'https://itbrief.com.au/uploads/story/2021/08/19/GettyImages-1219077605.webp'})`,
+            // backgroundImage: `url(${'https://itbrief.com.au/uploads/story/2021/08/19/GettyImages-1219077605.webp'})`,
+            backgroundImage: `url(${'https://imarketing.iwant-in.net/wp-content/uploads/2020/10/2020_07_12_P1_123RF.jpg'})`,
             backgroundSize: 'cover',
-            color: 'white',
+            // color: 'white',
+            color: '#000079',
             width: '84.5vw',
             height: '93vh',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
-            fontSize: '40px'
+            fontSize: '3rem'
         }
     };
 

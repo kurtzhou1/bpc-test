@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import {
     Typography,
     Grid,
@@ -28,87 +28,83 @@ import Dialog from '@mui/material/Dialog';
 import DialogTitle from '@mui/material/DialogTitle';
 import DialogContent from '@mui/material/DialogContent';
 import DialogActions from '@mui/material/DialogActions';
-import { useRef } from 'react';
 
 //icon
 import Autocomplete from '@mui/material/Autocomplete';
 // import CheckBoxOutlineBlankIcon from '@mui/icons-material/CheckBoxOutlineBlank';
 // import CheckBoxIcon from '@mui/icons-material/CheckBox';
 
+// api
+import { queryJounary } from 'components/apis.jsx';
+
 const CreateJournal = () => {
     const fakeData = [
         {
             InvoiceWKMaster: {
-                WKMasterID: 123,
-                InvoiceNo: 'No Number',
+                WKMasterID: 1,
+                InvoiceNo: 'DT0170168-1',
+                Description: 'COMMERCIAL …',
                 SupplierName: 'NEC',
                 SubmarineCable: 'SJC2',
                 WorkTitle: 'Construction',
                 ContractType: 'SC',
-                IssueDate: '2022/9/9',
-                TotalAmount: 15466.92,
+                IssueDate: '2022-09-09',
+                DueDate: '2022-11-08',
+                PartyName: '',
                 Status: 'TEMPORARY',
-                IsPro: true,
-                IsLiability: false,
-                IsRecharge: false
+                IsPro: false,
+                IsRecharge: false,
+                IsLiability: true,
+                TotalAmount: 5582012.72,
+                CreateDate: '2023-01-13'
             },
             InvoiceWKDetail: [
                 {
-                    BillMilestone: 'BM9b',
-                    FeeItem: 'BM9b Sea cable manufactured (8.5km spare cable)- Equipment (Off-Shore Korea)',
-                    FeeAmount: 6849.91
-                },
-                {
-                    BillMilestone: 'BM9b',
-                    FeeItem: 'BM9b Sea cable manufactured (8.5km spare cable)- Equipment (On-Shore Korea)',
-                    FeeAmount: 1210.06
-                },
-                {
-                    BillMilestone: 'BM9b',
-                    FeeItem: 'BM9b Sea cable manufactured (8.5km spare cable)- Service (Off-Shore Korea)',
-                    FeeAmount: 7406.95
+                    WKMasterID: 1,
+                    InvoiceNo: 'DT0170168-1',
+                    SupplierName: 'NEC',
+                    SubmarineCable: 'SJC2',
+                    WorkTitle: 'Construction',
+                    BillMilestone: 'BM9a',
+                    FeeItem: 'BM9a…',
+                    FeeAmount: 1288822.32
                 }
             ]
         },
         {
             InvoiceWKMaster: {
-                WKMasterID: 456,
+                WKMasterID: 1,
                 InvoiceNo: 'DT0170168-1',
+                Description: 'COMMERCIAL …',
                 SupplierName: 'NEC',
                 SubmarineCable: 'SJC2',
                 WorkTitle: 'Construction',
                 ContractType: 'SC',
-                IssueDate: '2022/9/9',
-                TotalAmount: 5582012.72,
+                IssueDate: '2022-09-09',
+                DueDate: '2022-11-08',
+                PartyName: '',
                 Status: 'TEMPORARY',
-                IsPro: true,
+                IsPro: false,
+                IsRecharge: false,
                 IsLiability: true,
-                IsRecharge: true
+                TotalAmount: 5582012.72,
+                CreateDate: '2023-01-13'
             },
             InvoiceWKDetail: [
                 {
+                    WKMasterID: 1,
+                    InvoiceNo: 'DT0170168-1',
+                    SupplierName: 'NEC',
+                    SubmarineCable: 'SJC2',
+                    WorkTitle: 'Construction',
                     BillMilestone: 'BM9a',
-                    FeeItem: 'BM9a Sea cable manufactured (except 8.5km spare cable))- Equipment',
+                    FeeItem: 'BM9a…',
                     FeeAmount: 1288822.32
-                },
-                {
-                    BillMilestone: 'BM9a',
-                    FeeItem: 'BM9a Sea cable manufactured (except 8.5km spare cable))- Service',
-                    FeeAmount: 1178227.94
-                },
-                { BillMilestone: 'BM12', FeeItem: 'BM12 Branching Units (100%)-Equipment', FeeAmount: 1627300.92 },
-                {
-                    BillMilestone: 'BM12',
-                    FeeAmount: 1487661.54,
-                    FeeItem: 'BM12 Branching Units (100%)-Service'
                 }
             ]
         }
     ];
     const [listInfo, setListInfo] = useState(fakeData);
-    const [isDialogOpen, setIsDialogOpen] = useState(false);
-    const [dialogAction, setDialogAction] = useState('');
-
     const [billMilestone, setBillMilestone] = useState(''); //記帳段號
     const [partyName, setPartyName] = useState([]); //會員名稱
     const [lbRatio, setLBRatio] = useState(NaN); //攤分比例
@@ -116,20 +112,16 @@ const CreateJournal = () => {
     const [modifyNote, setModifyNote] = useState('');
 
     const [value, setValue] = useState(0);
+    const queryApi = useRef(queryJounary + '/all');
 
     // const icon = <CheckBoxOutlineBlankIcon fontSize="small" />;
     // const checkedIcon = <CheckBoxIcon fontSize="small" />;
 
     const parties = [{ title: 'Taiwan' }, { title: 'Vietnam' }, { title: 'Japan' }, { title: 'Korean' }];
 
-    const handleDialogOpen = () => {
-        setIsDialogOpen(true);
-        setDialogAction('add');
-    };
-
-    const handleDialogClose = () => {
-        setIsDialogOpen(false);
-    };
+    // const handleDialogClose = () => {
+    //     setIsDialogOpen(false);
+    // };
 
     const itemDetailInitial = () => {
         setBillMilestone('');
@@ -149,7 +141,7 @@ const CreateJournal = () => {
             modifyNote: modifyNote === '' ? '' : modifyNote
         });
         setListInfo([...tmpArray]);
-        handleDialogClose();
+        // handleDialogClose();
         itemDetailInitial();
     };
 
@@ -172,19 +164,19 @@ const CreateJournal = () => {
     };
 
     //儲存編輯
-    const saveEdit = () => {
-        setEditItem(NaN);
-        deletelistInfoItem(editItem);
-        addLiability();
-        setIsListEdit(false);
-        itemDetailInitial();
-    };
+    // const saveEdit = () => {
+    //     setEditItem(NaN);
+    //     deletelistInfoItem(editItem);
+    //     addLiability();
+    //     setIsListEdit(false);
+    //     itemDetailInitial();
+    // };
 
     useEffect(() => {
         itemDetailInitial();
         if (editItem >= 0) {
             editlistInfoItem();
-            setIsDialogOpen(true);
+            // setIsDialogOpen(true);
         }
     }, [editItem]);
 
@@ -245,146 +237,8 @@ const CreateJournal = () => {
 
     return (
         <Grid container spacing={1}>
-            <Grid item xs={12} display="flex" justifyContent="right">
-                <Dialog onClose={handleDialogClose} maxWidth="sm" fullWidth open={isDialogOpen}>
-                    <BootstrapDialogTitle id="customized-dialog-title" onClose={handleDialogClose}>
-                        發票查詢
-                    </BootstrapDialogTitle>
-                    <DialogContent dividers>
-                        <Grid container spacing={1} display="flex" justifyContent="center" alignItems="center">
-                            <Grid item xs={2} sm={2} md={2} lg={2} xl={2}>
-                                <Typography
-                                    variant="h5"
-                                    sx={{ fontSize: { lg: '0.5rem', xl: '0.88rem' }, ml: { lg: '0.5rem', xl: '1.5rem' } }}
-                                >
-                                    供應商：
-                                </Typography>
-                            </Grid>
-                            <Grid item xs={4} sm={4} md={4} lg={4} xl={4}>
-                                <FormControl fullWidth size="small">
-                                    <InputLabel id="demo-simple-select-label">選擇供應商</InputLabel>
-                                    <Select
-                                        // labelId="demo-simple-select-label"
-                                        // id="demo-simple-select"
-                                        value={billMilestone}
-                                        label="記帳段號"
-                                        onChange={(e) => setBillMilestone(e.target.value)}
-                                    >
-                                        <MenuItem value={'供應商1號'}>供應商1號</MenuItem>
-                                        <MenuItem value={'供應商2號'}>供應商2號</MenuItem>
-                                        <MenuItem value={'供應商3號'}>供應商3號</MenuItem>
-                                    </Select>
-                                </FormControl>
-                            </Grid>
-                            <Grid item xs={2} sm={2} md={2} lg={2} xl={2}>
-                                <Typography
-                                    variant="h5"
-                                    sx={{ fontSize: { lg: '0.5rem', xl: '0.88rem' }, ml: { lg: '0.5rem', xl: '1.5rem' } }}
-                                >
-                                    海纜名稱：
-                                </Typography>
-                            </Grid>
-                            <Grid item xs={4} sm={4} md={4} lg={4} xl={4}>
-                                <FormControl fullWidth size="small">
-                                    <InputLabel id="demo-simple-select-label">選擇海纜</InputLabel>
-                                    <Select
-                                        // labelId="demo-simple-select-label"
-                                        // id="demo-simple-select"
-                                        value={lbRatio}
-                                        label="海纜"
-                                        onChange={(e) => setLBRatio(e.target.value)}
-                                    >
-                                        <MenuItem value={5}>5%</MenuItem>
-                                        <MenuItem value={10}>10%</MenuItem>
-                                        <MenuItem value={15}>15%</MenuItem>
-                                    </Select>
-                                </FormControl>
-                            </Grid>
-                            <Grid item xs={2} sm={2} md={2} lg={2} xl={2}>
-                                {dialogAction === 'Edit' ? (
-                                    <Typography
-                                        variant="h5"
-                                        sx={{ fontSize: { lg: '0.5rem', xl: '0.88rem' }, ml: { lg: '0.5rem', xl: '1.5rem' } }}
-                                    >
-                                        異動原因：
-                                    </Typography>
-                                ) : (
-                                    ''
-                                )}
-                            </Grid>
-                            <Grid item xs={4} sm={4} md={4} lg={4} xl={4}>
-                                {dialogAction === 'Edit' ? (
-                                    <TextField
-                                        fullWidth
-                                        variant="outlined"
-                                        value={modifyNote}
-                                        size="small"
-                                        label="填寫異動原因"
-                                        onChange={(e) => setModifyNote(e.target.value)}
-                                    />
-                                ) : (
-                                    ''
-                                )}
-                            </Grid>
-                            <Grid item xs={6} sm={6} md={6} lg={6} xl={6} />
-                            <Grid item xs={2} sm={2} md={2} lg={2} xl={2}>
-                                <Typography
-                                    variant="h5"
-                                    sx={{ fontSize: { lg: '0.5rem', xl: '0.88rem' }, ml: { lg: '0.5rem', xl: '1.5rem' } }}
-                                >
-                                    會員名稱：
-                                </Typography>
-                            </Grid>
-                            <Grid item xs={10} sm={10} md={10} lg={10} xl={10}>
-                                <Autocomplete
-                                    // multiple
-                                    // id="checkboxes-tags-demo"
-                                    options={parties}
-                                    // disableCloseOnSelect
-                                    onChange={(event, newValue) => {
-                                        setPartyName(newValue);
-                                    }}
-                                    getOptionLabel={(option) => option.title}
-                                    renderOption={(props, option, { selected }) => (
-                                        <li {...props}>
-                                            {/* <Checkbox
-                                                icon={icon}
-                                                checkedIcon={checkedIcon}
-                                                style={{ marginRight: 10 }}
-                                                checked={selected}
-                                            /> */}
-                                            {option.title}
-                                        </li>
-                                    )}
-                                    // style={{ width: 500 }}
-                                    // renderInput={(params) => <TextField {...params} label="選擇會員名稱" placeholder="Favorites" />
-                                    renderInput={(params) => <TextField {...params} label="選擇會員名稱" />}
-                                />
-                            </Grid>
-                        </Grid>
-                    </DialogContent>
-                    <DialogActions>
-                        {dialogAction === 'Edit' ? (
-                            <>
-                                <Button sx={{ mr: '0.05rem' }} variant="contained" onClick={saveEdit}>
-                                    儲存
-                                </Button>
-                            </>
-                        ) : (
-                            <>
-                                <Button sx={{ mr: '0.05rem' }} variant="contained" onClick={addLiability}>
-                                    新增
-                                </Button>
-                            </>
-                        )}
-                        <Button sx={{ mr: '0.05rem' }} variant="contained" onClick={handleDialogClose}>
-                            取消
-                        </Button>
-                    </DialogActions>
-                </Dialog>
-            </Grid>
             <Grid item xs={12}>
-                <JournalQuery setListInfo={setListInfo} />
+                <JournalQuery setListInfo={setListInfo} queryApi={queryApi} invoiceStatus={value} />
             </Grid>
             <Grid item xs={12}>
                 <MainCard title="發票資料列表">
@@ -397,19 +251,17 @@ const CreateJournal = () => {
                     <TabPanel value={value} index={0}>
                         <ToBillDataList
                             listInfo={listInfo}
-                            setDialogAction={setDialogAction}
-                            setIsDialogOpen={setIsDialogOpen}
                             setEditItem={setEditItem}
                             deletelistInfoItem={deletelistInfoItem}
+                            BootstrapDialogTitle={BootstrapDialogTitle}
                         />
                     </TabPanel>
                     <TabPanel value={value} index={1}>
                         <BilledDataList
                             listInfo={listInfo}
-                            setDialogAction={setDialogAction}
-                            setIsDialogOpen={setIsDialogOpen}
                             setEditItem={setEditItem}
                             deletelistInfoItem={deletelistInfoItem}
+                            BootstrapDialogTitle={BootstrapDialogTitle}
                         />
                     </TabPanel>
                 </MainCard>

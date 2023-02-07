@@ -31,4 +31,5 @@ export const compareLiability = 'http://10.193.130.7:8000/api/v1/compareLiabilit
 export const addLiabilityapi = 'http:/10.193.130.7:8000/api/v1/batchAddLiability/';
 
 // 發票工作主檔查詢
-export const queryJounary = 'http://127.0.0.1:8000/api/v1/getInvoiceWKMaster&InvoiceWKDetail';
+export const queryJounary = 'http://10.193.130.7:8000/api/v1/getInvoiceWKMaster&InvoiceWKDetail';
+export const toBillDataapi = 'http://10.193.130.7:8000/api/v1/getInvoiceMaster&InvoiceDetailStream';
