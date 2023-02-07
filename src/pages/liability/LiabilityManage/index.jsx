@@ -261,6 +261,7 @@ const LiabilityManage = () => {
             </Grid>
             <Grid item xs={12}>
                 <LiabilityQuery
+                    setListInfo={setListInfo}
                     bmStoneList={bmStoneList}
                     partyList={partyList}
                     subCableList={subCableList}

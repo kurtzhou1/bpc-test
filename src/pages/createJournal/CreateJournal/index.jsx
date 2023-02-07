@@ -122,10 +122,6 @@ const CreateJournal = () => {
 
     const parties = [{ title: 'Taiwan' }, { title: 'Vietnam' }, { title: 'Japan' }, { title: 'Korean' }];
 
-    const jounaryQuery = () => {
-        console.log('liabilityQueryFunction');
-    };
-
     const handleDialogOpen = () => {
         setIsDialogOpen(true);
         setDialogAction('add');
@@ -388,7 +384,7 @@ const CreateJournal = () => {
                 </Dialog>
             </Grid>
             <Grid item xs={12}>
-                <JournalQuery jounaryQuery={jounaryQuery} />
+                <JournalQuery setListInfo={setListInfo} />
             </Grid>
             <Grid item xs={12}>
                 <MainCard title="發票資料列表">

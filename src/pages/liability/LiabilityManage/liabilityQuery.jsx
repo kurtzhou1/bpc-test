@@ -16,7 +16,7 @@ import { queryLiability } from 'components/apis.jsx';
 
 // ==============================|| SAMPLE PAGE ||============================== //
 
-const LiabilityQuery = ({ bmStoneList, partyList, subCableList, workTitleList, queryApi }) => {
+const LiabilityQuery = ({ setListInfo, bmStoneList, partyList, subCableList, workTitleList, queryApi }) => {
     const [billMilestoneQuery, setBillMilestoneQuery] = useState(''); //記帳段號
     const [partyNameQuery, setPartyNameQuery] = useState(''); //會員代號
     const [createDate, setCreateDate] = useState([null, null]); //建立日期
@@ -26,7 +26,7 @@ const LiabilityQuery = ({ bmStoneList, partyList, subCableList, workTitleList, q
     const liabilityQuery = () => {
         let tmpQuery = '/';
         if (billMilestoneQuery && billMilestoneQuery !== '') {
-            tmpQuery = tmpQuery + 'BillMilestone=' + billMilestoneQuery.toString() + '&';
+            tmpQuery = tmpQuery + 'BillMilestone=' + billMilestoneQuery + '&';
         }
         if (partyNameQuery && partyNameQuery !== '') {
             tmpQuery = tmpQuery + 'PartyName=' + partyNameQuery + '&';

@@ -15,7 +15,6 @@ import { styled } from '@mui/material/styles';
 import dayjs from 'dayjs';
 
 const ToBillDataList = ({ listInfo, setDialogAction, setIsDialogOpen, setEditItem, deletelistInfoItem }) => {
-    console.log('listInfo=>>', listInfo);
     const StyledTableCell = styled(TableCell)(({ theme }) => ({
         [`&.${tableCellClasses.head}`]: {
             // backgroundColor: theme.palette.common.gary,
@@ -56,14 +55,16 @@ const ToBillDataList = ({ listInfo, setDialogAction, setIsDialogOpen, setEditIte
                                 sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                             >
                                 <StyledTableCell align="center">{id + 1}</StyledTableCell>
-                                <StyledTableCell align="center">{row.WKMasterID}</StyledTableCell>
-                                <StyledTableCell align="center">{row.InvoiceNo}</StyledTableCell>
-                                <StyledTableCell align="center">{row.SupplierName}</StyledTableCell>
-                                <StyledTableCell align="center">{row.SubmarineCable}</StyledTableCell>
-                                <StyledTableCell align="center">{row.WorkTitle}</StyledTableCell>
-                                <StyledTableCell align="center">{dayjs(row.IssueDate).format('YYYY/MM/DD')}</StyledTableCell>
+                                <StyledTableCell align="center">{row.InvoiceWKMaster.WKMasterID}</StyledTableCell>
+                                <StyledTableCell align="center">{row.InvoiceWKMaster.InvoiceNo}</StyledTableCell>
+                                <StyledTableCell align="center">{row.InvoiceWKMaster.SupplierName}</StyledTableCell>
+                                <StyledTableCell align="center">{row.InvoiceWKMaster.SubmarineCable}</StyledTableCell>
+                                <StyledTableCell align="center">{row.InvoiceWKMaster.WorkTitle}</StyledTableCell>
+                                <StyledTableCell align="center">
+                                    {dayjs(row.InvoiceWKMaster.IssueDate).format('YYYY/MM/DD')}
+                                </StyledTableCell>
                                 <StyledTableCell align="center">{row.InvoiceWKDetail.length}</StyledTableCell>
-                                <StyledTableCell align="center">{row.TotalAmount}</StyledTableCell>
+                                <StyledTableCell align="center">{row.InvoiceWKMaster.TotalAmount}</StyledTableCell>
                                 <StyledTableCell align="center">
                                     <Button
                                         color="primary"

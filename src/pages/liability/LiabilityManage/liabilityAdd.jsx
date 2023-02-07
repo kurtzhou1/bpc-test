@@ -319,7 +319,7 @@ const LiabilityAdd = ({
                         />
                     </Grid>
                     {/* row3 */}
-                    <Grid item xs={1} sm={1} md={1} lg={1} display="flex" justifyContent="center">
+                    <Grid item xs={2} sm={2} md={2} lg={2} display="flex" justifyContent="center">
                         {dialogAction === 'Edit' ? (
                             <Typography variant="h5" sx={{ fontSize: { lg: '0.5rem', xl: '0.88rem' }, ml: { lg: '0.5rem', xl: '1.5rem' } }}>
                                 異動原因：
@@ -328,7 +328,7 @@ const LiabilityAdd = ({
                             ''
                         )}
                     </Grid>
-                    <Grid item xs={10} sm={10} md={10} lg={10}>
+                    <Grid item xs={9} sm={9} md={9} lg={9}>
                         {dialogAction === 'Edit' ? (
                             <TextField
                                 fullWidth

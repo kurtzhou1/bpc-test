@@ -9,8 +9,8 @@ import {
     MenuItem,
     Box,
     FormControlLabel,
-    // RadioGroup,
-    // Radio,
+    RadioGroup,
+    Radio,
     Checkbox,
     FormGroup
 } from '@mui/material';
@@ -26,10 +26,62 @@ import dayjs from 'dayjs';
 import { DateRangePicker } from '@mui/x-date-pickers-pro/DateRangePicker';
 import { TextField } from '@mui/material/index';
 
+//api
+import { queryJounary } from 'components/apis.jsx';
+
 // ==============================|| SAMPLE PAGE ||============================== //
 
-const JournalQuery = ({ jounaryQuery }) => {
+const JournalQuery = ({ setListInfo }) => {
+    const [supplierName, setSupplierName] = useState(''); //供應商
+    const [submarineCable, setSubmarineCable] = useState(''); //海纜名稱
     const [issueDate, setIssueDate] = useState([null, null]); //發票日期
+    const [isLiability, setIsLiability] = useState([]); //是否需攤分
+    const [partyName, setPartyName] = useState(''); //會員代號
+
+    const jounaryQuery = () => {
+        let tmpQuery = '/';
+        if (supplierName && supplierName !== '') {
+            tmpQuery = tmpQuery + 'SupplierName=' + supplierName + '&';
+        }
+        if (submarineCable && submarineCable !== '') {
+            tmpQuery = tmpQuery + 'SubmarineCable=' + submarineCable + '&';
+        }
+        if (partyName && partyName !== '') {
+            tmpQuery = tmpQuery + 'PartyName=' + partyName + '&';
+        }
+        console.log('isLiability=>>', isLiability);
+
+        // if (workTitle && workTitle !== '') {
+        //     tmpQuery = tmpQuery + 'IsLiability=' + workTitle + '&';
+        // }
+        // if (createDate[0] && createDate[1]) {
+        //     tmpQuery =
+        //         tmpQuery +
+        //         'startCreateDate=' +
+        //         dayjs(createDate[0]).format('YYYYMMDD') +
+        //         '&' +
+        //         'endCreateDate=' +
+        //         dayjs(createDate[1]).format('YYYYMMDD') +
+        //         '&';
+        // }
+
+        // if (tmpQuery.includes('&')) {
+        //     tmpQuery = tmpQuery.slice(0, -1);
+        // } else {
+        //     tmpQuery = tmpQuery + 'all';
+        // }
+
+        // tmpQuery = queryLiability + tmpQuery;
+        // queryApi.current = tmpQuery;
+        // fetch(tmpQuery, { method: 'GET' })
+        //     .then((res) => res.json())
+        //     .then((data) => {
+        //         console.log('查詢成功=>>', data);
+        //         setListInfo(data);
+        //     })
+        //     .catch((e) => console.log('e1=>>', e));
+    };
+
     return (
         <MainCard title="發票查詢" sx={{ width: '100%' }}>
             <Grid container display="flex" justifyContent="center" alignItems="center" spacing={2}>
@@ -45,7 +97,7 @@ const JournalQuery = ({ jounaryQuery }) => {
                         <Select
                             // labelId="demo-simple-select-label"
                             // id="demo-simple-select"
-                            // value={supplierName}
+                            value={supplierName}
                             label="供應商"
                             onChange={(e) => setSupplierName(e.target.value)}
                         >
@@ -66,7 +118,7 @@ const JournalQuery = ({ jounaryQuery }) => {
                         <Select
                             // labelId="demo-simple-select-label"
                             // id="demo-simple-select"
-                            // value={submarineCable}
+                            value={submarineCable}
                             label="海纜"
                             onChange={(e) => setSubmarineCable(e.target.value)}
                         >
@@ -107,13 +159,13 @@ const JournalQuery = ({ jounaryQuery }) => {
                 </Grid>
                 <Grid item xs={2} sm={2} md={2} lg={2} display="flex" justifyContent="space-between">
                     <FormControl row>
-                        <FormGroup
+                        {/* <FormGroup
                             row
-                            // value={isLiability}
+                            value={isLiability}
                             aria-labelledby="demo-radio-buttons-group-label"
                             // defaultValue="female"
                             name="radio-buttons-group"
-                            // onChange={(e) => setIsLiability(e.target.value)}
+                            onChange={(e) => setIsLiability(e.target.value)}
                         >
                             <FormControlLabel
                                 value={true}
@@ -125,29 +177,51 @@ const JournalQuery = ({ jounaryQuery }) => {
                                 control={<Checkbox sx={{ '& .MuiSvgIcon-root': { fontSize: { lg: 14, xl: 20 } } }} />}
                                 label="不攤分"
                             />
-                        </FormGroup>
+                        </FormGroup> */}
+                        <RadioGroup
+                            row
+                            value={isLiability}
+                            aria-labelledby="demo-radio-buttons-group-label"
+                            name="radio-buttons-group"
+                            onChange={(e) => setIsLiability(e.target.value)}
+                        >
+                            <FormControlLabel
+                                value={true}
+                                control={<Radio sx={{ '& .MuiSvgIcon-root': { fontSize: { lg: 14, xl: 20 } } }} />}
+                                label="攤分"
+                            />
+                            <FormControlLabel
+                                value={false}
+                                control={<Radio sx={{ '& .MuiSvgIcon-root': { fontSize: { lg: 14, xl: 20 } } }} />}
+                                label="不攤分"
+                            />
+                        </RadioGroup>
                     </FormControl>
                 </Grid>
                 <Grid item xs={1} sm={1} md={1} lg={1}>
                     <Typography variant="h5" sx={{ fontSize: { lg: '0.5rem', xl: '0.88rem' }, ml: { lg: '0.5rem', xl: '1.5rem' } }}>
-                        會員名稱：
+                        {isLiability === false || isLiability === 'false' ? '會員名稱：' : ''}
                     </Typography>
                 </Grid>
                 <Grid item xs={2} sm={2} md={2} lg={2}>
-                    <FormControl fullWidth size="small">
-                        <InputLabel id="demo-simple-select-label">選擇會員</InputLabel>
-                        <Select
-                            // labelId="demo-simple-select-label"
-                            // id="demo-simple-select"
-                            // value={submarineCable}
-                            label="會員"
-                            onChange={(e) => setSubmarineCable(e.target.value)}
-                        >
-                            <MenuItem value={'Taiwan'}>Taiwan</MenuItem>
-                            <MenuItem value={'Japan'}>Japan</MenuItem>
-                            <MenuItem value={'Korean'}>Korean</MenuItem>
-                        </Select>
-                    </FormControl>
+                    {isLiability === false || isLiability === 'false' ? (
+                        <FormControl fullWidth size="small">
+                            <InputLabel id="demo-simple-select-label">選擇會員</InputLabel>
+                            <Select
+                                // labelId="demo-simple-select-label"
+                                // id="demo-simple-select"
+                                value={partyName}
+                                label="會員"
+                                onChange={(e) => setPartyName(e.target.value)}
+                            >
+                                <MenuItem value={'Taiwan'}>Taiwan</MenuItem>
+                                <MenuItem value={'Japan'}>Japan</MenuItem>
+                                <MenuItem value={'Korean'}>Korean</MenuItem>
+                            </Select>
+                        </FormControl>
+                    ) : (
+                        ''
+                    )}
                 </Grid>
                 <Grid item xs={2} sm={2} md={2} lg={3} />
                 <Grid item xs={3} sm={3} md={3} lg={3} display="flex" justifyContent="end" alignItems="center">

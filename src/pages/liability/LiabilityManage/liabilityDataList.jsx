@@ -59,7 +59,7 @@ const LiabilityDataList = ({ listInfo, setDialogAction, setIsDialogOpen, setEdit
                         {listInfo?.map((row, id) => {
                             return (
                                 <TableRow
-                                    // key={row.InvoiceWKMaster?.invoiceNo + row.InvoiceWKMaster?.supplierName + id}
+                                    key={row.BillMilestone + row.PartyName + row.SubmarineCable}
                                     sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                                 >
                                     <StyledTableCell align="center">{id + 1}</StyledTableCell>
@@ -67,7 +67,7 @@ const LiabilityDataList = ({ listInfo, setDialogAction, setIsDialogOpen, setEdit
                                     <StyledTableCell align="center">{row.PartyName}</StyledTableCell>
                                     <StyledTableCell align="center">{row.WorkTitle}</StyledTableCell>
                                     <StyledTableCell align="center">{row.SubmarineCable}</StyledTableCell>
-                                    <StyledTableCell align="center">{`${row.LbRatio}%`}</StyledTableCell>
+                                    <StyledTableCell align="center">{`${row.LBRatio}%`}</StyledTableCell>
                                     <StyledTableCell align="center">{row.ModifyNote}</StyledTableCell>
                                     <StyledTableCell align="center">
                                         {row.CreateTime === '' ? '' : dayjs(row.CreateTime).format('YYYY/MM/DD')}
@@ -85,7 +85,16 @@ const LiabilityDataList = ({ listInfo, setDialogAction, setIsDialogOpen, setEdit
                                                 編輯
                                             </Button>
                                         ) : (
-                                            ''
+                                            <Button
+                                                color="primary"
+                                                onClick={() => {
+                                                    setDialogAction('Edit');
+                                                    setIsDialogOpen(true);
+                                                    setEditItem(id);
+                                                }}
+                                            >
+                                                編輯
+                                            </Button>
                                         )}
                                         {row.CreateTime === '' ? (
                                             <Button
@@ -99,7 +108,16 @@ const LiabilityDataList = ({ listInfo, setDialogAction, setIsDialogOpen, setEdit
                                                 分段
                                             </Button>
                                         ) : (
-                                            ''
+                                            <Button
+                                                color="success"
+                                                onClick={() => {
+                                                    setDialogAction('Split');
+                                                    setIsDialogOpen(true);
+                                                    setEditItem(id);
+                                                }}
+                                            >
+                                                分段
+                                            </Button>
                                         )}
                                         {row.CreateTime === '' ? (
                                             <Button
@@ -115,7 +133,18 @@ const LiabilityDataList = ({ listInfo, setDialogAction, setIsDialogOpen, setEdit
                                                 終止
                                             </Button>
                                         ) : (
-                                            ''
+                                            <Button
+                                                color="error"
+                                                onClick={() => {
+                                                    setDialogTerminate(true);
+                                                    setTerminateInfo({
+                                                        billMilestone: row.BillMilestone,
+                                                        partyName: row.PartyName
+                                                    });
+                                                }}
+                                            >
+                                                終止
+                                            </Button>
                                         )}
                                     </StyledTableCell>
                                 </TableRow>
