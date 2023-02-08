@@ -70,7 +70,7 @@ const CreditBalance = () => {
                 tmpArray.push({
                     BillMilestone: i.BillMilestone,
                     PartyName: i.PartyName,
-                    LbRatio: i.LbRatio,
+                    LBRatio: i.LbRatio,
                     createTime: new Date(),
                     modifyNote: modifyNote.trim() === '' ? '' : modifyNote
                 });

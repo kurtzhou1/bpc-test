@@ -29,63 +29,62 @@ import dayjs from 'dayjs';
 import { toBillDataapi } from 'components/apis.jsx';
 
 const ToBillDataList = ({ listInfo, setListInfo, setEditItem, deletelistInfoItem, BootstrapDialogTitle }) => {
-    const fakeData = [
-        {
-            TotalAmount: 5582012.72,
-            InvoiceMaster: [
-                {
-                    InvMasterID: 1,
-                    WKMasterID: 1,
-                    InvoiceNo: 'DT0170168-1',
-                    PartyName: 'Edge',
-                    SupplierName: 'NEC',
-                    SubmarineCable: 'SJC2',
-                    WorkTitle: 'Construction',
-                    IssueDate: '2022-09-09T00:00:00',
-                    DueDate: '2022-11-08T00:00:00',
-                    IsPro: false,
-                    ContractType: 'SC',
-                    Status: ''
-                }
-            ],
-            InvoiceDetail: [
-                {
-                    WKMasterID: 1,
-                    WKDetailID: 1,
-                    InvMasterID: 1,
-                    InvoiceNo: 'DT0170168-1',
-                    PartyName: 'Edge',
-                    SupplierName: 'NEC',
-                    SubmarineCable: 'SJC2',
-                    WorkTitle: 'Construction',
-                    BillMilestone: 'BM9a',
-                    FeeItem: 'BM9a Sea...',
-                    LBRatio: 28.5714285714,
-                    FeeAmountPre: 1288822.32,
-                    FeeAmountPost: 368234.95,
-                    Difference: 0
-                },
-                {
-                    WKMasterID: 2,
-                    WKDetailID: 2,
-                    InvMasterID: 2,
-                    InvoiceNo: 'DT0170168-2',
-                    PartyName: 'Edge',
-                    SupplierName: 'NEC',
-                    SubmarineCable: 'SJC2',
-                    WorkTitle: 'Construction',
-                    BillMilestone: 'BM9a',
-                    FeeItem: 'BM9a Sea...',
-                    LBRatio: 28.5714285714,
-                    FeeAmountPre: 1288844.44,
-                    FeeAmountPost: 368244.44,
-                    Difference: 0
-                }
-            ]
-        }
-    ];
+    const fakeData = {
+        TotalAmount: 5582012.72,
+        InvoiceMaster: [
+            {
+                InvMasterID: 1,
+                WKMasterID: 1,
+                InvoiceNo: 'DT0170168-1',
+                PartyName: 'Edge',
+                SupplierName: 'NEC',
+                SubmarineCable: 'SJC2',
+                WorkTitle: 'Construction',
+                IssueDate: '2022-09-09T00:00:00',
+                DueDate: '2022-11-08T00:00:00',
+                IsPro: false,
+                ContractType: 'SC',
+                Status: ''
+            }
+        ],
+        InvoiceDetail: [
+            {
+                WKMasterID: 1,
+                WKDetailID: 1,
+                InvMasterID: 1,
+                InvoiceNo: 'DT0170168-1',
+                PartyName: 'Edge',
+                SupplierName: 'NEC',
+                SubmarineCable: 'SJC2',
+                WorkTitle: 'Construction',
+                BillMilestone: 'BM9a',
+                FeeItem: 'BM9a Sea...',
+                LBRatio: 28.5714285714,
+                FeeAmountPre: 1288822.32,
+                FeeAmountPost: 368234.95,
+                Difference: 0
+            },
+            {
+                WKMasterID: 2,
+                WKDetailID: 2,
+                InvMasterID: 2,
+                InvoiceNo: 'DT0170168-2',
+                PartyName: 'Edge',
+                SupplierName: 'NEC',
+                SubmarineCable: 'SJC2',
+                WorkTitle: 'Construction',
+                BillMilestone: 'BM9a',
+                FeeItem: 'BM9a Sea...',
+                LBRatio: 28.5714285714,
+                FeeAmountPre: 1288844.44,
+                FeeAmountPost: 368244.44,
+                Difference: 0
+            }
+        ]
+    };
+
     const [isDialogOpen, setIsDialogOpen] = useState(false);
-    const [toBillDataInfo, setToBillDataInfo] = useState(fakeData);
+    const [toBillDataInfo, setToBillDataInfo] = useState(fakeData.InvoiceDetail);
     const StyledTableCell = styled(TableCell)(({ theme }) => ({
         [`&.${tableCellClasses.head}`]: {
             // backgroundColor: theme.palette.common.gary,
@@ -113,7 +112,7 @@ const ToBillDataList = ({ listInfo, setListInfo, setEditItem, deletelistInfoItem
             .then((res) => res.json())
             .then((data) => {
                 console.log('立帳成功=>>', data);
-                // setToBillDataInfo(data);
+                setToBillDataInfo(data.InvoiceDetail);
                 // setListInfo(data);
                 // initQuery();
             })
@@ -130,17 +129,18 @@ const ToBillDataList = ({ listInfo, setListInfo, setEditItem, deletelistInfoItem
     };
 
     const changeDiff = (diff, id) => {
-        console.log(diff, id);
-        let tmpArray = toBillDataInfo[0].InvoiceDetail.map((i) => i);
+        let tmpArray = toBillDataInfo.map((i) => i);
+        console.log('tmpArray=>>', tmpArray);
         tmpArray[id].Difference = Number(diff);
         setToBillDataInfo(tmpArray);
     };
 
+    console.log('toBillDataInfo=>>', toBillDataInfo);
     return (
         <>
             <Dialog onClose={handleDialogClose} maxWidth="lg" fullWidth open={isDialogOpen}>
                 <BootstrapDialogTitle id="customized-dialog-title" onClose={handleDialogClose}>
-                    發票查詢
+                    立帳作業
                 </BootstrapDialogTitle>
                 <TableContainer component={Paper} sx={{ maxHeight: 250 }}>
                     <Table sx={{ minWidth: 300 }} stickyHeader aria-label="sticky table">
@@ -156,14 +156,14 @@ const ToBillDataList = ({ listInfo, setListInfo, setEditItem, deletelistInfoItem
                             </TableRow>
                         </TableHead>
                         <TableBody>
-                            {toBillDataInfo[0].InvoiceDetail?.map((row, id) => {
+                            {toBillDataInfo.map((row, id) => {
                                 let afterDiff = row.FeeAmountPost + row.Difference;
                                 return (
                                     <TableRow
-                                        key={row?.WKMasterID + row?.InvoiceNo}
+                                        // key={row?.WKMasterID + row?.InvoiceNo}
                                         sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                                     >
-                                        <TableCell align="center">{row.FeeItem}</TableCell>
+                                        <TableCell align="center">1</TableCell>
                                         <TableCell align="center">{`$${row.FeeAmountPre}`}</TableCell>
                                         <TableCell align="center">{row.PartyName}</TableCell>
                                         <TableCell align="center">{`${row.LBRatio}%`}</TableCell>
@@ -201,6 +201,9 @@ const ToBillDataList = ({ listInfo, setListInfo, setEditItem, deletelistInfoItem
                             </Button>
                         </>
                     )} */}
+                    <Button sx={{ mr: '0.05rem' }} variant="contained" onClick={handleDialogClose}>
+                        新增
+                    </Button>
                     <Button sx={{ mr: '0.05rem' }} variant="contained" onClick={handleDialogClose}>
                         取消
                     </Button>

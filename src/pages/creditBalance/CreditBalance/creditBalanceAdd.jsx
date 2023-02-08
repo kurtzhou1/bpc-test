@@ -84,7 +84,7 @@ const CreditBalanceManage = ({
             tmpArray.push({
                 BillMilestone: billMilestone,
                 PartyName: e,
-                LbRatio: lBRatio
+                LBRatio: lBRatio
             });
         });
         setListInfo([...tmpArray]);
@@ -270,7 +270,7 @@ const CreditBalanceManage = ({
                                             >
                                                 <StyledTableCell align="center">{row.BillMilestone}</StyledTableCell>
                                                 <StyledTableCell align="center">{row.PartyName}</StyledTableCell>
-                                                <StyledTableCell align="center">{`${row.LbRatio}%`}</StyledTableCell>
+                                                <StyledTableCell align="center">{`${row.LBRatio}%`}</StyledTableCell>
                                                 <StyledTableCell align="center">
                                                     <Button
                                                         color="error"

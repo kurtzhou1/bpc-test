@@ -49,7 +49,7 @@ const LiabilityManage = () => {
     const [workTitle, setWorkTitle] = useState(''); //海纜作業
     const [submarineCable, setSubmarineCable] = useState(''); //海纜名稱
     const [partyName, setPartyName] = useState([]); //會員名稱
-    const [lBRatio, setLBRatio] = useState(''); //攤分比例
+    const [lBRatio, setLBRatio] = useState(0); //攤分比例
     const [editItem, setEditItem] = useState(NaN); //編輯項目
     const [modifyNote, setModifyNote] = useState('');
 
@@ -62,9 +62,7 @@ const LiabilityManage = () => {
 
     const queryApi = useRef(queryLiability + '/all');
 
-    // const [searched, setSearched] = useState('');
-
-    const parties = [{ name: 'Taiwan' }, { name: 'Vietnam' }, { name: 'Japan' }, { name: 'Korean' }];
+    // const parties = [{ name: 'Taiwan' }, { name: 'Vietnam' }, { name: 'Japan' }, { name: 'Korean' }];
 
     const handleDialogOpen = () => {
         setIsDialogOpen(true);
@@ -84,7 +82,6 @@ const LiabilityManage = () => {
 
     //新增
     const addLiability = (list, setAdd) => {
-        console.log('list=>>', list);
         if (list.length > 0) {
             fetch(compareLiability, { method: 'POST', body: JSON.stringify(list) })
                 .then((res) => res.json())
@@ -110,7 +107,7 @@ const LiabilityManage = () => {
         //         tmpArray.push({
         //             BillMilestone: i.BillMilestone,
         //             PartyName: i.PartyName,
-        //             LbRatio: i.LbRatio,
+        //             LBRatio: i.LbRatio,
         //             SubmarineCable: i.SubmarineCable,
         //             WorkTitle: i.WorkTitle,
         //             CreateTime: '',
@@ -133,12 +130,10 @@ const LiabilityManage = () => {
     //編輯
     const editlistInfoItem = () => {
         let tmpArray = listInfo[editItem];
-        console.log('tmpArray=>>', tmpArray);
-        console.log('LBRatio=>>', tmpArray.LBRatio);
         if (tmpArray) {
             setBillMilestone(tmpArray?.BillMilestone);
             setPartyName([tmpArray?.PartyName]);
-            setLBRatio(tmpArray?.LbRatio);
+            setLBRatio(tmpArray?.LBRatio);
             setWorkTitle(tmpArray?.WorkTitle);
             setSubmarineCable(tmpArray?.SubmarineCable);
             setModifyNote(tmpArray?.ModifyNote);
@@ -148,7 +143,7 @@ const LiabilityManage = () => {
     //儲存編輯
     const saveEdit = () => {
         let tmpArray = listInfo.map((i) => i);
-        tmpArray[editItem].LbRatio = lBRatio;
+        tmpArray[editItem].LBRatio = lBRatio;
         tmpArray[editItem].ModifyNote = modifyNote;
         setListInfo([...tmpArray]);
         setEditItem(NaN);
@@ -189,13 +184,10 @@ const LiabilityManage = () => {
     };
 
     const searchFunction = (searchedVal) => {
-        console.log('requestSearch=>>', searchedVal);
         const filteredRows = listInfo.filter((row) => {
             return row.PartyName.toLowerCase().includes(searchedVal.toLowerCase());
         });
-        console.log('filteredRows=>>', filteredRows);
         setFilterList(filteredRows);
-        // filterList.current = filteredRows;
     };
 
     useEffect(() => {

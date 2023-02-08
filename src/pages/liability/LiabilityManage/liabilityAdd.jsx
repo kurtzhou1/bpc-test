@@ -60,7 +60,6 @@ const LiabilityAdd = ({
 }) => {
     const [listInfo, setListInfo] = useState([]);
     const [splitNumber, setSplitNumber] = useState('');
-    console.log('123123123=>>', lBRatio);
 
     const [partyList, setPartyList] = useState([]); //會員名稱下拉選單
     const [subCableList, setSubCableList] = useState([]); //海纜名稱下拉選單
