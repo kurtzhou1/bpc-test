@@ -36,7 +36,7 @@ import Paper from '@mui/material/Paper';
 import { styled } from '@mui/material/styles';
 
 // api
-import { submarineCableList, partiesList, compareLiability } from 'components/apis.jsx';
+import { submarineCableList, partiesList, deleteLiability, addLiabilityapi } from 'components/apis.jsx';
 
 const LiabilityAdd = ({
     handleDialogClose,
@@ -56,7 +56,9 @@ const LiabilityAdd = ({
     setLBRatio,
     modifyNote,
     setModifyNote,
-    setEditItem
+    setEditItem,
+    lBRawID,
+    apiQuery
 }) => {
     const [listInfo, setListInfo] = useState([]);
     const [splitNumber, setSplitNumber] = useState('');
@@ -73,6 +75,7 @@ const LiabilityAdd = ({
         setLBRatio('');
         setWorkTitle('');
         setSubmarineCable('');
+        setSplitNumber('');
     };
 
     //新增
@@ -92,6 +95,7 @@ const LiabilityAdd = ({
         itemDetailInitial();
     };
 
+    //分段+
     const addSplit = () => {
         let tmpArray = listInfo.map((i) => i);
         let partyArray = partyName;
@@ -113,6 +117,32 @@ const LiabilityAdd = ({
         let tmpArray = listInfo.map((i) => i);
         tmpArray.splice(deleteItem, 1);
         setListInfo([...tmpArray]);
+    };
+
+    const excuteSplit = () => {
+        console.log(listInfo);
+        if (listInfo.length > 0) {
+            console.log('lBRawID=>>', lBRawID.current);
+            fetch(deleteLiability, { method: 'POST', body: JSON.stringify({ LBRawID: lBRawID.current }) })
+                .then((res) => res.json())
+                .then(() => {
+                    console.log('刪除成功');
+                    fetch(addLiabilityapi, { method: 'POST', body: JSON.stringify(listInfo) })
+                        .then((res) => res.json())
+                        .then(() => {
+                            alert('分段成功');
+                            handleDialogClose();
+                            itemDetailInitial();
+                            setEditItem(NaN);
+                            setListInfo([]);
+                            apiQuery();
+                        })
+                        .catch((e) => console.log('e1=>>', e));
+                })
+                .catch((e) => console.log('e1=>>', e));
+        } else {
+            alert('請增加分段帳號');
+        }
     };
 
     const BootstrapDialogTitle = (props) => {
@@ -194,7 +224,7 @@ const LiabilityAdd = ({
                                 disabled={dialogAction === 'Split'}
                                 value={billMilestone}
                                 size="small"
-                                label="填寫記帳段號"
+                                label="記帳段號"
                                 inputProps={{ style: { textTransform: 'uppercase' } }}
                                 onChange={(e) => setBillMilestone(e.target.value)}
                             />
@@ -203,7 +233,7 @@ const LiabilityAdd = ({
                                 variant="outlined"
                                 value={splitNumber}
                                 size="small"
-                                label="填寫分段段號"
+                                label="分段段號"
                                 inputProps={{ maxLength: 1, style: { textTransform: 'lowercase' } }}
                                 onChange={(e) => setSplitNumber(e.target.value)}
                             />
@@ -411,6 +441,16 @@ const LiabilityAdd = ({
                 {dialogAction === 'Edit' ? (
                     <Button sx={{ mr: '0.05rem' }} variant="contained" onClick={saveEdit}>
                         儲存
+                    </Button>
+                ) : dialogAction === 'Split' ? (
+                    <Button
+                        sx={{ mr: '0.05rem' }}
+                        variant="contained"
+                        onClick={() => {
+                            excuteSplit();
+                        }}
+                    >
+                        分段
                     </Button>
                 ) : (
                     <Button

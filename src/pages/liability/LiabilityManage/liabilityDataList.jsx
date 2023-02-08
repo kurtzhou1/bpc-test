@@ -16,7 +16,7 @@ import { styled } from '@mui/material/styles';
 import dayjs from 'dayjs';
 import { useState } from 'react';
 
-const LiabilityDataList = ({ listInfo, setDialogAction, setIsDialogOpen, setEditItem, setSplitItem }) => {
+const LiabilityDataList = ({ listInfo, setDialogAction, setIsDialogOpen, setEditItem, apiQuery }) => {
     const [dialogTerminate, setDialogTerminate] = useState(false);
     const [terminateInfo, setTerminateInfo] = useState({});
 
@@ -70,20 +70,11 @@ const LiabilityDataList = ({ listInfo, setDialogAction, setIsDialogOpen, setEdit
                                     <StyledTableCell align="center">{`${row.LBRatio}%`}</StyledTableCell>
                                     <StyledTableCell align="center">{row.ModifyNote}</StyledTableCell>
                                     <StyledTableCell align="center">
-                                        {row.CreateTime === '' ? '' : dayjs(row.CreateTime).format('YYYY/MM/DD')}
+                                        {row.EndDate ? dayjs(row.EndDate).format('YYYY/MM/DD') : ''}
                                     </StyledTableCell>
                                     <StyledTableCell align="center">
-                                        {row.CreateTime === '' ? (
-                                            <Button
-                                                color="primary"
-                                                onClick={() => {
-                                                    setDialogAction('Edit');
-                                                    setIsDialogOpen(true);
-                                                    setEditItem(id);
-                                                }}
-                                            >
-                                                編輯
-                                            </Button>
+                                        {row.EndDate ? (
+                                            ''
                                         ) : (
                                             <Button
                                                 color="primary"
@@ -96,17 +87,8 @@ const LiabilityDataList = ({ listInfo, setDialogAction, setIsDialogOpen, setEdit
                                                 編輯
                                             </Button>
                                         )}
-                                        {row.CreateTime === '' ? (
-                                            <Button
-                                                color="success"
-                                                onClick={() => {
-                                                    setDialogAction('Split');
-                                                    setIsDialogOpen(true);
-                                                    setEditItem(id);
-                                                }}
-                                            >
-                                                分段
-                                            </Button>
+                                        {row.EndDate ? (
+                                            ''
                                         ) : (
                                             <Button
                                                 color="success"
@@ -119,27 +101,18 @@ const LiabilityDataList = ({ listInfo, setDialogAction, setIsDialogOpen, setEdit
                                                 分段
                                             </Button>
                                         )}
-                                        {row.CreateTime === '' ? (
-                                            <Button
-                                                color="error"
-                                                onClick={() => {
-                                                    setDialogTerminate(true);
-                                                    setTerminateInfo({
-                                                        billMilestone: row.BillMilestone,
-                                                        partyName: row.PartyName
-                                                    });
-                                                }}
-                                            >
-                                                終止
-                                            </Button>
+                                        {row.EndDate ? (
+                                            ''
                                         ) : (
                                             <Button
                                                 color="error"
                                                 onClick={() => {
                                                     setDialogTerminate(true);
                                                     setTerminateInfo({
-                                                        billMilestone: row.BillMilestone,
-                                                        partyName: row.PartyName
+                                                        BillMilestone: row.BillMilestone,
+                                                        PartyName: row.PartyName,
+                                                        LBRawID: row.LBRawID,
+                                                        EndDate: dayjs(new Date()).format('YYYY-MM-DD hh:mm:ss')
                                                     });
                                                 }}
                                             >
@@ -153,7 +126,12 @@ const LiabilityDataList = ({ listInfo, setDialogAction, setIsDialogOpen, setEdit
                     </TableBody>
                 </Table>
             </TableContainer>
-            <LiabilityTerminate dialogTerminate={dialogTerminate} handleDialogClose={handleDialogClose} terminateInfo={terminateInfo} />
+            <LiabilityTerminate
+                dialogTerminate={dialogTerminate}
+                handleDialogClose={handleDialogClose}
+                terminateInfo={terminateInfo}
+                apiQuery={apiQuery}
+            />
         </>
     );
 };

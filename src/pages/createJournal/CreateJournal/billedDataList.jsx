@@ -14,7 +14,7 @@ import { styled } from '@mui/material/styles';
 
 import dayjs from 'dayjs';
 
-const BilledDataList = ({ listInfo, setEditItem, deletelistInfoItem, BootstrapDialogTitle }) => {
+const BilledDataList = ({ listInfo, BootstrapDialogTitle }) => {
     const [isDialogOpen, setIsDialogOpen] = useState(false);
     const StyledTableCell = styled(TableCell)(({ theme }) => ({
         [`&.${tableCellClasses.head}`]: {

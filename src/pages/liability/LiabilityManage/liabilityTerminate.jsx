@@ -26,12 +26,11 @@ import DialogActions from '@mui/material/DialogActions';
 import CheckBoxOutlineBlankIcon from '@mui/icons-material/CheckBoxOutlineBlank';
 import CheckBoxIcon from '@mui/icons-material/CheckBox';
 
-const LiabilityTerminate = ({ dialogTerminate, handleDialogClose, terminateInfo }) => {
-    const [listInfo, setListInfo] = useState([]);
+// api
+import { updateLiability } from 'components/apis.jsx';
 
-    const icon = <CheckBoxOutlineBlankIcon fontSize="small" />;
-
-    const parties = ['Taiwan', 'Vietnam', 'Japan', 'Korean'];
+const LiabilityTerminate = ({ dialogTerminate, handleDialogClose, terminateInfo, apiQuery }) => {
+    const [endNote, setEndNote] = useState([]);
 
     const BootstrapDialogTitle = (props) => {
         const { children, onClose, ...other } = props;
@@ -57,6 +56,24 @@ const LiabilityTerminate = ({ dialogTerminate, handleDialogClose, terminateInfo 
         );
     };
 
+    const terminalLiability = () => {
+        console.log('terminateInfo=>>', terminateInfo);
+        let tmpArray = {
+            LBRawID: terminateInfo.LBRawID,
+            EndDate: terminateInfo.EndDate,
+            EndNote: endNote ? endNote : ''
+        };
+        console.log('tmpArray=>>', tmpArray);
+        fetch(updateLiability, { method: 'POST', body: JSON.stringify(tmpArray) })
+            .then((res) => res.json())
+            .then(() => {
+                alert('終止成功');
+                apiQuery();
+                handleDialogClose();
+            })
+            .catch((e) => console.log('e1=>>', e));
+    };
+
     return (
         <Dialog onClose={handleDialogClose} maxWidth="xs" fullWidth open={dialogTerminate}>
             <BootstrapDialogTitle id="customized-dialog-title" onClose={handleDialogClose}>
@@ -67,8 +84,18 @@ const LiabilityTerminate = ({ dialogTerminate, handleDialogClose, terminateInfo 
                     {/* row3 */}
                     <Grid item xs={12} sm={12} md={12} lg={12} display="flex">
                         <Typography variant="h5" sx={{ fontSize: { lg: '0.5rem', xl: '0.88rem' }, ml: { lg: '0.5rem', xl: '1.5rem' } }}>
-                            {`是否確定刪除${terminateInfo.billMilestone}、${terminateInfo.partyName}的Liability資料`}
+                            {`是否確定刪除${terminateInfo.BillMilestone}、${terminateInfo.PartyName}的Liability資料`}
                         </Typography>
+                    </Grid>
+                    <Grid item xs={12} sm={12} md={12} lg={12} display="flex">
+                        <TextField
+                            fullWidth
+                            variant="outlined"
+                            value={endNote}
+                            size="small"
+                            label="填寫終止原因"
+                            onChange={(e) => setEndNote(e.target.value)}
+                        />
                     </Grid>
                 </Grid>
             </DialogContent>
@@ -77,8 +104,7 @@ const LiabilityTerminate = ({ dialogTerminate, handleDialogClose, terminateInfo 
                     sx={{ mr: '0.05rem' }}
                     variant="contained"
                     onClick={() => {
-                        addLiability(listInfo);
-                        setListInfo([]);
+                        terminalLiability();
                     }}
                 >
                     確定

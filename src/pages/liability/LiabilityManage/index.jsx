@@ -37,7 +37,8 @@ import {
     workTitleLiabilityList,
     queryLiability,
     compareLiability,
-    addLiabilityapi
+    addLiabilityapi,
+    updateLiability
 } from 'components/apis.jsx';
 
 const LiabilityManage = () => {
@@ -59,6 +60,7 @@ const LiabilityManage = () => {
     const [partyList, setPartyList] = useState([]); //會員名稱下拉選單
     const [subCableList, setSubCableList] = useState([]); //海纜名稱下拉選單
     const [workTitleList, setWorkTitleList] = useState([]); //海纜作業下拉選單
+    const lBRawID = useRef(0); //LBRawID
 
     const queryApi = useRef(queryLiability + '/all');
 
@@ -80,8 +82,19 @@ const LiabilityManage = () => {
         setModifyNote('');
     };
 
+    const apiQuery = () => {
+        fetch(queryApi.current, { method: 'GET' })
+            .then((res) => res.json())
+            .then((data) => {
+                console.log('查詢成功=>>', data);
+                setListInfo(data);
+            })
+            .catch((e) => console.log('e1=>>', e));
+    };
+
     //新增
     const addLiability = (list, setAdd) => {
+        console.log('list=>>', list);
         if (list.length > 0) {
             fetch(compareLiability, { method: 'POST', body: JSON.stringify(list) })
                 .then((res) => res.json())
@@ -130,6 +143,7 @@ const LiabilityManage = () => {
     //編輯
     const editlistInfoItem = () => {
         let tmpArray = listInfo[editItem];
+        console.log('tmpArray=>>', editItem, tmpArray);
         if (tmpArray) {
             setBillMilestone(tmpArray?.BillMilestone);
             setPartyName([tmpArray?.PartyName]);
@@ -137,21 +151,43 @@ const LiabilityManage = () => {
             setWorkTitle(tmpArray?.WorkTitle);
             setSubmarineCable(tmpArray?.SubmarineCable);
             setModifyNote(tmpArray?.ModifyNote);
+            lBRawID.current = tmpArray?.LBRawID;
         }
     };
 
     //儲存編輯
     const saveEdit = () => {
-        let tmpArray = listInfo.map((i) => i);
-        tmpArray[editItem].LBRatio = lBRatio;
-        tmpArray[editItem].ModifyNote = modifyNote;
-        setListInfo([...tmpArray]);
-        setEditItem(NaN);
-        handleDialogClose();
-        // setIsDialogOpen(false);
-        // addLiability();
-        // setIsListEdit(false);
-        // itemDetailInitial();
+        let tmpArray = {
+            LBRawID: listInfo[editItem].LBRawID,
+            SubmarineCable: listInfo[editItem].SubmarineCable,
+            BillMilestone: listInfo[editItem].BillMilestone,
+            PartyName: listInfo[editItem].PartyName,
+            WorkTitle: listInfo[editItem].WorkTitle,
+            LBRatio: Number(lBRatio).toFixed(10),
+            ModifyNote: modifyNote ? modifyNote : ''
+        };
+        fetch(updateLiability, { method: 'POST', body: JSON.stringify(tmpArray) })
+            .then((res) => res.json())
+            .then(() => {
+                alert('儲存成功');
+                apiQuery();
+                setEditItem(NaN);
+                handleDialogClose();
+            })
+            .catch((e) => console.log('e1=>>', e));
+
+        // let tmpArray = listInfo.map((i) => i);
+        // tmpArray[editItem].LBRatio = Number(lBRatio).toFixed(10);
+        // tmpArray[editItem].ModifyNote = modifyNote;
+        // fetch(compareLiability, { method: 'POST', body: JSON.stringify(tmpArray) })
+        //     .then((res) => res.json())
+        //     .then(() => {
+        //         alert('儲存成功');
+        //     })
+        //     .catch((e) => console.log('e1=>>', e));
+        // setListInfo([...tmpArray]);
+        // setEditItem(NaN);
+        // handleDialogClose();
     };
 
     // const cancelSearch = () => {
@@ -250,6 +286,8 @@ const LiabilityManage = () => {
                     modifyNote={modifyNote}
                     setModifyNote={setModifyNote}
                     setEditItem={setEditItem}
+                    lBRawID={lBRawID}
+                    apiQuery={apiQuery}
                 />
             </Grid>
             <Grid item xs={12}>
@@ -269,6 +307,7 @@ const LiabilityManage = () => {
                         setDialogAction={setDialogAction}
                         setIsDialogOpen={setIsDialogOpen}
                         setEditItem={setEditItem}
+                        apiQuery={apiQuery}
                     />
                 </MainCard>
             </Grid>

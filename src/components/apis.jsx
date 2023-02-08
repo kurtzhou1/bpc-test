@@ -24,11 +24,13 @@ export const billMilestoneLiabilityList = 'http://10.193.130.7:8000/api/v1/dropd
 export const submarineCableLiabilityList = 'http://10.193.130.7:8000/api/v1/dropdownmenuSubmarineCable';
 export const partiesLiabilityList = 'http://10.193.130.7:8000/api/v1/dropdownmenuParties';
 export const workTitleLiabilityList = 'http://10.193.130.7:8000/api/v1/dropdownmenuWorkTitle';
+export const updateLiability = 'http://10.193.130.7:8000/api/v1/updateLiability';
 
 // 查詢Liability
 export const queryLiability = 'http://10.193.130.7:8000/api/v1/Liability';
 export const compareLiability = 'http://10.193.130.7:8000/api/v1/compareLiability';
 export const addLiabilityapi = 'http://10.193.130.7:8000/api/v1/batchAddLiability';
+export const deleteLiability = 'http://10.193.130.7:8000/api/v1/deleteLiability';
 
 // 立帳的發票查詢
 export const queryJounary = 'http://10.193.130.7:8000/api/v1/getInvoiceWKMaster&InvoiceWKDetail';
