@@ -146,15 +146,6 @@ const ToBillDataList = ({ listInfo, BootstrapDialogTitle }) => {
             InvoiceDetail: toBillDataInfo
         };
         console.log('tmpData=>>', tmpData);
-        // fetch(sendJounary, { method: 'POST', body: JSON.stringify(tmpData) })
-        //     .then((res) => res.json())
-        //     .then((data) => {
-        //         console.log('立帳成功=>>', data);
-        //         alert('送出立帳成功');
-        //         handleDialogClose();
-        //         // initQuery();
-        //     })
-        //     .catch((e) => console.log('e1=>>', e));
         fetch(sendJounary, { method: 'POST', body: JSON.stringify(tmpData) })
             .then((res) => res.json())
             .then((data) => {
@@ -221,19 +212,6 @@ const ToBillDataList = ({ listInfo, BootstrapDialogTitle }) => {
                     <DialogContentText sx={{ fontSize: '20px', color: '#CC0000' }}>目前金額：${currentAmount}</DialogContentText>
                 </DialogContent>
                 <DialogActions>
-                    {/* {dialogAction === 'Edit' ? (
-                        <>
-                            <Button sx={{ mr: '0.05rem' }} variant="contained" onClick={saveEdit}>
-                                儲存
-                            </Button>
-                        </>
-                    ) : (
-                        <>
-                            <Button sx={{ mr: '0.05rem' }} variant="contained" onClick={addLiability}>
-                                新增
-                            </Button>
-                        </>
-                    )} */}
                     <Button sx={{ mr: '0.05rem' }} variant="contained" onClick={sendJounaryInfo}>
                         新增
                     </Button>

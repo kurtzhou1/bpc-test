@@ -80,6 +80,7 @@ const JournalQuery = ({ setListInfo, queryApi, invoiceStatus }) => {
 
         tmpQuery = queryJounary + tmpQuery;
         queryApi.current = tmpQuery;
+        console.log('立帳發票查詢=>>', tmpQuery);
         fetch(tmpQuery, { method: 'GET' })
             .then((res) => res.json())
             .then((data) => {
