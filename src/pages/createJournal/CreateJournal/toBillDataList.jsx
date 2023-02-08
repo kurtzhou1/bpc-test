@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 
 // project import
 
@@ -9,6 +9,7 @@ import {
     Table,
     Dialog,
     DialogContent,
+    DialogContentText,
     Grid,
     FormControl,
     InputLabel,
@@ -26,9 +27,9 @@ import { alpha, styled } from '@mui/material/styles';
 
 import dayjs from 'dayjs';
 
-import { toBillDataapi } from 'components/apis.jsx';
+import { toBillDataapi, sendJounary } from 'components/apis.jsx';
 
-const ToBillDataList = ({ listInfo, setListInfo, setEditItem, deletelistInfoItem, BootstrapDialogTitle }) => {
+const ToBillDataList = ({ listInfo, BootstrapDialogTitle }) => {
     const fakeData = {
         TotalAmount: 5582012.72,
         InvoiceMaster: [
@@ -84,7 +85,10 @@ const ToBillDataList = ({ listInfo, setListInfo, setEditItem, deletelistInfoItem
     };
 
     const [isDialogOpen, setIsDialogOpen] = useState(false);
-    const [toBillDataInfo, setToBillDataInfo] = useState(fakeData.InvoiceDetail);
+    const toBillDataMain = useRef();
+    const [toBillDataInfo, setToBillDataInfo] = useState(fakeData.InvoiceDetail); //發票明細檔
+    const [totalAmount, setTotalAmount] = useState(fakeData.TotalAmount); //發票總金額
+    const [currentAmount, setCurrentAmount] = useState(''); //目前金額
     const StyledTableCell = styled(TableCell)(({ theme }) => ({
         [`&.${tableCellClasses.head}`]: {
             // backgroundColor: theme.palette.common.gary,
@@ -107,86 +111,115 @@ const ToBillDataList = ({ listInfo, setListInfo, setEditItem, deletelistInfoItem
         console.log('wKMasterID=>>', wKMasterID);
         let tmpQuery = '/' + 'WKMasterID=' + wKMasterID;
         tmpQuery = toBillDataapi + tmpQuery;
-        console.log('tmpQuery=>>', tmpQuery);
         fetch(tmpQuery, { method: 'GET' })
             .then((res) => res.json())
             .then((data) => {
                 console.log('立帳成功=>>', data);
+                let tmpAmount = 0;
+                toBillDataMain.current = data.InvoiceMaster;
                 setToBillDataInfo(data.InvoiceDetail);
-                // setListInfo(data);
-                // initQuery();
+                setTotalAmount(data.TotalAmount);
+                data.InvoiceDetail.forEach((i) => {
+                    tmpAmount = tmpAmount + i.FeeAmountPost + i.Difference;
+                });
+                setCurrentAmount(tmpAmount.toFixed(2));
             })
             .catch((e) => console.log('e1=>>', e));
         setIsDialogOpen(true);
-        // fetch(tmpQuery, { method: 'GET' })
-        // .then((res) => res.json())
-        // .then((data) => {
-        //     console.log('查詢成功=>>', data);
-        //     setListInfo(data);
-        //     initQuery();
-        // })
-        // .catch((e) => console.log('e1=>>', e));
     };
 
     const changeDiff = (diff, id) => {
         let tmpArray = toBillDataInfo.map((i) => i);
-        console.log('tmpArray=>>', tmpArray);
+        let tmpAmount = 0;
         tmpArray[id].Difference = Number(diff);
+        tmpArray.forEach((i) => {
+            tmpAmount = tmpAmount + i.FeeAmountPost + i.Difference;
+        });
         setToBillDataInfo(tmpArray);
+        setCurrentAmount(tmpAmount.toFixed(2));
     };
 
-    console.log('toBillDataInfo=>>', toBillDataInfo);
+    const sendJounaryInfo = () => {
+        let tmpData = {
+            TotalAmount: totalAmount,
+            InvoiceMaster: toBillDataMain.current,
+            InvoiceDetail: toBillDataInfo
+        };
+        console.log('tmpData=>>', tmpData);
+        // fetch(sendJounary, { method: 'POST', body: JSON.stringify(tmpData) })
+        //     .then((res) => res.json())
+        //     .then((data) => {
+        //         console.log('立帳成功=>>', data);
+        //         alert('送出立帳成功');
+        //         handleDialogClose();
+        //         // initQuery();
+        //     })
+        //     .catch((e) => console.log('e1=>>', e));
+        fetch(sendJounary, { method: 'POST', body: JSON.stringify(tmpData) })
+            .then((res) => res.json())
+            .then((data) => {
+                console.log('立帳成功=>>', data);
+                alert('送出立帳成功');
+                handleDialogClose();
+            })
+            .catch((e) => console.log('e1=>>', e));
+    };
+
     return (
         <>
             <Dialog onClose={handleDialogClose} maxWidth="lg" fullWidth open={isDialogOpen}>
                 <BootstrapDialogTitle id="customized-dialog-title" onClose={handleDialogClose}>
                     立帳作業
                 </BootstrapDialogTitle>
-                <TableContainer component={Paper} sx={{ maxHeight: 250 }}>
-                    <Table sx={{ minWidth: 300 }} stickyHeader aria-label="sticky table">
-                        <TableHead>
-                            <TableRow>
-                                <StyledTableCell align="center">費用項目</StyledTableCell>
-                                <StyledTableCell align="center">費用金額</StyledTableCell>
-                                <StyledTableCell align="center">會員</StyledTableCell>
-                                <StyledTableCell align="center">攤分比例</StyledTableCell>
-                                <StyledTableCell align="center">攤分後金額</StyledTableCell>
-                                <StyledTableCell align="center">調整尾差值</StyledTableCell>
-                                <StyledTableCell align="center">總費用金額</StyledTableCell>
-                            </TableRow>
-                        </TableHead>
-                        <TableBody>
-                            {toBillDataInfo.map((row, id) => {
-                                let afterDiff = row.FeeAmountPost + row.Difference;
-                                return (
-                                    <TableRow
-                                        // key={row?.WKMasterID + row?.InvoiceNo}
-                                        sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-                                    >
-                                        <TableCell align="center">1</TableCell>
-                                        <TableCell align="center">{`$${row.FeeAmountPre}`}</TableCell>
-                                        <TableCell align="center">{row.PartyName}</TableCell>
-                                        <TableCell align="center">{`${row.LBRatio}%`}</TableCell>
-                                        <TableCell align="center">{`$${row.FeeAmountPost}`}</TableCell>
-                                        <TableCell align="center">
-                                            <TextField
-                                                label="$"
-                                                size="small"
-                                                type="number"
-                                                style={{ width: '30%' }}
-                                                // value={diffNumber}
-                                                onChange={(e) => {
-                                                    changeDiff(e.target.value, id);
-                                                }}
-                                            />
-                                        </TableCell>
-                                        <TableCell align="center">{`$${afterDiff.toFixed(2)}`}</TableCell>
-                                    </TableRow>
-                                );
-                            })}
-                        </TableBody>
-                    </Table>
-                </TableContainer>
+                <DialogContent>
+                    <TableContainer component={Paper} sx={{ maxHeight: 250 }}>
+                        <Table sx={{ minWidth: 300 }} stickyHeader aria-label="sticky table">
+                            <TableHead>
+                                <TableRow>
+                                    <StyledTableCell align="center">費用項目</StyledTableCell>
+                                    <StyledTableCell align="center">費用金額</StyledTableCell>
+                                    <StyledTableCell align="center">會員</StyledTableCell>
+                                    <StyledTableCell align="center">攤分比例</StyledTableCell>
+                                    <StyledTableCell align="center">攤分後金額</StyledTableCell>
+                                    <StyledTableCell align="center">調整尾差值</StyledTableCell>
+                                    <StyledTableCell align="center">總費用金額</StyledTableCell>
+                                </TableRow>
+                            </TableHead>
+                            <TableBody>
+                                {toBillDataInfo.map((row, id) => {
+                                    let afterDiff = row.FeeAmountPost + row.Difference;
+                                    return (
+                                        <TableRow
+                                            // key={row?.WKMasterID + row?.InvoiceNo}
+                                            sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                                        >
+                                            <TableCell align="center">1</TableCell>
+                                            <TableCell align="center">{`$${row.FeeAmountPre}`}</TableCell>
+                                            <TableCell align="center">{row.PartyName}</TableCell>
+                                            <TableCell align="center">{`${row.LBRatio}%`}</TableCell>
+                                            <TableCell align="center">{`$${row.FeeAmountPost}`}</TableCell>
+                                            <TableCell align="center">
+                                                <TextField
+                                                    label="$"
+                                                    size="small"
+                                                    type="number"
+                                                    style={{ width: '30%' }}
+                                                    // value={diffNumber}
+                                                    onChange={(e) => {
+                                                        changeDiff(e.target.value, id);
+                                                    }}
+                                                />
+                                            </TableCell>
+                                            <TableCell align="center">{`$${afterDiff.toFixed(2)}`}</TableCell>
+                                        </TableRow>
+                                    );
+                                })}
+                            </TableBody>
+                        </Table>
+                    </TableContainer>
+                    <DialogContentText sx={{ fontSize: '20px', mt: '0.5rem' }}>發票總金額：${totalAmount}</DialogContentText>
+                    <DialogContentText sx={{ fontSize: '20px', color: '#CC0000' }}>目前金額：${currentAmount}</DialogContentText>
+                </DialogContent>
                 <DialogActions>
                     {/* {dialogAction === 'Edit' ? (
                         <>
@@ -201,7 +234,7 @@ const ToBillDataList = ({ listInfo, setListInfo, setEditItem, deletelistInfoItem
                             </Button>
                         </>
                     )} */}
-                    <Button sx={{ mr: '0.05rem' }} variant="contained" onClick={handleDialogClose}>
+                    <Button sx={{ mr: '0.05rem' }} variant="contained" onClick={sendJounaryInfo}>
                         新增
                     </Button>
                     <Button sx={{ mr: '0.05rem' }} variant="contained" onClick={handleDialogClose}>

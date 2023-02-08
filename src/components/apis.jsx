@@ -30,6 +30,7 @@ export const queryLiability = 'http://10.193.130.7:8000/api/v1/Liability';
 export const compareLiability = 'http://10.193.130.7:8000/api/v1/compareLiability';
 export const addLiabilityapi = 'http://10.193.130.7:8000/api/v1/batchAddLiability';
 
-// 發票工作主檔查詢
+// 立帳的發票查詢
 export const queryJounary = 'http://10.193.130.7:8000/api/v1/getInvoiceWKMaster&InvoiceWKDetail';
 export const toBillDataapi = 'http://10.193.130.7:8000/api/v1/getInvoiceMaster&InvoiceDetailStream';
+export const sendJounary = 'http://10.193.130.7:8000/api/v1/addInvoiceMaster&InvoiceDetail';
