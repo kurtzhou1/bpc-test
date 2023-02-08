@@ -35,7 +35,7 @@ const CreditBalance = () => {
 
     const [billMilestone, setBillMilestone] = useState(''); //記帳段號
     const [partyName, setPartyName] = useState([]); //會員名稱
-    const [lbRatio, setLBRatio] = useState(''); //攤分比例
+    const [lBRatio, setLBRatio] = useState(''); //攤分比例
     const [editItem, setEditItem] = useState(NaN);
     const [modifyNote, setModifyNote] = useState('');
 
@@ -95,7 +95,7 @@ const CreditBalance = () => {
         if (tmpArray) {
             setBillMilestone(tmpArray?.billMilestone);
             partyName.current = tmpArray?.partyName;
-            setLBRatio(tmpArray?.lbRatio);
+            setLBRatio(tmpArray?.lBRatio);
             setModifyNote(tmpArray?.modifyNote);
         }
     };
@@ -157,7 +157,7 @@ const CreditBalance = () => {
                     billMilestone={billMilestone}
                     setBillMilestone={setBillMilestone}
                     dialogAction={dialogAction}
-                    lbRatio={lbRatio}
+                    lBRatio={lBRatio}
                     setLBRatio={setLBRatio}
                 />
             </Grid>

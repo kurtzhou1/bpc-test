@@ -52,7 +52,7 @@ const LiabilityAdd = ({
     submarineCable,
     setSubmarineCable,
     dialogAction,
-    lbRatio,
+    lBRatio,
     setLBRatio,
     modifyNote,
     setModifyNote,
@@ -60,7 +60,7 @@ const LiabilityAdd = ({
 }) => {
     const [listInfo, setListInfo] = useState([]);
     const [splitNumber, setSplitNumber] = useState('');
-    // const [isEdit, setIsEdit] = useState(false);
+    console.log('123123123=>>', lBRatio);
 
     const [partyList, setPartyList] = useState([]); //會員名稱下拉選單
     const [subCableList, setSubCableList] = useState([]); //海纜名稱下拉選單
@@ -84,7 +84,7 @@ const LiabilityAdd = ({
             tmpArray.push({
                 BillMilestone: billMilestone,
                 PartyName: e.PartyName,
-                LbRatio: lbRatio,
+                LBRatio: lBRatio,
                 SubmarineCable: submarineCable,
                 WorkTitle: workTitle
             });
@@ -100,7 +100,7 @@ const LiabilityAdd = ({
             tmpArray.push({
                 BillMilestone: billMilestone + splitNumber,
                 PartyName: e,
-                LbRatio: lbRatio,
+                LBRatio: lBRatio,
                 SubmarineCable: submarineCable,
                 WorkTitle: workTitle
             });
@@ -174,7 +174,11 @@ const LiabilityAdd = ({
     return (
         <Dialog onClose={handleDialogClose} maxWidth="md" fullWidth open={isDialogOpen}>
             <BootstrapDialogTitle id="customized-dialog-title" onClose={handleDialogClose}>
-                {dialogAction === 'Split' ? `切割計費段${billMilestone}的Liabilty` : '新增Liability'}
+                {dialogAction === 'Split'
+                    ? `切割計費段${billMilestone}的Liabilty`
+                    : dialogAction === 'Edit'
+                    ? '編輯Liability'
+                    : '新增Liability'}
             </BootstrapDialogTitle>
             <DialogContent dividers>
                 <Grid container spacing={1} display="flex" justifyContent="center" alignItems="center">
@@ -283,7 +287,7 @@ const LiabilityAdd = ({
                             fullWidth
                             variant="outlined"
                             disabled={dialogAction === 'Split'}
-                            value={lbRatio}
+                            value={lBRatio}
                             size="small"
                             label="填寫攤分比例"
                             onChange={(e) => setLBRatio(e.target.value)}
@@ -379,9 +383,9 @@ const LiabilityAdd = ({
                                                 >
                                                     <StyledTableCell align="center">{row.BillMilestone}</StyledTableCell>
                                                     <StyledTableCell align="center">{row.PartyName}</StyledTableCell>
-                                                    <StyledTableCell align="center">{`${row.LbRatio}%`}</StyledTableCell>
-                                                    <StyledTableCell align="center">{row.WorkTitle}</StyledTableCell>
+                                                    <StyledTableCell align="center">{`${row.LBRatio}%`}</StyledTableCell>
                                                     <StyledTableCell align="center">{row.SubmarineCable}</StyledTableCell>
+                                                    <StyledTableCell align="center">{row.WorkTitle}</StyledTableCell>
                                                     <StyledTableCell align="center">
                                                         <Button
                                                             color="error"

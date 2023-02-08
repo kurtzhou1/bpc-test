@@ -107,7 +107,7 @@ const CreateJournal = () => {
     const [listInfo, setListInfo] = useState(fakeData);
     const [billMilestone, setBillMilestone] = useState(''); //記帳段號
     const [partyName, setPartyName] = useState([]); //會員名稱
-    const [lbRatio, setLBRatio] = useState(NaN); //攤分比例
+    const [lBRatio, setLBRatio] = useState(NaN); //攤分比例
     const [editItem, setEditItem] = useState(NaN);
     const [modifyNote, setModifyNote] = useState('');
 
@@ -136,7 +136,7 @@ const CreateJournal = () => {
         tmpArray.push({
             billMilestone: billMilestone,
             partyName: partyName,
-            lbRatio: lbRatio,
+            lBRatio: lBRatio,
             createTime: new Date(),
             modifyNote: modifyNote === '' ? '' : modifyNote
         });
@@ -158,7 +158,7 @@ const CreateJournal = () => {
         if (tmpArray) {
             setBillMilestone(tmpArray?.billMilestone);
             setPartyName(tmpArray?.partyName);
-            setLBRatio(tmpArray?.lbRatio);
+            setLBRatio(tmpArray?.lBRatio);
             setModifyNote(tmpArray?.modifyNote);
         }
     };

@@ -45,7 +45,7 @@ const CreditBalanceManage = ({
     billMilestone,
     setBillMilestone,
     dialogAction,
-    lbRatio,
+    lBRatio,
     setLBRatio
 }) => {
     const [modifyNote, setModifyNote] = useState('');
@@ -84,7 +84,7 @@ const CreditBalanceManage = ({
             tmpArray.push({
                 BillMilestone: billMilestone,
                 PartyName: e,
-                LbRatio: lbRatio
+                LbRatio: lBRatio
             });
         });
         setListInfo([...tmpArray]);
@@ -201,7 +201,7 @@ const CreditBalanceManage = ({
                         <TextField
                             fullWidth
                             variant="outlined"
-                            value={lbRatio}
+                            value={lBRatio}
                             size="small"
                             label="填寫攤分比例"
                             onChange={(e) => setLBRatio(e.target.value)}

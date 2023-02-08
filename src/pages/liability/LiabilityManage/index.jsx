@@ -49,9 +49,8 @@ const LiabilityManage = () => {
     const [workTitle, setWorkTitle] = useState(''); //海纜作業
     const [submarineCable, setSubmarineCable] = useState(''); //海纜名稱
     const [partyName, setPartyName] = useState([]); //會員名稱
-    const [lbRatio, setLBRatio] = useState(''); //攤分比例
+    const [lBRatio, setLBRatio] = useState(''); //攤分比例
     const [editItem, setEditItem] = useState(NaN); //編輯項目
-    const [splitItem, setSplitItem] = useState(NaN); //分段項目
     const [modifyNote, setModifyNote] = useState('');
 
     const [filterList, setFilterList] = useState(listInfo);
@@ -134,6 +133,8 @@ const LiabilityManage = () => {
     //編輯
     const editlistInfoItem = () => {
         let tmpArray = listInfo[editItem];
+        console.log('tmpArray=>>', tmpArray);
+        console.log('LBRatio=>>', tmpArray.LBRatio);
         if (tmpArray) {
             setBillMilestone(tmpArray?.BillMilestone);
             setPartyName([tmpArray?.PartyName]);
@@ -147,7 +148,7 @@ const LiabilityManage = () => {
     //儲存編輯
     const saveEdit = () => {
         let tmpArray = listInfo.map((i) => i);
-        tmpArray[editItem].LbRatio = lbRatio;
+        tmpArray[editItem].LbRatio = lBRatio;
         tmpArray[editItem].ModifyNote = modifyNote;
         setListInfo([...tmpArray]);
         setEditItem(NaN);
@@ -252,7 +253,7 @@ const LiabilityManage = () => {
                     submarineCable={submarineCable}
                     setSubmarineCable={setSubmarineCable}
                     dialogAction={dialogAction}
-                    lbRatio={lbRatio}
+                    lBRatio={lBRatio}
                     setLBRatio={setLBRatio}
                     modifyNote={modifyNote}
                     setModifyNote={setModifyNote}
@@ -276,7 +277,6 @@ const LiabilityManage = () => {
                         setDialogAction={setDialogAction}
                         setIsDialogOpen={setIsDialogOpen}
                         setEditItem={setEditItem}
-                        setSplitItem={setSplitItem}
                     />
                 </MainCard>
             </Grid>

@@ -76,7 +76,7 @@ const BilledDataList = ({ listInfo, setEditItem, deletelistInfoItem, BootstrapDi
                                 <Select
                                     // labelId="demo-simple-select-label"
                                     // id="demo-simple-select"
-                                    value={lbRatio}
+                                    value={lBRatio}
                                     label="海纜"
                                     onChange={(e) => setLBRatio(e.target.value)}
                                 >
