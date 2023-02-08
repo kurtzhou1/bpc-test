@@ -28,7 +28,7 @@ export const workTitleLiabilityList = 'http://10.193.130.7:8000/api/v1/dropdownm
 // 查詢Liability
 export const queryLiability = 'http://10.193.130.7:8000/api/v1/Liability';
 export const compareLiability = 'http://10.193.130.7:8000/api/v1/compareLiability';
-export const addLiabilityapi = 'http:/10.193.130.7:8000/api/v1/batchAddLiability/';
+export const addLiabilityapi = 'http://10.193.130.7:8000/api/v1/batchAddLiability';
 
 // 發票工作主檔查詢
 export const queryJounary = 'http://10.193.130.7:8000/api/v1/getInvoiceWKMaster&InvoiceWKDetail';
