@@ -73,9 +73,9 @@ const CreateJournal = () => {
         },
         {
             InvoiceWKMaster: {
-                WKMasterID: 1,
-                InvoiceNo: 'DT0170168-1',
-                Description: 'COMMERCIAL …',
+                WKMasterID: 2,
+                InvoiceNo: 'DT0170168-2',
+                Description: 'COMMERCIAL',
                 SupplierName: 'NEC',
                 SubmarineCable: 'SJC2',
                 WorkTitle: 'Construction',
@@ -92,7 +92,7 @@ const CreateJournal = () => {
             },
             InvoiceWKDetail: [
                 {
-                    WKMasterID: 1,
+                    WKMasterID: 2,
                     InvoiceNo: 'DT0170168-1',
                     SupplierName: 'NEC',
                     SubmarineCable: 'SJC2',
@@ -251,6 +251,7 @@ const CreateJournal = () => {
                     <TabPanel value={value} index={0}>
                         <ToBillDataList
                             listInfo={listInfo}
+                            setListInfo={setListInfo}
                             setEditItem={setEditItem}
                             deletelistInfoItem={deletelistInfoItem}
                             BootstrapDialogTitle={BootstrapDialogTitle}

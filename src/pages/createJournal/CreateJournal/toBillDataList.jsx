@@ -28,7 +28,7 @@ import dayjs from 'dayjs';
 
 import { toBillDataapi } from 'components/apis.jsx';
 
-const ToBillDataList = ({ listInfo, setEditItem, deletelistInfoItem, BootstrapDialogTitle }) => {
+const ToBillDataList = ({ listInfo, setListInfo, setEditItem, deletelistInfoItem, BootstrapDialogTitle }) => {
     const fakeData = [
         {
             TotalAmount: 5582012.72,
@@ -64,13 +64,28 @@ const ToBillDataList = ({ listInfo, setEditItem, deletelistInfoItem, BootstrapDi
                     FeeAmountPre: 1288822.32,
                     FeeAmountPost: 368234.95,
                     Difference: 0
+                },
+                {
+                    WKMasterID: 2,
+                    WKDetailID: 2,
+                    InvMasterID: 2,
+                    InvoiceNo: 'DT0170168-2',
+                    PartyName: 'Edge',
+                    SupplierName: 'NEC',
+                    SubmarineCable: 'SJC2',
+                    WorkTitle: 'Construction',
+                    BillMilestone: 'BM9a',
+                    FeeItem: 'BM9a Sea...',
+                    LBRatio: 28.5714285714,
+                    FeeAmountPre: 1288844.44,
+                    FeeAmountPost: 368244.44,
+                    Difference: 0
                 }
             ]
         }
     ];
     const [isDialogOpen, setIsDialogOpen] = useState(false);
     const [toBillDataInfo, setToBillDataInfo] = useState(fakeData);
-    const [diffNumber, setDiffNumber] = useState(0);
     const StyledTableCell = styled(TableCell)(({ theme }) => ({
         [`&.${tableCellClasses.head}`]: {
             // backgroundColor: theme.palette.common.gary,
@@ -97,8 +112,8 @@ const ToBillDataList = ({ listInfo, setEditItem, deletelistInfoItem, BootstrapDi
         fetch(tmpQuery, { method: 'GET' })
             .then((res) => res.json())
             .then((data) => {
-                console.log('查詢成功=>>', data);
-                setToBillDataInfo(data);
+                console.log('立帳成功=>>', data);
+                // setToBillDataInfo(data);
                 // setListInfo(data);
                 // initQuery();
             })
@@ -114,25 +129,12 @@ const ToBillDataList = ({ listInfo, setEditItem, deletelistInfoItem, BootstrapDi
         // .catch((e) => console.log('e1=>>', e));
     };
 
-    const useStyles = (theme) => ({
-        textField: {
-            width: '10%',
-            marginLeft: 'auto',
-            marginRight: 'auto',
-            paddingBottom: 0,
-            marginTop: 0,
-            fontWeight: 500,
-            color: 'pink'
-        },
-        input: {
-            color: 'white',
-            width: '10%',
-            color: 'pink'
-        }
-    });
-    const classes = useStyles();
-
-    console.log('toBillDataInfo=>>', toBillDataInfo[0].InvoiceDetail);
+    const changeDiff = (diff, id) => {
+        console.log(diff, id);
+        let tmpArray = toBillDataInfo[0].InvoiceDetail.map((i) => i);
+        tmpArray[id].Difference = Number(diff);
+        setToBillDataInfo(tmpArray);
+    };
 
     return (
         <>
@@ -155,32 +157,30 @@ const ToBillDataList = ({ listInfo, setEditItem, deletelistInfoItem, BootstrapDi
                         </TableHead>
                         <TableBody>
                             {toBillDataInfo[0].InvoiceDetail?.map((row, id) => {
-                                console.log('row=>>', row);
+                                let afterDiff = row.FeeAmountPost + row.Difference;
                                 return (
                                     <TableRow
-                                        key={row?.WKMasterID + row?.WKDetailID}
+                                        key={row?.WKMasterID + row?.InvoiceNo}
                                         sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                                     >
-                                        <StyledTableCell align="center">{row.FeeItem}</StyledTableCell>
-                                        <StyledTableCell align="center">{`$${row.FeeAmountPre}`}</StyledTableCell>
-                                        <StyledTableCell align="center">{row.PartyName}</StyledTableCell>
-                                        <StyledTableCell align="center">{`${row.LBRatio}%`}</StyledTableCell>
-                                        <StyledTableCell align="center">{`$${row.FeeAmountPost}`}</StyledTableCell>
-                                        <StyledTableCell align="center">
-                                            $
+                                        <TableCell align="center">{row.FeeItem}</TableCell>
+                                        <TableCell align="center">{`$${row.FeeAmountPre}`}</TableCell>
+                                        <TableCell align="center">{row.PartyName}</TableCell>
+                                        <TableCell align="center">{`${row.LBRatio}%`}</TableCell>
+                                        <TableCell align="center">{`$${row.FeeAmountPost}`}</TableCell>
+                                        <TableCell align="center">
                                             <TextField
-                                                type="number"
+                                                label="$"
                                                 size="small"
-                                                className={classes.textField}
+                                                type="number"
+                                                style={{ width: '30%' }}
+                                                // value={diffNumber}
                                                 onChange={(e) => {
-                                                    setDiffNumber(e.target.value);
-                                                }}
-                                                InputLabelProps={{
-                                                    className: classes.input
+                                                    changeDiff(e.target.value, id);
                                                 }}
                                             />
-                                        </StyledTableCell>
-                                        <StyledTableCell align="center">{`$${row.FeeAmountPost + diffNumber}`}</StyledTableCell>
+                                        </TableCell>
+                                        <TableCell align="center">{`$${afterDiff.toFixed(2)}`}</TableCell>
                                     </TableRow>
                                 );
                             })}
