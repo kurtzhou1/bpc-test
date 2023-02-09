@@ -25,7 +25,7 @@ import MainCard from 'components/MainCard';
 import { queryInvoice } from 'components/apis.jsx';
 import dayjs from 'dayjs';
 
-const InvoiceQueryBlock = ({ setListInfo, queryApi, supNmList, subCableList }) => {
+const InvoiceQueryBlock = ({ setListInfo, queryApi, supNmList, subCableList, queryBmStoneList }) => {
     const [issueDate, setIssueDate] = useState([null, null]); //發票日期
     const [supplierNameQuery, setSupplierNameQuery] = useState(''); //供應商
     const [submarineCableQuery, setSubmarineCableQuery] = useState(''); //海纜名稱
@@ -101,12 +101,12 @@ const InvoiceQueryBlock = ({ setListInfo, queryApi, supNmList, subCableList }) =
         <MainCard title="條件查詢">
             <Grid container display="flex" justifyContent="center" alignItems="center" spacing={1}>
                 {/* row1 */}
-                <Grid item xs={12} sm={6} md={1} lg={1}>
+                <Grid item xs={12} sm={2} md={1} lg={1}>
                     <Typography variant="h5" sx={{ fontSize: { lg: '0.5rem', xl: '0.88rem' }, ml: { lg: '0.5rem', xl: '1.5rem' } }}>
                         供應商：
                     </Typography>
                 </Grid>
-                <Grid item xs={12} sm={6} md={2} lg={2}>
+                <Grid item xs={12} sm={2} md={2} lg={2}>
                     <FormControl fullWidth size="small">
                         <InputLabel id="demo-simple-select-label">選擇供應商</InputLabel>
                         <Select
@@ -124,12 +124,12 @@ const InvoiceQueryBlock = ({ setListInfo, queryApi, supNmList, subCableList }) =
                         </Select>
                     </FormControl>
                 </Grid>
-                <Grid item xs={12} sm={6} md={1} lg={1}>
+                <Grid item xs={12} sm={2} md={1} lg={1}>
                     <Typography variant="h5" sx={{ fontSize: { lg: '0.5rem', xl: '0.88rem' }, ml: { lg: '0.5rem', xl: '1.5rem' } }}>
                         海纜名稱：
                     </Typography>
                 </Grid>
-                <Grid item xs={12} sm={6} md={2} lg={2}>
+                <Grid item xs={12} sm={2} md={2} lg={2}>
                     <FormControl fullWidth size="small">
                         <InputLabel id="demo-simple-select-label">選擇海纜</InputLabel>
                         <Select
@@ -147,12 +147,12 @@ const InvoiceQueryBlock = ({ setListInfo, queryApi, supNmList, subCableList }) =
                         </Select>
                     </FormControl>
                 </Grid>
-                <Grid item xs={12} sm={6} md={1} lg={1}>
+                <Grid item xs={12} sm={2} md={1} lg={1}>
                     <Typography variant="h5" sx={{ fontSize: { lg: '0.5rem', xl: '0.88rem' }, ml: { lg: '0.5rem', xl: '1.5rem' } }}>
                         處理狀態：
                     </Typography>
                 </Grid>
-                <Grid item xs={12} sm={6} md={3} lg={3}>
+                <Grid item xs={12} sm={2} md={3} lg={3}>
                     {/* <FormControl> */}
                     <FormGroup
                         row
@@ -187,9 +187,9 @@ const InvoiceQueryBlock = ({ setListInfo, queryApi, supNmList, subCableList }) =
                     </FormGroup>
                     {/* </FormControl> */}
                 </Grid>
-                <Grid item xs={12} sm={6} md={2} lg={2} />
+                <Grid item xs={12} sm={0} md={2} lg={2} />
                 {/* row2 */}
-                <Grid item xs={12} sm={6} md={1} lg={1}>
+                <Grid item xs={12} sm={2} md={1} lg={1}>
                     <Typography variant="h5" sx={{ fontSize: { lg: '0.5rem', xl: '0.88rem' }, ml: { lg: '0.5rem', xl: '1.5rem' } }}>
                         會員名稱：
                     </Typography>
@@ -210,27 +210,35 @@ const InvoiceQueryBlock = ({ setListInfo, queryApi, supNmList, subCableList }) =
                         </Select>
                     </FormControl>
                 </Grid>
-                <Grid item xs={12} sm={6} md={1} lg={1}>
+                <Grid item xs={12} sm={2} md={1} lg={1}>
                     <Typography variant="h5" sx={{ fontSize: { lg: '0.5rem', xl: '0.88rem' }, ml: { lg: '0.5rem', xl: '1.5rem' } }}>
                         記帳段號：
                     </Typography>
                 </Grid>
-                <Grid item xs={12} sm={6} md={2} lg={2}>
-                    <TextField
-                        fullWidth
-                        variant="outlined"
-                        value={billMilestoneQuery}
-                        size="small"
-                        label="填寫記帳段號"
-                        onChange={(e) => setBillMilestoneQuery(e.target.value)}
-                    />
+                <Grid item xs={12} sm={2} md={2} lg={2}>
+                    <FormControl fullWidth size="small">
+                        <InputLabel id="demo-simple-select-label">選擇記帳段號</InputLabel>
+                        <Select
+                            // labelId="demo-simple-select-label"
+                            // id="demo-simple-select"
+                            value={billMilestoneQuery}
+                            label="發票供應商"
+                            onChange={(e) => setBillMilestoneQuery(e.target.value)}
+                        >
+                            {queryBmStoneList.map((i) => (
+                                <MenuItem key={i} value={i}>
+                                    {i}
+                                </MenuItem>
+                            ))}
+                        </Select>
+                    </FormControl>
                 </Grid>
-                <Grid item xs={12} sm={6} md={1} lg={1}>
+                <Grid item xs={12} sm={2} md={1} lg={1}>
                     <Typography variant="h5" sx={{ fontSize: { lg: '0.5rem', xl: '0.88rem' }, ml: { lg: '0.5rem', xl: '1.5rem' } }}>
                         發票號碼：
                     </Typography>
                 </Grid>
-                <Grid item xs={12} sm={6} md={2} lg={2}>
+                <Grid item xs={12} sm={2} md={2} lg={2}>
                     <TextField
                         fullWidth
                         variant="outlined"
@@ -240,9 +248,9 @@ const InvoiceQueryBlock = ({ setListInfo, queryApi, supNmList, subCableList }) =
                         onChange={(e) => setInvoiceNoQuery(e.target.value)}
                     />
                 </Grid>
-                <Grid item xs={12} sm={6} md={3} lg={3} />
+                <Grid item xs={12} sm={0} md={3} lg={3} />
                 {/* row3 */}
-                <Grid item xs={12} sm={6} md={9} lg={9} display="flex" alignItems="center">
+                <Grid item xs={12} sm={9} md={9} lg={9} display="flex" alignItems="center">
                     <Typography
                         variant="h5"
                         sx={{ fontSize: { lg: '0.5rem', xl: '0.88rem' }, ml: { lg: '0.5rem', xl: '1.5rem' }, mr: { lg: '1rem' } }}
@@ -287,7 +295,7 @@ const InvoiceQueryBlock = ({ setListInfo, queryApi, supNmList, subCableList }) =
                         />
                     </LocalizationProvider>
                 </Grid>
-                <Grid item xs={12} sm={6} md={3} lg={3} display="flex" justifyContent="end" alignItems="center">
+                <Grid item xs={12} sm={3} md={3} lg={3} display="flex" justifyContent="end" alignItems="center">
                     <Button sx={{ mr: '0.25rem' }} variant="contained" onClick={invoiceQuery}>
                         查詢
                     </Button>

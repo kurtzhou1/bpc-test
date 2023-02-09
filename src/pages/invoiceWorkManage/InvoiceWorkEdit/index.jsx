@@ -25,7 +25,8 @@ import {
     deleteInvoiceWKDetail,
     supplierNameList,
     submarineCableList,
-    billMilestoneList
+    billMilestoneList,
+    queryBillMilestoneList
 } from 'components/apis.jsx';
 
 // ==============================|| SAMPLE PAGE ||============================== //
@@ -49,6 +50,7 @@ const InvoiceWorkManage = () => {
     const [supNmList, setSupNmList] = useState([]); //供應商下拉選單
     const [subCableList, setSubCableList] = useState([]); //海纜名稱下拉選單
     const [bmStoneList, setBmStoneList] = useState([]); //記帳段號下拉選單
+    const [queryBmStoneList, setQueryBmStoneList] = useState([]); //條件查詢的記帳段號下拉選單
 
     const [billMilestone, setBillMilestone] = useState(''); //記帳段號
     const [feeItem, setFeeItem] = useState(''); //費用項目
@@ -354,6 +356,7 @@ const InvoiceWorkManage = () => {
     }, [workTitle, submarineCable]);
 
     useEffect(() => {
+        //下拉選單
         fetch(supplierNameList, { method: 'GET' })
             .then((res) => res.json())
             .then((data) => {
@@ -366,6 +369,13 @@ const InvoiceWorkManage = () => {
                 setSubCableList(data);
             })
             .catch((e) => console.log('e1=>>', e));
+        fetch(queryBillMilestoneList, { method: 'GET' })
+            .then((res) => res.json())
+            .then((data) => {
+                console.log('data=>>', data);
+                setQueryBmStoneList(data);
+            })
+            .catch((e) => console.log('e1=>>', e));
     }, []);
 
     return (
@@ -374,7 +384,13 @@ const InvoiceWorkManage = () => {
                 <MainCard sx={{ width: '100%' }}>
                     <Grid container display="flex" spacing={2}>
                         <Grid item xs={12}>
-                            <InvoiceQuery setListInfo={setListInfo} queryApi={queryApi} supNmList={supNmList} subCableList={subCableList} />
+                            <InvoiceQuery
+                                setListInfo={setListInfo}
+                                queryApi={queryApi}
+                                supNmList={supNmList}
+                                subCableList={subCableList}
+                                queryBmStoneList={queryBmStoneList}
+                            />
                         </Grid>
                     </Grid>
                 </MainCard>

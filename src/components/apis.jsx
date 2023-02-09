@@ -5,6 +5,7 @@ export const partiesList = 'http://10.193.130.7:8000/api/v1/Parties/all'; // 會
 //發票管理下拉選單
 export const supplierNameList = 'http://10.193.130.7:8000/api/v1/Suppliers/all';
 export const billMilestoneList = 'http://10.193.130.7:8000/api/v1/BillMilestone/';
+export const queryBillMilestoneList = 'http://10.193.130.7:8000/api/v1/dropdownmenuBillMilestone';
 
 // 產生發票工作檔
 export const generateInvoice = 'http://10.193.130.7:8000/api/v1/generateInvoiceWKMaster&InvoiceWKDetail';

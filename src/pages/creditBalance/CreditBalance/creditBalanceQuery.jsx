@@ -154,8 +154,7 @@ const CreditBalanceQuery = ({ creditBalanceQuery }) => {
                         </FormGroup>
                     </FormControl>
                 </Grid>
-                <Grid item xs={1} sm={1} md={1} lg={1} />
-                <Grid item xs={3} sm={3} md={3} lg={3} display="flex" justifyContent="end" alignItems="center">
+                <Grid item xs={4} sm={4} md={4} lg={4} display="flex" justifyContent="end" alignItems="center">
                     <Button sx={{ mr: '0.5rem' }} variant="contained" onClick={CreditBalanceQuery}>
                         查詢
                     </Button>

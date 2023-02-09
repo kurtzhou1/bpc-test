@@ -48,12 +48,12 @@ const InvoiceWorkManage = ({
         <MainCard title="發票工作主檔建立" sx={{ height: '100%' }}>
             <Grid container display="flex" justifyContent="center" alignItems="center" spacing={1}>
                 {/* row1 */}
-                <Grid item xs={12} sm={6} md={4} lg={2}>
+                <Grid item xs={12} sm={6} md={3} lg={2}>
                     <Typography variant="h5" sx={{ fontSize: { lg: '0.5rem', xl: '0.88rem' }, ml: { lg: '0.5rem', xl: '1.5rem' } }}>
                         供應商：
                     </Typography>
                 </Grid>
-                <Grid item xs={12} sm={6} md={4} lg={4}>
+                <Grid item xs={12} sm={6} md={3} lg={4}>
                     <FormControl fullWidth size="small">
                         <InputLabel id="demo-simple-select-label">選擇供應商</InputLabel>
                         <Select
@@ -71,12 +71,12 @@ const InvoiceWorkManage = ({
                         </Select>
                     </FormControl>
                 </Grid>
-                <Grid item xs={12} sm={6} md={4} lg={2}>
+                <Grid item xs={12} sm={6} md={3} lg={2}>
                     <Typography variant="h5" sx={{ fontSize: { lg: '0.5rem', xl: '0.88rem' }, ml: { lg: '0.5rem', xl: '1.5rem' } }}>
                         發票號碼：
                     </Typography>
                 </Grid>
-                <Grid item xs={12} sm={6} md={4} lg={4}>
+                <Grid item xs={12} sm={6} md={3} lg={4}>
                     <TextField
                         fullWidth
                         variant="outlined"
@@ -87,12 +87,12 @@ const InvoiceWorkManage = ({
                     />
                 </Grid>
                 {/* row2 */}
-                <Grid item xs={12} sm={6} md={4} lg={2}>
+                <Grid item xs={12} sm={6} md={3} lg={2}>
                     <Typography variant="h5" sx={{ fontSize: { lg: '0.5rem', xl: '0.88rem' }, ml: { lg: '0.5rem', xl: '1.5rem' } }}>
                         海纜名稱：
                     </Typography>
                 </Grid>
-                <Grid item xs={12} sm={6} md={4} lg={4}>
+                <Grid item xs={12} sm={6} md={3} lg={4}>
                     <FormControl fullWidth size="small">
                         <InputLabel id="demo-simple-select-label">選擇海纜</InputLabel>
                         <Select
@@ -110,12 +110,12 @@ const InvoiceWorkManage = ({
                         </Select>
                     </FormControl>
                 </Grid>
-                <Grid item xs={12} sm={6} md={4} lg={2}>
+                <Grid item xs={12} sm={6} md={3} lg={2}>
                     <Typography variant="h5" sx={{ fontSize: { lg: '0.5rem', xl: '0.88rem' }, ml: { lg: '0.5rem', xl: '1.5rem' } }}>
                         海纜作業：
                     </Typography>
                 </Grid>
-                <Grid item xs={12} sm={6} md={4} lg={4}>
+                <Grid item xs={12} sm={6} md={3} lg={4}>
                     <FormControl fullWidth size="small">
                         <InputLabel id="demo-simple-select-label">選擇海纜作業</InputLabel>
                         <Select
@@ -132,12 +132,12 @@ const InvoiceWorkManage = ({
                     </FormControl>
                 </Grid>
                 {/* row3 */}
-                <Grid item xs={12} sm={6} md={4} lg={2}>
+                <Grid item xs={12} sm={6} md={3} lg={2}>
                     <Typography variant="h5" sx={{ fontSize: { lg: '0.5rem', xl: '0.88rem' }, ml: { lg: '0.5rem', xl: '1.5rem' } }}>
                         合約種類：
                     </Typography>
                 </Grid>
-                <Grid item xs={12} sm={6} md={4} lg={4}>
+                <Grid item xs={12} sm={6} md={3} lg={4}>
                     <FormControl fullWidth size="small">
                         <InputLabel id="demo-simple-select-label">選擇合約種類</InputLabel>
                         <Select
@@ -152,12 +152,12 @@ const InvoiceWorkManage = ({
                         </Select>
                     </FormControl>
                 </Grid>
-                <Grid item xs={12} sm={6} md={4} lg={2}>
+                <Grid item xs={12} sm={6} md={3} lg={2}>
                     <Typography variant="h5" sx={{ fontSize: { lg: '0.5rem', xl: '0.88rem' }, ml: { lg: '0.5rem', xl: '1.5rem' } }}>
                         發票日期：
                     </Typography>
                 </Grid>
-                <Grid item xs={12} sm={6} md={4} lg={4}>
+                <Grid item xs={12} sm={6} md={3} lg={4}>
                     <FormControl>
                         <LocalizationProvider dateAdapter={AdapterDayjs}>
                             <DesktopDatePicker
@@ -172,12 +172,12 @@ const InvoiceWorkManage = ({
                     </FormControl>
                 </Grid>
                 {/* row4 */}
-                <Grid item xs={12} sm={6} md={4} lg={2}>
+                <Grid item xs={12} sm={6} md={3} lg={2}>
                     <Typography variant="h5" sx={{ fontSize: { lg: '0.5rem', xl: '0.88rem' }, ml: { lg: '0.5rem', xl: '1.5rem' } }}>
                         總金額：
                     </Typography>
                 </Grid>
-                <Grid item xs={12} sm={6} md={4} lg={4}>
+                <Grid item xs={12} sm={6} md={3} lg={4}>
                     <TextField
                         value={totalAmount}
                         fullWidth
@@ -190,12 +190,12 @@ const InvoiceWorkManage = ({
                         }}
                     />
                 </Grid>
-                <Grid item xs={12} sm={6} md={4} lg={2}>
+                <Grid item xs={12} sm={6} md={3} lg={2}>
                     <Typography variant="h5" sx={{ fontSize: { lg: '0.5rem', xl: '0.88rem' }, ml: { lg: '0.5rem', xl: '1.5rem' } }}>
                         發票到期日：
                     </Typography>
                 </Grid>
-                <Grid item xs={12} sm={6} md={4} lg={4}>
+                <Grid item xs={12} sm={6} md={3} lg={4}>
                     <FormControl fullWidth>
                         <LocalizationProvider dateAdapter={AdapterDayjs}>
                             <DesktopDatePicker
@@ -208,12 +208,12 @@ const InvoiceWorkManage = ({
                     </FormControl>
                 </Grid>
                 {/* row5 */}
-                <Grid item xs={12} sm={6} md={4} lg={3}>
+                <Grid item xs={12} sm={6} md={3} lg={3}>
                     <Typography variant="h5" sx={{ fontSize: { lg: '0.5rem', xl: '0.88rem' }, ml: { lg: '0.5rem', xl: '1.5rem' } }}>
                         是否為Pro-Forma：
                     </Typography>
                 </Grid>
-                <Grid item xs={12} sm={6} md={4} lg={3}>
+                <Grid item xs={12} sm={6} md={3} lg={3}>
                     <FormControl>
                         <RadioGroup
                             row
@@ -235,12 +235,12 @@ const InvoiceWorkManage = ({
                         </RadioGroup>
                     </FormControl>
                 </Grid>
-                <Grid item xs={12} sm={6} md={4} lg={3}>
+                <Grid item xs={12} sm={6} md={3} lg={3}>
                     <Typography variant="h5" sx={{ fontSize: { lg: '0.5rem', xl: '0.88rem' }, ml: { lg: '0.5rem', xl: '1.5rem' } }}>
                         是否需攤分：
                     </Typography>
                 </Grid>
-                <Grid item xs={12} sm={6} md={4} lg={3}>
+                <Grid item xs={12} sm={6} md={3} lg={3}>
                     <FormControl>
                         <RadioGroup
                             row
@@ -264,12 +264,12 @@ const InvoiceWorkManage = ({
                     </FormControl>
                 </Grid>
                 {/* row6 */}
-                <Grid item xs={12} sm={6} md={4} lg={3}>
+                <Grid item xs={12} sm={6} md={3} lg={3}>
                     <Typography variant="h5" sx={{ fontSize: { lg: '0.5rem', xl: '0.88rem' }, ml: { lg: '0.5rem', xl: '1.5rem' } }}>
                         是否為短繳補收：
                     </Typography>
                 </Grid>
-                <Grid item xs={12} sm={6} md={4} lg={3}>
+                <Grid item xs={12} sm={6} md={3} lg={3}>
                     <FormControl>
                         <RadioGroup
                             row
@@ -292,12 +292,12 @@ const InvoiceWorkManage = ({
                         </RadioGroup>
                     </FormControl>
                 </Grid>
-                <Grid item xs={12} sm={6} md={4} lg={2}>
+                <Grid item xs={12} sm={6} md={3} lg={2}>
                     <Typography variant="h5" sx={{ fontSize: { lg: '0.5rem', xl: '0.88rem' }, ml: { lg: '0.5rem', xl: '1.5rem' } }}>
                         {isLiability === false || isLiability === 'false' ? '會員名稱：' : ''}
                     </Typography>
                 </Grid>
-                <Grid item xs={12} sm={6} md={4} lg={4}>
+                <Grid item xs={12} sm={6} md={3} lg={4}>
                     {isLiability === false || isLiability === 'false' ? (
                         <TextField
                             value={partyName}
