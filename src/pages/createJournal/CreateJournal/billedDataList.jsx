@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 
 // project import
 
@@ -26,9 +26,48 @@ import { styled } from '@mui/material/styles';
 
 import dayjs from 'dayjs';
 
+import { journaryDetailView, journaryMasterView, updateInvoice, updateInvoiceMaster } from 'components/apis.jsx';
+
 const BilledDataList = ({ listInfo, BootstrapDialogTitle }) => {
     const [isDialogOpen, setIsDialogOpen] = useState(false);
-    const [toBillDataInfo, setToBillDataInfo] = useState(fakeData.InvoiceDetail); //發票明細檔
+    const [toBillDataInfo, setToBillDataInfo] = useState([]); //發票明細檔
+    const totalAmount = useRef(0);
+    // const fakeData = [
+    //     {
+    //         WKDetailID: 1,
+    //         InvDetailID: 1,
+    //         PartyName: 'DHT',
+    //         SubmarineCable: 'SJC2',
+    //         WorkTitle: 'Construction',
+    //         FeeItem: 'BM9a Sea...',
+    //         LBRatio: 3.5714285714,
+    //         Difference: 0.0,
+    //         InvMasterID: 1,
+    //         WKMasterID: 1,
+    //         InvoiceNo: 'DT0170168-1',
+    //         SupplierName: 'NEC',
+    //         BillMilestone: 'BM9a',
+    //         FeeAmountPre: 1288822.32,
+    //         FeeAmountPost: 46029.37
+    //     },
+    //     {
+    //         WKDetailID: 1,
+    //         InvDetailID: 1,
+    //         PartyName: 'DHT',
+    //         SubmarineCable: 'SJC2',
+    //         WorkTitle: 'Construction',
+    //         FeeItem: 'BM9a Sea...',
+    //         LBRatio: 3.5714285714,
+    //         Difference: 0.0,
+    //         InvMasterID: 1,
+    //         WKMasterID: 1,
+    //         InvoiceNo: 'DT0170168-1',
+    //         SupplierName: 'NEC',
+    //         BillMilestone: 'BM9a',
+    //         FeeAmountPre: 1288822.32,
+    //         FeeAmountPost: 46029.37
+    //     }
+    // ];
     const StyledTableCell = styled(TableCell)(({ theme }) => ({
         [`&.${tableCellClasses.head}`]: {
             // backgroundColor: theme.palette.common.gary,
@@ -47,28 +86,46 @@ const BilledDataList = ({ listInfo, BootstrapDialogTitle }) => {
         setIsDialogOpen(false);
     };
 
-    const billDataView = (wKMasterID) => {
-        console.log('wKMasterID=>>', wKMasterID);
-        // let tmpQuery = '/' + 'WKMasterID=' + wKMasterID;
-        // tmpQuery = toBillDataapi + tmpQuery;
-        // fetch(tmpQuery, { method: 'GET' })
-        //     .then((res) => res.json())
-        //     .then((data) => {
-        //         console.log('立帳成功=>>', data);
-        //         let tmpAmount = 0;
-        //         toBillDataMain.current = data.InvoiceMaster;
-        //         setToBillDataInfo(data.InvoiceDetail);
-        //         setTotalAmount(data.TotalAmount);
-        //         data.InvoiceDetail.forEach((i) => {
-        //             tmpAmount = tmpAmount + i.FeeAmountPost + i.Difference;
-        //         });
-        //         setCurrentAmount(tmpAmount.toFixed(2));
-        //     })
-        //     .catch((e) => console.log('e1=>>', e));
-        setIsDialogOpen(true);
+    const billDataView = (WKMasterID) => {
+        let tmpQuery = '/' + 'WKMasterID=' + WKMasterID;
+        let tmpQueryDetail = journaryDetailView + tmpQuery;
+        let tmpQueryMaster = journaryMasterView + tmpQuery;
+        fetch(tmpQueryMaster, { method: 'GET' })
+            .then((res) => res.json())
+            .then((data) => {
+                console.log('總金額=>>', data);
+                totalAmount.current = data[0].TotalAmount;
+                fetch(tmpQueryDetail, { method: 'GET' })
+                    .then((res) => res.json())
+                    .then((data2) => {
+                        console.log('明細=>>', data);
+                        setToBillDataInfo(data2);
+                        setIsDialogOpen(true);
+                    })
+                    .catch((e) => console.log('e1=>>', e));
+            })
+            .catch((e) => console.log('e1=>>', e));
     };
 
-    console.log('isDialogOpen=>>', isDialogOpen);
+    const billDataViewInvalid = (WKMasterID) => {
+        // updateInvoice, updateInvoiceMaster
+        let tmpArray = {
+            WKMasterID: WKMasterID,
+            Status: 'INVALID'
+        };
+        fetch(updateInvoice, { method: 'POST', body: JSON.stringify(tmpArray) })
+            .then((res) => res.json())
+            .then(() => {
+                console.log('updateInvoice invalid success');
+            })
+            .catch((e) => console.log('e1=>>', e));
+        fetch(updateInvoiceMaster, { method: 'POST', body: JSON.stringify(tmpArray) })
+            .then((res) => res.json())
+            .then(() => {
+                console.log('updateInvoiceMaster invalid success');
+            })
+            .catch((e) => console.log('e1=>>', e));
+    };
 
     return (
         <>
@@ -91,14 +148,14 @@ const BilledDataList = ({ listInfo, BootstrapDialogTitle }) => {
                                 </TableRow>
                             </TableHead>
                             <TableBody>
-                                {/* {toBillDataInfo.map((row, id) => {
+                                {toBillDataInfo?.map((row, id) => {
                                     let afterDiff = row.FeeAmountPost + row.Difference;
                                     return (
                                         <TableRow
                                             // key={row?.WKMasterID + row?.InvoiceNo}
                                             sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                                         >
-                                            <TableCell align="center">1</TableCell>
+                                            <TableCell align="center">{row.FeeItem}</TableCell>
                                             <TableCell align="center">{`$${row.FeeAmountPre}`}</TableCell>
                                             <TableCell align="center">{row.PartyName}</TableCell>
                                             <TableCell align="center">{`${row.LBRatio}%`}</TableCell>
@@ -107,19 +164,18 @@ const BilledDataList = ({ listInfo, BootstrapDialogTitle }) => {
                                             <TableCell align="center">{`$${afterDiff.toFixed(2)}`}</TableCell>
                                         </TableRow>
                                     );
-                                })} */}
+                                })}
                             </TableBody>
                         </Table>
                     </TableContainer>
-                    {/* <DialogContentText sx={{ fontSize: '20px', mt: '0.5rem' }}>發票總金額：${totalAmount}</DialogContentText>
-                    <DialogContentText sx={{ fontSize: '20px', color: '#CC0000' }}>目前金額：${currentAmount}</DialogContentText> */}
+                    <DialogContentText sx={{ fontSize: '20px', mt: '0.5rem' }}>發票總金額：${totalAmount.current}</DialogContentText>
                 </DialogContent>
                 <DialogActions>
                     {/* <Button sx={{ mr: '0.05rem' }} variant="contained" onClick={sendJounaryInfo}>
                         新增
                     </Button> */}
                     <Button sx={{ mr: '0.05rem' }} variant="contained" onClick={handleDialogClose}>
-                        取消
+                        關閉
                     </Button>
                 </DialogActions>
             </Dialog>
@@ -169,7 +225,7 @@ const BilledDataList = ({ listInfo, BootstrapDialogTitle }) => {
                                         <Button
                                             color="error"
                                             onClick={() => {
-                                                toBillData(row.InvoiceWKMaster.WKMasterID);
+                                                billDataViewInvalid(row.InvoiceWKMaster.WKMasterID);
                                             }}
                                         >
                                             作廢

@@ -38,78 +38,78 @@ import Autocomplete from '@mui/material/Autocomplete';
 import { queryJounary } from 'components/apis.jsx';
 
 const CreateJournal = () => {
-    const fakeData = [
-        {
-            InvoiceWKMaster: {
-                WKMasterID: 1,
-                InvoiceNo: 'DT0170168-1',
-                Description: 'COMMERCIAL …',
-                SupplierName: 'NEC',
-                SubmarineCable: 'SJC2',
-                WorkTitle: 'Construction',
-                ContractType: 'SC',
-                IssueDate: '2022-09-09',
-                DueDate: '2022-11-08',
-                PartyName: '',
-                Status: 'TEMPORARY',
-                IsPro: false,
-                IsRecharge: false,
-                IsLiability: true,
-                TotalAmount: 5582012.72,
-                CreateDate: '2023-01-13'
-            },
-            InvoiceWKDetail: [
-                {
-                    WKMasterID: 1,
-                    InvoiceNo: 'DT0170168-1',
-                    SupplierName: 'NEC',
-                    SubmarineCable: 'SJC2',
-                    WorkTitle: 'Construction',
-                    BillMilestone: 'BM9a',
-                    FeeItem: 'BM9a…',
-                    FeeAmount: 1288822.32
-                }
-            ]
-        },
-        {
-            InvoiceWKMaster: {
-                WKMasterID: 2,
-                InvoiceNo: 'DT0170168-2',
-                Description: 'COMMERCIAL',
-                SupplierName: 'NEC',
-                SubmarineCable: 'SJC2',
-                WorkTitle: 'Construction',
-                ContractType: 'SC',
-                IssueDate: '2022-09-09',
-                DueDate: '2022-11-08',
-                PartyName: '',
-                Status: 'TEMPORARY',
-                IsPro: false,
-                IsRecharge: false,
-                IsLiability: true,
-                TotalAmount: 5582012.72,
-                CreateDate: '2023-01-13'
-            },
-            InvoiceWKDetail: [
-                {
-                    WKMasterID: 2,
-                    InvoiceNo: 'DT0170168-1',
-                    SupplierName: 'NEC',
-                    SubmarineCable: 'SJC2',
-                    WorkTitle: 'Construction',
-                    BillMilestone: 'BM9a',
-                    FeeItem: 'BM9a…',
-                    FeeAmount: 1288822.32
-                }
-            ]
-        }
-    ];
-    const [listInfo, setListInfo] = useState(fakeData);
-    const [billMilestone, setBillMilestone] = useState(''); //記帳段號
-    const [partyName, setPartyName] = useState([]); //會員名稱
-    const [lBRatio, setLBRatio] = useState(NaN); //攤分比例
-    const [editItem, setEditItem] = useState(NaN);
-    const [modifyNote, setModifyNote] = useState('');
+    // const fakeData = [
+    //     {
+    //         InvoiceWKMaster: {
+    //             WKMasterID: 1,
+    //             InvoiceNo: 'DT0170168-1',
+    //             Description: 'COMMERCIAL …',
+    //             SupplierName: 'NEC',
+    //             SubmarineCable: 'SJC2',
+    //             WorkTitle: 'Construction',
+    //             ContractType: 'SC',
+    //             IssueDate: '2022-09-09',
+    //             DueDate: '2022-11-08',
+    //             PartyName: '',
+    //             Status: 'TEMPORARY',
+    //             IsPro: false,
+    //             IsRecharge: false,
+    //             IsLiability: true,
+    //             TotalAmount: 5582012.72,
+    //             CreateDate: '2023-01-13'
+    //         },
+    //         InvoiceWKDetail: [
+    //             {
+    //                 WKMasterID: 1,
+    //                 InvoiceNo: 'DT0170168-1',
+    //                 SupplierName: 'NEC',
+    //                 SubmarineCable: 'SJC2',
+    //                 WorkTitle: 'Construction',
+    //                 BillMilestone: 'BM9a',
+    //                 FeeItem: 'BM9a…',
+    //                 FeeAmount: 1288822.32
+    //             }
+    //         ]
+    //     },
+    //     {
+    //         InvoiceWKMaster: {
+    //             WKMasterID: 2,
+    //             InvoiceNo: 'DT0170168-2',
+    //             Description: 'COMMERCIAL',
+    //             SupplierName: 'NEC',
+    //             SubmarineCable: 'SJC2',
+    //             WorkTitle: 'Construction',
+    //             ContractType: 'SC',
+    //             IssueDate: '2022-09-09',
+    //             DueDate: '2022-11-08',
+    //             PartyName: '',
+    //             Status: 'TEMPORARY',
+    //             IsPro: false,
+    //             IsRecharge: false,
+    //             IsLiability: true,
+    //             TotalAmount: 5582012.72,
+    //             CreateDate: '2023-01-13'
+    //         },
+    //         InvoiceWKDetail: [
+    //             {
+    //                 WKMasterID: 2,
+    //                 InvoiceNo: 'DT0170168-1',
+    //                 SupplierName: 'NEC',
+    //                 SubmarineCable: 'SJC2',
+    //                 WorkTitle: 'Construction',
+    //                 BillMilestone: 'BM9a',
+    //                 FeeItem: 'BM9a…',
+    //                 FeeAmount: 1288822.32
+    //             }
+    //         ]
+    //     }
+    // ];
+    const [listInfo, setListInfo] = useState([]);
+    // const [billMilestone, setBillMilestone] = useState(''); //記帳段號
+    // const [partyName, setPartyName] = useState([]); //會員名稱
+    // const [lBRatio, setLBRatio] = useState(NaN); //攤分比例
+    // const [editItem, setEditItem] = useState(NaN);
+    // const [modifyNote, setModifyNote] = useState('');
 
     const [value, setValue] = useState(0);
     const queryApi = useRef(queryJounary + '/all');
@@ -117,68 +117,68 @@ const CreateJournal = () => {
     // const icon = <CheckBoxOutlineBlankIcon fontSize="small" />;
     // const checkedIcon = <CheckBoxIcon fontSize="small" />;
 
-    const parties = [{ title: 'Taiwan' }, { title: 'Vietnam' }, { title: 'Japan' }, { title: 'Korean' }];
-
     // const handleDialogClose = () => {
     //     setIsDialogOpen(false);
     // };
 
-    const itemDetailInitial = () => {
-        setBillMilestone('');
-        setPartyName('');
-        setLBRatio(NaN);
-        setModifyNote('');
-    };
-
-    //新增
-    const addLiability = () => {
-        let tmpArray = listInfo.map((i) => i);
-        tmpArray.push({
-            billMilestone: billMilestone,
-            partyName: partyName,
-            lBRatio: lBRatio,
-            createTime: new Date(),
-            modifyNote: modifyNote === '' ? '' : modifyNote
-        });
-        setListInfo([...tmpArray]);
-        // handleDialogClose();
-        itemDetailInitial();
-    };
-
-    //刪除
-    const deletelistInfoItem = (deleteItem) => {
-        let tmpArray = listInfo.map((i) => i);
-        tmpArray.splice(deleteItem, 1);
-        setListInfo([...tmpArray]);
-    };
-
-    //編輯
-    const editlistInfoItem = () => {
-        let tmpArray = listInfo[editItem];
-        if (tmpArray) {
-            setBillMilestone(tmpArray?.billMilestone);
-            setPartyName(tmpArray?.partyName);
-            setLBRatio(tmpArray?.lBRatio);
-            setModifyNote(tmpArray?.modifyNote);
-        }
-    };
-
-    //儲存編輯
-    // const saveEdit = () => {
-    //     setEditItem(NaN);
-    //     deletelistInfoItem(editItem);
-    //     addLiability();
-    //     setIsListEdit(false);
-    //     itemDetailInitial();
+    // const itemDetailInitial = () => {
+    //     setBillMilestone('');
+    //     setPartyName('');
+    //     setLBRatio(NaN);
+    //     setModifyNote('');
     // };
 
-    useEffect(() => {
-        itemDetailInitial();
-        if (editItem >= 0) {
-            editlistInfoItem();
-            // setIsDialogOpen(true);
+    //刪除
+    // const deletelistInfoItem = (deleteItem) => {
+    //     let tmpArray = listInfo.map((i) => i);
+    //     tmpArray.splice(deleteItem, 1);
+    //     setListInfo([...tmpArray]);
+    // };
+
+    //編輯
+    // const editlistInfoItem = () => {
+    //     let tmpArray = listInfo[editItem];
+    //     if (tmpArray) {
+    //         setBillMilestone(tmpArray?.billMilestone);
+    //         setPartyName(tmpArray?.partyName);
+    //         setLBRatio(tmpArray?.lBRatio);
+    //         setModifyNote(tmpArray?.modifyNote);
+    //     }
+    // };
+    const apiQuery = () => {
+        let tmpQuery = '/';
+
+        if (value === '0' || value === 0) {
+            tmpQuery = tmpQuery + 'Status=' + 'VALIDATED' + '&';
+        } else {
+            tmpQuery = tmpQuery + 'Status=' + 'BILLED' + '&';
         }
-    }, [editItem]);
+
+        if (tmpQuery.includes('&')) {
+            tmpQuery = tmpQuery.slice(0, -1);
+        }
+
+        tmpQuery = queryJounary + tmpQuery;
+        queryApi.current = tmpQuery;
+        fetch(tmpQuery, { method: 'GET' })
+            .then((res) => res.json())
+            .then((data) => {
+                console.log('查詢成功=>>', data);
+                setListInfo(data);
+            })
+            .catch((e) => console.log('e1=>>', e));
+    };
+
+    useEffect(() => {
+        apiQuery();
+    }, [value]);
+
+    // useEffect(() => {
+    //     itemDetailInitial();
+    //     if (editItem >= 0) {
+    //         editlistInfoItem();
+    //     }
+    // }, [editItem]);
 
     const BootstrapDialogTitle = (props) => {
         const { children, onClose, ...other } = props;
@@ -249,21 +249,10 @@ const CreateJournal = () => {
                         </Tabs>
                     </Box>
                     <TabPanel value={value} index={0}>
-                        <ToBillDataList
-                            listInfo={listInfo}
-                            setListInfo={setListInfo}
-                            setEditItem={setEditItem}
-                            deletelistInfoItem={deletelistInfoItem}
-                            BootstrapDialogTitle={BootstrapDialogTitle}
-                        />
+                        <ToBillDataList listInfo={listInfo} BootstrapDialogTitle={BootstrapDialogTitle} />
                     </TabPanel>
                     <TabPanel value={value} index={1}>
-                        <BilledDataList
-                            listInfo={listInfo}
-                            setEditItem={setEditItem}
-                            deletelistInfoItem={deletelistInfoItem}
-                            BootstrapDialogTitle={BootstrapDialogTitle}
-                        />
+                        <BilledDataList listInfo={listInfo} BootstrapDialogTitle={BootstrapDialogTitle} apiQuery={apiQuery} />
                     </TabPanel>
                 </MainCard>
             </Grid>

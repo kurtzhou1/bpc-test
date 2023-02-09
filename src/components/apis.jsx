@@ -36,3 +36,6 @@ export const deleteLiability = 'http://10.193.130.7:8000/api/v1/deleteLiability'
 export const queryJounary = 'http://10.193.130.7:8000/api/v1/getInvoiceWKMaster&InvoiceWKDetail';
 export const toBillDataapi = 'http://10.193.130.7:8000/api/v1/getInvoiceMaster&InvoiceDetailStream';
 export const sendJounary = 'http://10.193.130.7:8000/api/v1/addInvoiceMaster&InvoiceDetail';
+export const journaryDetailView = 'http://10.193.130.7:8000/api/v1/InvoiceDetail';
+export const journaryMasterView = 'http://10.193.130.7:8000/api/v1/InvoiceWKMaster';
+export const updateInvoiceMaster = 'http://10.193.130.7:8000/api/v1/updateInvoiceMaster';
