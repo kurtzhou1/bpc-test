@@ -29,7 +29,7 @@ import dayjs from 'dayjs';
 
 import { toBillDataapi, sendJounary } from 'components/apis.jsx';
 
-const ToBillDataList = ({ listInfo, BootstrapDialogTitle }) => {
+const ToBillDataList = ({ listInfo, BootstrapDialogTitle, apiQuery }) => {
     // const fakeData = {
     //     TotalAmount: 5582012.72,
     //     InvoiceMaster: [
@@ -113,7 +113,6 @@ const ToBillDataList = ({ listInfo, BootstrapDialogTitle }) => {
         let tmpQuery = '/' + 'WKMasterID=' + wKMasterID;
         tmpQuery = toBillDataapi + tmpQuery;
         console.log('tmpQuery=>>', tmpQuery);
-        toBillDataMain.current = fakeData.InvoiceMaster; //haha
         fetch(tmpQuery, { method: 'GET' })
             .then((res) => res.json())
             .then((data) => {
@@ -144,7 +143,7 @@ const ToBillDataList = ({ listInfo, BootstrapDialogTitle }) => {
 
     // 送出立帳(新增)
     const sendJounaryInfo = () => {
-        let tmpArray = toBillDataMain.current.mpa((i) => i);
+        let tmpArray = toBillDataMain.current.map((i) => i);
         tmpArray.forEach((i) => {
             delete i.InvMasterID;
         });
@@ -158,6 +157,7 @@ const ToBillDataList = ({ listInfo, BootstrapDialogTitle }) => {
             .then((data) => {
                 console.log('立帳成功=>>', data);
                 alert('送出立帳成功');
+                apiQuery();
                 handleDialogClose();
             })
             .catch((e) => console.log('e1=>>', e));
@@ -188,7 +188,7 @@ const ToBillDataList = ({ listInfo, BootstrapDialogTitle }) => {
                                     let afterDiff = row.FeeAmountPost + row.Difference;
                                     return (
                                         <TableRow
-                                            key={row?.WKMasterID + row?.InvoiceNo}
+                                            key={row.FeeAmountPre + row?.PartyName + row?.LBRatio}
                                             sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                                         >
                                             <TableCell align="center">1</TableCell>
@@ -247,7 +247,7 @@ const ToBillDataList = ({ listInfo, BootstrapDialogTitle }) => {
                         {listInfo?.map((row, id) => {
                             return (
                                 <TableRow
-                                    // key={row.InvoiceWKMaster?.invoiceNo + row.InvoiceWKMaster?.supplierName + id}
+                                    key={row.InvoiceWKMaster?.WKMasterID + row.InvoiceWKMaster?.InvoiceNo}
                                     sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                                 >
                                     <StyledTableCell align="center">{id + 1}</StyledTableCell>

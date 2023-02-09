@@ -123,6 +123,7 @@ const BilledDataList = ({ listInfo, BootstrapDialogTitle, apiQuery }) => {
             .then((res) => res.json())
             .then(() => {
                 console.log('updateInvoiceMaster invalid success');
+                alert('作廢成功');
             })
             .catch((e) => console.log('e1=>>', e));
         apiQuery();

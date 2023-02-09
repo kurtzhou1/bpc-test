@@ -105,46 +105,8 @@ const CreateJournal = () => {
     //     }
     // ];
     const [listInfo, setListInfo] = useState([]);
-    // const [billMilestone, setBillMilestone] = useState(''); //記帳段號
-    // const [partyName, setPartyName] = useState([]); //會員名稱
-    // const [lBRatio, setLBRatio] = useState(NaN); //攤分比例
-    // const [editItem, setEditItem] = useState(NaN);
-    // const [modifyNote, setModifyNote] = useState('');
-
     const [value, setValue] = useState(0);
     const queryApi = useRef(queryJounary + '/all');
-
-    // const icon = <CheckBoxOutlineBlankIcon fontSize="small" />;
-    // const checkedIcon = <CheckBoxIcon fontSize="small" />;
-
-    // const handleDialogClose = () => {
-    //     setIsDialogOpen(false);
-    // };
-
-    // const itemDetailInitial = () => {
-    //     setBillMilestone('');
-    //     setPartyName('');
-    //     setLBRatio(NaN);
-    //     setModifyNote('');
-    // };
-
-    //刪除
-    // const deletelistInfoItem = (deleteItem) => {
-    //     let tmpArray = listInfo.map((i) => i);
-    //     tmpArray.splice(deleteItem, 1);
-    //     setListInfo([...tmpArray]);
-    // };
-
-    //編輯
-    // const editlistInfoItem = () => {
-    //     let tmpArray = listInfo[editItem];
-    //     if (tmpArray) {
-    //         setBillMilestone(tmpArray?.billMilestone);
-    //         setPartyName(tmpArray?.partyName);
-    //         setLBRatio(tmpArray?.lBRatio);
-    //         setModifyNote(tmpArray?.modifyNote);
-    //     }
-    // };
     const apiQuery = () => {
         let tmpQuery = '/';
 
@@ -249,7 +211,7 @@ const CreateJournal = () => {
                         </Tabs>
                     </Box>
                     <TabPanel value={value} index={0}>
-                        <ToBillDataList listInfo={listInfo} BootstrapDialogTitle={BootstrapDialogTitle} />
+                        <ToBillDataList listInfo={listInfo} BootstrapDialogTitle={BootstrapDialogTitle} apiQuery={apiQuery} />
                     </TabPanel>
                     <TabPanel value={value} index={1}>
                         <BilledDataList listInfo={listInfo} BootstrapDialogTitle={BootstrapDialogTitle} apiQuery={apiQuery} />
