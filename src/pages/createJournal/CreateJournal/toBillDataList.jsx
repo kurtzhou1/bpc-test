@@ -30,64 +30,64 @@ import dayjs from 'dayjs';
 import { toBillDataapi, sendJounary } from 'components/apis.jsx';
 
 const ToBillDataList = ({ listInfo, BootstrapDialogTitle }) => {
-    const fakeData = {
-        TotalAmount: 5582012.72,
-        InvoiceMaster: [
-            {
-                InvMasterID: 1,
-                WKMasterID: 1,
-                InvoiceNo: 'DT0170168-1',
-                PartyName: 'Edge',
-                SupplierName: 'NEC',
-                SubmarineCable: 'SJC2',
-                WorkTitle: 'Construction',
-                IssueDate: '2022-09-09T00:00:00',
-                DueDate: '2022-11-08T00:00:00',
-                IsPro: false,
-                ContractType: 'SC',
-                Status: ''
-            }
-        ],
-        InvoiceDetail: [
-            {
-                WKMasterID: 1,
-                WKDetailID: 1,
-                InvMasterID: 1,
-                InvoiceNo: 'DT0170168-1',
-                PartyName: 'Edge',
-                SupplierName: 'NEC',
-                SubmarineCable: 'SJC2',
-                WorkTitle: 'Construction',
-                BillMilestone: 'BM9a',
-                FeeItem: 'BM9a Sea...',
-                LBRatio: 28.5714285714,
-                FeeAmountPre: 1288822.32,
-                FeeAmountPost: 368234.95,
-                Difference: 0
-            },
-            {
-                WKMasterID: 2,
-                WKDetailID: 2,
-                InvMasterID: 2,
-                InvoiceNo: 'DT0170168-2',
-                PartyName: 'Edge',
-                SupplierName: 'NEC',
-                SubmarineCable: 'SJC2',
-                WorkTitle: 'Construction',
-                BillMilestone: 'BM9a',
-                FeeItem: 'BM9a Sea...',
-                LBRatio: 28.5714285714,
-                FeeAmountPre: 1288844.44,
-                FeeAmountPost: 368244.44,
-                Difference: 0
-            }
-        ]
-    };
+    // const fakeData = {
+    //     TotalAmount: 5582012.72,
+    //     InvoiceMaster: [
+    //         {
+    //             InvMasterID: 1,
+    //             WKMasterID: 1,
+    //             InvoiceNo: 'DT0170168-1',
+    //             PartyName: 'Edge',
+    //             SupplierName: 'NEC',
+    //             SubmarineCable: 'SJC2',
+    //             WorkTitle: 'Construction',
+    //             IssueDate: '2022-09-09T00:00:00',
+    //             DueDate: '2022-11-08T00:00:00',
+    //             IsPro: false,
+    //             ContractType: 'SC',
+    //             Status: ''
+    //         }
+    //     ],
+    //     InvoiceDetail: [
+    //         {
+    //             WKMasterID: 1,
+    //             WKDetailID: 1,
+    //             InvMasterID: 1,
+    //             InvoiceNo: 'DT0170168-1',
+    //             PartyName: 'Edge',
+    //             SupplierName: 'NEC',
+    //             SubmarineCable: 'SJC2',
+    //             WorkTitle: 'Construction',
+    //             BillMilestone: 'BM9a',
+    //             FeeItem: 'BM9a Sea...',
+    //             LBRatio: 28.5714285714,
+    //             FeeAmountPre: 1288822.32,
+    //             FeeAmountPost: 368234.95,
+    //             Difference: 0
+    //         },
+    //         {
+    //             WKMasterID: 2,
+    //             WKDetailID: 2,
+    //             InvMasterID: 2,
+    //             InvoiceNo: 'DT0170168-2',
+    //             PartyName: 'Edge',
+    //             SupplierName: 'NEC',
+    //             SubmarineCable: 'SJC2',
+    //             WorkTitle: 'Construction',
+    //             BillMilestone: 'BM9a',
+    //             FeeItem: 'BM9a Sea...',
+    //             LBRatio: 28.5714285714,
+    //             FeeAmountPre: 1288844.44,
+    //             FeeAmountPost: 368244.44,
+    //             Difference: 0
+    //         }
+    //     ]
+    // };
 
     const [isDialogOpen, setIsDialogOpen] = useState(false);
     const toBillDataMain = useRef();
-    const [toBillDataInfo, setToBillDataInfo] = useState(fakeData.InvoiceDetail); //發票明細檔
-    const [totalAmount, setTotalAmount] = useState(fakeData.TotalAmount); //發票總金額
+    const [toBillDataInfo, setToBillDataInfo] = useState([]); //發票明細檔
+    const [totalAmount, setTotalAmount] = useState([]); //發票總金額
     const [currentAmount, setCurrentAmount] = useState(''); //目前金額
     const StyledTableCell = styled(TableCell)(({ theme }) => ({
         [`&.${tableCellClasses.head}`]: {
@@ -107,10 +107,13 @@ const ToBillDataList = ({ listInfo, BootstrapDialogTitle }) => {
         setIsDialogOpen(false);
     };
 
+    //立帳作業
     const toBillData = (wKMasterID) => {
         console.log('wKMasterID=>>', wKMasterID);
         let tmpQuery = '/' + 'WKMasterID=' + wKMasterID;
         tmpQuery = toBillDataapi + tmpQuery;
+        console.log('tmpQuery=>>', tmpQuery);
+        toBillDataMain.current = fakeData.InvoiceMaster; //haha
         fetch(tmpQuery, { method: 'GET' })
             .then((res) => res.json())
             .then((data) => {
@@ -139,13 +142,17 @@ const ToBillDataList = ({ listInfo, BootstrapDialogTitle }) => {
         setCurrentAmount(tmpAmount.toFixed(2));
     };
 
+    // 送出立帳(新增)
     const sendJounaryInfo = () => {
+        let tmpArray = toBillDataMain.current.mpa((i) => i);
+        tmpArray.forEach((i) => {
+            delete i.InvMasterID;
+        });
         let tmpData = {
             TotalAmount: totalAmount,
-            InvoiceMaster: toBillDataMain.current,
+            InvoiceMaster: tmpArray,
             InvoiceDetail: toBillDataInfo
         };
-        console.log('tmpData=>>', tmpData);
         fetch(sendJounary, { method: 'POST', body: JSON.stringify(tmpData) })
             .then((res) => res.json())
             .then((data) => {
@@ -181,7 +188,7 @@ const ToBillDataList = ({ listInfo, BootstrapDialogTitle }) => {
                                     let afterDiff = row.FeeAmountPost + row.Difference;
                                     return (
                                         <TableRow
-                                            // key={row?.WKMasterID + row?.InvoiceNo}
+                                            key={row?.WKMasterID + row?.InvoiceNo}
                                             sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                                         >
                                             <TableCell align="center">1</TableCell>
