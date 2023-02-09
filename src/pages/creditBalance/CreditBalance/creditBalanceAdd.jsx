@@ -48,15 +48,12 @@ const CreditBalanceManage = ({
     lBRatio,
     setLBRatio
 }) => {
-    const [modifyNote, setModifyNote] = useState('');
     const [listInfo, setListInfo] = useState([]);
     // const [editItem, setEditItem] = useState(NaN);
     const [isEdit, setIsEdit] = useState(false);
 
-    const icon = <CheckBoxOutlineBlankIcon fontSize="small" />;
-    const checkedIcon = <CheckBoxIcon fontSize="small" />;
-
-    const parties = ['Taiwan', 'Vietnam', 'Japan', 'Korean'];
+    // const icon = <CheckBoxOutlineBlankIcon fontSize="small" />;
+    // const checkedIcon = <CheckBoxIcon fontSize="small" />;
 
     const itemDetailInitial = () => {
         setPartyName([]);
@@ -144,15 +141,15 @@ const CreditBalanceManage = ({
     }));
 
     return (
-        <Dialog onClose={handleDialogClose} maxWidth="md" fullWidth open={isDialogOpen}>
+        <Dialog onClose={handleDialogClose} maxWidth="sm" fullWidth open={isDialogOpen}>
             <BootstrapDialogTitle id="customized-dialog-title" onClose={handleDialogClose}>
-                新增Liability
+                新增Credit Balance
             </BootstrapDialogTitle>
             <DialogContent dividers>
                 <Grid container spacing={1} display="flex" justifyContent="center" alignItems="center">
-                    <Grid item xs={2} sm={2} md={2} lg={1} display="flex" justifyContent="end">
+                    <Grid item xs={3} sm={3} md={3} lg={3} display="flex" justifyContent="center">
                         <Typography variant="h5" sx={{ fontSize: { lg: '0.5rem', xl: '0.88rem' }, ml: { lg: '0.5rem', xl: '1.5rem' } }}>
-                            記帳段號：
+                            CB種類：
                         </Typography>
                     </Grid>
                     <Grid item xs={3} sm={3} md={3} lg={3}>
@@ -163,38 +160,14 @@ const CreditBalanceManage = ({
                                 disabled={listInfo.length > 0}
                                 value={billMilestone}
                                 size="small"
-                                label="填寫記帳段號"
+                                label="填寫CB種類"
                                 onChange={(e) => setBillMilestone(e.target.value)}
                             />
                         </FormControl>
                     </Grid>
-                    <Grid item xs={2} sm={2} md={2} lg={1} xl={1} display="flex" justifyContent="end">
-                        {dialogAction === 'Edit' ? (
-                            <Typography variant="h5" sx={{ fontSize: { lg: '0.5rem', xl: '0.88rem' }, ml: { lg: '0.5rem', xl: '1.5rem' } }}>
-                                異動原因：
-                            </Typography>
-                        ) : (
-                            ''
-                        )}
-                    </Grid>
-                    <Grid item xs={3} sm={3} md={3} lg={6} xl={6}>
-                        {dialogAction === 'Edit' ? (
-                            <TextField
-                                fullWidth
-                                variant="outlined"
-                                value={modifyNote}
-                                size="small"
-                                label="填寫異動原因"
-                                onChange={(e) => setModifyNote(e.target.value)}
-                            />
-                        ) : (
-                            ''
-                        )}
-                    </Grid>
-                    <Grid item xs={2} sm={2} md={2} lg={1} />
-                    <Grid item xs={2} sm={2} md={2} lg={1} display="flex" justifyContent="end">
+                    <Grid item xs={3} sm={3} md={3} lg={3} display="flex" justifyContent="center">
                         <Typography variant="h5" sx={{ fontSize: { lg: '0.5rem', xl: '0.88rem' }, ml: { lg: '0.5rem', xl: '1.5rem' } }}>
-                            攤分比例：
+                            會員代號：
                         </Typography>
                     </Grid>
                     <Grid item xs={3} sm={3} md={3} lg={3}>
@@ -203,124 +176,128 @@ const CreditBalanceManage = ({
                             variant="outlined"
                             value={lBRatio}
                             size="small"
-                            label="填寫攤分比例"
+                            label="填寫會員代號"
                             onChange={(e) => setLBRatio(e.target.value)}
                         />
                     </Grid>
-                    {/* <Grid item xs={6} sm={6} md={6} lg={6} xl={6} /> */}
-                    <Grid item xs={2} sm={2} md={2} lg={1} display="flex" justifyContent="end">
+                    {/* <Grid item xs={3} sm={3} md={3} lg={3} xl={6} /> */}
+                    <Grid item xs={3} sm={3} md={3} lg={3} display="flex" justifyContent="center">
                         <Typography variant="h5" sx={{ fontSize: { lg: '0.5rem', xl: '0.88rem' }, ml: { lg: '0.5rem', xl: '1.5rem' } }}>
-                            會員名稱：
+                            剩餘金額：
                         </Typography>
                     </Grid>
-                    <Grid item xs={3} sm={3} md={3} lg={6}>
-                        <Autocomplete
-                            multiple
-                            id="checkboxes-tags-demo"
-                            options={parties}
-                            value={partyName}
-                            disabled={isEdit}
+                    <Grid item xs={3} sm={3} md={3} lg={3}>
+                        <TextField
+                            fullWidth
+                            variant="outlined"
+                            value={lBRatio}
                             size="small"
-                            disableCloseOnSelect
-                            // getOptionDisabled={(option) =>
-                            //     option === timeSlots[0] || option === timeSlots[2] haha
-                            //   }
-                            onChange={(event, newValue) => {
-                                setPartyName(newValue);
-                            }}
-                            getOptionLabel={(option) => option}
-                            renderOption={(props, option, { selected }) => (
-                                <li {...props}>
-                                    <Checkbox icon={icon} checkedIcon={checkedIcon} style={{ marginRight: 8 }} checked={selected} />
-                                    {option}
-                                </li>
-                            )}
-                            // style={{ width: 500 }}
-                            // renderInput={(params) => <TextField {...params} label="選擇會員名稱" placeholder="Favorites" />
-                            renderInput={(params) => <TextField {...params} label="選擇會員名稱" />}
+                            label="填寫剩餘金額"
+                            onChange={(e) => setLBRatio(e.target.value)}
                         />
                     </Grid>
-                    <Grid item xs={1} sm={1} md={1} lg={1} display="flex" justifyContent="end" alignItems="center">
-                        <Button
-                            size="small"
-                            style={{ maxWidth: '2rem', maxHeight: '2rem', minWidth: '2rem', minHeight: '2rem' }}
-                            variant="contained"
-                            onClick={addList}
-                        >
-                            +
-                        </Button>
+                    <Grid item xs={3} sm={3} md={3} lg={3} display="flex" justifyContent="center">
+                        <Typography variant="h5" sx={{ fontSize: { lg: '0.5rem', xl: '0.88rem' }, ml: { lg: '0.5rem', xl: '1.5rem' } }}>
+                            摘要：
+                        </Typography>
                     </Grid>
-                    <Grid item xs={12} sm={12} md={12} lg={12}>
-                        <TableContainer component={Paper} sx={{ maxHeight: 250 }}>
-                            <Table sx={{ minWidth: 300 }} stickyHeader aria-label="sticky table">
-                                <TableHead>
-                                    <TableRow>
-                                        <StyledTableCell align="center">記帳段號</StyledTableCell>
-                                        <StyledTableCell align="center">會員名稱</StyledTableCell>
-                                        <StyledTableCell align="center">攤分比例</StyledTableCell>
-                                        <StyledTableCell align="center">Action</StyledTableCell>
-                                    </TableRow>
-                                </TableHead>
-                                <TableBody>
-                                    {listInfo?.map((row, id) => {
-                                        return (
-                                            <TableRow
-                                                // key={row.InvoiceWKMaster?.invoiceNo + row.InvoiceWKMaster?.supplierName + id}
-                                                sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-                                            >
-                                                <StyledTableCell align="center">{row.BillMilestone}</StyledTableCell>
-                                                <StyledTableCell align="center">{row.PartyName}</StyledTableCell>
-                                                <StyledTableCell align="center">{`${row.LBRatio}%`}</StyledTableCell>
-                                                <StyledTableCell align="center">
-                                                    <Button
-                                                        color="error"
-                                                        onClick={() => {
-                                                            deletelistInfoItem(id);
-                                                        }}
-                                                    >
-                                                        刪除
-                                                    </Button>
-                                                </StyledTableCell>
-                                            </TableRow>
-                                        );
-                                    })}
-                                </TableBody>
-                            </Table>
-                        </TableContainer>
+                    <Grid item xs={3} sm={3} md={3} lg={3}>
+                        <TextField
+                            fullWidth
+                            variant="outlined"
+                            value={lBRatio}
+                            size="small"
+                            label="填寫摘要"
+                            onChange={(e) => setLBRatio(e.target.value)}
+                        />
+                    </Grid>
+                    {/* <Grid item xs={3} sm={3} md={3} lg={3} xl={6} /> */}
+                    <Grid item xs={3} sm={3} md={3} lg={3} display="flex" justifyContent="center">
+                        <Typography variant="h5" sx={{ fontSize: { lg: '0.5rem', xl: '0.88rem' }, ml: { lg: '0.5rem', xl: '1.5rem' } }}>
+                            發票號碼：
+                        </Typography>
+                    </Grid>
+                    <Grid item xs={3} sm={3} md={3} lg={3}>
+                        <TextField
+                            fullWidth
+                            variant="outlined"
+                            value={lBRatio}
+                            size="small"
+                            label="填寫發票號碼"
+                            onChange={(e) => setLBRatio(e.target.value)}
+                        />
+                    </Grid>
+                    <Grid item xs={3} sm={3} md={3} lg={3} display="flex" justifyContent="center">
+                        <Typography variant="h5" sx={{ fontSize: { lg: '0.5rem', xl: '0.88rem' }, ml: { lg: '0.5rem', xl: '1.5rem' } }}>
+                            帳單號碼：
+                        </Typography>
+                    </Grid>
+                    <Grid item xs={3} sm={3} md={3} lg={3}>
+                        <TextField
+                            fullWidth
+                            variant="outlined"
+                            value={lBRatio}
+                            size="small"
+                            label="填寫帳單號碼"
+                            onChange={(e) => setLBRatio(e.target.value)}
+                        />
+                    </Grid>
+                    {/* <Grid item xs={3} sm={3} md={3} lg={3} xl={6} /> */}
+                    <Grid item xs={3} sm={3} md={3} lg={3} display="flex" justifyContent="center">
+                        <Typography variant="h5" sx={{ fontSize: { lg: '0.5rem', xl: '0.88rem' }, ml: { lg: '0.5rem', xl: '1.5rem' } }}>
+                            海纜名稱：
+                        </Typography>
+                    </Grid>
+                    <Grid item xs={3} sm={3} md={3} lg={3}>
+                        <TextField
+                            fullWidth
+                            variant="outlined"
+                            value={lBRatio}
+                            size="small"
+                            label="填寫海纜名稱"
+                            onChange={(e) => setLBRatio(e.target.value)}
+                        />
+                    </Grid>
+                    <Grid item xs={3} sm={3} md={3} lg={3} display="flex" justifyContent="center">
+                        <Typography variant="h5" sx={{ fontSize: { lg: '0.5rem', xl: '0.88rem' }, ml: { lg: '0.5rem', xl: '1.5rem' } }}>
+                            海纜作業：
+                        </Typography>
+                    </Grid>
+                    <Grid item xs={3} sm={3} md={3} lg={3}>
+                        <TextField
+                            fullWidth
+                            variant="outlined"
+                            value={lBRatio}
+                            size="small"
+                            label="填寫海纜作業"
+                            onChange={(e) => setLBRatio(e.target.value)}
+                        />
                     </Grid>
                 </Grid>
             </DialogContent>
             <DialogActions>
-                {dialogAction === 'Edit' ? (
-                    <>
-                        <Button sx={{ mr: '0.05rem' }} variant="contained" onClick={saveEdit}>
-                            儲存
-                        </Button>
-                    </>
-                ) : (
-                    <>
-                        <Button
-                            sx={{ mr: '0.05rem' }}
-                            variant="contained"
-                            onClick={() => {
-                                addLiability(listInfo);
-                                setListInfo([]);
-                            }}
-                        >
-                            儲存
-                        </Button>
-                    </>
-                )}
-                <Button
-                    sx={{ mr: '0.05rem' }}
-                    variant="contained"
-                    onClick={() => {
-                        handleDialogClose();
-                        itemDetailInitial();
-                    }}
-                >
-                    取消
-                </Button>
+                <>
+                    <Button
+                        sx={{ mr: '0.05rem' }}
+                        variant="contained"
+                        onClick={() => {
+                            addLiability(listInfo);
+                            setListInfo([]);
+                        }}
+                    >
+                        儲存
+                    </Button>
+                    <Button
+                        sx={{ mr: '0.05rem' }}
+                        variant="contained"
+                        onClick={() => {
+                            handleDialogClose();
+                            itemDetailInitial();
+                        }}
+                    >
+                        取消
+                    </Button>
+                </>
             </DialogActions>
         </Dialog>
     );

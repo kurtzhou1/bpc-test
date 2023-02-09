@@ -1,20 +1,7 @@
-import { useEffect, useState, useRef } from 'react';
-import {
-    Typography,
-    Grid,
-    Button,
-    FormControl,
-    InputLabel,
-    Select,
-    MenuItem,
-    Box,
-    IconButton,
-    TextField,
-    Checkbox,
-    Autocomplete
-} from '@mui/material';
+import { useEffect, useState } from 'react';
+import { Grid, Button, IconButton } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
-import { styled } from '@mui/material/styles';
+// import { styled } from '@mui/material/styles';
 
 // project import
 import MainCard from 'components/MainCard';
@@ -23,12 +10,14 @@ import CreditBalanceDataList from './creditBalanceDataList';
 import CreditBalanceAdd from './creditBalanceAdd';
 
 // day
-import Dialog from '@mui/material/Dialog';
-import DialogTitle from '@mui/material/DialogTitle';
-import DialogContent from '@mui/material/DialogContent';
-import DialogActions from '@mui/material/DialogActions';
+// import Dialog from '@mui/material/Dialog';
+// import DialogTitle from '@mui/material/DialogTitle';
+// import DialogContent from '@mui/material/DialogContent';
+// import DialogActions from '@mui/material/DialogActions';
 
 const CreditBalance = () => {
+    const fakeData = [{}];
+
     const [listInfo, setListInfo] = useState([]);
     const [isDialogOpen, setIsDialogOpen] = useState(false);
     const [dialogAction, setDialogAction] = useState('');
@@ -38,8 +27,6 @@ const CreditBalance = () => {
     const [lBRatio, setLBRatio] = useState(''); //攤分比例
     const [editItem, setEditItem] = useState(NaN);
     const [modifyNote, setModifyNote] = useState('');
-
-    const parties = [{ name: 'Taiwan' }, { name: 'Vietnam' }, { name: 'Japan' }, { name: 'Korean' }];
 
     const creditBalanceQuery = () => {
         console.log('CreditBalanceQueryFunction');

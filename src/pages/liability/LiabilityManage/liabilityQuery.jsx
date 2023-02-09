@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { Typography, Grid, Button, FormControl, InputLabel, Select, MenuItem, Box } from '@mui/material';
 
 // project import
@@ -13,6 +13,8 @@ import { TextField } from '@mui/material/index';
 
 //api
 import { queryLiability } from 'components/apis.jsx';
+
+import PropTypes from 'prop-types';
 
 // ==============================|| SAMPLE PAGE ||============================== //
 
@@ -201,6 +203,15 @@ const LiabilityQuery = ({ setListInfo, bmStoneList, partyList, subCableList, wor
             </Grid>
         </MainCard>
     );
+};
+
+LiabilityQuery.propTypes = {
+    setListInfo: PropTypes.func,
+    bmStoneList: PropTypes.array,
+    partyList: PropTypes.array,
+    subCableList: PropTypes.array,
+    workTitleList: PropTypes.array,
+    queryApi: PropTypes.string
 };
 
 export default LiabilityQuery;
