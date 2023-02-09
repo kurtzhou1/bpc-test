@@ -28,7 +28,7 @@ import dayjs from 'dayjs';
 
 import { journaryDetailView, journaryMasterView, updateInvoice, updateInvoiceMaster } from 'components/apis.jsx';
 
-const BilledDataList = ({ listInfo, BootstrapDialogTitle }) => {
+const BilledDataList = ({ listInfo, BootstrapDialogTitle, apiQuery }) => {
     const [isDialogOpen, setIsDialogOpen] = useState(false);
     const [toBillDataInfo, setToBillDataInfo] = useState([]); //發票明細檔
     const totalAmount = useRef(0);
@@ -125,6 +125,7 @@ const BilledDataList = ({ listInfo, BootstrapDialogTitle }) => {
                 console.log('updateInvoiceMaster invalid success');
             })
             .catch((e) => console.log('e1=>>', e));
+        apiQuery();
     };
 
     return (
