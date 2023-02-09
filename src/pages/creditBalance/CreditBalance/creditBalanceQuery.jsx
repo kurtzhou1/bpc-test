@@ -32,12 +32,12 @@ const CreditBalanceQuery = ({ creditBalanceQuery }) => {
         <MainCard title="餘額查詢" sx={{ width: '100%' }}>
             <Grid container display="flex" justifyContent="center" alignItems="center" spacing={2}>
                 {/* row1 */}
-                <Grid item xs={1} sm={1} md={1} lg={1} xl={1}>
+                <Grid item xs={1} sm={1} md={1} lg={1}>
                     <Typography variant="h5" sx={{ fontSize: { lg: '0.5rem', xl: '0.88rem' }, ml: { lg: '0.5rem', xl: '1.5rem' } }}>
                         會員：
                     </Typography>
                 </Grid>
-                <Grid item xs={2} sm={2} md={2} lg={2} xl={2}>
+                <Grid item xs={2} sm={2} md={2} lg={2}>
                     <FormControl fullWidth size="small">
                         <InputLabel id="demo-simple-select-label">選擇會員</InputLabel>
                         <Select
@@ -53,12 +53,12 @@ const CreditBalanceQuery = ({ creditBalanceQuery }) => {
                         </Select>
                     </FormControl>
                 </Grid>
-                <Grid item xs={1} sm={1} md={1} lg={1} xl={1}>
+                <Grid item xs={1} sm={1} md={1} lg={1}>
                     <Typography variant="h5" sx={{ fontSize: { lg: '0.5rem', xl: '0.88rem' }, ml: { lg: '0.5rem', xl: '1.5rem' } }}>
                         CB種類：
                     </Typography>
                 </Grid>
-                <Grid item xs={2} sm={2} md={2} lg={2} xl={2}>
+                <Grid item xs={2} sm={2} md={2} lg={2}>
                     <FormControl fullWidth size="small">
                         <InputLabel id="demo-simple-select-label">選擇CB種類</InputLabel>
                         <Select
@@ -74,12 +74,12 @@ const CreditBalanceQuery = ({ creditBalanceQuery }) => {
                         </Select>
                     </FormControl>
                 </Grid>
-                <Grid item xs={1} sm={1} md={1} lg={1} xl={1}>
+                <Grid item xs={1} sm={1} md={1} lg={1}>
                     <Typography variant="h5" sx={{ fontSize: { lg: '0.5rem', xl: '0.88rem' }, ml: { lg: '0.5rem', xl: '1.5rem' } }}>
                         建立日期：
                     </Typography>
                 </Grid>
-                <Grid item xs={5} sm={5} md={5} lg={5} xl={5}>
+                <Grid item xs={5} sm={5} md={5} lg={5}>
                     <LocalizationProvider dateAdapter={AdapterDayjs} localeText={{ start: '起始日', end: '結束日' }}>
                         <DateRangePicker
                             inputFormat="YYYY/MM/DD"
@@ -98,7 +98,7 @@ const CreditBalanceQuery = ({ creditBalanceQuery }) => {
                     </LocalizationProvider>
                 </Grid>
                 {/* row2 */}
-                <Grid item xs={1} sm={1} md={1} lg={2} display="flex" alignItems="center">
+                <Grid item xs={1} sm={1} md={2} lg={2} display="flex" alignItems="center">
                     <Typography variant="h5" sx={{ fontSize: { lg: '0.5rem', xl: '0.88rem' }, ml: { lg: '0.5rem', xl: '1.5rem' } }}>
                         有無剩餘金額：
                     </Typography>
@@ -126,7 +126,7 @@ const CreditBalanceQuery = ({ creditBalanceQuery }) => {
                         </FormGroup>
                     </FormControl>
                 </Grid>
-                <Grid item xs={1} sm={1} md={1} lg={2} display="flex" alignItems="center">
+                <Grid item xs={1} sm={1} md={2} lg={2} display="flex" alignItems="center">
                     <Typography variant="h5" sx={{ fontSize: { lg: '0.5rem', xl: '0.88rem' }, ml: { lg: '0.5rem', xl: '1.5rem' } }}>
                         有無退費紀錄：
                     </Typography>
@@ -154,7 +154,7 @@ const CreditBalanceQuery = ({ creditBalanceQuery }) => {
                         </FormGroup>
                     </FormControl>
                 </Grid>
-                <Grid item xs={4} sm={4} md={4} lg={4} display="flex" justifyContent="end" alignItems="center">
+                <Grid item xs={6} sm={6} md={4} lg={4} display="flex" justifyContent="end" alignItems="center">
                     <Button sx={{ mr: '0.5rem' }} variant="contained" onClick={CreditBalanceQuery}>
                         查詢
                     </Button>

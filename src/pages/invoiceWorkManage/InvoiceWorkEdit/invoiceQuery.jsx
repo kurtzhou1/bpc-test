@@ -30,7 +30,7 @@ const InvoiceQueryBlock = ({ setListInfo, queryApi, supNmList, subCableList, que
     const [supplierNameQuery, setSupplierNameQuery] = useState(''); //供應商
     const [submarineCableQuery, setSubmarineCableQuery] = useState(''); //海纜名稱
     const [invoiceStatusQuery, setInvoiceStatusQuery] = useState(); //處理狀態
-    const [partyNameQuery, setPartyNameQuery] = useState(''); //會員代號
+    // const [partyNameQuery, setPartyNameQuery] = useState(''); //會員代號
     const [billMilestoneQuery, setBillMilestoneQuery] = useState(''); //記帳段號
     const [invoiceNoQuery, setInvoiceNoQuery] = useState(''); //發票號碼
     const [isIssueDate, setIsIssueDate] = useState(''); //是否為發票日期
@@ -47,9 +47,9 @@ const InvoiceQueryBlock = ({ setListInfo, queryApi, supNmList, subCableList, que
         if (submarineCableQuery && submarineCableQuery !== '') {
             tmpQuery = tmpQuery + 'SubmarineCable=' + submarineCableQuery + '&';
         }
-        if (partyNameQuery && partyNameQuery !== '') {
-            tmpQuery = tmpQuery + 'PartyName=' + partyNameQuery + '&';
-        }
+        // if (partyNameQuery && partyNameQuery !== '') {
+        //     tmpQuery = tmpQuery + 'PartyName=' + partyNameQuery + '&';
+        // }
         if (invoiceNoQuery && invoiceNoQuery !== '') {
             tmpQuery = tmpQuery + 'InvoiceNo=' + invoiceNoQuery + '&';
         }
@@ -189,7 +189,7 @@ const InvoiceQueryBlock = ({ setListInfo, queryApi, supNmList, subCableList, que
                 </Grid>
                 <Grid item xs={12} sm={0} md={2} lg={2} />
                 {/* row2 */}
-                <Grid item xs={12} sm={2} md={1} lg={1}>
+                {/* <Grid item xs={12} sm={2} md={1} lg={1}>
                     <Typography variant="h5" sx={{ fontSize: { lg: '0.5rem', xl: '0.88rem' }, ml: { lg: '0.5rem', xl: '1.5rem' } }}>
                         會員名稱：
                     </Typography>
@@ -209,7 +209,7 @@ const InvoiceQueryBlock = ({ setListInfo, queryApi, supNmList, subCableList, que
                             <MenuItem value={'Korean'}>Korean</MenuItem>
                         </Select>
                     </FormControl>
-                </Grid>
+                </Grid> */}
                 <Grid item xs={12} sm={2} md={1} lg={1}>
                     <Typography variant="h5" sx={{ fontSize: { lg: '0.5rem', xl: '0.88rem' }, ml: { lg: '0.5rem', xl: '1.5rem' } }}>
                         記帳段號：
@@ -248,6 +248,7 @@ const InvoiceQueryBlock = ({ setListInfo, queryApi, supNmList, subCableList, que
                         onChange={(e) => setInvoiceNoQuery(e.target.value)}
                     />
                 </Grid>
+                <Grid item xs={0} sm={4} md={3} lg={3} />
                 <Grid item xs={12} sm={0} md={3} lg={3} />
                 {/* row3 */}
                 <Grid item xs={12} sm={9} md={9} lg={9} display="flex" alignItems="center">
