@@ -29,7 +29,7 @@ import CheckBoxIcon from '@mui/icons-material/CheckBox';
 // api
 import { updateLiability } from 'components/apis.jsx';
 
-const LiabilityTerminate = ({ dialogTerminate, handleDialogClose, terminateInfo, apiQuery }) => {
+const CreditBalanceTerminate = ({ cbTerminal, handleTerminalClose }) => {
     const [endNote, setEndNote] = useState([]);
 
     const BootstrapDialogTitle = (props) => {
@@ -69,14 +69,14 @@ const LiabilityTerminate = ({ dialogTerminate, handleDialogClose, terminateInfo,
             .then(() => {
                 alert('終止成功');
                 apiQuery();
-                handleDialogClose();
+                handleTerminalClose();
             })
             .catch((e) => console.log('e1=>>', e));
     };
 
     return (
-        <Dialog onClose={handleDialogClose} maxWidth="xs" fullWidth open={dialogTerminate}>
-            <BootstrapDialogTitle id="customized-dialog-title" onClose={handleDialogClose}>
+        <Dialog onClose={handleTerminalClose} maxWidth="xs" fullWidth open={cbTerminal}>
+            <BootstrapDialogTitle id="customized-dialog-title" onClose={handleTerminalClose}>
                 確認終止訊息
             </BootstrapDialogTitle>
             <DialogContent dividers>
@@ -84,7 +84,8 @@ const LiabilityTerminate = ({ dialogTerminate, handleDialogClose, terminateInfo,
                     {/* row3 */}
                     <Grid item xs={12} sm={12} md={12} lg={12} display="flex">
                         <Typography variant="h5" sx={{ fontSize: { lg: '0.5rem', xl: '0.88rem' }, ml: { lg: '0.5rem', xl: '1.5rem' } }}>
-                            {`是否確定刪除${terminateInfo.BillMilestone}、${terminateInfo.PartyName}的Liability資料`}
+                            {/* {`是否確定刪除${terminateInfo.BillMilestone}、${terminateInfo.PartyName}的Credit Balance資料`} */}
+                            {`是否確定終止此Credit Balance資料`}
                         </Typography>
                     </Grid>
                     <Grid item xs={12} sm={12} md={12} lg={12} display="flex">
@@ -110,7 +111,7 @@ const LiabilityTerminate = ({ dialogTerminate, handleDialogClose, terminateInfo,
                     確定
                 </Button>
 
-                <Button sx={{ mr: '0.05rem' }} variant="contained" onClick={handleDialogClose}>
+                <Button sx={{ mr: '0.05rem' }} variant="contained" onClick={handleTerminalClose}>
                     取消
                 </Button>
             </DialogActions>
@@ -118,4 +119,4 @@ const LiabilityTerminate = ({ dialogTerminate, handleDialogClose, terminateInfo,
     );
 };
 
-export default LiabilityTerminate;
+export default CreditBalanceTerminate;

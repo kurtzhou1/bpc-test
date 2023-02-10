@@ -16,9 +16,21 @@ import CreditBalanceAdd from './creditBalanceAdd';
 // import DialogActions from '@mui/material/DialogActions';
 
 const CreditBalance = () => {
-    const fakeData = [{}];
+    const fakeData = [
+        {
+            CBType: 'MWG',
+            PartyName: 'CHT',
+            InvoiceNo: '234567',
+            BillingNo: '12345',
+            SubmarineCable: 'SJC',
+            WorkTitle: 'Upgrade',
+            CurrAmount: 1234,
+            CreateDate: '2023-01-01 12:12:!2',
+            Note: '測試'
+        }
+    ];
 
-    const [listInfo, setListInfo] = useState([]);
+    const [listInfo, setListInfo] = useState(fakeData);
     const [isDialogOpen, setIsDialogOpen] = useState(false);
     const [dialogAction, setDialogAction] = useState('');
 

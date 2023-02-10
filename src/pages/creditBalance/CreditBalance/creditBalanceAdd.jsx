@@ -39,8 +39,6 @@ const CreditBalanceManage = ({
     handleDialogClose,
     addLiability,
     saveEdit,
-    partyName,
-    setPartyName,
     isDialogOpen,
     billMilestone,
     setBillMilestone,
@@ -49,8 +47,15 @@ const CreditBalanceManage = ({
     setLBRatio
 }) => {
     const [listInfo, setListInfo] = useState([]);
-    // const [editItem, setEditItem] = useState(NaN);
-    const [isEdit, setIsEdit] = useState(false);
+    const [cbType, setcbType] = useState('');
+    const [partyName, setPartyName] = useState('');
+    const [invoiceNo, setInvoiceNo] = useState('');
+    const [billingNo, setBillingNo] = useState('');
+    const [submarineCable, setSubmarineCable] = useState('');
+    const [workTitle, setWorkTitle] = useState('');
+    const [currAmount, setCurrAmount] = useState(0);
+    const [createDate, setCreateDate] = useState(new Date());
+    const [note, setNote] = useState('');
 
     // const icon = <CheckBoxOutlineBlankIcon fontSize="small" />;
     // const checkedIcon = <CheckBoxIcon fontSize="small" />;
@@ -158,10 +163,10 @@ const CreditBalanceManage = ({
                                 fullWidth
                                 variant="outlined"
                                 disabled={listInfo.length > 0}
-                                value={billMilestone}
+                                value={cbType}
                                 size="small"
                                 label="填寫CB種類"
-                                onChange={(e) => setBillMilestone(e.target.value)}
+                                onChange={(e) => setcbType(e.target.value)}
                             />
                         </FormControl>
                     </Grid>
@@ -174,10 +179,10 @@ const CreditBalanceManage = ({
                         <TextField
                             fullWidth
                             variant="outlined"
-                            value={lBRatio}
+                            value={partyName}
                             size="small"
                             label="填寫會員代號"
-                            onChange={(e) => setLBRatio(e.target.value)}
+                            onChange={(e) => setPartyName(e.target.value)}
                         />
                     </Grid>
                     {/* <Grid item xs={3} sm={3} md={3} lg={3} xl={6} /> */}
@@ -190,10 +195,10 @@ const CreditBalanceManage = ({
                         <TextField
                             fullWidth
                             variant="outlined"
-                            value={lBRatio}
+                            value={currAmount}
                             size="small"
                             label="填寫剩餘金額"
-                            onChange={(e) => setLBRatio(e.target.value)}
+                            onChange={(e) => setCurrAmount(e.target.value)}
                         />
                     </Grid>
                     <Grid item xs={3} sm={3} md={3} lg={3} display="flex" justifyContent="center">
@@ -205,10 +210,10 @@ const CreditBalanceManage = ({
                         <TextField
                             fullWidth
                             variant="outlined"
-                            value={lBRatio}
+                            value={note}
                             size="small"
                             label="填寫摘要"
-                            onChange={(e) => setLBRatio(e.target.value)}
+                            onChange={(e) => setNote(e.target.value)}
                         />
                     </Grid>
                     {/* <Grid item xs={3} sm={3} md={3} lg={3} xl={6} /> */}
@@ -221,10 +226,10 @@ const CreditBalanceManage = ({
                         <TextField
                             fullWidth
                             variant="outlined"
-                            value={lBRatio}
+                            value={invoiceNo}
                             size="small"
                             label="填寫發票號碼"
-                            onChange={(e) => setLBRatio(e.target.value)}
+                            onChange={(e) => setInvoiceNo(e.target.value)}
                         />
                     </Grid>
                     <Grid item xs={3} sm={3} md={3} lg={3} display="flex" justifyContent="center">
@@ -236,10 +241,10 @@ const CreditBalanceManage = ({
                         <TextField
                             fullWidth
                             variant="outlined"
-                            value={lBRatio}
+                            value={billingNo}
                             size="small"
                             label="填寫帳單號碼"
-                            onChange={(e) => setLBRatio(e.target.value)}
+                            onChange={(e) => setBillingNo(e.target.value)}
                         />
                     </Grid>
                     {/* <Grid item xs={3} sm={3} md={3} lg={3} xl={6} /> */}
@@ -252,10 +257,10 @@ const CreditBalanceManage = ({
                         <TextField
                             fullWidth
                             variant="outlined"
-                            value={lBRatio}
+                            value={submarineCable}
                             size="small"
                             label="填寫海纜名稱"
-                            onChange={(e) => setLBRatio(e.target.value)}
+                            onChange={(e) => setSubmarineCable(e.target.value)}
                         />
                     </Grid>
                     <Grid item xs={3} sm={3} md={3} lg={3} display="flex" justifyContent="center">
@@ -267,10 +272,10 @@ const CreditBalanceManage = ({
                         <TextField
                             fullWidth
                             variant="outlined"
-                            value={lBRatio}
+                            value={workTitle}
                             size="small"
                             label="填寫海纜作業"
-                            onChange={(e) => setLBRatio(e.target.value)}
+                            onChange={(e) => setWorkTitle(e.target.value)}
                         />
                     </Grid>
                 </Grid>

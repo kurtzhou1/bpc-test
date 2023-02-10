@@ -191,7 +191,7 @@ const ToBillDataList = ({ listInfo, BootstrapDialogTitle, apiQuery }) => {
                                             key={row.FeeAmountPre + row?.PartyName + row?.LBRatio}
                                             sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                                         >
-                                            <TableCell align="center">1</TableCell>
+                                            <TableCell align="center">{row.FeeItem}</TableCell>
                                             <TableCell align="center">{`$${row.FeeAmountPre}`}</TableCell>
                                             <TableCell align="center">{row.PartyName}</TableCell>
                                             <TableCell align="center">{`${row.LBRatio}%`}</TableCell>
