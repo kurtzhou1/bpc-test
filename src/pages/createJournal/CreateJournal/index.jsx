@@ -106,6 +106,7 @@ const CreateJournal = () => {
     // ];
     const [listInfo, setListInfo] = useState([]);
     const [value, setValue] = useState(0);
+    const isFirst = useRef(true);
     const queryApi = useRef(queryJounary + '/all');
     const apiQuery = () => {
         let tmpQuery = '/';
@@ -131,16 +132,51 @@ const CreateJournal = () => {
             .catch((e) => console.log('e1=>>', e));
     };
 
+    const orderDate = (data) => {
+        data.sort((a, b) => {
+            return dayjs(b.InvoiceWKMaster.CreateDate).diff(dayjs(a.InvoiceWKMaster.CreateDate));
+        });
+    };
+
+    const firstApiQuery = () => {
+        let tmpQuery = '/';
+        // if (value === '0' || value === 0) {
+        tmpQuery = tmpQuery + 'Status=' + 'VALIDATED' + '&';
+        // } else {
+        // tmpQuery = tmpQuery + 'Status=' + 'BILLED' + '&';
+        // }
+
+        if (tmpQuery.includes('&')) {
+            tmpQuery = tmpQuery.slice(0, -1);
+        }
+
+        tmpQuery = queryJounary + tmpQuery;
+        queryApi.current = tmpQuery;
+        fetch(tmpQuery, { method: 'GET' })
+            .then((res) => res.json())
+            .then((data) => {
+                orderDate(data);
+                data = data.slice(0, 5);
+                setListInfo(data);
+                isFirst.current = false;
+            })
+            .catch((e) => console.log('e1=>>', e));
+    };
+
     useEffect(() => {
-        apiQuery();
+        if (isFirst.current) {
+            firstApiQuery();
+        } else {
+            apiQuery();
+        }
     }, [value]);
 
     // useEffect(() => {
-    //     itemDetailInitial();
-    //     if (editItem >= 0) {
-    //         editlistInfoItem();
+    //     console.log('2=>>', value);
+    //     if (value < 0) {
+    //         firstApiQuery();
     //     }
-    // }, [editItem]);
+    // });
 
     const BootstrapDialogTitle = (props) => {
         const { children, onClose, ...other } = props;

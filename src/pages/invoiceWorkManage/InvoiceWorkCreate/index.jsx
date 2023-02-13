@@ -359,6 +359,9 @@ const InvoiceWorkManage = () => {
                             ) : (
                                 ''
                             )}
+                            <Button variant="contained" sx={{ px: '1rem', py: '0.5rem' }} href="/InvoiceWorkManage/InvoiceWorkEdit">
+                                下一頁
+                            </Button>
                         </Grid>
                     </Grid>
                 </MainCard>

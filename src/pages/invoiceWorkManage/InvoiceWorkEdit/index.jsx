@@ -156,11 +156,28 @@ const InvoiceWorkManage = () => {
         setFeeAmount('');
     };
 
+    const orderDate = (data) => {
+        data.sort((a, b) => {
+            return dayjs(b.InvoiceWKMaster.CreateDate).diff(dayjs(a.InvoiceWKMaster.CreateDate));
+        });
+    };
+
     const queryInit = () => {
         fetch(queryApi.current, { method: 'GET' })
             .then((res) => res.json())
             .then((data) => {
                 console.log('查詢資料成功=>>', data);
+                setListInfo(data);
+            })
+            .catch((e) => console.log('e1=>>', e));
+    };
+
+    const firstQueryInit = () => {
+        fetch(queryApi.current, { method: 'GET' })
+            .then((res) => res.json())
+            .then((data) => {
+                orderDate(data);
+                data = data.slice(0, 5);
                 setListInfo(data);
             })
             .catch((e) => console.log('e1=>>', e));
@@ -204,6 +221,7 @@ const InvoiceWorkManage = () => {
         itemInfoInitial();
         setAction('');
         setModifyItem(-1);
+        firstQueryInit();
     }, []);
 
     useEffect(() => {
@@ -477,6 +495,11 @@ const InvoiceWorkManage = () => {
             ) : (
                 ''
             )}
+            <Grid item xs={12} display="flex" justifyContent="center" alignItems="center">
+                <Button variant="contained" sx={{ px: '1rem', py: '0.5rem' }} href="/CreateJournal/CreateJournal">
+                    下一頁
+                </Button>
+            </Grid>
         </Grid>
     );
 };

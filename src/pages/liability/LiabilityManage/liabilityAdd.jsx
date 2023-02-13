@@ -78,6 +78,8 @@ const LiabilityAdd = ({
         setSplitNumber('');
     };
 
+    console.log('listInfo=>>', listInfo);
+
     //新增
     const addList = () => {
         let tmpArray = listInfo.map((i) => i);
@@ -93,6 +95,11 @@ const LiabilityAdd = ({
         });
         setListInfo([...tmpArray]);
         itemDetailInitial();
+        // console.log('dialogAction=>>', listInfo.length > 0 && dialogAction === 'add');
+        // console.log(listInfo);
+        // if (listInfo.length > 0 && dialogAction === 'add') {
+        setBillMilestone(billMilestone);
+        // }
     };
 
     //分段+
@@ -243,7 +250,7 @@ const LiabilityAdd = ({
                             <TextField
                                 fullWidth
                                 variant="outlined"
-                                disabled={dialogAction === 'Edit'}
+                                disabled={dialogAction === 'Edit' || listInfo.length > 0}
                                 value={billMilestone}
                                 size="small"
                                 label="填寫記帳段號"
@@ -391,7 +398,7 @@ const LiabilityAdd = ({
                     </Grid>
                     {dialogAction !== 'Edit' ? (
                         <Grid item xs={12} sm={12} md={12} lg={12}>
-                            <TableContainer component={Paper} sx={{ maxHeight: 250 }}>
+                            <TableContainer component={Paper} sx={{ maxHeight: 350 }}>
                                 <Table sx={{ minWidth: 300 }} stickyHeader aria-label="sticky table">
                                     <TableHead>
                                         <TableRow>

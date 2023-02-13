@@ -1,5 +1,17 @@
 import { useState } from 'react';
-import { Typography, Grid, Button, FormControl, InputLabel, Select, MenuItem, Box } from '@mui/material';
+import {
+    Typography,
+    Grid,
+    Button,
+    FormControl,
+    InputLabel,
+    Select,
+    MenuItem,
+    Box,
+    FormControlLabel,
+    FormGroup,
+    Checkbox
+} from '@mui/material';
 
 // project import
 import MainCard from 'components/MainCard';
@@ -24,6 +36,7 @@ const LiabilityQuery = ({ setListInfo, bmStoneList, partyList, subCableList, wor
     const [createDate, setCreateDate] = useState([null, null]); //建立日期
     const [submarineCableQuery, setSubmarineCableQuery] = useState(''); //海纜名稱
     const [workTitle, setWorkTitle] = useState(''); //海纜作業
+    const [invoiceStatusQuery, setInvoiceStatusQuery] = useState(); //處理狀態
 
     const liabilityQuery = () => {
         let tmpQuery = '/';
@@ -49,6 +62,14 @@ const LiabilityQuery = ({ setListInfo, bmStoneList, partyList, subCableList, wor
                 dayjs(createDate[1]).format('YYYYMMDD') +
                 '&';
         }
+        // End = 'true' || 'false' || 'all'
+        console.log('invoiceStatusQuery=>>', invoiceStatusQuery);
+        if (invoiceStatusQuery?.TRUE && !invoiceStatusQuery?.FALSE) {
+            tmpQuery = tmpQuery + 'End=true&';
+        }
+        if (invoiceStatusQuery?.FALSE && !invoiceStatusQuery?.TRUE) {
+            tmpQuery = tmpQuery + 'End=false&';
+        }
 
         if (tmpQuery.includes('&')) {
             tmpQuery = tmpQuery.slice(0, -1);
@@ -65,6 +86,10 @@ const LiabilityQuery = ({ setListInfo, bmStoneList, partyList, subCableList, wor
                 setListInfo(data);
             })
             .catch((e) => console.log('e1=>>', e));
+    };
+
+    const handleChange = (event) => {
+        setInvoiceStatusQuery({ ...invoiceStatusQuery, [event.target.name]: event.target.checked });
     };
 
     return (
@@ -194,7 +219,47 @@ const LiabilityQuery = ({ setListInfo, bmStoneList, partyList, subCableList, wor
                         </Select>
                     </FormControl>
                 </Grid>
-                <Grid item xs={12} sm={12} md={6} lg={6} display="flex" justifyContent="end" alignItems="center">
+                <Grid item xs={2} sm={2} md={1} lg={1}>
+                    <Typography variant="h5" sx={{ fontSize: { lg: '0.5rem', xl: '0.88rem' }, ml: { lg: '0.5rem', xl: '1.5rem' } }}>
+                        終止狀態：
+                    </Typography>
+                </Grid>
+                <Grid item xs={4} sm={4} md={2} lg={2}>
+                    {/* <FormControl> */}
+                    <FormGroup
+                        row
+                        value={invoiceStatusQuery}
+                        aria-labelledby="demo-radio-buttons-group-label"
+                        // defaultValue="female"
+                        name="radio-buttons-group"
+                        // onChange={(e) => setInvoiceStatusQuery(e.target.value)}
+                    >
+                        <FormControlLabel
+                            value={'true'}
+                            control={
+                                <Checkbox
+                                    name={'TRUE'}
+                                    onChange={handleChange}
+                                    sx={{ '& .MuiSvgIcon-root': { fontSize: { lg: 14, xl: 20 } } }}
+                                />
+                            }
+                            label="終止"
+                        />
+                        <FormControlLabel
+                            value={'false'}
+                            control={
+                                <Checkbox
+                                    name={'FALSE'}
+                                    onChange={handleChange}
+                                    sx={{ '& .MuiSvgIcon-root': { fontSize: { lg: 14, xl: 20 } } }}
+                                />
+                            }
+                            label="未終止"
+                        />
+                    </FormGroup>
+                    {/* </FormControl> */}
+                </Grid>
+                <Grid item xs={6} sm={6} md={3} lg={3} display="flex" justifyContent="end" alignItems="center">
                     <Button sx={{ mr: '0.5rem' }} variant="contained" onClick={liabilityQuery}>
                         查詢
                     </Button>

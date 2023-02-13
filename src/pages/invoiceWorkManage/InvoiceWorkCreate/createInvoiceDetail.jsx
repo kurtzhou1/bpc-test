@@ -134,7 +134,7 @@ const CreateInvoiceDetail = ({
                 </Grid>
                 <Grid item xs={12} sm={6} md={2} lg={2}>
                     <Typography variant="h5" sx={{ fontSize: { lg: '0.5rem', xl: '0.88rem' }, ml: { lg: '0.5rem', xl: '1.5rem' } }}>
-                        費用金額：
+                        {'費用金額$：'}
                     </Typography>
                 </Grid>
                 <Grid item xs={12} sm={6} md={4} lg={4}>

@@ -76,12 +76,69 @@ const InvoiceQueryBlock = ({ setListInfo, queryApi, supNmList, subCableList, que
                 dayjs(issueDate[1]).format('YYYYMMDD') +
                 '&';
         }
-        if (invoiceStatusQuery?.TEMPORARY && !invoiceStatusQuery?.VALIDATED) {
-            tmpQuery = tmpQuery + 'Status=TEMPORARY&';
+        console.log('invoiceStatusQuery=>>', invoiceStatusQuery);
+        if (
+            !(
+                invoiceStatusQuery?.TEMPORARY &&
+                invoiceStatusQuery?.VALIDATED &&
+                invoiceStatusQuery?.BILLED &&
+                invoiceStatusQuery?.PAYING &&
+                invoiceStatusQuery?.COMPLETE &&
+                invoiceStatusQuery?.INVALID
+            ) &&
+            (invoiceStatusQuery?.TEMPORARY ||
+                invoiceStatusQuery?.VALIDATED ||
+                invoiceStatusQuery?.BILLED ||
+                invoiceStatusQuery?.PAYING ||
+                invoiceStatusQuery?.COMPLETE ||
+                invoiceStatusQuery?.INVALID)
+        ) {
+            console.log('大成功!!!!!');
+            let tmpStatus = 'Status=';
+            if (invoiceStatusQuery?.TEMPORARY) {
+                tmpStatus = tmpStatus + 'TEMPORARY&';
+            }
+            if (invoiceStatusQuery?.VALIDATED) {
+                tmpStatus = tmpStatus + 'VALIDATED&';
+            }
+            if (invoiceStatusQuery?.BILLED) {
+                tmpStatus = tmpStatus + 'BILLED&';
+            }
+            if (invoiceStatusQuery?.PAYING) {
+                tmpStatus = tmpStatus + 'PAYING&';
+            }
+            if (invoiceStatusQuery?.COMPLETE) {
+                tmpStatus = tmpStatus + 'COMPLETE&';
+            }
+            if (invoiceStatusQuery?.INVALID) {
+                tmpStatus = tmpStatus + 'INVALID&';
+            }
+            tmpQuery = tmpQuery + tmpStatus;
         }
-        if (invoiceStatusQuery?.VALIDATED && !invoiceStatusQuery?.TEMPORARY) {
-            tmpQuery = tmpQuery + 'Status=VALIDATED&';
-        }
+        // if (
+        //     !(
+        //         !invoiceStatusQuery?.TEMPORARY &&
+        //         !invoiceStatusQuery?.VALIDATED &&
+        //         !invoiceStatusQuery?.BILLED &&
+        //         !invoiceStatusQuery?.PAYING &&
+        //         !invoiceStatusQuery?.COMPLETE &&
+        //         !invoiceStatusQuery?.INVALID
+        //     ) ||
+        //     !(
+        //         invoiceStatusQuery?.TEMPORARY &&
+        //         invoiceStatusQuery?.VALIDATED &&
+        //         invoiceStatusQuery?.BILLED &&
+        //         invoiceStatusQuery?.PAYING &&
+        //         invoiceStatusQuery?.COMPLETE &&
+        //         invoiceStatusQuery?.INVALID
+        //     )
+        // ) {
+        //     console.log('大成功!!!!!');
+        //     // tmpQuery = tmpQuery + 'Status=TEMPORARY&';
+        // }
+        // if (invoiceStatusQuery?.VALIDATED && !invoiceStatusQuery?.TEMPORARY) {
+        //     tmpQuery = tmpQuery + 'Status=VALIDATED&';
+        // }
         if (tmpQuery.includes('&')) {
             tmpQuery = tmpQuery.slice(0, -1);
         } else {
@@ -89,12 +146,13 @@ const InvoiceQueryBlock = ({ setListInfo, queryApi, supNmList, subCableList, que
         }
         tmpQuery = queryInvoice + tmpQuery;
         queryApi.current = tmpQuery;
-        fetch(tmpQuery, { method: 'GET' })
-            .then((res) => res.json())
-            .then((data) => {
-                setListInfo(data);
-            })
-            .catch((e) => console.log('e1=>>', e));
+        console.log('tmpQuery=>>', tmpQuery);
+        // fetch(tmpQuery, { method: 'GET' })
+        //     .then((res) => res.json())
+        //     .then((data) => {
+        //         setListInfo(data);
+        //     })
+        //     .catch((e) => console.log('e1=>>', e));
     };
 
     return (
@@ -163,7 +221,7 @@ const InvoiceQueryBlock = ({ setListInfo, queryApi, supNmList, subCableList, que
                         // onChange={(e) => setInvoiceStatusQuery(e.target.value)}
                     >
                         <FormControlLabel
-                            value={true}
+                            // value={true}
                             control={
                                 <Checkbox
                                     name={'TEMPORARY'}
@@ -174,7 +232,7 @@ const InvoiceQueryBlock = ({ setListInfo, queryApi, supNmList, subCableList, que
                             label="暫存"
                         />
                         <FormControlLabel
-                            value={false}
+                            // value={false}
                             control={
                                 <Checkbox
                                     name={'VALIDATED'}
@@ -183,6 +241,50 @@ const InvoiceQueryBlock = ({ setListInfo, queryApi, supNmList, subCableList, que
                                 />
                             }
                             label="Validated"
+                        />
+                        <FormControlLabel
+                            // value={false}
+                            control={
+                                <Checkbox
+                                    name={'BILLED'}
+                                    onChange={handleChange}
+                                    sx={{ '& .MuiSvgIcon-root': { fontSize: { lg: 14, xl: 20 } } }}
+                                />
+                            }
+                            label="BILLED"
+                        />
+                        <FormControlLabel
+                            // value={false}
+                            control={
+                                <Checkbox
+                                    name={'PAYING'}
+                                    onChange={handleChange}
+                                    sx={{ '& .MuiSvgIcon-root': { fontSize: { lg: 14, xl: 20 } } }}
+                                />
+                            }
+                            label="PAYING"
+                        />
+                        <FormControlLabel
+                            // value={false}
+                            control={
+                                <Checkbox
+                                    name={'COMPLETE'}
+                                    onChange={handleChange}
+                                    sx={{ '& .MuiSvgIcon-root': { fontSize: { lg: 14, xl: 20 } } }}
+                                />
+                            }
+                            label="COMPLETE"
+                        />
+                        <FormControlLabel
+                            // value={false}
+                            control={
+                                <Checkbox
+                                    name={'INVALID'}
+                                    onChange={handleChange}
+                                    sx={{ '& .MuiSvgIcon-root': { fontSize: { lg: 14, xl: 20 } } }}
+                                />
+                            }
+                            label="INVALID"
                         />
                     </FormGroup>
                     {/* </FormControl> */}

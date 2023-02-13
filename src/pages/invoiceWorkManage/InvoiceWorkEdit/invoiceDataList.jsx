@@ -46,7 +46,7 @@ const InvoiceDataList = ({ listInfo, setAction, setModifyItem }) => {
     const options2 = ['View', '作廢'];
 
     return (
-        <TableContainer component={Paper} sx={{ maxHeight: 250 }}>
+        <TableContainer component={Paper} sx={{ maxHeight: 350 }}>
             <Table sx={{ minWidth: 300 }} stickyHeader aria-label="sticky table">
                 <TableHead>
                     <TableRow>

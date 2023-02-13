@@ -31,7 +31,7 @@ const InvoiceDataList = ({ listInfo, setEditItem, deletelistInfoItem }) => {
     }));
 
     return (
-        <TableContainer component={Paper} sx={{ maxHeight: 250 }}>
+        <TableContainer component={Paper} sx={{ maxHeight: 350 }}>
             <Table sx={{ minWidth: 300 }} stickyHeader aria-label="sticky table">
                 <TableHead>
                     <TableRow>

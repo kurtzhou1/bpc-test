@@ -64,8 +64,6 @@ const LiabilityManage = () => {
 
     const queryApi = useRef(queryLiability + '/all');
 
-    // const parties = [{ name: 'Taiwan' }, { name: 'Vietnam' }, { name: 'Japan' }, { name: 'Korean' }];
-
     const handleDialogOpen = () => {
         setIsDialogOpen(true);
         setDialogAction('add');
@@ -94,8 +92,15 @@ const LiabilityManage = () => {
 
     //新增
     const addLiability = (list, setAdd) => {
-        console.log('list=>>', list);
-        if (list.length > 0) {
+        let tmpNumber = 0;
+        list.forEach((e) => {
+            tmpNumber = Number(e.LBRatio) + Number(tmpNumber);
+        });
+        console.log('tmpNumber=>>', tmpNumber);
+        if (tmpNumber !== 100) {
+            alert('攤分比例加總須等於100');
+        }
+        if (list.length > 0 && tmpNumber === 100) {
             fetch(compareLiability, { method: 'POST', body: JSON.stringify(list) })
                 .then((res) => res.json())
                 .then((data) => {
@@ -114,23 +119,6 @@ const LiabilityManage = () => {
                 })
                 .catch((e) => console.log('e1=>>', e));
         }
-        // if (list.length > 0) {
-        //     let tmpArray = listInfo.map((i) => i);
-        //     list.forEach((i) => {
-        //         tmpArray.push({
-        //             BillMilestone: i.BillMilestone,
-        //             PartyName: i.PartyName,
-        //             LBRatio: i.LbRatio,
-        //             SubmarineCable: i.SubmarineCable,
-        //             WorkTitle: i.WorkTitle,
-        //             CreateTime: '',
-        //             ModifyNote: modifyNote.trim() === '' ? '' : modifyNote
-        //         });
-        //     });
-        //     setListInfo([...tmpArray]);
-        //     handleDialogClose();
-        //     itemDetailInitial();
-        // }
     };
 
     //終止

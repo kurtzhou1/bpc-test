@@ -172,7 +172,7 @@ const ToBillDataList = ({ listInfo, BootstrapDialogTitle, apiQuery }) => {
                     立帳作業
                 </BootstrapDialogTitle>
                 <DialogContent>
-                    <TableContainer component={Paper} sx={{ maxHeight: 250 }}>
+                    <TableContainer component={Paper} sx={{ maxHeight: 350 }}>
                         <Table sx={{ minWidth: 300 }} stickyHeader aria-label="sticky table">
                             <TableHead>
                                 <TableRow>
@@ -231,7 +231,7 @@ const ToBillDataList = ({ listInfo, BootstrapDialogTitle, apiQuery }) => {
                     </Button>
                 </DialogActions>
             </Dialog>
-            <TableContainer component={Paper} sx={{ maxHeight: 250 }}>
+            <TableContainer component={Paper} sx={{ maxHeight: 350 }}>
                 <Table sx={{ minWidth: 300 }} stickyHeader aria-label="sticky table">
                     <TableHead>
                         <TableRow>
