@@ -14,6 +14,7 @@ import InvoiceQuery from './invoiceQuery';
 import CreateInvoiceMain from './createInvoiceMain';
 import CreateInvoiceDetail from './createInvoiceDetail';
 import InvoiceDataList from './invoiceDataList';
+import { handleNumber } from 'components/commonFunction';
 // import { TextField } from '@mui/material/index';
 
 // api
@@ -40,7 +41,7 @@ const InvoiceWorkManage = () => {
     const [contractType, setContractType] = useState(''); //合約種類
     const [issueDate, setIssueDate] = useState(new Date()); //發票日期
     const [dueDate, setDueDate] = useState(new Date()); //發票到期日
-    const [totalAmount, setTotalAmount] = useState(0); //總金額
+    const [totalAmount, setTotalAmount] = useState(''); //總金額
     const [isPro, setIsPro] = useState(true); //是否為Pro-forma
     const [isLiability, setIsLiability] = useState(true); //是否需攤分
     const [isRecharge, setIsRecharge] = useState(true); //是否為短腳補收
@@ -54,7 +55,7 @@ const InvoiceWorkManage = () => {
 
     const [billMilestone, setBillMilestone] = useState(''); //記帳段號
     const [feeItem, setFeeItem] = useState(''); //費用項目
-    const [feeAmount, setFeeAmount] = useState(0); //費用金額
+    const [feeAmount, setFeeAmount] = useState(''); //費用金額
 
     const [action, setAction] = useState('');
     const [modifyItem, setModifyItem] = useState(-1);
@@ -141,7 +142,7 @@ const InvoiceWorkManage = () => {
         setContractType('');
         setIssueDate(new Date());
         setDueDate(new Date());
-        setTotalAmount(0);
+        setTotalAmount('');
         setIsPro(true);
         setIsLiability(true);
         setIsRecharge(true);
@@ -152,7 +153,7 @@ const InvoiceWorkManage = () => {
     const itemDetailInitial = () => {
         setBillMilestone('');
         setFeeItem('');
-        setFeeAmount(0);
+        setFeeAmount('');
     };
 
     const queryInit = () => {
@@ -214,7 +215,7 @@ const InvoiceWorkManage = () => {
             setContractType(listInfo[modifyItem].InvoiceWKMaster.ContractType);
             setIssueDate(listInfo[modifyItem].InvoiceWKMaster.IssueDate);
             setDueDate(listInfo[modifyItem].InvoiceWKMaster.DueDate);
-            setTotalAmount(listInfo[modifyItem].InvoiceWKMaster.TotalAmount);
+            setTotalAmount(handleNumber(listInfo[modifyItem].InvoiceWKMaster.TotalAmount));
             setIsPro(listInfo[modifyItem].InvoiceWKMaster.IsPro);
             setIsLiability(listInfo[modifyItem].InvoiceWKMaster.IsLiability);
             setIsRecharge(listInfo[modifyItem].InvoiceWKMaster.IsRecharge);
@@ -279,7 +280,7 @@ const InvoiceWorkManage = () => {
             detailAmount = detailAmount + i.FeeAmount;
         });
 
-        if (Number(totalAmount).toFixed(2) !== Number(detailAmount).toFixed(2)) {
+        if (Number(totalAmount.toString().replaceAll(',', '')).toFixed(2) !== Number(detailAmount).toFixed(2)) {
             alert('總金額不等於費用項目金額加總');
             return false;
         }
@@ -303,7 +304,7 @@ const InvoiceWorkManage = () => {
                 isPro === 'true' || isPro === true ? true : false,
                 isRecharge === 'true' || isRecharge === true ? true : false,
                 isLiability === 'true' || isLiability === true ? true : false,
-                Number(totalAmount)
+                Number(totalAmount.toString().replaceAll(',', '')).toFixed(2)
             );
             let combineArray = {
                 InvoiceWKMaster: tmpArray,

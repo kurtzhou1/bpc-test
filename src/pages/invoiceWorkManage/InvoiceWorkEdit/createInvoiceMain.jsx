@@ -9,6 +9,7 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 // project import
 import MainCard from 'components/MainCard';
 import { TextField } from '@mui/material/index';
+import { handleNumber } from 'components/commonFunction';
 
 // ==============================|| SAMPLE PAGE ||============================== //
 
@@ -187,10 +188,10 @@ const InvoiceWorkManage = ({
                         fullWidth
                         variant="outlined"
                         size="small"
-                        type="number"
+                        // type="number"
                         label="填寫發票總金額"
                         onChange={(e) => {
-                            setTotalAmount(e.target.value);
+                            setTotalAmount(handleNumber(e.target.value));
                         }}
                     />
                 </Grid>

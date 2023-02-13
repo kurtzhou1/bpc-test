@@ -1,6 +1,7 @@
 import { useState } from 'react';
 
 // project import
+import { handleNumber } from 'components/commonFunction';
 
 // material-ui
 import { Typography, Button, Table } from '@mui/material';
@@ -56,7 +57,7 @@ const InvoiceDataList = ({ listInfo, setEditItem, deletelistInfoItem }) => {
                                     {dayjs(row.InvoiceWKMaster?.IssueDate).format('YYYY/MM/DD')}
                                 </StyledTableCell>
                                 <StyledTableCell align="center">{row.InvoiceWKDetail.length}</StyledTableCell>
-                                <StyledTableCell align="center">{row.InvoiceWKMaster.TotalAmount}</StyledTableCell>
+                                <StyledTableCell align="center">{handleNumber(row.InvoiceWKMaster.TotalAmount)}</StyledTableCell>
                                 <StyledTableCell align="center">
                                     <Button
                                         color="primary"

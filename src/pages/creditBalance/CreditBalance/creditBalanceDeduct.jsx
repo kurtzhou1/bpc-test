@@ -29,6 +29,7 @@ import CheckBoxIcon from '@mui/icons-material/CheckBox';
 
 // project import
 import MainCard from 'components/MainCard';
+import { handleNumber } from 'components/commonFunction';
 
 // table
 import TableBody from '@mui/material/TableBody';
@@ -156,8 +157,8 @@ const CreditBalanceDeduct = ({ cblistInfo }) => {
                             >
                                 <StyledTableCell align="center">{id + 1}</StyledTableCell>
                                 <StyledTableCell align="center">{row.CBType}</StyledTableCell>
-                                <StyledTableCell align="center">{`$${row.CurrAmount}`}</StyledTableCell>
-                                <StyledTableCell align="center">{`$${row.CurrAmount}`}</StyledTableCell>
+                                <StyledTableCell align="center">{`$${handleNumber(row.CurrAmount)}`}</StyledTableCell>
+                                <StyledTableCell align="center">{`$${handleNumber(row.CurrAmount)}`}</StyledTableCell>
                                 <StyledTableCell align="center">{dayjs(row.BillingNo).format('YYYYMMDD')}</StyledTableCell>
                                 <StyledTableCell align="center">{row.InvoiceNo}</StyledTableCell>
                             </TableRow>

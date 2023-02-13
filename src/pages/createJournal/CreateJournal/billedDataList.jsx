@@ -1,7 +1,7 @@
 import { useState, useRef } from 'react';
 
 // project import
-
+import { handleNumber } from 'components/commonFunction';
 // material-ui
 import {
     Typography,
@@ -158,19 +158,21 @@ const BilledDataList = ({ listInfo, BootstrapDialogTitle, apiQuery }) => {
                                             sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                                         >
                                             <TableCell align="center">{row.FeeItem}</TableCell>
-                                            <TableCell align="center">{`$${row.FeeAmountPre}`}</TableCell>
+                                            <TableCell align="center">{`$${handleNumber(row.FeeAmountPre)}`}</TableCell>
                                             <TableCell align="center">{row.PartyName}</TableCell>
                                             <TableCell align="center">{`${row.LBRatio}%`}</TableCell>
-                                            <TableCell align="center">{`$${row.FeeAmountPost}`}</TableCell>
+                                            <TableCell align="center">{`$${handleNumber(row.FeeAmountPost)}`}</TableCell>
                                             <TableCell align="center">{`$${row.Difference}`}</TableCell>
-                                            <TableCell align="center">{`$${afterDiff.toFixed(2)}`}</TableCell>
+                                            <TableCell align="center">{`$${handleNumber(afterDiff.toFixed(2))}`}</TableCell>
                                         </TableRow>
                                     );
                                 })}
                             </TableBody>
                         </Table>
                     </TableContainer>
-                    <DialogContentText sx={{ fontSize: '20px', mt: '0.5rem' }}>發票總金額：${totalAmount.current}</DialogContentText>
+                    <DialogContentText sx={{ fontSize: '20px', mt: '0.5rem' }}>
+                        發票總金額：${handleNumber(totalAmount.current)}
+                    </DialogContentText>
                 </DialogContent>
                 <DialogActions>
                     {/* <Button sx={{ mr: '0.05rem' }} variant="contained" onClick={sendJounaryInfo}>
@@ -214,7 +216,7 @@ const BilledDataList = ({ listInfo, BootstrapDialogTitle, apiQuery }) => {
                                         {dayjs(row.InvoiceWKMaster.IssueDate).format('YYYY/MM/DD')}
                                     </StyledTableCell>
                                     <StyledTableCell align="center">{row.InvoiceWKDetail.length}</StyledTableCell>
-                                    <StyledTableCell align="center">{row.InvoiceWKMaster.TotalAmount}</StyledTableCell>
+                                    <StyledTableCell align="center">{handleNumber(row.InvoiceWKMaster.TotalAmount)}</StyledTableCell>
                                     <StyledTableCell align="center">
                                         <Button
                                             color="primary"

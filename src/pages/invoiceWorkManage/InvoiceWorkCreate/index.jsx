@@ -16,6 +16,7 @@ import { TextField } from '@mui/material/index';
 
 // api
 import { supplierNameList, submarineCableList, billMilestoneList, generateInvoice } from 'components/apis.jsx';
+import { handleNumber } from 'components/commonFunction';
 
 // ==============================|| SAMPLE PAGE ||============================== //
 
@@ -28,7 +29,7 @@ const InvoiceWorkManage = () => {
     const [contractType, setContractType] = useState(''); //合約種類
     const [issueDate, setIssueDate] = useState(new Date()); //發票日期
     const [dueDate, setDueDate] = useState(new Date()); //發票到期日
-    const [totalAmount, setTotalAmount] = useState(0); //總金額
+    const [totalAmount, setTotalAmount] = useState(''); //總金額
     const [isPro, setIsPro] = useState(true); //是否為Pro-forma
     const [isLiability, setIsLiability] = useState(true); //是否需攤分
     const [isRecharge, setIsRecharge] = useState(true); //是否為短腳補收
@@ -40,7 +41,7 @@ const InvoiceWorkManage = () => {
 
     const [billMilestone, setBillMilestone] = useState(''); //記帳段號
     const [feeItem, setFeeItem] = useState(''); //費用項目
-    const [feeAmount, setFeeAmount] = useState(0); //費用金額
+    const [feeAmount, setFeeAmount] = useState(''); //費用金額
 
     const [editItem, setEditItem] = useState(NaN);
     const [listInfo, setListInfo] = useState([]);
@@ -54,7 +55,7 @@ const InvoiceWorkManage = () => {
         setContractType('');
         setIssueDate(new Date());
         setDueDate(new Date());
-        setTotalAmount(0);
+        setTotalAmount('');
         setIsPro(true);
         setIsLiability(true);
         setIsRecharge(true);
@@ -66,7 +67,7 @@ const InvoiceWorkManage = () => {
     const itemDetailInitial = () => {
         setBillMilestone('');
         setFeeItem('');
-        setFeeAmount(0);
+        setFeeAmount('');
     };
 
     const createData = (
@@ -107,7 +108,7 @@ const InvoiceWorkManage = () => {
         invoiceDetailInfo.forEach((i) => {
             detailAmount = detailAmount + i.FeeAmount;
         });
-        if (Number(totalAmount).toFixed(2) !== Number(detailAmount).toFixed(2)) {
+        if (Number(totalAmount.toString().replaceAll(',', '')).toFixed(2) !== Number(detailAmount).toFixed(2)) {
             alert('總金額不等於費用項目金額加總');
             return false;
         }
@@ -132,8 +133,9 @@ const InvoiceWorkManage = () => {
                 isPro === 'true' || isPro === true ? true : false,
                 isRecharge === 'true' || isRecharge === true ? true : false,
                 isLiability === 'true' || isLiability === true ? true : false,
-                Number(totalAmount)
+                Number(totalAmount.toString().replaceAll(',', '')).toFixed(2)
             );
+            console.log('tmpArray=>>', tmpArray);
             let combineArray = {
                 InvoiceWKMaster: tmpArray,
                 InvoiceWKDetail: invoiceDetailInfo
@@ -162,7 +164,7 @@ const InvoiceWorkManage = () => {
             setContractType(tmpArray?.InvoiceWKMaster.ContractType);
             setIssueDate(tmpArray?.InvoiceWKMaster.IssueDate);
             setDueDate(tmpArray?.InvoiceWKMaster.DueDate);
-            setTotalAmount(tmpArray?.InvoiceWKMaster.TotalAmount);
+            setTotalAmount(handleNumber(tmpArray?.InvoiceWKMaster.TotalAmount));
             setIsPro(tmpArray?.InvoiceWKMaster.IsPro);
             setIsLiability(tmpArray?.InvoiceWKMaster.IsLiability);
             setIsRecharge(tmpArray?.InvoiceWKMaster.IsRecharge);
@@ -192,7 +194,7 @@ const InvoiceWorkManage = () => {
                 isPro === 'true' || isPro === true ? true : false,
                 isRecharge === 'true' || isRecharge === true ? true : false,
                 isLiability === 'true' || isLiability === true ? true : false,
-                Number(totalAmount)
+                Number(totalAmount.toString().replaceAll(',', '')).toFixed(2)
             );
             let combineArray = {
                 InvoiceWKMaster: tmpAddArray,

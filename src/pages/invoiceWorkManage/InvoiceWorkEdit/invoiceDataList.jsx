@@ -2,6 +2,7 @@ import { useState } from 'react';
 
 // project import
 import MoreVertIcon from '@mui/icons-material/MoreVert';
+import { handleNumber } from 'components/commonFunction';
 
 // material-ui
 import { Typography, Button, Table, IconButton, Menu, MenuItem, ListItemText, ListItemIcon } from '@mui/material';
@@ -32,16 +33,15 @@ const InvoiceDataList = ({ listInfo, setAction, setModifyItem }) => {
         }
     }));
 
-    const [anchorEl, setAnchorEl] = useState(null);
-    const open = Boolean(anchorEl);
-    const handleClick = (event) => {
-        setAnchorEl(event.currentTarget);
-    };
-    const handleClose = () => {
-        setAnchorEl(null);
-    };
+    // const [anchorEl, setAnchorEl] = useState(null);
+    // const open = Boolean(anchorEl);
+    // const handleClick = (event) => {
+    //     setAnchorEl(event.currentTarget);
+    // };
+    // const handleClose = () => {
+    //     setAnchorEl(null);
+    // };
 
-    const ITEM_HEIGHT = 48;
     const options1 = ['View', 'Validated', 'Edit', 'Delete'];
     const options2 = ['View', '作廢'];
 
@@ -78,7 +78,7 @@ const InvoiceDataList = ({ listInfo, setAction, setModifyItem }) => {
                                     {dayjs(row.InvoiceWKMaster?.IssueDate).format('YYYY/MM/DD')}
                                 </StyledTableCell>
                                 <StyledTableCell align="center">{row.InvoiceWKDetail.length}</StyledTableCell>
-                                <StyledTableCell align="center">{row.InvoiceWKMaster.TotalAmount}</StyledTableCell>
+                                <StyledTableCell align="center">{handleNumber(row.InvoiceWKMaster.TotalAmount)}</StyledTableCell>
                                 <StyledTableCell align="center">
                                     {row.InvoiceWKMaster.Status === 'TEMPORARY' ? '暫存' : 'Validated'}
                                 </StyledTableCell>

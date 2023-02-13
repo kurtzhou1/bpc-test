@@ -1,7 +1,7 @@
 // import { useState } from 'react';
 
 // project import
-
+import { handleNumber } from 'components/commonFunction';
 // material-ui
 import { Typography, Button, Table } from '@mui/material';
 import TableBody from '@mui/material/TableBody';
@@ -75,7 +75,7 @@ const CreditBalanceDataList = ({ listInfo, setIsDialogOpen, deletelistInfoItem }
                                     <StyledTableCell align="center">{row.BillingNo}</StyledTableCell>
                                     <StyledTableCell align="center">{row.SubmarineCable}</StyledTableCell>
                                     <StyledTableCell align="center">{row.WorkTitle}</StyledTableCell>
-                                    <StyledTableCell align="center">{`$${row.CurrAmount}`}</StyledTableCell>
+                                    <StyledTableCell align="center">{`$${handleNumber(row.CurrAmount)}`}</StyledTableCell>
                                     <StyledTableCell align="center"> {dayjs(row.CreateDate).format('YYYY/MM/DD')}</StyledTableCell>
                                     <StyledTableCell align="center">{row.Note}</StyledTableCell>
                                     <StyledTableCell align="center">

@@ -3,6 +3,7 @@ import { useEffect, useState, useRef } from 'react';
 // project import
 import MainCard from 'components/MainCard';
 import { TextField } from '@mui/material/index';
+import { handleNumber } from 'components/commonFunction';
 
 // material-ui
 import { Typography, Grid, FormControl, InputLabel, Select, MenuItem, Button, Table } from '@mui/material';
@@ -55,7 +56,7 @@ const CreateInvoiceDetail = ({
 
     const itemDetailAdd = () => {
         let tmpArray = invoiceDetailInfo;
-        tmpArray.push(createData(feeItem, billMilestone, Number(feeAmount)));
+        tmpArray.push(createData(feeItem, billMilestone, Number(feeAmount.replaceAll(',', ''))));
         tmpArray.reverse();
         setInvoiceDetailInfo([...tmpArray]);
         itemDetailInitial();
@@ -73,14 +74,14 @@ const CreateInvoiceDetail = ({
         let tmpArray = invoiceDetailInfo[id];
         setBillMilestone(tmpArray.BillMilestone);
         setFeeItem(tmpArray.FeeItem);
-        setFeeAmount(tmpArray.FeeAmount);
+        setFeeAmount(handleNumber(tmpArray.FeeAmount));
     };
 
     const itemDetailSave = () => {
         setIsEdit(false);
         let tmpArray = invoiceDetailInfo.map((i) => i);
         tmpArray.splice(editItem.current, 1);
-        tmpArray.push(createData(feeItem, billMilestone, Number(feeAmount)));
+        tmpArray.push(createData(feeItem, billMilestone, Number(feeAmount.replaceAll(',', ''))));
         tmpArray.reverse();
         setInvoiceDetailInfo([...tmpArray]);
         itemDetailInitial();
@@ -138,10 +139,10 @@ const CreateInvoiceDetail = ({
                         variant="outlined"
                         value={feeAmount}
                         disabled={action === 'View'}
-                        type="number"
+                        // type="number"
                         size="small"
                         label="填寫費用金額"
-                        onChange={(e) => setFeeAmount(e.target.value)}
+                        onChange={(e) => setFeeAmount(handleNumber(e.target.value))}
                     />
                 </Grid>
                 {/* row2 */}
@@ -214,7 +215,7 @@ const CreateInvoiceDetail = ({
                                             {row.FeeItem}
                                         </StyledTableCell>
                                         <StyledTableCell align="center">{row.BillMilestone}</StyledTableCell>
-                                        <StyledTableCell align="center">{row.FeeAmount}</StyledTableCell>
+                                        <StyledTableCell align="center">{handleNumber(row.FeeAmount)}</StyledTableCell>
                                         <StyledTableCell align="center">
                                             {action !== 'View' ? (
                                                 <>

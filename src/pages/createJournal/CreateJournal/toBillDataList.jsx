@@ -1,7 +1,7 @@
 import { useState, useRef } from 'react';
 
 // project import
-
+import { handleNumber } from 'components/commonFunction';
 // material-ui
 import {
     Typography,
@@ -109,7 +109,7 @@ const ToBillDataList = ({ listInfo, BootstrapDialogTitle, apiQuery }) => {
 
     //立帳作業
     const toBillData = (wKMasterID) => {
-        console.log('wKMasterID=>>', wKMasterID);
+        console.log('立帳作業wKMasterID=>>', wKMasterID);
         let tmpQuery = '/' + 'WKMasterID=' + wKMasterID;
         tmpQuery = toBillDataapi + tmpQuery;
         console.log('tmpQuery=>>', tmpQuery);
@@ -118,13 +118,15 @@ const ToBillDataList = ({ listInfo, BootstrapDialogTitle, apiQuery }) => {
             .then((data) => {
                 console.log('立帳成功=>>', data);
                 let tmpAmount = 0;
-                toBillDataMain.current = data.InvoiceMaster;
-                setToBillDataInfo(data.InvoiceDetail);
-                setTotalAmount(data.TotalAmount);
-                data.InvoiceDetail.forEach((i) => {
-                    tmpAmount = tmpAmount + i.FeeAmountPost + i.Difference;
-                });
-                setCurrentAmount(tmpAmount.toFixed(2));
+                if (Array.isArray(data)) {
+                    toBillDataMain.current = data ? data.InvoiceMaster : [];
+                    setToBillDataInfo(data ? data.InvoiceDetail : []);
+                    setTotalAmount(data ? data.TotalAmount : 0);
+                    data.InvoiceDetail.forEach((i) => {
+                        tmpAmount = tmpAmount + i.FeeAmountPost + i.Difference;
+                    });
+                    setCurrentAmount(tmpAmount.toFixed(2));
+                }
             })
             .catch((e) => console.log('e1=>>', e));
         setIsDialogOpen(true);
@@ -192,10 +194,10 @@ const ToBillDataList = ({ listInfo, BootstrapDialogTitle, apiQuery }) => {
                                             sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                                         >
                                             <TableCell align="center">{row.FeeItem}</TableCell>
-                                            <TableCell align="center">{`$${row.FeeAmountPre}`}</TableCell>
+                                            <TableCell align="center">{`$${handleNumber(row.FeeAmountPre)}`}</TableCell>
                                             <TableCell align="center">{row.PartyName}</TableCell>
                                             <TableCell align="center">{`${row.LBRatio}%`}</TableCell>
-                                            <TableCell align="center">{`$${row.FeeAmountPost}`}</TableCell>
+                                            <TableCell align="center">{`$${handleNumber(row.FeeAmountPost)}`}</TableCell>
                                             <TableCell align="center">
                                                 <TextField
                                                     label="$"
@@ -208,15 +210,17 @@ const ToBillDataList = ({ listInfo, BootstrapDialogTitle, apiQuery }) => {
                                                     }}
                                                 />
                                             </TableCell>
-                                            <TableCell align="center">{`$${afterDiff.toFixed(2)}`}</TableCell>
+                                            <TableCell align="center">{`$${handleNumber(afterDiff.toFixed(2))}`}</TableCell>
                                         </TableRow>
                                     );
                                 })}
                             </TableBody>
                         </Table>
                     </TableContainer>
-                    <DialogContentText sx={{ fontSize: '20px', mt: '0.5rem' }}>發票總金額：${totalAmount}</DialogContentText>
-                    <DialogContentText sx={{ fontSize: '20px', color: '#CC0000' }}>目前金額：${currentAmount}</DialogContentText>
+                    <DialogContentText sx={{ fontSize: '20px', mt: '0.5rem' }}>發票總金額：${handleNumber(totalAmount)}</DialogContentText>
+                    <DialogContentText sx={{ fontSize: '20px', color: '#CC0000' }}>
+                        目前金額：${handleNumber(currentAmount)}
+                    </DialogContentText>
                 </DialogContent>
                 <DialogActions>
                     <Button sx={{ mr: '0.05rem' }} variant="contained" onClick={sendJounaryInfo}>
@@ -260,7 +264,7 @@ const ToBillDataList = ({ listInfo, BootstrapDialogTitle, apiQuery }) => {
                                         {dayjs(row.InvoiceWKMaster.IssueDate).format('YYYY/MM/DD')}
                                     </StyledTableCell>
                                     <StyledTableCell align="center">{row.InvoiceWKDetail.length}</StyledTableCell>
-                                    <StyledTableCell align="center">{row.InvoiceWKMaster.TotalAmount}</StyledTableCell>
+                                    <StyledTableCell align="center">{handleNumber(row.InvoiceWKMaster.TotalAmount)}</StyledTableCell>
                                     <StyledTableCell align="center">
                                         <Button
                                             color="primary"
