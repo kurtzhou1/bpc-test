@@ -210,8 +210,7 @@ const InvoiceQueryBlock = ({ setListInfo, queryApi, supNmList, subCableList, que
                         處理狀態：
                     </Typography>
                 </Grid>
-                <Grid item xs={12} sm={2} md={3} lg={3}>
-                    {/* <FormControl> */}
+                <Grid item xs={12} sm={2} md={5} lg={5}>
                     <FormGroup
                         row
                         value={invoiceStatusQuery}
@@ -221,7 +220,6 @@ const InvoiceQueryBlock = ({ setListInfo, queryApi, supNmList, subCableList, que
                         // onChange={(e) => setInvoiceStatusQuery(e.target.value)}
                     >
                         <FormControlLabel
-                            // value={true}
                             control={
                                 <Checkbox
                                     name={'TEMPORARY'}
@@ -232,7 +230,6 @@ const InvoiceQueryBlock = ({ setListInfo, queryApi, supNmList, subCableList, que
                             label="暫存"
                         />
                         <FormControlLabel
-                            // value={false}
                             control={
                                 <Checkbox
                                     name={'VALIDATED'}
@@ -243,7 +240,6 @@ const InvoiceQueryBlock = ({ setListInfo, queryApi, supNmList, subCableList, que
                             label="Validated"
                         />
                         <FormControlLabel
-                            // value={false}
                             control={
                                 <Checkbox
                                     name={'BILLED'}
@@ -254,7 +250,6 @@ const InvoiceQueryBlock = ({ setListInfo, queryApi, supNmList, subCableList, que
                             label="BILLED"
                         />
                         <FormControlLabel
-                            // value={false}
                             control={
                                 <Checkbox
                                     name={'PAYING'}
@@ -265,7 +260,6 @@ const InvoiceQueryBlock = ({ setListInfo, queryApi, supNmList, subCableList, que
                             label="PAYING"
                         />
                         <FormControlLabel
-                            // value={false}
                             control={
                                 <Checkbox
                                     name={'COMPLETE'}
@@ -276,7 +270,6 @@ const InvoiceQueryBlock = ({ setListInfo, queryApi, supNmList, subCableList, que
                             label="COMPLETE"
                         />
                         <FormControlLabel
-                            // value={false}
                             control={
                                 <Checkbox
                                     name={'INVALID'}
@@ -287,9 +280,7 @@ const InvoiceQueryBlock = ({ setListInfo, queryApi, supNmList, subCableList, que
                             label="INVALID"
                         />
                     </FormGroup>
-                    {/* </FormControl> */}
                 </Grid>
-                <Grid item xs={12} sm={0} md={2} lg={2} />
                 {/* row2 */}
                 {/* <Grid item xs={12} sm={2} md={1} lg={1}>
                     <Typography variant="h5" sx={{ fontSize: { lg: '0.5rem', xl: '0.88rem' }, ml: { lg: '0.5rem', xl: '1.5rem' } }}>
