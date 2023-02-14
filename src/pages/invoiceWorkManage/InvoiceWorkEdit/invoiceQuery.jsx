@@ -147,12 +147,12 @@ const InvoiceQueryBlock = ({ setListInfo, queryApi, supNmList, subCableList, que
         tmpQuery = queryInvoice + tmpQuery;
         queryApi.current = tmpQuery;
         console.log('tmpQuery=>>', tmpQuery);
-        // fetch(tmpQuery, { method: 'GET' })
-        //     .then((res) => res.json())
-        //     .then((data) => {
-        //         setListInfo(data);
-        //     })
-        //     .catch((e) => console.log('e1=>>', e));
+        fetch(tmpQuery, { method: 'GET' })
+            .then((res) => res.json())
+            .then((data) => {
+                setListInfo(data);
+            })
+            .catch((e) => console.log('e1=>>', e));
     };
 
     return (
