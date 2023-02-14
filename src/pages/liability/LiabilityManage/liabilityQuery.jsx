@@ -158,7 +158,7 @@ const LiabilityQuery = ({ setListInfo, bmStoneList, partyList, subCableList, wor
                             renderInput={(startProps, endProps) => (
                                 <>
                                     <TextField fullWidth size="small" {...startProps} />
-                                    <Box sx={{ mx: 2 }}> to </Box>
+                                    <Box sx={{ mx: 1 }}> to </Box>
                                     <TextField fullWidth size="small" {...endProps} />
                                 </>
                             )}

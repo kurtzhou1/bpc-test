@@ -19,7 +19,7 @@ const accountsReceivable = {
             id: 'item4',
             title: '應收帳款管理',
             type: 'collapse',
-            url: '/AccountsReceivable',
+            url: '/AccountsReceivable/GenerateFeeAmount',
             icon: icons.DollarCircleOutlined,
             breadcrumbs: true,
             children: [

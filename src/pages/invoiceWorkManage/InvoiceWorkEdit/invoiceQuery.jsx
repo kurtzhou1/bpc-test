@@ -382,7 +382,7 @@ const InvoiceQueryBlock = ({ setListInfo, queryApi, supNmList, subCableList, que
                             renderInput={(startProps, endProps) => (
                                 <>
                                     <TextField size="small" {...startProps} />
-                                    <Box sx={{ mx: 2 }}> to </Box>
+                                    <Box sx={{ mx: 1 }}> to </Box>
                                     <TextField size="small" {...endProps} />
                                 </>
                             )}

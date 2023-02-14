@@ -14,6 +14,20 @@ import Breadcrumbs from 'components/@extended/Breadcrumbs';
 
 // types
 import { openDrawer } from 'store/reducers/menu';
+import { setSupplierNameList, setSubmarineCableList } from 'store/reducers/dropdown';
+
+// api
+import {
+    queryInvoice,
+    generateInvoice,
+    updateInvoice,
+    deleteInvoiceWKMaster,
+    deleteInvoiceWKDetail,
+    supplierNameList,
+    submarineCableList,
+    billMilestoneList,
+    queryBillMilestoneList
+} from 'components/apis.jsx';
 
 // ==============================|| MAIN LAYOUT ||============================== //
 
@@ -23,7 +37,6 @@ const MainLayout = () => {
     const dispatch = useDispatch();
 
     const { drawerOpen } = useSelector((state) => state.menu);
-
     // drawer toggler
     const [open, setOpen] = useState(drawerOpen);
     const handleDrawerToggle = () => {
@@ -43,6 +56,29 @@ const MainLayout = () => {
         if (open !== drawerOpen) setOpen(drawerOpen);
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [drawerOpen]);
+
+    useEffect(() => {
+        //下拉選單
+        fetch(supplierNameList, { method: 'GET' })
+            .then((res) => res.json())
+            .then((data) => {
+                dispatch(setSupplierNameList({ supNmList: data }));
+            })
+            .catch((e) => console.log('e1=>>', e));
+        fetch(submarineCableList, { method: 'GET' })
+            .then((res) => res.json())
+            .then((data) => {
+                dispatch(setSubmarineCableList({ subCableList: data }));
+            })
+            .catch((e) => console.log('e1=>>', e));
+        // fetch(queryBillMilestoneList, { method: 'GET' })
+        //     .then((res) => res.json())
+        //     .then((data) => {
+        //         console.log('data=>>', data);
+        //         setQueryBmStoneList(data);
+        //     })
+        //     .catch((e) => console.log('e1=>>', e));
+    }, []);
 
     return (
         <Box sx={{ display: 'flex', width: '100%' }}>

@@ -171,13 +171,6 @@ const CreateJournal = () => {
         }
     }, [value]);
 
-    // useEffect(() => {
-    //     console.log('2=>>', value);
-    //     if (value < 0) {
-    //         firstApiQuery();
-    //     }
-    // });
-
     const BootstrapDialogTitle = (props) => {
         const { children, onClose, ...other } = props;
 
@@ -214,7 +207,7 @@ const CreateJournal = () => {
                 {...other}
             >
                 {value === index && (
-                    <Box sx={{ p: 3 }}>
+                    <Box sx={{ p: 2 }}>
                         <Typography>{children}</Typography>
                     </Box>
                 )}
@@ -241,7 +234,7 @@ const CreateJournal = () => {
             <Grid item xs={12}>
                 <MainCard title="發票資料列表">
                     <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-                        <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
+                        <Tabs value={value} onChange={handleChange}>
                             <Tab label="尚未立帳" {...a11yProps(0)} />
                             <Tab label="已立帳" {...a11yProps(1)} />
                         </Tabs>

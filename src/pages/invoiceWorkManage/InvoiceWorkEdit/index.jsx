@@ -30,6 +30,9 @@ import {
     queryBillMilestoneList
 } from 'components/apis.jsx';
 
+// redux
+import { useSelector } from 'react-redux';
+
 // ==============================|| SAMPLE PAGE ||============================== //
 
 const InvoiceWorkManage = () => {
@@ -48,8 +51,6 @@ const InvoiceWorkManage = () => {
     const [partyName, setPartyName] = useState(''); //會員代號
     const wKMasterID = useRef(); //工作檔ID
 
-    const [supNmList, setSupNmList] = useState([]); //供應商下拉選單
-    const [subCableList, setSubCableList] = useState([]); //海纜名稱下拉選單
     const [bmStoneList, setBmStoneList] = useState([]); //記帳段號下拉選單
     const [queryBmStoneList, setQueryBmStoneList] = useState([]); //條件查詢的記帳段號下拉選單
 
@@ -61,6 +62,8 @@ const InvoiceWorkManage = () => {
     const [modifyItem, setModifyItem] = useState(-1);
 
     const queryApi = useRef(queryInvoice + '/all');
+
+    const { supNmList, subCableList } = useSelector((state) => state.dropdown); //供應商下拉選單 + 海纜名稱下拉選單
     // const fakeData = [
     //     {
     //         InvoiceWKMaster: {
@@ -376,22 +379,9 @@ const InvoiceWorkManage = () => {
 
     useEffect(() => {
         //下拉選單
-        fetch(supplierNameList, { method: 'GET' })
-            .then((res) => res.json())
-            .then((data) => {
-                setSupNmList(data);
-            })
-            .catch((e) => console.log('e1=>>', e));
-        fetch(submarineCableList, { method: 'GET' })
-            .then((res) => res.json())
-            .then((data) => {
-                setSubCableList(data);
-            })
-            .catch((e) => console.log('e1=>>', e));
         fetch(queryBillMilestoneList, { method: 'GET' })
             .then((res) => res.json())
             .then((data) => {
-                console.log('data=>>', data);
                 setQueryBmStoneList(data);
             })
             .catch((e) => console.log('e1=>>', e));

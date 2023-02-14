@@ -24,6 +24,9 @@ const CreateJournal = Loadable(lazy(() => import('pages/createJournal/CreateJour
 // Credit Balance
 const CreditBalance = Loadable(lazy(() => import('pages/creditBalance/CreditBalance')));
 
+// 應收帳款管理
+const GenerateFeeAmount = Loadable(lazy(() => import('pages/accountsReceivable/generateFeeAmount')));
+
 // render - utilities
 const Typography = Loadable(lazy(() => import('pages/components-overview/Typography')));
 const Color = Loadable(lazy(() => import('pages/components-overview/Color')));
@@ -106,6 +109,19 @@ const MainRoutes = {
                 {
                     path: 'CreateJournal',
                     element: <CreateJournal />
+                }
+            ]
+        },
+        {
+            path: 'AccountsReceivable',
+            children: [
+                {
+                    path: 'GenerateFeeAmount',
+                    element: <GenerateFeeAmount />
+                },
+                {
+                    path: 'WriteOff',
+                    element: <InvoiceWorkManageEdit />
                 }
             ]
         }

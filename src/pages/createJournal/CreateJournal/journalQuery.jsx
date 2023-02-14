@@ -29,12 +29,16 @@ import { TextField } from '@mui/material/index';
 //api
 import { queryJounary } from 'components/apis.jsx';
 
+// redux
+import { useSelector } from 'react-redux';
+
 // ==============================|| SAMPLE PAGE ||============================== //
 
 const JournalQuery = ({ setListInfo, queryApi, invoiceStatus }) => {
     const [supplierName, setSupplierName] = useState(''); //供應商
     const [submarineCable, setSubmarineCable] = useState(''); //海纜名稱
     const [issueDate, setIssueDate] = useState([null, null]); //發票日期
+    const { supNmList, subCableList } = useSelector((state) => state.dropdown); //供應商下拉選單 + 海纜名稱下拉選單
     // const [isLiability, setIsLiability] = useState(true); //是否需攤分
     // const [partyName, setPartyName] = useState(''); //會員代號
 
@@ -110,9 +114,11 @@ const JournalQuery = ({ setListInfo, queryApi, invoiceStatus }) => {
                             label="供應商"
                             onChange={(e) => setSupplierName(e.target.value)}
                         >
-                            <MenuItem value={'供應商1號'}>供應商1號</MenuItem>
-                            <MenuItem value={'供應商2號'}>供應商2號</MenuItem>
-                            <MenuItem value={'供應商3號'}>供應商3號</MenuItem>
+                            {supNmList.map((i) => (
+                                <MenuItem key={i.SupplierName} value={i.SupplierName}>
+                                    {i.SupplierName}
+                                </MenuItem>
+                            ))}
                         </Select>
                     </FormControl>
                 </Grid>
@@ -131,9 +137,11 @@ const JournalQuery = ({ setListInfo, queryApi, invoiceStatus }) => {
                             label="海纜"
                             onChange={(e) => setSubmarineCable(e.target.value)}
                         >
-                            <MenuItem value={'海纜1號'}>海纜1號</MenuItem>
-                            <MenuItem value={'海纜2號'}>海纜2號</MenuItem>
-                            <MenuItem value={'海纜3號'}>海纜3號</MenuItem>
+                            {subCableList.map((i) => (
+                                <MenuItem key={i.CableName} value={i.CableName}>
+                                    {i.CableName}
+                                </MenuItem>
+                            ))}
                         </Select>
                     </FormControl>
                 </Grid>
@@ -153,7 +161,7 @@ const JournalQuery = ({ setListInfo, queryApi, invoiceStatus }) => {
                             renderInput={(startProps, endProps) => (
                                 <>
                                     <TextField fullWidth size="small" {...startProps} />
-                                    <Box sx={{ mx: 2 }}> to </Box>
+                                    <Box sx={{ mx: 1 }}> to </Box>
                                     <TextField fullWidth size="small" {...endProps} />
                                 </>
                             )}

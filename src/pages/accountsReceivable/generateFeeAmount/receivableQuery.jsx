@@ -26,10 +26,11 @@ import { TextField } from '@mui/material/index';
 
 // ==============================|| SAMPLE PAGE ||============================== //
 
-const CreditBalanceQuery = ({ creditBalanceQuery }) => {
-    const [issueDate, setIssueDate] = useState([null, null]); //發票日期
+const ReceivableQuery = ({ creditBalanceQuery }) => {
+    // const [issueDate, setIssueDate] = useState([null, null]); //發票日期
+
     return (
-        <MainCard title="餘額查詢" sx={{ width: '100%' }}>
+        <MainCard title="發票查詢" sx={{ width: '100%' }}>
             <Grid container display="flex" justifyContent="center" alignItems="center" spacing={2}>
                 {/* row1 */}
                 <Grid item xs={1} sm={1} md={1} lg={1}>
@@ -55,38 +56,17 @@ const CreditBalanceQuery = ({ creditBalanceQuery }) => {
                 </Grid>
                 <Grid item xs={1} sm={1} md={1} lg={1}>
                     <Typography variant="h5" sx={{ fontSize: { lg: '0.5rem', xl: '0.88rem' }, ml: { lg: '0.5rem', xl: '1.5rem' } }}>
-                        CB種類：
+                        記帳段號：
                     </Typography>
                 </Grid>
                 <Grid item xs={2} sm={2} md={2} lg={2}>
                     <FormControl fullWidth size="small">
-                        <InputLabel id="demo-simple-select-label">選擇CB種類</InputLabel>
+                        <InputLabel id="demo-simple-select-label">選擇記帳段號</InputLabel>
                         <Select
                             // labelId="demo-simple-select-label"
                             // id="demo-simple-select"
                             // value={submarineCable}
-                            label="發票供應商"
-                            onChange={(e) => setSubmarineCable(e.target.value)}
-                        >
-                            <MenuItem value={'CB種類1'}>CB種類1</MenuItem>
-                            <MenuItem value={'CB種類2'}>CB種類2</MenuItem>
-                            <MenuItem value={'CB種類3'}>CB種類3</MenuItem>
-                        </Select>
-                    </FormControl>
-                </Grid>
-                <Grid item xs={1} sm={1} md={1} lg={1}>
-                    <Typography variant="h5" sx={{ fontSize: { lg: '0.5rem', xl: '0.88rem' }, ml: { lg: '0.5rem', xl: '1.5rem' } }}>
-                        海纜名稱：
-                    </Typography>
-                </Grid>
-                <Grid item xs={2} sm={2} md={2} lg={2}>
-                    <FormControl fullWidth size="small">
-                        <InputLabel id="demo-simple-select-label">選擇海纜名稱</InputLabel>
-                        <Select
-                            // labelId="demo-simple-select-label"
-                            // id="demo-simple-select"
-                            // value={submarineCable}
-                            label="海纜名稱"
+                            label="記帳段號"
                             onChange={(e) => setSubmarineCable(e.target.value)}
                         >
                             <MenuItem value={'一段'}>一段</MenuItem>
@@ -116,42 +96,37 @@ const CreditBalanceQuery = ({ creditBalanceQuery }) => {
                         </Select>
                     </FormControl>
                 </Grid>
+                <Grid item xs={3} sm={3} md={3} lg={3} />
+                {/* <Grid item xs={1} sm={1} md={1} lg={1}>
+                    <Typography variant="h5" sx={{ fontSize: { lg: '0.5rem', xl: '0.88rem' }, ml: { lg: '0.5rem', xl: '1.5rem' } }}>
+                        建立日期：
+                    </Typography>
+                </Grid>
+                <Grid item xs={5} sm={5} md={5} lg={5}>
+                    <LocalizationProvider dateAdapter={AdapterDayjs} localeText={{ start: '起始日', end: '結束日' }}>
+                        <DateRangePicker
+                            inputFormat="YYYY/MM/DD"
+                            value={issueDate}
+                            onChange={(e) => {
+                                setIssueDate(e);
+                            }}
+                            renderInput={(startProps, endProps) => (
+                                <>
+                                    <TextField fullWidth size="small" {...startProps} />
+                                    <Box sx={{ mx: 1 }}> to </Box>
+                                    <TextField fullWidth size="small" {...endProps} />
+                                </>
+                            )}
+                        />
+                    </LocalizationProvider>
+                </Grid> */}
                 {/* row2 */}
-                <Grid item xs={1} sm={1} md={1} lg={1} display="flex" alignItems="center">
-                    <Typography variant="h5" sx={{ fontSize: { lg: '0.5rem', xl: '0.88rem' }, ml: { lg: '0rem', xl: '0rem' } }}>
-                        剩餘金額：
+                {/* <Grid item xs={1} sm={1} md={2} lg={2} display="flex" alignItems="center">
+                    <Typography variant="h5" sx={{ fontSize: { lg: '0.5rem', xl: '0.88rem' }, ml: { lg: '0.5rem', xl: '1.5rem' } }}>
+                        有無剩餘金額：
                     </Typography>
                 </Grid>
-                <Grid item xs={2} sm={2} md={1} lg={1} display="flex" justifyContent="space-between">
-                    <FormControl row size="small">
-                        <FormGroup
-                            row
-                            size="small"
-                            // value={isLiability}
-                            aria-labelledby="demo-radio-buttons-group-label"
-                            // defaultValue="female"
-                            name="radio-buttons-group"
-                            // onChange={(e) => setIsLiability(e.target.value)}
-                        >
-                            <FormControlLabel
-                                value={true}
-                                control={<Checkbox sx={{ '& .MuiSvgIcon-root': { fontSize: { lg: 14, xl: 20 } } }} />}
-                                label="有"
-                            />
-                            <FormControlLabel
-                                value={false}
-                                control={<Checkbox sx={{ '& .MuiSvgIcon-root': { fontSize: { lg: 14, xl: 20 } } }} />}
-                                label="無"
-                            />
-                        </FormGroup>
-                    </FormControl>
-                </Grid>
-                <Grid item xs={1} sm={1} md={1} lg={1} display="flex" alignItems="center">
-                    <Typography variant="h5" sx={{ fontSize: { lg: '0.5rem', xl: '0.88rem' }, ml: { lg: '0rem', xl: '0rem' } }}>
-                        退費紀錄：
-                    </Typography>
-                </Grid>
-                <Grid item xs={2} sm={2} md={1} lg={1} display="flex" justifyContent="space-between">
+                <Grid item xs={2} sm={2} md={2} lg={2} display="flex" justifyContent="space-between">
                     <FormControl row>
                         <FormGroup
                             row
@@ -174,31 +149,36 @@ const CreditBalanceQuery = ({ creditBalanceQuery }) => {
                         </FormGroup>
                     </FormControl>
                 </Grid>
-                <Grid item xs={1} sm={1} md={1} lg={1}>
+                <Grid item xs={1} sm={1} md={2} lg={2} display="flex" alignItems="center">
                     <Typography variant="h5" sx={{ fontSize: { lg: '0.5rem', xl: '0.88rem' }, ml: { lg: '0.5rem', xl: '1.5rem' } }}>
-                        建立日期：
+                        有無退費紀錄：
                     </Typography>
                 </Grid>
-                <Grid item xs={5} sm={5} md={5} lg={5}>
-                    <LocalizationProvider dateAdapter={AdapterDayjs} localeText={{ start: '起始日', end: '結束日' }}>
-                        <DateRangePicker
-                            inputFormat="YYYY/MM/DD"
-                            value={issueDate}
-                            onChange={(e) => {
-                                setIssueDate(e);
-                            }}
-                            renderInput={(startProps, endProps) => (
-                                <>
-                                    <TextField fullWidth size="small" {...startProps} />
-                                    <Box sx={{ mx: 1 }}> to </Box>
-                                    <TextField fullWidth size="small" {...endProps} />
-                                </>
-                            )}
-                        />
-                    </LocalizationProvider>
-                </Grid>
-                <Grid item xs={6} sm={6} md={2} lg={2} display="flex" justifyContent="end" alignItems="center">
-                    <Button sx={{ mr: '0.5rem' }} variant="contained" onClick={CreditBalanceQuery}>
+                <Grid item xs={2} sm={2} md={2} lg={2} display="flex" justifyContent="space-between">
+                    <FormControl row>
+                        <FormGroup
+                            row
+                            // value={isLiability}
+                            aria-labelledby="demo-radio-buttons-group-label"
+                            // defaultValue="female"
+                            name="radio-buttons-group"
+                            // onChange={(e) => setIsLiability(e.target.value)}
+                        >
+                            <FormControlLabel
+                                value={true}
+                                control={<Checkbox sx={{ '& .MuiSvgIcon-root': { fontSize: { lg: 14, xl: 20 } } }} />}
+                                label="有"
+                            />
+                            <FormControlLabel
+                                value={false}
+                                control={<Checkbox sx={{ '& .MuiSvgIcon-root': { fontSize: { lg: 14, xl: 20 } } }} />}
+                                label="無"
+                            />
+                        </FormGroup>
+                    </FormControl>
+                </Grid> */}
+                <Grid item xs={12} sm={12} md={12} lg={12} display="flex" justifyContent="end" alignItems="center">
+                    <Button sx={{ mr: '0.5rem' }} variant="contained" onClick={ReceivableQuery}>
                         查詢
                     </Button>
                     <Button variant="contained">清除</Button>
@@ -208,4 +188,4 @@ const CreditBalanceQuery = ({ creditBalanceQuery }) => {
     );
 };
 
-export default CreditBalanceQuery;
+export default ReceivableQuery;
