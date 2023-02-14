@@ -23,7 +23,7 @@ import JournalQuery from './journalQuery';
 import ToBillDataList from './toBillDataList';
 import BilledDataList from './billedDataList';
 
-// day
+// dialog
 import Dialog from '@mui/material/Dialog';
 import DialogTitle from '@mui/material/DialogTitle';
 import DialogContent from '@mui/material/DialogContent';
