@@ -1,7 +1,7 @@
 import { useState, useRef } from 'react';
 
 // project import
-import { handleNumber } from 'components/commonFunction';
+import { handleNumber, BootstrapDialogTitle } from 'components/commonFunction';
 // material-ui
 import {
     Typography,
@@ -28,7 +28,7 @@ import dayjs from 'dayjs';
 
 import { journaryDetailView, journaryMasterView, updateInvoice, updateInvoiceMaster } from 'components/apis.jsx';
 
-const BilledDataList = ({ listInfo, BootstrapDialogTitle, apiQuery }) => {
+const BilledDataList = ({ listInfo, apiQuery }) => {
     const [isDialogOpen, setIsDialogOpen] = useState(false);
     const [toBillDataInfo, setToBillDataInfo] = useState([]); //發票明細檔
     const totalAmount = useRef(0);

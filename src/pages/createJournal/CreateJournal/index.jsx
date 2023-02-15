@@ -1,20 +1,5 @@
 import { useEffect, useState, useRef } from 'react';
-import {
-    Typography,
-    Grid,
-    Button,
-    FormControl,
-    InputLabel,
-    Select,
-    MenuItem,
-    Box,
-    IconButton,
-    TextField,
-    Checkbox,
-    Tabs,
-    Tab
-} from '@mui/material';
-import CloseIcon from '@mui/icons-material/Close';
+import { Typography, Grid, Button, FormControl, InputLabel, Select, MenuItem, Box, TextField, Checkbox, Tabs, Tab } from '@mui/material';
 import { styled } from '@mui/material/styles';
 
 // project import
@@ -25,7 +10,6 @@ import BilledDataList from './billedDataList';
 
 // dialog
 import Dialog from '@mui/material/Dialog';
-import DialogTitle from '@mui/material/DialogTitle';
 import DialogContent from '@mui/material/DialogContent';
 import DialogActions from '@mui/material/DialogActions';
 
@@ -171,30 +155,6 @@ const CreateJournal = () => {
         }
     }, [value]);
 
-    const BootstrapDialogTitle = (props) => {
-        const { children, onClose, ...other } = props;
-
-        return (
-            <DialogTitle sx={{ m: 0, p: 2 }} {...other}>
-                {children}
-                {onClose ? (
-                    <IconButton
-                        aria-label="close"
-                        onClick={onClose}
-                        sx={{
-                            position: 'absolute',
-                            right: 8,
-                            top: 8,
-                            color: (theme) => theme.palette.grey[500]
-                        }}
-                    >
-                        <CloseIcon />
-                    </IconButton>
-                ) : null}
-            </DialogTitle>
-        );
-    };
-
     const TabPanel = (props) => {
         const { children, value, index, ...other } = props;
 
@@ -240,10 +200,10 @@ const CreateJournal = () => {
                         </Tabs>
                     </Box>
                     <TabPanel value={value} index={0}>
-                        <ToBillDataList listInfo={listInfo} BootstrapDialogTitle={BootstrapDialogTitle} apiQuery={apiQuery} />
+                        <ToBillDataList listInfo={listInfo} apiQuery={apiQuery} />
                     </TabPanel>
                     <TabPanel value={value} index={1}>
-                        <BilledDataList listInfo={listInfo} BootstrapDialogTitle={BootstrapDialogTitle} apiQuery={apiQuery} />
+                        <BilledDataList listInfo={listInfo} apiQuery={apiQuery} />
                     </TabPanel>
                 </MainCard>
             </Grid>

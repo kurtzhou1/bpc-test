@@ -14,6 +14,9 @@ import {
     Table
 } from '@mui/material';
 
+// project
+import { BootstrapDialogTitle } from 'components/commonFunction';
+
 // day
 import Dialog from '@mui/material/Dialog';
 import DialogContent from '@mui/material/DialogContent';
@@ -26,10 +29,7 @@ import CheckBoxIcon from '@mui/icons-material/CheckBox';
 // api
 import { updateLiability } from 'components/apis.jsx';
 
-// project
-import { BootstrapDialogTitle } from 'components/commonFunction';
-
-const CreditBalanceTerminate = ({ cbTerminal, handleTerminalClose }) => {
+const GenerateFeeTerminate = ({ arTerminal, handleTerminalClose }) => {
     const [endNote, setEndNote] = useState([]);
 
     const terminalLiability = () => {
@@ -40,18 +40,18 @@ const CreditBalanceTerminate = ({ cbTerminal, handleTerminalClose }) => {
             EndNote: endNote ? endNote : ''
         };
         console.log('tmpArray=>>', tmpArray);
-        fetch(updateLiability, { method: 'POST', body: JSON.stringify(tmpArray) })
-            .then((res) => res.json())
-            .then(() => {
-                alert('終止成功');
-                apiQuery();
-                handleTerminalClose();
-            })
-            .catch((e) => console.log('e1=>>', e));
+        // fetch(updateLiability, { method: 'POST', body: JSON.stringify(tmpArray) })
+        //     .then((res) => res.json())
+        //     .then(() => {
+        //         alert('終止成功');
+        //         apiQuery();
+        //         handleTerminalClose();
+        //     })
+        //     .catch((e) => console.log('e1=>>', e));
     };
 
     return (
-        <Dialog onClose={handleTerminalClose} maxWidth="xs" fullWidth open={cbTerminal}>
+        <Dialog onClose={handleTerminalClose} maxWidth="xs" fullWidth open={arTerminal}>
             <BootstrapDialogTitle id="customized-dialog-title" onClose={handleTerminalClose}>
                 確認終止訊息
             </BootstrapDialogTitle>
@@ -95,4 +95,4 @@ const CreditBalanceTerminate = ({ cbTerminal, handleTerminalClose }) => {
     );
 };
 
-export default CreditBalanceTerminate;
+export default GenerateFeeTerminate;

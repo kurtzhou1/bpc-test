@@ -1,7 +1,7 @@
 import { useState, useRef } from 'react';
 
 // project import
-import { handleNumber } from 'components/commonFunction';
+import { handleNumber, BootstrapDialogTitle } from 'components/commonFunction';
 // material-ui
 import {
     Typography,
@@ -29,7 +29,7 @@ import dayjs from 'dayjs';
 
 import { toBillDataapi, sendJounary } from 'components/apis.jsx';
 
-const ToBillDataList = ({ listInfo, BootstrapDialogTitle, apiQuery }) => {
+const ToBillDataList = ({ listInfo, apiQuery }) => {
     // const fakeData = {
     //     TotalAmount: 5582012.72,
     //     InvoiceMaster: [

@@ -8,17 +8,14 @@ import {
     Select,
     MenuItem,
     Box,
-    IconButton,
     TextField,
     Checkbox,
     Autocomplete,
     Table
 } from '@mui/material';
-import CloseIcon from '@mui/icons-material/Close';
 
 // day
 import Dialog from '@mui/material/Dialog';
-import DialogTitle from '@mui/material/DialogTitle';
 import DialogContent from '@mui/material/DialogContent';
 import DialogActions from '@mui/material/DialogActions';
 
@@ -34,6 +31,9 @@ import TableRow from '@mui/material/TableRow';
 import TableCell, { tableCellClasses } from '@mui/material/TableCell';
 import Paper from '@mui/material/Paper';
 import { styled } from '@mui/material/styles';
+
+// project
+import { BootstrapDialogTitle } from 'components/commonFunction';
 
 // api
 import { submarineCableList, partiesList, deleteLiability, addLiabilityapi } from 'components/apis.jsx';
@@ -150,30 +150,6 @@ const LiabilityAdd = ({
         } else {
             alert('請增加分段帳號');
         }
-    };
-
-    const BootstrapDialogTitle = (props) => {
-        const { children, onClose, ...other } = props;
-
-        return (
-            <DialogTitle sx={{ m: 0, p: 2 }} {...other}>
-                {children}
-                {onClose ? (
-                    <IconButton
-                        aria-label="close"
-                        onClick={onClose}
-                        sx={{
-                            position: 'absolute',
-                            right: 8,
-                            top: 8,
-                            color: (theme) => theme.palette.grey[500]
-                        }}
-                    >
-                        <CloseIcon />
-                    </IconButton>
-                ) : null}
-            </DialogTitle>
-        );
     };
 
     const StyledTableCell = styled(TableCell)(({ theme }) => ({

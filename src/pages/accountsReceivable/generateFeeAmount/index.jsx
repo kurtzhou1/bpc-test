@@ -14,7 +14,7 @@ import InvalidatedDataList from './invalidatedDataList';
 import ReceivableQuery from './receivableQuery';
 
 const AccountsReceivable = () => {
-    const [value, setValue] = useState(0);
+    const [value, setValue] = useState(1);
 
     const handleChange = (event, newValue) => {
         setValue(newValue);
@@ -148,30 +148,6 @@ const AccountsReceivable = () => {
         }
     }, [editItem]);
 
-    const BootstrapDialogTitle = (props) => {
-        const { children, onClose, ...other } = props;
-
-        return (
-            <DialogTitle sx={{ m: 0, p: 2 }} {...other}>
-                {children}
-                {onClose ? (
-                    <IconButton
-                        aria-label="close"
-                        onClick={onClose}
-                        sx={{
-                            position: 'absolute',
-                            right: 8,
-                            top: 8,
-                            color: (theme) => theme.palette.grey[500]
-                        }}
-                    >
-                        <CloseIcon />
-                    </IconButton>
-                ) : null}
-            </DialogTitle>
-        );
-    };
-
     return (
         <Grid container spacing={1}>
             {/* <Grid item xs={12} display="flex" justifyContent="right">
@@ -241,11 +217,7 @@ const AccountsReceivable = () => {
                         )}
                     </Box>
                     <TabPanel value={value} index={0}>
-                        <ToCombineDataList
-                            handleDialogClose={handleDialogClose}
-                            isDialogOpen={isDialogOpen}
-                            BootstrapDialogTitle={BootstrapDialogTitle}
-                        />
+                        <ToCombineDataList handleDialogClose={handleDialogClose} isDialogOpen={isDialogOpen} />
                     </TabPanel>
                     <TabPanel value={value} index={1}>
                         <ToDeductDataList />
