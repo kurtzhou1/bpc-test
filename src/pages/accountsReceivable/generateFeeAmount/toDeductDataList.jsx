@@ -91,9 +91,10 @@ const ToGenerateDataList = ({ listInfo, apiQuery }) => {
         ]
     };
 
-    const [isDialogOpen, setIsDialogOpen] = useState(false);
-    const [isDeductWorkOpen, setIsDeductWorkOpen] = useState(false);
-    const dialogTitle = useRef('可折抵CB');
+    const [isDialogOpen, setIsDialogOpen] = useState(false); //折抵作業
+    const [isDeductWorkOpen, setIsDeductWorkOpen] = useState(false); //作廢
+    const deductInfo = useRef({});
+    const actionName = useRef('');
     const [editItem, setEditItem] = useState();
     const [toBillDataMain, setToBillDataMain] = useState(fakeData.InvoiceMaster);
     const [toBillDataInfo, setToBillDataInfo] = useState(fakeData.InvoiceDetail); //發票明細檔
@@ -115,13 +116,14 @@ const ToGenerateDataList = ({ listInfo, apiQuery }) => {
     }));
 
     const handleDialogClose = () => {
-        dialogTitle.current = '可折抵CB';
+        deductInfo.current = '可折抵CB';
         setIsDialogOpen(false);
         setEditItem();
     };
 
-    const handleDialogOpen = (partyName) => {
-        dialogTitle.current = partyName + dialogTitle.current;
+    const handleDialogOpen = (action, info) => {
+        deductInfo.current = info;
+        actionName.current = action;
         setIsDialogOpen(true);
     };
 
@@ -191,7 +193,12 @@ const ToGenerateDataList = ({ listInfo, apiQuery }) => {
 
     return (
         <>
-            <DeductWork isDialogOpen={isDialogOpen} handleDialogClose={handleDialogClose} />
+            <DeductWork
+                isDialogOpen={isDialogOpen}
+                handleDialogClose={handleDialogClose}
+                deductInfo={deductInfo.current}
+                actionName={actionName.current}
+            />
             <GenerateFeeTerminate arTerminal={arTerminal} handleTerminalClose={handleTerminalClose} />
             <TableContainer component={Paper} sx={{ maxHeight: 350 }}>
                 <Table sx={{ minWidth: 300 }} stickyHeader aria-label="sticky table">
@@ -228,7 +235,12 @@ const ToGenerateDataList = ({ listInfo, apiQuery }) => {
                                             color="primary"
                                             size="small"
                                             onClick={() => {
-                                                handleDialogOpen(row.PartyName);
+                                                handleDialogOpen('deduct', {
+                                                    PartyName: row.PartyName,
+                                                    IssueDate: dayjs(row.IssueDate).format('YYYY/MM/DD'),
+                                                    SubmarineCable: row.SubmarineCable,
+                                                    WorkTitle: row.WorkTitle
+                                                });
                                             }}
                                         >
                                             折抵作業
@@ -237,7 +249,12 @@ const ToGenerateDataList = ({ listInfo, apiQuery }) => {
                                             color="success"
                                             size="small"
                                             onClick={() => {
-                                                // toBillData(row.WKMasterID);
+                                                handleDialogOpen('deduct', {
+                                                    PartyName: row.PartyName,
+                                                    IssueDate: dayjs(row.IssueDate).format('YYYY/MM/DD'),
+                                                    SubmarineCable: row.SubmarineCable,
+                                                    WorkTitle: row.WorkTitle
+                                                });
                                             }}
                                         >
                                             檢視

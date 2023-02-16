@@ -126,10 +126,10 @@ const ToBillDataList = ({ listInfo, apiQuery }) => {
                         tmpAmount = tmpAmount + i.FeeAmountPost + i.Difference;
                     });
                     setCurrentAmount(tmpAmount.toFixed(2));
+                    setIsDialogOpen(true);
                 }
             })
             .catch((e) => console.log('e1=>>', e));
-        setIsDialogOpen(true);
     };
 
     const changeDiff = (diff, id) => {

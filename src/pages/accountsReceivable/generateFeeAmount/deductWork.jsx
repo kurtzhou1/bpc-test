@@ -33,7 +33,7 @@ import dayjs from 'dayjs';
 
 import { toBillDataapi, sendJounary } from 'components/apis.jsx';
 
-const ToGenerateDataList = ({ isDialogOpen, handleDialogClose }) => {
+const ToGenerateDataList = ({ isDialogOpen, handleDialogClose, deductInfo, actionName }) => {
     const fakeData = {
         TotalAmount: 5582012.72,
         InvoiceMaster: [
@@ -89,7 +89,6 @@ const ToGenerateDataList = ({ isDialogOpen, handleDialogClose }) => {
     };
 
     const [isDeductWorkOpen, setIsDeductWorkOpen] = useState(false);
-    const dialogTitle = useRef('可折抵CB');
     const [editItem, setEditItem] = useState();
     const [toBillDataMain, setToBillDataMain] = useState(fakeData.InvoiceMaster);
     const [toBillDataInfo, setToBillDataInfo] = useState(fakeData.InvoiceDetail); //發票明細檔
@@ -172,6 +171,8 @@ const ToGenerateDataList = ({ isDialogOpen, handleDialogClose }) => {
     //         })
     //         .catch((e) => console.log('e1=>>', e));
     // };
+    console.log('dialogTitle=>>', deductInfo);
+    console.log('actionName=>>', actionName);
 
     return (
         <Dialog onClose={handleDialogClose} maxWidth="xl" open={isDialogOpen}>
@@ -180,6 +181,12 @@ const ToGenerateDataList = ({ isDialogOpen, handleDialogClose }) => {
             </BootstrapDialogTitle>
             <DialogContent>
                 <Grid container spacing={1} display="flex" justifyContent="center" alignItems="center" sx={{ fontSize: 10 }}>
+                    <Grid container xs={12} sm={12} md={12} lg={12}>
+                        <Grid></Grid>
+                        <Grid></Grid>
+                        <Grid></Grid>
+                        <Grid></Grid>
+                    </Grid>
                     <Grid item xs={12} sm={12} md={12} lg={12}>
                         <MainCard title="帳單明細列表">
                             <TableContainer component={Paper} sx={{ maxHeight: 350 }}>
@@ -192,7 +199,7 @@ const ToGenerateDataList = ({ isDialogOpen, handleDialogClose }) => {
                                             {/* <StyledTableCell align="center">折抵CB種類</StyledTableCell> */}
                                             <StyledTableCell align="center">折抵金額</StyledTableCell>
                                             <StyledTableCell align="center">總金額</StyledTableCell>
-                                            <StyledTableCell align="center">Action</StyledTableCell>
+                                            {actionName === 'deduct' ? <StyledTableCell align="center">Action</StyledTableCell> : ''}
                                         </TableRow>
                                     </TableHead>
                                     <TableBody>
@@ -209,18 +216,22 @@ const ToGenerateDataList = ({ isDialogOpen, handleDialogClose }) => {
                                                     <TableCell align="center">{`$${handleNumber(row.FeeAmountPost)}`}</TableCell>
                                                     <TableCell align="center">{`1`}</TableCell>
                                                     <TableCell align="center">{`$${handleNumber(afterDiff.toFixed(2))}`}</TableCell>
-                                                    <TableCell align="center">
-                                                        <Button
-                                                            color="primary"
-                                                            variant={editItem === id ? 'contained' : 'outlined'}
-                                                            size="small"
-                                                            onClick={() => {
-                                                                deductWork(id);
-                                                            }}
-                                                        >
-                                                            折抵
-                                                        </Button>
-                                                    </TableCell>
+                                                    {actionName === 'deduct' ? (
+                                                        <TableCell align="center">
+                                                            <Button
+                                                                color="primary"
+                                                                variant={editItem === id ? 'contained' : 'outlined'}
+                                                                size="small"
+                                                                onClick={() => {
+                                                                    deductWork(id);
+                                                                }}
+                                                            >
+                                                                折抵
+                                                            </Button>
+                                                        </TableCell>
+                                                    ) : (
+                                                        ''
+                                                    )}
                                                 </TableRow>
                                             );
                                         })}
@@ -229,9 +240,9 @@ const ToGenerateDataList = ({ isDialogOpen, handleDialogClose }) => {
                             </TableContainer>
                         </MainCard>
                     </Grid>
-                    {isDeductWorkOpen ? (
+                    {isDeductWorkOpen && actionName === 'deduct' ? (
                         <Grid item xs={12} sm={12} md={12} lg={12}>
-                            <MainCard title={dialogTitle.current}>
+                            <MainCard title={`${deductInfo.PartyName}可折抵CB`}>
                                 <Grid container>
                                     <Grid item xs={12} sm={12} md={12} lg={12}>
                                         <TableContainer component={Paper} sx={{ maxHeight: 350 }}>
@@ -289,7 +300,8 @@ const ToGenerateDataList = ({ isDialogOpen, handleDialogClose }) => {
                                             size="small"
                                             sx={{ ml: '0.5rem', mt: '0.5rem' }}
                                             onClick={() => {
-                                                // deductWork(id);
+                                                setIsDeductWorkOpen(false);
+                                                setEditItem();
                                             }}
                                         >
                                             儲存
@@ -300,7 +312,8 @@ const ToGenerateDataList = ({ isDialogOpen, handleDialogClose }) => {
                                             size="small"
                                             sx={{ ml: '0.5rem', mt: '0.5rem' }}
                                             onClick={() => {
-                                                // deductWork(id);
+                                                setIsDeductWorkOpen(false);
+                                                setEditItem();
                                             }}
                                         >
                                             取消
@@ -322,7 +335,15 @@ const ToGenerateDataList = ({ isDialogOpen, handleDialogClose }) => {
                 <Button sx={{ mr: '0.05rem' }} variant="contained" onClick={handleDialogClose}>
                     Reset
                 </Button>
-                <Button sx={{ mr: '0.05rem' }} variant="contained" onClick={handleDialogClose}>
+                <Button
+                    sx={{ mr: '0.05rem' }}
+                    variant="contained"
+                    onClick={() => {
+                        handleDialogClose();
+                        setIsDeductWorkOpen(false);
+                        setEditItem();
+                    }}
+                >
                     取消
                 </Button>
             </DialogActions>
