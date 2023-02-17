@@ -19,7 +19,8 @@ import {
     InputLabel,
     Select,
     DialogActions,
-    TextField
+    TextField,
+    Box
 } from '@mui/material';
 import TableBody from '@mui/material/TableBody';
 import TableCell, { tableCellClasses } from '@mui/material/TableCell';
@@ -96,11 +97,11 @@ const ToGenerateDataList = ({ listInfo, apiQuery }) => {
     const deductInfo = useRef({});
     const actionName = useRef('');
     const [editItem, setEditItem] = useState();
-    const [toBillDataMain, setToBillDataMain] = useState(fakeData.InvoiceMaster);
+    const [toBillDataMain, setToBillDataMain] = useState(fakeData.InvoiceMaster); //發票主檔
     const [toBillDataInfo, setToBillDataInfo] = useState(fakeData.InvoiceDetail); //發票明細檔
     const [totalAmount, setTotalAmount] = useState(fakeData.TotalAmount); //發票總金額
     const [currentAmount, setCurrentAmount] = useState(''); //目前金額
-    const [arTerminal, setArTerminal] = useState(false);
+    const [infoTerminal, setInfoTerminal] = useState(false);
     const StyledTableCell = styled(TableCell)(({ theme }) => ({
         [`&.${tableCellClasses.head}`]: {
             // backgroundColor: theme.palette.common.gary,
@@ -128,7 +129,7 @@ const ToGenerateDataList = ({ listInfo, apiQuery }) => {
     };
 
     const handleTerminalClose = () => {
-        setArTerminal(false);
+        setInfoTerminal(false);
     };
 
     // //立帳作業
@@ -189,8 +190,6 @@ const ToGenerateDataList = ({ listInfo, apiQuery }) => {
     //         .catch((e) => console.log('e1=>>', e));
     // };
 
-    console.log('isDeductWorkOpen=>>', isDeductWorkOpen);
-
     return (
         <>
             <DeductWork
@@ -199,7 +198,7 @@ const ToGenerateDataList = ({ listInfo, apiQuery }) => {
                 deductInfo={deductInfo.current}
                 actionName={actionName.current}
             />
-            <GenerateFeeTerminate arTerminal={arTerminal} handleTerminalClose={handleTerminalClose} />
+            <GenerateFeeTerminate infoTerminal={infoTerminal} handleTerminalClose={handleTerminalClose} />
             <TableContainer component={Paper} sx={{ maxHeight: 350 }}>
                 <Table sx={{ minWidth: 300 }} stickyHeader aria-label="sticky table">
                     <TableHead>
@@ -231,43 +230,48 @@ const ToGenerateDataList = ({ listInfo, apiQuery }) => {
                                     <StyledTableCell align="center">{row.IsPro ? '是' : '否'}</StyledTableCell>
                                     <StyledTableCell align="center">{row.Status}</StyledTableCell>
                                     <StyledTableCell align="center">
-                                        <Button
-                                            color="primary"
-                                            size="small"
-                                            onClick={() => {
-                                                handleDialogOpen('deduct', {
-                                                    PartyName: row.PartyName,
-                                                    IssueDate: dayjs(row.IssueDate).format('YYYY/MM/DD'),
-                                                    SubmarineCable: row.SubmarineCable,
-                                                    WorkTitle: row.WorkTitle
-                                                });
-                                            }}
-                                        >
-                                            折抵作業
-                                        </Button>
-                                        <Button
-                                            color="success"
-                                            size="small"
-                                            onClick={() => {
-                                                handleDialogOpen('deduct', {
-                                                    PartyName: row.PartyName,
-                                                    IssueDate: dayjs(row.IssueDate).format('YYYY/MM/DD'),
-                                                    SubmarineCable: row.SubmarineCable,
-                                                    WorkTitle: row.WorkTitle
-                                                });
-                                            }}
-                                        >
-                                            檢視
-                                        </Button>
-                                        <Button
-                                            color="error"
-                                            size="small"
-                                            onClick={() => {
-                                                // toBillData(row.WKMasterID);
-                                            }}
-                                        >
-                                            作廢
-                                        </Button>
+                                        <Box sx={{ display: 'flex', justifyContent: 'center', '& button': { mx: 1, p: 0, fontSize: 1 } }}>
+                                            <Button
+                                                color="primary"
+                                                size="small"
+                                                variant="outlined"
+                                                onClick={() => {
+                                                    handleDialogOpen('deduct', {
+                                                        PartyName: row.PartyName,
+                                                        IssueDate: dayjs(row.IssueDate).format('YYYY/MM/DD'),
+                                                        SubmarineCable: row.SubmarineCable,
+                                                        WorkTitle: row.WorkTitle
+                                                    });
+                                                }}
+                                            >
+                                                折抵作業
+                                            </Button>
+                                            <Button
+                                                color="success"
+                                                size="small"
+                                                variant="outlined"
+                                                onClick={() => {
+                                                    handleDialogOpen('view', {
+                                                        PartyName: row.PartyName,
+                                                        IssueDate: dayjs(row.IssueDate).format('YYYY/MM/DD'),
+                                                        SubmarineCable: row.SubmarineCable,
+                                                        WorkTitle: row.WorkTitle
+                                                    });
+                                                }}
+                                            >
+                                                檢視
+                                            </Button>
+                                            <Button
+                                                color="error"
+                                                size="small"
+                                                variant="outlined"
+                                                onClick={() => {
+                                                    setInfoTerminal(true);
+                                                }}
+                                            >
+                                                作廢
+                                            </Button>
+                                        </Box>
                                     </StyledTableCell>
                                 </TableRow>
                             );

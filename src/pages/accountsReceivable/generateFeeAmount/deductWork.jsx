@@ -172,7 +172,7 @@ const ToGenerateDataList = ({ isDialogOpen, handleDialogClose, deductInfo, actio
     //         .catch((e) => console.log('e1=>>', e));
     // };
     console.log('dialogTitle=>>', deductInfo);
-    console.log('actionName=>>', actionName);
+    console.log('actionName=>>', actionName, actionName !== 'view', actionName !== 'viewDeducted');
 
     return (
         <Dialog onClose={handleDialogClose} maxWidth="xl" open={isDialogOpen}>
@@ -181,12 +181,90 @@ const ToGenerateDataList = ({ isDialogOpen, handleDialogClose, deductInfo, actio
             </BootstrapDialogTitle>
             <DialogContent>
                 <Grid container spacing={1} display="flex" justifyContent="center" alignItems="center" sx={{ fontSize: 10 }}>
-                    <Grid container xs={12} sm={12} md={12} lg={12}>
-                        <Grid></Grid>
-                        <Grid></Grid>
-                        <Grid></Grid>
-                        <Grid></Grid>
-                    </Grid>
+                    {actionName === 'view' ? (
+                        <Grid item xs={12} sm={12} md={12} lg={12}>
+                            <Grid container spacing={1} display="flex" justifyContent="center" alignItems="center" sx={{ fontSize: 10 }}>
+                                <Grid item xs={1} sm={1} md={1} lg={1} />
+                                <Grid item xs={2} sm={2} md={2} lg={2}>
+                                    <Typography
+                                        variant="h5"
+                                        sx={{ fontSize: { lg: '0.5rem', xl: '0.88rem' }, ml: { lg: '0.5rem', xl: '1.5rem' } }}
+                                    >
+                                        會員：
+                                    </Typography>
+                                </Grid>
+                                <Grid item xs={3} sm={3} md={3} lg={3}>
+                                    <TextField
+                                        value={deductInfo.PartyName}
+                                        fullWidth
+                                        disabled={true}
+                                        variant="outlined"
+                                        size="small"
+                                        // type="number"
+                                    />
+                                </Grid>
+                                <Grid item xs={2} sm={2} md={2} lg={2}>
+                                    <Typography
+                                        variant="h5"
+                                        sx={{ fontSize: { lg: '0.5rem', xl: '0.88rem' }, ml: { lg: '0.5rem', xl: '1.5rem' } }}
+                                    >
+                                        發票截止日期：
+                                    </Typography>
+                                </Grid>
+                                <Grid item xs={3} sm={3} md={3} lg={3}>
+                                    <TextField
+                                        value={deductInfo.IssueDate}
+                                        fullWidth
+                                        disabled={true}
+                                        variant="outlined"
+                                        size="small"
+                                        // type="number"
+                                    />
+                                </Grid>
+                                <Grid item xs={1} sm={1} md={1} lg={1} />
+                                <Grid item xs={1} sm={1} md={1} lg={1} />
+                                <Grid item xs={2} sm={2} md={2} lg={2}>
+                                    <Typography
+                                        variant="h5"
+                                        sx={{ fontSize: { lg: '0.5rem', xl: '0.88rem' }, ml: { lg: '0.5rem', xl: '1.5rem' } }}
+                                    >
+                                        海纜名稱：
+                                    </Typography>
+                                </Grid>
+                                <Grid item xs={3} sm={3} md={3} lg={3}>
+                                    <TextField
+                                        value={deductInfo.SubmarineCable}
+                                        fullWidth
+                                        disabled={true}
+                                        variant="outlined"
+                                        size="small"
+                                        // type="number"
+                                    />
+                                </Grid>
+                                <Grid item xs={2} sm={2} md={2} lg={2}>
+                                    <Typography
+                                        variant="h5"
+                                        sx={{ fontSize: { lg: '0.5rem', xl: '0.88rem' }, ml: { lg: '0.5rem', xl: '1.5rem' } }}
+                                    >
+                                        海纜作業：
+                                    </Typography>
+                                </Grid>
+                                <Grid item xs={3} sm={3} md={3} lg={3}>
+                                    <TextField
+                                        value={deductInfo.WorkTitle}
+                                        fullWidth
+                                        disabled={true}
+                                        variant="outlined"
+                                        size="small"
+                                        // type="number"
+                                    />
+                                </Grid>
+                                <Grid item xs={1} sm={1} md={1} lg={1} />
+                            </Grid>
+                        </Grid>
+                    ) : (
+                        ''
+                    )}
                     <Grid item xs={12} sm={12} md={12} lg={12}>
                         <MainCard title="帳單明細列表">
                             <TableContainer component={Paper} sx={{ maxHeight: 350 }}>
@@ -196,7 +274,11 @@ const ToGenerateDataList = ({ isDialogOpen, handleDialogClose, deductInfo, actio
                                             <StyledTableCell align="center">NO</StyledTableCell>
                                             <StyledTableCell align="center">費用項目</StyledTableCell>
                                             <StyledTableCell align="center">費用金額</StyledTableCell>
-                                            {/* <StyledTableCell align="center">折抵CB種類</StyledTableCell> */}
+                                            {actionName === 'viewDeducted' ? (
+                                                <StyledTableCell align="center">折抵CB種類</StyledTableCell>
+                                            ) : (
+                                                ''
+                                            )}
                                             <StyledTableCell align="center">折抵金額</StyledTableCell>
                                             <StyledTableCell align="center">總金額</StyledTableCell>
                                             {actionName === 'deduct' ? <StyledTableCell align="center">Action</StyledTableCell> : ''}
@@ -212,8 +294,12 @@ const ToGenerateDataList = ({ isDialogOpen, handleDialogClose, deductInfo, actio
                                                 >
                                                     <TableCell align="center">{id + 1}</TableCell>
                                                     <TableCell align="center">{row.FeeItem}</TableCell>
-                                                    {/* <TableCell align="center">一般、賠償</TableCell> */}
                                                     <TableCell align="center">{`$${handleNumber(row.FeeAmountPost)}`}</TableCell>
+                                                    {actionName === 'viewDeducted' ? (
+                                                        <StyledTableCell align="center">一般、賠償</StyledTableCell>
+                                                    ) : (
+                                                        ''
+                                                    )}
                                                     <TableCell align="center">{`1`}</TableCell>
                                                     <TableCell align="center">{`$${handleNumber(afterDiff.toFixed(2))}`}</TableCell>
                                                     {actionName === 'deduct' ? (
@@ -329,12 +415,18 @@ const ToGenerateDataList = ({ isDialogOpen, handleDialogClose, deductInfo, actio
                 {/* <DialogContentText sx={{ fontSize: '20px', mt: '0.5rem' }}>總金額：${handleNumber(totalAmount)}</DialogContentText> */}
             </DialogContent>
             <DialogActions>
-                <Button sx={{ mr: '0.05rem' }} variant="contained" onClick={handleDialogClose}>
-                    儲存
-                </Button>
-                <Button sx={{ mr: '0.05rem' }} variant="contained" onClick={handleDialogClose}>
-                    Reset
-                </Button>
+                {actionName === 'deduct' ? (
+                    <>
+                        <Button sx={{ mr: '0.05rem' }} variant="contained" onClick={handleDialogClose}>
+                            儲存
+                        </Button>
+                        <Button sx={{ mr: '0.05rem' }} variant="contained" onClick={handleDialogClose}>
+                            Reset
+                        </Button>
+                    </>
+                ) : (
+                    ''
+                )}
                 <Button
                     sx={{ mr: '0.05rem' }}
                     variant="contained"

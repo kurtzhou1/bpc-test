@@ -14,7 +14,7 @@ import InvalidatedDataList from './invalidatedDataList';
 import ReceivableQuery from './receivableQuery';
 
 const AccountsReceivable = () => {
-    const [value, setValue] = useState(1);
+    const [value, setValue] = useState(2);
 
     const handleChange = (event, newValue) => {
         setValue(newValue);

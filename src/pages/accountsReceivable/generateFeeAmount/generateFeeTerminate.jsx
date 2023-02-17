@@ -11,7 +11,10 @@ import {
     TextField,
     Checkbox,
     Autocomplete,
-    Table
+    Table,
+    FormControlLabel,
+    RadioGroup,
+    Radio
 } from '@mui/material';
 
 // project
@@ -29,7 +32,7 @@ import CheckBoxIcon from '@mui/icons-material/CheckBox';
 // api
 import { updateLiability } from 'components/apis.jsx';
 
-const GenerateFeeTerminate = ({ arTerminal, handleTerminalClose }) => {
+const GenerateFeeTerminate = ({ infoTerminal, handleTerminalClose }) => {
     const [endNote, setEndNote] = useState([]);
 
     const terminalLiability = () => {
@@ -51,7 +54,7 @@ const GenerateFeeTerminate = ({ arTerminal, handleTerminalClose }) => {
     };
 
     return (
-        <Dialog onClose={handleTerminalClose} maxWidth="xs" fullWidth open={arTerminal}>
+        <Dialog onClose={handleTerminalClose} maxWidth="xs" fullWidth open={infoTerminal}>
             <BootstrapDialogTitle id="customized-dialog-title" onClose={handleTerminalClose}>
                 確認終止訊息
             </BootstrapDialogTitle>
