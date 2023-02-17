@@ -2,6 +2,9 @@ import { useState, useRef } from 'react';
 
 // project import
 import { handleNumber, BootstrapDialogTitle } from 'components/commonFunction';
+import DeductWork from './deductWork';
+import GenerateFeeTerminate from './generateFeeTerminate';
+import SignAndUpload from './signAndUpload';
 // material-ui
 import {
     Typography,
@@ -11,12 +14,12 @@ import {
     DialogContent,
     DialogContentText,
     Grid,
-    Box,
     FormControl,
     InputLabel,
     Select,
     DialogActions,
-    TextField
+    TextField,
+    Box
 } from '@mui/material';
 import TableBody from '@mui/material/TableBody';
 import TableCell, { tableCellClasses } from '@mui/material/TableCell';
@@ -30,7 +33,7 @@ import dayjs from 'dayjs';
 
 import { toBillDataapi, sendJounary } from 'components/apis.jsx';
 
-const SignedDataList = ({ listInfo, apiQuery }) => {
+const WriteOffedDataList = ({ listInfo, apiQuery }) => {
     const fakeData = {
         TotalAmount: 5582012.72,
         InvoiceMaster: [
@@ -84,7 +87,6 @@ const SignedDataList = ({ listInfo, apiQuery }) => {
             }
         ]
     };
-
     const deductInfo = useRef({});
     const actionName = useRef('');
     const [isDialogOpen, setIsDialogOpen] = useState(false); //檢視
@@ -101,11 +103,10 @@ const SignedDataList = ({ listInfo, apiQuery }) => {
             paddingTop: '0.2rem',
             paddingBottom: '0.2rem'
         },
-        [`&.${tableCellClasses.body}.totalAmount`]: {
+        [`&.${tableCellClasses.body}`]: {
             fontSize: 14,
             paddingTop: '0.2rem',
-            paddingBottom: '0.2rem',
-            backgroundColor: '#CFD8DC'
+            paddingBottom: '0.2rem'
         }
     }));
 
@@ -119,7 +120,15 @@ const SignedDataList = ({ listInfo, apiQuery }) => {
         setIsDialogOpen(true);
     };
 
-    // //立帳作業
+    const handleTerminalClose = () => {
+        setInfoTerminal(false);
+    };
+
+    const handUploadClose = () => {
+        setUploadOpen(false);
+    };
+
+    //立帳作業
     // const toBillData = (wKMasterID) => {
     //     console.log('立帳作業wKMasterID=>>', wKMasterID);
     //     let tmpQuery = '/' + 'WKMasterID=' + wKMasterID;
@@ -177,87 +186,29 @@ const SignedDataList = ({ listInfo, apiQuery }) => {
     //         .catch((e) => console.log('e1=>>', e));
     // };
 
+    console.log('infoTerminal=>>', infoTerminal);
+
     return (
         <>
-            <Dialog onClose={handleDialogClose} maxWidth="lg" fullWidth open={isDialogOpen}>
-                <BootstrapDialogTitle id="customized-dialog-title" onClose={handleDialogClose}>
-                    立帳作業
-                </BootstrapDialogTitle>
-                <DialogContent>
-                    <TableContainer component={Paper} sx={{ maxHeight: 350 }}>
-                        <Table sx={{ minWidth: 300 }} stickyHeader aria-label="sticky table">
-                            <TableHead>
-                                <TableRow>
-                                    <StyledTableCell align="center"></StyledTableCell>
-                                    <StyledTableCell align="center">NO</StyledTableCell>
-                                    <StyledTableCell align="center">會員</StyledTableCell>
-                                    <StyledTableCell align="center">海纜名稱</StyledTableCell>
-                                    <StyledTableCell align="center">海纜作業</StyledTableCell>
-                                    <StyledTableCell align="center">發票代碼</StyledTableCell>
-                                    <StyledTableCell align="center">供應商</StyledTableCell>
-                                    <StyledTableCell align="center">合約種類</StyledTableCell>
-                                    <StyledTableCell align="center">發票日期</StyledTableCell>
-                                    <StyledTableCell align="center">明細數量</StyledTableCell>
-                                    <StyledTableCell align="center">總價</StyledTableCell>
-                                    <StyledTableCell align="center">處理狀態</StyledTableCell>
-                                </TableRow>
-                            </TableHead>
-                            <TableBody>
-                                {toBillDataInfo.map((row, id) => {
-                                    let afterDiff = row.FeeAmountPost + row.Difference;
-                                    return (
-                                        <TableRow
-                                            key={row.FeeAmountPre + row?.PartyName + row?.LBRatio}
-                                            sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-                                        >
-                                            <TableCell align="center">{row.FeeItem}</TableCell>
-                                            <TableCell align="center">{`$${handleNumber(row.FeeAmountPre)}`}</TableCell>
-                                            <TableCell align="center">{row.PartyName}</TableCell>
-                                            <TableCell align="center">{`${row.LBRatio}%`}</TableCell>
-                                            <TableCell align="center">{`$${handleNumber(row.FeeAmountPost)}`}</TableCell>
-                                            <TableCell align="center">
-                                                <TextField
-                                                    label="$"
-                                                    size="small"
-                                                    type="number"
-                                                    style={{ width: '30%' }}
-                                                    // value={diffNumber}
-                                                    onChange={(e) => {
-                                                        changeDiff(e.target.value, id);
-                                                    }}
-                                                />
-                                            </TableCell>
-                                            <TableCell align="center">{`$${handleNumber(afterDiff.toFixed(2))}`}</TableCell>
-                                        </TableRow>
-                                    );
-                                })}
-                            </TableBody>
-                        </Table>
-                    </TableContainer>
-                    <DialogContentText sx={{ fontSize: '20px', mt: '0.5rem' }}>發票總金額：${handleNumber(totalAmount)}</DialogContentText>
-                    <DialogContentText sx={{ fontSize: '20px', color: '#CC0000' }}>
-                        目前金額：${handleNumber(currentAmount)}
-                    </DialogContentText>
-                </DialogContent>
-                <DialogActions>
-                    {/* <Button sx={{ mr: '0.05rem' }} variant="contained" onClick={sendJounaryInfo}>
-                        新增
-                    </Button> */}
-                    <Button sx={{ mr: '0.05rem' }} variant="contained" onClick={handleDialogClose}>
-                        取消
-                    </Button>
-                </DialogActions>
-            </Dialog>
+            <DeductWork
+                isDialogOpen={isDialogOpen}
+                handleDialogClose={handleDialogClose}
+                deductInfo={deductInfo.current}
+                actionName={actionName.current}
+            />
+            <GenerateFeeTerminate infoTerminal={infoTerminal} handleTerminalClose={handleTerminalClose} />
+            <SignAndUpload uploadOpen={uploadOpen} handUploadClose={handUploadClose} />
             <TableContainer component={Paper} sx={{ maxHeight: 350 }}>
                 <Table sx={{ minWidth: 300 }} stickyHeader aria-label="sticky table">
                     <TableHead>
                         <TableRow>
                             <StyledTableCell align="center">NO</StyledTableCell>
                             <StyledTableCell align="center">會員</StyledTableCell>
+                            <StyledTableCell align="center">海纜名稱</StyledTableCell>
+                            <StyledTableCell align="center">海纜作業</StyledTableCell>
                             <StyledTableCell align="center">發票代碼</StyledTableCell>
                             <StyledTableCell align="center">供應商</StyledTableCell>
-                            <StyledTableCell align="center">海纜名稱</StyledTableCell>
-                            <StyledTableCell align="center">合約種類</StyledTableCell>
+                            {/* <StyledTableCell align="center">合約種類</StyledTableCell> */}
                             <StyledTableCell align="center">發票日期</StyledTableCell>
                             <StyledTableCell align="center">明細數量</StyledTableCell>
                             <StyledTableCell align="center">總價</StyledTableCell>
@@ -306,6 +257,37 @@ const SignedDataList = ({ listInfo, apiQuery }) => {
                                             >
                                                 檢視
                                             </Button>
+                                            <Button
+                                                color="primary"
+                                                size="small"
+                                                variant="outlined"
+                                                onClick={() => {
+                                                    setUploadOpen(true);
+                                                }}
+                                            >
+                                                {/* 簽核/產製Draft */}
+                                                簽核
+                                            </Button>
+                                            <Button
+                                                color="error"
+                                                size="small"
+                                                variant="outlined"
+                                                onClick={() => {
+                                                    setInfoTerminal(true);
+                                                }}
+                                            >
+                                                作廢
+                                            </Button>
+                                            <Button
+                                                color="warning"
+                                                size="small"
+                                                variant="outlined"
+                                                onClick={() => {
+                                                    setInfoTerminal(true);
+                                                }}
+                                            >
+                                                退回
+                                            </Button>
                                         </Box>
                                     </StyledTableCell>
                                 </TableRow>
@@ -318,4 +300,4 @@ const SignedDataList = ({ listInfo, apiQuery }) => {
     );
 };
 
-export default SignedDataList;
+export default WriteOffedDataList;

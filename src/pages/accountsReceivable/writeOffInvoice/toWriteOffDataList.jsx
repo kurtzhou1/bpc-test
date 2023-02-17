@@ -1,7 +1,11 @@
 import { useState, useRef } from 'react';
 
 // project import
-import { handleNumber, BootstrapDialogTitle } from 'components/commonFunction';
+import DeductWork from './deductWork';
+import { handleNumber } from 'components/commonFunction';
+import MainCard from 'components/MainCard';
+import GenerateFeeTerminate from './generateFeeTerminate';
+
 // material-ui
 import {
     Typography,
@@ -11,12 +15,12 @@ import {
     DialogContent,
     DialogContentText,
     Grid,
-    Box,
     FormControl,
     InputLabel,
     Select,
     DialogActions,
-    TextField
+    TextField,
+    Box
 } from '@mui/material';
 import TableBody from '@mui/material/TableBody';
 import TableCell, { tableCellClasses } from '@mui/material/TableCell';
@@ -25,12 +29,15 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import { alpha, styled } from '@mui/material/styles';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { DesktopDatePicker } from '@mui/x-date-pickers/DesktopDatePicker';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 
 import dayjs from 'dayjs';
 
 import { toBillDataapi, sendJounary } from 'components/apis.jsx';
 
-const SignedDataList = ({ listInfo, apiQuery }) => {
+const ToWriteOffDataList = ({ listInfo, apiQuery }) => {
     const fakeData = {
         TotalAmount: 5582012.72,
         InvoiceMaster: [
@@ -85,15 +92,16 @@ const SignedDataList = ({ listInfo, apiQuery }) => {
         ]
     };
 
+    const [isDialogOpen, setIsDialogOpen] = useState(false); //折抵作業
+    const [isDeductWorkOpen, setIsDeductWorkOpen] = useState(false); //作廢
     const deductInfo = useRef({});
     const actionName = useRef('');
-    const [isDialogOpen, setIsDialogOpen] = useState(false); //檢視
-    const [infoTerminal, setInfoTerminal] = useState(false); //作廢
-    const [uploadOpen, setUploadOpen] = useState(false); //上傳
+    const [editItem, setEditItem] = useState();
     const [toBillDataMain, setToBillDataMain] = useState(fakeData.InvoiceMaster); //發票主檔
     const [toBillDataInfo, setToBillDataInfo] = useState(fakeData.InvoiceDetail); //發票明細檔
     const [totalAmount, setTotalAmount] = useState(fakeData.TotalAmount); //發票總金額
     const [currentAmount, setCurrentAmount] = useState(''); //目前金額
+    const [infoTerminal, setInfoTerminal] = useState(false);
     const StyledTableCell = styled(TableCell)(({ theme }) => ({
         [`&.${tableCellClasses.head}`]: {
             // backgroundColor: theme.palette.common.gary,
@@ -110,13 +118,19 @@ const SignedDataList = ({ listInfo, apiQuery }) => {
     }));
 
     const handleDialogClose = () => {
+        deductInfo.current = '可折抵CB';
         setIsDialogOpen(false);
+        setEditItem();
     };
 
     const handleDialogOpen = (action, info) => {
         deductInfo.current = info;
         actionName.current = action;
         setIsDialogOpen(true);
+    };
+
+    const handleTerminalClose = () => {
+        setInfoTerminal(false);
     };
 
     // //立帳作業
@@ -155,7 +169,7 @@ const SignedDataList = ({ listInfo, apiQuery }) => {
     //     setCurrentAmount(tmpAmount.toFixed(2));
     // };
 
-    // // 送出立帳(新增)
+    // 送出立帳(新增)
     // const sendJounaryInfo = () => {
     //     let tmpArray = toBillDataMain.current.map((i) => i);
     //     tmpArray.forEach((i) => {
@@ -179,124 +193,66 @@ const SignedDataList = ({ listInfo, apiQuery }) => {
 
     return (
         <>
-            <Dialog onClose={handleDialogClose} maxWidth="lg" fullWidth open={isDialogOpen}>
-                <BootstrapDialogTitle id="customized-dialog-title" onClose={handleDialogClose}>
-                    立帳作業
-                </BootstrapDialogTitle>
-                <DialogContent>
-                    <TableContainer component={Paper} sx={{ maxHeight: 350 }}>
-                        <Table sx={{ minWidth: 300 }} stickyHeader aria-label="sticky table">
-                            <TableHead>
-                                <TableRow>
-                                    <StyledTableCell align="center"></StyledTableCell>
-                                    <StyledTableCell align="center">NO</StyledTableCell>
-                                    <StyledTableCell align="center">會員</StyledTableCell>
-                                    <StyledTableCell align="center">海纜名稱</StyledTableCell>
-                                    <StyledTableCell align="center">海纜作業</StyledTableCell>
-                                    <StyledTableCell align="center">發票代碼</StyledTableCell>
-                                    <StyledTableCell align="center">供應商</StyledTableCell>
-                                    <StyledTableCell align="center">合約種類</StyledTableCell>
-                                    <StyledTableCell align="center">發票日期</StyledTableCell>
-                                    <StyledTableCell align="center">明細數量</StyledTableCell>
-                                    <StyledTableCell align="center">總價</StyledTableCell>
-                                    <StyledTableCell align="center">處理狀態</StyledTableCell>
-                                </TableRow>
-                            </TableHead>
-                            <TableBody>
-                                {toBillDataInfo.map((row, id) => {
-                                    let afterDiff = row.FeeAmountPost + row.Difference;
-                                    return (
-                                        <TableRow
-                                            key={row.FeeAmountPre + row?.PartyName + row?.LBRatio}
-                                            sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-                                        >
-                                            <TableCell align="center">{row.FeeItem}</TableCell>
-                                            <TableCell align="center">{`$${handleNumber(row.FeeAmountPre)}`}</TableCell>
-                                            <TableCell align="center">{row.PartyName}</TableCell>
-                                            <TableCell align="center">{`${row.LBRatio}%`}</TableCell>
-                                            <TableCell align="center">{`$${handleNumber(row.FeeAmountPost)}`}</TableCell>
-                                            <TableCell align="center">
-                                                <TextField
-                                                    label="$"
-                                                    size="small"
-                                                    type="number"
-                                                    style={{ width: '30%' }}
-                                                    // value={diffNumber}
-                                                    onChange={(e) => {
-                                                        changeDiff(e.target.value, id);
-                                                    }}
-                                                />
-                                            </TableCell>
-                                            <TableCell align="center">{`$${handleNumber(afterDiff.toFixed(2))}`}</TableCell>
-                                        </TableRow>
-                                    );
-                                })}
-                            </TableBody>
-                        </Table>
-                    </TableContainer>
-                    <DialogContentText sx={{ fontSize: '20px', mt: '0.5rem' }}>發票總金額：${handleNumber(totalAmount)}</DialogContentText>
-                    <DialogContentText sx={{ fontSize: '20px', color: '#CC0000' }}>
-                        目前金額：${handleNumber(currentAmount)}
-                    </DialogContentText>
-                </DialogContent>
-                <DialogActions>
-                    {/* <Button sx={{ mr: '0.05rem' }} variant="contained" onClick={sendJounaryInfo}>
-                        新增
-                    </Button> */}
-                    <Button sx={{ mr: '0.05rem' }} variant="contained" onClick={handleDialogClose}>
-                        取消
-                    </Button>
-                </DialogActions>
-            </Dialog>
+            <DeductWork
+                isDialogOpen={isDialogOpen}
+                handleDialogClose={handleDialogClose}
+                deductInfo={deductInfo.current}
+                actionName={actionName.current}
+            />
+            <GenerateFeeTerminate infoTerminal={infoTerminal} handleTerminalClose={handleTerminalClose} />
             <TableContainer component={Paper} sx={{ maxHeight: 350 }}>
                 <Table sx={{ minWidth: 300 }} stickyHeader aria-label="sticky table">
                     <TableHead>
                         <TableRow>
                             <StyledTableCell align="center">NO</StyledTableCell>
                             <StyledTableCell align="center">會員</StyledTableCell>
-                            <StyledTableCell align="center">發票代碼</StyledTableCell>
-                            <StyledTableCell align="center">供應商</StyledTableCell>
                             <StyledTableCell align="center">海纜名稱</StyledTableCell>
-                            <StyledTableCell align="center">合約種類</StyledTableCell>
-                            <StyledTableCell align="center">發票日期</StyledTableCell>
+                            <StyledTableCell align="center">海纜作業</StyledTableCell>
+                            <StyledTableCell align="center">帳單日期</StyledTableCell>
+                            <StyledTableCell align="center">帳單截止日</StyledTableCell>
                             <StyledTableCell align="center">明細數量</StyledTableCell>
-                            <StyledTableCell align="center">總價</StyledTableCell>
+                            <StyledTableCell align="center">是否為pro-forma</StyledTableCell>
                             <StyledTableCell align="center">處理狀態</StyledTableCell>
                             <StyledTableCell align="center">Action</StyledTableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {toBillDataInfo?.map((row, id) => {
+                        {toBillDataMain?.map((row, id) => {
                             console.log('row=>>', row);
                             return (
-                                <TableRow
-                                    key={row.InvoiceWKMaster?.WKMasterID + row.InvoiceWKMaster?.InvoiceNo}
-                                    sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-                                >
+                                <TableRow key={row.WKMasterID + row.InvoiceNo} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
                                     <StyledTableCell align="center">{id + 1}</StyledTableCell>
                                     <StyledTableCell align="center">{row.PartyName}</StyledTableCell>
                                     <StyledTableCell align="center">{row.SubmarineCable}</StyledTableCell>
                                     <StyledTableCell align="center">{row.WorkTitle}</StyledTableCell>
-                                    <StyledTableCell align="center">{row.InvoiceNo}</StyledTableCell>
-                                    <StyledTableCell align="center">{row.SupplierName}</StyledTableCell>
+                                    <StyledTableCell align="center">{dayjs(row.IssueDate).format('YYYY/MM/DD')}</StyledTableCell>
                                     <StyledTableCell align="center">{dayjs(row.IssueDate).format('YYYY/MM/DD')}</StyledTableCell>
                                     <StyledTableCell align="center">{toBillDataInfo.length}</StyledTableCell>
-                                    <StyledTableCell align="center">{row.TotalAmount}</StyledTableCell>
+                                    <StyledTableCell align="center">{row.IsPro ? '是' : '否'}</StyledTableCell>
                                     <StyledTableCell align="center">{row.Status}</StyledTableCell>
                                     <StyledTableCell align="center">
-                                        <Box
-                                            sx={{
-                                                display: 'flex',
-                                                justifyContent: 'center',
-                                                '& button': { mx: { sm: 0.3, md: 0.3, lg: 0.6, xl: 1.5 }, p: 0, fontSize: 1 }
-                                            }}
-                                        >
+                                        <Box sx={{ display: 'flex', justifyContent: 'center', '& button': { mx: 1, p: 0, fontSize: 1 } }}>
                                             <Button
+                                                color="primary"
+                                                size="small"
+                                                variant="outlined"
+                                                onClick={() => {
+                                                    handleDialogOpen('deduct', {
+                                                        PartyName: row.PartyName,
+                                                        IssueDate: dayjs(row.IssueDate).format('YYYY/MM/DD'),
+                                                        SubmarineCable: row.SubmarineCable,
+                                                        WorkTitle: row.WorkTitle
+                                                    });
+                                                }}
+                                            >
+                                                銷帳作業
+                                            </Button>
+                                            {/* <Button
                                                 color="success"
                                                 size="small"
                                                 variant="outlined"
                                                 onClick={() => {
-                                                    handleDialogOpen('viewDeducted', {
+                                                    handleDialogOpen('view', {
                                                         PartyName: row.PartyName,
                                                         IssueDate: dayjs(row.IssueDate).format('YYYY/MM/DD'),
                                                         SubmarineCable: row.SubmarineCable,
@@ -305,6 +261,16 @@ const SignedDataList = ({ listInfo, apiQuery }) => {
                                                 }}
                                             >
                                                 檢視
+                                            </Button> */}
+                                            <Button
+                                                color="error"
+                                                size="small"
+                                                variant="outlined"
+                                                onClick={() => {
+                                                    setInfoTerminal(true);
+                                                }}
+                                            >
+                                                作廢
                                             </Button>
                                         </Box>
                                     </StyledTableCell>
@@ -318,4 +284,4 @@ const SignedDataList = ({ listInfo, apiQuery }) => {
     );
 };
 
-export default SignedDataList;
+export default ToWriteOffDataList;

@@ -33,7 +33,15 @@ const accountsReceivable = {
                 },
                 {
                     id: 'item42',
-                    title: '銷帳、廠商付款處理',
+                    title: '銷帳',
+                    type: 'item',
+                    url: '/AccountsReceivable/WriteOffInvoice',
+                    icon: icons.TagOutlined,
+                    breadcrumbs: true
+                },
+                {
+                    id: 'item43',
+                    title: '廠商付款處理',
                     type: 'item',
                     url: '/AccountsReceivable/WriteOff',
                     icon: icons.TagOutlined,

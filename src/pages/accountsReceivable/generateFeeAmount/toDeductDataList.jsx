@@ -109,10 +109,11 @@ const ToGenerateDataList = ({ listInfo, apiQuery }) => {
             paddingTop: '0.2rem',
             paddingBottom: '0.2rem'
         },
-        [`&.${tableCellClasses.body}`]: {
+        [`&.${tableCellClasses.body}.totalAmount`]: {
             fontSize: 14,
             paddingTop: '0.2rem',
-            paddingBottom: '0.2rem'
+            paddingBottom: '0.2rem',
+            backgroundColor: '#CFD8DC'
         }
     }));
 

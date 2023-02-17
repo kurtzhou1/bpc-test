@@ -42,7 +42,7 @@ const NavGroup = ({ item }) => {
             //         </Box>
             //     )
             // }
-            sx={{ mb: drawerOpen ? 1.5 : 0, py: 0, zIndex: 0 }}
+            sx={{ mb: drawerOpen ? { lg: 0, xl: 1.5 } : 0, py: 0, zIndex: 0 }}
         >
             {navCollapseMap}
         </List>

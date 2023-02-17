@@ -100,10 +100,11 @@ const ToCombineDataList = ({ handleDialogClose, isDialogOpen }) => {
             paddingTop: '0.2rem',
             paddingBottom: '0.2rem'
         },
-        [`&.${tableCellClasses.body}`]: {
+        [`&.${tableCellClasses.body}.totalAmount`]: {
             fontSize: 14,
             paddingTop: '0.2rem',
-            paddingBottom: '0.2rem'
+            paddingBottom: '0.2rem',
+            backgroundColor: '#CFD8DC'
         }
     }));
 
@@ -254,6 +255,19 @@ const ToCombineDataList = ({ handleDialogClose, isDialogOpen }) => {
                                                 </TableRow>
                                             );
                                         })}
+                                        <TableRow sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
+                                            <StyledTableCell className="totalAmount" align="center">
+                                                Total
+                                            </StyledTableCell>
+                                            <StyledTableCell className="totalAmount" align="center"></StyledTableCell>
+                                            <StyledTableCell className="totalAmount" align="center"></StyledTableCell>
+                                            <StyledTableCell className="totalAmount" align="center"></StyledTableCell>
+                                            <StyledTableCell className="totalAmount" align="center"></StyledTableCell>
+                                            <StyledTableCell className="totalAmount" align="center"></StyledTableCell>
+                                            <StyledTableCell className="totalAmount" align="center">{`$${handleNumber(
+                                                123456
+                                            )}`}</StyledTableCell>
+                                        </TableRow>
                                     </TableBody>
                                 </Table>
                             </TableContainer>
