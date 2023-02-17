@@ -1,7 +1,6 @@
 // project import
 import SimpleBar from 'components/third-party/SimpleBar';
 import Notification from './Notification';
-import Setting from './Setting';
 import Profile from './Profile';
 import DrawerFooterStyled from './DrawerFooterStyled';
 
@@ -17,7 +16,6 @@ const DrawerContent = () => (
         }}
     >
         <Notification />
-        <Setting />
         <Profile />
         {/* <NavCard /> */}
     </DrawerFooterStyled>
