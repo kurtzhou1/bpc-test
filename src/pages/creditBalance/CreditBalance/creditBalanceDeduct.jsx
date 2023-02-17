@@ -46,7 +46,7 @@ const CreditBalanceDeduct = ({ cblistInfo }) => {
     const [cBType, setCBType] = useState(''); //CB種類
     const [submarineCable, setSubmarineCable] = useState(''); //海纜名稱
     const [workTitle, setWorkTitle] = useState(''); //海纜作業
-    const [createDate, setCreateDate] = useState(new Date()); //建立日期
+    const [createDate, setCreateDate] = useState([null, null]); //建立日期
 
     const [listInfo, setListInfo] = useState(cblistInfo);
     // const [editItem, setEditItem] = useState(NaN);
