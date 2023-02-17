@@ -27,6 +27,9 @@ const CreditBalance = Loadable(lazy(() => import('pages/creditBalance/CreditBala
 // 應收帳款管理
 const GenerateFeeAmount = Loadable(lazy(() => import('pages/accountsReceivable/generateFeeAmount')));
 
+// Setting
+const Information = Loadable(lazy(() => import('pages/information/Information')));
+
 // render - utilities
 const Typography = Loadable(lazy(() => import('pages/components-overview/Typography')));
 const Color = Loadable(lazy(() => import('pages/components-overview/Color')));
@@ -124,6 +127,10 @@ const MainRoutes = {
                     element: <InvoiceWorkManageEdit />
                 }
             ]
+        },
+        {
+            path: 'Information',
+            element: <Information />
         }
         // {
         //     path: 'CreateJournal',
