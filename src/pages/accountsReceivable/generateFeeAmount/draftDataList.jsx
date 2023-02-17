@@ -33,7 +33,7 @@ import dayjs from 'dayjs';
 
 import { toBillDataapi, sendJounary } from 'components/apis.jsx';
 
-const GeneratedDataList = ({ listInfo, apiQuery }) => {
+const DraftDataList = ({ listInfo, apiQuery }) => {
     const fakeData = {
         TotalAmount: 5582012.72,
         InvoiceMaster: [
@@ -268,6 +268,10 @@ const GeneratedDataList = ({ listInfo, apiQuery }) => {
                                                 {/* 簽核/產製Draft */}
                                                 簽核
                                             </Button>
+                                            {/* <Button variant="contained" component="label">
+                                                Upload2
+                                                <input hidden accept="image/*" multiple type="file" />
+                                            </Button> */}
                                             <Button
                                                 color="error"
                                                 size="small"
@@ -300,4 +304,4 @@ const GeneratedDataList = ({ listInfo, apiQuery }) => {
     );
 };
 
-export default GeneratedDataList;
+export default DraftDataList;

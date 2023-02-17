@@ -33,7 +33,7 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 
 import { toBillDataapi, sendJounary } from 'components/apis.jsx';
 
-const ToCombineDataList = ({ handleDialogClose, isDialogOpen, BootstrapDialogTitle }) => {
+const ToCombineDataList = ({ handleDialogClose, isDialogOpen }) => {
     // const fakeData = {
     //     TotalAmount: 5582012.72,
     //     InvoiceMaster: [

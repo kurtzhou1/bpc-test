@@ -43,7 +43,7 @@ const Information = () => {
                 {...other}
             >
                 {value === index && (
-                    <Box sx={{ p: 2 }}>
+                    <Box sx={{ p: 1 }}>
                         <Typography>{children}</Typography>
                     </Box>
                 )}

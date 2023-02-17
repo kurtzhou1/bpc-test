@@ -10,11 +10,12 @@ import ToDeductDataList from './toDeductDataList';
 import DeductedDataList from './deductedDataList';
 import SignedDataList from './signedDataList';
 import InvalidatedDataList from './invalidatedDataList';
+import DraftDataList from './draftDataList';
 
 import ReceivableQuery from './receivableQuery';
 
 const AccountsReceivable = () => {
-    const [value, setValue] = useState(2);
+    const [value, setValue] = useState(4);
 
     const handleChange = (event, newValue) => {
         setValue(newValue);
@@ -182,8 +183,9 @@ const AccountsReceivable = () => {
                             <Tab label="待合併" {...a11yProps(0)} />
                             <Tab label="待抵扣" {...a11yProps(1)} />
                             <Tab label="已抵扣" {...a11yProps(2)} />
-                            <Tab label="已簽核" {...a11yProps(3)} />
-                            <Tab label="已作廢" {...a11yProps(4)} />
+                            <Tab label="draft初稿" {...a11yProps(3)} />
+                            <Tab label="已簽核" {...a11yProps(4)} />
+                            <Tab label="已作廢" {...a11yProps(5)} />
                         </Tabs>
                         {value == 0 ? (
                             <>
@@ -226,9 +228,12 @@ const AccountsReceivable = () => {
                         <DeductedDataList />
                     </TabPanel>
                     <TabPanel value={value} index={3}>
-                        <SignedDataList />
+                        <DraftDataList />
                     </TabPanel>
                     <TabPanel value={value} index={4}>
+                        <SignedDataList />
+                    </TabPanel>
+                    <TabPanel value={value} index={5}>
                         <InvalidatedDataList />
                     </TabPanel>
                 </MainCard>
