@@ -8,7 +8,6 @@ import {
     Select,
     MenuItem,
     Box,
-    IconButton,
     TextField,
     Checkbox,
     Autocomplete,
@@ -16,11 +15,9 @@ import {
     Tabs,
     Tab
 } from '@mui/material';
-import CloseIcon from '@mui/icons-material/Close';
 
 // day
 import Dialog from '@mui/material/Dialog';
-import DialogTitle from '@mui/material/DialogTitle';
 import DialogContent from '@mui/material/DialogContent';
 import DialogActions from '@mui/material/DialogActions';
 
@@ -32,6 +29,7 @@ import CheckBoxIcon from '@mui/icons-material/CheckBox';
 import MainCard from 'components/MainCard';
 import CreditBalanceDeduct from './creditBalanceDeduct';
 import CreditBalanceRefund from './creditBalanceRefund';
+import { BootstrapDialogTitle } from 'components/commonFunction';
 
 // table
 import TableBody from '@mui/material/TableBody';
@@ -97,30 +95,6 @@ const CreditBalanceView = ({ cbView, handleViewClose, listInfo }) => {
     //         // setIsListEdit(true);
     //     }
     // }, [editItem]);
-
-    const BootstrapDialogTitle = (props) => {
-        const { children, onClose, ...other } = props;
-
-        return (
-            <DialogTitle sx={{ m: 0, p: 2 }} {...other}>
-                {children}
-                {onClose ? (
-                    <IconButton
-                        aria-label="close"
-                        onClick={onClose}
-                        sx={{
-                            position: 'absolute',
-                            right: 8,
-                            top: 8,
-                            color: (theme) => theme.palette.grey[500]
-                        }}
-                    >
-                        <CloseIcon />
-                    </IconButton>
-                ) : null}
-            </DialogTitle>
-        );
-    };
 
     const StyledTableCell = styled(TableCell)(({ theme }) => ({
         [`&.${tableCellClasses.head}`]: {
@@ -264,12 +238,10 @@ const CreditBalanceView = ({ cbView, handleViewClose, listInfo }) => {
                                 </Tabs>
                             </Box>
                             <TabPanel value={value} index={0}>
-                                {/* <CreditBalanceDeduct listInfo={listInfo} BootstrapDialogTitle={BootstrapDialogTitle} apiQuery={apiQuery} /> */}
                                 <CreditBalanceDeduct cblistInfo={cblistInfo} />
                             </TabPanel>
                             <TabPanel value={value} index={1}>
                                 <CreditBalanceRefund cblistInfo={cblistInfo} />
-                                {/* <CreditBalanceDeduct listInfo={listInfo} BootstrapDialogTitle={BootstrapDialogTitle} apiQuery={apiQuery} /> */}
                             </TabPanel>
                         </MainCard>
                     </Grid>

@@ -1,20 +1,20 @@
 import { useEffect, useState } from 'react';
-import { Grid, Button, IconButton, Box, Tabs, Tab, Typography } from '@mui/material';
+import { Grid, Button, IconButton, Box, Tabs, Tab, Typography, DialogTitle } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 // import { styled } from '@mui/material/styles';
 
 // project import
 import MainCard from 'components/MainCard';
 import ToCombineDataList from './toCombineDataList';
-import ToGenerateDataList from './toGenerateDataList';
-import GeneratedDataList from './generatedDataList';
+import ToDeductDataList from './toDeductDataList';
+import DeductedDataList from './deductedDataList';
 import SignedDataList from './signedDataList';
 import InvalidatedDataList from './invalidatedDataList';
 
 import ReceivableQuery from './receivableQuery';
 
 const AccountsReceivable = () => {
-    const [value, setValue] = useState(0);
+    const [value, setValue] = useState(2);
 
     const handleChange = (event, newValue) => {
         setValue(newValue);
@@ -148,30 +148,6 @@ const AccountsReceivable = () => {
         }
     }, [editItem]);
 
-    const BootstrapDialogTitle = (props) => {
-        const { children, onClose, ...other } = props;
-
-        return (
-            <DialogTitle sx={{ m: 0, p: 2 }} {...other}>
-                {children}
-                {onClose ? (
-                    <IconButton
-                        aria-label="close"
-                        onClick={onClose}
-                        sx={{
-                            position: 'absolute',
-                            right: 8,
-                            top: 8,
-                            color: (theme) => theme.palette.grey[500]
-                        }}
-                    >
-                        <CloseIcon />
-                    </IconButton>
-                ) : null}
-            </DialogTitle>
-        );
-    };
-
     return (
         <Grid container spacing={1}>
             {/* <Grid item xs={12} display="flex" justifyContent="right">
@@ -198,14 +174,14 @@ const AccountsReceivable = () => {
             <Grid item xs={12}>
                 <MainCard
                     title={`${
-                        value == 0 ? '待合併' : value == 1 ? '待產製' : value == 2 ? '已產製' : value == 3 ? '已簽核' : '已作廢'
+                        value == 0 ? '待合併' : value == 1 ? '待抵扣' : value == 2 ? '已抵扣' : value == 3 ? '已簽核' : '已作廢'
                     }帳單資料列表`}
                 >
                     <Box sx={{ borderBottom: 1, borderColor: 'divider', position: 'relative' }}>
                         <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
                             <Tab label="待合併" {...a11yProps(0)} />
-                            <Tab label="待產製" {...a11yProps(1)} />
-                            <Tab label="已產製" {...a11yProps(2)} />
+                            <Tab label="待抵扣" {...a11yProps(1)} />
+                            <Tab label="已抵扣" {...a11yProps(2)} />
                             <Tab label="已簽核" {...a11yProps(3)} />
                             <Tab label="已作廢" {...a11yProps(4)} />
                         </Tabs>
@@ -218,6 +194,9 @@ const AccountsReceivable = () => {
                                         position: 'absolute',
                                         right: 80,
                                         top: 4
+                                    }}
+                                    onClick={() => {
+                                        setIsDialogOpen(true);
                                     }}
                                 >
                                     + 合併帳單
@@ -238,13 +217,13 @@ const AccountsReceivable = () => {
                         )}
                     </Box>
                     <TabPanel value={value} index={0}>
-                        <ToCombineDataList />
+                        <ToCombineDataList handleDialogClose={handleDialogClose} isDialogOpen={isDialogOpen} />
                     </TabPanel>
                     <TabPanel value={value} index={1}>
-                        <ToGenerateDataList />
+                        <ToDeductDataList />
                     </TabPanel>
                     <TabPanel value={value} index={2}>
-                        <GeneratedDataList />
+                        <DeductedDataList />
                     </TabPanel>
                     <TabPanel value={value} index={3}>
                         <SignedDataList />

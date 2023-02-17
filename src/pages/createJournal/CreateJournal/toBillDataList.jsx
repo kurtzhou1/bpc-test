@@ -1,7 +1,7 @@
 import { useState, useRef } from 'react';
 
 // project import
-import { handleNumber } from 'components/commonFunction';
+import { handleNumber, BootstrapDialogTitle } from 'components/commonFunction';
 // material-ui
 import {
     Typography,
@@ -29,7 +29,7 @@ import dayjs from 'dayjs';
 
 import { toBillDataapi, sendJounary } from 'components/apis.jsx';
 
-const ToBillDataList = ({ listInfo, BootstrapDialogTitle, apiQuery }) => {
+const ToBillDataList = ({ listInfo, apiQuery }) => {
     // const fakeData = {
     //     TotalAmount: 5582012.72,
     //     InvoiceMaster: [
@@ -116,20 +116,24 @@ const ToBillDataList = ({ listInfo, BootstrapDialogTitle, apiQuery }) => {
         fetch(tmpQuery, { method: 'GET' })
             .then((res) => res.json())
             .then((data) => {
-                console.log('立帳成功=>>', data);
                 let tmpAmount = 0;
-                if (Array.isArray(data)) {
-                    toBillDataMain.current = data ? data.InvoiceMaster : [];
-                    setToBillDataInfo(data ? data.InvoiceDetail : []);
-                    setTotalAmount(data ? data.TotalAmount : 0);
+                if (Array.isArray(data.InvoiceDetail) && Array.isArray(data.InvoiceMaster)) {
+                    toBillDataMain.current = data.InvoiceMaster;
+                    setToBillDataInfo(data.InvoiceDetail);
+                    setTotalAmount(data.TotalAmount);
                     data.InvoiceDetail.forEach((i) => {
                         tmpAmount = tmpAmount + i.FeeAmountPost + i.Difference;
                     });
                     setCurrentAmount(tmpAmount.toFixed(2));
+                    setIsDialogOpen(true);
+                } else {
+                    toBillDataMain.current = [];
+                    setToBillDataInfo([]);
+                    setTotalAmount(0);
+                    setCurrentAmount(0);
                 }
             })
             .catch((e) => console.log('e1=>>', e));
-        setIsDialogOpen(true);
     };
 
     const changeDiff = (diff, id) => {

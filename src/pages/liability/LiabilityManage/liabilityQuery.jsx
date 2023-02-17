@@ -36,7 +36,16 @@ const LiabilityQuery = ({ setListInfo, bmStoneList, partyList, subCableList, wor
     const [createDate, setCreateDate] = useState([null, null]); //建立日期
     const [submarineCableQuery, setSubmarineCableQuery] = useState(''); //海纜名稱
     const [workTitle, setWorkTitle] = useState(''); //海纜作業
-    const [invoiceStatusQuery, setInvoiceStatusQuery] = useState(); //處理狀態
+    const [invoiceStatusQuery, setInvoiceStatusQuery] = useState({ TRUE: false, FALSE: false }); //處理狀態
+
+    const initQuery = () => {
+        setBillMilestoneQuery('');
+        setPartyNameQuery('');
+        setCreateDate([null, null]);
+        setSubmarineCableQuery('');
+        setWorkTitle('');
+        setInvoiceStatusQuery({ TRUE: false, FALSE: false });
+    };
 
     const liabilityQuery = () => {
         let tmpQuery = '/';
@@ -235,22 +244,22 @@ const LiabilityQuery = ({ setListInfo, bmStoneList, partyList, subCableList, wor
                         // onChange={(e) => setInvoiceStatusQuery(e.target.value)}
                     >
                         <FormControlLabel
-                            value={'true'}
                             control={
                                 <Checkbox
                                     name={'TRUE'}
                                     onChange={handleChange}
+                                    checked={invoiceStatusQuery.TRUE}
                                     sx={{ '& .MuiSvgIcon-root': { fontSize: { lg: 14, xl: 20 } } }}
                                 />
                             }
                             label="終止"
                         />
                         <FormControlLabel
-                            value={'false'}
                             control={
                                 <Checkbox
                                     name={'FALSE'}
                                     onChange={handleChange}
+                                    checked={invoiceStatusQuery.FALSE}
                                     sx={{ '& .MuiSvgIcon-root': { fontSize: { lg: 14, xl: 20 } } }}
                                 />
                             }
@@ -263,7 +272,9 @@ const LiabilityQuery = ({ setListInfo, bmStoneList, partyList, subCableList, wor
                     <Button sx={{ mr: '0.5rem' }} variant="contained" onClick={liabilityQuery}>
                         查詢
                     </Button>
-                    <Button variant="contained">清除</Button>
+                    <Button variant="contained" onClick={initQuery}>
+                        清除
+                    </Button>
                 </Grid>
             </Grid>
         </MainCard>

@@ -5,7 +5,7 @@ import MoreVertIcon from '@mui/icons-material/MoreVert';
 import { handleNumber } from 'components/commonFunction';
 
 // material-ui
-import { Typography, Button, Table, IconButton, Menu, MenuItem, ListItemText, ListItemIcon } from '@mui/material';
+import { Typography, Button, Table, IconButton, Menu, MenuItem, ListItemText, ListItemIcon, Box } from '@mui/material';
 import TableBody from '@mui/material/TableBody';
 import TableCell, { tableCellClasses } from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
@@ -94,11 +94,16 @@ const InvoiceDataList = ({ listInfo, setAction, setModifyItem }) => {
                                 </StyledTableCell>
                                 <TableCell align="center">
                                     {row.InvoiceWKMaster.Status === 'TEMPORARY' ? (
-                                        <>
+                                        <Box
+                                            sx={{
+                                                display: 'flex',
+                                                justifyContent: 'center',
+                                                '& button': { mx: { md: 0.3, lg: 0.7, xl: 1.5 }, p: 0, fontSize: 1 }
+                                            }}
+                                        >
                                             {options1.map((option) => {
                                                 return (
                                                     <Button
-                                                        // color="primary"
                                                         color={
                                                             option === 'View'
                                                                 ? 'primary'
@@ -110,6 +115,7 @@ const InvoiceDataList = ({ listInfo, setAction, setModifyItem }) => {
                                                         }
                                                         // variant="outlined"
                                                         key={option}
+                                                        variant="outlined"
                                                         size="small"
                                                         onClick={() => {
                                                             setModifyItem(itemID);
@@ -120,14 +126,22 @@ const InvoiceDataList = ({ listInfo, setAction, setModifyItem }) => {
                                                     </Button>
                                                 );
                                             })}
-                                        </>
+                                        </Box>
                                     ) : row.InvoiceWKMaster.Status === 'VALIDATED' ? (
-                                        <>
+                                        <Box
+                                            sx={{
+                                                display: 'flex',
+                                                justifyContent: 'center',
+                                                '& button': { mx: { md: 0.6, lg: 1, xl: 1.8 }, p: 0, fontSize: 1 }
+                                            }}
+                                        >
                                             {options2.map((option) => {
                                                 return (
                                                     <Button
                                                         color={option === 'View' ? 'primary' : 'error'}
                                                         key={option}
+                                                        variant="outlined"
+                                                        size="small"
                                                         onClick={() => {
                                                             setModifyItem(itemID);
                                                             setAction(option);
@@ -137,7 +151,7 @@ const InvoiceDataList = ({ listInfo, setAction, setModifyItem }) => {
                                                     </Button>
                                                 );
                                             })}
-                                        </>
+                                        </Box>
                                     ) : (
                                         ''
                                     )}

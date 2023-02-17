@@ -29,11 +29,28 @@ const InvoiceQueryBlock = ({ setListInfo, queryApi, supNmList, subCableList, que
     const [issueDate, setIssueDate] = useState([null, null]); //發票日期
     const [supplierNameQuery, setSupplierNameQuery] = useState(''); //供應商
     const [submarineCableQuery, setSubmarineCableQuery] = useState(''); //海纜名稱
-    const [invoiceStatusQuery, setInvoiceStatusQuery] = useState(); //處理狀態
+    const [invoiceStatusQuery, setInvoiceStatusQuery] = useState({
+        BILLED: false,
+        COMPLETE: false,
+        INVALID: false,
+        PAYING: false,
+        TEMPORARY: false,
+        VALIDATED: false
+    }); //處理狀態
     // const [partyNameQuery, setPartyNameQuery] = useState(''); //會員代號
     const [billMilestoneQuery, setBillMilestoneQuery] = useState(''); //記帳段號
     const [invoiceNoQuery, setInvoiceNoQuery] = useState(''); //發票號碼
     const [isIssueDate, setIsIssueDate] = useState(''); //是否為發票日期
+
+    const initQuery = () => {
+        setIssueDate([null, null]);
+        setSupplierNameQuery('');
+        setSubmarineCableQuery('');
+        setInvoiceStatusQuery({ BILLED: false, COMPLETE: false, INVALID: false, PAYING: false, TEMPORARY: false, VALIDATED: false });
+        setBillMilestoneQuery('');
+        setInvoiceNoQuery('');
+        setIsIssueDate('');
+    };
 
     const handleChange = (event) => {
         setInvoiceStatusQuery({ ...invoiceStatusQuery, [event.target.name]: event.target.checked });
@@ -93,7 +110,6 @@ const InvoiceQueryBlock = ({ setListInfo, queryApi, supNmList, subCableList, que
                 invoiceStatusQuery?.COMPLETE ||
                 invoiceStatusQuery?.INVALID)
         ) {
-            console.log('大成功!!!!!');
             let tmpStatus = 'Status=';
             if (invoiceStatusQuery?.TEMPORARY) {
                 tmpStatus = tmpStatus + 'TEMPORARY&';
@@ -224,6 +240,7 @@ const InvoiceQueryBlock = ({ setListInfo, queryApi, supNmList, subCableList, que
                                 <Checkbox
                                     name={'TEMPORARY'}
                                     onChange={handleChange}
+                                    checked={invoiceStatusQuery.TEMPORARY}
                                     sx={{ '& .MuiSvgIcon-root': { fontSize: { lg: 14, xl: 20 } } }}
                                 />
                             }
@@ -234,6 +251,7 @@ const InvoiceQueryBlock = ({ setListInfo, queryApi, supNmList, subCableList, que
                                 <Checkbox
                                     name={'VALIDATED'}
                                     onChange={handleChange}
+                                    checked={invoiceStatusQuery.VALIDATED}
                                     sx={{ '& .MuiSvgIcon-root': { fontSize: { lg: 14, xl: 20 } } }}
                                 />
                             }
@@ -244,6 +262,7 @@ const InvoiceQueryBlock = ({ setListInfo, queryApi, supNmList, subCableList, que
                                 <Checkbox
                                     name={'BILLED'}
                                     onChange={handleChange}
+                                    checked={invoiceStatusQuery.BILLED}
                                     sx={{ '& .MuiSvgIcon-root': { fontSize: { lg: 14, xl: 20 } } }}
                                 />
                             }
@@ -254,6 +273,7 @@ const InvoiceQueryBlock = ({ setListInfo, queryApi, supNmList, subCableList, que
                                 <Checkbox
                                     name={'PAYING'}
                                     onChange={handleChange}
+                                    checked={invoiceStatusQuery.PAYING}
                                     sx={{ '& .MuiSvgIcon-root': { fontSize: { lg: 14, xl: 20 } } }}
                                 />
                             }
@@ -264,6 +284,7 @@ const InvoiceQueryBlock = ({ setListInfo, queryApi, supNmList, subCableList, que
                                 <Checkbox
                                     name={'COMPLETE'}
                                     onChange={handleChange}
+                                    checked={invoiceStatusQuery.COMPLETE}
                                     sx={{ '& .MuiSvgIcon-root': { fontSize: { lg: 14, xl: 20 } } }}
                                 />
                             }
@@ -274,6 +295,7 @@ const InvoiceQueryBlock = ({ setListInfo, queryApi, supNmList, subCableList, que
                                 <Checkbox
                                     name={'INVALID'}
                                     onChange={handleChange}
+                                    checked={invoiceStatusQuery.INVALID}
                                     sx={{ '& .MuiSvgIcon-root': { fontSize: { lg: 14, xl: 20 } } }}
                                 />
                             }
@@ -393,7 +415,7 @@ const InvoiceQueryBlock = ({ setListInfo, queryApi, supNmList, subCableList, que
                     <Button sx={{ mr: '0.25rem' }} variant="contained" onClick={invoiceQuery}>
                         查詢
                     </Button>
-                    <Button sx={{ mr: '0.25rem' }} variant="contained" onClick={invoiceQuery}>
+                    <Button sx={{ mr: '0.25rem' }} variant="contained" onClick={initQuery}>
                         清除
                     </Button>
                 </Grid>

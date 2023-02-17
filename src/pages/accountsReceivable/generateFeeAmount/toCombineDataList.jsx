@@ -1,7 +1,7 @@
 import { useState, useRef } from 'react';
 
 // project import
-import { handleNumber } from 'components/commonFunction';
+import { handleNumber, BootstrapDialogTitle } from 'components/commonFunction';
 // material-ui
 import {
     Typography,
@@ -26,10 +26,14 @@ import Paper from '@mui/material/Paper';
 import { alpha, styled } from '@mui/material/styles';
 
 import dayjs from 'dayjs';
+// day
+import { DesktopDatePicker } from '@mui/x-date-pickers/DesktopDatePicker';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 
 import { toBillDataapi, sendJounary } from 'components/apis.jsx';
 
-const ToCombineDataList = ({ listInfo, BootstrapDialogTitle, apiQuery }) => {
+const ToCombineDataList = ({ handleDialogClose, isDialogOpen, BootstrapDialogTitle }) => {
     // const fakeData = {
     //     TotalAmount: 5582012.72,
     //     InvoiceMaster: [
@@ -84,11 +88,11 @@ const ToCombineDataList = ({ listInfo, BootstrapDialogTitle, apiQuery }) => {
     //     ]
     // };
 
-    const [isDialogOpen, setIsDialogOpen] = useState(false);
     const toBillDataMain = useRef();
     const [toBillDataInfo, setToBillDataInfo] = useState([]); //發票明細檔
     const [totalAmount, setTotalAmount] = useState([]); //發票總金額
     const [currentAmount, setCurrentAmount] = useState(''); //目前金額
+    const [issueDate, setIssueDate] = useState(new Date()); //發票日期
     const StyledTableCell = styled(TableCell)(({ theme }) => ({
         [`&.${tableCellClasses.head}`]: {
             // backgroundColor: theme.palette.common.gary,
@@ -102,10 +106,6 @@ const ToCombineDataList = ({ listInfo, BootstrapDialogTitle, apiQuery }) => {
             paddingBottom: '0.2rem'
         }
     }));
-
-    const handleDialogClose = () => {
-        setIsDialogOpen(false);
-    };
 
     //立帳作業
     const toBillData = (wKMasterID) => {
@@ -172,59 +172,98 @@ const ToCombineDataList = ({ listInfo, BootstrapDialogTitle, apiQuery }) => {
                     立帳作業
                 </BootstrapDialogTitle>
                 <DialogContent>
-                    <TableContainer component={Paper} sx={{ maxHeight: 350 }}>
-                        <Table sx={{ minWidth: 300 }} stickyHeader aria-label="sticky table">
-                            <TableHead>
-                                <TableRow>
-                                    <StyledTableCell align="center">會員</StyledTableCell>
-                                    <StyledTableCell align="center">發票代碼</StyledTableCell>
-                                    <StyledTableCell align="center">供應商</StyledTableCell>
-                                    <StyledTableCell align="center">海纜名稱</StyledTableCell>
-                                    <StyledTableCell align="center">合約種類</StyledTableCell>
-                                    <StyledTableCell align="center">發票日期</StyledTableCell>
-                                    <StyledTableCell align="center">總金額</StyledTableCell>
-                                </TableRow>
-                            </TableHead>
-                            <TableBody>
-                                {toBillDataInfo.map((row, id) => {
-                                    let afterDiff = row.FeeAmountPost + row.Difference;
-                                    return (
-                                        <TableRow
-                                            key={row.FeeAmountPre + row?.PartyName + row?.LBRatio}
-                                            sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-                                        >
-                                            <TableCell align="center">{row.FeeItem}</TableCell>
-                                            <TableCell align="center">{`$${handleNumber(row.FeeAmountPre)}`}</TableCell>
-                                            <TableCell align="center">{row.PartyName}</TableCell>
-                                            <TableCell align="center">{`${row.LBRatio}%`}</TableCell>
-                                            <TableCell align="center">{`$${handleNumber(row.FeeAmountPost)}`}</TableCell>
-                                            <TableCell align="center">
-                                                <TextField
-                                                    label="$"
-                                                    size="small"
-                                                    type="number"
-                                                    style={{ width: '30%' }}
-                                                    // value={diffNumber}
-                                                    onChange={(e) => {
-                                                        changeDiff(e.target.value, id);
-                                                    }}
-                                                />
-                                            </TableCell>
-                                            <TableCell align="center">{`$${handleNumber(afterDiff.toFixed(2))}`}</TableCell>
+                    <Grid container spacing={1} display="flex" justifyContent="center" alignItems="center">
+                        <Grid item xs={6} sm={3} md={1} lg={1}>
+                            <Typography variant="h5" sx={{ fontSize: { lg: '0.5rem', xl: '0.88rem' }, ml: { lg: '0.5rem', xl: '1.5rem' } }}>
+                                發票日期：
+                            </Typography>
+                        </Grid>
+                        <Grid item xs={6} sm={3} md={3} lg={3}>
+                            <FormControl>
+                                <LocalizationProvider dateAdapter={AdapterDayjs}>
+                                    <DesktopDatePicker
+                                        inputFormat="YYYY/MM/DD"
+                                        value={issueDate}
+                                        onChange={(e) => {
+                                            setIssueDate(e);
+                                        }}
+                                        renderInput={(params) => <TextField size="small" {...params} />}
+                                    />
+                                </LocalizationProvider>
+                            </FormControl>
+                        </Grid>
+                        <Grid item xs={6} sm={3} md={1} lg={1}>
+                            <Typography variant="h5" sx={{ fontSize: { lg: '0.5rem', xl: '0.88rem' }, ml: { lg: '0.5rem', xl: '1.5rem' } }}>
+                                帳單號碼：
+                            </Typography>
+                        </Grid>
+                        <Grid item xs={6} sm={3} md={3} lg={3}>
+                            <TextField
+                                // value={totalAmount}
+                                fullWidth
+                                variant="outlined"
+                                size="small"
+                                // type="number"
+                                label="填寫帳單號碼"
+                                onChange={(e) => {
+                                    // setTotalAmount(handleNumber(e.target.value));
+                                }}
+                            />
+                        </Grid>
+                        <Grid item xs={0} sm={0} md={4} lg={4} />
+                        <Grid item xs={12} sm={12} md={12} lg={12}>
+                            <TableContainer component={Paper} sx={{ maxHeight: 350 }}>
+                                <Table sx={{ minWidth: 300 }} stickyHeader aria-label="sticky table">
+                                    <TableHead>
+                                        <TableRow>
+                                            <StyledTableCell align="center">會員</StyledTableCell>
+                                            <StyledTableCell align="center">發票代碼</StyledTableCell>
+                                            <StyledTableCell align="center">供應商</StyledTableCell>
+                                            <StyledTableCell align="center">海纜名稱</StyledTableCell>
+                                            <StyledTableCell align="center">合約種類</StyledTableCell>
+                                            <StyledTableCell align="center">發票日期</StyledTableCell>
+                                            <StyledTableCell align="center">總金額</StyledTableCell>
                                         </TableRow>
-                                    );
-                                })}
-                            </TableBody>
-                        </Table>
-                    </TableContainer>
-                    <DialogContentText sx={{ fontSize: '20px', mt: '0.5rem' }}>發票總金額：${handleNumber(totalAmount)}</DialogContentText>
-                    <DialogContentText sx={{ fontSize: '20px', color: '#CC0000' }}>
-                        目前金額：${handleNumber(currentAmount)}
-                    </DialogContentText>
+                                    </TableHead>
+                                    <TableBody>
+                                        {toBillDataInfo.map((row, id) => {
+                                            let afterDiff = row.FeeAmountPost + row.Difference;
+                                            return (
+                                                <TableRow
+                                                    key={row.FeeAmountPre + row?.PartyName + row?.LBRatio}
+                                                    sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                                                >
+                                                    <TableCell align="center">{row.FeeItem}</TableCell>
+                                                    <TableCell align="center">{`$${handleNumber(row.FeeAmountPre)}`}</TableCell>
+                                                    <TableCell align="center">{row.PartyName}</TableCell>
+                                                    <TableCell align="center">{`${row.LBRatio}%`}</TableCell>
+                                                    <TableCell align="center">{`$${handleNumber(row.FeeAmountPost)}`}</TableCell>
+                                                    <TableCell align="center">
+                                                        <TextField
+                                                            label="$"
+                                                            size="small"
+                                                            type="number"
+                                                            style={{ width: '30%' }}
+                                                            // value={diffNumber}
+                                                            onChange={(e) => {
+                                                                changeDiff(e.target.value, id);
+                                                            }}
+                                                        />
+                                                    </TableCell>
+                                                    <TableCell align="center">{`$${handleNumber(afterDiff.toFixed(2))}`}</TableCell>
+                                                </TableRow>
+                                            );
+                                        })}
+                                    </TableBody>
+                                </Table>
+                            </TableContainer>
+                        </Grid>
+                    </Grid>
+                    <DialogContentText sx={{ fontSize: '20px', mt: '0.5rem' }}>總金額：${handleNumber(totalAmount)}</DialogContentText>
                 </DialogContent>
                 <DialogActions>
                     <Button sx={{ mr: '0.05rem' }} variant="contained" onClick={sendJounaryInfo}>
-                        新增
+                        合併
                     </Button>
                     <Button sx={{ mr: '0.05rem' }} variant="contained" onClick={handleDialogClose}>
                         取消
@@ -250,7 +289,7 @@ const ToCombineDataList = ({ listInfo, BootstrapDialogTitle, apiQuery }) => {
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {listInfo?.map((row, id) => {
+                        {/* {listInfo?.map((row, id) => {
                             return (
                                 <TableRow
                                     key={row.InvoiceWKMaster?.WKMasterID + row.InvoiceWKMaster?.InvoiceNo}
@@ -280,7 +319,7 @@ const ToCombineDataList = ({ listInfo, BootstrapDialogTitle, apiQuery }) => {
                                     </StyledTableCell>
                                 </TableRow>
                             );
-                        })}
+                        })} */}
                     </TableBody>
                 </Table>
             </TableContainer>

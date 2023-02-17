@@ -42,6 +42,12 @@ import { styled } from '@mui/material/styles';
 
 const CreditBalanceDeduct = ({ cblistInfo }) => {
     console.log('cblistInfo=>>', cblistInfo);
+    const [partyName, setPartyName] = useState(''); //會員代號
+    const [cBType, setCBType] = useState(''); //CB種類
+    const [submarineCable, setSubmarineCable] = useState(''); //海纜名稱
+    const [workTitle, setWorkTitle] = useState(''); //海纜作業
+    const [createDate, setCreateDate] = useState([null, null]); //建立日期
+
     const [listInfo, setListInfo] = useState(cblistInfo);
     // const [editItem, setEditItem] = useState(NaN);
     const [isEdit, setIsEdit] = useState(false);
@@ -96,30 +102,6 @@ const CreditBalanceDeduct = ({ cblistInfo }) => {
     //         // setIsListEdit(true);
     //     }
     // }, [editItem]);
-
-    const BootstrapDialogTitle = (props) => {
-        const { children, onClose, ...other } = props;
-
-        return (
-            <DialogTitle sx={{ m: 0, p: 2 }} {...other}>
-                {children}
-                {onClose ? (
-                    <IconButton
-                        aria-label="close"
-                        onClick={onClose}
-                        sx={{
-                            position: 'absolute',
-                            right: 8,
-                            top: 8,
-                            color: (theme) => theme.palette.grey[500]
-                        }}
-                    >
-                        <CloseIcon />
-                    </IconButton>
-                ) : null}
-            </DialogTitle>
-        );
-    };
 
     const StyledTableCell = styled(TableCell)(({ theme }) => ({
         [`&.${tableCellClasses.head}`]: {
