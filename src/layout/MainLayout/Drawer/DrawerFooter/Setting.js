@@ -9,10 +9,10 @@ const Setting = () => {
     const { drawerOpen } = menu;
     return (
         <Box sx={{ display: 'flex' }}>
-            <Box sx={{ flexShrink: 0, ml: drawerOpen ? -3.5 : 0 }}>
+            <Box sx={{ flexShrink: 0, ml: drawerOpen ? 0 : 0 }}>
                 <IconButton disableRipple color="secondary" sx={{ color: 'text.primary' }} href="/Information">
                     <SettingOutlined />
-                    {drawerOpen ? <ListItemText sx={{ flexShrink: 0, ml: 0.5 }}>Setting</ListItemText> : ''}
+                    {drawerOpen ? <ListItemText sx={{ flexShrink: 0, ml: 0.5 }}>基本資料設定</ListItemText> : ''}
                 </IconButton>
             </Box>
         </Box>

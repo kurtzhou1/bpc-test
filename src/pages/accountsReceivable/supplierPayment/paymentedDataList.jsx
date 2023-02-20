@@ -202,18 +202,16 @@ const WriteOffedDataList = ({ listInfo, apiQuery }) => {
                 <Table sx={{ minWidth: 300 }} stickyHeader aria-label="sticky table">
                     <TableHead>
                         <TableRow>
-                            <StyledTableCell align="center">NO</StyledTableCell>
-                            <StyledTableCell align="center">會員</StyledTableCell>
+                            <StyledTableCell align="center">發票號碼</StyledTableCell>
+                            <StyledTableCell align="center">費用項目</StyledTableCell>
+                            <StyledTableCell align="center">供應商</StyledTableCell>
                             <StyledTableCell align="center">海纜名稱</StyledTableCell>
                             <StyledTableCell align="center">海纜作業</StyledTableCell>
-                            <StyledTableCell align="center">發票代碼</StyledTableCell>
-                            <StyledTableCell align="center">供應商</StyledTableCell>
-                            {/* <StyledTableCell align="center">合約種類</StyledTableCell> */}
-                            <StyledTableCell align="center">發票日期</StyledTableCell>
-                            <StyledTableCell align="center">明細數量</StyledTableCell>
-                            <StyledTableCell align="center">總價</StyledTableCell>
-                            <StyledTableCell align="center">處理狀態</StyledTableCell>
-                            <StyledTableCell align="center">Action</StyledTableCell>
+                            <StyledTableCell align="center">記帳段號</StyledTableCell>
+                            <StyledTableCell align="center">應付金額</StyledTableCell>
+                            <StyledTableCell align="center">累積實付金額</StyledTableCell>
+                            <StyledTableCell align="center">摘要說明</StyledTableCell>
+                            <StyledTableCell align="center">狀態</StyledTableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>
@@ -234,62 +232,6 @@ const WriteOffedDataList = ({ listInfo, apiQuery }) => {
                                     <StyledTableCell align="center">{toBillDataInfo.length}</StyledTableCell>
                                     <StyledTableCell align="center">{row.TotalAmount}</StyledTableCell>
                                     <StyledTableCell align="center">{row.Status}</StyledTableCell>
-                                    <StyledTableCell align="center">
-                                        <Box
-                                            sx={{
-                                                display: 'flex',
-                                                justifyContent: 'center',
-                                                '& button': { mx: { sm: 0.3, md: 0.3, lg: 0.6, xl: 1.5 }, p: 0, fontSize: 1 }
-                                            }}
-                                        >
-                                            <Button
-                                                color="success"
-                                                size="small"
-                                                variant="outlined"
-                                                onClick={() => {
-                                                    handleDialogOpen('viewDeducted', {
-                                                        PartyName: row.PartyName,
-                                                        IssueDate: dayjs(row.IssueDate).format('YYYY/MM/DD'),
-                                                        SubmarineCable: row.SubmarineCable,
-                                                        WorkTitle: row.WorkTitle
-                                                    });
-                                                }}
-                                            >
-                                                檢視
-                                            </Button>
-                                            <Button
-                                                color="primary"
-                                                size="small"
-                                                variant="outlined"
-                                                onClick={() => {
-                                                    setUploadOpen(true);
-                                                }}
-                                            >
-                                                {/* 簽核/產製Draft */}
-                                                簽核
-                                            </Button>
-                                            <Button
-                                                color="error"
-                                                size="small"
-                                                variant="outlined"
-                                                onClick={() => {
-                                                    setInfoTerminal(true);
-                                                }}
-                                            >
-                                                作廢
-                                            </Button>
-                                            <Button
-                                                color="warning"
-                                                size="small"
-                                                variant="outlined"
-                                                onClick={() => {
-                                                    setInfoTerminal(true);
-                                                }}
-                                            >
-                                                退回
-                                            </Button>
-                                        </Box>
-                                    </StyledTableCell>
                                 </TableRow>
                             );
                         })}

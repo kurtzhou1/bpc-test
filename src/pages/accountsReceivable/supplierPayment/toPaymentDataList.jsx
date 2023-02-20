@@ -313,7 +313,7 @@ const ToWriteOffDataList = ({ listInfo, apiQuery }) => {
             <GenerateFeeTerminate infoTerminal={infoTerminal} handleTerminalClose={handleTerminalClose} />
             {/* <Paper sx={{ width: '100%' }}> */}
             <TableContainer component={Paper} sx={{ maxHeight: 400 }}>
-                <Table stickyHeader aria-label="sticky table">
+                <Table sx={{ minWidth: 300 }} stickyHeader aria-label="sticky table">
                     {/* <Table sx={{ minWidth: 200 }} aria-label="sticky table"> */}
                     <TableHead>
                         <TableRow>
@@ -326,7 +326,8 @@ const ToWriteOffDataList = ({ listInfo, apiQuery }) => {
                                 >
                                     {isColumn2Open ? <DoNotDisturbOnIcon /> : <AddCircleIcon />}
                                 </Button>
-                                {isColumn2Open ? "Suppliers' Invoice 供應商發票" : ''}
+                                {/* {isColumn2Open ? "Suppliers' Invoice 供應商發票" : ''} */}
+                                {isColumn2Open ? '供應商發票' : ''}
                             </StyledTableCell>
                             <StyledTableCell align="center" colSpan={isColumn3Open ? 8 : 1}>
                                 <Button
@@ -334,7 +335,7 @@ const ToWriteOffDataList = ({ listInfo, apiQuery }) => {
                                         setIsColumn3Open(!isColumn3Open);
                                     }}
                                 >
-                                    {isColumn2Open ? <DoNotDisturbOnIcon /> : <AddCircleIcon />}
+                                    {isColumn3Open ? <DoNotDisturbOnIcon /> : <AddCircleIcon />}
                                 </Button>
                                 {isColumn3Open ? '會員帳單明細與付款資訊' : ''}
                             </StyledTableCell>
@@ -344,9 +345,10 @@ const ToWriteOffDataList = ({ listInfo, apiQuery }) => {
                                         setIsColumn4Open(!isColumn4Open);
                                     }}
                                 >
-                                    {isColumn2Open ? <DoNotDisturbOnIcon /> : <AddCircleIcon />}
+                                    {isColumn4Open ? <DoNotDisturbOnIcon /> : <AddCircleIcon />}
                                 </Button>
-                                {isColumn4Open ? 'Paid to Suppliers 匯出金額給供應商' : ''}
+                                {/* {isColumn4Open ? 'Paid to Suppliers 匯出金額給供應商' : ''} */}
+                                {isColumn4Open ? '匯出金額給供應商' : ''}
                             </StyledTableCell>
                         </TableRow>
                         <TableRow>

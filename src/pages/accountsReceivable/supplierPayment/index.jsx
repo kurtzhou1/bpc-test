@@ -155,7 +155,7 @@ const SupplierPayment = () => {
                         <Tabs value={value} onChange={handleChange}>
                             <Tab label="待確認" {...a11yProps(0)} />
                             <Tab label="已確認" {...a11yProps(1)} />
-                            <Tab label="函稿" {...a11yProps(2)} />
+                            {/* <Tab label="函稿" {...a11yProps(2)} /> */}
                         </Tabs>
                     </Box>
                     <TabPanel value={value} index={0}>
@@ -164,9 +164,9 @@ const SupplierPayment = () => {
                     <TabPanel value={value} index={1}>
                         <PaymentedDataList />
                     </TabPanel>
-                    <TabPanel value={value} index={2}>
+                    {/* <TabPanel value={value} index={2}>
                         <InvalidatedDataList />
-                    </TabPanel>
+                    </TabPanel> */}
                 </MainCard>
             </Grid>
         </Grid>
