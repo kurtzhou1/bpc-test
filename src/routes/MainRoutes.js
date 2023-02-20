@@ -28,8 +28,9 @@ const CreditBalance = Loadable(lazy(() => import('pages/creditBalance/CreditBala
 const GenerateFeeAmount = Loadable(lazy(() => import('pages/accountsReceivable/generateFeeAmount')));
 const WriteOffInvoice = Loadable(lazy(() => import('pages/accountsReceivable/writeOffInvoice')));
 const SupplierPayment = Loadable(lazy(() => import('pages/accountsReceivable/supplierPayment')));
+const Correspondence = Loadable(lazy(() => import('pages/accountsReceivable/correspondence')));
 
-// Setting
+// 基本資料設定
 const Information = Loadable(lazy(() => import('pages/information/Information')));
 
 // render - utilities
@@ -131,6 +132,10 @@ const MainRoutes = {
                 {
                     path: 'SupplierPayment',
                     element: <SupplierPayment />
+                },
+                {
+                    path: 'Correspondence',
+                    element: <Correspondence />
                 }
             ]
         },

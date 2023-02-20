@@ -40,3 +40,9 @@ export const sendJounary = 'http://10.193.130.7:8000/api/v1/addInvoiceMaster&Inv
 export const journaryDetailView = 'http://10.193.130.7:8000/api/v1/InvoiceDetail';
 export const journaryMasterView = 'http://10.193.130.7:8000/api/v1/InvoiceWKMaster';
 export const updateInvoiceMaster = 'http://10.193.130.7:8000/api/v1/updateInvoiceMaster';
+
+// 基本資料
+export const getSuppliersInfo = 'http://10.193.130.7:8000/api/v1/Suppliers/all';
+export const addSuppliers = 'http://10.193.130.7:8000/api/v1/Suppliers';
+export const deleteSuppliers = 'http://10.193.130.7:8000/api/v1/deleteSuppliers';
+export const editSuppliers = 'http://10.193.130.7:8000/api/v1/updateSuppliers';

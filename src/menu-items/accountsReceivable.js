@@ -46,6 +46,14 @@ const accountsReceivable = {
                     url: '/AccountsReceivable/SupplierPayment',
                     icon: icons.TagOutlined,
                     breadcrumbs: true
+                },
+                {
+                    id: 'item44',
+                    title: '函稿製作',
+                    type: 'item',
+                    url: '/AccountsReceivable/Correspondence',
+                    icon: icons.TagOutlined,
+                    breadcrumbs: true
                 }
             ]
         }

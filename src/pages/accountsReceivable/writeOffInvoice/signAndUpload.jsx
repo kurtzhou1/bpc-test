@@ -46,6 +46,8 @@ const SignAndUpload = ({ uploadOpen, handUploadClose }) => {
         }
     };
 
+    console.log('uploadFile=>>', uploadFile);
+
     return (
         <Dialog onClose={handUploadClose} maxWidth="sm" fullWidth open={uploadOpen}>
             <BootstrapDialogTitle id="customized-dialog-title" onClose={handUploadClose}>
