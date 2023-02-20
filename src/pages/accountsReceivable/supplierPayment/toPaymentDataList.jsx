@@ -33,6 +33,10 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DesktopDatePicker } from '@mui/x-date-pickers/DesktopDatePicker';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 
+// icon
+import DoNotDisturbOnIcon from '@mui/icons-material/DoNotDisturbOn';
+import AddCircleIcon from '@mui/icons-material/AddCircle';
+
 import dayjs from 'dayjs';
 
 import { toBillDataapi, sendJounary } from 'components/apis.jsx';
@@ -220,9 +224,6 @@ const ToWriteOffDataList = ({ listInfo, apiQuery }) => {
             paddingTop: '0.2rem',
             paddingBottom: '0.2rem',
             backgroundColor: '#CFD8DC'
-        },
-        [`&.${tableCellClasses.body}.hidden`]: {
-            display: 'none'
         }
     }));
 
@@ -323,7 +324,7 @@ const ToWriteOffDataList = ({ listInfo, apiQuery }) => {
                                         setIsColumn2Open(!isColumn2Open);
                                     }}
                                 >
-                                    {isColumn2Open ? '-' : '+'}
+                                    {isColumn2Open ? <DoNotDisturbOnIcon /> : <AddCircleIcon />}
                                 </Button>
                                 {isColumn2Open ? "Suppliers' Invoice 供應商發票" : ''}
                             </StyledTableCell>
@@ -333,17 +334,17 @@ const ToWriteOffDataList = ({ listInfo, apiQuery }) => {
                                         setIsColumn3Open(!isColumn3Open);
                                     }}
                                 >
-                                    {isColumn3Open ? '-' : '+'}
+                                    {isColumn2Open ? <DoNotDisturbOnIcon /> : <AddCircleIcon />}
                                 </Button>
                                 {isColumn3Open ? '會員帳單明細與付款資訊' : ''}
                             </StyledTableCell>
-                            <StyledTableCell align="center" colSpan={isColumn3Open ? 3 : 1}>
+                            <StyledTableCell align="center" colSpan={isColumn4Open ? 3 : 1}>
                                 <Button
                                     onClick={() => {
                                         setIsColumn4Open(!isColumn4Open);
                                     }}
                                 >
-                                    {isColumn4Open ? '-' : '+'}
+                                    {isColumn2Open ? <DoNotDisturbOnIcon /> : <AddCircleIcon />}
                                 </Button>
                                 {isColumn4Open ? 'Paid to Suppliers 匯出金額給供應商' : ''}
                             </StyledTableCell>
@@ -398,51 +399,45 @@ const ToWriteOffDataList = ({ listInfo, apiQuery }) => {
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {toBillDataMain?.map((row, id) => {
+                        {toBillDataMain?.map((row) => {
                             return (
                                 <TableRow key={row.WKMasterID + row.InvoiceNo} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
                                     <StyledTableCell align="center">{row.SubmarineCable}</StyledTableCell>
                                     <StyledTableCell align="center">{row.WorkTitle}</StyledTableCell>
                                     <StyledTableCell align="center">{row.BillMilestone}</StyledTableCell>
-                                    <StyledTableCell align="center">{row.SupplierName}</StyledTableCell>
-                                    <StyledTableCell className={isColumn2Open ? '' : 'hidden'} align="center">
-                                        {'No. 12345678'}
-                                    </StyledTableCell>
-                                    <StyledTableCell className={isColumn2Open ? '' : 'hidden'} align="center">
-                                        {handleNumber(123456789)}
-                                    </StyledTableCell>
-                                    <StyledTableCell className={isColumn2Open ? '' : 'hidden'} align="center">
-                                        {dayjs(row.IssueDate).format('YYYY/MM/DD')}
-                                    </StyledTableCell>
-                                    <StyledTableCell align="center">{'No. 12345678'}</StyledTableCell>
-                                    <StyledTableCell className={isColumn3Open ? '' : 'hidden'} align="center">
-                                        {row.PartyName}
-                                    </StyledTableCell>
-                                    <StyledTableCell className={isColumn3Open ? '' : 'hidden'} align="center">
-                                        {'測試檔案資料'}
-                                    </StyledTableCell>
-                                    <StyledTableCell className={isColumn3Open ? '' : 'hidden'} align="center">
-                                        {handleNumber(123456789)}
-                                    </StyledTableCell>
-                                    <StyledTableCell className={isColumn3Open ? '' : 'hidden'} align="center">
-                                        {dayjs(row.IssueDate).format('YYYY/MM/DD')}
-                                    </StyledTableCell>
-                                    <StyledTableCell className={isColumn3Open ? '' : 'hidden'} align="center">
-                                        {handleNumber(123456789)}
-                                    </StyledTableCell>
-                                    <StyledTableCell className={isColumn3Open ? '' : 'hidden'} align="center">
-                                        {handleNumber(1)}
-                                    </StyledTableCell>
-                                    <StyledTableCell className={isColumn3Open ? '' : 'hidden'} align="center">
-                                        {'N/A'}
-                                    </StyledTableCell>
-                                    <StyledTableCell align="center">{handleNumber(123456789)}</StyledTableCell>
-                                    <StyledTableCell className={isColumn4Open ? '' : 'hidden'} align="center">
-                                        {dayjs(row.IssueDate).format('YYYY/MM/DD')}
-                                    </StyledTableCell>
-                                    <StyledTableCell className={isColumn4Open ? '' : 'hidden'} align="center">
-                                        {handleNumber(1)}
-                                    </StyledTableCell>
+                                    {isColumn2Open ? (
+                                        <>
+                                            <StyledTableCell align="center">{row.SupplierName}</StyledTableCell>
+                                            <StyledTableCell align="center">{'No. 12345678'}</StyledTableCell>
+                                            <StyledTableCell align="center">{handleNumber(123456789)}</StyledTableCell>
+                                            <StyledTableCell align="center">{dayjs(row.IssueDate).format('YYYY/MM/DD')}</StyledTableCell>
+                                        </>
+                                    ) : (
+                                        <StyledTableCell align="center">{row.SupplierName}</StyledTableCell>
+                                    )}
+                                    {isColumn3Open ? (
+                                        <>
+                                            <StyledTableCell align="center">{'No. 12345678'}</StyledTableCell>
+                                            <StyledTableCell align="center">{row.PartyName}</StyledTableCell>
+                                            <StyledTableCell align="center">{'測試檔案資料'}</StyledTableCell>
+                                            <StyledTableCell align="center">{handleNumber(123456789)}</StyledTableCell>
+                                            <StyledTableCell align="center">{dayjs(row.IssueDate).format('YYYY/MM/DD')}</StyledTableCell>
+                                            <StyledTableCell align="center">{handleNumber(123456789)}</StyledTableCell>
+                                            <StyledTableCell align="center">{handleNumber(1)}</StyledTableCell>
+                                            <StyledTableCell align="center">{'N/A'}</StyledTableCell>
+                                        </>
+                                    ) : (
+                                        <StyledTableCell align="center">{'No. 12345678'}</StyledTableCell>
+                                    )}
+                                    {isColumn4Open ? (
+                                        <>
+                                            <StyledTableCell align="center">{handleNumber(123456789)}</StyledTableCell>
+                                            <StyledTableCell align="center">{dayjs(row.IssueDate).format('YYYY/MM/DD')}</StyledTableCell>
+                                            <StyledTableCell align="center">{handleNumber(1)}</StyledTableCell>
+                                        </>
+                                    ) : (
+                                        <StyledTableCell align="center">{handleNumber(123456789)}</StyledTableCell>
+                                    )}
                                 </TableRow>
                             );
                         })}
