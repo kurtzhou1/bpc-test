@@ -29,7 +29,7 @@ import CheckBoxIcon from '@mui/icons-material/CheckBox';
 import MainCard from 'components/MainCard';
 import CreditBalanceDeduct from './creditBalanceDeduct';
 import CreditBalanceRefund from './creditBalanceRefund';
-import { BootstrapDialogTitle } from 'components/commonFunction';
+import { BootstrapDialogTitle, TabPanel } from 'components/commonFunction';
 
 // table
 import TableBody from '@mui/material/TableBody';
@@ -109,25 +109,6 @@ const CreditBalanceView = ({ cbView, handleViewClose, listInfo }) => {
             paddingBottom: '0.2rem'
         }
     }));
-    const TabPanel = (props) => {
-        const { children, value, index, ...other } = props;
-
-        return (
-            <div
-                role="tabpanel"
-                hidden={value !== index}
-                id={`simple-tabpanel-${index}`}
-                aria-labelledby={`simple-tab-${index}`}
-                {...other}
-            >
-                {value === index && (
-                    <Box sx={{ p: 3 }}>
-                        <Typography>{children}</Typography>
-                    </Box>
-                )}
-            </div>
-        );
-    };
 
     const a11yProps = (index) => {
         return {

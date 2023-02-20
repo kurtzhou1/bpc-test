@@ -27,6 +27,7 @@ const CreditBalance = Loadable(lazy(() => import('pages/creditBalance/CreditBala
 // 應收帳款管理
 const GenerateFeeAmount = Loadable(lazy(() => import('pages/accountsReceivable/generateFeeAmount')));
 const WriteOffInvoice = Loadable(lazy(() => import('pages/accountsReceivable/writeOffInvoice')));
+const SupplierPayment = Loadable(lazy(() => import('pages/accountsReceivable/supplierPayment')));
 
 // Setting
 const Information = Loadable(lazy(() => import('pages/information/Information')));
@@ -126,6 +127,10 @@ const MainRoutes = {
                 {
                     path: 'WriteOffInvoice',
                     element: <WriteOffInvoice />
+                },
+                {
+                    path: 'SupplierPayment',
+                    element: <SupplierPayment />
                 }
             ]
         },

@@ -4,13 +4,14 @@ import CloseIcon from '@mui/icons-material/Close';
 // import { styled } from '@mui/material/styles';
 
 // project import
+import { TabPanel } from 'components/commonFunction';
 import MainCard from 'components/MainCard';
 import ToWriteOffDataList from './toWriteOffDataList';
 import WriteOffedDataList from './writeOffedDataList';
 import InvalidatedDataList from './invalidatedDataList';
 import ReceivableQuery from './receivableQuery';
 
-const AccountsReceivable = () => {
+const WriteOffInvoice = () => {
     const [value, setValue] = useState(4);
 
     const handleChange = (event, newValue) => {
@@ -22,26 +23,6 @@ const AccountsReceivable = () => {
             id: `simple-tab-${index}`,
             'aria-controls': `simple-tabpanel-${index}`
         };
-    };
-
-    const TabPanel = (props) => {
-        const { children, value, index, ...other } = props;
-
-        return (
-            <div
-                role="tabpanel"
-                hidden={value !== index}
-                id={`simple-tabpanel-${index}`}
-                aria-labelledby={`simple-tab-${index}`}
-                {...other}
-            >
-                {value === index && (
-                    <Box sx={{ p: 2 }}>
-                        <Typography>{children}</Typography>
-                    </Box>
-                )}
-            </div>
-        );
     };
 
     // 以下都無用的
@@ -192,4 +173,4 @@ const AccountsReceivable = () => {
     );
 };
 
-export default AccountsReceivable;
+export default WriteOffInvoice;

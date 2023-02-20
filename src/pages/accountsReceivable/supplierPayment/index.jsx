@@ -1,25 +1,18 @@
 import { useEffect, useState } from 'react';
-import { Grid, Button, IconButton, Box, Tabs, Tab, Typography } from '@mui/material';
+import { Grid, Button, IconButton, Box, Tabs, Tab, Typography, DialogTitle } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 // import { styled } from '@mui/material/styles';
 
 // project import
 import { TabPanel } from 'components/commonFunction';
 import MainCard from 'components/MainCard';
-import SupplierDataList from './supplierDataList';
-import MemberDataList from './memberDataList';
-import AllianceDataList from './allianceDataList';
-import ContractDataList from './contractDataList';
-import CableCodeDataList from './cableCodeDataList';
+import ToPaymentDataList from './toPaymentDataList';
+import PaymentedDataList from './paymentedDataList';
+import InvalidatedDataList from './invalidatedDataList';
+import ReceivableQuery from './receivableQuery';
 
-import CableWorkDataList from './cableWorkDataList';
-import ContractTypeDataList from './contractTypeDataList';
-import ContractMemberDataList from './contractMemberDataList';
-import ContractCompanyDataList from './contractCompanyDataList';
-import AllianceFinanAccountDataList from './allianceFinanAccountDataList';
-
-const Information = () => {
-    const [value, setValue] = useState(0);
+const SupplierPayment = () => {
+    const [value, setValue] = useState(4);
 
     const handleChange = (event, newValue) => {
         setValue(newValue);
@@ -56,6 +49,10 @@ const Information = () => {
     const [lBRatio, setLBRatio] = useState(''); //攤分比例
     const [editItem, setEditItem] = useState(NaN);
     const [modifyNote, setModifyNote] = useState('');
+
+    const receivableQuery = () => {
+        console.log('ReceivableQueryFunction');
+    };
 
     const handleDialogOpen = () => {
         setIsDialogOpen(true);
@@ -149,74 +146,26 @@ const Information = () => {
                     setLBRatio={setLBRatio}
                 />
             </Grid> */}
-            <h2>基本資料管理</h2>
             <Grid item xs={12}>
-                <MainCard
-                    title={`${
-                        value == 0
-                            ? '供應商'
-                            : value == 1
-                            ? '會員'
-                            : value == 2
-                            ? '聯盟'
-                            : value == 3
-                            ? '合約'
-                            : value == 4
-                            ? '海纜代號'
-                            : value == 5
-                            ? '海纜作業'
-                            : value == 6
-                            ? '合約種類'
-                            : value == 7
-                            ? '合約會員'
-                            : value == 8
-                            ? '合約廠商'
-                            : '聯盟金融帳戶'
-                    }資料列表`}
-                >
-                    <Box sx={{ borderBottom: 1, borderColor: 'divider', position: 'relative' }}>
-                        <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
-                            <Tab label="供應商" {...a11yProps(0)} />
-                            <Tab label="會員" {...a11yProps(1)} />
-                            <Tab label="聯盟" {...a11yProps(2)} />
-                            <Tab label="合約" {...a11yProps(3)} />
-                            <Tab label="海纜代號" {...a11yProps(4)} />
-                            <Tab label="海纜作業" {...a11yProps(5)} />
-                            <Tab label="合約種類" {...a11yProps(6)} />
-                            <Tab label="合約會員" {...a11yProps(7)} />
-                            <Tab label="合約廠商" {...a11yProps(8)} />
-                            <Tab label="聯盟金融帳戶" {...a11yProps(9)} />
+                <ReceivableQuery receivableQuery={receivableQuery} />
+            </Grid>
+            <Grid item xs={12}>
+                <MainCard title={`${value == 0 ? '待確認' : value == 1 ? '已確認' : '函稿'}資料列表`}>
+                    <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
+                        <Tabs value={value} onChange={handleChange}>
+                            <Tab label="待確認" {...a11yProps(0)} />
+                            <Tab label="已確認" {...a11yProps(1)} />
+                            <Tab label="函稿" {...a11yProps(2)} />
                         </Tabs>
                     </Box>
                     <TabPanel value={value} index={0}>
-                        <SupplierDataList />
+                        <ToPaymentDataList />
                     </TabPanel>
                     <TabPanel value={value} index={1}>
-                        <MemberDataList />
+                        <PaymentedDataList />
                     </TabPanel>
                     <TabPanel value={value} index={2}>
-                        <AllianceDataList />
-                    </TabPanel>
-                    <TabPanel value={value} index={3}>
-                        <ContractDataList />
-                    </TabPanel>
-                    <TabPanel value={value} index={4}>
-                        <CableCodeDataList />
-                    </TabPanel>
-                    <TabPanel value={value} index={5}>
-                        <CableWorkDataList />
-                    </TabPanel>
-                    <TabPanel value={value} index={6}>
-                        <ContractTypeDataList />
-                    </TabPanel>
-                    <TabPanel value={value} index={7}>
-                        <ContractMemberDataList />
-                    </TabPanel>
-                    <TabPanel value={value} index={8}>
-                        <ContractCompanyDataList />
-                    </TabPanel>
-                    <TabPanel value={value} index={9}>
-                        <AllianceFinanAccountDataList />
+                        <InvalidatedDataList />
                     </TabPanel>
                 </MainCard>
             </Grid>
@@ -224,4 +173,4 @@ const Information = () => {
     );
 };
 
-export default Information;
+export default SupplierPayment;

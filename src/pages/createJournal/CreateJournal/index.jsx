@@ -7,6 +7,7 @@ import MainCard from 'components/MainCard';
 import JournalQuery from './journalQuery';
 import ToBillDataList from './toBillDataList';
 import BilledDataList from './billedDataList';
+import { TabPanel } from 'components/commonFunction';
 
 // dialog
 import Dialog from '@mui/material/Dialog';
@@ -154,26 +155,6 @@ const CreateJournal = () => {
             apiQuery();
         }
     }, [value]);
-
-    const TabPanel = (props) => {
-        const { children, value, index, ...other } = props;
-
-        return (
-            <div
-                role="tabpanel"
-                hidden={value !== index}
-                id={`simple-tabpanel-${index}`}
-                aria-labelledby={`simple-tab-${index}`}
-                {...other}
-            >
-                {value === index && (
-                    <Box sx={{ p: 2 }}>
-                        <Typography>{children}</Typography>
-                    </Box>
-                )}
-            </div>
-        );
-    };
 
     const a11yProps = (index) => {
         return {

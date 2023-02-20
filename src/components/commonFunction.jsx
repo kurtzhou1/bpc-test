@@ -1,5 +1,5 @@
 import DialogTitle from '@mui/material/DialogTitle';
-import { IconButton } from '@mui/material';
+import { IconButton, Box, Typography } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 
 // 數字格式化
@@ -32,5 +32,19 @@ export const BootstrapDialogTitle = (props) => {
                 </IconButton>
             ) : null}
         </DialogTitle>
+    );
+};
+
+export const TabPanel = (props) => {
+    const { children, value, index, ...other } = props;
+
+    return (
+        <div role="tabpanel" hidden={value !== index} id={`simple-tabpanel-${index}`} aria-labelledby={`simple-tab-${index}`} {...other}>
+            {value === index && (
+                <Box sx={{ p: 1 }}>
+                    <Typography>{children}</Typography>
+                </Box>
+            )}
+        </div>
     );
 };

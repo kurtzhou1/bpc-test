@@ -43,7 +43,7 @@ const accountsReceivable = {
                     id: 'item43',
                     title: '廠商付款處理',
                     type: 'item',
-                    url: '/AccountsReceivable/WriteOff',
+                    url: '/AccountsReceivable/SupplierPayment',
                     icon: icons.TagOutlined,
                     breadcrumbs: true
                 }
