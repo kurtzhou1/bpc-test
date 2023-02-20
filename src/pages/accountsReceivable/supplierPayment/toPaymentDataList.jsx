@@ -38,7 +38,9 @@ import dayjs from 'dayjs';
 import { toBillDataapi, sendJounary } from 'components/apis.jsx';
 
 const ToWriteOffDataList = ({ listInfo, apiQuery }) => {
-    const [isColumn1Open, setIsColumn1Open] = useState(true);
+    const [isColumn2Open, setIsColumn2Open] = useState(true);
+    const [isColumn3Open, setIsColumn3Open] = useState(true);
+    const [isColumn4Open, setIsColumn4Open] = useState(true);
 
     const fakeData = {
         TotalAmount: 5582012.72,
@@ -106,54 +108,23 @@ const ToWriteOffDataList = ({ listInfo, apiQuery }) => {
             id: "Supplier's Invoice No.",
             label: "Supplier's Invoice No.",
             minWidth: '90px',
-            align: 'center',
-            className: isColumn1Open ? 'hidden' : ''
+            align: 'center'
         },
         {
             id: 'Amt(USD)',
             label: 'Amt(USD)',
             minWidth: '90px',
-            align: 'center',
-            className: isColumn1Open ? 'hidden' : ''
+            align: 'center'
         },
         {
             id: 'dueDate',
             label: 'DueDate',
             minWidth: '90px',
-            align: 'center',
-            className: isColumn1Open ? 'hidden' : ''
+            align: 'center'
         }
     ];
 
-    const columns = [
-        // column1
-        { id: '海纜名稱', label: '海纜名稱', minWidth: '90px', align: 'center', className: '' },
-        { id: '海纜作業', label: '海纜作業', minWidth: '90px', align: 'center' },
-        { id: '記帳段號', label: '記帳段號', minWidth: '90px', align: 'center' },
-        // column2
-        { id: 'Suppliers', label: 'Suppliers', minWidth: '90px', align: 'center', className: '' },
-        {
-            id: "Supplier's Invoice No.",
-            label: "Supplier's Invoice No.",
-            minWidth: '90px',
-            align: 'center',
-            className: isColumn1Open ? 'hidden' : ''
-        },
-        {
-            id: 'Amt(USD)',
-            label: 'Amt(USD)',
-            minWidth: '90px',
-            align: 'center',
-            className: isColumn1Open ? 'hidden' : ''
-        },
-        {
-            id: 'dueDate',
-            label: 'DueDate',
-            minWidth: '90px',
-            align: 'center',
-            className: isColumn1Open ? 'hidden' : ''
-        },
-        // column3
+    const columns3 = [
         {
             id: 'Invoice#(CBP to Party)',
             label: 'Invoice#(CBP to Party)',
@@ -202,8 +173,10 @@ const ToWriteOffDataList = ({ listInfo, apiQuery }) => {
             label: 'Remark',
             minWidth: '90px',
             align: 'center'
-        },
-        // column4
+        }
+    ];
+
+    const columns4 = [
         {
             id: 'Amt(USD)',
             label: 'Amt(USD)',
@@ -223,8 +196,6 @@ const ToWriteOffDataList = ({ listInfo, apiQuery }) => {
             align: 'center'
         }
     ];
-
-    const [test, setTeat] = useState(columns);
 
     const [isDialogOpen, setIsDialogOpen] = useState(false); //折抵作業
     const [isDeductWorkOpen, setIsDeductWorkOpen] = useState(false); //作廢
@@ -329,6 +300,7 @@ const ToWriteOffDataList = ({ listInfo, apiQuery }) => {
     //         .catch((e) => console.log('e1=>>', e));
     // };
 
+    console.log('isColumn2Open=>>', isColumn2Open);
     return (
         <>
             <DeductWork
@@ -345,62 +317,132 @@ const ToWriteOffDataList = ({ listInfo, apiQuery }) => {
                     <TableHead>
                         <TableRow>
                             <StyledTableCell align="center" colSpan={3}></StyledTableCell>
-                            <StyledTableCell align="center" colSpan={4}>
+                            <StyledTableCell align="center" colSpan={isColumn2Open ? 4 : 1}>
                                 <Button
                                     onClick={() => {
-                                        setIsColumn1Open(!isColumn1Open);
+                                        setIsColumn2Open(!isColumn2Open);
                                     }}
                                 >
-                                    C
+                                    {isColumn2Open ? '-' : '+'}
                                 </Button>
-                                Suppliers' Invoice 供應商發票
+                                {isColumn2Open ? "Suppliers' Invoice 供應商發票" : ''}
                             </StyledTableCell>
-                            <StyledTableCell align="center" colSpan={8}>
-                                會員帳單明細與付款資訊
+                            <StyledTableCell align="center" colSpan={isColumn3Open ? 8 : 1}>
+                                <Button
+                                    onClick={() => {
+                                        setIsColumn3Open(!isColumn3Open);
+                                    }}
+                                >
+                                    {isColumn3Open ? '-' : '+'}
+                                </Button>
+                                {isColumn3Open ? '會員帳單明細與付款資訊' : ''}
                             </StyledTableCell>
-                            <StyledTableCell align="center" colSpan={3}>
-                                Paid to Suppliers 匯出金額給供應商
+                            <StyledTableCell align="center" colSpan={isColumn3Open ? 3 : 1}>
+                                <Button
+                                    onClick={() => {
+                                        setIsColumn4Open(!isColumn4Open);
+                                    }}
+                                >
+                                    {isColumn4Open ? '-' : '+'}
+                                </Button>
+                                {isColumn4Open ? 'Paid to Suppliers 匯出金額給供應商' : ''}
                             </StyledTableCell>
                         </TableRow>
                         <TableRow>
-                            {test.map((column) => {
+                            {columns1.map((column) => {
                                 return (
                                     <StyledTableCell key={column.id} align={column.align} className={column.className}>
                                         {column.label}
                                     </StyledTableCell>
                                 );
                             })}
+                            {isColumn2Open ? (
+                                columns2.map((column) => {
+                                    return (
+                                        <StyledTableCell key={column.id} align={column.align}>
+                                            {column.label}
+                                        </StyledTableCell>
+                                    );
+                                })
+                            ) : (
+                                <StyledTableCell key={columns2[0].id} align={columns2[0].align}>
+                                    {columns2[0].label}
+                                </StyledTableCell>
+                            )}
+                            {isColumn3Open ? (
+                                columns3.map((column) => {
+                                    return (
+                                        <StyledTableCell key={column.id} align={column.align}>
+                                            {column.label}
+                                        </StyledTableCell>
+                                    );
+                                })
+                            ) : (
+                                <StyledTableCell key={columns3[0].id} align={columns3[0].align}>
+                                    {columns3[0].label}
+                                </StyledTableCell>
+                            )}
+                            {isColumn4Open ? (
+                                columns4.map((column) => {
+                                    return (
+                                        <StyledTableCell key={column.id} align={column.align}>
+                                            {column.label}
+                                        </StyledTableCell>
+                                    );
+                                })
+                            ) : (
+                                <StyledTableCell key={columns4[0].id} align={columns4[0].align}>
+                                    {columns4[0].label}
+                                </StyledTableCell>
+                            )}
                         </TableRow>
                     </TableHead>
                     <TableBody>
                         {toBillDataMain?.map((row, id) => {
-                            console.log('row=>>', row);
                             return (
                                 <TableRow key={row.WKMasterID + row.InvoiceNo} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
                                     <StyledTableCell align="center">{row.SubmarineCable}</StyledTableCell>
                                     <StyledTableCell align="center">{row.WorkTitle}</StyledTableCell>
                                     <StyledTableCell align="center">{row.BillMilestone}</StyledTableCell>
                                     <StyledTableCell align="center">{row.SupplierName}</StyledTableCell>
-                                    <StyledTableCell className={isColumn1Open ? '' : 'hidden'} align="center">
+                                    <StyledTableCell className={isColumn2Open ? '' : 'hidden'} align="center">
                                         {'No. 12345678'}
                                     </StyledTableCell>
-                                    <StyledTableCell className={isColumn1Open ? '' : 'hidden'} align="center">
+                                    <StyledTableCell className={isColumn2Open ? '' : 'hidden'} align="center">
                                         {handleNumber(123456789)}
                                     </StyledTableCell>
-                                    <StyledTableCell className={isColumn1Open ? '' : 'hidden'} align="center">
+                                    <StyledTableCell className={isColumn2Open ? '' : 'hidden'} align="center">
                                         {dayjs(row.IssueDate).format('YYYY/MM/DD')}
                                     </StyledTableCell>
                                     <StyledTableCell align="center">{'No. 12345678'}</StyledTableCell>
-                                    <StyledTableCell align="center">{row.PartyName}</StyledTableCell>
-                                    <StyledTableCell align="center">{'測試檔案資料'}</StyledTableCell>
+                                    <StyledTableCell className={isColumn3Open ? '' : 'hidden'} align="center">
+                                        {row.PartyName}
+                                    </StyledTableCell>
+                                    <StyledTableCell className={isColumn3Open ? '' : 'hidden'} align="center">
+                                        {'測試檔案資料'}
+                                    </StyledTableCell>
+                                    <StyledTableCell className={isColumn3Open ? '' : 'hidden'} align="center">
+                                        {handleNumber(123456789)}
+                                    </StyledTableCell>
+                                    <StyledTableCell className={isColumn3Open ? '' : 'hidden'} align="center">
+                                        {dayjs(row.IssueDate).format('YYYY/MM/DD')}
+                                    </StyledTableCell>
+                                    <StyledTableCell className={isColumn3Open ? '' : 'hidden'} align="center">
+                                        {handleNumber(123456789)}
+                                    </StyledTableCell>
+                                    <StyledTableCell className={isColumn3Open ? '' : 'hidden'} align="center">
+                                        {handleNumber(1)}
+                                    </StyledTableCell>
+                                    <StyledTableCell className={isColumn3Open ? '' : 'hidden'} align="center">
+                                        {'N/A'}
+                                    </StyledTableCell>
                                     <StyledTableCell align="center">{handleNumber(123456789)}</StyledTableCell>
-                                    <StyledTableCell align="center">{dayjs(row.IssueDate).format('YYYY/MM/DD')}</StyledTableCell>
-                                    <StyledTableCell align="center">{handleNumber(123456789)}</StyledTableCell>
-                                    <StyledTableCell align="center">{handleNumber(1)}</StyledTableCell>
-                                    <StyledTableCell align="center">{'N/A'}</StyledTableCell>
-                                    <StyledTableCell align="center">{handleNumber(123456789)}</StyledTableCell>
-                                    <StyledTableCell align="center">{dayjs(row.IssueDate).format('YYYY/MM/DD')}</StyledTableCell>
-                                    <StyledTableCell align="center">{handleNumber(1)}</StyledTableCell>
+                                    <StyledTableCell className={isColumn4Open ? '' : 'hidden'} align="center">
+                                        {dayjs(row.IssueDate).format('YYYY/MM/DD')}
+                                    </StyledTableCell>
+                                    <StyledTableCell className={isColumn4Open ? '' : 'hidden'} align="center">
+                                        {handleNumber(1)}
+                                    </StyledTableCell>
                                 </TableRow>
                             );
                         })}
