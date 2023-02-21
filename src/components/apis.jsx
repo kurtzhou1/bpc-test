@@ -50,8 +50,14 @@ export const addSuppliers = 'http://10.193.130.7:8000/api/v1/Suppliers';
 export const deleteSuppliers = 'http://10.193.130.7:8000/api/v1/deleteSuppliers';
 export const editSuppliers = 'http://10.193.130.7:8000/api/v1/updateSuppliers';
 
-// 基本資料-Partiess
+// 基本資料-Parties
 export const getPartiesInfo = 'http://10.193.130.7:8000/api/v1/Parties/all';
 export const addParties = 'http://10.193.130.7:8000/api/v1/Parties';
 export const deleteParties = 'http://10.193.130.7:8000/api/v1/deleteParties';
 export const editParties = 'http://10.193.130.7:8000/api/v1/updateParties';
+
+// 基本資料-Corporates
+export const getCorporatesInfo = 'http://10.193.130.7:8000/api/v1/Corporates/all';
+export const addCorporates = 'http://10.193.130.7:8000/api/v1/Corporates';
+export const deleteCorporates = 'http://10.193.130.7:8000/api/v1/deleteCorporates';
+export const editCorporates = 'http://10.193.130.7:8000/api/v1/updateCorporates';

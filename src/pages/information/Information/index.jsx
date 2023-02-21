@@ -7,8 +7,8 @@ import CloseIcon from '@mui/icons-material/Close';
 import { TabPanel } from 'components/commonFunction';
 import MainCard from 'components/MainCard';
 import SupplierDataList from './supplierDataList';
-import MemberDataList from './memberDataList';
-import AllianceDataList from './allianceDataList';
+import PartyDataList from './partyDataList';
+import CorporatesDataList from './corporatesDataList';
 import ContractDataList from './contractDataList';
 import CableCodeDataList from './cableCodeDataList';
 
@@ -19,7 +19,7 @@ import ContractCompanyDataList from './contractCompanyDataList';
 import AllianceFinanAccountDataList from './allianceFinanAccountDataList';
 
 const Information = () => {
-    const [value, setValue] = useState(0);
+    const [value, setValue] = useState(2);
 
     const handleChange = (event, newValue) => {
         setValue(newValue);
@@ -192,10 +192,10 @@ const Information = () => {
                         <SupplierDataList />
                     </TabPanel>
                     <TabPanel value={value} index={1}>
-                        <MemberDataList />
+                        <PartyDataList />
                     </TabPanel>
                     <TabPanel value={value} index={2}>
-                        <AllianceDataList />
+                        <CorporatesDataList />
                     </TabPanel>
                     <TabPanel value={value} index={3}>
                         <ContractDataList />

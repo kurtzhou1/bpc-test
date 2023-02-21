@@ -28,47 +28,31 @@ import { alpha, styled } from '@mui/material/styles';
 
 import dayjs from 'dayjs';
 
-import { addParties, getPartiesInfo, deleteParties, editParties } from 'components/apis.jsx';
+import { addCorporates, getCorporatesInfo, deleteCorporates, editCorporates } from 'components/apis.jsx';
 
-const ToGenerateDataList = ({ listInfo, apiQuery }) => {
+const GeneratedDataList = ({}) => {
     const fakeData = [
         {
-            PartyID: 1,
-            SubmarineCable: 'NEC',
-            WorkTitle: '+886',
-            PartyName: 'Taiwan',
-            Address: 'google.com',
-            Contact: 'XXX',
-            Email: '123',
-            Tel: '123'
+            CorpID: 1,
+            CorpName: 'NEC',
+            SubmarineCable: '+886',
+            CreateDate: '2023/1/1'
         },
         {
-            PartyID: 2,
-            SubmarineCable: 'NEC',
-            WorkTitle: '+886',
-            PartyName: 'Taiwan',
-            Address: 'google.com',
-            Contact: 'XXX',
-            Email: '123',
-            Tel: '123'
+            CorpID: 2,
+            CorpName: 'NEC#2',
+            SubmarineCable: '+888',
+            CreateDate: '2023/2/2'
         }
     ];
     const [infoList, setInfoList] = useState(fakeData);
-    const [submarineCable, setSubmarineCable] = useState(''); //海纜名稱
-    const [workTitle, setWorkTitle] = useState(''); //海纜作業
-    const [partyName, setPartyName] = useState(''); //會員名稱
-    const [address, setAddress] = useState(''); //公司地址
-    const [contact, setContact] = useState(''); //聯繫窗口
-    const [email, setEmail] = useState(''); //電子郵件
-    const [tel, setTel] = useState(''); //電話
-    const partyID = useRef(-1);
-    const [submarineCableEdit, setSubmarineCableEdit] = useState(''); //供應商編輯
-    const [workTitleEdit, setWorkTitleEdit] = useState(''); //帳號名稱編輯
-    const [partyNameEdit, setPartyNameEdit] = useState(''); //銀行帳號編輯
-    const [addressEdit, setAddressEdit] = useState(''); //國際銀行代碼編輯
-    const [contactEdit, setContactEdit] = useState(''); //國際銀行帳戶號碼編輯
-    const [emailEdit, setEmailEdit] = useState(''); //銀行名稱編輯
-    const [telEdit, setTelEdit] = useState(''); //銀行地址編輯
+    const [corpName, setCorpName] = useState(''); //聯盟名稱
+    const [submarineCable, setSubmarineCable] = useState(''); //海纜代號
+    const [createDate, setCreateDate] = useState(''); //成立日期
+    const corpID = useRef(-1);
+    const [corpNameEdit, setCorpNameEdit] = useState(''); //供應商編輯
+    const [submarineCableEdit, setSubmarineCableEdit] = useState(''); //帳號名稱編輯
+    const [createDateEdit, setCreateDateEdit] = useState(''); //銀行帳號編輯
 
     const StyledTableCell = styled(TableCell)(({ theme }) => ({
         [`&.${tableCellClasses.head}`]: {
@@ -85,33 +69,24 @@ const ToGenerateDataList = ({ listInfo, apiQuery }) => {
     }));
 
     const infoInit = () => {
+        setCorpName('');
         setSubmarineCable('');
-        setWorkTitle('');
-        setPartyName('');
-        setAddress('');
-        setContactEdit('');
-        setContact('');
-        setEmail('');
-        setTel('');
+        setCreateDate('');
     };
 
     const editInfoInit = () => {
-        partyID.current = -1;
+        corpID.current = -1;
+        setCorpNameEdit('');
         setSubmarineCableEdit('');
-        setWorkTitleEdit('');
-        setPartyNameEdit('');
-        setAddressEdit('');
-        setContactEdit('');
-        setEmailEdit('');
-        setTelEdit('');
-        queryPartiesInfo();
+        setCreateDateEdit('');
+        queryCorporatesInfo();
     };
 
-    const queryPartiesInfo = () => {
-        fetch(getPartiesInfo, { method: 'GET' })
+    const queryCorporatesInfo = () => {
+        fetch(getCorporatesInfo, { method: 'GET' })
             .then((res) => res.json())
             .then((data) => {
-                console.log('取得Parties資料成功=>', data);
+                console.log('取得Corporates資料成功=>', data);
                 if (Array.isArray(data)) {
                     setInfoList(data);
                 }
@@ -121,70 +96,57 @@ const ToGenerateDataList = ({ listInfo, apiQuery }) => {
 
     const addPartyInfo = () => {
         let tmpArray = {
+            CorpName: corpName,
             SubmarineCable: submarineCable,
-            WorkTitle: workTitle,
-            PartyName: partyName,
-            Address: address,
-            Contact: contact,
-            Email: email,
-            Tel: tel
+            CreateDate: createDate
         };
         console.log('tmpArray=>>', tmpArray);
-        fetch(addParties, { method: 'POST', body: JSON.stringify(tmpArray) })
+        fetch(addCorporates, { method: 'POST', body: JSON.stringify(tmpArray) })
             .then((res) => res.json())
             .then(() => {
-                alert('新增會員資料成功');
+                alert('新增聯盟資料成功');
                 infoInit();
-                queryPartiesInfo();
+                queryCorporatesInfo();
             })
             .catch((e) => console.log('e1=>>', e));
     };
 
     const deletePartyInfo = (row) => {
-        fetch(deleteParties, { method: 'POST', body: JSON.stringify(row) })
+        fetch(deleteCorporates, { method: 'POST', body: JSON.stringify(row) })
             .then((res) => res.json())
             .then(() => {
-                alert('刪除會員資料成功');
+                alert('刪除聯盟資料成功');
             })
             .catch((e) => console.log('e1=>>', e));
     };
 
     const editPartyInfo = (row) => {
-        console.log('row=>>', row);
         // setEditItem(id);
-        partyID.current = row.PartyID;
+        corpID.current = row.CorpID;
+        setCorpNameEdit(row.CorpName);
         setSubmarineCableEdit(row.SubmarineCable);
-        setWorkTitleEdit(row.WorkTitle);
-        setPartyNameEdit(row.PartyName);
-        setAddressEdit(row.Address);
-        setContactEdit(row.Contact);
-        setEmailEdit(row.Email);
-        setTelEdit(row.Tel);
+        setCreateDateEdit(row.CreateDate);
     };
 
     const saveEditPartyInfo = () => {
         let tmpArray = {
-            PartyID: partyID.current,
+            CorpID: corpID.current,
+            CorpName: corpNameEdit,
             SubmarineCable: submarineCableEdit,
-            WorkTitle: workTitleEdit,
-            PartyName: partyNameEdit,
-            Address: addressEdit,
-            Contact: contactEdit,
-            Email: emailEdit,
-            Tel: telEdit
+            CreateDate: createDateEdit
         };
         console.log('123=>>', tmpArray);
-        fetch(editParties, { method: 'POST', body: JSON.stringify(tmpArray) })
+        fetch(editCorporates, { method: 'POST', body: JSON.stringify(tmpArray) })
             .then((res) => res.json())
-            .then((data) => {
-                alert('更新會員資料成功');
+            .then(() => {
+                alert('更新聯盟資料成功');
                 editInfoInit();
             })
             .catch((e) => console.log('e1=>>', e));
     };
 
     useEffect(() => {
-        queryPartiesInfo();
+        queryCorporatesInfo();
     }, []);
 
     return (
@@ -193,13 +155,9 @@ const ToGenerateDataList = ({ listInfo, apiQuery }) => {
                 <TableHead>
                     <TableRow>
                         <StyledTableCell align="center">NO</StyledTableCell>
-                        <StyledTableCell align="center">海纜名稱</StyledTableCell>
-                        <StyledTableCell align="center">海纜作業</StyledTableCell>
-                        <StyledTableCell align="center">會員名稱</StyledTableCell>
-                        <StyledTableCell align="center">公司地址</StyledTableCell>
-                        <StyledTableCell align="center">聯絡窗口</StyledTableCell>
-                        <StyledTableCell align="center">電子郵件</StyledTableCell>
-                        <StyledTableCell align="center">電話</StyledTableCell>
+                        <StyledTableCell align="center">聯盟名稱</StyledTableCell>
+                        <StyledTableCell align="center">海纜代號</StyledTableCell>
+                        <StyledTableCell align="center">成立日期</StyledTableCell>
                         <StyledTableCell align="center">Action</StyledTableCell>
                     </TableRow>
                 </TableHead>
@@ -210,16 +168,12 @@ const ToGenerateDataList = ({ listInfo, apiQuery }) => {
                                 // key={row.InvoiceWKMaster?.WKMasterID + row.InvoiceWKMaster?.InvoiceNo}
                                 sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                             >
-                                {row.PartyID !== partyID.current ? (
+                                {row.CorpID !== corpID.current ? (
                                     <>
                                         <StyledTableCell align="center">{id + 1}</StyledTableCell>
+                                        <StyledTableCell align="center">{row.CorpName}</StyledTableCell>
                                         <StyledTableCell align="center">{row.SubmarineCable}</StyledTableCell>
-                                        <StyledTableCell align="center">{row.WorkTitle}</StyledTableCell>
-                                        <StyledTableCell align="center">{row.PartyName}</StyledTableCell>
-                                        <StyledTableCell align="center">{row.Address}</StyledTableCell>
-                                        <StyledTableCell align="center">{row.Contact}</StyledTableCell>
-                                        <StyledTableCell align="center">{row.Email}</StyledTableCell>
-                                        <StyledTableCell align="center">{row.Tel}</StyledTableCell>
+                                        <StyledTableCell align="center">{row.CreateDate}</StyledTableCell>
                                         <StyledTableCell align="center">
                                             <Box
                                                 sx={{
@@ -256,6 +210,15 @@ const ToGenerateDataList = ({ listInfo, apiQuery }) => {
                                             <TextField
                                                 size="small"
                                                 // style={{ width: '30%' }}
+                                                value={corpNameEdit}
+                                                onChange={(e) => {
+                                                    setCorpNameEdit(e.target.value);
+                                                }}
+                                            />
+                                        </TableCell>
+                                        <TableCell align="center">
+                                            <TextField
+                                                size="small"
                                                 value={submarineCableEdit}
                                                 onChange={(e) => {
                                                     setSubmarineCableEdit(e.target.value);
@@ -265,54 +228,9 @@ const ToGenerateDataList = ({ listInfo, apiQuery }) => {
                                         <TableCell align="center">
                                             <TextField
                                                 size="small"
-                                                value={workTitleEdit}
+                                                value={createDateEdit}
                                                 onChange={(e) => {
-                                                    setWorkTitleEdit(e.target.value);
-                                                }}
-                                            />
-                                        </TableCell>
-                                        <TableCell align="center">
-                                            <TextField
-                                                size="small"
-                                                value={partyNameEdit}
-                                                onChange={(e) => {
-                                                    setPartyNameEdit(e.target.value);
-                                                }}
-                                            />
-                                        </TableCell>
-                                        <TableCell align="center">
-                                            <TextField
-                                                size="small"
-                                                value={addressEdit}
-                                                onChange={(e) => {
-                                                    setAddressEdit(e.target.value);
-                                                }}
-                                            />
-                                        </TableCell>
-                                        <TableCell align="center">
-                                            <TextField
-                                                size="small"
-                                                value={contactEdit}
-                                                onChange={(e) => {
-                                                    setContactEdit(e.target.value);
-                                                }}
-                                            />
-                                        </TableCell>
-                                        <TableCell align="center">
-                                            <TextField
-                                                size="small"
-                                                value={emailEdit}
-                                                onChange={(e) => {
-                                                    setEmailEdit(e.target.value);
-                                                }}
-                                            />
-                                        </TableCell>
-                                        <TableCell align="center">
-                                            <TextField
-                                                size="small"
-                                                value={telEdit}
-                                                onChange={(e) => {
-                                                    setTelEdit(e.target.value);
+                                                    setCreateDateEdit(e.target.value);
                                                 }}
                                             />
                                         </TableCell>
@@ -355,6 +273,15 @@ const ToGenerateDataList = ({ listInfo, apiQuery }) => {
                             <TextField
                                 size="small"
                                 // style={{ width: '30%' }}
+                                value={corpName}
+                                onChange={(e) => {
+                                    setCorpName(e.target.value);
+                                }}
+                            />
+                        </TableCell>
+                        <TableCell align="center">
+                            <TextField
+                                size="small"
                                 value={submarineCable}
                                 onChange={(e) => {
                                     setSubmarineCable(e.target.value);
@@ -364,54 +291,9 @@ const ToGenerateDataList = ({ listInfo, apiQuery }) => {
                         <TableCell align="center">
                             <TextField
                                 size="small"
-                                value={workTitle}
+                                value={createDate}
                                 onChange={(e) => {
-                                    setWorkTitle(e.target.value);
-                                }}
-                            />
-                        </TableCell>
-                        <TableCell align="center">
-                            <TextField
-                                size="small"
-                                value={partyName}
-                                onChange={(e) => {
-                                    setPartyName(e.target.value);
-                                }}
-                            />
-                        </TableCell>
-                        <TableCell align="center">
-                            <TextField
-                                size="small"
-                                value={address}
-                                onChange={(e) => {
-                                    setAddress(e.target.value);
-                                }}
-                            />
-                        </TableCell>
-                        <TableCell align="center">
-                            <TextField
-                                size="small"
-                                value={contact}
-                                onChange={(e) => {
-                                    setContact(e.target.value);
-                                }}
-                            />
-                        </TableCell>
-                        <TableCell align="center">
-                            <TextField
-                                size="small"
-                                value={email}
-                                onChange={(e) => {
-                                    setEmail(e.target.value);
-                                }}
-                            />
-                        </TableCell>
-                        <TableCell align="center">
-                            <TextField
-                                size="small"
-                                value={tel}
-                                onChange={(e) => {
-                                    setTel(e.target.value);
+                                    setCreateDate(e.target.value);
                                 }}
                             />
                         </TableCell>
@@ -435,4 +317,4 @@ const ToGenerateDataList = ({ listInfo, apiQuery }) => {
     );
 };
 
-export default ToGenerateDataList;
+export default GeneratedDataList;
