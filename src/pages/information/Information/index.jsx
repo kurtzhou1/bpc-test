@@ -10,7 +10,7 @@ import SupplierDataList from './supplierDataList';
 import PartyDataList from './partyDataList';
 import CorporatesDataList from './corporatesDataList';
 import ContractDataList from './contractDataList';
-import CableCodeDataList from './cableCodeDataList';
+import SubmarineCableDataList from './submarineCableDataList';
 
 import CableWorkDataList from './cableWorkDataList';
 import ContractTypeDataList from './contractTypeDataList';
@@ -19,7 +19,7 @@ import ContractCompanyDataList from './contractCompanyDataList';
 import AllianceFinanAccountDataList from './allianceFinanAccountDataList';
 
 const Information = () => {
-    const [value, setValue] = useState(2);
+    const [value, setValue] = useState(4);
 
     const handleChange = (event, newValue) => {
         setValue(newValue);
@@ -201,7 +201,7 @@ const Information = () => {
                         <ContractDataList />
                     </TabPanel>
                     <TabPanel value={value} index={4}>
-                        <CableCodeDataList />
+                        <SubmarineCableDataList />
                     </TabPanel>
                     <TabPanel value={value} index={5}>
                         <CableWorkDataList />

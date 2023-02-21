@@ -28,35 +28,27 @@ import { alpha, styled } from '@mui/material/styles';
 
 import dayjs from 'dayjs';
 
-import { addContracts, getContractsInfo, deleteContracts, editContracts } from 'components/apis.jsx';
+import { addSubmarineCables, getSubmarineCablesInfo, deleteSubmarineCables, editSubmarineCables } from 'components/apis.jsx';
 
-const ContractDataList = ({}) => {
+const SubmarineCableDataList = ({}) => {
     const fakeData = [
         {
-            ContractID: 1,
-            ContractName: 'NEC',
-            SubmarineCable: '+886',
-            WorkTitle: 'Upgrade',
-            CreateDate: '2023/1/1'
+            CorpID: 1,
+            cableName: 'NEC',
+            SubmarineCable: '+886'
         },
         {
-            ContractID: 2,
-            ContractName: 'NEC#2',
-            SubmarineCable: '+888',
-            WorkTitle: 'Upgrade',
-            CreateDate: '2023/2/2'
+            CorpID: 2,
+            cableName: 'NEC#2',
+            SubmarineCable: '+888'
         }
     ];
     const [infoList, setInfoList] = useState(fakeData);
-    const [contractName, setContractName] = useState(''); //聯盟名稱
-    const [submarineCable, setSubmarineCable] = useState(''); //海纜代號
-    const [workTitle, setWorkTitle] = useState(''); //海纜作業
-    const [createDate, setCreateDate] = useState(''); //成立日期
-    const contractID = useRef(-1);
-    const [contractNameEdit, setContractNameEdit] = useState(''); //供應商編輯
-    const [submarineCableEdit, setSubmarineCableEdit] = useState(''); //帳號名稱編輯
-    const [workTitleEdit, setWorkTitleEdit] = useState(''); //海纜作業
-    const [createDateEdit, setCreateDateEdit] = useState(''); //銀行帳號編輯
+    const [cableName, setCableName] = useState(''); //海纜名稱
+    const [note, setNote] = useState(''); //摘要
+    const cableID = useRef(-1);
+    const [cableNameEdit, setCableNameEdit] = useState(''); //供應商編輯
+    const [noteEdit, setNoteEdit] = useState(''); //帳號名稱編輯
 
     const StyledTableCell = styled(TableCell)(({ theme }) => ({
         [`&.${tableCellClasses.head}`]: {
@@ -73,26 +65,22 @@ const ContractDataList = ({}) => {
     }));
 
     const infoInit = () => {
-        setContractName('');
-        setSubmarineCable('');
-        setWorkTitle('');
-        setCreateDate('');
+        setCableName('');
+        setNote('');
     };
 
     const editInfoInit = () => {
-        contractID.current = -1;
-        setContractNameEdit('');
-        setSubmarineCableEdit('');
-        setCreateDateEdit('');
-        setWorkTitleEdit('');
-        queryContractsInfo();
+        cableID.current = -1;
+        setCableNameEdit('');
+        setNoteEdit('');
+        querynotesInfo();
     };
 
-    const queryContractsInfo = () => {
-        fetch(getContractsInfo, { method: 'GET' })
+    const querynotesInfo = () => {
+        fetch(getSubmarineCablesInfo, { method: 'GET' })
             .then((res) => res.json())
             .then((data) => {
-                console.log('取得合約資料成功=>', data);
+                console.log('取得海纜資料成功=>', data);
                 if (Array.isArray(data)) {
                     setInfoList(data);
                 }
@@ -100,63 +88,55 @@ const ContractDataList = ({}) => {
             .catch((e) => console.log('e1=>>', e));
     };
 
-    const addContractsInfo = () => {
+    const addPartyInfo = () => {
         let tmpArray = {
-            ContractName: contractName,
-            SubmarineCable: submarineCable,
-            WorkTitle: workTitle,
-            CreateDate: createDate
+            cableName: cableName,
+            note: note
         };
         console.log('tmpArray=>>', tmpArray);
-        fetch(addContracts, { method: 'POST', body: JSON.stringify(tmpArray) })
+        fetch(addSubmarineCables, { method: 'POST', body: JSON.stringify(tmpArray) })
             .then((res) => res.json())
             .then(() => {
-                alert('新增合約資料成功');
+                alert('新增海纜資料成功');
                 infoInit();
-                queryContractsInfo();
+                querynotesInfo();
             })
             .catch((e) => console.log('e1=>>', e));
     };
 
-    const deleteContractsInfo = (row) => {
-        fetch(deleteContracts, { method: 'POST', body: JSON.stringify(row) })
+    const deletePartyInfo = (row) => {
+        fetch(deleteSubmarineCables, { method: 'POST', body: JSON.stringify(row) })
             .then((res) => res.json())
             .then(() => {
-                alert('刪除合約資料成功');
+                alert('刪除海纜資料成功');
             })
             .catch((e) => console.log('e1=>>', e));
     };
 
-    const editContractsInfo = (row) => {
-        console.log('row=>>', row);
-        // setEditItem(id);
-        contractID.current = row.ContractID;
-        setContractNameEdit(row.ContractName);
-        setSubmarineCableEdit(row.SubmarineCable);
-        setWorkTitleEdit(row.WorkTitle);
-        setCreateDateEdit(row.CreateDate);
+    const editPartyInfo = (row) => {
+        cableID.current = row.CableID;
+        setCableNameEdit(row.CableName);
+        setNoteEdit(row.Note);
     };
 
-    const saveEditContractsInfo = () => {
+    const saveEditPartyInfo = () => {
         let tmpArray = {
-            ContractID: contractID.current,
-            ContractName: contractNameEdit,
-            SubmarineCable: submarineCableEdit,
-            WorkTitle: workTitleEdit,
-            CreateDate: createDateEdit
+            CorpID: cableID.current,
+            cableName: cableNameEdit,
+            note: noteEdit
         };
         console.log('123=>>', tmpArray);
-        fetch(editContracts, { method: 'POST', body: JSON.stringify(tmpArray) })
+        fetch(editSubmarineCables, { method: 'POST', body: JSON.stringify(tmpArray) })
             .then((res) => res.json())
             .then(() => {
-                alert('更新合約資料成功');
+                alert('更新海纜資料成功');
                 editInfoInit();
             })
             .catch((e) => console.log('e1=>>', e));
     };
 
     useEffect(() => {
-        queryContractsInfo();
+        querynotesInfo();
     }, []);
 
     return (
@@ -165,10 +145,8 @@ const ContractDataList = ({}) => {
                 <TableHead>
                     <TableRow>
                         <StyledTableCell align="center">NO</StyledTableCell>
-                        <StyledTableCell align="center">聯盟名稱</StyledTableCell>
-                        <StyledTableCell align="center">海纜代號</StyledTableCell>
-                        <StyledTableCell align="center">海纜作業</StyledTableCell>
-                        <StyledTableCell align="center">成立日期</StyledTableCell>
+                        <StyledTableCell align="center">海纜名稱</StyledTableCell>
+                        <StyledTableCell align="center">摘要</StyledTableCell>
                         <StyledTableCell align="center">Action</StyledTableCell>
                     </TableRow>
                 </TableHead>
@@ -179,13 +157,11 @@ const ContractDataList = ({}) => {
                                 // key={row.InvoiceWKMaster?.WKMasterID + row.InvoiceWKMaster?.InvoiceNo}
                                 sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                             >
-                                {row.ContractID !== contractID.current ? (
+                                {row.CableID !== cableID.current ? (
                                     <>
                                         <StyledTableCell align="center">{id + 1}</StyledTableCell>
-                                        <StyledTableCell align="center">{row.ContractName}</StyledTableCell>
-                                        <StyledTableCell align="center">{row.SubmarineCable}</StyledTableCell>
-                                        <StyledTableCell align="center">{row.WorkTitle}</StyledTableCell>
-                                        <StyledTableCell align="center">{row.CreateDate}</StyledTableCell>
+                                        <StyledTableCell align="center">{row.CableName}</StyledTableCell>
+                                        <StyledTableCell align="center">{row.Note}</StyledTableCell>
                                         <StyledTableCell align="center">
                                             <Box
                                                 sx={{
@@ -198,7 +174,7 @@ const ContractDataList = ({}) => {
                                                     color="primary"
                                                     variant="outlined"
                                                     onClick={() => {
-                                                        editContractsInfo(row);
+                                                        editPartyInfo(row);
                                                     }}
                                                 >
                                                     編輯
@@ -207,7 +183,7 @@ const ContractDataList = ({}) => {
                                                     color="error"
                                                     variant="outlined"
                                                     onClick={() => {
-                                                        deleteContractsInfo(row);
+                                                        deletePartyInfo(row);
                                                     }}
                                                 >
                                                     刪除
@@ -222,36 +198,18 @@ const ContractDataList = ({}) => {
                                             <TextField
                                                 size="small"
                                                 // style={{ width: '30%' }}
-                                                value={contractNameEdit}
+                                                value={cableNameEdit}
                                                 onChange={(e) => {
-                                                    setContractNameEdit(e.target.value);
+                                                    setCableNameEdit(e.target.value);
                                                 }}
                                             />
                                         </TableCell>
                                         <TableCell align="center">
                                             <TextField
                                                 size="small"
-                                                value={submarineCableEdit}
+                                                value={noteEdit}
                                                 onChange={(e) => {
-                                                    setSubmarineCableEdit(e.target.value);
-                                                }}
-                                            />
-                                        </TableCell>
-                                        <TableCell align="center">
-                                            <TextField
-                                                size="small"
-                                                value={workTitleEdit}
-                                                onChange={(e) => {
-                                                    setWorkTitleEdit(e.target.value);
-                                                }}
-                                            />
-                                        </TableCell>
-                                        <TableCell align="center">
-                                            <TextField
-                                                size="small"
-                                                value={createDateEdit}
-                                                onChange={(e) => {
-                                                    setCreateDateEdit(e.target.value);
+                                                    setNoteEdit(e.target.value);
                                                 }}
                                             />
                                         </TableCell>
@@ -267,7 +225,7 @@ const ContractDataList = ({}) => {
                                                     color="primary"
                                                     variant="outlined"
                                                     onClick={() => {
-                                                        saveEditContractsInfo();
+                                                        saveEditPartyInfo();
                                                     }}
                                                 >
                                                     儲存
@@ -294,36 +252,18 @@ const ContractDataList = ({}) => {
                             <TextField
                                 size="small"
                                 // style={{ width: '30%' }}
-                                value={contractName}
+                                value={cableName}
                                 onChange={(e) => {
-                                    setContractName(e.target.value);
+                                    setCableName(e.target.value);
                                 }}
                             />
                         </TableCell>
                         <TableCell align="center">
                             <TextField
                                 size="small"
-                                value={submarineCable}
+                                value={note}
                                 onChange={(e) => {
-                                    setSubmarineCable(e.target.value);
-                                }}
-                            />
-                        </TableCell>
-                        <TableCell align="center">
-                            <TextField
-                                size="small"
-                                value={workTitle}
-                                onChange={(e) => {
-                                    setWorkTitle(e.target.value);
-                                }}
-                            />
-                        </TableCell>
-                        <TableCell align="center">
-                            <TextField
-                                size="small"
-                                value={createDate}
-                                onChange={(e) => {
-                                    setCreateDate(e.target.value);
+                                    setNote(e.target.value);
                                 }}
                             />
                         </TableCell>
@@ -335,7 +275,7 @@ const ContractDataList = ({}) => {
                                     '& button': { mx: { md: 0.6, lg: 1, xl: 1.8 }, p: 0, fontSize: 1 }
                                 }}
                             >
-                                <Button color="success" variant="outlined" onClick={addContractsInfo}>
+                                <Button color="success" variant="outlined" onClick={addPartyInfo}>
                                     新增
                                 </Button>
                             </Box>
@@ -347,4 +287,4 @@ const ContractDataList = ({}) => {
     );
 };
 
-export default ContractDataList;
+export default SubmarineCableDataList;
