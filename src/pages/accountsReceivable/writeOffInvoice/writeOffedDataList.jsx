@@ -4,7 +4,6 @@ import { useState, useRef } from 'react';
 import { handleNumber, BootstrapDialogTitle } from 'components/commonFunction';
 import DeductWork from './deductWork';
 import GenerateFeeTerminate from './generateFeeTerminate';
-import SignAndUpload from './signAndUpload';
 // material-ui
 import {
     Typography,
@@ -197,7 +196,6 @@ const WriteOffedDataList = ({ listInfo, apiQuery }) => {
                 actionName={actionName.current}
             />
             <GenerateFeeTerminate infoTerminal={infoTerminal} handleTerminalClose={handleTerminalClose} />
-            <SignAndUpload uploadOpen={uploadOpen} handUploadClose={handUploadClose} />
             <TableContainer component={Paper} sx={{ maxHeight: 350 }}>
                 <Table sx={{ minWidth: 300 }} stickyHeader aria-label="sticky table">
                     <TableHead>

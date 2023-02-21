@@ -32,7 +32,7 @@ import CheckBoxOutlineBlankIcon from '@mui/icons-material/CheckBoxOutlineBlank';
 import CheckBoxIcon from '@mui/icons-material/CheckBox';
 
 // api
-import { updateLiability } from 'components/apis.jsx';
+import { uploadFileApi } from 'components/apis.jsx';
 import MainCard from 'components/MainCard';
 
 const SignAndUpload = ({ uploadOpen, handUploadClose }) => {
@@ -44,6 +44,15 @@ const SignAndUpload = ({ uploadOpen, handUploadClose }) => {
         if (file.length > 0) {
             setIsUpload(true);
         }
+    };
+
+    const handleUploadFile = () => {
+        fetch(uploadFileApi, { method: 'POST', body: uploadFile, headers: { 'Content-Type': 'multipart/form-data' } })
+            .then((res) => res.json())
+            .then((data) => {
+                console.log('上傳成功=>>', data);
+            })
+            .catch((e) => console.log('e1=>>', e));
     };
 
     return (
@@ -101,7 +110,7 @@ const SignAndUpload = ({ uploadOpen, handUploadClose }) => {
                     sx={{ mr: '0.05rem' }}
                     variant="contained"
                     onClick={() => {
-                        terminalLiability();
+                        handleUploadFile();
                     }}
                 >
                     確定

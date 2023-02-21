@@ -41,6 +41,9 @@ export const journaryDetailView = 'http://10.193.130.7:8000/api/v1/InvoiceDetail
 export const journaryMasterView = 'http://10.193.130.7:8000/api/v1/InvoiceWKMaster';
 export const updateInvoiceMaster = 'http://10.193.130.7:8000/api/v1/updateInvoiceMaster';
 
+// 應收帳款管理
+export const uploadFileApi = 'http://10.193.130.7:8000/api/v1/uploadfile';
+
 // 基本資料
 export const getSuppliersInfo = 'http://10.193.130.7:8000/api/v1/Suppliers/all';
 export const addSuppliers = 'http://10.193.130.7:8000/api/v1/Suppliers';

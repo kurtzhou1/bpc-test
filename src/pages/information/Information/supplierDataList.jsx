@@ -34,10 +34,10 @@ const ToCombineDataList = ({ listInfo, BootstrapDialogTitle, apiQuery }) => {
     const fakeData = [
         {
             SupplierID: 1,
-            SupplierName: 'NEC',
-            BankAcctName: '+886',
+            submarineCable: 'NEC',
+            workTitle: '+886',
             Fax: '+886',
-            BankAcctNo: 'Taiwan',
+            partyName: 'Taiwan',
             SWIFTCode: 'google.com',
             IBAN: 'XXX',
             BankName: '123',
@@ -45,10 +45,10 @@ const ToCombineDataList = ({ listInfo, BootstrapDialogTitle, apiQuery }) => {
         },
         {
             SupplierID: 2,
-            SupplierName: 'NEC',
-            BankAcctName: '+886',
+            submarineCable: 'NEC',
+            workTitle: '+886',
             Fax: '+886',
-            BankAcctNo: 'Taiwan',
+            partyName: 'Taiwan',
             SWIFTCode: 'google.com',
             IBAN: 'XXX',
             BankName: '123',
@@ -56,17 +56,18 @@ const ToCombineDataList = ({ listInfo, BootstrapDialogTitle, apiQuery }) => {
         }
     ];
     const [infoList, setInfoList] = useState(fakeData);
-    const [supplierName, setSupplierName] = useState(''); //供應商
-    const [bankAcctName, setBankAcctName] = useState(''); //帳號名稱
-    const [bankAcctNo, setBankAcctNo] = useState(''); //銀行帳號
+    const [submarineCable, setSubmarineCable] = useState(''); //海纜名稱
+    const [workTitle, setWorkTitle] = useState(''); //海纜作業
+    const [partyName, setpartyName] = useState(''); //會員名稱
+
     const [sWIFTCode, setSWIFTCode] = useState(''); //國際銀行代碼
     const [iBAN, setIBAN] = useState(''); //國際銀行帳戶號碼
     const [bankName, setBankName] = useState(''); //銀行名稱
     const [bankAddress, setBankAddress] = useState(''); //銀行地址
     const supplierID = useRef(-1);
-    const [supplierNameEdit, setSupplierNameEdit] = useState(''); //供應商編輯
-    const [bankAcctNameEdit, setBankAcctNameEdit] = useState(''); //帳號名稱編輯
-    const [bankAcctNoEdit, setBankAcctNoEdit] = useState(''); //銀行帳號編輯
+    const [submarineCableEdit, setSubmarineCableEdit] = useState(''); //供應商編輯
+    const [workTitleEdit, setWorkTitleEdit] = useState(''); //帳號名稱編輯
+    const [partyNameEdit, setpartyNameEdit] = useState(''); //銀行帳號編輯
     const [sWIFTCodeEdit, setSWIFTCodeEdit] = useState(''); //國際銀行代碼編輯
     const [iBANEdit, setIBANEdit] = useState(''); //國際銀行帳戶號碼編輯
     const [bankNameEdit, setBankNameEdit] = useState(''); //銀行名稱編輯
@@ -89,9 +90,9 @@ const ToCombineDataList = ({ listInfo, BootstrapDialogTitle, apiQuery }) => {
 
     const editInfoInit = () => {
         supplierID.current = -1;
-        setSupplierNameEdit('');
-        setBankAcctNameEdit('');
-        setBankAcctNoEdit('');
+        setSubmarineCableEdit('');
+        setWorkTitleEdit('');
+        setpartyNameEdit('');
         setSWIFTCodeEdit('');
         setIBANEdit('');
         setBankNameEdit('');
@@ -113,9 +114,9 @@ const ToCombineDataList = ({ listInfo, BootstrapDialogTitle, apiQuery }) => {
 
     const addSupplierInfo = () => {
         let tmpArray = {
-            SupplierName: supplierName,
-            BankAcctName: bankAcctName,
-            BankAcctNo: bankAcctNo,
+            submarineCable: submarineCable,
+            workTitle: workTitle,
+            partyName: partyName,
             SWIFTCode: sWIFTCode,
             IBAN: iBAN,
             BankName: bankName,
@@ -142,9 +143,9 @@ const ToCombineDataList = ({ listInfo, BootstrapDialogTitle, apiQuery }) => {
     const editSupplierInfo = (row) => {
         // setEditItem(id);
         supplierID.current = row.SupplierID;
-        setSupplierNameEdit(row.SupplierName);
-        setBankAcctNameEdit(row.BankAcctName);
-        setBankAcctNoEdit(row.BankAcctNo);
+        setSubmarineCableEdit(row.submarineCable);
+        setWorkTitleEdit(row.workTitle);
+        setpartyNameEdit(row.partyName);
         setSWIFTCodeEdit(row.SWIFTCode);
         setIBANEdit(row.IBAN);
         setBankNameEdit(row.BankName);
@@ -154,9 +155,9 @@ const ToCombineDataList = ({ listInfo, BootstrapDialogTitle, apiQuery }) => {
     const saveEditSupplierInfo = () => {
         let tmpArray = {
             SupplierID: supplierID.current,
-            SupplierName: supplierNameEdit,
-            BankAcctName: bankAcctNameEdit,
-            BankAcctNo: bankAcctNoEdit,
+            submarineCable: submarineCableEdit,
+            workTitle: workTitleEdit,
+            partyName: partyNameEdit,
             SWIFTCode: sWIFTCodeEdit,
             IBAN: iBANEdit,
             BankName: bankNameEdit,
@@ -202,9 +203,9 @@ const ToCombineDataList = ({ listInfo, BootstrapDialogTitle, apiQuery }) => {
                                 {row.SupplierID !== supplierID.current ? (
                                     <>
                                         <StyledTableCell align="center">{id + 1}</StyledTableCell>
-                                        <StyledTableCell align="center">{row.SupplierName}</StyledTableCell>
-                                        <StyledTableCell align="center">{row.BankAcctName}</StyledTableCell>
-                                        <StyledTableCell align="center">{row.BankAcctNo}</StyledTableCell>
+                                        <StyledTableCell align="center">{row.submarineCable}</StyledTableCell>
+                                        <StyledTableCell align="center">{row.workTitle}</StyledTableCell>
+                                        <StyledTableCell align="center">{row.partyName}</StyledTableCell>
                                         <StyledTableCell align="center">{row.SWIFTCode}</StyledTableCell>
                                         <StyledTableCell align="center">{row.IBAN}</StyledTableCell>
                                         <StyledTableCell align="center">{row.BankName}</StyledTableCell>
@@ -245,27 +246,27 @@ const ToCombineDataList = ({ listInfo, BootstrapDialogTitle, apiQuery }) => {
                                             <TextField
                                                 size="small"
                                                 // style={{ width: '30%' }}
-                                                value={supplierNameEdit}
+                                                value={submarineCableEdit}
                                                 onChange={(e) => {
-                                                    setSupplierNameEdit(e.target.value);
+                                                    setSubmarineCableEdit(e.target.value);
                                                 }}
                                             />
                                         </TableCell>
                                         <TableCell align="center">
                                             <TextField
                                                 size="small"
-                                                value={bankAcctNameEdit}
+                                                value={workTitleEdit}
                                                 onChange={(e) => {
-                                                    setBankAcctNameEdit(e.target.value);
+                                                    setWorkTitleEdit(e.target.value);
                                                 }}
                                             />
                                         </TableCell>
                                         <TableCell align="center">
                                             <TextField
                                                 size="small"
-                                                value={bankAcctNoEdit}
+                                                value={partyNameEdit}
                                                 onChange={(e) => {
-                                                    setBankAcctNoEdit(e.target.value);
+                                                    setpartyNameEdit(e.target.value);
                                                 }}
                                             />
                                         </TableCell>
@@ -347,27 +348,27 @@ const ToCombineDataList = ({ listInfo, BootstrapDialogTitle, apiQuery }) => {
                             <TextField
                                 size="small"
                                 // style={{ width: '30%' }}
-                                value={supplierName}
+                                value={submarineCable}
                                 onChange={(e) => {
-                                    setSupplierName(e.target.value);
+                                    setSubmarineCable(e.target.value);
                                 }}
                             />
                         </TableCell>
                         <TableCell align="center">
                             <TextField
                                 size="small"
-                                value={bankAcctName}
+                                value={workTitle}
                                 onChange={(e) => {
-                                    setBankAcctName(e.target.value);
+                                    setWorkTitle(e.target.value);
                                 }}
                             />
                         </TableCell>
                         <TableCell align="center">
                             <TextField
                                 size="small"
-                                value={bankAcctNo}
+                                value={partyName}
                                 onChange={(e) => {
-                                    setBankAcctNo(e.target.value);
+                                    setpartyName(e.target.value);
                                 }}
                             />
                         </TableCell>
