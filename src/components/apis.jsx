@@ -73,3 +73,9 @@ export const getSubmarineCablesInfo = 'http://10.193.130.7:8000/api/v1/Submarine
 export const addSubmarineCables = 'http://10.193.130.7:8000/api/v1/SubmarineCables';
 export const deleteSubmarineCables = 'http://10.193.130.7:8000/api/v1/deleteSubmarineCables';
 export const editSubmarineCables = 'http://10.193.130.7:8000/api/v1/updateSubmarineCables';
+
+// 基本資料-PartiesByContract
+export const getPartiesByContractInfo = 'http://10.193.130.7:8000/api/v1/PartiesByContract/all';
+export const addPartiesByContract = 'http://10.193.130.7:8000/api/v1/PartiesByContract';
+export const deletePartiesByContract = 'http://10.193.130.7:8000/api/v1/deletePartiesByContract';
+export const editPartiesByContract = 'http://10.193.130.7:8000/api/v1/updatePartiesByContract';
