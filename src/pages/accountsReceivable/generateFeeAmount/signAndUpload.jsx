@@ -47,7 +47,11 @@ const SignAndUpload = ({ uploadOpen, handUploadClose }) => {
     };
 
     const handleUploadFile = () => {
-        fetch(uploadFileApi, { method: 'POST', body: uploadFile, headers: { 'Content-Type': 'multipart/form-data' } })
+        fetch(uploadFileApi, {
+            method: 'POST',
+            body: uploadFile,
+            headers: { 'Content-Type': 'multipart/form-data', Accept: 'application/json' }
+        })
             .then((res) => res.json())
             .then((data) => {
                 console.log('上傳成功=>>', data);

@@ -29,66 +29,48 @@ import dayjs from 'dayjs';
 
 import { toBillDataapi, sendJounary } from 'components/apis.jsx';
 
-const ToGenerateDataList = ({ listInfo, BootstrapDialogTitle, apiQuery }) => {
-    // const fakeData = {
-    //     TotalAmount: 5582012.72,
-    //     InvoiceMaster: [
-    //         {
-    //             InvMasterID: 1,
-    //             WKMasterID: 1,
-    //             InvoiceNo: 'DT0170168-1',
-    //             PartyName: 'Edge',
-    //             SupplierName: 'NEC',
-    //             SubmarineCable: 'SJC2',
-    //             WorkTitle: 'Construction',
-    //             IssueDate: '2022-09-09T00:00:00',
-    //             DueDate: '2022-11-08T00:00:00',
-    //             IsPro: false,
-    //             ContractType: 'SC',
-    //             Status: ''
-    //         }
-    //     ],
-    //     InvoiceDetail: [
-    //         {
-    //             WKMasterID: 1,
-    //             WKDetailID: 1,
-    //             InvMasterID: 1,
-    //             InvoiceNo: 'DT0170168-1',
-    //             PartyName: 'Edge',
-    //             SupplierName: 'NEC',
-    //             SubmarineCable: 'SJC2',
-    //             WorkTitle: 'Construction',
-    //             BillMilestone: 'BM9a',
-    //             FeeItem: 'BM9a Sea...',
-    //             LBRatio: 28.5714285714,
-    //             FeeAmountPre: 1288822.32,
-    //             FeeAmountPost: 368234.95,
-    //             Difference: 0
-    //         },
-    //         {
-    //             WKMasterID: 2,
-    //             WKDetailID: 2,
-    //             InvMasterID: 2,
-    //             InvoiceNo: 'DT0170168-2',
-    //             PartyName: 'Edge',
-    //             SupplierName: 'NEC',
-    //             SubmarineCable: 'SJC2',
-    //             WorkTitle: 'Construction',
-    //             BillMilestone: 'BM9a',
-    //             FeeItem: 'BM9a Sea...',
-    //             LBRatio: 28.5714285714,
-    //             FeeAmountPre: 1288844.44,
-    //             FeeAmountPost: 368244.44,
-    //             Difference: 0
-    //         }
-    //     ]
-    // };
+const ToGenerateDataList = ({ listInfo, apiQuery }) => {
+    const fakeData = [
+        {
+            SupplierID: 1,
+            SupplierName: 'NEC',
+            BankAcctName: '+886',
+            Fax: '+886',
+            BankAcctNo: 'Taiwan',
+            SWIFTCode: 'google.com',
+            IBAN: 'XXX',
+            BankName: '123',
+            BankAddress: '123'
+        },
+        {
+            SupplierID: 2,
+            SupplierName: 'NEC',
+            BankAcctName: '+886',
+            Fax: '+886',
+            BankAcctNo: 'Taiwan',
+            SWIFTCode: 'google.com',
+            IBAN: 'XXX',
+            BankName: '123',
+            BankAddress: '123'
+        }
+    ];
+    const [infoList, setInfoList] = useState(fakeData);
+    const [supplierName, setSupplierName] = useState(''); //海纜名稱
+    const [bankAcctName, setBankAcctName] = useState(''); //海纜作業
+    const [bankAcctNo, setBankAcctNo] = useState(''); //會員名稱
+    const [sWIFTCode, setSWIFTCode] = useState(''); //公司地址
+    const [iBAN, setIBAN] = useState(''); //聯繫窗口
+    const [bankName, setBankName] = useState(''); //電子郵件
+    const [bankAddress, setBankAddress] = useState(''); //電話
+    const supplierID = useRef(-1);
+    const [supplierNameEdit, setSupplierNameEdit] = useState(''); //供應商編輯
+    const [bankAcctNameEdit, setBankAcctNameEdit] = useState(''); //帳號名稱編輯
+    const [bankAcctNoEdit, setBankAcctNoEdit] = useState(''); //銀行帳號編輯
+    const [sWIFTCodeEdit, setSWIFTCodeEdit] = useState(''); //國際銀行代碼編輯
+    const [iBANEdit, setIBANEdit] = useState(''); //國際銀行帳戶號碼編輯
+    const [bankNameEdit, setBankNameEdit] = useState(''); //銀行名稱編輯
+    const [bankAddressEdit, setBankAddressEdit] = useState(''); //銀行地址編輯
 
-    const [isDialogOpen, setIsDialogOpen] = useState(false);
-    const toBillDataMain = useRef();
-    const [toBillDataInfo, setToBillDataInfo] = useState([]); //發票明細檔
-    const [totalAmount, setTotalAmount] = useState([]); //發票總金額
-    const [currentAmount, setCurrentAmount] = useState(''); //目前金額
     const StyledTableCell = styled(TableCell)(({ theme }) => ({
         [`&.${tableCellClasses.head}`]: {
             // backgroundColor: theme.palette.common.gary,
@@ -103,184 +85,340 @@ const ToGenerateDataList = ({ listInfo, BootstrapDialogTitle, apiQuery }) => {
         }
     }));
 
-    const handleDialogClose = () => {
-        setIsDialogOpen(false);
+    const editInfoInit = () => {
+        supplierID.current = -1;
+        setSupplierNameEdit('');
+        setBankAcctNameEdit('');
+        setBankAcctNoEdit('');
+        setSWIFTCodeEdit('');
+        setIBANEdit('');
+        setBankNameEdit('');
+        setBankAddressEdit('');
+        querySuppliersInfo();
     };
 
-    //立帳作業
-    const toBillData = (wKMasterID) => {
-        console.log('立帳作業wKMasterID=>>', wKMasterID);
-        let tmpQuery = '/' + 'WKMasterID=' + wKMasterID;
-        tmpQuery = toBillDataapi + tmpQuery;
-        console.log('tmpQuery=>>', tmpQuery);
-        fetch(tmpQuery, { method: 'GET' })
+    const querySuppliersInfo = () => {
+        fetch(getSuppliersInfo, { method: 'GET' })
             .then((res) => res.json())
             .then((data) => {
-                console.log('立帳成功=>>', data);
-                let tmpAmount = 0;
+                console.log('取得Suppliers資料成功=>', data);
                 if (Array.isArray(data)) {
-                    toBillDataMain.current = data ? data.InvoiceMaster : [];
-                    setToBillDataInfo(data ? data.InvoiceDetail : []);
-                    setTotalAmount(data ? data.TotalAmount : 0);
-                    data.InvoiceDetail.forEach((i) => {
-                        tmpAmount = tmpAmount + i.FeeAmountPost + i.Difference;
-                    });
-                    setCurrentAmount(tmpAmount.toFixed(2));
+                    setInfoList(data);
                 }
             })
             .catch((e) => console.log('e1=>>', e));
-        setIsDialogOpen(true);
     };
 
-    const changeDiff = (diff, id) => {
-        let tmpArray = toBillDataInfo.map((i) => i);
-        let tmpAmount = 0;
-        tmpArray[id].Difference = Number(diff);
-        tmpArray.forEach((i) => {
-            tmpAmount = tmpAmount + i.FeeAmountPost + i.Difference;
-        });
-        setToBillDataInfo(tmpArray);
-        setCurrentAmount(tmpAmount.toFixed(2));
-    };
-
-    // 送出立帳(新增)
-    const sendJounaryInfo = () => {
-        let tmpArray = toBillDataMain.current.map((i) => i);
-        tmpArray.forEach((i) => {
-            delete i.InvMasterID;
-        });
-        let tmpData = {
-            TotalAmount: totalAmount,
-            InvoiceMaster: tmpArray,
-            InvoiceDetail: toBillDataInfo
+    const addSupplierInfo = () => {
+        let tmpArray = {
+            SupplierName: supplierName,
+            BankAcctName: bankAcctName,
+            BankAcctNo: bankAcctNo,
+            SWIFTCode: sWIFTCode,
+            IBAN: iBAN,
+            BankName: bankName,
+            BankAddress: bankAddress
         };
-        fetch(sendJounary, { method: 'POST', body: JSON.stringify(tmpData) })
+        fetch(addSuppliers, { method: 'POST', body: JSON.stringify(tmpArray) })
             .then((res) => res.json())
             .then((data) => {
-                console.log('立帳成功=>>', data);
-                alert('送出立帳成功');
-                apiQuery();
-                handleDialogClose();
+                alert('新增供應商資料成功');
+                querySuppliersInfo();
             })
             .catch((e) => console.log('e1=>>', e));
     };
 
+    const deleteSupplierInfo = (row) => {
+        fetch(deleteSuppliers, { method: 'POST', body: JSON.stringify(row) })
+            .then((res) => res.json())
+            .then(() => {
+                alert('刪除供應商資料成功');
+            })
+            .catch((e) => console.log('e1=>>', e));
+    };
+
+    const editSupplierInfo = (row) => {
+        // setEditItem(id);
+        supplierID.current = row.SupplierID;
+        setSupplierNameEdit(row.SupplierName);
+        setBankAcctNameEdit(row.BankAcctName);
+        setBankAcctNoEdit(row.BankAcctNo);
+        setSWIFTCodeEdit(row.SWIFTCode);
+        setIBANEdit(row.IBAN);
+        setBankNameEdit(row.BankName);
+        setBankAddressEdit(row.BankAddress);
+    };
+
+    const saveEditSupplierInfo = () => {
+        let tmpArray = {
+            SupplierID: supplierID.current,
+            SupplierName: supplierNameEdit,
+            BankAcctName: bankAcctNameEdit,
+            BankAcctNo: bankAcctNoEdit,
+            SWIFTCode: sWIFTCodeEdit,
+            IBAN: iBANEdit,
+            BankName: bankNameEdit,
+            BankAddress: bankAddressEdit
+        };
+        fetch(editSuppliers, { method: 'POST', body: JSON.stringify(tmpArray) })
+            .then((res) => res.json())
+            .then((data) => {
+                console.log('????=>>', data);
+                alert('更新供應商資料成功');
+                editInfoInit();
+            })
+            .catch((e) => console.log('e1=>>', e));
+    };
+
+    useEffect(() => {
+        querySuppliersInfo();
+    }, []);
+
     return (
-        <>
-            <Dialog onClose={handleDialogClose} maxWidth="lg" fullWidth open={isDialogOpen}>
-                <BootstrapDialogTitle id="customized-dialog-title" onClose={handleDialogClose}>
-                    立帳作業
-                </BootstrapDialogTitle>
-                <DialogContent>
-                    <TableContainer component={Paper} sx={{ maxHeight: 350 }}>
-                        <Table sx={{ minWidth: 300 }} stickyHeader aria-label="sticky table">
-                            <TableHead>
-                                <TableRow>
-                                    <StyledTableCell align="center"></StyledTableCell>
-                                    <StyledTableCell align="center">NO</StyledTableCell>
-                                    <StyledTableCell align="center">供應商名稱</StyledTableCell>
-                                    <StyledTableCell align="center">電話</StyledTableCell>
-                                    <StyledTableCell align="center">傳真</StyledTableCell>
-                                    <StyledTableCell align="center">地址</StyledTableCell>
-                                    <StyledTableCell align="center">E-mail</StyledTableCell>
-                                    <StyledTableCell align="center">Name</StyledTableCell>
-                                    <StyledTableCell align="center">Action</StyledTableCell>
-                                </TableRow>
-                            </TableHead>
-                            <TableBody>
-                                {toBillDataInfo.map((row, id) => {
-                                    let afterDiff = row.FeeAmountPost + row.Difference;
-                                    return (
-                                        <TableRow
-                                            key={row.FeeAmountPre + row?.PartyName + row?.LBRatio}
-                                            sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-                                        >
-                                            <TableCell align="center">{row.FeeItem}</TableCell>
-                                            <TableCell align="center">{`$${handleNumber(row.FeeAmountPre)}`}</TableCell>
-                                            <TableCell align="center">{row.PartyName}</TableCell>
-                                            <TableCell align="center">{`${row.LBRatio}%`}</TableCell>
-                                            <TableCell align="center">{`$${handleNumber(row.FeeAmountPost)}`}</TableCell>
-                                            <TableCell align="center">
-                                                <TextField
-                                                    label="$"
-                                                    size="small"
-                                                    type="number"
-                                                    style={{ width: '30%' }}
-                                                    // value={diffNumber}
-                                                    onChange={(e) => {
-                                                        changeDiff(e.target.value, id);
+        <TableContainer component={Paper} sx={{ maxHeight: 350 }}>
+            <Table sx={{ minWidth: 300 }} stickyHeader aria-label="sticky table">
+                <TableHead>
+                    <TableRow>
+                        <StyledTableCell align="center">NO</StyledTableCell>
+                        <StyledTableCell align="center">供應商名稱</StyledTableCell>
+                        <StyledTableCell align="center">帳號名稱</StyledTableCell>
+                        <StyledTableCell align="center">銀行帳號</StyledTableCell>
+                        <StyledTableCell align="center">國際銀行代碼</StyledTableCell>
+                        <StyledTableCell align="center">國際銀行帳戶號碼</StyledTableCell>
+                        <StyledTableCell align="center">銀行名稱</StyledTableCell>
+                        <StyledTableCell align="center">銀行地址</StyledTableCell>
+                        <StyledTableCell align="center">Action</StyledTableCell>
+                    </TableRow>
+                </TableHead>
+                <TableBody>
+                    {infoList?.map((row, id) => {
+                        return (
+                            <TableRow
+                                // key={row.InvoiceWKMaster?.WKMasterID + row.InvoiceWKMaster?.InvoiceNo}
+                                sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                            >
+                                {row.SupplierID !== supplierID.current ? (
+                                    <>
+                                        <StyledTableCell align="center">{id + 1}</StyledTableCell>
+                                        <StyledTableCell align="center">{row.SupplierName}</StyledTableCell>
+                                        <StyledTableCell align="center">{row.BankAcctName}</StyledTableCell>
+                                        <StyledTableCell align="center">{row.BankAcctNo}</StyledTableCell>
+                                        <StyledTableCell align="center">{row.SWIFTCode}</StyledTableCell>
+                                        <StyledTableCell align="center">{row.IBAN}</StyledTableCell>
+                                        <StyledTableCell align="center">{row.BankName}</StyledTableCell>
+                                        <StyledTableCell align="center">{row.BankAddress}</StyledTableCell>
+                                        <StyledTableCell align="center">
+                                            <Box
+                                                sx={{
+                                                    display: 'flex',
+                                                    justifyContent: 'center',
+                                                    '& button': { mx: { md: 0.6, lg: 1, xl: 1.8 }, p: 0, fontSize: 1 }
+                                                }}
+                                            >
+                                                <Button
+                                                    color="primary"
+                                                    variant="outlined"
+                                                    onClick={() => {
+                                                        editSupplierInfo(row);
                                                     }}
-                                                />
-                                            </TableCell>
-                                            <TableCell align="center">{`$${handleNumber(afterDiff.toFixed(2))}`}</TableCell>
-                                        </TableRow>
-                                    );
-                                })}
-                            </TableBody>
-                        </Table>
-                    </TableContainer>
-                    <DialogContentText sx={{ fontSize: '20px', mt: '0.5rem' }}>發票總金額：${handleNumber(totalAmount)}</DialogContentText>
-                    <DialogContentText sx={{ fontSize: '20px', color: '#CC0000' }}>
-                        目前金額：${handleNumber(currentAmount)}
-                    </DialogContentText>
-                </DialogContent>
-                <DialogActions>
-                    <Button sx={{ mr: '0.05rem' }} variant="contained" onClick={sendJounaryInfo}>
-                        新增
-                    </Button>
-                    <Button sx={{ mr: '0.05rem' }} variant="contained" onClick={handleDialogClose}>
-                        取消
-                    </Button>
-                </DialogActions>
-            </Dialog>
-            <TableContainer component={Paper} sx={{ maxHeight: 350 }}>
-                <Table sx={{ minWidth: 300 }} stickyHeader aria-label="sticky table">
-                    <TableHead>
-                        <TableRow>
-                            <StyledTableCell align="center">NO</StyledTableCell>
-                            <StyledTableCell align="center">會員名稱</StyledTableCell>
-                            <StyledTableCell align="center">電話</StyledTableCell>
-                            <StyledTableCell align="center">聯繫窗口</StyledTableCell>
-                            <StyledTableCell align="center">公司地址</StyledTableCell>
-                            <StyledTableCell align="center">E-mail</StyledTableCell>
-                            <StyledTableCell align="center">Action</StyledTableCell>
-                        </TableRow>
-                    </TableHead>
-                    <TableBody>
-                        {listInfo?.map((row, id) => {
-                            return (
-                                <TableRow
-                                    key={row.InvoiceWKMaster?.WKMasterID + row.InvoiceWKMaster?.InvoiceNo}
-                                    sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-                                >
-                                    <StyledTableCell align="center">{id + 1}</StyledTableCell>
-                                    <StyledTableCell align="center">{row.InvoiceWKMaster.WKMasterID}</StyledTableCell>
-                                    <StyledTableCell align="center">{row.InvoiceWKMaster.InvoiceNo}</StyledTableCell>
-                                    <StyledTableCell align="center">{row.InvoiceWKMaster.SupplierName}</StyledTableCell>
-                                    <StyledTableCell align="center">{row.InvoiceWKMaster.SubmarineCable}</StyledTableCell>
-                                    <StyledTableCell align="center">{row.InvoiceWKMaster.WorkTitle}</StyledTableCell>
-                                    <StyledTableCell align="center">
-                                        {dayjs(row.InvoiceWKMaster.IssueDate).format('YYYY/MM/DD')}
-                                    </StyledTableCell>
-                                    <StyledTableCell align="center">{row.InvoiceWKDetail.length}</StyledTableCell>
-                                    <StyledTableCell align="center">{handleNumber(row.InvoiceWKMaster.TotalAmount)}</StyledTableCell>
-                                    <StyledTableCell align="center">
-                                        <Button
-                                            color="primary"
-                                            onClick={() => {
-                                                toBillData(row.InvoiceWKMaster.WKMasterID);
-                                            }}
-                                        >
-                                            立帳作業
-                                        </Button>
-                                    </StyledTableCell>
-                                </TableRow>
-                            );
-                        })}
-                    </TableBody>
-                </Table>
-            </TableContainer>
-        </>
+                                                >
+                                                    編輯
+                                                </Button>
+                                                <Button
+                                                    color="error"
+                                                    variant="outlined"
+                                                    onClick={() => {
+                                                        deleteSupplierInfo(row);
+                                                    }}
+                                                >
+                                                    刪除
+                                                </Button>
+                                            </Box>
+                                        </StyledTableCell>
+                                    </>
+                                ) : (
+                                    <>
+                                        <TableCell align="center">{id + 1}</TableCell>
+                                        <TableCell align="center">
+                                            <TextField
+                                                size="small"
+                                                // style={{ width: '30%' }}
+                                                value={supplierNameEdit}
+                                                onChange={(e) => {
+                                                    setSupplierNameEdit(e.target.value);
+                                                }}
+                                            />
+                                        </TableCell>
+                                        <TableCell align="center">
+                                            <TextField
+                                                size="small"
+                                                value={bankAcctNameEdit}
+                                                onChange={(e) => {
+                                                    setBankAcctNameEdit(e.target.value);
+                                                }}
+                                            />
+                                        </TableCell>
+                                        <TableCell align="center">
+                                            <TextField
+                                                size="small"
+                                                value={bankAcctNoEdit}
+                                                onChange={(e) => {
+                                                    setBankAcctNoEdit(e.target.value);
+                                                }}
+                                            />
+                                        </TableCell>
+                                        <TableCell align="center">
+                                            <TextField
+                                                size="small"
+                                                value={sWIFTCodeEdit}
+                                                onChange={(e) => {
+                                                    setSWIFTCodeEdit(e.target.value);
+                                                }}
+                                            />
+                                        </TableCell>
+                                        <TableCell align="center">
+                                            <TextField
+                                                size="small"
+                                                value={iBANEdit}
+                                                onChange={(e) => {
+                                                    setIBANEdit(e.target.value);
+                                                }}
+                                            />
+                                        </TableCell>
+                                        <TableCell align="center">
+                                            <TextField
+                                                size="small"
+                                                value={bankNameEdit}
+                                                onChange={(e) => {
+                                                    setBankNameEdit(e.target.value);
+                                                }}
+                                            />
+                                        </TableCell>
+                                        <TableCell align="center">
+                                            <TextField
+                                                size="small"
+                                                value={bankAddressEdit}
+                                                onChange={(e) => {
+                                                    setBankAddressEdit(e.target.value);
+                                                }}
+                                            />
+                                        </TableCell>
+                                        <StyledTableCell align="center">
+                                            <Box
+                                                sx={{
+                                                    display: 'flex',
+                                                    justifyContent: 'center',
+                                                    '& button': { mx: { md: 0.6, lg: 1, xl: 1.8 }, p: 0, fontSize: 1 }
+                                                }}
+                                            >
+                                                <Button
+                                                    color="primary"
+                                                    variant="outlined"
+                                                    onClick={() => {
+                                                        saveEditSupplierInfo();
+                                                    }}
+                                                >
+                                                    儲存
+                                                </Button>
+                                                <Button
+                                                    color="error"
+                                                    variant="outlined"
+                                                    onClick={() => {
+                                                        editInfoInit();
+                                                    }}
+                                                >
+                                                    取消
+                                                </Button>
+                                            </Box>
+                                        </StyledTableCell>
+                                    </>
+                                )}
+                            </TableRow>
+                        );
+                    })}
+                    <TableRow sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
+                        <TableCell align="center"></TableCell>
+                        <TableCell align="center">
+                            <TextField
+                                size="small"
+                                // style={{ width: '30%' }}
+                                value={supplierName}
+                                onChange={(e) => {
+                                    setSupplierName(e.target.value);
+                                }}
+                            />
+                        </TableCell>
+                        <TableCell align="center">
+                            <TextField
+                                size="small"
+                                value={bankAcctName}
+                                onChange={(e) => {
+                                    setBankAcctName(e.target.value);
+                                }}
+                            />
+                        </TableCell>
+                        <TableCell align="center">
+                            <TextField
+                                size="small"
+                                value={bankAcctNo}
+                                onChange={(e) => {
+                                    setBankAcctNo(e.target.value);
+                                }}
+                            />
+                        </TableCell>
+                        <TableCell align="center">
+                            <TextField
+                                size="small"
+                                value={sWIFTCode}
+                                onChange={(e) => {
+                                    setSWIFTCode(e.target.value);
+                                }}
+                            />
+                        </TableCell>
+                        <TableCell align="center">
+                            <TextField
+                                size="small"
+                                value={iBAN}
+                                onChange={(e) => {
+                                    setIBAN(e.target.value);
+                                }}
+                            />
+                        </TableCell>
+                        <TableCell align="center">
+                            <TextField
+                                size="small"
+                                value={bankName}
+                                onChange={(e) => {
+                                    setBankName(e.target.value);
+                                }}
+                            />
+                        </TableCell>
+                        <TableCell align="center">
+                            <TextField
+                                size="small"
+                                value={bankAddress}
+                                onChange={(e) => {
+                                    setBankAddress(e.target.value);
+                                }}
+                            />
+                        </TableCell>
+                        <TableCell align="center">
+                            <Box
+                                sx={{
+                                    display: 'flex',
+                                    justifyContent: 'center',
+                                    '& button': { mx: { md: 0.6, lg: 1, xl: 1.8 }, p: 0, fontSize: 1 }
+                                }}
+                            >
+                                <Button color="success" variant="outlined" onClick={addSupplierInfo}>
+                                    新增
+                                </Button>
+                            </Box>
+                        </TableCell>
+                    </TableRow>
+                </TableBody>
+            </Table>
+        </TableContainer>
     );
 };
 
