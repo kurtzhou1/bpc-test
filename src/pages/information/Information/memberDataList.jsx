@@ -32,41 +32,41 @@ import { toBillDataapi, sendJounary } from 'components/apis.jsx';
 const ToGenerateDataList = ({ listInfo, apiQuery }) => {
     const fakeData = [
         {
-            SupplierID: 1,
-            SupplierName: 'NEC',
-            BankAcctName: '+886',
+            PartyID: 1,
+            SubmarineCable: 'NEC',
+            workTitle: '+886',
             Fax: '+886',
-            BankAcctNo: 'Taiwan',
-            SWIFTCode: 'google.com',
+            partyName: 'Taiwan',
+            address: 'google.com',
             IBAN: 'XXX',
             BankName: '123',
             BankAddress: '123'
         },
         {
-            SupplierID: 2,
-            SupplierName: 'NEC',
-            BankAcctName: '+886',
+            PartyID: 2,
+            SubmarineCable: 'NEC',
+            workTitle: '+886',
             Fax: '+886',
-            BankAcctNo: 'Taiwan',
-            SWIFTCode: 'google.com',
+            partyName: 'Taiwan',
+            address: 'google.com',
             IBAN: 'XXX',
             BankName: '123',
             BankAddress: '123'
         }
     ];
     const [infoList, setInfoList] = useState(fakeData);
-    const [supplierName, setSupplierName] = useState(''); //海纜名稱
-    const [bankAcctName, setBankAcctName] = useState(''); //海纜作業
-    const [bankAcctNo, setBankAcctNo] = useState(''); //會員名稱
-    const [sWIFTCode, setSWIFTCode] = useState(''); //公司地址
+    const [submarineCable, setSubmarineCable] = useState(''); //海纜名稱
+    const [workTitle, setWorkTitle] = useState(''); //海纜作業
+    const [partyName, setPartyName] = useState(''); //會員名稱
+    const [address, setAddress] = useState(''); //公司地址
     const [iBAN, setIBAN] = useState(''); //聯繫窗口
     const [bankName, setBankName] = useState(''); //電子郵件
     const [bankAddress, setBankAddress] = useState(''); //電話
-    const supplierID = useRef(-1);
-    const [supplierNameEdit, setSupplierNameEdit] = useState(''); //供應商編輯
-    const [bankAcctNameEdit, setBankAcctNameEdit] = useState(''); //帳號名稱編輯
-    const [bankAcctNoEdit, setBankAcctNoEdit] = useState(''); //銀行帳號編輯
-    const [sWIFTCodeEdit, setSWIFTCodeEdit] = useState(''); //國際銀行代碼編輯
+    const partyID = useRef(-1);
+    const [submarineCableEdit, setSubmarineCableEdit] = useState(''); //供應商編輯
+    const [workTitleEdit, setWorkTitleEdit] = useState(''); //帳號名稱編輯
+    const [partyNameEdit, setPartyNameEdit] = useState(''); //銀行帳號編輯
+    const [addressEdit, setAddressEdit] = useState(''); //國際銀行代碼編輯
     const [iBANEdit, setIBANEdit] = useState(''); //國際銀行帳戶號碼編輯
     const [bankNameEdit, setBankNameEdit] = useState(''); //銀行名稱編輯
     const [bankAddressEdit, setBankAddressEdit] = useState(''); //銀行地址編輯
@@ -87,10 +87,10 @@ const ToGenerateDataList = ({ listInfo, apiQuery }) => {
 
     const editInfoInit = () => {
         supplierID.current = -1;
-        setSupplierNameEdit('');
-        setBankAcctNameEdit('');
-        setBankAcctNoEdit('');
-        setSWIFTCodeEdit('');
+        setSubmarineCableEdit('');
+        setWorkTitleEdit('');
+        setPartyNameEdit('');
+        setAddressEdit('');
         setIBANEdit('');
         setBankNameEdit('');
         setBankAddressEdit('');
@@ -111,10 +111,10 @@ const ToGenerateDataList = ({ listInfo, apiQuery }) => {
 
     const addSupplierInfo = () => {
         let tmpArray = {
-            SupplierName: supplierName,
-            BankAcctName: bankAcctName,
-            BankAcctNo: bankAcctNo,
-            SWIFTCode: sWIFTCode,
+            submarineCable: submarineCable,
+            workTitle: workTitle,
+            partyName: partyName,
+            address: address,
             IBAN: iBAN,
             BankName: bankName,
             BankAddress: bankAddress
@@ -140,10 +140,10 @@ const ToGenerateDataList = ({ listInfo, apiQuery }) => {
     const editSupplierInfo = (row) => {
         // setEditItem(id);
         supplierID.current = row.SupplierID;
-        setSupplierNameEdit(row.SupplierName);
-        setBankAcctNameEdit(row.BankAcctName);
-        setBankAcctNoEdit(row.BankAcctNo);
-        setSWIFTCodeEdit(row.SWIFTCode);
+        setSubmarineCableEdit(row.submarineCable);
+        setWorkTitleEdit(row.workTitle);
+        setPartyNameEdit(row.partyName);
+        setAddressEdit(row.address);
         setIBANEdit(row.IBAN);
         setBankNameEdit(row.BankName);
         setBankAddressEdit(row.BankAddress);
@@ -152,10 +152,10 @@ const ToGenerateDataList = ({ listInfo, apiQuery }) => {
     const saveEditSupplierInfo = () => {
         let tmpArray = {
             SupplierID: supplierID.current,
-            SupplierName: supplierNameEdit,
-            BankAcctName: bankAcctNameEdit,
-            BankAcctNo: bankAcctNoEdit,
-            SWIFTCode: sWIFTCodeEdit,
+            submarineCable: submarineCableEdit,
+            workTitle: workTitleEdit,
+            partyName: partyNameEdit,
+            address: addressEdit,
             IBAN: iBANEdit,
             BankName: bankNameEdit,
             BankAddress: bankAddressEdit
@@ -200,10 +200,10 @@ const ToGenerateDataList = ({ listInfo, apiQuery }) => {
                                 {row.SupplierID !== supplierID.current ? (
                                     <>
                                         <StyledTableCell align="center">{id + 1}</StyledTableCell>
-                                        <StyledTableCell align="center">{row.SupplierName}</StyledTableCell>
-                                        <StyledTableCell align="center">{row.BankAcctName}</StyledTableCell>
-                                        <StyledTableCell align="center">{row.BankAcctNo}</StyledTableCell>
-                                        <StyledTableCell align="center">{row.SWIFTCode}</StyledTableCell>
+                                        <StyledTableCell align="center">{row.submarineCable}</StyledTableCell>
+                                        <StyledTableCell align="center">{row.workTitle}</StyledTableCell>
+                                        <StyledTableCell align="center">{row.partyName}</StyledTableCell>
+                                        <StyledTableCell align="center">{row.address}</StyledTableCell>
                                         <StyledTableCell align="center">{row.IBAN}</StyledTableCell>
                                         <StyledTableCell align="center">{row.BankName}</StyledTableCell>
                                         <StyledTableCell align="center">{row.BankAddress}</StyledTableCell>
@@ -243,36 +243,36 @@ const ToGenerateDataList = ({ listInfo, apiQuery }) => {
                                             <TextField
                                                 size="small"
                                                 // style={{ width: '30%' }}
-                                                value={supplierNameEdit}
+                                                value={submarineCableEdit}
                                                 onChange={(e) => {
-                                                    setSupplierNameEdit(e.target.value);
+                                                    setSubmarineCableEdit(e.target.value);
                                                 }}
                                             />
                                         </TableCell>
                                         <TableCell align="center">
                                             <TextField
                                                 size="small"
-                                                value={bankAcctNameEdit}
+                                                value={workTitleEdit}
                                                 onChange={(e) => {
-                                                    setBankAcctNameEdit(e.target.value);
+                                                    setWorkTitleEdit(e.target.value);
                                                 }}
                                             />
                                         </TableCell>
                                         <TableCell align="center">
                                             <TextField
                                                 size="small"
-                                                value={bankAcctNoEdit}
+                                                value={partyNameEdit}
                                                 onChange={(e) => {
-                                                    setBankAcctNoEdit(e.target.value);
+                                                    setPartyNameEdit(e.target.value);
                                                 }}
                                             />
                                         </TableCell>
                                         <TableCell align="center">
                                             <TextField
                                                 size="small"
-                                                value={sWIFTCodeEdit}
+                                                value={addressEdit}
                                                 onChange={(e) => {
-                                                    setSWIFTCodeEdit(e.target.value);
+                                                    setAddressEdit(e.target.value);
                                                 }}
                                             />
                                         </TableCell>
@@ -342,36 +342,36 @@ const ToGenerateDataList = ({ listInfo, apiQuery }) => {
                             <TextField
                                 size="small"
                                 // style={{ width: '30%' }}
-                                value={supplierName}
+                                value={submarineCable}
                                 onChange={(e) => {
-                                    setSupplierName(e.target.value);
+                                    setSubmarineCable(e.target.value);
                                 }}
                             />
                         </TableCell>
                         <TableCell align="center">
                             <TextField
                                 size="small"
-                                value={bankAcctName}
+                                value={workTitle}
                                 onChange={(e) => {
-                                    setBankAcctName(e.target.value);
+                                    setWorkTitle(e.target.value);
                                 }}
                             />
                         </TableCell>
                         <TableCell align="center">
                             <TextField
                                 size="small"
-                                value={bankAcctNo}
+                                value={partyName}
                                 onChange={(e) => {
-                                    setBankAcctNo(e.target.value);
+                                    setPartyName(e.target.value);
                                 }}
                             />
                         </TableCell>
                         <TableCell align="center">
                             <TextField
                                 size="small"
-                                value={sWIFTCode}
+                                value={address}
                                 onChange={(e) => {
-                                    setSWIFTCode(e.target.value);
+                                    setAddress(e.target.value);
                                 }}
                             />
                         </TableCell>

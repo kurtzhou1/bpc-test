@@ -47,9 +47,14 @@ const SignAndUpload = ({ uploadOpen, handUploadClose }) => {
     };
 
     const handleUploadFile = () => {
+        const pdfData = new FormData();
+        console.log('1=>>', uploadFile);
+        console.log('2=>>', uploadFile[0]);
+        pdfData.append('file', uploadFile[0]);
+        // data
         fetch(uploadFileApi, {
             method: 'POST',
-            body: uploadFile,
+            body: pdfData,
             headers: { 'Content-Type': 'multipart/form-data', Accept: 'application/json' }
         })
             .then((res) => res.json())
