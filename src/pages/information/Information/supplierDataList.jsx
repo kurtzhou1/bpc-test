@@ -86,6 +86,16 @@ const ToCombineDataList = ({ listInfo, BootstrapDialogTitle, apiQuery }) => {
         }
     }));
 
+    const infoInit = () => {
+        setSupplierName('');
+        setBankAcctName('');
+        setBankAcctNo('');
+        setSWIFTCode('');
+        setIBAN('');
+        setBankName('');
+        setBankAddress('');
+    };
+
     const editInfoInit = () => {
         supplierID.current = -1;
         setSupplierNameEdit('');
@@ -124,6 +134,7 @@ const ToCombineDataList = ({ listInfo, BootstrapDialogTitle, apiQuery }) => {
             .then((res) => res.json())
             .then((data) => {
                 alert('新增供應商資料成功');
+                infoInit();
                 querySuppliersInfo();
             })
             .catch((e) => console.log('e1=>>', e));

@@ -44,8 +44,14 @@ export const updateInvoiceMaster = 'http://10.193.130.7:8000/api/v1/updateInvoic
 // 應收帳款管理
 export const uploadFileApi = 'http://10.193.130.7:8000/api/v1/uploadfile';
 
-// 基本資料
+// 基本資料-Suppliers
 export const getSuppliersInfo = 'http://10.193.130.7:8000/api/v1/Suppliers/all';
 export const addSuppliers = 'http://10.193.130.7:8000/api/v1/Suppliers';
 export const deleteSuppliers = 'http://10.193.130.7:8000/api/v1/deleteSuppliers';
 export const editSuppliers = 'http://10.193.130.7:8000/api/v1/updateSuppliers';
+
+// 基本資料-Partiess
+export const getPartiesInfo = 'http://10.193.130.7:8000/api/v1/Parties/all';
+export const addParties = 'http://10.193.130.7:8000/api/v1/Parties';
+export const deleteParties = 'http://10.193.130.7:8000/api/v1/deleteParties';
+export const editParties = 'http://10.193.130.7:8000/api/v1/updateParties';

@@ -1,4 +1,4 @@
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 
 // project import
 import { handleNumber } from 'components/commonFunction';
@@ -15,7 +15,8 @@ import {
     InputLabel,
     Select,
     DialogActions,
-    TextField
+    TextField,
+    Box
 } from '@mui/material';
 import TableBody from '@mui/material/TableBody';
 import TableCell, { tableCellClasses } from '@mui/material/TableCell';
@@ -27,31 +28,29 @@ import { alpha, styled } from '@mui/material/styles';
 
 import dayjs from 'dayjs';
 
-import { toBillDataapi, sendJounary } from 'components/apis.jsx';
+import { addParties, getPartiesInfo, deleteParties, editParties } from 'components/apis.jsx';
 
 const ToGenerateDataList = ({ listInfo, apiQuery }) => {
     const fakeData = [
         {
             PartyID: 1,
             SubmarineCable: 'NEC',
-            workTitle: '+886',
-            Fax: '+886',
-            partyName: 'Taiwan',
-            address: 'google.com',
-            IBAN: 'XXX',
-            BankName: '123',
-            BankAddress: '123'
+            WorkTitle: '+886',
+            PartyName: 'Taiwan',
+            Address: 'google.com',
+            Contact: 'XXX',
+            Email: '123',
+            Tel: '123'
         },
         {
             PartyID: 2,
             SubmarineCable: 'NEC',
-            workTitle: '+886',
-            Fax: '+886',
-            partyName: 'Taiwan',
-            address: 'google.com',
-            IBAN: 'XXX',
-            BankName: '123',
-            BankAddress: '123'
+            WorkTitle: '+886',
+            PartyName: 'Taiwan',
+            Address: 'google.com',
+            Contact: 'XXX',
+            Email: '123',
+            Tel: '123'
         }
     ];
     const [infoList, setInfoList] = useState(fakeData);
@@ -59,17 +58,17 @@ const ToGenerateDataList = ({ listInfo, apiQuery }) => {
     const [workTitle, setWorkTitle] = useState(''); //海纜作業
     const [partyName, setPartyName] = useState(''); //會員名稱
     const [address, setAddress] = useState(''); //公司地址
-    const [iBAN, setIBAN] = useState(''); //聯繫窗口
-    const [bankName, setBankName] = useState(''); //電子郵件
-    const [bankAddress, setBankAddress] = useState(''); //電話
+    const [contact, setContact] = useState(''); //聯繫窗口
+    const [email, setEmail] = useState(''); //電子郵件
+    const [tel, setTel] = useState(''); //電話
     const partyID = useRef(-1);
     const [submarineCableEdit, setSubmarineCableEdit] = useState(''); //供應商編輯
     const [workTitleEdit, setWorkTitleEdit] = useState(''); //帳號名稱編輯
     const [partyNameEdit, setPartyNameEdit] = useState(''); //銀行帳號編輯
     const [addressEdit, setAddressEdit] = useState(''); //國際銀行代碼編輯
-    const [iBANEdit, setIBANEdit] = useState(''); //國際銀行帳戶號碼編輯
-    const [bankNameEdit, setBankNameEdit] = useState(''); //銀行名稱編輯
-    const [bankAddressEdit, setBankAddressEdit] = useState(''); //銀行地址編輯
+    const [contactEdit, setContactEdit] = useState(''); //國際銀行帳戶號碼編輯
+    const [emailEdit, setEmailEdit] = useState(''); //銀行名稱編輯
+    const [telEdit, setTelEdit] = useState(''); //銀行地址編輯
 
     const StyledTableCell = styled(TableCell)(({ theme }) => ({
         [`&.${tableCellClasses.head}`]: {
@@ -85,23 +84,34 @@ const ToGenerateDataList = ({ listInfo, apiQuery }) => {
         }
     }));
 
+    const infoInit = () => {
+        setSubmarineCable('');
+        setWorkTitle('');
+        setPartyName('');
+        setAddress('');
+        setContactEdit('');
+        setContact('');
+        setEmail('');
+        setTel('');
+    };
+
     const editInfoInit = () => {
-        supplierID.current = -1;
+        partyID.current = -1;
         setSubmarineCableEdit('');
         setWorkTitleEdit('');
         setPartyNameEdit('');
         setAddressEdit('');
-        setIBANEdit('');
-        setBankNameEdit('');
-        setBankAddressEdit('');
-        querySuppliersInfo();
+        setContactEdit('');
+        setEmailEdit('');
+        setTelEdit('');
+        queryPartiesInfo();
     };
 
-    const querySuppliersInfo = () => {
-        fetch(getSuppliersInfo, { method: 'GET' })
+    const queryPartiesInfo = () => {
+        fetch(getPartiesInfo, { method: 'GET' })
             .then((res) => res.json())
             .then((data) => {
-                console.log('取得Suppliers資料成功=>', data);
+                console.log('取得Parties資料成功=>', data);
                 if (Array.isArray(data)) {
                     setInfoList(data);
                 }
@@ -109,69 +119,72 @@ const ToGenerateDataList = ({ listInfo, apiQuery }) => {
             .catch((e) => console.log('e1=>>', e));
     };
 
-    const addSupplierInfo = () => {
+    const addPartyInfo = () => {
         let tmpArray = {
-            submarineCable: submarineCable,
-            workTitle: workTitle,
-            partyName: partyName,
-            address: address,
-            IBAN: iBAN,
-            BankName: bankName,
-            BankAddress: bankAddress
+            SubmarineCable: submarineCable,
+            WorkTitle: workTitle,
+            PartyName: partyName,
+            Address: address,
+            Contact: contact,
+            Email: email,
+            Tel: tel
         };
-        fetch(addSuppliers, { method: 'POST', body: JSON.stringify(tmpArray) })
-            .then((res) => res.json())
-            .then((data) => {
-                alert('新增供應商資料成功');
-                querySuppliersInfo();
-            })
-            .catch((e) => console.log('e1=>>', e));
-    };
-
-    const deleteSupplierInfo = (row) => {
-        fetch(deleteSuppliers, { method: 'POST', body: JSON.stringify(row) })
+        console.log('tmpArray=>>', tmpArray);
+        fetch(addParties, { method: 'POST', body: JSON.stringify(tmpArray) })
             .then((res) => res.json())
             .then(() => {
-                alert('刪除供應商資料成功');
+                alert('新增會員資料成功');
+                infoInit();
+                queryPartiesInfo();
             })
             .catch((e) => console.log('e1=>>', e));
     };
 
-    const editSupplierInfo = (row) => {
-        // setEditItem(id);
-        supplierID.current = row.SupplierID;
-        setSubmarineCableEdit(row.submarineCable);
-        setWorkTitleEdit(row.workTitle);
-        setPartyNameEdit(row.partyName);
-        setAddressEdit(row.address);
-        setIBANEdit(row.IBAN);
-        setBankNameEdit(row.BankName);
-        setBankAddressEdit(row.BankAddress);
+    const deletePartyInfo = (row) => {
+        fetch(deleteParties, { method: 'POST', body: JSON.stringify(row) })
+            .then((res) => res.json())
+            .then(() => {
+                alert('刪除會員資料成功');
+            })
+            .catch((e) => console.log('e1=>>', e));
     };
 
-    const saveEditSupplierInfo = () => {
+    const editPartyInfo = (row) => {
+        console.log('row=>>', row);
+        // setEditItem(id);
+        partyID.current = row.PartyID;
+        setSubmarineCableEdit(row.SubmarineCable);
+        setWorkTitleEdit(row.WorkTitle);
+        setPartyNameEdit(row.PartyName);
+        setAddressEdit(row.Address);
+        setContactEdit(row.Contact);
+        setEmailEdit(row.Email);
+        setTelEdit(row.Tel);
+    };
+
+    const saveEditPartyInfo = () => {
         let tmpArray = {
-            SupplierID: supplierID.current,
-            submarineCable: submarineCableEdit,
-            workTitle: workTitleEdit,
-            partyName: partyNameEdit,
-            address: addressEdit,
-            IBAN: iBANEdit,
-            BankName: bankNameEdit,
-            BankAddress: bankAddressEdit
+            PartyID: partyID.current,
+            SubmarineCable: submarineCableEdit,
+            WorkTitle: workTitleEdit,
+            PartyName: partyNameEdit,
+            Address: addressEdit,
+            Contact: contactEdit,
+            Email: emailEdit,
+            Tel: telEdit
         };
-        fetch(editSuppliers, { method: 'POST', body: JSON.stringify(tmpArray) })
+        console.log('123=>>', tmpArray);
+        fetch(editParties, { method: 'POST', body: JSON.stringify(tmpArray) })
             .then((res) => res.json())
             .then((data) => {
-                console.log('????=>>', data);
-                alert('更新供應商資料成功');
+                alert('更新會員資料成功');
                 editInfoInit();
             })
             .catch((e) => console.log('e1=>>', e));
     };
 
     useEffect(() => {
-        querySuppliersInfo();
+        queryPartiesInfo();
     }, []);
 
     return (
@@ -180,13 +193,13 @@ const ToGenerateDataList = ({ listInfo, apiQuery }) => {
                 <TableHead>
                     <TableRow>
                         <StyledTableCell align="center">NO</StyledTableCell>
-                        <StyledTableCell align="center">供應商名稱</StyledTableCell>
-                        <StyledTableCell align="center">帳號名稱</StyledTableCell>
-                        <StyledTableCell align="center">銀行帳號</StyledTableCell>
-                        <StyledTableCell align="center">國際銀行代碼</StyledTableCell>
-                        <StyledTableCell align="center">國際銀行帳戶號碼</StyledTableCell>
-                        <StyledTableCell align="center">銀行名稱</StyledTableCell>
-                        <StyledTableCell align="center">銀行地址</StyledTableCell>
+                        <StyledTableCell align="center">海纜名稱</StyledTableCell>
+                        <StyledTableCell align="center">海纜作業</StyledTableCell>
+                        <StyledTableCell align="center">會員名稱</StyledTableCell>
+                        <StyledTableCell align="center">公司地址</StyledTableCell>
+                        <StyledTableCell align="center">聯絡窗口</StyledTableCell>
+                        <StyledTableCell align="center">電子郵件</StyledTableCell>
+                        <StyledTableCell align="center">電話</StyledTableCell>
                         <StyledTableCell align="center">Action</StyledTableCell>
                     </TableRow>
                 </TableHead>
@@ -197,16 +210,16 @@ const ToGenerateDataList = ({ listInfo, apiQuery }) => {
                                 // key={row.InvoiceWKMaster?.WKMasterID + row.InvoiceWKMaster?.InvoiceNo}
                                 sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                             >
-                                {row.SupplierID !== supplierID.current ? (
+                                {row.PartyID !== partyID.current ? (
                                     <>
                                         <StyledTableCell align="center">{id + 1}</StyledTableCell>
-                                        <StyledTableCell align="center">{row.submarineCable}</StyledTableCell>
-                                        <StyledTableCell align="center">{row.workTitle}</StyledTableCell>
-                                        <StyledTableCell align="center">{row.partyName}</StyledTableCell>
-                                        <StyledTableCell align="center">{row.address}</StyledTableCell>
-                                        <StyledTableCell align="center">{row.IBAN}</StyledTableCell>
-                                        <StyledTableCell align="center">{row.BankName}</StyledTableCell>
-                                        <StyledTableCell align="center">{row.BankAddress}</StyledTableCell>
+                                        <StyledTableCell align="center">{row.SubmarineCable}</StyledTableCell>
+                                        <StyledTableCell align="center">{row.WorkTitle}</StyledTableCell>
+                                        <StyledTableCell align="center">{row.PartyName}</StyledTableCell>
+                                        <StyledTableCell align="center">{row.Address}</StyledTableCell>
+                                        <StyledTableCell align="center">{row.Contact}</StyledTableCell>
+                                        <StyledTableCell align="center">{row.Email}</StyledTableCell>
+                                        <StyledTableCell align="center">{row.Tel}</StyledTableCell>
                                         <StyledTableCell align="center">
                                             <Box
                                                 sx={{
@@ -219,7 +232,7 @@ const ToGenerateDataList = ({ listInfo, apiQuery }) => {
                                                     color="primary"
                                                     variant="outlined"
                                                     onClick={() => {
-                                                        editSupplierInfo(row);
+                                                        editPartyInfo(row);
                                                     }}
                                                 >
                                                     編輯
@@ -228,7 +241,7 @@ const ToGenerateDataList = ({ listInfo, apiQuery }) => {
                                                     color="error"
                                                     variant="outlined"
                                                     onClick={() => {
-                                                        deleteSupplierInfo(row);
+                                                        deletePartyInfo(row);
                                                     }}
                                                 >
                                                     刪除
@@ -279,27 +292,27 @@ const ToGenerateDataList = ({ listInfo, apiQuery }) => {
                                         <TableCell align="center">
                                             <TextField
                                                 size="small"
-                                                value={iBANEdit}
+                                                value={contactEdit}
                                                 onChange={(e) => {
-                                                    setIBANEdit(e.target.value);
+                                                    setContactEdit(e.target.value);
                                                 }}
                                             />
                                         </TableCell>
                                         <TableCell align="center">
                                             <TextField
                                                 size="small"
-                                                value={bankNameEdit}
+                                                value={emailEdit}
                                                 onChange={(e) => {
-                                                    setBankNameEdit(e.target.value);
+                                                    setEmailEdit(e.target.value);
                                                 }}
                                             />
                                         </TableCell>
                                         <TableCell align="center">
                                             <TextField
                                                 size="small"
-                                                value={bankAddressEdit}
+                                                value={telEdit}
                                                 onChange={(e) => {
-                                                    setBankAddressEdit(e.target.value);
+                                                    setTelEdit(e.target.value);
                                                 }}
                                             />
                                         </TableCell>
@@ -315,7 +328,7 @@ const ToGenerateDataList = ({ listInfo, apiQuery }) => {
                                                     color="primary"
                                                     variant="outlined"
                                                     onClick={() => {
-                                                        saveEditSupplierInfo();
+                                                        saveEditPartyInfo();
                                                     }}
                                                 >
                                                     儲存
@@ -378,27 +391,27 @@ const ToGenerateDataList = ({ listInfo, apiQuery }) => {
                         <TableCell align="center">
                             <TextField
                                 size="small"
-                                value={iBAN}
+                                value={contact}
                                 onChange={(e) => {
-                                    setIBAN(e.target.value);
+                                    setContact(e.target.value);
                                 }}
                             />
                         </TableCell>
                         <TableCell align="center">
                             <TextField
                                 size="small"
-                                value={bankName}
+                                value={email}
                                 onChange={(e) => {
-                                    setBankName(e.target.value);
+                                    setEmail(e.target.value);
                                 }}
                             />
                         </TableCell>
                         <TableCell align="center">
                             <TextField
                                 size="small"
-                                value={bankAddress}
+                                value={tel}
                                 onChange={(e) => {
-                                    setBankAddress(e.target.value);
+                                    setTel(e.target.value);
                                 }}
                             />
                         </TableCell>
@@ -410,7 +423,7 @@ const ToGenerateDataList = ({ listInfo, apiQuery }) => {
                                     '& button': { mx: { md: 0.6, lg: 1, xl: 1.8 }, p: 0, fontSize: 1 }
                                 }}
                             >
-                                <Button color="success" variant="outlined" onClick={addSupplierInfo}>
+                                <Button color="success" variant="outlined" onClick={addPartyInfo}>
                                     新增
                                 </Button>
                             </Box>
