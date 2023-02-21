@@ -16,7 +16,7 @@ import DraftDataList from './draftDataList';
 import ReceivableQuery from './receivableQuery';
 
 const GenerateFeeAmount = () => {
-    const [value, setValue] = useState(4);
+    const [value, setValue] = useState(2);
 
     const handleChange = (event, newValue) => {
         setValue(newValue);

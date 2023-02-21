@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import {
     Typography,
     Grid,
@@ -48,18 +48,21 @@ const SignAndUpload = ({ uploadOpen, handUploadClose }) => {
 
     const handleUploadFile = () => {
         const pdfData = new FormData();
-        console.log('1=>>', uploadFile);
-        console.log('2=>>', uploadFile[0]);
         pdfData.append('file', uploadFile[0]);
         // data
         fetch(uploadFileApi, {
             method: 'POST',
             body: pdfData,
-            headers: { 'Content-Type': 'multipart/form-data', Accept: 'application/json' }
+            headers: {
+                Accept: 'application/json'
+            }
         })
             .then((res) => res.json())
             .then((data) => {
                 console.log('上傳成功=>>', data);
+                alert('上傳成功');
+                setUploadFile(null);
+                handUploadClose();
             })
             .catch((e) => console.log('e1=>>', e));
     };
