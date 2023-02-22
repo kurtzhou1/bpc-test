@@ -104,7 +104,6 @@ const CBPBankAccount = ({}) => {
         setIBANEdit('');
         setNameEdit('');
         setAddressEdit('');
-        queryCBPBankAccountInfo();
     };
 
     const queryCBPBankAccountInfo = () => {
@@ -130,7 +129,7 @@ const CBPBankAccount = ({}) => {
             Address: address
         };
         console.log('tmpArray=>>', tmpArray);
-        fetch(addCBPBankAccount, { method: 'POST', body: JSON.stringify(tmpArray) })
+        fetch(addCBPBankAccount, { method: 'POST', body: JSON.stringify(tmpArray), headers: { 'Content-Type': 'application/json' } })
             .then((res) => res.json())
             .then(() => {
                 alert('新增聯盟金融帳戶資料成功');
@@ -141,10 +140,11 @@ const CBPBankAccount = ({}) => {
     };
 
     const deleteCBPBankAccountInfo = (row) => {
-        fetch(deleteCBPBankAccount, { method: 'POST', body: JSON.stringify(row) })
+        fetch(deleteCBPBankAccount, { method: 'POST', body: JSON.stringify(row), headers: { 'Content-Type': 'application/json' } })
             .then((res) => res.json())
             .then(() => {
                 alert('刪除聯盟金融帳戶資料成功');
+                queryCBPBankAccountInfo();
             })
             .catch((e) => console.log('e1=>>', e));
     };
@@ -173,11 +173,12 @@ const CBPBankAccount = ({}) => {
             Address: addressEdit
         };
         console.log('123=>>', tmpArray);
-        fetch(editCBPBankAccount, { method: 'POST', body: JSON.stringify(tmpArray) })
+        fetch(editCBPBankAccount, { method: 'POST', body: JSON.stringify(tmpArray), headers: { 'Content-Type': 'application/json' } })
             .then((res) => res.json())
             .then((data) => {
                 alert('更新聯盟金融帳戶資料成功');
                 editInfoInit();
+                queryCBPBankAccountInfo();
             })
             .catch((e) => console.log('e1=>>', e));
     };

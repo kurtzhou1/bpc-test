@@ -79,7 +79,6 @@ const GeneratedDataList = ({}) => {
         setCorpNameEdit('');
         setSubmarineCableEdit('');
         setCreateDateEdit('');
-        queryCorporatesInfo();
     };
 
     const queryCorporatesInfo = () => {
@@ -101,7 +100,7 @@ const GeneratedDataList = ({}) => {
             CreateDate: createDate
         };
         console.log('tmpArray=>>', tmpArray);
-        fetch(addCorporates, { method: 'POST', body: JSON.stringify(tmpArray) })
+        fetch(addCorporates, { method: 'POST', body: JSON.stringify(tmpArray), headers: { 'Content-Type': 'application/json' } })
             .then((res) => res.json())
             .then(() => {
                 alert('新增聯盟資料成功');
@@ -112,10 +111,11 @@ const GeneratedDataList = ({}) => {
     };
 
     const deletePartyInfo = (row) => {
-        fetch(deleteCorporates, { method: 'POST', body: JSON.stringify(row) })
+        fetch(deleteCorporates, { method: 'POST', body: JSON.stringify(row), headers: { 'Content-Type': 'application/json' } })
             .then((res) => res.json())
             .then(() => {
                 alert('刪除聯盟資料成功');
+                queryCorporatesInfo();
             })
             .catch((e) => console.log('e1=>>', e));
     };
@@ -136,11 +136,12 @@ const GeneratedDataList = ({}) => {
             CreateDate: createDateEdit
         };
         console.log('123=>>', tmpArray);
-        fetch(editCorporates, { method: 'POST', body: JSON.stringify(tmpArray) })
+        fetch(editCorporates, { method: 'POST', body: JSON.stringify(tmpArray), headers: { 'Content-Type': 'application/json' } })
             .then((res) => res.json())
             .then(() => {
                 alert('更新聯盟資料成功');
                 editInfoInit();
+                queryCorporatesInfo();
             })
             .catch((e) => console.log('e1=>>', e));
     };

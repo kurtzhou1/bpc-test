@@ -104,7 +104,6 @@ const PartyDataList = ({}) => {
         setContactEdit('');
         setEmailEdit('');
         setTelEdit('');
-        queryPartiesInfo();
     };
 
     const queryPartiesInfo = () => {
@@ -130,7 +129,7 @@ const PartyDataList = ({}) => {
             Tel: tel
         };
         console.log('tmpArray=>>', tmpArray);
-        fetch(addParties, { method: 'POST', body: JSON.stringify(tmpArray) })
+        fetch(addParties, { method: 'POST', body: JSON.stringify(tmpArray), headers: { 'Content-Type': 'application/json' } })
             .then((res) => res.json())
             .then(() => {
                 alert('新增會員資料成功');
@@ -141,10 +140,11 @@ const PartyDataList = ({}) => {
     };
 
     const deletePartyInfo = (row) => {
-        fetch(deleteParties, { method: 'POST', body: JSON.stringify(row) })
+        fetch(deleteParties, { method: 'POST', body: JSON.stringify(row), headers: { 'Content-Type': 'application/json' } })
             .then((res) => res.json())
             .then(() => {
                 alert('刪除會員資料成功');
+                queryPartiesInfo();
             })
             .catch((e) => console.log('e1=>>', e));
     };
@@ -173,11 +173,12 @@ const PartyDataList = ({}) => {
             Tel: telEdit
         };
         console.log('123=>>', tmpArray);
-        fetch(editParties, { method: 'POST', body: JSON.stringify(tmpArray) })
+        fetch(editParties, { method: 'POST', body: JSON.stringify(tmpArray), headers: { 'Content-Type': 'application/json' } })
             .then((res) => res.json())
             .then((data) => {
                 alert('更新會員資料成功');
                 editInfoInit();
+                queryPartiesInfo();
             })
             .catch((e) => console.log('e1=>>', e));
     };

@@ -105,7 +105,6 @@ const SupplierDataList = ({}) => {
         setIBANEdit('');
         setBankNameEdit('');
         setBankAddressEdit('');
-        querySuppliersInfo();
     };
 
     const querySuppliersInfo = () => {
@@ -130,9 +129,9 @@ const SupplierDataList = ({}) => {
             BankName: bankName,
             BankAddress: bankAddress
         };
-        fetch(addSuppliers, { method: 'POST', body: JSON.stringify(tmpArray) })
+        fetch(addSuppliers, { method: 'POST', body: JSON.stringify(tmpArray), headers: { 'Content-Type': 'application/json' } })
             .then((res) => res.json())
-            .then((data) => {
+            .then(() => {
                 alert('新增供應商資料成功');
                 infoInit();
                 querySuppliersInfo();
@@ -141,10 +140,11 @@ const SupplierDataList = ({}) => {
     };
 
     const deleteSupplierInfo = (row) => {
-        fetch(deleteSuppliers, { method: 'POST', body: JSON.stringify(row) })
+        fetch(deleteSuppliers, { method: 'POST', body: JSON.stringify(row), headers: { 'Content-Type': 'application/json' } })
             .then((res) => res.json())
             .then(() => {
                 alert('刪除供應商資料成功');
+                querySuppliersInfo();
             })
             .catch((e) => console.log('e1=>>', e));
     };
@@ -172,12 +172,12 @@ const SupplierDataList = ({}) => {
             BankName: bankNameEdit,
             BankAddress: bankAddressEdit
         };
-        fetch(editSuppliers, { method: 'POST', body: JSON.stringify(tmpArray) })
+        fetch(editSuppliers, { method: 'POST', body: JSON.stringify(tmpArray), headers: { 'Content-Type': 'application/json' } })
             .then((res) => res.json())
             .then((data) => {
-                console.log('????=>>', data);
                 alert('更新供應商資料成功');
                 editInfoInit();
+                querySuppliersInfo();
             })
             .catch((e) => console.log('e1=>>', e));
     };

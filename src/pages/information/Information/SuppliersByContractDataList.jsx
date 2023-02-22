@@ -67,10 +67,9 @@ const SuppliersByContractDataList = ({}) => {
     const editInfoInit = () => {
         contractID.current = -1;
         setSupplierNameEdit('');
-        querynotesInfo();
     };
 
-    const querynotesInfo = () => {
+    const queryPartiesByContractInfo = () => {
         fetch(getPartiesByContractInfo, { method: 'GET' })
             .then((res) => res.json())
             .then((data) => {
@@ -87,21 +86,22 @@ const SuppliersByContractDataList = ({}) => {
             SupplierName: supplierName
         };
         console.log('tmpArray=>>', tmpArray);
-        fetch(addPartiesByContract, { method: 'POST', body: JSON.stringify(tmpArray) })
+        fetch(addPartiesByContract, { method: 'POST', body: JSON.stringify(tmpArray), headers: { 'Content-Type': 'application/json' } })
             .then((res) => res.json())
             .then(() => {
                 alert('新增合約廠商資料成功');
                 infoInit();
-                querynotesInfo();
+                queryPartiesByContractInfo();
             })
             .catch((e) => console.log('e1=>>', e));
     };
 
     const deleteSuppliersByContractInfo = (row) => {
-        fetch(deletePartiesByContract, { method: 'POST', body: JSON.stringify(row) })
+        fetch(deletePartiesByContract, { method: 'POST', body: JSON.stringify(row), headers: { 'Content-Type': 'application/json' } })
             .then((res) => res.json())
             .then(() => {
                 alert('刪除合約廠商資料成功');
+                queryPartiesByContractInfo();
             })
             .catch((e) => console.log('e1=>>', e));
     };
@@ -117,17 +117,18 @@ const SuppliersByContractDataList = ({}) => {
             SupplierName: supplierNameEdit
         };
         console.log('123=>>', tmpArray);
-        fetch(editPartiesByContract, { method: 'POST', body: JSON.stringify(tmpArray) })
+        fetch(editPartiesByContract, { method: 'POST', body: JSON.stringify(tmpArray), headers: { 'Content-Type': 'application/json' } })
             .then((res) => res.json())
             .then(() => {
                 alert('更新合約廠商資料成功');
                 editInfoInit();
+                queryPartiesByContractInfo();
             })
             .catch((e) => console.log('e1=>>', e));
     };
 
     useEffect(() => {
-        querynotesInfo();
+        queryPartiesByContractInfo();
     }, []);
 
     return (

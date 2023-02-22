@@ -29,7 +29,7 @@ import { TextField } from '@mui/material/index';
 const CorrespondenceQuery = ({ correspondenceQuery }) => {
     const [issueDate, setIssueDate] = useState([null, null]); //發票日期
     return (
-        <MainCard title="餘額查詢" sx={{ width: '100%' }}>
+        <MainCard title="函稿查詢" sx={{ width: '100%' }}>
             <Grid container display="flex" justifyContent="center" alignItems="center" spacing={2}>
                 {/* row1 */}
                 <Grid item xs={1} sm={1} md={1} lg={1}>
@@ -118,7 +118,7 @@ const CorrespondenceQuery = ({ correspondenceQuery }) => {
                 </Grid>
                 {/* row2 */}
                 <Grid item xs={1} sm={1} md={1} lg={1}>
-                    <Typography variant="h5" sx={{ fontSize: { lg: '0.5rem', xl: '0.88rem' }, ml: { lg: '0rem', xl: '0rem' } }}>
+                    <Typography variant="h5" sx={{ fontSize: { lg: '0.5rem', xl: '0.88rem' }, ml: { lg: '0.5rem', xl: '1.5rem' } }}>
                         剩餘金額：
                     </Typography>
                 </Grid>

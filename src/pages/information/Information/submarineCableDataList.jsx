@@ -73,10 +73,9 @@ const SubmarineCableDataList = ({}) => {
         cableID.current = -1;
         setCableNameEdit('');
         setNoteEdit('');
-        querynotesInfo();
     };
 
-    const querynotesInfo = () => {
+    const querySubmarineCablesInfo = () => {
         fetch(getSubmarineCablesInfo, { method: 'GET' })
             .then((res) => res.json())
             .then((data) => {
@@ -94,21 +93,22 @@ const SubmarineCableDataList = ({}) => {
             note: note
         };
         console.log('tmpArray=>>', tmpArray);
-        fetch(addSubmarineCables, { method: 'POST', body: JSON.stringify(tmpArray) })
+        fetch(addSubmarineCables, { method: 'POST', body: JSON.stringify(tmpArray), headers: { 'Content-Type': 'application/json' } })
             .then((res) => res.json())
             .then(() => {
                 alert('新增海纜資料成功');
                 infoInit();
-                querynotesInfo();
+                querySubmarineCablesInfo();
             })
             .catch((e) => console.log('e1=>>', e));
     };
 
     const deletePartyInfo = (row) => {
-        fetch(deleteSubmarineCables, { method: 'POST', body: JSON.stringify(row) })
+        fetch(deleteSubmarineCables, { method: 'POST', body: JSON.stringify(row), headers: { 'Content-Type': 'application/json' } })
             .then((res) => res.json())
             .then(() => {
                 alert('刪除海纜資料成功');
+                querySubmarineCablesInfo();
             })
             .catch((e) => console.log('e1=>>', e));
     };
@@ -126,17 +126,18 @@ const SubmarineCableDataList = ({}) => {
             note: noteEdit
         };
         console.log('123=>>', tmpArray);
-        fetch(editSubmarineCables, { method: 'POST', body: JSON.stringify(tmpArray) })
+        fetch(editSubmarineCables, { method: 'POST', body: JSON.stringify(tmpArray), headers: { 'Content-Type': 'application/json' } })
             .then((res) => res.json())
             .then(() => {
                 alert('更新海纜資料成功');
                 editInfoInit();
+                querySubmarineCablesInfo();
             })
             .catch((e) => console.log('e1=>>', e));
     };
 
     useEffect(() => {
-        querynotesInfo();
+        querySubmarineCablesInfo();
     }, []);
 
     return (

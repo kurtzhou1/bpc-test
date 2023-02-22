@@ -4,6 +4,7 @@ import { useState, useRef } from 'react';
 import { handleNumber, BootstrapDialogTitle } from 'components/commonFunction';
 import CorrespondenceQuery from './correspondenceQuery';
 import MainCard from 'components/MainCard';
+import CorrespondenceMake from './correspondenceMake';
 // material-ui
 import {
     Typography,
@@ -190,7 +191,7 @@ const Correspondence = ({ listInfo, apiQuery }) => {
                                                         }}
                                                     >
                                                         <Button
-                                                            color="success"
+                                                            color="primary"
                                                             size="small"
                                                             variant="outlined"
                                                             onClick={() => {
@@ -235,6 +236,7 @@ const Correspondence = ({ listInfo, apiQuery }) => {
                     </MainCard>
                 </Grid>
             </Grid>
+            <CorrespondenceMake isDialogOpen={isDialogOpen} handleDialogClose={handleDialogClose} listInfo={listInfo} />
         </>
     );
 };
