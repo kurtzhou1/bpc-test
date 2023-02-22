@@ -133,7 +133,7 @@ const CBPBankAccount = ({}) => {
         fetch(addCBPBankAccount, { method: 'POST', body: JSON.stringify(tmpArray) })
             .then((res) => res.json())
             .then(() => {
-                alert('新增會員資料成功');
+                alert('新增聯盟金融帳戶資料成功');
                 infoInit();
                 queryCBPBankAccountInfo();
             })
@@ -144,7 +144,7 @@ const CBPBankAccount = ({}) => {
         fetch(deleteCBPBankAccount, { method: 'POST', body: JSON.stringify(row) })
             .then((res) => res.json())
             .then(() => {
-                alert('刪除會員資料成功');
+                alert('刪除聯盟金融帳戶資料成功');
             })
             .catch((e) => console.log('e1=>>', e));
     };
@@ -176,7 +176,7 @@ const CBPBankAccount = ({}) => {
         fetch(editCBPBankAccount, { method: 'POST', body: JSON.stringify(tmpArray) })
             .then((res) => res.json())
             .then((data) => {
-                alert('更新會員資料成功');
+                alert('更新聯盟金融帳戶資料成功');
                 editInfoInit();
             })
             .catch((e) => console.log('e1=>>', e));

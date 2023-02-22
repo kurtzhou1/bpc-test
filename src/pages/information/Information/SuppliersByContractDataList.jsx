@@ -30,21 +30,21 @@ import dayjs from 'dayjs';
 
 import { addPartiesByContract, getPartiesByContractInfo, deletePartiesByContract, editPartiesByContract } from 'components/apis.jsx';
 
-const PartiesByContractDataList = ({}) => {
+const SuppliersByContractDataList = ({}) => {
     const fakeData = [
         {
             ContractID: 1,
-            partyName: 'NEC'
+            SupplierName: 'NEC'
         },
         {
             ContractID: 2,
-            partyName: 'NEC#2'
+            SupplierName: 'NEC#2'
         }
     ];
     const [infoList, setInfoList] = useState(fakeData);
-    const [partyName, setPartyName] = useState(''); //海纜名稱
+    const [supplierName, setSupplierName] = useState(''); //海纜名稱
     const contractID = useRef(-1);
-    const [partyNameEdit, setPartyNameEdit] = useState(''); //供應商編輯
+    const [supplierNameEdit, setSupplierNameEdit] = useState(''); //供應商編輯
 
     const StyledTableCell = styled(TableCell)(({ theme }) => ({
         [`&.${tableCellClasses.head}`]: {
@@ -61,12 +61,12 @@ const PartiesByContractDataList = ({}) => {
     }));
 
     const infoInit = () => {
-        setPartyName('');
+        setSupplierName('');
     };
 
     const editInfoInit = () => {
         contractID.current = -1;
-        setPartyNameEdit('');
+        setSupplierNameEdit('');
         querynotesInfo();
     };
 
@@ -74,7 +74,7 @@ const PartiesByContractDataList = ({}) => {
         fetch(getPartiesByContractInfo, { method: 'GET' })
             .then((res) => res.json())
             .then((data) => {
-                console.log('取得海纜資料成功=>', data);
+                console.log('取得合約廠商資料成功=>', data);
                 if (Array.isArray(data)) {
                     setInfoList(data);
                 }
@@ -82,45 +82,45 @@ const PartiesByContractDataList = ({}) => {
             .catch((e) => console.log('e1=>>', e));
     };
 
-    const addPartyInfo = () => {
+    const addSuppliersByContractInfo = () => {
         let tmpArray = {
-            partyName: partyName
+            SupplierName: supplierName
         };
         console.log('tmpArray=>>', tmpArray);
         fetch(addPartiesByContract, { method: 'POST', body: JSON.stringify(tmpArray) })
             .then((res) => res.json())
             .then(() => {
-                alert('新增海纜資料成功');
+                alert('新增合約廠商資料成功');
                 infoInit();
                 querynotesInfo();
             })
             .catch((e) => console.log('e1=>>', e));
     };
 
-    const deletePartyInfo = (row) => {
+    const deleteSuppliersByContractInfo = (row) => {
         fetch(deletePartiesByContract, { method: 'POST', body: JSON.stringify(row) })
             .then((res) => res.json())
             .then(() => {
-                alert('刪除海纜資料成功');
+                alert('刪除合約廠商資料成功');
             })
             .catch((e) => console.log('e1=>>', e));
     };
 
-    const editPartyInfo = (row) => {
+    const editSuppliersByContractInfo = (row) => {
         contractID.current = row.ContractID;
-        setPartyNameEdit(row.partyName);
+        setSupplierNameEdit(row.SupplierName);
     };
 
-    const saveEditPartyInfo = () => {
+    const saveEditSuppliersByContractInfo = () => {
         let tmpArray = {
             CorpID: contractID.current,
-            partyName: partyNameEdit
+            SupplierName: supplierNameEdit
         };
         console.log('123=>>', tmpArray);
         fetch(editPartiesByContract, { method: 'POST', body: JSON.stringify(tmpArray) })
             .then((res) => res.json())
             .then(() => {
-                alert('更新海纜資料成功');
+                alert('更新合約廠商資料成功');
                 editInfoInit();
             })
             .catch((e) => console.log('e1=>>', e));
@@ -136,7 +136,7 @@ const PartiesByContractDataList = ({}) => {
                 <TableHead>
                     <TableRow>
                         <StyledTableCell align="center">NO</StyledTableCell>
-                        <StyledTableCell align="center">會員名稱</StyledTableCell>
+                        <StyledTableCell align="center">供應商名稱</StyledTableCell>
                         <StyledTableCell align="center">Action</StyledTableCell>
                     </TableRow>
                 </TableHead>
@@ -150,7 +150,7 @@ const PartiesByContractDataList = ({}) => {
                                 {row.ContractID !== contractID.current ? (
                                     <>
                                         <StyledTableCell align="center">{id + 1}</StyledTableCell>
-                                        <StyledTableCell align="center">{row.partyName}</StyledTableCell>
+                                        <StyledTableCell align="center">{row.SupplierName}</StyledTableCell>
                                         <StyledTableCell align="center">
                                             <Box
                                                 sx={{
@@ -163,7 +163,7 @@ const PartiesByContractDataList = ({}) => {
                                                     color="primary"
                                                     variant="outlined"
                                                     onClick={() => {
-                                                        editPartyInfo(row);
+                                                        editSuppliersByContractInfo(row);
                                                     }}
                                                 >
                                                     編輯
@@ -172,7 +172,7 @@ const PartiesByContractDataList = ({}) => {
                                                     color="error"
                                                     variant="outlined"
                                                     onClick={() => {
-                                                        deletePartyInfo(row);
+                                                        deleteSuppliersByContractInfo(row);
                                                     }}
                                                 >
                                                     刪除
@@ -187,9 +187,9 @@ const PartiesByContractDataList = ({}) => {
                                             <TextField
                                                 size="small"
                                                 // style={{ width: '30%' }}
-                                                value={partyNameEdit}
+                                                value={supplierNameEdit}
                                                 onChange={(e) => {
-                                                    setPartyNameEdit(e.target.value);
+                                                    setSupplierNameEdit(e.target.value);
                                                 }}
                                             />
                                         </TableCell>
@@ -205,7 +205,7 @@ const PartiesByContractDataList = ({}) => {
                                                     color="primary"
                                                     variant="outlined"
                                                     onClick={() => {
-                                                        saveEditPartyInfo();
+                                                        saveEditSuppliersByContractInfo();
                                                     }}
                                                 >
                                                     儲存
@@ -232,9 +232,9 @@ const PartiesByContractDataList = ({}) => {
                             <TextField
                                 size="small"
                                 // style={{ width: '30%' }}
-                                value={partyName}
+                                value={supplierName}
                                 onChange={(e) => {
-                                    setPartyName(e.target.value);
+                                    setSupplierName(e.target.value);
                                 }}
                             />
                         </TableCell>
@@ -246,7 +246,7 @@ const PartiesByContractDataList = ({}) => {
                                     '& button': { mx: { md: 0.6, lg: 1, xl: 1.8 }, p: 0, fontSize: 1 }
                                 }}
                             >
-                                <Button color="success" variant="outlined" onClick={addPartyInfo}>
+                                <Button color="success" variant="outlined" onClick={addSuppliersByContractInfo}>
                                     新增
                                 </Button>
                             </Box>
@@ -258,4 +258,4 @@ const PartiesByContractDataList = ({}) => {
     );
 };
 
-export default PartiesByContractDataList;
+export default SuppliersByContractDataList;

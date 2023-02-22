@@ -85,3 +85,9 @@ export const getCBPBankAccountInfo = 'http://10.193.130.7:8000/api/v1/CBPBankAcc
 export const addCBPBankAccount = 'http://10.193.130.7:8000/api/v1/CBPBankAccount';
 export const deleteCBPBankAccount = 'http://10.193.130.7:8000/api/v1/deleteCBPBankAccount';
 export const editCBPBankAccount = 'http://10.193.130.7:8000/api/v1/updateCBPBankAccount';
+
+// 基本資料-SuppliersByContract
+export const getSuppliersByContractInfo = 'http://10.193.130.7:8000/api/v1/SuppliersByContract/all';
+export const addSuppliersByContract = 'http://10.193.130.7:8000/api/v1/SuppliersByContract';
+export const deleteSuppliersByContract = 'http://10.193.130.7:8000/api/v1/deleteSuppliersByContract';
+export const editSuppliersByContract = 'http://10.193.130.7:8000/api/v1/updateSuppliersByContract';

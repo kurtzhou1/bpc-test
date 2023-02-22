@@ -15,11 +15,11 @@ import SubmarineCableDataList from './submarineCableDataList';
 import CableWorkDataList from './cableWorkDataList';
 import ContractTypeDataList from './contractTypeDataList';
 import PartiesByContractDataList from './partiesByContractDataList';
-import ContractCompanyDataList from './contractCompanyDataList';
+import SuppliersByContractDataList from './SuppliersByContractDataList';
 import CBPBankAccount from './cBPBankAccount';
 
 const Information = () => {
-    const [value, setValue] = useState(9);
+    const [value, setValue] = useState(8);
 
     const handleChange = (event, newValue) => {
         setValue(newValue);
@@ -213,7 +213,7 @@ const Information = () => {
                         <PartiesByContractDataList />
                     </TabPanel>
                     <TabPanel value={value} index={8}>
-                        <ContractCompanyDataList />
+                        <SuppliersByContractDataList />
                     </TabPanel>
                     <TabPanel value={value} index={9}>
                         <CBPBankAccount />
