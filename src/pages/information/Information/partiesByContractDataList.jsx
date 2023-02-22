@@ -83,7 +83,7 @@ const PartiesByContractDataList = ({}) => {
 
     const addPartyInfo = () => {
         let tmpArray = {
-            partyName: partyName
+            PartyName: partyName
         };
         console.log('tmpArray=>>', tmpArray);
         fetch(addPartiesByContract, { method: 'POST', body: JSON.stringify(tmpArray), headers: { 'Content-Type': 'application/json' } })
@@ -114,7 +114,7 @@ const PartiesByContractDataList = ({}) => {
     const saveEditPartyInfo = () => {
         let tmpArray = {
             CorpID: contractID.current,
-            partyName: partyNameEdit
+            PartyName: partyNameEdit
         };
         console.log('123=>>', tmpArray);
         fetch(editPartiesByContract, { method: 'POST', body: JSON.stringify(tmpArray), headers: { 'Content-Type': 'application/json' } })

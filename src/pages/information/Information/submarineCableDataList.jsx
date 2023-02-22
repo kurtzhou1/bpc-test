@@ -89,8 +89,8 @@ const SubmarineCableDataList = ({}) => {
 
     const addPartyInfo = () => {
         let tmpArray = {
-            cableName: cableName,
-            note: note
+            CableName: cableName,
+            Note: note
         };
         console.log('tmpArray=>>', tmpArray);
         fetch(addSubmarineCables, { method: 'POST', body: JSON.stringify(tmpArray), headers: { 'Content-Type': 'application/json' } })
@@ -122,8 +122,8 @@ const SubmarineCableDataList = ({}) => {
     const saveEditPartyInfo = () => {
         let tmpArray = {
             CorpID: cableID.current,
-            cableName: cableNameEdit,
-            note: noteEdit
+            CableName: cableNameEdit,
+            Note: noteEdit
         };
         console.log('123=>>', tmpArray);
         fetch(editSubmarineCables, { method: 'POST', body: JSON.stringify(tmpArray), headers: { 'Content-Type': 'application/json' } })
