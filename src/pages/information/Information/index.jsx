@@ -19,7 +19,7 @@ import SuppliersByContractDataList from './SuppliersByContractDataList';
 import CBPBankAccount from './cBPBankAccount';
 
 const Information = () => {
-    const [value, setValue] = useState(8);
+    const [value, setValue] = useState(2);
 
     const handleChange = (event, newValue) => {
         setValue(newValue);

@@ -2,6 +2,9 @@ import { useState, useRef, useEffect } from 'react';
 
 // project import
 import { handleNumber } from 'components/commonFunction';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { DesktopDatePicker } from '@mui/x-date-pickers/DesktopDatePicker';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 // material-ui
 import {
     Typography,
@@ -48,11 +51,11 @@ const GeneratedDataList = ({}) => {
     const [infoList, setInfoList] = useState(fakeData);
     const [corpName, setCorpName] = useState(''); //聯盟名稱
     const [submarineCable, setSubmarineCable] = useState(''); //海纜代號
-    const [createDate, setCreateDate] = useState(''); //成立日期
+    const [createDate, setCreateDate] = useState(new Date()); //成立日期
     const corpID = useRef(-1);
     const [corpNameEdit, setCorpNameEdit] = useState(''); //供應商編輯
     const [submarineCableEdit, setSubmarineCableEdit] = useState(''); //帳號名稱編輯
-    const [createDateEdit, setCreateDateEdit] = useState(''); //銀行帳號編輯
+    const [createDateEdit, setCreateDateEdit] = useState(new Date()); //銀行帳號編輯
 
     const StyledTableCell = styled(TableCell)(({ theme }) => ({
         [`&.${tableCellClasses.head}`]: {
@@ -71,14 +74,14 @@ const GeneratedDataList = ({}) => {
     const infoInit = () => {
         setCorpName('');
         setSubmarineCable('');
-        setCreateDate('');
+        setCreateDate(new Date());
     };
 
     const editInfoInit = () => {
         corpID.current = -1;
         setCorpNameEdit('');
         setSubmarineCableEdit('');
-        setCreateDateEdit('');
+        setCreateDateEdit(new Date());
     };
 
     const queryCorporatesInfo = () => {
@@ -97,7 +100,7 @@ const GeneratedDataList = ({}) => {
         let tmpArray = {
             CorpName: corpName,
             SubmarineCable: submarineCable,
-            CreateDate: createDate
+            CreateDate: dayjs(createDate).format('YYYY-MM-DD hh:mm:ss')
         };
         console.log('tmpArray=>>', tmpArray);
         fetch(addCorporates, { method: 'POST', body: JSON.stringify(tmpArray), headers: { 'Content-Type': 'application/json' } })
@@ -133,7 +136,7 @@ const GeneratedDataList = ({}) => {
             CorpID: corpID.current,
             CorpName: corpNameEdit,
             SubmarineCable: submarineCableEdit,
-            CreateDate: createDateEdit
+            CreateDate: dayjs(createDateEdit).format('YYYY-MM-DD hh:mm:ss')
         };
         console.log('123=>>', tmpArray);
         fetch(editCorporates, { method: 'POST', body: JSON.stringify(tmpArray), headers: { 'Content-Type': 'application/json' } })
@@ -227,13 +230,23 @@ const GeneratedDataList = ({}) => {
                                             />
                                         </TableCell>
                                         <TableCell align="center">
-                                            <TextField
+                                            {/* <TextField
                                                 size="small"
                                                 value={createDateEdit}
                                                 onChange={(e) => {
                                                     setCreateDateEdit(e.target.value);
                                                 }}
-                                            />
+                                            /> */}
+                                            <LocalizationProvider dateAdapter={AdapterDayjs}>
+                                                <DesktopDatePicker
+                                                    inputFormat="YYYY/MM/DD"
+                                                    value={createDateEdit}
+                                                    onChange={(e) => {
+                                                        setCreateDateEdit(e);
+                                                    }}
+                                                    renderInput={(params) => <TextField size="small" {...params} />}
+                                                />
+                                            </LocalizationProvider>
                                         </TableCell>
                                         <StyledTableCell align="center">
                                             <Box
@@ -290,13 +303,25 @@ const GeneratedDataList = ({}) => {
                             />
                         </TableCell>
                         <TableCell align="center">
-                            <TextField
+                            {/* <TextField
                                 size="small"
                                 value={createDate}
                                 onChange={(e) => {
                                     setCreateDate(e.target.value);
                                 }}
-                            />
+                            /> */}
+                            <FormControl>
+                                <LocalizationProvider dateAdapter={AdapterDayjs}>
+                                    <DesktopDatePicker
+                                        inputFormat="YYYY/MM/DD"
+                                        value={createDate}
+                                        onChange={(e) => {
+                                            setCreateDate(e);
+                                        }}
+                                        renderInput={(params) => <TextField size="small" {...params} />}
+                                    />
+                                </LocalizationProvider>
+                            </FormControl>
                         </TableCell>
                         <TableCell align="center">
                             <Box
