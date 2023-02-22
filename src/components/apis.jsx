@@ -79,3 +79,9 @@ export const getPartiesByContractInfo = 'http://10.193.130.7:8000/api/v1/Parties
 export const addPartiesByContract = 'http://10.193.130.7:8000/api/v1/PartiesByContract';
 export const deletePartiesByContract = 'http://10.193.130.7:8000/api/v1/deletePartiesByContract';
 export const editPartiesByContract = 'http://10.193.130.7:8000/api/v1/updatePartiesByContract';
+
+// 基本資料-CBPBankAccount
+export const getCBPBankAccountInfo = 'http://10.193.130.7:8000/api/v1/CBPBankAccount/all';
+export const addCBPBankAccount = 'http://10.193.130.7:8000/api/v1/CBPBankAccount';
+export const deleteCBPBankAccount = 'http://10.193.130.7:8000/api/v1/deleteCBPBankAccount';
+export const editCBPBankAccount = 'http://10.193.130.7:8000/api/v1/updateCBPBankAccount';

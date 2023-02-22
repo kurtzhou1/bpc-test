@@ -16,10 +16,10 @@ import CableWorkDataList from './cableWorkDataList';
 import ContractTypeDataList from './contractTypeDataList';
 import PartiesByContractDataList from './partiesByContractDataList';
 import ContractCompanyDataList from './contractCompanyDataList';
-import AllianceFinanAccountDataList from './allianceFinanAccountDataList';
+import CBPBankAccount from './cBPBankAccount';
 
 const Information = () => {
-    const [value, setValue] = useState(7);
+    const [value, setValue] = useState(9);
 
     const handleChange = (event, newValue) => {
         setValue(newValue);
@@ -216,7 +216,7 @@ const Information = () => {
                         <ContractCompanyDataList />
                     </TabPanel>
                     <TabPanel value={value} index={9}>
-                        <AllianceFinanAccountDataList />
+                        <CBPBankAccount />
                     </TabPanel>
                 </MainCard>
             </Grid>
