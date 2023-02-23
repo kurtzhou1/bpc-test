@@ -429,20 +429,37 @@ const CorrespondenceMake = ({ isDialogOpen, handleDialogClose, listInfo }) => {
                         </MainCard>
                     </Grid>
                     <Grid item xs={5} sm={5} md={5} lg={5}>
-                        <MainCard title="Credit Balance" sx={{ width: '100%' }}>
-                            <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-                                <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
-                                    <Tab label="CB抵扣紀錄" {...a11yProps(0)} />
-                                    <Tab label="退費紀錄" {...a11yProps(1)} />
-                                </Tabs>
+                        <Typography sx={{ fontFamily: 'DFKai-sb', fontWeight: 'bold' }}>
+                            <Box sx={{ fontSize: '20px', m: 1 }}>中華電信股份有限公司國際電信分公司&nbsp;&nbsp;&nbsp;函</Box>
+                            <Box sx={{ fontSize: '12px', textAlign: 'right' }}>地址：106&nbsp;台北市愛國東路31號&nbsp;</Box>
+                            <Box sx={{ fontSize: '12px', textAlign: 'right' }}>聯絡方式：林楚千(02-23445280)</Box>
+                            <Box sx={{ fontSize: '12px', textAlign: 'right' }}>e-mail：chuchien@cht.com.tw&nbsp;&nbsp;</Box>
+                            <Box sx={{ fontSize: '14px' }}>受文者：兆豐國際商業銀行國外部匯兌科</Box>
+                            <Box sx={{ fontSize: '12px' }}>發文日期：中華民國112年01月30日</Box>
+                            <Box sx={{ fontSize: '12px' }}>發文字號：規營字第TPE112013001號</Box>
+                            <Box sx={{ fontSize: '12px' }}>速別：最速件</Box>
+                            <Box sx={{ fontSize: '12px' }}>密等及解密條件或保密期限：</Box>
+                            <Box sx={{ fontSize: '12px' }}>附件： 如文</Box>
+                            <Box sx={{ fontSize: '14px' }}>
+                                主旨：請電匯CIENA JP以支付TPE海纜款項，淨額為美金四八、五七六．○○元(US$48,576.00)，請查照。
                             </Box>
-                            <TabPanel value={value} index={0}>
-                                {/* <CreditBalanceDeduct cblistInfo={cblistInfo} /> */}
-                            </TabPanel>
-                            <TabPanel value={value} index={1}>
-                                {/* <CreditBalanceRefund cblistInfo={cblistInfo} /> */}
-                            </TabPanel>
-                        </MainCard>
+                            <Box sx={{ fontSize: '14px' }}>說明：</Box>
+                            <Box sx={{ fontSize: '12px' }}>一、請貴行匯入如下帳戶</Box>
+                            <Box sx={{ fontSize: '12px' }}>&nbsp;&nbsp;&nbsp;&nbsp;Account Name: Ciena Communications Japan Co. Ltd.</Box>
+                            <Box sx={{ fontSize: '12px' }}>&nbsp;&nbsp;&nbsp;&nbsp;Bank: JPMorgan Chase Bank Luxembourg S.A. Bank</Box>
+                            <Box sx={{ fontSize: '12px' }}>
+                                &nbsp;&nbsp;&nbsp;&nbsp;Address：6 route de Treves, Senningerberg, 2633, Luxembourg
+                            </Box>
+                            <Box sx={{ fontSize: '12px' }}>&nbsp;&nbsp;&nbsp;&nbsp;Account Number: 6550207141</Box>
+                            <Box sx={{ fontSize: '12px' }}>&nbsp;&nbsp;&nbsp;&nbsp;IBAN: LU290670006550207141</Box>
+                            <Box sx={{ fontSize: '12px' }}>&nbsp;&nbsp;&nbsp;&nbsp;SWIFT: CHASLULX</Box>
+                            <Box sx={{ fontSize: '12px' }}>二、本款項請即時匯出，匯款時請附加說明：</Box>
+                            <Box sx={{ fontSize: '12px' }}>
+                                &nbsp;&nbsp;&nbsp;&nbsp;Invoice No.15328/15428, TPE UPG#11(BM1/BM2), US$48,576.00
+                            </Box>
+                            <Box sx={{ fontSize: '12px' }}>三、本款項為全額到行。</Box>
+                            <Box sx={{ fontSize: '12px' }}>四、檢附貴行外幣活期存款第007-53-110022號帳戶同額美金取款憑條乙紙。</Box>
+                        </Typography>
                     </Grid>
                 </Grid>
             </DialogContent>
