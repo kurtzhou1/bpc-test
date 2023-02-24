@@ -263,6 +263,16 @@ const ToGenerateDataList = ({ listInfo, apiQuery }) => {
                                                 檢視
                                             </Button>
                                             <Button
+                                                color="warning"
+                                                size="small"
+                                                variant="outlined"
+                                                onClick={() => {
+                                                    setInfoTerminal(true);
+                                                }}
+                                            >
+                                                退回
+                                            </Button>
+                                            <Button
                                                 color="error"
                                                 size="small"
                                                 variant="outlined"

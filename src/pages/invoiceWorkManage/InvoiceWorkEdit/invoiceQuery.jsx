@@ -110,51 +110,27 @@ const InvoiceQueryBlock = ({ setListInfo, queryApi, supNmList, subCableList, que
                 invoiceStatusQuery?.COMPLETE ||
                 invoiceStatusQuery?.INVALID)
         ) {
-            let tmpStatus = 'Status=';
+            let tmpStatus = '';
             if (invoiceStatusQuery?.TEMPORARY) {
-                tmpStatus = tmpStatus + 'TEMPORARY&';
+                tmpStatus = tmpStatus + 'Status=TEMPORARY&';
             }
             if (invoiceStatusQuery?.VALIDATED) {
-                tmpStatus = tmpStatus + 'VALIDATED&';
+                tmpStatus = tmpStatus + 'Status=VALIDATED&';
             }
             if (invoiceStatusQuery?.BILLED) {
-                tmpStatus = tmpStatus + 'BILLED&';
+                tmpStatus = tmpStatus + 'Status=BILLED&';
             }
             if (invoiceStatusQuery?.PAYING) {
-                tmpStatus = tmpStatus + 'PAYING&';
+                tmpStatus = tmpStatus + 'Status=PAYING&';
             }
             if (invoiceStatusQuery?.COMPLETE) {
-                tmpStatus = tmpStatus + 'COMPLETE&';
+                tmpStatus = tmpStatus + 'Status=COMPLETE&';
             }
             if (invoiceStatusQuery?.INVALID) {
-                tmpStatus = tmpStatus + 'INVALID&';
+                tmpStatus = tmpStatus + 'Status=INVALID&';
             }
             tmpQuery = tmpQuery + tmpStatus;
         }
-        // if (
-        //     !(
-        //         !invoiceStatusQuery?.TEMPORARY &&
-        //         !invoiceStatusQuery?.VALIDATED &&
-        //         !invoiceStatusQuery?.BILLED &&
-        //         !invoiceStatusQuery?.PAYING &&
-        //         !invoiceStatusQuery?.COMPLETE &&
-        //         !invoiceStatusQuery?.INVALID
-        //     ) ||
-        //     !(
-        //         invoiceStatusQuery?.TEMPORARY &&
-        //         invoiceStatusQuery?.VALIDATED &&
-        //         invoiceStatusQuery?.BILLED &&
-        //         invoiceStatusQuery?.PAYING &&
-        //         invoiceStatusQuery?.COMPLETE &&
-        //         invoiceStatusQuery?.INVALID
-        //     )
-        // ) {
-        //     console.log('大成功!!!!!');
-        //     // tmpQuery = tmpQuery + 'Status=TEMPORARY&';
-        // }
-        // if (invoiceStatusQuery?.VALIDATED && !invoiceStatusQuery?.TEMPORARY) {
-        //     tmpQuery = tmpQuery + 'Status=VALIDATED&';
-        // }
         if (tmpQuery.includes('&')) {
             tmpQuery = tmpQuery.slice(0, -1);
         } else {

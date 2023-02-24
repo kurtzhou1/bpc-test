@@ -265,18 +265,7 @@ const GeneratedDataList = ({ listInfo, apiQuery }) => {
                                                     setUploadOpen(true);
                                                 }}
                                             >
-                                                {/* 簽核/產製Draft */}
-                                                簽核
-                                            </Button>
-                                            <Button
-                                                color="error"
-                                                size="small"
-                                                variant="outlined"
-                                                onClick={() => {
-                                                    setInfoTerminal(true);
-                                                }}
-                                            >
-                                                作廢
+                                                產生Draft
                                             </Button>
                                             <Button
                                                 color="warning"
@@ -287,6 +276,16 @@ const GeneratedDataList = ({ listInfo, apiQuery }) => {
                                                 }}
                                             >
                                                 退回
+                                            </Button>
+                                            <Button
+                                                color="error"
+                                                size="small"
+                                                variant="outlined"
+                                                onClick={() => {
+                                                    setInfoTerminal(true);
+                                                }}
+                                            >
+                                                作廢
                                             </Button>
                                         </Box>
                                     </StyledTableCell>

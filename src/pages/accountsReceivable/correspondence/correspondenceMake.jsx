@@ -39,59 +39,23 @@ import { styled } from '@mui/material/styles';
 
 const CorrespondenceMake = ({ isDialogOpen, handleDialogClose, listInfo }) => {
     const [cblistInfo, setCbListInfo] = useState(listInfo);
-    // const [editItem, setEditItem] = useState(NaN);
+    const [isDefault, setIsDefault] = useState(true);
     const [isEdit, setIsEdit] = useState(false);
-    const [value, setValue] = useState(0);
-
-    // const icon = <CheckBoxOutlineBlankIcon fontSize="small" />;
-    // const checkedIcon = <CheckBoxIcon fontSize="small" />;
+    const [subject1, setSubject1] = useState('');
+    const [subject2, setSubject2] = useState('');
+    const [subject3, setSubject3] = useState('');
+    const [number, setNumber] = useState('');
+    const [date, setDate] = useState('');
+    const [bankName, setBankName] = useState('');
+    const [contact, setContact] = useState('');
+    const [tel, setTel] = useState('');
+    const [email, setEmail] = useState('');
 
     const itemDetailInitial = () => {
         setPartyName([]);
         setLBRatio('');
         setIsEdit(false);
     };
-
-    // //編輯
-    // const editlistInfoItem = () => {
-    //     let tmpArray = listInfo[editItem];
-
-    //     if (tmpArray) {
-    //         setPartyName([tmpArray?.PartyName]);
-    //         setLBRatio(tmpArray?.LbRatio);
-    //     }
-    //     setIsEdit(true);
-    // };
-
-    //新增
-    // const addList = () => {
-    //     let tmpArray = listInfo.map((i) => i);
-    //     console.log('=>>', partyName);
-    //     let partyArray = partyName;
-    //     partyArray.forEach((e) => {
-    //         tmpArray.push({
-    //             BillMilestone: billMilestone,
-    //             PartyName: e,
-    //             LBRatio: lBRatio
-    //         });
-    //     });
-    //     setListInfo([...tmpArray]);
-    //     itemDetailInitial();
-    // };
-
-    // //刪除
-    // const deletelistInfoItem = (deleteItem) => {
-    //     let tmpArray = listInfo.map((i) => i);
-    //     tmpArray.splice(deleteItem, 1);
-    //     setListInfo([...tmpArray]);
-    // };
-
-    // useEffect(() => {
-    //     if (editItem >= 0) {
-    //         editlistInfoItem();
-    //         // setIsListEdit(true);
-    //     }
-    // }, [editItem]);
 
     const StyledTableCell = styled(TableCell)(({ theme }) => ({
         [`&.${tableCellClasses.head}`]: {
@@ -107,17 +71,6 @@ const CorrespondenceMake = ({ isDialogOpen, handleDialogClose, listInfo }) => {
         }
     }));
 
-    const a11yProps = (index) => {
-        return {
-            id: `simple-tab-${index}`,
-            'aria-controls': `simple-tabpanel-${index}`
-        };
-    };
-
-    const handleChange = (event, newValue) => {
-        setValue(newValue);
-    };
-
     return (
         <Dialog onClose={handleDialogClose} maxWidth="lg" fullWidth open={isDialogOpen}>
             <BootstrapDialogTitle id="customized-dialog-title" onClose={handleDialogClose}>
@@ -128,7 +81,7 @@ const CorrespondenceMake = ({ isDialogOpen, handleDialogClose, listInfo }) => {
                     <Grid item xs={7} sm={7} md={7} lg={7}>
                         <MainCard title="發文基本資訊" sx={{ width: '100%' }}>
                             <Grid container spacing={1}>
-                                <Grid item xs={2} sm={2} md={2} lg={2} display="flex" justifyContent="center">
+                                <Grid item xs={2} sm={2} md={2} lg={2} display="flex" justifyContent="center" alignItems="center">
                                     <Typography variant="h5" sx={{ fontSize: { lg: '0.5rem', xl: '0.88rem' } }}>
                                         發文字號：
                                     </Typography>
@@ -138,15 +91,14 @@ const CorrespondenceMake = ({ isDialogOpen, handleDialogClose, listInfo }) => {
                                         <TextField
                                             fullWidth
                                             variant="outlined"
-                                            // disabled={listInfo.length > 0}
-                                            // value={billMilestone}
+                                            value={number}
                                             size="small"
                                             label="填寫CB種類"
-                                            // onChange={(e) => setBillMilestone(e.target.value)}
+                                            onChange={(e) => setNumber(e.target.value)}
                                         />
                                     </FormControl>
                                 </Grid>
-                                <Grid item xs={2} sm={2} md={2} lg={2} display="flex" justifyContent="center">
+                                <Grid item xs={2} sm={2} md={2} lg={2} display="flex" justifyContent="center" alignItems="center">
                                     <Typography variant="h5" sx={{ fontSize: { lg: '0.5rem', xl: '0.88rem' } }}>
                                         發文日期：
                                     </Typography>
@@ -155,14 +107,14 @@ const CorrespondenceMake = ({ isDialogOpen, handleDialogClose, listInfo }) => {
                                     <TextField
                                         fullWidth
                                         variant="outlined"
-                                        // value={lBRatio}
+                                        value={date}
                                         size="small"
                                         label="填寫會員代號"
-                                        // onChange={(e) => setLBRatio(e.target.value)}
+                                        onChange={(e) => setDate(e.target.value)}
                                     />
                                 </Grid>
                                 {/* <Grid item xs={3} sm={3} md={3} lg={3} xl={6} /> */}
-                                <Grid item xs={2} sm={2} md={2} lg={2} display="flex" justifyContent="center">
+                                <Grid item xs={2} sm={2} md={2} lg={2} display="flex" justifyContent="center" alignItems="center">
                                     <Typography variant="h5" sx={{ fontSize: { lg: '0.5rem', xl: '0.88rem' } }}>
                                         受文者：
                                     </Typography>
@@ -171,13 +123,13 @@ const CorrespondenceMake = ({ isDialogOpen, handleDialogClose, listInfo }) => {
                                     <TextField
                                         fullWidth
                                         variant="outlined"
-                                        // value={lBRatio}
+                                        value={bankName}
                                         size="small"
                                         label="填寫剩餘金額"
-                                        // onChange={(e) => setLBRatio(e.target.value)}
+                                        onChange={(e) => setBankName(e.target.value)}
                                     />
                                 </Grid>
-                                <Grid item xs={2} sm={2} md={2} lg={2} display="flex" justifyContent="center">
+                                <Grid item xs={2} sm={2} md={2} lg={2} display="flex" justifyContent="center" alignItems="center">
                                     <Typography variant="h5" sx={{ fontSize: { lg: '0.5rem', xl: '0.88rem' } }}>
                                         聯絡人員：
                                     </Typography>
@@ -186,13 +138,13 @@ const CorrespondenceMake = ({ isDialogOpen, handleDialogClose, listInfo }) => {
                                     <TextField
                                         fullWidth
                                         variant="outlined"
-                                        // value={lBRatio}
+                                        value={contact}
                                         size="small"
                                         label="填寫摘要"
-                                        // onChange={(e) => setLBRatio(e.target.value)}
+                                        onChange={(e) => setContact(e.target.value)}
                                     />
                                 </Grid>
-                                <Grid item xs={2} sm={2} md={2} lg={2} display="flex" justifyContent="center">
+                                <Grid item xs={2} sm={2} md={2} lg={2} display="flex" justifyContent="center" alignItems="center">
                                     <Typography variant="h5" sx={{ fontSize: { lg: '0.5rem', xl: '0.88rem' } }}>
                                         聯絡電話：
                                     </Typography>
@@ -201,13 +153,13 @@ const CorrespondenceMake = ({ isDialogOpen, handleDialogClose, listInfo }) => {
                                     <TextField
                                         fullWidth
                                         variant="outlined"
-                                        // value={lBRatio}
+                                        value={tel}
                                         size="small"
                                         label="填寫摘要"
-                                        // onChange={(e) => setLBRatio(e.target.value)}
+                                        onChange={(e) => setTel(e.target.value)}
                                     />
                                 </Grid>
-                                <Grid item xs={2} sm={2} md={2} lg={2} display="flex" justifyContent="center">
+                                <Grid item xs={2} sm={2} md={2} lg={2} display="flex" justifyContent="center" alignItems="center">
                                     <Typography variant="h5" sx={{ fontSize: { lg: '0.5rem', xl: '0.88rem' } }}>
                                         E-mail：
                                     </Typography>
@@ -216,10 +168,10 @@ const CorrespondenceMake = ({ isDialogOpen, handleDialogClose, listInfo }) => {
                                     <TextField
                                         fullWidth
                                         variant="outlined"
-                                        // value={lBRatio}
+                                        value={email}
                                         size="small"
                                         label="填寫摘要"
-                                        // onChange={(e) => setLBRatio(e.target.value)}
+                                        onChange={(e) => setEmail(e.target.value)}
                                     />
                                 </Grid>
                                 <Grid item xs={12} sm={12} md={12} lg={12} display="flex" justifyContent="start">
@@ -233,7 +185,7 @@ const CorrespondenceMake = ({ isDialogOpen, handleDialogClose, listInfo }) => {
                                         // value={isUpload}
                                         aria-labelledby="demo-radio-buttons-group-label"
                                         name="radio-buttons-group"
-                                        // onChange={(e) => setIsUpload(e.target.value)}
+                                        onChange={(e) => setIsDefault(e.target.value)}
                                     >
                                         <Grid
                                             container
@@ -243,7 +195,7 @@ const CorrespondenceMake = ({ isDialogOpen, handleDialogClose, listInfo }) => {
                                             <Grid item xs={12} sm={12} md={12} lg={12} display="flex">
                                                 {/* <Box sx={{ display: 'flex', flexFlow: 'column', alignItems: 'center', width: '100%' }}> */}
                                                 <FormControlLabel
-                                                    value={false}
+                                                    value={true}
                                                     control={<Radio sx={{ '& .MuiSvgIcon-root': { fontSize: { lg: 14, xl: 20 } } }} />}
                                                 />
                                                 <Typography
@@ -253,23 +205,38 @@ const CorrespondenceMake = ({ isDialogOpen, handleDialogClose, listInfo }) => {
                                                     // }}
                                                     sx={{
                                                         fontSize: { lg: '0.5rem', xl: '0.88rem' },
-                                                        ml: { lg: '0.5rem', xl: '1.5rem' }
+                                                        ml: { lg: '0.5rem', xl: '1.5rem' },
+                                                        display: 'flex',
+                                                        // justifyContent: 'center',
+                                                        alignItems: 'center',
+                                                        flexWrap: 'wrap'
                                                     }}
                                                 >
                                                     請電匯CIENA JP以支付
                                                     <TextField
                                                         variant="outlined"
-                                                        // value={lBRatio}
+                                                        value={subject1}
                                                         size="small"
-                                                        label="自行填寫主旨"
-                                                        // onChange={(e) => setLBRatio(e.target.value)}
+                                                        label="海纜名稱"
+                                                        onChange={(e) => setSubject1(e.target.value)}
+                                                        sx={{
+                                                            fontSize: { lg: '0.5rem', xl: '0.88rem' },
+                                                            ml: { lg: '0.5rem', xl: '1.5rem' },
+                                                            width: '10%'
+                                                        }}
                                                     />
-                                                    淨額為美金元{' '}
+                                                    海纜款項，淨額為美金元
                                                     <TextField
                                                         variant="outlined"
-                                                        // value={lBRatio}
+                                                        value={subject2}
                                                         size="small"
-                                                        label="自行填寫主旨"
+                                                        label="填寫金額"
+                                                        onChange={(e) => setSubject2(e.target.value)}
+                                                        sx={{
+                                                            fontSize: { lg: '0.5rem', xl: '0.88rem' },
+                                                            ml: { lg: '0.5rem', xl: '1.5rem' },
+                                                            width: '10%'
+                                                        }}
                                                         // onChange={(e) => setLBRatio(e.target.value)}
                                                     />
                                                     (US$48,576.00)，請查照
@@ -280,16 +247,16 @@ const CorrespondenceMake = ({ isDialogOpen, handleDialogClose, listInfo }) => {
                                                 {/* <Box sx={{ display: 'flex', flexFlow: 'column', alignItems: 'center', width: '100%' }}> */}
                                                 {/* <DropzoneArea onChange={handleUploadChange} acceptedFiles={['.pdf']} /> */}
                                                 <FormControlLabel
-                                                    value={true}
+                                                    value={false}
                                                     control={<Radio sx={{ '& .MuiSvgIcon-root': { fontSize: { lg: 14, xl: 20 } } }} />}
                                                 />
                                                 <TextField
                                                     fullWidth
                                                     variant="outlined"
-                                                    // value={lBRatio}
+                                                    value={subject3}
                                                     size="small"
                                                     label="自行填寫主旨"
-                                                    // onChange={(e) => setLBRatio(e.target.value)}
+                                                    onChange={(e) => setSubject3(e.target.value)}
                                                 />
                                                 {/* </Box> */}
                                             </Grid>
@@ -431,17 +398,20 @@ const CorrespondenceMake = ({ isDialogOpen, handleDialogClose, listInfo }) => {
                     <Grid item xs={5} sm={5} md={5} lg={5}>
                         <Typography sx={{ fontFamily: 'DFKai-sb', fontWeight: 'bold' }}>
                             <Box sx={{ fontSize: '20px', m: 1 }}>中華電信股份有限公司國際電信分公司&nbsp;&nbsp;&nbsp;函</Box>
-                            <Box sx={{ fontSize: '12px', textAlign: 'right' }}>地址：106&nbsp;台北市愛國東路31號&nbsp;</Box>
-                            <Box sx={{ fontSize: '12px', textAlign: 'right' }}>聯絡方式：林楚千(02-23445280)</Box>
-                            <Box sx={{ fontSize: '12px', textAlign: 'right' }}>e-mail：chuchien@cht.com.tw&nbsp;&nbsp;</Box>
-                            <Box sx={{ fontSize: '14px' }}>受文者：兆豐國際商業銀行國外部匯兌科</Box>
+                            <Box sx={{ fontSize: '12px', textAlign: 'right' }}>地址：106&nbsp;台北市愛國東路31號</Box>
+                            <Box sx={{ fontSize: '12px', textAlign: 'right' }}>{`聯絡方式：${contact}(${tel})`}</Box>
+                            <Box sx={{ fontSize: '12px', textAlign: 'right' }}>{`e-mail：${email}`}</Box>
+                            <Box sx={{ fontSize: '14px' }}>{`受文者：${bankName}`}</Box>
                             <Box sx={{ fontSize: '12px' }}>發文日期：中華民國112年01月30日</Box>
-                            <Box sx={{ fontSize: '12px' }}>發文字號：規營字第TPE112013001號</Box>
+                            <Box sx={{ fontSize: '12px' }}>{`發文字號：${number}`}</Box>
                             <Box sx={{ fontSize: '12px' }}>速別：最速件</Box>
                             <Box sx={{ fontSize: '12px' }}>密等及解密條件或保密期限：</Box>
                             <Box sx={{ fontSize: '12px' }}>附件： 如文</Box>
                             <Box sx={{ fontSize: '14px' }}>
-                                主旨：請電匯CIENA JP以支付TPE海纜款項，淨額為美金四八、五七六．○○元(US$48,576.00)，請查照。
+                                主旨：
+                                {isDefault === 'true' || isDefault === true
+                                    ? `請電匯CIENA JP以支付${subject1}海纜款項，淨額為美金${subject2}元(US$48,576.00)，請查照。`
+                                    : subject3}
                             </Box>
                             <Box sx={{ fontSize: '14px' }}>說明：</Box>
                             <Box sx={{ fontSize: '12px' }}>一、請貴行匯入如下帳戶</Box>
