@@ -16,7 +16,7 @@ const accountsReceivable = {
     type: 'group',
     children: [
         {
-            id: 'item4',
+            id: 'item6',
             title: '應收帳款管理',
             type: 'collapse',
             url: '/AccountsReceivable/GenerateFeeAmount',
@@ -24,7 +24,7 @@ const accountsReceivable = {
             breadcrumbs: true,
             children: [
                 {
-                    id: 'item41',
+                    id: 'item61',
                     title: '產製應收帳款',
                     type: 'item',
                     url: '/AccountsReceivable/GenerateFeeAmount',
@@ -32,7 +32,7 @@ const accountsReceivable = {
                     breadcrumbs: true
                 },
                 {
-                    id: 'item42',
+                    id: 'item62',
                     title: '銷帳',
                     type: 'item',
                     url: '/AccountsReceivable/WriteOffInvoice',
@@ -40,7 +40,7 @@ const accountsReceivable = {
                     breadcrumbs: true
                 },
                 {
-                    id: 'item43',
+                    id: 'item63',
                     title: '廠商付款處理',
                     type: 'item',
                     url: '/AccountsReceivable/SupplierPayment',
@@ -48,7 +48,7 @@ const accountsReceivable = {
                     breadcrumbs: true
                 },
                 {
-                    id: 'item44',
+                    id: 'item64',
                     title: '函稿製作',
                     type: 'item',
                     url: '/AccountsReceivable/Correspondence',

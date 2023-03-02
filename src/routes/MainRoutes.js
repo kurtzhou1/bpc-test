@@ -24,6 +24,9 @@ const CreateJournal = Loadable(lazy(() => import('pages/createJournal/CreateJour
 // Credit Balance
 const CreditBalance = Loadable(lazy(() => import('pages/creditBalance/CreditBalance')));
 
+// Credit Note
+const CreditNote = Loadable(lazy(() => import('pages/creditNote/CreditNote')));
+
 // 應收帳款管理
 const GenerateFeeAmount = Loadable(lazy(() => import('pages/accountsReceivable/generateFeeAmount')));
 const WriteOffInvoice = Loadable(lazy(() => import('pages/accountsReceivable/writeOffInvoice')));
@@ -106,6 +109,15 @@ const MainRoutes = {
                 {
                     path: 'CreditBalanceManage',
                     element: <CreditBalance />
+                }
+            ]
+        },
+        {
+            path: 'CreditNote',
+            children: [
+                {
+                    path: 'CreditNoteManage',
+                    element: <CreditNote />
                 }
             ]
         },

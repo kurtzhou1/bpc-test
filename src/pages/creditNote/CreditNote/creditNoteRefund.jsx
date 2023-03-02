@@ -10,6 +10,7 @@ import {
     Box,
     IconButton,
     TextField,
+    Checkbox,
     Autocomplete,
     Table
 } from '@mui/material';
@@ -21,6 +22,10 @@ import DialogTitle from '@mui/material/DialogTitle';
 import DialogContent from '@mui/material/DialogContent';
 import DialogActions from '@mui/material/DialogActions';
 import dayjs from 'dayjs';
+
+// autocomplete
+import CheckBoxOutlineBlankIcon from '@mui/icons-material/CheckBoxOutlineBlank';
+import CheckBoxIcon from '@mui/icons-material/CheckBox';
 
 // project import
 import MainCard from 'components/MainCard';
@@ -41,6 +46,9 @@ const CreditBalanceDeduct = ({ cblistInfo }) => {
     // const [editItem, setEditItem] = useState(NaN);
     const [isEdit, setIsEdit] = useState(false);
     const [value, setValue] = useState(0);
+
+    // const icon = <CheckBoxOutlineBlankIcon fontSize="small" />;
+    // const checkedIcon = <CheckBoxIcon fontSize="small" />;
 
     const itemDetailInitial = () => {
         setPartyName([]);

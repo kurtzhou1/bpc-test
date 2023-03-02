@@ -238,7 +238,7 @@ const InvoiceQueryBlock = ({ setListInfo, queryApi, supNmList, subCableList, que
                                 <Checkbox
                                     name={'BILLED'}
                                     onChange={handleChange}
-                                    checked={invoiceStatusQuery.BILLED}
+                                    // checked={invoiceStatusQuery.BILLED}
                                     sx={{ '& .MuiSvgIcon-root': { fontSize: { lg: 14, xl: 20 } } }}
                                 />
                             }

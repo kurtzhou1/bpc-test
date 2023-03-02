@@ -173,13 +173,13 @@ const ToCombineDataList = ({ handleDialogClose, isDialogOpen }) => {
                     立帳作業
                 </BootstrapDialogTitle>
                 <DialogContent>
-                    <Grid container spacing={1} display="flex" justifyContent="center" alignItems="center">
-                        <Grid item xs={6} sm={3} md={1} lg={1}>
+                    <Grid container spacing={1} display="flex">
+                        <Grid item xs={6} sm={3} md={2} lg={2} display="flex" justifyContent="center" alignItems="center">
                             <Typography variant="h5" sx={{ fontSize: { lg: '0.5rem', xl: '0.88rem' }, ml: { lg: '0.5rem', xl: '1.5rem' } }}>
                                 發票日期：
                             </Typography>
                         </Grid>
-                        <Grid item xs={6} sm={3} md={3} lg={3}>
+                        <Grid item xs={6} sm={3} md={2} lg={2}>
                             <FormControl>
                                 <LocalizationProvider dateAdapter={AdapterDayjs}>
                                     <DesktopDatePicker
@@ -193,12 +193,12 @@ const ToCombineDataList = ({ handleDialogClose, isDialogOpen }) => {
                                 </LocalizationProvider>
                             </FormControl>
                         </Grid>
-                        <Grid item xs={6} sm={3} md={1} lg={1}>
+                        <Grid item xs={6} sm={3} md={2} lg={2} display="flex" justifyContent="center" alignItems="center">
                             <Typography variant="h5" sx={{ fontSize: { lg: '0.5rem', xl: '0.88rem' }, ml: { lg: '0.5rem', xl: '1.5rem' } }}>
                                 帳單號碼：
                             </Typography>
                         </Grid>
-                        <Grid item xs={6} sm={3} md={3} lg={3}>
+                        <Grid item xs={6} sm={3} md={2} lg={2}>
                             <TextField
                                 // value={totalAmount}
                                 fullWidth

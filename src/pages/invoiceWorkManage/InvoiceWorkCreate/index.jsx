@@ -135,7 +135,7 @@ const InvoiceWorkManage = () => {
                 isLiability === 'true' || isLiability === true ? true : false,
                 Number(totalAmount.toString().replaceAll(',', '')).toFixed(2)
             );
-            console.log('tmpArray=>>', tmpArray);
+            console.log('新增發票=>>', tmpArray);
             let combineArray = {
                 InvoiceWKMaster: tmpArray,
                 InvoiceWKDetail: invoiceDetailInfo
@@ -353,13 +353,13 @@ const InvoiceWorkManage = () => {
                         </Grid>
                         <Grid item xs={12} display="flex" justifyContent="center" alignItems="center">
                             {listInfo.length > 0 ? (
-                                <Button variant="contained" sx={{ px: '1rem', py: '0.5rem' }} onClick={sendInvoice}>
+                                <Button variant="contained" sx={{ ml: '0.25rem', mr: '0.25rem' }} onClick={sendInvoice}>
                                     送出發票
                                 </Button>
                             ) : (
                                 ''
                             )}
-                            <Button variant="contained" sx={{ px: '1rem', py: '0.5rem' }} href="/InvoiceWorkManage/InvoiceWorkEdit">
+                            <Button variant="contained" sx={{ ml: '0.25rem', mr: '0.25rem' }} href="/InvoiceWorkManage/InvoiceWorkEdit">
                                 下一頁
                             </Button>
                         </Grid>

@@ -4,13 +4,14 @@ import dashboard from './dashboard';
 import createJournal from './createJournal';
 import liabilityManage from './liabilityManage';
 import creditBalanceManage from './creditBalanceManage';
+import creditNoteManage from './creditNoteManage';
 import accountsReceivable from './accountsReceivable';
 
 // ==============================|| MENU ITEMS ||============================== //
 
 const menuItems = {
     // items: [dashboard, pages, utilities, support]
-    items: [dashboard, invoiceWorkManagePage, createJournal, liabilityManage, creditBalanceManage, accountsReceivable]
+    items: [dashboard, invoiceWorkManagePage, createJournal, liabilityManage, creditBalanceManage, creditNoteManage, accountsReceivable]
 };
 
 export default menuItems;
