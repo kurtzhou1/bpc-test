@@ -76,7 +76,6 @@ const GenerateFeeAmount = () => {
 
     //新增
     const addLiability = (list) => {
-        console.log('list=>>', list);
         if (list.length > 0) {
             let tmpArray = listInfo.map((i) => i);
             list.forEach((i) => {

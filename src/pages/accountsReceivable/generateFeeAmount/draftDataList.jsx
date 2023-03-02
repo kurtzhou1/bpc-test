@@ -5,6 +5,7 @@ import { handleNumber, BootstrapDialogTitle } from 'components/commonFunction';
 import DeductWork from './deductWork';
 import GenerateFeeTerminate from './generateFeeTerminate';
 import SignAndUpload from './signAndUpload';
+import GenerateBack from './generateBack';
 // material-ui
 import {
     Typography,
@@ -94,6 +95,7 @@ const DraftDataList = ({ listInfo, apiQuery }) => {
     const [uploadOpen, setUploadOpen] = useState(false); //上傳
     const [toBillDataMain, setToBillDataMain] = useState(fakeData.InvoiceMaster); //發票主檔
     const [toBillDataInfo, setToBillDataInfo] = useState(fakeData.InvoiceDetail); //發票明細檔
+    const [infoBack, setInfoBack] = useState(false); //退回
     const [totalAmount, setTotalAmount] = useState(fakeData.TotalAmount); //發票總金額
     const [currentAmount, setCurrentAmount] = useState(''); //目前金額
     const StyledTableCell = styled(TableCell)(({ theme }) => ({
@@ -128,63 +130,9 @@ const DraftDataList = ({ listInfo, apiQuery }) => {
         setUploadOpen(false);
     };
 
-    //立帳作業
-    // const toBillData = (wKMasterID) => {
-    //     console.log('立帳作業wKMasterID=>>', wKMasterID);
-    //     let tmpQuery = '/' + 'WKMasterID=' + wKMasterID;
-    //     tmpQuery = toBillDataapi + tmpQuery;
-    //     console.log('tmpQuery=>>', tmpQuery);
-    //     fetch(tmpQuery, { method: 'GET' })
-    //         .then((res) => res.json())
-    //         .then((data) => {
-    //             console.log('立帳成功=>>', data);
-    //             let tmpAmount = 0;
-    //             if (Array.isArray(data)) {
-    //                 toBillDataMain.current = data ? data.InvoiceMaster : [];
-    //                 setToBillDataInfo(data ? data.InvoiceDetail : []);
-    //                 setTotalAmount(data ? data.TotalAmount : 0);
-    //                 data.InvoiceDetail.forEach((i) => {
-    //                     tmpAmount = tmpAmount + i.FeeAmountPost + i.Difference;
-    //                 });
-    //                 setCurrentAmount(tmpAmount.toFixed(2));
-    //             }
-    //         })
-    //         .catch((e) => console.log('e1=>>', e));
-    //     setIsDialogOpen(true);
-    // };
-
-    // const changeDiff = (diff, id) => {
-    //     let tmpArray = toBillDataInfo.map((i) => i);
-    //     let tmpAmount = 0;
-    //     tmpArray[id].Difference = Number(diff);
-    //     tmpArray.forEach((i) => {
-    //         tmpAmount = tmpAmount + i.FeeAmountPost + i.Difference;
-    //     });
-    //     setToBillDataInfo(tmpArray);
-    //     setCurrentAmount(tmpAmount.toFixed(2));
-    // };
-
-    // // 送出立帳(新增)
-    // const sendJounaryInfo = () => {
-    //     let tmpArray = toBillDataMain.current.map((i) => i);
-    //     tmpArray.forEach((i) => {
-    //         delete i.InvMasterID;
-    //     });
-    //     let tmpData = {
-    //         TotalAmount: totalAmount,
-    //         InvoiceMaster: tmpArray,
-    //         InvoiceDetail: toBillDataInfo
-    //     };
-    //     fetch(sendJounary, { method: 'POST', body: JSON.stringify(tmpData) })
-    //         .then((res) => res.json())
-    //         .then((data) => {
-    //             console.log('立帳成功=>>', data);
-    //             alert('送出立帳成功');
-    //             apiQuery();
-    //             handleDialogClose();
-    //         })
-    //         .catch((e) => console.log('e1=>>', e));
-    // };
+    const handleBackClose = () => {
+        setInfoBack(false);
+    };
 
     console.log('infoTerminal=>>', infoTerminal);
 
@@ -197,6 +145,7 @@ const DraftDataList = ({ listInfo, apiQuery }) => {
                 actionName={actionName.current}
             />
             <GenerateFeeTerminate infoTerminal={infoTerminal} handleTerminalClose={handleTerminalClose} />
+            <GenerateBack infoBack={infoBack} handleBackClose={handleBackClose} />
             <SignAndUpload uploadOpen={uploadOpen} handUploadClose={handUploadClose} />
             <TableContainer component={Paper} sx={{ maxHeight: 350 }}>
                 <Table sx={{ minWidth: 300 }} stickyHeader aria-label="sticky table">
@@ -268,10 +217,16 @@ const DraftDataList = ({ listInfo, apiQuery }) => {
                                                 {/* 簽核/產製Draft */}
                                                 簽核
                                             </Button>
-                                            {/* <Button variant="contained" component="label">
-                                                Upload2
-                                                <input hidden accept="image/*" multiple type="file" />
-                                            </Button> */}
+                                            <Button
+                                                color="warning"
+                                                size="small"
+                                                variant="outlined"
+                                                onClick={() => {
+                                                    setInfoBack(true);
+                                                }}
+                                            >
+                                                退回
+                                            </Button>
                                             <Button
                                                 color="error"
                                                 size="small"
@@ -281,16 +236,6 @@ const DraftDataList = ({ listInfo, apiQuery }) => {
                                                 }}
                                             >
                                                 作廢
-                                            </Button>
-                                            <Button
-                                                color="warning"
-                                                size="small"
-                                                variant="outlined"
-                                                onClick={() => {
-                                                    setInfoTerminal(true);
-                                                }}
-                                            >
-                                                退回
                                             </Button>
                                         </Box>
                                     </StyledTableCell>

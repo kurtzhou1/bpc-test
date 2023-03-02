@@ -8,11 +8,11 @@ import {
     TextField,
     Checkbox,
     Table,
-    Tabs,
     Tab,
     RadioGroup,
     FormControlLabel,
-    Radio
+    Radio,
+    TableCell
 } from '@mui/material';
 
 // day
@@ -33,7 +33,7 @@ import TableBody from '@mui/material/TableBody';
 import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
-import TableCell, { tableCellClasses } from '@mui/material/TableCell';
+import { tableCellClasses } from '@mui/material/TableCell';
 import Paper from '@mui/material/Paper';
 import { styled } from '@mui/material/styles';
 

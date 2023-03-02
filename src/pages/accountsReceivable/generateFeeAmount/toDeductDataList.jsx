@@ -5,6 +5,7 @@ import DeductWork from './deductWork';
 import { handleNumber } from 'components/commonFunction';
 import MainCard from 'components/MainCard';
 import GenerateFeeTerminate from './generateFeeTerminate';
+import GenerateBack from './generateBack';
 
 // material-ui
 import {
@@ -94,6 +95,7 @@ const ToGenerateDataList = ({ listInfo, apiQuery }) => {
 
     const [isDialogOpen, setIsDialogOpen] = useState(false); //折抵作業
     const [isDeductWorkOpen, setIsDeductWorkOpen] = useState(false); //作廢
+    const [infoBack, setInfoBack] = useState(false); //退回
     const deductInfo = useRef({});
     const actionName = useRef('');
     const [editItem, setEditItem] = useState();
@@ -133,63 +135,9 @@ const ToGenerateDataList = ({ listInfo, apiQuery }) => {
         setInfoTerminal(false);
     };
 
-    // //立帳作業
-    // const toBillData = (wKMasterID) => {
-    //     console.log('立帳作業wKMasterID=>>', wKMasterID);
-    //     let tmpQuery = '/' + 'WKMasterID=' + wKMasterID;
-    //     tmpQuery = toBillDataapi + tmpQuery;
-    //     console.log('tmpQuery=>>', tmpQuery);
-    //     fetch(tmpQuery, { method: 'GET' })
-    //         .then((res) => res.json())
-    //         .then((data) => {
-    //             console.log('立帳成功=>>', data);
-    //             let tmpAmount = 0;
-    //             if (Array.isArray(data)) {
-    //                 toBillDataMain.current = data ? data.InvoiceMaster : [];
-    //                 setToBillDataInfo(data ? data.InvoiceDetail : []);
-    //                 setTotalAmount(data ? data.TotalAmount : 0);
-    //                 data.InvoiceDetail.forEach((i) => {
-    //                     tmpAmount = tmpAmount + i.FeeAmountPost + i.Difference;
-    //                 });
-    //                 setCurrentAmount(tmpAmount.toFixed(2));
-    //             }
-    //         })
-    //         .catch((e) => console.log('e1=>>', e));
-    //     setIsDialogOpen(true);
-    // };
-
-    // const changeDiff = (diff, id) => {
-    //     let tmpArray = toBillDataInfo.map((i) => i);
-    //     let tmpAmount = 0;
-    //     tmpArray[id].Difference = Number(diff);
-    //     tmpArray.forEach((i) => {
-    //         tmpAmount = tmpAmount + i.FeeAmountPost + i.Difference;
-    //     });
-    //     setToBillDataInfo(tmpArray);
-    //     setCurrentAmount(tmpAmount.toFixed(2));
-    // };
-
-    // 送出立帳(新增)
-    // const sendJounaryInfo = () => {
-    //     let tmpArray = toBillDataMain.current.map((i) => i);
-    //     tmpArray.forEach((i) => {
-    //         delete i.InvMasterID;
-    //     });
-    //     let tmpData = {
-    //         TotalAmount: totalAmount,
-    //         InvoiceMaster: tmpArray,
-    //         InvoiceDetail: toBillDataInfo
-    //     };
-    //     fetch(sendJounary, { method: 'POST', body: JSON.stringify(tmpData) })
-    //         .then((res) => res.json())
-    //         .then((data) => {
-    //             console.log('立帳成功=>>', data);
-    //             alert('送出立帳成功');
-    //             apiQuery();
-    //             handleDialogClose();
-    //         })
-    //         .catch((e) => console.log('e1=>>', e));
-    // };
+    const handleBackClose = () => {
+        setInfoBack(false);
+    };
 
     return (
         <>
@@ -200,6 +148,7 @@ const ToGenerateDataList = ({ listInfo, apiQuery }) => {
                 actionName={actionName.current}
             />
             <GenerateFeeTerminate infoTerminal={infoTerminal} handleTerminalClose={handleTerminalClose} />
+            <GenerateBack infoBack={infoBack} handleBackClose={handleBackClose} />
             <TableContainer component={Paper} sx={{ maxHeight: 350 }}>
                 <Table sx={{ minWidth: 300 }} stickyHeader aria-label="sticky table">
                     <TableHead>
@@ -267,7 +216,7 @@ const ToGenerateDataList = ({ listInfo, apiQuery }) => {
                                                 size="small"
                                                 variant="outlined"
                                                 onClick={() => {
-                                                    setInfoTerminal(true);
+                                                    setInfoBack(true);
                                                 }}
                                             >
                                                 退回

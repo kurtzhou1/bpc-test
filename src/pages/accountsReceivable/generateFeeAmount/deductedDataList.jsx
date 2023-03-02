@@ -4,6 +4,7 @@ import { useState, useRef } from 'react';
 import { handleNumber, BootstrapDialogTitle } from 'components/commonFunction';
 import DeductWork from './deductWork';
 import GenerateFeeTerminate from './generateFeeTerminate';
+import GenerateBack from './generateBack';
 import SignAndUpload from './signAndUpload';
 // material-ui
 import {
@@ -19,15 +20,16 @@ import {
     Select,
     DialogActions,
     TextField,
-    Box
+    Box,
+    TableContainer,
+    TableHead,
+    TableRow,
+    TableCell,
+    TableBody
 } from '@mui/material';
-import TableBody from '@mui/material/TableBody';
-import TableCell, { tableCellClasses } from '@mui/material/TableCell';
-import TableContainer from '@mui/material/TableContainer';
-import TableHead from '@mui/material/TableHead';
-import TableRow from '@mui/material/TableRow';
+import { tableCellClasses } from '@mui/material/TableCell';
 import Paper from '@mui/material/Paper';
-import { alpha, styled } from '@mui/material/styles';
+import { styled } from '@mui/material/styles';
 
 import dayjs from 'dayjs';
 
@@ -91,6 +93,7 @@ const GeneratedDataList = ({ listInfo, apiQuery }) => {
     const actionName = useRef('');
     const [isDialogOpen, setIsDialogOpen] = useState(false); //檢視
     const [infoTerminal, setInfoTerminal] = useState(false); //作廢
+    const [infoBack, setInfoBack] = useState(false); //退回
     const [uploadOpen, setUploadOpen] = useState(false); //上傳
     const [toBillDataMain, setToBillDataMain] = useState(fakeData.InvoiceMaster); //發票主檔
     const [toBillDataInfo, setToBillDataInfo] = useState(fakeData.InvoiceDetail); //發票明細檔
@@ -122,6 +125,10 @@ const GeneratedDataList = ({ listInfo, apiQuery }) => {
 
     const handleTerminalClose = () => {
         setInfoTerminal(false);
+    };
+
+    const handleBackClose = () => {
+        setInfoBack(false);
     };
 
     const handUploadClose = () => {
@@ -197,6 +204,7 @@ const GeneratedDataList = ({ listInfo, apiQuery }) => {
                 actionName={actionName.current}
             />
             <GenerateFeeTerminate infoTerminal={infoTerminal} handleTerminalClose={handleTerminalClose} />
+            <GenerateBack infoBack={infoBack} handleBackClose={handleBackClose} />
             <SignAndUpload uploadOpen={uploadOpen} handUploadClose={handUploadClose} />
             <TableContainer component={Paper} sx={{ maxHeight: 350 }}>
                 <Table sx={{ minWidth: 300 }} stickyHeader aria-label="sticky table">
@@ -272,7 +280,7 @@ const GeneratedDataList = ({ listInfo, apiQuery }) => {
                                                 size="small"
                                                 variant="outlined"
                                                 onClick={() => {
-                                                    setInfoTerminal(true);
+                                                    setInfoBack(true);
                                                 }}
                                             >
                                                 退回
