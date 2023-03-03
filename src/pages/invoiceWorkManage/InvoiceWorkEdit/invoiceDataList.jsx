@@ -42,7 +42,7 @@ const InvoiceDataList = ({ listInfo, setAction, setModifyItem }) => {
     //     setAnchorEl(null);
     // };
 
-    const options1 = ['View', 'Validated', 'Edit', 'Delete'];
+    const options1 = ['View', 'Validate', 'Edit', 'Delete'];
     const options2 = ['View', '作廢'];
 
     return (
@@ -107,7 +107,7 @@ const InvoiceDataList = ({ listInfo, setAction, setModifyItem }) => {
                                                         color={
                                                             option === 'View'
                                                                 ? 'primary'
-                                                                : option === 'Validated'
+                                                                : option === 'Validate'
                                                                 ? 'success'
                                                                 : option === 'Edit'
                                                                 ? 'warning'

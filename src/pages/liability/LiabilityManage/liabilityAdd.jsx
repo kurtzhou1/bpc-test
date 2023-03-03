@@ -216,8 +216,8 @@ const LiabilityAdd = ({
                                 variant="outlined"
                                 value={splitNumber}
                                 size="small"
-                                label="分段段號"
-                                inputProps={{ maxLength: 1, style: { textTransform: 'lowercase' } }}
+                                label="分段"
+                                inputProps={{ maxLength: 2, style: { textTransform: 'lowercase' } }}
                                 onChange={(e) => setSplitNumber(e.target.value)}
                             />
                         </Grid>

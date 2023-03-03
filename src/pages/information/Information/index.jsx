@@ -176,11 +176,11 @@ const Information = () => {
                 >
                     <Box sx={{ borderBottom: 1, borderColor: 'divider', position: 'relative' }}>
                         <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
-                            <Tab label="供應商" {...a11yProps(0)} />
-                            <Tab label="會員" {...a11yProps(1)} />
-                            <Tab label="聯盟" {...a11yProps(2)} />
-                            <Tab label="合約" {...a11yProps(3)} />
-                            <Tab label="海纜代號" {...a11yProps(4)} />
+                            <Tab label="海纜代號" {...a11yProps(0)} />
+                            <Tab label="供應商" {...a11yProps(1)} />
+                            <Tab label="會員" {...a11yProps(2)} />
+                            <Tab label="聯盟" {...a11yProps(3)} />
+                            <Tab label="合約" {...a11yProps(4)} />
                             <Tab label="海纜作業" {...a11yProps(5)} />
                             <Tab label="合約種類" {...a11yProps(6)} />
                             <Tab label="合約會員" {...a11yProps(7)} />
@@ -189,19 +189,19 @@ const Information = () => {
                         </Tabs>
                     </Box>
                     <TabPanel value={value} index={0}>
-                        <SupplierDataList />
+                        <SubmarineCableDataList />
                     </TabPanel>
                     <TabPanel value={value} index={1}>
-                        <PartyDataList />
+                        <SupplierDataList />
                     </TabPanel>
                     <TabPanel value={value} index={2}>
-                        <CorporatesDataList />
+                        <PartyDataList />
                     </TabPanel>
                     <TabPanel value={value} index={3}>
-                        <ContractDataList />
+                        <CorporatesDataList />
                     </TabPanel>
                     <TabPanel value={value} index={4}>
-                        <SubmarineCableDataList />
+                        <ContractDataList />
                     </TabPanel>
                     <TabPanel value={value} index={5}>
                         <CableWorkDataList />

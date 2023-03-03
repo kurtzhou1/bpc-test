@@ -31,31 +31,31 @@ import dayjs from 'dayjs';
 import { addSuppliers, getSuppliersInfo, deleteSuppliers, editSuppliers } from 'components/apis.jsx';
 
 const SupplierDataList = ({}) => {
-    const fakeData = [
-        {
-            SupplierID: 1,
-            SupplierName: 'NEC',
-            BankAcctName: '+886',
-            Fax: '+886',
-            BankAcctNo: 'Taiwan',
-            SWIFTCode: 'google.com',
-            IBAN: 'XXX',
-            BankName: '123',
-            BankAddress: '123'
-        },
-        {
-            SupplierID: 2,
-            SupplierName: 'NEC',
-            BankAcctName: '+886',
-            Fax: '+886',
-            BankAcctNo: 'Taiwan',
-            SWIFTCode: 'google.com',
-            IBAN: 'XXX',
-            BankName: '123',
-            BankAddress: '123'
-        }
-    ];
-    const [infoList, setInfoList] = useState(fakeData);
+    // const fakeData = [
+    //     {
+    //         SupplierID: 1,
+    //         SupplierName: 'NEC',
+    //         BankAcctName: '88888888888',
+    //         Fax: '+886',
+    //         BankAcctNo: 'Taiwan',
+    //         SWIFTCode: 'google.com',
+    //         IBAN: 'XXX',
+    //         BankName: '123',
+    //         BankAddress: '123'
+    //     },
+    //     {
+    //         SupplierID: 2,
+    //         SupplierName: 'NEC',
+    //         BankAcctName: '+886',
+    //         Fax: '+886',
+    //         BankAcctNo: 'Taiwan',
+    //         SWIFTCode: 'google.com',
+    //         IBAN: 'XXX',
+    //         BankName: '123',
+    //         BankAddress: '123'
+    //     }
+    // ];
+    const [infoList, setInfoList] = useState([]);
     const [supplierName, setSupplierName] = useState(''); //供應商
     const [bankAcctName, setBankAcctName] = useState(''); //帳號名稱
     const [bankAcctNo, setBankAcctNo] = useState(''); //銀行帳號
@@ -129,6 +129,7 @@ const SupplierDataList = ({}) => {
             BankName: bankName,
             BankAddress: bankAddress
         };
+        console.log('addSupplierInfo=>>', tmpArray);
         fetch(addSuppliers, { method: 'POST', body: JSON.stringify(tmpArray), headers: { 'Content-Type': 'application/json' } })
             .then((res) => res.json())
             .then(() => {
@@ -195,8 +196,8 @@ const SupplierDataList = ({}) => {
                         <StyledTableCell align="center">供應商名稱</StyledTableCell>
                         <StyledTableCell align="center">帳號名稱</StyledTableCell>
                         <StyledTableCell align="center">銀行帳號</StyledTableCell>
-                        <StyledTableCell align="center">國際銀行代碼</StyledTableCell>
-                        <StyledTableCell align="center">國際銀行帳戶號碼</StyledTableCell>
+                        <StyledTableCell align="center">SWIFT Code</StyledTableCell>
+                        <StyledTableCell align="center">IBAN</StyledTableCell>
                         <StyledTableCell align="center">銀行名稱</StyledTableCell>
                         <StyledTableCell align="center">銀行地址</StyledTableCell>
                         <StyledTableCell align="center">Action</StyledTableCell>

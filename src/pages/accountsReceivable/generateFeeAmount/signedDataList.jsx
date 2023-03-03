@@ -304,7 +304,22 @@ const SignedDataList = ({ listInfo, apiQuery }) => {
                                                     });
                                                 }}
                                             >
-                                                檢視
+                                                檢視帳單
+                                            </Button>
+                                            <Button
+                                                color="primary"
+                                                size="small"
+                                                variant="outlined"
+                                                // onClick={() => {
+                                                //     handleDialogOpen('viewDeducted', {
+                                                //         PartyName: row.PartyName,
+                                                //         IssueDate: dayjs(row.IssueDate).format('YYYY/MM/DD'),
+                                                //         SubmarineCable: row.SubmarineCable,
+                                                //         WorkTitle: row.WorkTitle
+                                                //     });
+                                                // }}
+                                            >
+                                                進待銷帳
                                             </Button>
                                             <Button
                                                 color="error"

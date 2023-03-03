@@ -4,7 +4,7 @@
 import LiabilityTerminate from './liabilityTerminate';
 
 // material-ui
-import { Typography, Button, Table } from '@mui/material';
+import { Typography, Button, Table, Box } from '@mui/material';
 import TableBody from '@mui/material/TableBody';
 import TableCell, { tableCellClasses } from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
@@ -73,52 +73,63 @@ const LiabilityDataList = ({ listInfo, setDialogAction, setIsDialogOpen, setEdit
                                         {row.EndDate ? dayjs(row.EndDate).format('YYYY/MM/DD') : ''}
                                     </StyledTableCell>
                                     <StyledTableCell align="center">
-                                        {row.EndDate ? (
-                                            ''
-                                        ) : (
-                                            <Button
-                                                color="primary"
-                                                onClick={() => {
-                                                    setDialogAction('Edit');
-                                                    setIsDialogOpen(true);
-                                                    setEditItem(id);
-                                                }}
-                                            >
-                                                編輯
-                                            </Button>
-                                        )}
-                                        {row.EndDate ? (
-                                            ''
-                                        ) : (
-                                            <Button
-                                                color="success"
-                                                onClick={() => {
-                                                    setDialogAction('Split');
-                                                    setIsDialogOpen(true);
-                                                    setEditItem(id);
-                                                }}
-                                            >
-                                                分段
-                                            </Button>
-                                        )}
-                                        {row.EndDate ? (
-                                            ''
-                                        ) : (
-                                            <Button
-                                                color="error"
-                                                onClick={() => {
-                                                    setDialogTerminate(true);
-                                                    setTerminateInfo({
-                                                        BillMilestone: row.BillMilestone,
-                                                        PartyName: row.PartyName,
-                                                        LBRawID: row.LBRawID,
-                                                        EndDate: dayjs(new Date()).format('YYYY-MM-DD hh:mm:ss')
-                                                    });
-                                                }}
-                                            >
-                                                終止
-                                            </Button>
-                                        )}
+                                        <Box
+                                            sx={{
+                                                display: 'flex',
+                                                justifyContent: 'center',
+                                                '& button': { mx: { sm: 0.3, md: 0.3, lg: 0.6, xl: 1.5 }, p: 0, fontSize: 1 }
+                                            }}
+                                        >
+                                            {row.EndDate ? (
+                                                ''
+                                            ) : (
+                                                <Button
+                                                    color="primary"
+                                                    variant="outlined"
+                                                    onClick={() => {
+                                                        setDialogAction('Edit');
+                                                        setIsDialogOpen(true);
+                                                        setEditItem(id);
+                                                    }}
+                                                >
+                                                    編輯
+                                                </Button>
+                                            )}
+                                            {row.EndDate ? (
+                                                ''
+                                            ) : (
+                                                <Button
+                                                    color="success"
+                                                    variant="outlined"
+                                                    onClick={() => {
+                                                        setDialogAction('Split');
+                                                        setIsDialogOpen(true);
+                                                        setEditItem(id);
+                                                    }}
+                                                >
+                                                    分段
+                                                </Button>
+                                            )}
+                                            {row.EndDate ? (
+                                                ''
+                                            ) : (
+                                                <Button
+                                                    color="error"
+                                                    variant="outlined"
+                                                    onClick={() => {
+                                                        setDialogTerminate(true);
+                                                        setTerminateInfo({
+                                                            BillMilestone: row.BillMilestone,
+                                                            PartyName: row.PartyName,
+                                                            LBRawID: row.LBRawID,
+                                                            EndDate: dayjs(new Date()).format('YYYY-MM-DD hh:mm:ss')
+                                                        });
+                                                    }}
+                                                >
+                                                    終止
+                                                </Button>
+                                            )}
+                                        </Box>
                                     </StyledTableCell>
                                 </TableRow>
                             );

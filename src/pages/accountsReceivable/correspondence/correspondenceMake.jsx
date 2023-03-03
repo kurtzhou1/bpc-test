@@ -52,13 +52,15 @@ const CorrespondenceMake = ({ isDialogOpen, handleDialogClose, listInfo }) => {
     const [email, setEmail] = useState(''); //聯絡信箱
 
     const [acctNo, setAcctNo] = useState(''); //聯盟銀行帳號
-    const [iBAN, setIBAN] = useState(''); //供應商IBAN
-    const [supplierBank, setSupplierBank] = useState(''); //供應商銀行
+    const [iBAN, setIBAN] = useState(''); //受款者IBAN
+    const [supplierBank, setSupplierBank] = useState(''); //受款者銀行
+    const [branchNo, setBranchNo] = useState(''); //受款者分行
     const [cableName, setCableName] = useState(''); //海纜資訊
-    const [supplierAcctNumber, setSupplierAcctNumber] = useState(''); //供應商銀行帳號
-    const [supplierAcctName, setSupplierAcctName] = useState(''); //供應商銀行戶名
-    const [supplierSWIFTCode, setSupplierSWIFTCode] = useState(''); //供應商國際銀行代碼
-    const [supplierBankAddress, setSupplierBankAddress] = useState(''); //供應商銀行地址
+    const [wireRouting, setWireRouting] = useState(''); //Wire Routing
+    const [supplierAcctNumber, setSupplierAcctNumber] = useState(''); //受款者銀行帳號
+    const [supplierAcctName, setSupplierAcctName] = useState(''); //受款者銀行戶名
+    const [supplierSWIFTCode, setSupplierSWIFTCode] = useState(''); //受款者國際銀行代碼
+    const [supplierBankAddress, setSupplierBankAddress] = useState(''); //受款者銀行地址
 
     const itemDetailInitial = () => {
         setPartyName([]);
@@ -287,16 +289,16 @@ const CorrespondenceMake = ({ isDialogOpen, handleDialogClose, listInfo }) => {
                                             fullWidth
                                             variant="outlined"
                                             // disabled={listInfo.length > 0}
-                                            // value={billMilestone}
+                                            value={acctNo}
                                             size="small"
-                                            label="填寫CB種類"
-                                            // onChange={(e) => setBillMilestone(e.target.value)}
+                                            label="填寫銀行帳號"
+                                            onChange={(e) => setAcctNo(e.target.value)}
                                         />
                                     </FormControl>
                                 </Grid>
                                 <Grid item xs={2} sm={2} md={2} lg={2} display="flex" justifyContent="center" alignItems="center">
                                     <Typography variant="h5" sx={{ fontSize: { lg: '0.5rem', xl: '0.88rem' } }}>
-                                        供應商IBAN：
+                                        受款者IBAN：
                                     </Typography>
                                 </Grid>
                                 <Grid item xs={2} sm={2} md={2} lg={2}>
@@ -305,14 +307,14 @@ const CorrespondenceMake = ({ isDialogOpen, handleDialogClose, listInfo }) => {
                                         variant="outlined"
                                         value={iBAN}
                                         size="small"
-                                        label="填寫會員代號"
+                                        label="填寫IBAN"
                                         onChange={(e) => setIBAN(e.target.value)}
                                     />
                                 </Grid>
                                 {/* <Grid item xs={3} sm={3} md={3} lg={3} xl={6} /> */}
                                 <Grid item xs={2} sm={2} md={2} lg={2} display="flex" justifyContent="center" alignItems="center">
                                     <Typography variant="h5" sx={{ fontSize: { lg: '0.5rem', xl: '0.88rem' } }}>
-                                        供應商銀行：
+                                        受款者銀行：
                                     </Typography>
                                 </Grid>
                                 <Grid item xs={2} sm={2} md={2} lg={2}>
@@ -321,8 +323,23 @@ const CorrespondenceMake = ({ isDialogOpen, handleDialogClose, listInfo }) => {
                                         variant="outlined"
                                         value={supplierBank}
                                         size="small"
-                                        label="填寫剩餘金額"
+                                        label="填寫銀行"
                                         onChange={(e) => setSupplierBank(e.target.value)}
+                                    />
+                                </Grid>
+                                <Grid item xs={2} sm={2} md={2} lg={2} display="flex" justifyContent="center" alignItems="center">
+                                    <Typography variant="h5" sx={{ fontSize: { lg: '0.5rem', xl: '0.88rem' } }}>
+                                        受款者分行：
+                                    </Typography>
+                                </Grid>
+                                <Grid item xs={2} sm={2} md={2} lg={2}>
+                                    <TextField
+                                        fullWidth
+                                        variant="outlined"
+                                        value={branchNo}
+                                        size="small"
+                                        label="填寫分行"
+                                        onChange={(e) => setBranchNo(e.target.value)}
                                     />
                                 </Grid>
                                 <Grid item xs={2} sm={2} md={2} lg={2} display="flex" justifyContent="center" alignItems="center">
@@ -336,14 +353,28 @@ const CorrespondenceMake = ({ isDialogOpen, handleDialogClose, listInfo }) => {
                                         variant="outlined"
                                         value={cableName}
                                         size="small"
-                                        label="填寫剩餘金額"
+                                        label="填寫海纜"
                                         onChange={(e) => setCableName(e.target.value)}
                                     />
                                 </Grid>
-                                <Grid item xs={8} sm={8} md={8} lg={8} display="flex" justifyContent="center" />
                                 <Grid item xs={2} sm={2} md={2} lg={2} display="flex" justifyContent="center" alignItems="center">
                                     <Typography variant="h5" sx={{ fontSize: { lg: '0.5rem', xl: '0.88rem' } }}>
-                                        供應商銀行帳號：
+                                        Wire Routing：
+                                    </Typography>
+                                </Grid>
+                                <Grid item xs={2} sm={2} md={2} lg={2}>
+                                    <TextField
+                                        fullWidth
+                                        variant="outlined"
+                                        value={wireRouting}
+                                        size="small"
+                                        label="填寫海纜"
+                                        onChange={(e) => setWireRouting(e.target.value)}
+                                    />
+                                </Grid>
+                                <Grid item xs={2} sm={2} md={2} lg={2} display="flex" justifyContent="center" alignItems="center">
+                                    <Typography variant="h5" sx={{ fontSize: { lg: '0.5rem', xl: '0.88rem' } }}>
+                                        受款者銀行帳號：
                                     </Typography>
                                 </Grid>
                                 <Grid item xs={4} sm={4} md={4} lg={4}>
@@ -352,13 +383,13 @@ const CorrespondenceMake = ({ isDialogOpen, handleDialogClose, listInfo }) => {
                                         variant="outlined"
                                         value={supplierAcctNumber}
                                         size="small"
-                                        label="填寫摘要"
+                                        label="填寫帳號"
                                         onChange={(e) => setSupplierAcctNumber(e.target.value)}
                                     />
                                 </Grid>
                                 <Grid item xs={2} sm={2} md={2} lg={2} display="flex" justifyContent="center" alignItems="center">
                                     <Typography variant="h5" sx={{ fontSize: { lg: '0.5rem', xl: '0.88rem' } }}>
-                                        供應商銀行戶名：
+                                        受款者銀行戶名：
                                     </Typography>
                                 </Grid>
                                 <Grid item xs={4} sm={4} md={4} lg={4}>
@@ -367,13 +398,13 @@ const CorrespondenceMake = ({ isDialogOpen, handleDialogClose, listInfo }) => {
                                         variant="outlined"
                                         value={supplierAcctName}
                                         size="small"
-                                        label="填寫摘要"
+                                        label="填寫戶名"
                                         onChange={(e) => setSupplierAcctName(e.target.value)}
                                     />
                                 </Grid>
                                 <Grid item xs={2} sm={2} md={2} lg={2} display="flex" justifyContent="center" alignItems="center">
                                     <Typography variant="h5" sx={{ fontSize: { lg: '0.5rem', xl: '0.88rem' } }}>
-                                        供應商國際銀行代碼：
+                                        受款者國際銀行代碼：
                                     </Typography>
                                 </Grid>
                                 <Grid item xs={4} sm={4} md={4} lg={4}>
@@ -382,13 +413,13 @@ const CorrespondenceMake = ({ isDialogOpen, handleDialogClose, listInfo }) => {
                                         variant="outlined"
                                         value={supplierSWIFTCode}
                                         size="small"
-                                        label="填寫摘要"
+                                        label="填寫代碼"
                                         onChange={(e) => setSupplierSWIFTCode(e.target.value)}
                                     />
                                 </Grid>
                                 <Grid item xs={2} sm={2} md={2} lg={2} display="flex" justifyContent="center" alignItems="center">
                                     <Typography variant="h5" sx={{ fontSize: { lg: '0.5rem', xl: '0.88rem' } }}>
-                                        供應商銀行地址：
+                                        受款者銀行地址：
                                     </Typography>
                                 </Grid>
                                 <Grid item xs={4} sm={4} md={4} lg={4}>
@@ -397,7 +428,7 @@ const CorrespondenceMake = ({ isDialogOpen, handleDialogClose, listInfo }) => {
                                         variant="outlined"
                                         value={supplierBankAddress}
                                         size="small"
-                                        label="填寫摘要"
+                                        label="填寫地址"
                                         onChange={(e) => setSupplierBankAddress(e.target.value)}
                                     />
                                 </Grid>
@@ -423,17 +454,15 @@ const CorrespondenceMake = ({ isDialogOpen, handleDialogClose, listInfo }) => {
                                     : subject3}
                             </Box>
                             <Box sx={{ fontSize: '14px' }}>說明：</Box>
-                            <Box sx={{ fontSize: '12px' }}>一、請貴行匯入如下帳戶</Box>
+                            <Box sx={{ fontSize: '12px' }}>一、請貴分行自本分公司之帳戶(帳號{acctNo})匯至以下帳戶</Box>
                             <Box sx={{ fontSize: '12px' }}>&nbsp;&nbsp;&nbsp;&nbsp;Account Name: {supplierAcctName}.</Box>
-                            <Box sx={{ fontSize: '12px' }}>&nbsp;&nbsp;&nbsp;&nbsp;Bank: JPMorgan Chase Bank Luxembourg S.A. Bank</Box>
+                            <Box sx={{ fontSize: '12px' }}>&nbsp;&nbsp;&nbsp;&nbsp;Bank: {supplierBank}</Box>
                             <Box sx={{ fontSize: '12px' }}>&nbsp;&nbsp;&nbsp;&nbsp;Address：{supplierBankAddress}</Box>
                             <Box sx={{ fontSize: '12px' }}>&nbsp;&nbsp;&nbsp;&nbsp;Account Number: {supplierAcctNumber}</Box>
                             <Box sx={{ fontSize: '12px' }}>&nbsp;&nbsp;&nbsp;&nbsp;IBAN: {iBAN}</Box>
                             <Box sx={{ fontSize: '12px' }}>&nbsp;&nbsp;&nbsp;&nbsp;SWIFT: {supplierSWIFTCode}</Box>
                             <Box sx={{ fontSize: '12px' }}>二、本款項請即時匯出，匯款時請附加說明：</Box>
-                            <Box sx={{ fontSize: '12px' }}>
-                                &nbsp;&nbsp;&nbsp;&nbsp;Invoice No.15328/15428, TPE UPG#11(BM1/BM2), US$48,576.00
-                            </Box>
+                            <Box sx={{ fontSize: '12px' }}>&nbsp;&nbsp;&nbsp;&nbsp;Invoice No.15328/15428, {cableName}, US$48,576.00</Box>
                             <Box sx={{ fontSize: '12px' }}>三、本款項為全額到行。</Box>
                             <Box sx={{ fontSize: '12px' }}>四、檢附貴行外幣活期存款第007-53-110022號帳戶同額美金取款憑條乙紙。</Box>
                         </Typography>

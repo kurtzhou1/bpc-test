@@ -81,6 +81,10 @@ const JournalQuery = ({ setListInfo, queryApi, invoiceStatus }) => {
             .catch((e) => console.log('e1=>>', e));
     };
 
+    useEffect(() => {
+        jounaryQuery();
+    });
+
     return (
         <MainCard title="發票查詢" sx={{ width: '100%' }}>
             <Grid container display="flex" justifyContent="center" alignItems="center" spacing={2}>
@@ -154,60 +158,6 @@ const JournalQuery = ({ setListInfo, queryApi, invoiceStatus }) => {
                         />
                     </LocalizationProvider>
                 </Grid>
-                {/* row2 */}
-                {/* <Grid item xs={1} sm={2} md={1} lg={1} display="flex" alignItems="center">
-                    <Typography variant="h5" sx={{ fontSize: { lg: '0.5rem', xl: '0.88rem' }, ml: { lg: '0.5rem', xl: '1.5rem' } }}>
-                        是否需攤分：
-                    </Typography>
-                </Grid>
-                <Grid item xs={2} sm={4} md={2} lg={2} display="flex" justifyContent="space-between">
-                    <FormControl row>
-                        <RadioGroup
-                            row
-                            value={isLiability}
-                            aria-labelledby="demo-radio-buttons-group-label"
-                            name="radio-buttons-group"
-                            onChange={(e) => setIsLiability(e.target.value)}
-                        >
-                            <FormControlLabel
-                                value={true}
-                                control={<Radio sx={{ '& .MuiSvgIcon-root': { fontSize: { lg: 14, xl: 20 } } }} />}
-                                label="攤分"
-                            />
-                            <FormControlLabel
-                                value={false}
-                                control={<Radio sx={{ '& .MuiSvgIcon-root': { fontSize: { lg: 14, xl: 20 } } }} />}
-                                label="不攤分"
-                            />
-                        </RadioGroup>
-                    </FormControl>
-                </Grid> */}
-                {/* <Grid item xs={1} sm={2} md={1} lg={1}>
-                    <Typography variant="h5" sx={{ fontSize: { lg: '0.5rem', xl: '0.88rem' }, ml: { lg: '0.5rem', xl: '1.5rem' } }}>
-                        {isLiability === false || isLiability === 'false' ? '會員名稱：' : ''}
-                    </Typography>
-                </Grid>
-                <Grid item xs={2} sm={4} md={2} lg={2}>
-                    {isLiability === false || isLiability === 'false' ? (
-                        <FormControl fullWidth size="small">
-                            <InputLabel id="demo-simple-select-label">選擇會員</InputLabel>
-                            <Select
-                                // labelId="demo-simple-select-label"
-                                // id="demo-simple-select"
-                                value={partyName}
-                                label="會員"
-                                onChange={(e) => setPartyName(e.target.value)}
-                            >
-                                <MenuItem value={'Taiwan'}>Taiwan</MenuItem>
-                                <MenuItem value={'Japan'}>Japan</MenuItem>
-                                <MenuItem value={'Korean'}>Korean</MenuItem>
-                            </Select>
-                        </FormControl>
-                    ) : (
-                        ''
-                    )}
-                </Grid> */}
-                {/* <Grid item xs={5} sm={7} md={5} lg={6} /> */}
                 <Grid item xs={12} sm={12} md={12} lg={12} display="flex" justifyContent="end" alignItems="center">
                     <Button sx={{ mr: '0.5rem' }} variant="contained" onClick={jounaryQuery}>
                         查詢

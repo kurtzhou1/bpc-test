@@ -222,6 +222,7 @@ const InvoiceWorkManage = () => {
                 .then((res) => res.json())
                 .then((data) => {
                     console.log('data=>>', data);
+                    alert('送出發票成功');
                 })
                 .catch((e) => console.log('e=>>', e));
         });

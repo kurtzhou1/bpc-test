@@ -247,7 +247,7 @@ const InvoiceWorkManage = () => {
     }, [modifyItem, action]);
 
     useEffect(() => {
-        if (action === 'Validated') {
+        if (action === 'Validate') {
             let tmpArray = {
                 WKMasterID: listInfo[modifyItem].InvoiceWKMaster.WKMasterID,
                 Status: 'VALIDATED'

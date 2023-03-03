@@ -16,6 +16,7 @@ import {
 
 // project
 import { BootstrapDialogTitle } from 'components/commonFunction';
+import { handleNumber } from 'components/commonFunction';
 
 // day
 import Dialog from '@mui/material/Dialog';
@@ -135,16 +136,37 @@ const CreditBalanceManage = ({
                     </Grid>
                     <Grid item xs={3} sm={3} md={3} lg={3}>
                         <FormControl fullWidth size="small">
-                            <TextField
-                                fullWidth
-                                variant="outlined"
-                                disabled={listInfo.length > 0}
-                                value={cbType}
-                                size="small"
-                                label="填寫CB種類"
-                                onChange={(e) => setcbType(e.target.value)}
-                            />
+                            <InputLabel id="demo-simple-select-label">選擇CB種類</InputLabel>
+                            <Select
+                                // labelId="demo-simple-select-label"
+                                // id="demo-simple-select"
+                                value={workTitle}
+                                label="填寫海纜作業"
+                                onChange={(e) => setWorkTitle(e.target.value)}
+                            >
+                                {/* <MenuItem value={'一般'}>一般</MenuItem> */}
+                                <MenuItem value={'MWG'}>MWG</MenuItem>
+                                <MenuItem value={'重溢繳'}>重溢繳</MenuItem>
+                                <MenuItem value={'賠償'}>賠償</MenuItem>
+                                <MenuItem value={'賠償'}>預付</MenuItem>
+                                <MenuItem value={'其他'}>其他</MenuItem>
+                            </Select>
                         </FormControl>
+                    </Grid>
+                    <Grid item xs={3} sm={3} md={3} lg={3} display="flex" justifyContent="center">
+                        <Typography variant="h5" sx={{ fontSize: { lg: '0.5rem', xl: '0.88rem' }, ml: { lg: '0.5rem', xl: '1.5rem' } }}>
+                            摘要：
+                        </Typography>
+                    </Grid>
+                    <Grid item xs={3} sm={3} md={3} lg={3}>
+                        <TextField
+                            fullWidth
+                            variant="outlined"
+                            value={note}
+                            size="small"
+                            label="填寫摘要"
+                            onChange={(e) => setNote(e.target.value)}
+                        />
                     </Grid>
                     <Grid item xs={3} sm={3} md={3} lg={3} display="flex" justifyContent="center">
                         <Typography variant="h5" sx={{ fontSize: { lg: '0.5rem', xl: '0.88rem' }, ml: { lg: '0.5rem', xl: '1.5rem' } }}>
@@ -171,27 +193,13 @@ const CreditBalanceManage = ({
                         <TextField
                             fullWidth
                             variant="outlined"
-                            value={currAmount}
+                            value={handleNumber(currAmount)}
                             size="small"
                             label="填寫剩餘金額"
                             onChange={(e) => setCurrAmount(e.target.value)}
                         />
                     </Grid>
-                    <Grid item xs={3} sm={3} md={3} lg={3} display="flex" justifyContent="center">
-                        <Typography variant="h5" sx={{ fontSize: { lg: '0.5rem', xl: '0.88rem' }, ml: { lg: '0.5rem', xl: '1.5rem' } }}>
-                            摘要：
-                        </Typography>
-                    </Grid>
-                    <Grid item xs={3} sm={3} md={3} lg={3}>
-                        <TextField
-                            fullWidth
-                            variant="outlined"
-                            value={note}
-                            size="small"
-                            label="填寫摘要"
-                            onChange={(e) => setNote(e.target.value)}
-                        />
-                    </Grid>
+
                     {/* <Grid item xs={3} sm={3} md={3} lg={3} xl={6} /> */}
                     <Grid item xs={3} sm={3} md={3} lg={3} display="flex" justifyContent="center">
                         <Typography variant="h5" sx={{ fontSize: { lg: '0.5rem', xl: '0.88rem' }, ml: { lg: '0.5rem', xl: '1.5rem' } }}>
