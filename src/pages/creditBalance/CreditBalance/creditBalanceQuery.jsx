@@ -29,7 +29,7 @@ import { queryCB } from 'components/apis.jsx';
 
 // ==============================|| SAMPLE PAGE ||============================== //
 
-const CreditBalanceQuery = ({}) => {
+const CreditBalanceQuery = ({ setListInfo, partiesList, subCableList }) => {
     const [partyName, setPartyName] = useState(''); //會員代號
     const [cBType, setCBType] = useState(''); //CB種類
     const [submarineCable, setSubmarineCable] = useState(''); //海纜名稱
@@ -82,10 +82,14 @@ const CreditBalanceQuery = ({}) => {
             .then((res) => res.json())
             .then((data) => {
                 console.log('查詢成功=>>', data);
-                setListInfo(data);
+                if (Array.isArray(data)) {
+                    setListInfo(data);
+                }
             })
             .catch((e) => console.log('e1=>>', e));
     };
+
+    console.log('1=>>', partiesList, subCableList);
 
     const handleChange = (event) => {
         setCurrAmount({ ...currAmount, [event.target.name]: event.target.checked });
@@ -110,9 +114,9 @@ const CreditBalanceQuery = ({}) => {
                             label="會員"
                             onChange={(e) => setPartyName(e.target.value)}
                         >
-                            <MenuItem value={'Taiwan'}>Taiwan</MenuItem>
-                            <MenuItem value={'Korean'}>Korean</MenuItem>
-                            <MenuItem value={'Japan'}>Japan</MenuItem>
+                            {partiesList.map((i) => (
+                                <MenuItem value={i.PartyName}>{i.PartyName}</MenuItem>
+                            ))}
                         </Select>
                     </FormControl>
                 </Grid>
@@ -152,9 +156,9 @@ const CreditBalanceQuery = ({}) => {
                             label="海纜名稱"
                             onChange={(e) => setSubmarineCable(e.target.value)}
                         >
-                            <MenuItem value={'一段'}>一段</MenuItem>
-                            <MenuItem value={'二段'}>二段</MenuItem>
-                            <MenuItem value={'三段'}>三段</MenuItem>
+                            {subCableList.map((i) => (
+                                <MenuItem value={i.CableName}>{i.CableName}</MenuItem>
+                            ))}
                         </Select>
                     </FormControl>
                 </Grid>

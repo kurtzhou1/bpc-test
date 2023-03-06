@@ -14,7 +14,7 @@ import Breadcrumbs from 'components/@extended/Breadcrumbs';
 
 // types
 import { openDrawer } from 'store/reducers/menu';
-import { setSupplierNameList, setSubmarineCableList } from 'store/reducers/dropdown';
+import { setSupplierNameList, setSubmarineCableList, setPartiesList } from 'store/reducers/dropdown';
 
 // api
 import {
@@ -26,7 +26,8 @@ import {
     supplierNameList,
     submarineCableList,
     billMilestoneList,
-    queryBillMilestoneList
+    queryBillMilestoneList,
+    getPartiesInfoList
 } from 'components/apis.jsx';
 
 // ==============================|| MAIN LAYOUT ||============================== //
@@ -58,26 +59,28 @@ const MainLayout = () => {
     }, [drawerOpen]);
 
     useEffect(() => {
-        //下拉選單
+        //下拉選單 Redux
+        //供應商
         fetch(supplierNameList, { method: 'GET' })
             .then((res) => res.json())
             .then((data) => {
                 dispatch(setSupplierNameList({ supNmList: data }));
             })
             .catch((e) => console.log('e1=>>', e));
+        //海纜名稱
         fetch(submarineCableList, { method: 'GET' })
             .then((res) => res.json())
             .then((data) => {
                 dispatch(setSubmarineCableList({ subCableList: data }));
             })
             .catch((e) => console.log('e1=>>', e));
-        // fetch(queryBillMilestoneList, { method: 'GET' })
-        //     .then((res) => res.json())
-        //     .then((data) => {
-        //         console.log('data=>>', data);
-        //         setQueryBmStoneList(data);
-        //     })
-        //     .catch((e) => console.log('e1=>>', e));
+        //會員名稱
+        fetch(getPartiesInfoList, { method: 'GET' })
+            .then((res) => res.json())
+            .then((data) => {
+                dispatch(setPartiesList({ partiesList: data }));
+            })
+            .catch((e) => console.log('e1=>>', e));
     }, []);
 
     return (

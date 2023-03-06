@@ -36,7 +36,10 @@ import { styled } from '@mui/material/styles';
 import { BootstrapDialogTitle } from 'components/commonFunction';
 
 // api
-import { submarineCableList, partiesList, deleteLiability, addLiabilityapi } from 'components/apis.jsx';
+import { deleteLiability, addLiabilityapi } from 'components/apis.jsx';
+
+// redux
+import { useSelector } from 'react-redux';
 
 const LiabilityAdd = ({
     handleDialogClose,
@@ -63,8 +66,7 @@ const LiabilityAdd = ({
     const [listInfo, setListInfo] = useState([]);
     const [splitNumber, setSplitNumber] = useState('');
 
-    const [partyList, setPartyList] = useState([]); //會員名稱下拉選單
-    const [subCableList, setSubCableList] = useState([]); //海纜名稱下拉選單
+    const { subCableList, partiesList } = useSelector((state) => state.dropdown); //海纜名稱下拉選單
 
     const icon = <CheckBoxOutlineBlankIcon fontSize="small" />;
     const checkedIcon = <CheckBoxIcon fontSize="small" />;
@@ -77,8 +79,6 @@ const LiabilityAdd = ({
         setSubmarineCable('');
         setSplitNumber('');
     };
-
-    console.log('listInfo=>>', listInfo);
 
     //新增
     const addList = () => {
@@ -165,23 +165,6 @@ const LiabilityAdd = ({
             paddingBottom: '0.2rem'
         }
     }));
-
-    useEffect(() => {
-        fetch(partiesList, { method: 'GET' })
-            .then((res) => res.json())
-            .then((data) => {
-                console.log('party下拉選單', data);
-                setPartyList(data);
-            })
-            .catch((e) => console.log('e1=>>', e));
-        fetch(submarineCableList, { method: 'GET' })
-            .then((res) => res.json())
-            .then((data) => {
-                console.log('submarineCableList下拉選單', data);
-                setSubCableList(data);
-            })
-            .catch((e) => console.log('e1=>>', e));
-    }, []);
 
     return (
         <Dialog onClose={handleDialogClose} maxWidth="md" fullWidth open={isDialogOpen}>
@@ -314,7 +297,7 @@ const LiabilityAdd = ({
                     <Grid item xs={6} sm={6} md={6} lg={6}>
                         <Autocomplete
                             multiple
-                            options={partyList}
+                            options={partiesList}
                             value={partyName}
                             disabled={dialogAction === 'Edit' || dialogAction === 'Split'}
                             size="small"

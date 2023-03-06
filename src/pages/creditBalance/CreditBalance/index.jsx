@@ -8,26 +8,29 @@ import CreditBalanceQuery from './creditBalanceQuery';
 import CreditBalanceDataList from './creditBalanceDataList';
 import CreditBalanceAdd from './creditBalanceAdd';
 
-// day
-// import Dialog from '@mui/material/Dialog';
-// import DialogTitle from '@mui/material/DialogTitle';
-// import DialogContent from '@mui/material/DialogContent';
-// import DialogActions from '@mui/material/DialogActions';
+// redux
+import { useSelector } from 'react-redux';
 
 const CreditBalance = () => {
     const fakeData = [
         {
-            CBType: 'MWG',
+            CBID: 1,
+            CBType: '重溢繳',
+            BillingNo: null,
+            BLDetailID: null,
+            SubmarineCable: 'SJC2',
+            WorkTitle: 'Construction',
+            BillMilestone: 'BM9a',
             PartyName: 'CHT',
-            InvoiceNo: '234567',
-            BillingNo: '12345',
-            SubmarineCable: 'SJC',
-            WorkTitle: 'Upgrade',
-            CurrAmount: 1234,
-            CreateDate: '2023-01-01 12:12:!2',
-            Note: '測試'
+            InvoiceNo: null,
+            CurrAmount: 1000.0,
+            CreateDate: '2023-03-01T00:00:00',
+            LastUpdDate: null,
+            Note: null
         }
     ];
+
+    const { partiesList, subCableList } = useSelector((state) => state.dropdown); //供應商下拉選單 + 海纜名稱下拉選單
 
     const [listInfo, setListInfo] = useState(fakeData);
     const [isDialogOpen, setIsDialogOpen] = useState(false);
@@ -119,20 +122,14 @@ const CreditBalance = () => {
                 </Button>
                 <CreditBalanceAdd
                     handleDialogClose={handleDialogClose}
-                    addLiability={addLiability}
-                    saveEdit={saveEdit}
-                    partyName={partyName}
-                    setPartyName={setPartyName}
                     isDialogOpen={isDialogOpen}
                     billMilestone={billMilestone}
-                    setBillMilestone={setBillMilestone}
-                    dialogAction={dialogAction}
-                    lBRatio={lBRatio}
-                    setLBRatio={setLBRatio}
+                    artiesList={partiesList}
+                    subCableList={subCableList}
                 />
             </Grid>
             <Grid item xs={12}>
-                <CreditBalanceQuery />
+                <CreditBalanceQuery setListInfo={setListInfo} partiesList={partiesList} subCableList={subCableList} />
             </Grid>
             <Grid item xs={12}>
                 <MainCard title="Credit Balance資料列表">

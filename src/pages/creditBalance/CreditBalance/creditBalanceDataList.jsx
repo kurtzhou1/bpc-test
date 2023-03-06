@@ -3,7 +3,7 @@
 // project import
 import { handleNumber } from 'components/commonFunction';
 // material-ui
-import { Typography, Button, Table } from '@mui/material';
+import { Typography, Button, Table, Box } from '@mui/material';
 import TableBody from '@mui/material/TableBody';
 import TableCell, { tableCellClasses } from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
@@ -79,22 +79,32 @@ const CreditBalanceDataList = ({ listInfo, setIsDialogOpen, deletelistInfoItem }
                                     <StyledTableCell align="center"> {dayjs(row.CreateDate).format('YYYY/MM/DD')}</StyledTableCell>
                                     <StyledTableCell align="center">{row.Note}</StyledTableCell>
                                     <StyledTableCell align="center">
-                                        <Button
-                                            color="primary"
-                                            onClick={() => {
-                                                setCbview(true);
+                                        <Box
+                                            sx={{
+                                                display: 'flex',
+                                                justifyContent: 'center',
+                                                '& button': { mx: { md: 0.3, lg: 0.7, xl: 1.5 }, p: 0, fontSize: 1 }
                                             }}
                                         >
-                                            檢視
-                                        </Button>
-                                        <Button
-                                            color="warning"
-                                            onClick={() => {
-                                                setCbTerminal(true);
-                                            }}
-                                        >
-                                            退費
-                                        </Button>
+                                            <Button
+                                                color="primary"
+                                                variant="outlined"
+                                                onClick={() => {
+                                                    setCbview(true);
+                                                }}
+                                            >
+                                                檢視
+                                            </Button>
+                                            <Button
+                                                color="warning"
+                                                variant="outlined"
+                                                onClick={() => {
+                                                    setCbTerminal(true);
+                                                }}
+                                            >
+                                                退費
+                                            </Button>
+                                        </Box>
                                     </StyledTableCell>
                                 </TableRow>
                             );

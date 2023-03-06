@@ -39,17 +39,7 @@ import { styled } from '@mui/material/styles';
 // api
 import { addCB } from 'components/apis.jsx';
 
-const CreditBalanceManage = ({
-    handleDialogClose,
-    addLiability,
-    saveEdit,
-    isDialogOpen,
-    billMilestone,
-    setBillMilestone,
-    dialogAction,
-    lBRatio,
-    setLBRatio
-}) => {
+const CreditBalanceAdd = ({ handleDialogClose, isDialogOpen, billMilestone, partiesList, subCableList }) => {
     const [listInfo, setListInfo] = useState([]);
     const [cBType, setCBType] = useState(''); // CB種類
     const [partyName, setPartyName] = useState(''); //會員代號
@@ -110,6 +100,8 @@ const CreditBalanceManage = ({
         }
     }));
 
+    console.log('partiesList=>>', partiesList);
+
     return (
         <Dialog onClose={handleDialogClose} maxWidth="sm" fullWidth open={isDialogOpen}>
             <BootstrapDialogTitle id="customized-dialog-title" onClose={handleDialogClose}>
@@ -162,14 +154,20 @@ const CreditBalanceManage = ({
                         </Typography>
                     </Grid>
                     <Grid item xs={3} sm={3} md={3} lg={3}>
-                        <TextField
-                            fullWidth
-                            variant="outlined"
-                            value={partyName}
-                            size="small"
-                            label="填寫會員代號"
-                            onChange={(e) => setPartyName(e.target.value)}
-                        />
+                        {/* <FormControl fullWidth size="small">
+                            <InputLabel id="demo-simple-select-label">選擇會員</InputLabel>
+                            <Select
+                                // labelId="demo-simple-select-label"
+                                // id="demo-simple-select"
+                                value={partyName}
+                                label="會員"
+                                onChange={(e) => setPartyName(e.target.value)}
+                            >
+                                {partiesList.map((i) => (
+                                    <MenuItem value={i.PartyName}>{i.PartyName}</MenuItem>
+                                ))}
+                            </Select>
+                        </FormControl> */}
                     </Grid>
                     {/* <Grid item xs={3} sm={3} md={3} lg={3} xl={6} /> */}
                     <Grid item xs={3} sm={3} md={3} lg={3} display="flex" justifyContent="center">
@@ -226,14 +224,20 @@ const CreditBalanceManage = ({
                         </Typography>
                     </Grid>
                     <Grid item xs={3} sm={3} md={3} lg={3}>
-                        <TextField
-                            fullWidth
-                            variant="outlined"
-                            value={submarineCable}
-                            size="small"
-                            label="填寫海纜名稱"
-                            onChange={(e) => setSubmarineCable(e.target.value)}
-                        />
+                        <FormControl fullWidth size="small">
+                            <InputLabel id="demo-simple-select-label">選擇海纜名稱</InputLabel>
+                            <Select
+                                // labelId="demo-simple-select-label"
+                                // id="demo-simple-select"
+                                value={submarineCable}
+                                label="海纜名稱"
+                                onChange={(e) => setSubmarineCable(e.target.value)}
+                            >
+                                {subCableList.map((i) => (
+                                    <MenuItem value={i.CableName}>{i.CableName}</MenuItem>
+                                ))}
+                            </Select>
+                        </FormControl>
                     </Grid>
                     <Grid item xs={3} sm={3} md={3} lg={3} display="flex" justifyContent="center">
                         <Typography variant="h5" sx={{ fontSize: { lg: '0.5rem', xl: '0.88rem' }, ml: { lg: '0.5rem', xl: '1.5rem' } }}>
@@ -279,4 +283,4 @@ const CreditBalanceManage = ({
     );
 };
 
-export default CreditBalanceManage;
+export default CreditBalanceAdd;

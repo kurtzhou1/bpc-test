@@ -28,7 +28,7 @@ import { alpha, styled } from '@mui/material/styles';
 
 import dayjs from 'dayjs';
 
-import { addSuppliers, getSuppliersInfo, deleteSuppliers, editSuppliers } from 'components/apis.jsx';
+import { addSuppliers, supplierNameList, deleteSuppliers, editSuppliers } from 'components/apis.jsx';
 
 const SupplierDataList = ({}) => {
     // const fakeData = [
@@ -108,7 +108,7 @@ const SupplierDataList = ({}) => {
     };
 
     const querySuppliersInfo = () => {
-        fetch(getSuppliersInfo, { method: 'GET' })
+        fetch(supplierNameList, { method: 'GET' })
             .then((res) => res.json())
             .then((data) => {
                 console.log('取得Suppliers資料成功=>', data);

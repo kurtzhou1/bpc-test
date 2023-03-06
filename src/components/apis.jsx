@@ -1,9 +1,10 @@
 // 共通的下拉選單
 export const submarineCableList = 'http://10.193.130.7:8000/api/v1/SubmarineCables/all'; // 海纜名稱
-export const partiesList = 'http://10.193.130.7:8000/api/v1/Parties/all'; // 會員名稱
+export const supplierNameList = 'http://10.193.130.7:8000/api/v1/Suppliers/all';
+export const getPartiesInfoList = 'http://10.193.130.7:8000/api/v1/Parties/all'; // 會員名稱
 
 //發票管理下拉選單
-export const supplierNameList = 'http://10.193.130.7:8000/api/v1/Suppliers/all';
+
 export const billMilestoneList = 'http://10.193.130.7:8000/api/v1/BillMilestone/';
 export const queryBillMilestoneList = 'http://10.193.130.7:8000/api/v1/dropdownmenuBillMilestone';
 
@@ -46,16 +47,14 @@ export const uploadFileApi = 'http://10.193.130.7:8000/api/v1/uploadfile';
 
 // CB
 export const addCB = 'http://10.193.130.7:8000/api/v1/CreditBalance';
-export const queryCB = 'http://localhost:8000/api/v1/CreditBalance';
+export const queryCB = 'http://10.193.130.7:8000/api/v1/CreditBalance';
 
 // 基本資料-Suppliers
-export const getSuppliersInfo = 'http://10.193.130.7:8000/api/v1/Suppliers/all';
 export const addSuppliers = 'http://10.193.130.7:8000/api/v1/Suppliers';
 export const deleteSuppliers = 'http://10.193.130.7:8000/api/v1/deleteSuppliers';
 export const editSuppliers = 'http://10.193.130.7:8000/api/v1/updateSuppliers';
 
 // 基本資料-Parties
-export const getPartiesInfo = 'http://10.193.130.7:8000/api/v1/Parties/all';
 export const addParties = 'http://10.193.130.7:8000/api/v1/Parties';
 export const deleteParties = 'http://10.193.130.7:8000/api/v1/deleteParties';
 export const editParties = 'http://10.193.130.7:8000/api/v1/updateParties';
@@ -73,7 +72,6 @@ export const deleteContracts = 'http://10.193.130.7:8000/api/v1/deleteContracts'
 export const editContracts = 'http://10.193.130.7:8000/api/v1/updateContracts';
 
 // 基本資料-SubmarineCables
-export const getSubmarineCablesInfo = 'http://10.193.130.7:8000/api/v1/SubmarineCables/all';
 export const addSubmarineCables = 'http://10.193.130.7:8000/api/v1/SubmarineCables';
 export const deleteSubmarineCables = 'http://10.193.130.7:8000/api/v1/deleteSubmarineCables';
 export const editSubmarineCables = 'http://10.193.130.7:8000/api/v1/updateSubmarineCables';

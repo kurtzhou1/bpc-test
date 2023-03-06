@@ -28,7 +28,7 @@ import { alpha, styled } from '@mui/material/styles';
 
 import dayjs from 'dayjs';
 
-import { addParties, getPartiesInfo, deleteParties, editParties } from 'components/apis.jsx';
+import { addParties, getPartiesInfoList, deleteParties, editParties } from 'components/apis.jsx';
 
 const PartyDataList = ({}) => {
     const fakeData = [
@@ -107,7 +107,7 @@ const PartyDataList = ({}) => {
     };
 
     const queryPartiesInfo = () => {
-        fetch(getPartiesInfo, { method: 'GET' })
+        fetch(getPartiesInfoList, { method: 'GET' })
             .then((res) => res.json())
             .then((data) => {
                 console.log('取得Parties資料成功=>', data);

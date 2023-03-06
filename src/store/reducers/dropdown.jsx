@@ -4,7 +4,8 @@ import { createSlice } from '@reduxjs/toolkit';
 // initial state
 const initialState = {
     supNmList: [],
-    subCableList: []
+    subCableList: [],
+    partiesList: []
 };
 
 // ==============================|| SLICE - MENU ||============================== //
@@ -18,10 +19,13 @@ const dropdown = createSlice({
         },
         setSubmarineCableList(state, action) {
             state.subCableList = action.payload.subCableList;
+        },
+        setPartiesList(state, action) {
+            state.partiesList = action.payload.partiesList;
         }
     }
 });
 
 export default dropdown.reducer;
 
-export const { setSupplierNameList, setSubmarineCableList } = dropdown.actions;
+export const { setSupplierNameList, setSubmarineCableList, setPartiesList } = dropdown.actions;
