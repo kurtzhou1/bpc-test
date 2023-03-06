@@ -44,6 +44,10 @@ export const updateInvoiceMaster = 'http://10.193.130.7:8000/api/v1/updateInvoic
 // 應收帳款管理
 export const uploadFileApi = 'http://10.193.130.7:8000/api/v1/uploadfile';
 
+// CB
+export const addCB = 'http://10.193.130.7:8000/api/v1/CreditBalance';
+export const queryCB = 'http://localhost:8000/api/v1/CreditBalance';
+
 // 基本資料-Suppliers
 export const getSuppliersInfo = 'http://10.193.130.7:8000/api/v1/Suppliers/all';
 export const addSuppliers = 'http://10.193.130.7:8000/api/v1/Suppliers';

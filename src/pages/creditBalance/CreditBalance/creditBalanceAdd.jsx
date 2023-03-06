@@ -36,6 +36,9 @@ import TableCell, { tableCellClasses } from '@mui/material/TableCell';
 import Paper from '@mui/material/Paper';
 import { styled } from '@mui/material/styles';
 
+// api
+import { addCB } from 'components/apis.jsx';
+
 const CreditBalanceManage = ({
     handleDialogClose,
     addLiability,
@@ -48,65 +51,50 @@ const CreditBalanceManage = ({
     setLBRatio
 }) => {
     const [listInfo, setListInfo] = useState([]);
-    const [cbType, setcbType] = useState('');
-    const [partyName, setPartyName] = useState('');
-    const [invoiceNo, setInvoiceNo] = useState('');
-    const [billingNo, setBillingNo] = useState('');
-    const [submarineCable, setSubmarineCable] = useState('');
-    const [workTitle, setWorkTitle] = useState('');
-    const [currAmount, setCurrAmount] = useState(0);
-    const [createDate, setCreateDate] = useState(new Date());
-    const [note, setNote] = useState('');
+    const [cBType, setCBType] = useState(''); // CB種類
+    const [partyName, setPartyName] = useState(''); //會員代號
+    const [currAmount, setCurrAmount] = useState(0); // 剩餘金額
+    const [note, setNote] = useState(''); // 摘要
+    const [invoiceNo, setInvoiceNo] = useState(''); // 發票號碼
+    const [billingNo, setBillingNo] = useState(''); // 帳單號碼
+    const [submarineCable, setSubmarineCable] = useState(''); // 海纜名稱
+    const [workTitle, setWorkTitle] = useState(''); // 海纜作業
 
     // const icon = <CheckBoxOutlineBlankIcon fontSize="small" />;
     // const checkedIcon = <CheckBoxIcon fontSize="small" />;
 
-    const itemDetailInitial = () => {
-        setPartyName([]);
-        setLBRatio('');
-        setIsEdit(false);
+    const infoInitial = () => {
+        setCBType('');
+        setPartyName('');
+        setCurrAmount('');
+        setNote('');
+        setInvoiceNo('');
+        setBillingNo('');
+        setSubmarineCable('');
+        setWorkTitle('');
     };
 
-    // //編輯
-    // const editlistInfoItem = () => {
-    //     let tmpArray = listInfo[editItem];
-
-    //     if (tmpArray) {
-    //         setPartyName([tmpArray?.PartyName]);
-    //         setLBRatio(tmpArray?.LbRatio);
-    //     }
-    //     setIsEdit(true);
-    // };
-
-    //新增
-    const addList = () => {
-        let tmpArray = listInfo.map((i) => i);
-        console.log('=>>', partyName);
-        let partyArray = partyName;
-        partyArray.forEach((e) => {
-            tmpArray.push({
-                BillMilestone: billMilestone,
-                PartyName: e,
-                LBRatio: lBRatio
-            });
-        });
-        setListInfo([...tmpArray]);
-        itemDetailInitial();
+    const addCB = () => {
+        let tmpArray = {
+            WorkTitle: workTitle ? workTitle : null,
+            InvoiceNo: invoiceNo ? invoiceNo : null,
+            PartyName: partyName ? partyName : null,
+            SubmarineCable: submarineCable ? submarineCable : null,
+            CBType: cBType ? cBType : null,
+            BillingNo: billingNo ? billingNo : null,
+            BillMilestone: billMilestone ? billMilestone : null,
+            CurrAmount: currAmount ? currAmount : null,
+            Note: note ? note : null
+        };
+        fetch(sendJounary, { method: 'POST', body: JSON.stringify(tmpArray) })
+            .then((res) => res.json())
+            .then(() => {
+                alert('送出Credit Balance成功');
+                handleDialogClose();
+                infoInitial();
+            })
+            .catch((e) => console.log('e1=>>', e));
     };
-
-    //刪除
-    const deletelistInfoItem = (deleteItem) => {
-        let tmpArray = listInfo.map((i) => i);
-        tmpArray.splice(deleteItem, 1);
-        setListInfo([...tmpArray]);
-    };
-
-    // useEffect(() => {
-    //     if (editItem >= 0) {
-    //         editlistInfoItem();
-    //         // setIsListEdit(true);
-    //     }
-    // }, [editItem]);
 
     const StyledTableCell = styled(TableCell)(({ theme }) => ({
         [`&.${tableCellClasses.head}`]: {
@@ -140,9 +128,9 @@ const CreditBalanceManage = ({
                             <Select
                                 // labelId="demo-simple-select-label"
                                 // id="demo-simple-select"
-                                value={workTitle}
+                                value={cBType}
                                 label="填寫海纜作業"
-                                onChange={(e) => setWorkTitle(e.target.value)}
+                                onChange={(e) => setCBType(e.target.value)}
                             >
                                 {/* <MenuItem value={'一般'}>一般</MenuItem> */}
                                 <MenuItem value={'MWG'}>MWG</MenuItem>
@@ -270,8 +258,7 @@ const CreditBalanceManage = ({
                         sx={{ mr: '0.05rem' }}
                         variant="contained"
                         onClick={() => {
-                            addLiability(listInfo);
-                            setListInfo([]);
+                            addCB();
                         }}
                     >
                         儲存
@@ -281,7 +268,7 @@ const CreditBalanceManage = ({
                         variant="contained"
                         onClick={() => {
                             handleDialogClose();
-                            itemDetailInitial();
+                            infoInitial();
                         }}
                     >
                         取消

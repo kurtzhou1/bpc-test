@@ -34,7 +34,7 @@ import CheckBoxIcon from '@mui/icons-material/CheckBox';
 import { updateLiability } from 'components/apis.jsx';
 
 const GenerateBack = ({ infoBack, handleBackClose }) => {
-    const [isDefault, setIsDefault] = useState();
+    const [isDefault, setIsDefault] = useState(1);
 
     const StyledTableCell = styled(TableCell)(({ theme }) => ({
         [`&.${tableCellClasses.head}`]: {

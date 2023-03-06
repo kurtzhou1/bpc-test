@@ -235,14 +235,7 @@ const LiabilityQuery = ({ setListInfo, bmStoneList, partyList, subCableList, wor
                 </Grid>
                 <Grid item xs={4} sm={4} md={2} lg={2}>
                     {/* <FormControl> */}
-                    <FormGroup
-                        row
-                        value={invoiceStatusQuery}
-                        aria-labelledby="demo-radio-buttons-group-label"
-                        // defaultValue="female"
-                        name="radio-buttons-group"
-                        // onChange={(e) => setInvoiceStatusQuery(e.target.value)}
-                    >
+                    <FormGroup row value={invoiceStatusQuery} aria-labelledby="demo-radio-buttons-group-label" name="radio-buttons-group">
                         <FormControlLabel
                             control={
                                 <Checkbox

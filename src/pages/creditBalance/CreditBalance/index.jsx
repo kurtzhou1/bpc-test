@@ -39,10 +39,6 @@ const CreditBalance = () => {
     const [editItem, setEditItem] = useState(NaN);
     const [modifyNote, setModifyNote] = useState('');
 
-    const creditBalanceQuery = () => {
-        console.log('CreditBalanceQueryFunction');
-    };
-
     const handleDialogOpen = () => {
         setIsDialogOpen(true);
         setDialogAction('add');
@@ -136,7 +132,7 @@ const CreditBalance = () => {
                 />
             </Grid>
             <Grid item xs={12}>
-                <CreditBalanceQuery creditBalanceQuery={creditBalanceQuery} />
+                <CreditBalanceQuery />
             </Grid>
             <Grid item xs={12}>
                 <MainCard title="Credit Balance資料列表">
