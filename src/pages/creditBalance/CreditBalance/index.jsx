@@ -124,7 +124,7 @@ const CreditBalance = () => {
                     handleDialogClose={handleDialogClose}
                     isDialogOpen={isDialogOpen}
                     billMilestone={billMilestone}
-                    artiesList={partiesList}
+                    partiesList={partiesList}
                     subCableList={subCableList}
                 />
             </Grid>

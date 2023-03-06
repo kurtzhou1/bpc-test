@@ -154,7 +154,7 @@ const CreditBalanceAdd = ({ handleDialogClose, isDialogOpen, billMilestone, part
                         </Typography>
                     </Grid>
                     <Grid item xs={3} sm={3} md={3} lg={3}>
-                        {/* <FormControl fullWidth size="small">
+                        <FormControl fullWidth size="small">
                             <InputLabel id="demo-simple-select-label">選擇會員</InputLabel>
                             <Select
                                 // labelId="demo-simple-select-label"
@@ -167,7 +167,7 @@ const CreditBalanceAdd = ({ handleDialogClose, isDialogOpen, billMilestone, part
                                     <MenuItem value={i.PartyName}>{i.PartyName}</MenuItem>
                                 ))}
                             </Select>
-                        </FormControl> */}
+                        </FormControl>
                     </Grid>
                     {/* <Grid item xs={3} sm={3} md={3} lg={3} xl={6} /> */}
                     <Grid item xs={3} sm={3} md={3} lg={3} display="flex" justifyContent="center">
