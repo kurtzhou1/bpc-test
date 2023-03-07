@@ -25,13 +25,11 @@ const JournalQuery = ({ setListInfo, queryApi, invoiceStatus }) => {
     const [submarineCable, setSubmarineCable] = useState(''); //海纜名稱
     const [issueDate, setIssueDate] = useState([null, null]); //發票日期
     const { supNmList, subCableList } = useSelector((state) => state.dropdown); //供應商下拉選單 + 海纜名稱下拉選單
-    // const [partyName, setPartyName] = useState(''); //會員代號
 
     const initQuery = () => {
         setSupplierName('');
         setSubmarineCable('');
         setIssueDate([null, null]);
-        // setPartyName('');
     };
 
     const jounaryQuery = () => {
