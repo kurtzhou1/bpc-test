@@ -2,11 +2,11 @@
 export const submarineCableList = 'http://10.193.130.7:8000/api/v1/SubmarineCables/all'; // 海纜名稱
 export const supplierNameList = 'http://10.193.130.7:8000/api/v1/Suppliers/all';
 export const getPartiesInfoList = 'http://10.193.130.7:8000/api/v1/Parties/all'; // 會員名稱
+export const billMilestoneLiabilityList = 'http://10.193.130.7:8000/api/v1/dropdownmenuBillMilestone'; //記帳段號
 
 //發票管理下拉選單
 
 export const billMilestoneList = 'http://10.193.130.7:8000/api/v1/BillMilestone/';
-export const queryBillMilestoneList = 'http://10.193.130.7:8000/api/v1/dropdownmenuBillMilestone';
 
 // 產生發票工作檔
 export const generateInvoice = 'http://10.193.130.7:8000/api/v1/generateInvoiceWKMaster&InvoiceWKDetail';
@@ -22,7 +22,6 @@ export const deleteInvoiceWKMaster = 'http://10.193.130.7:8000/api/v1/deleteInvo
 export const deleteInvoiceWKDetail = 'http://10.193.130.7:8000/api/v1/deleteInvoiceWKDetail';
 
 //Liability下拉選單
-export const billMilestoneLiabilityList = 'http://10.193.130.7:8000/api/v1/dropdownmenuBillMilestone';
 export const submarineCableLiabilityList = 'http://10.193.130.7:8000/api/v1/dropdownmenuSubmarineCable';
 export const partiesLiabilityList = 'http://10.193.130.7:8000/api/v1/dropdownmenuParties';
 export const workTitleLiabilityList = 'http://10.193.130.7:8000/api/v1/dropdownmenuWorkTitle';

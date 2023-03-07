@@ -24,10 +24,7 @@ import {
     updateInvoice,
     deleteInvoiceWKMaster,
     deleteInvoiceWKDetail,
-    supplierNameList,
-    submarineCableList,
-    billMilestoneList,
-    queryBillMilestoneList
+    billMilestoneList
 } from 'components/apis.jsx';
 
 // redux
@@ -52,7 +49,7 @@ const InvoiceWorkManage = () => {
     const wKMasterID = useRef(); //工作檔ID
 
     const [bmStoneList, setBmStoneList] = useState([]); //記帳段號下拉選單
-    const [queryBmStoneList, setQueryBmStoneList] = useState([]); //條件查詢的記帳段號下拉選單
+    // const [queryBmStoneList, setQueryBmStoneList] = useState([]); //條件查詢的記帳段號下拉選單
 
     const [billMilestone, setBillMilestone] = useState(''); //記帳段號
     const [feeItem, setFeeItem] = useState(''); //費用項目
@@ -63,77 +60,8 @@ const InvoiceWorkManage = () => {
 
     const queryApi = useRef(queryInvoice + '/all');
 
-    const { supNmList, subCableList } = useSelector((state) => state.dropdown); //供應商下拉選單 + 海纜名稱下拉選單
-    // const fakeData = [
-    //     {
-    //         InvoiceWKMaster: {
-    //             WKMasterID: 123,
-    //             InvoiceNo: 'No Number',
-    //             SupplierName: 'NEC',
-    //             SubmarineCable: 'SJC2',
-    //             WorkTitle: 'Construction',
-    //             ContractType: 'SC',
-    //             IssueDate: '2022/9/9',
-    //             TotalAmount: 15466.92,
-    //             Status: 'TEMPORARY',
-    //             IsPro: true,
-    //             IsLiability: false,
-    //             IsRecharge: false
-    //         },
-    //         InvoiceWKDetail: [
-    //             {
-    //                 BillMilestone: 'BM9b',
-    //                 FeeItem: 'BM9b Sea cable manufactured (8.5km spare cable)- Equipment (Off-Shore Korea)',
-    //                 FeeAmount: 6849.91
-    //             },
-    //             {
-    //                 BillMilestone: 'BM9b',
-    //                 FeeItem: 'BM9b Sea cable manufactured (8.5km spare cable)- Equipment (On-Shore Korea)',
-    //                 FeeAmount: 1210.06
-    //             },
-    //             {
-    //                 BillMilestone: 'BM9b',
-    //                 FeeItem: 'BM9b Sea cable manufactured (8.5km spare cable)- Service (Off-Shore Korea)',
-    //                 FeeAmount: 7406.95
-    //             }
-    //         ]
-    //     },
-    //     {
-    //         InvoiceWKMaster: {
-    //             WKMasterID: 456,
-    //             InvoiceNo: 'DT0170168-1',
-    //             SupplierName: 'NEC',
-    //             SubmarineCable: 'SJC2',
-    //             WorkTitle: 'Construction',
-    //             ContractType: 'SC',
-    //             IssueDate: '2022/9/9',
-    //             TotalAmount: 5582012.72,
-    //             Status: 'TEMPORARY',
-    //             IsPro: true,
-    //             IsLiability: true,
-    //             IsRecharge: true
-    //         },
-    //         InvoiceWKDetail: [
-    //             {
-    //                 BillMilestone: 'BM9a',
-    //                 FeeItem: 'BM9a Sea cable manufactured (except 8.5km spare cable))- Equipment',
-    //                 FeeAmount: 1288822.32
-    //             },
-    //             {
-    //                 BillMilestone: 'BM9a',
-    //                 FeeItem: 'BM9a Sea cable manufactured (except 8.5km spare cable))- Service',
-    //                 FeeAmount: 1178227.94
-    //             },
-    //             { BillMilestone: 'BM12', FeeItem: 'BM12 Branching Units (100%)-Equipment', FeeAmount: 1627300.92 },
-    //             {
-    //                 BillMilestone: 'BM12',
-    //                 FeeAmount: 1487661.54,
-    //                 FeeItem: 'BM12 Branching Units (100%)-Service'
-    //             }
-    //         ]
-    //     }
-    // ];
-    // const [listInfo, setListInfo] = useState(fakeData);
+    const { supNmList, subCableList, bmsList } = useSelector((state) => state.dropdown); //供應商下拉選單 + 海纜名稱下拉選單
+
     const [listInfo, setListInfo] = useState([]);
 
     const itemInfoInitial = () => {
@@ -377,16 +305,6 @@ const InvoiceWorkManage = () => {
         }
     }, [workTitle, submarineCable]);
 
-    useEffect(() => {
-        //下拉選單
-        fetch(queryBillMilestoneList, { method: 'GET' })
-            .then((res) => res.json())
-            .then((data) => {
-                setQueryBmStoneList(data);
-            })
-            .catch((e) => console.log('e1=>>', e));
-    }, []);
-
     return (
         <Grid container spacing={1}>
             <Grid item xs={12}>
@@ -398,7 +316,7 @@ const InvoiceWorkManage = () => {
                                 queryApi={queryApi}
                                 supNmList={supNmList}
                                 subCableList={subCableList}
-                                queryBmStoneList={queryBmStoneList}
+                                billmileStoneList={bmsList}
                             />
                         </Grid>
                     </Grid>

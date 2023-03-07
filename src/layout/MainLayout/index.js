@@ -14,7 +14,7 @@ import Breadcrumbs from 'components/@extended/Breadcrumbs';
 
 // types
 import { openDrawer } from 'store/reducers/menu';
-import { setSupplierNameList, setSubmarineCableList, setPartiesList } from 'store/reducers/dropdown';
+import { setSupplierNameList, setSubmarineCableList, setPartiesList, setBillMileStoneList } from 'store/reducers/dropdown';
 
 // api
 import {
@@ -26,7 +26,7 @@ import {
     supplierNameList,
     submarineCableList,
     billMilestoneList,
-    queryBillMilestoneList,
+    billMilestoneLiabilityList,
     getPartiesInfoList
 } from 'components/apis.jsx';
 
@@ -79,6 +79,13 @@ const MainLayout = () => {
             .then((res) => res.json())
             .then((data) => {
                 dispatch(setPartiesList({ partiesList: data }));
+            })
+            .catch((e) => console.log('e1=>>', e));
+        // 記帳段號
+        fetch(billMilestoneLiabilityList, { method: 'GET' })
+            .then((res) => res.json())
+            .then((data) => {
+                dispatch(setBillMileStoneList({ bmsList: data }));
             })
             .catch((e) => console.log('e1=>>', e));
     }, []);

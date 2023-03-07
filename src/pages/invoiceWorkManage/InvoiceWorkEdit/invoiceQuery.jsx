@@ -25,7 +25,7 @@ import MainCard from 'components/MainCard';
 import { queryInvoice } from 'components/apis.jsx';
 import dayjs from 'dayjs';
 
-const InvoiceQueryBlock = ({ setListInfo, queryApi, supNmList, subCableList, queryBmStoneList }) => {
+const InvoiceQueryBlock = ({ setListInfo, queryApi, supNmList, subCableList, billmileStoneList }) => {
     const [issueDate, setIssueDate] = useState([null, null]); //發票日期
     const [supplierNameQuery, setSupplierNameQuery] = useState(''); //供應商
     const [submarineCableQuery, setSubmarineCableQuery] = useState(''); //海纜名稱
@@ -316,7 +316,7 @@ const InvoiceQueryBlock = ({ setListInfo, queryApi, supNmList, subCableList, que
                             label="發票供應商"
                             onChange={(e) => setBillMilestoneQuery(e.target.value)}
                         >
-                            {queryBmStoneList.map((i) => (
+                            {billmileStoneList.map((i) => (
                                 <MenuItem key={i} value={i}>
                                     {i}
                                 </MenuItem>
