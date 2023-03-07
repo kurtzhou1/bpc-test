@@ -37,6 +37,9 @@ import { tableCellClasses } from '@mui/material/TableCell';
 import Paper from '@mui/material/Paper';
 import { styled } from '@mui/material/styles';
 
+// print
+import './styles.css';
+
 const CorrespondenceMake = ({ isDialogOpen, handleDialogClose, listInfo }) => {
     const [cblistInfo, setCbListInfo] = useState(listInfo);
     const [isDefault, setIsDefault] = useState(true);
@@ -84,11 +87,11 @@ const CorrespondenceMake = ({ isDialogOpen, handleDialogClose, listInfo }) => {
 
     return (
         <Dialog onClose={handleDialogClose} maxWidth="lg" fullWidth open={isDialogOpen}>
-            <BootstrapDialogTitle id="customized-dialog-title" onClose={handleDialogClose}>
+            <BootstrapDialogTitle id="customized-dialog-title" onClose={handleDialogClose} className="no-print">
                 製作函稿
             </BootstrapDialogTitle>
-            <DialogContent dividers>
-                <Grid container spacing={1}>
+            <DialogContent dividers className="no-print">
+                <Grid container spacing={1} className="no-print">
                     <Grid item xs={7} sm={7} md={7} lg={7}>
                         <MainCard title="發文基本資訊" sx={{ width: '100%' }}>
                             <Grid container spacing={1}>
@@ -228,25 +231,25 @@ const CorrespondenceMake = ({ isDialogOpen, handleDialogClose, listInfo }) => {
                                                         variant="outlined"
                                                         value={subject1}
                                                         size="small"
-                                                        label="海纜名稱"
+                                                        label="支付項目"
                                                         onChange={(e) => setSubject1(e.target.value)}
                                                         sx={{
                                                             fontSize: { lg: '0.5rem', xl: '0.88rem' },
                                                             ml: { lg: '0.5rem', xl: '1.5rem' },
-                                                            width: '10%'
+                                                            width: '20%'
                                                         }}
                                                     />
-                                                    海纜款項，淨額為美金元
+                                                    ，淨額為美金元
                                                     <TextField
                                                         variant="outlined"
                                                         value={subject2}
                                                         size="small"
-                                                        label="填寫金額"
+                                                        label="填寫中文金額"
                                                         onChange={(e) => setSubject2(e.target.value)}
                                                         sx={{
                                                             fontSize: { lg: '0.5rem', xl: '0.88rem' },
                                                             ml: { lg: '0.5rem', xl: '1.5rem' },
-                                                            width: '10%'
+                                                            width: '20%'
                                                         }}
                                                         // onChange={(e) => setLBRatio(e.target.value)}
                                                     />
@@ -255,8 +258,6 @@ const CorrespondenceMake = ({ isDialogOpen, handleDialogClose, listInfo }) => {
                                                 {/* </Box> */}
                                             </Grid>
                                             <Grid item xs={12} sm={12} md={12} lg={12} display="flex">
-                                                {/* <Box sx={{ display: 'flex', flexFlow: 'column', alignItems: 'center', width: '100%' }}> */}
-                                                {/* <DropzoneArea onChange={handleUploadChange} acceptedFiles={['.pdf']} /> */}
                                                 <FormControlLabel
                                                     value={false}
                                                     control={<Radio sx={{ '& .MuiSvgIcon-root': { fontSize: { lg: 14, xl: 20 } } }} />}
@@ -450,7 +451,7 @@ const CorrespondenceMake = ({ isDialogOpen, handleDialogClose, listInfo }) => {
                             <Box sx={{ fontSize: '14px' }}>
                                 主旨：
                                 {isDefault === 'true' || isDefault === true
-                                    ? `請電匯CIENA JP以支付${subject1}海纜款項，淨額為美金${subject2}元(US$48,576.00)，請查照。`
+                                    ? `請電匯CIENA JP以支付${subject1}，淨額為美金${subject2}元(US$48,576.00)，請查照。`
                                     : subject3}
                             </Box>
                             <Box sx={{ fontSize: '14px' }}>說明：</Box>
@@ -469,7 +470,17 @@ const CorrespondenceMake = ({ isDialogOpen, handleDialogClose, listInfo }) => {
                     </Grid>
                 </Grid>
             </DialogContent>
-            <DialogActions>
+            <DialogActions className="no-print">
+                <Button
+                    sx={{ mr: '0.05rem' }}
+                    variant="contained"
+                    onClick={() => {
+                        window.print();
+                        // itemDetailInitial();
+                    }}
+                >
+                    列印
+                </Button>
                 <Button
                     sx={{ mr: '0.05rem' }}
                     variant="contained"
@@ -481,6 +492,40 @@ const CorrespondenceMake = ({ isDialogOpen, handleDialogClose, listInfo }) => {
                     取消
                 </Button>
             </DialogActions>
+            <Grid container spacing={1} className="no-show">
+                <Grid item xs={12} sm={12} md={12} lg={12}>
+                    <Typography sx={{ fontFamily: 'DFKai-sb', fontWeight: 'bold' }}>
+                        <Box sx={{ fontSize: '22px', m: 1 }}>中華電信股份有限公司國際電信分公司&nbsp;&nbsp;&nbsp;函</Box>
+                        <Box sx={{ fontSize: '14px', textAlign: 'right' }}>地址：106&nbsp;台北市愛國東路31號</Box>
+                        <Box sx={{ fontSize: '14px', textAlign: 'right' }}>{`聯絡方式：${contact}(${tel})`}</Box>
+                        <Box sx={{ fontSize: '14px', textAlign: 'right' }}>{`e-mail：${email}`}</Box>
+                        <Box sx={{ fontSize: '14px' }}>{`受文者：${receipient}`}</Box>
+                        <Box sx={{ fontSize: '14px' }}>發文日期：中華民國112年01月30日</Box>
+                        <Box sx={{ fontSize: '14px' }}>{`發文字號：${number}`}</Box>
+                        <Box sx={{ fontSize: '14px' }}>速別：最速件</Box>
+                        <Box sx={{ fontSize: '14px' }}>密等及解密條件或保密期限：</Box>
+                        <Box sx={{ fontSize: '14px' }}>附件： 如文</Box>
+                        <Box sx={{ fontSize: '16px' }}>
+                            主旨：
+                            {isDefault === 'true' || isDefault === true
+                                ? `請電匯CIENA JP以支付${subject1}，淨額為美金${subject2}元(US$48,576.00)，請查照。`
+                                : subject3}
+                        </Box>
+                        <Box sx={{ fontSize: '16px' }}>說明：</Box>
+                        <Box sx={{ fontSize: '14px' }}>一、請貴分行自本分公司之帳戶(帳號{acctNo})匯至以下帳戶</Box>
+                        <Box sx={{ fontSize: '14px' }}>&nbsp;&nbsp;&nbsp;&nbsp;Account Name: {supplierAcctName}.</Box>
+                        <Box sx={{ fontSize: '14px' }}>&nbsp;&nbsp;&nbsp;&nbsp;Bank: {supplierBank}</Box>
+                        <Box sx={{ fontSize: '14px' }}>&nbsp;&nbsp;&nbsp;&nbsp;Address：{supplierBankAddress}</Box>
+                        <Box sx={{ fontSize: '14px' }}>&nbsp;&nbsp;&nbsp;&nbsp;Account Number: {supplierAcctNumber}</Box>
+                        <Box sx={{ fontSize: '14px' }}>&nbsp;&nbsp;&nbsp;&nbsp;IBAN: {iBAN}</Box>
+                        <Box sx={{ fontSize: '14px' }}>&nbsp;&nbsp;&nbsp;&nbsp;SWIFT: {supplierSWIFTCode}</Box>
+                        <Box sx={{ fontSize: '14px' }}>二、本款項請即時匯出，匯款時請附加說明：</Box>
+                        <Box sx={{ fontSize: '14px' }}>&nbsp;&nbsp;&nbsp;&nbsp;Invoice No.15328/15428, {cableName}, US$48,576.00</Box>
+                        <Box sx={{ fontSize: '14px' }}>三、本款項為全額到行。</Box>
+                        <Box sx={{ fontSize: '14px' }}>四、檢附貴行外幣活期存款第007-53-110022號帳戶同額美金取款憑條乙紙。</Box>
+                    </Typography>
+                </Grid>
+            </Grid>
         </Dialog>
     );
 };
