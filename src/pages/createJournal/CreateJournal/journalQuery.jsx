@@ -13,7 +13,7 @@ import { DateRangePicker } from '@mui/x-date-pickers-pro/DateRangePicker';
 import { TextField } from '@mui/material/index';
 
 //api
-import { queryJounary } from 'components/apis.jsx';
+import { queryInvoice } from 'components/apis.jsx';
 
 // redux
 import { useSelector } from 'react-redux';
@@ -25,14 +25,12 @@ const JournalQuery = ({ setListInfo, queryApi, invoiceStatus }) => {
     const [submarineCable, setSubmarineCable] = useState(''); //海纜名稱
     const [issueDate, setIssueDate] = useState([null, null]); //發票日期
     const { supNmList, subCableList } = useSelector((state) => state.dropdown); //供應商下拉選單 + 海纜名稱下拉選單
-    // const [isLiability, setIsLiability] = useState(true); //是否需攤分
     // const [partyName, setPartyName] = useState(''); //會員代號
 
     const initQuery = () => {
         setSupplierName('');
         setSubmarineCable('');
         setIssueDate([null, null]);
-        setIsLiability(true);
         // setPartyName('');
     };
 
@@ -68,7 +66,7 @@ const JournalQuery = ({ setListInfo, queryApi, invoiceStatus }) => {
             tmpQuery = tmpQuery.slice(0, -1);
         }
 
-        tmpQuery = queryJounary + tmpQuery;
+        tmpQuery = queryInvoice + tmpQuery;
         queryApi.current = tmpQuery;
         console.log('立帳發票查詢=>>', tmpQuery);
         fetch(tmpQuery, { method: 'GET' })
@@ -80,10 +78,6 @@ const JournalQuery = ({ setListInfo, queryApi, invoiceStatus }) => {
             })
             .catch((e) => console.log('e1=>>', e));
     };
-
-    useEffect(() => {
-        jounaryQuery();
-    });
 
     return (
         <MainCard title="發票查詢" sx={{ width: '100%' }}>

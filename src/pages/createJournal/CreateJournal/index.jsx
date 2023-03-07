@@ -21,13 +21,13 @@ import Autocomplete from '@mui/material/Autocomplete';
 // import CheckBoxIcon from '@mui/icons-material/CheckBox';
 
 // api
-import { queryJounary } from 'components/apis.jsx';
+import { queryInvoice } from 'components/apis.jsx';
 
 const CreateJournal = () => {
     const [listInfo, setListInfo] = useState([]);
     const [value, setValue] = useState(0);
     const isFirst = useRef(true);
-    const queryApi = useRef(queryJounary + '/all');
+    const queryApi = useRef(queryInvoice + '/all');
     const apiQuery = () => {
         let tmpQuery = '/';
 
@@ -43,7 +43,7 @@ const CreateJournal = () => {
             tmpQuery = tmpQuery.slice(0, -1);
         }
 
-        tmpQuery = queryJounary + tmpQuery;
+        tmpQuery = queryInvoice + tmpQuery;
         queryApi.current = tmpQuery;
         fetch(tmpQuery, { method: 'GET' })
             .then((res) => res.json())
@@ -72,7 +72,7 @@ const CreateJournal = () => {
             tmpQuery = tmpQuery.slice(0, -1);
         }
 
-        tmpQuery = queryJounary + tmpQuery;
+        tmpQuery = queryInvoice + tmpQuery;
         queryApi.current = tmpQuery;
         fetch(tmpQuery, { method: 'GET' })
             .then((res) => res.json())
