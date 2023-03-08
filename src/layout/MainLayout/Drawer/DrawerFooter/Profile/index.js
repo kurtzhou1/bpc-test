@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import { useRef, useState } from 'react';
+import { useRef, useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 
 // material-ui
@@ -25,10 +25,15 @@ import MainCard from 'components/MainCard';
 import Transitions from 'components/@extended/Transitions';
 import ProfileTab from './ProfileTab';
 import SettingTab from './SettingTab';
+import { styled } from '@mui/material/styles';
 
 // assets
 import avatar1 from 'assets/images/users/avatar-1.png';
 import { LogoutOutlined, SettingOutlined, UserOutlined } from '@ant-design/icons';
+import Switch, { SwitchProps } from '@mui/material/Switch';
+
+// translation
+import { useTranslation } from 'react-i18next';
 
 // tab panel wrapper
 function TabPanel({ children, value, index, ...other }) {
@@ -58,6 +63,8 @@ const Profile = () => {
     const theme = useTheme();
     const menu = useSelector((state) => state.menu);
     const { drawerOpen } = menu;
+    const { i18n } = useTranslation();
+    const [lang, setLang] = useState(null);
 
     const handleLogout = async () => {
         // logout
@@ -82,7 +89,63 @@ const Profile = () => {
         setValue(newValue);
     };
 
+    const handleSwitch = (e) => {
+        console.log('e=>>', e.target.checked);
+        if (e.target.checked) {
+            setLang('zh_tw');
+        } else {
+            setLang('en');
+        }
+    };
+
     const iconBackColorOpen = 'grey.300';
+
+    const AntSwitch = styled(Switch)(({ theme }) => ({
+        width: 28,
+        height: 16,
+        padding: 0,
+        display: 'flex',
+        '&:active': {
+            '& .MuiSwitch-thumb': {
+                width: 15
+            },
+            '& .MuiSwitch-switchBase.Mui-checked': {
+                transform: 'translateX(9px)'
+            }
+        },
+        '& .MuiSwitch-switchBase': {
+            padding: 2,
+            '&.Mui-checked': {
+                transform: 'translateX(12px)',
+                color: '#fff',
+                '& + .MuiSwitch-track': {
+                    opacity: 1,
+                    backgroundColor: theme.palette.mode === 'dark' ? '#177ddc' : '#1890ff'
+                }
+            }
+        },
+        '& .MuiSwitch-thumb': {
+            boxShadow: '0 2px 4px 0 rgb(0 35 11 / 20%)',
+            width: 12,
+            height: 12,
+            borderRadius: 6,
+            transition: theme.transitions.create(['width'], {
+                duration: 200
+            })
+        },
+        '& .MuiSwitch-track': {
+            borderRadius: 16 / 2,
+            opacity: 1,
+            backgroundColor: theme.palette.mode === 'dark' ? 'rgba(255,255,255,.35)' : 'rgba(0,0,0,.25)',
+            boxSizing: 'border-box'
+        }
+    }));
+
+    useEffect(() => {
+        if (lang !== null) i18n.changeLanguage(lang);
+        console.log('lang=>>', lang);
+        // console.log('useTranslation=>>', useTranslation);
+    }, [lang]);
 
     return (
         <Box sx={{ flexShrink: 0, ml: 0 }}>
@@ -101,16 +164,16 @@ const Profile = () => {
             >
                 <Stack direction="row" spacing={2} alignItems="center" sx={{ p: 0.5 }}>
                     <Avatar alt="profile user" src={avatar1} sx={{ width: 32, height: 32 }} />
-                    {drawerOpen ? <Typography variant="subtitle1">John Doe</Typography> : ''}
+                    {drawerOpen ? <Typography variant="subtitle1">張XX</Typography> : ''}
                 </Stack>
             </ButtonBase>
             <Popper
-                placement="bottom-end"
+                placement="top"
                 open={open}
                 anchorEl={anchorRef.current}
                 role={undefined}
                 transition
-                disablePortal
+                // disablePortal
                 popperOptions={{
                     modifiers: [
                         {
@@ -121,6 +184,7 @@ const Profile = () => {
                         }
                     ]
                 }}
+                sx={{ zIndex: 2000 }}
             >
                 {({ TransitionProps }) => (
                     <Transitions type="fade" in={open} {...TransitionProps}>
@@ -144,7 +208,7 @@ const Profile = () => {
                                                     <Stack direction="row" spacing={1.25} alignItems="center">
                                                         <Avatar alt="profile user" src={avatar1} sx={{ width: 32, height: 32 }} />
                                                         <Stack>
-                                                            <Typography variant="h6">John Doe</Typography>
+                                                            <Typography variant="h6">張XX</Typography>
                                                             <Typography variant="body2" color="textSecondary">
                                                                 UI/UX Designer
                                                             </Typography>
@@ -152,9 +216,18 @@ const Profile = () => {
                                                     </Stack>
                                                 </Grid>
                                                 <Grid item>
-                                                    <IconButton size="large" color="secondary" onClick={handleLogout}>
+                                                    {/* <IconButton size="large" color="secondary" onClick={handleLogout}>
                                                         <LogoutOutlined />
-                                                    </IconButton>
+                                                    </IconButton> */}
+                                                    <Stack direction="row" spacing={1} alignItems="center">
+                                                        <Typography>英</Typography>
+                                                        <AntSwitch
+                                                            defaultChecked
+                                                            inputProps={{ 'aria-label': 'ant design' }}
+                                                            onChange={handleSwitch}
+                                                        />
+                                                        <Typography>中</Typography>
+                                                    </Stack>
                                                 </Grid>
                                             </Grid>
                                         </CardContent>

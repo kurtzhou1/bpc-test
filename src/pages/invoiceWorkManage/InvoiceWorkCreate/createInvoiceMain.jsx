@@ -10,10 +10,11 @@ import dayjs from 'dayjs';
 // project import
 import MainCard from 'components/MainCard';
 import { handleNumber } from 'components/commonFunction';
-// import CreateInvoiceMain from './createInvoiceMain';
 import CreateInvoiceDetail from './createInvoiceDetail';
 import InvoiceDataList from './invoiceDataList';
 import { TextField } from '@mui/material/index';
+
+import { useTranslation } from 'react-i18next';
 
 // ==============================|| SAMPLE PAGE ||============================== //
 
@@ -45,13 +46,15 @@ const InvoiceWorkManage = ({
     supNmList,
     subCableList
 }) => {
+    const { t } = useTranslation();
     return (
         <MainCard title="發票工作主檔建立" sx={{ height: '100%' }}>
             <Grid container display="flex" justifyContent="center" alignItems="center" spacing={1}>
                 {/* row1 */}
                 <Grid item xs={12} sm={6} md={3} lg={2}>
                     <Typography variant="h5" sx={{ fontSize: { lg: '0.5rem', xl: '0.88rem' }, ml: { lg: '0.5rem', xl: '1.5rem' } }}>
-                        供應商：
+                        {/* 供應商： */}
+                        {t('Supplier Name')}：
                     </Typography>
                 </Grid>
                 <Grid item xs={12} sm={6} md={3} lg={4}>
@@ -74,7 +77,7 @@ const InvoiceWorkManage = ({
                 </Grid>
                 <Grid item xs={12} sm={6} md={3} lg={2}>
                     <Typography variant="h5" sx={{ fontSize: { lg: '0.5rem', xl: '0.88rem' }, ml: { lg: '0.5rem', xl: '1.5rem' } }}>
-                        發票號碼：
+                        {t('Invoice No')}：
                     </Typography>
                 </Grid>
                 <Grid item xs={12} sm={6} md={3} lg={4}>
@@ -90,7 +93,7 @@ const InvoiceWorkManage = ({
                 {/* row2 */}
                 <Grid item xs={12} sm={6} md={3} lg={2}>
                     <Typography variant="h5" sx={{ fontSize: { lg: '0.5rem', xl: '0.88rem' }, ml: { lg: '0.5rem', xl: '1.5rem' } }}>
-                        海纜名稱：
+                        {t('Submarine Cable')}：
                     </Typography>
                 </Grid>
                 <Grid item xs={12} sm={6} md={3} lg={4}>
@@ -113,7 +116,7 @@ const InvoiceWorkManage = ({
                 </Grid>
                 <Grid item xs={12} sm={6} md={3} lg={2}>
                     <Typography variant="h5" sx={{ fontSize: { lg: '0.5rem', xl: '0.88rem' }, ml: { lg: '0.5rem', xl: '1.5rem' } }}>
-                        海纜作業：
+                        {t('Work Title')}：
                     </Typography>
                 </Grid>
                 <Grid item xs={12} sm={6} md={3} lg={4}>
@@ -135,7 +138,7 @@ const InvoiceWorkManage = ({
                 {/* row3 */}
                 <Grid item xs={12} sm={6} md={3} lg={2}>
                     <Typography variant="h5" sx={{ fontSize: { lg: '0.5rem', xl: '0.88rem' }, ml: { lg: '0.5rem', xl: '1.5rem' } }}>
-                        合約種類：
+                        {t('Contract Type')}：
                     </Typography>
                 </Grid>
                 <Grid item xs={12} sm={6} md={3} lg={4}>
@@ -155,7 +158,7 @@ const InvoiceWorkManage = ({
                 </Grid>
                 <Grid item xs={12} sm={6} md={3} lg={2}>
                     <Typography variant="h5" sx={{ fontSize: { lg: '0.5rem', xl: '0.88rem' }, ml: { lg: '0.5rem', xl: '1.5rem' } }}>
-                        發票日期：
+                        {t('Issue Date')}：
                     </Typography>
                 </Grid>
                 <Grid item xs={12} sm={6} md={3} lg={4}>
@@ -175,7 +178,7 @@ const InvoiceWorkManage = ({
                 {/* row4 */}
                 <Grid item xs={12} sm={6} md={3} lg={2}>
                     <Typography variant="h5" sx={{ fontSize: { lg: '0.5rem', xl: '0.88rem' }, ml: { lg: '0.5rem', xl: '1.5rem' } }}>
-                        總金額：
+                        {t('Total Amount')}：
                     </Typography>
                 </Grid>
                 <Grid item xs={12} sm={6} md={3} lg={4}>
@@ -193,7 +196,7 @@ const InvoiceWorkManage = ({
                 </Grid>
                 <Grid item xs={12} sm={6} md={3} lg={2}>
                     <Typography variant="h5" sx={{ fontSize: { lg: '0.5rem', xl: '0.88rem' }, ml: { lg: '0.5rem', xl: '1.5rem' } }}>
-                        發票到期日：
+                        {t('Due Date')}：
                     </Typography>
                 </Grid>
                 <Grid item xs={12} sm={6} md={3} lg={4}>
@@ -211,7 +214,7 @@ const InvoiceWorkManage = ({
                 {/* row5 */}
                 <Grid item xs={12} sm={6} md={3} lg={3}>
                     <Typography variant="h5" sx={{ fontSize: { lg: '0.5rem', xl: '0.88rem' }, ml: { lg: '0.5rem', xl: '1.5rem' } }}>
-                        是否為Pro-Forma：
+                        {t('Is Pro Forma')}：
                     </Typography>
                 </Grid>
                 <Grid item xs={12} sm={6} md={3} lg={3}>
@@ -238,7 +241,7 @@ const InvoiceWorkManage = ({
                 </Grid>
                 <Grid item xs={12} sm={6} md={3} lg={3}>
                     <Typography variant="h5" sx={{ fontSize: { lg: '0.5rem', xl: '0.88rem' }, ml: { lg: '0.5rem', xl: '1.5rem' } }}>
-                        是否需攤分：
+                        {t('Is Liability')}：
                     </Typography>
                 </Grid>
                 <Grid item xs={12} sm={6} md={3} lg={3}>
@@ -267,7 +270,7 @@ const InvoiceWorkManage = ({
                 {/* row6 */}
                 <Grid item xs={12} sm={6} md={3} lg={3}>
                     <Typography variant="h5" sx={{ fontSize: { lg: '0.5rem', xl: '0.88rem' }, ml: { lg: '0.5rem', xl: '1.5rem' } }}>
-                        是否為短繳補收：
+                        {t('Is Recharge')}：
                     </Typography>
                 </Grid>
                 <Grid item xs={12} sm={6} md={3} lg={3}>

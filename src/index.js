@@ -16,6 +16,9 @@ import App from './App';
 import { store } from 'store';
 import reportWebVitals from './reportWebVitals';
 
+// translation
+import 'components/i18n';
+
 // ==============================|| MAIN - REACT DOM RENDER  ||============================== //
 
 const container = document.getElementById('root');
