@@ -48,9 +48,9 @@ export default function SimpleBarScroll({ children, sx, ...other }) {
                 </SimpleBarStyle>
             </RootStyle>
             <MobileView>
-                <Box sx={{ overflowX: 'auto', ...sx }} {...other}>
+                {/* <Box sx={{ overflowX: 'auto', ...sx }} {...other}>
                     {children}
-                </Box>
+                </Box> */}
             </MobileView>
         </>
     );

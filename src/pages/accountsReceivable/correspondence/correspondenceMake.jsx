@@ -495,34 +495,34 @@ const CorrespondenceMake = ({ isDialogOpen, handleDialogClose, listInfo }) => {
             <Grid container spacing={1} className="no-show">
                 <Grid item xs={12} sm={12} md={12} lg={12}>
                     <Typography sx={{ fontFamily: 'DFKai-sb', fontWeight: 'bold' }}>
-                        <Box sx={{ fontSize: '22px', m: 1 }}>中華電信股份有限公司國際電信分公司&nbsp;&nbsp;&nbsp;函</Box>
-                        <Box sx={{ fontSize: '14px', textAlign: 'right' }}>地址：106&nbsp;台北市愛國東路31號</Box>
-                        <Box sx={{ fontSize: '14px', textAlign: 'right' }}>{`聯絡方式：${contact}(${tel})`}</Box>
-                        <Box sx={{ fontSize: '14px', textAlign: 'right' }}>{`e-mail：${email}`}</Box>
-                        <Box sx={{ fontSize: '14px' }}>{`受文者：${receipient}`}</Box>
-                        <Box sx={{ fontSize: '14px' }}>發文日期：中華民國112年01月30日</Box>
-                        <Box sx={{ fontSize: '14px' }}>{`發文字號：${number}`}</Box>
-                        <Box sx={{ fontSize: '14px' }}>速別：最速件</Box>
-                        <Box sx={{ fontSize: '14px' }}>密等及解密條件或保密期限：</Box>
-                        <Box sx={{ fontSize: '14px' }}>附件： 如文</Box>
-                        <Box sx={{ fontSize: '16px' }}>
+                        <Box sx={{ fontSize: '32px', m: 2 }}>中華電信股份有限公司國際電信分公司&nbsp;&nbsp;&nbsp;函</Box>
+                        <Box sx={{ fontSize: '20px', textAlign: 'right' }}>地址：106&nbsp;台北市愛國東路31號</Box>
+                        <Box sx={{ fontSize: '20px', textAlign: 'right' }}>{`聯絡方式：${contact}(${tel})`}</Box>
+                        <Box sx={{ fontSize: '20px', textAlign: 'right' }}>{`e-mail：${email}`}</Box>
+                        <Box sx={{ fontSize: '22px' }}>{`受文者：${receipient}`}</Box>
+                        <Box sx={{ fontSize: '20px' }}>發文日期：中華民國112年01月30日</Box>
+                        <Box sx={{ fontSize: '20px' }}>{`發文字號：${number}`}</Box>
+                        <Box sx={{ fontSize: '20px' }}>速別：最速件</Box>
+                        <Box sx={{ fontSize: '20px' }}>密等及解密條件或保密期限：</Box>
+                        <Box sx={{ fontSize: '20px' }}>附件： 如文</Box>
+                        <Box sx={{ fontSize: '22px' }}>
                             主旨：
                             {isDefault === 'true' || isDefault === true
                                 ? `請電匯CIENA JP以支付${subject1}，淨額為美金${subject2}元(US$48,576.00)，請查照。`
                                 : subject3}
                         </Box>
-                        <Box sx={{ fontSize: '16px' }}>說明：</Box>
-                        <Box sx={{ fontSize: '14px' }}>一、請貴分行自本分公司之帳戶(帳號{acctNo})匯至以下帳戶</Box>
-                        <Box sx={{ fontSize: '14px' }}>&nbsp;&nbsp;&nbsp;&nbsp;Account Name: {supplierAcctName}.</Box>
-                        <Box sx={{ fontSize: '14px' }}>&nbsp;&nbsp;&nbsp;&nbsp;Bank: {supplierBank}</Box>
-                        <Box sx={{ fontSize: '14px' }}>&nbsp;&nbsp;&nbsp;&nbsp;Address：{supplierBankAddress}</Box>
-                        <Box sx={{ fontSize: '14px' }}>&nbsp;&nbsp;&nbsp;&nbsp;Account Number: {supplierAcctNumber}</Box>
-                        <Box sx={{ fontSize: '14px' }}>&nbsp;&nbsp;&nbsp;&nbsp;IBAN: {iBAN}</Box>
-                        <Box sx={{ fontSize: '14px' }}>&nbsp;&nbsp;&nbsp;&nbsp;SWIFT: {supplierSWIFTCode}</Box>
-                        <Box sx={{ fontSize: '14px' }}>二、本款項請即時匯出，匯款時請附加說明：</Box>
-                        <Box sx={{ fontSize: '14px' }}>&nbsp;&nbsp;&nbsp;&nbsp;Invoice No.15328/15428, {cableName}, US$48,576.00</Box>
-                        <Box sx={{ fontSize: '14px' }}>三、本款項為全額到行。</Box>
-                        <Box sx={{ fontSize: '14px' }}>四、檢附貴行外幣活期存款第007-53-110022號帳戶同額美金取款憑條乙紙。</Box>
+                        <Box sx={{ fontSize: '22px' }}>說明：</Box>
+                        <Box sx={{ fontSize: '20px' }}>一、請貴分行自本分公司之帳戶(帳號{acctNo})匯至以下帳戶</Box>
+                        <Box sx={{ fontSize: '20px' }}>&nbsp;&nbsp;&nbsp;&nbsp;Account Name: {supplierAcctName}.</Box>
+                        <Box sx={{ fontSize: '20px' }}>&nbsp;&nbsp;&nbsp;&nbsp;Bank: {supplierBank}</Box>
+                        <Box sx={{ fontSize: '20px' }}>&nbsp;&nbsp;&nbsp;&nbsp;Address：{supplierBankAddress}</Box>
+                        <Box sx={{ fontSize: '20px' }}>&nbsp;&nbsp;&nbsp;&nbsp;Account Number: {supplierAcctNumber}</Box>
+                        <Box sx={{ fontSize: '20px' }}>&nbsp;&nbsp;&nbsp;&nbsp;IBAN: {iBAN}</Box>
+                        <Box sx={{ fontSize: '20px' }}>&nbsp;&nbsp;&nbsp;&nbsp;SWIFT: {supplierSWIFTCode}</Box>
+                        <Box sx={{ fontSize: '20px' }}>二、本款項請即時匯出，匯款時請附加說明：</Box>
+                        <Box sx={{ fontSize: '20px' }}>&nbsp;&nbsp;&nbsp;&nbsp;Invoice No.15328/15428, {cableName}, US$48,576.00</Box>
+                        <Box sx={{ fontSize: '20px' }}>三、本款項為全額到行。</Box>
+                        <Box sx={{ fontSize: '20px' }}>四、檢附貴行外幣活期存款第007-53-110022號帳戶同額美金取款憑條乙紙。</Box>
                     </Typography>
                 </Grid>
             </Grid>

@@ -3,19 +3,7 @@ import { useState, useRef } from 'react';
 // project import
 import { handleNumber, BootstrapDialogTitle } from 'components/commonFunction';
 // material-ui
-import {
-    Typography,
-    Button,
-    Table,
-    Dialog,
-    DialogContent,
-    Grid,
-    FormControl,
-    InputLabel,
-    Select,
-    DialogContentText,
-    DialogActions
-} from '@mui/material';
+import { Button, Table, Dialog, DialogContent, DialogContentText, DialogActions, Box } from '@mui/material';
 import TableBody from '@mui/material/TableBody';
 import TableCell, { tableCellClasses } from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
@@ -218,14 +206,23 @@ const BilledDataList = ({ listInfo, apiQuery }) => {
                                     <StyledTableCell align="center">{row.InvoiceWKDetail.length}</StyledTableCell>
                                     <StyledTableCell align="center">{handleNumber(row.InvoiceWKMaster.TotalAmount)}</StyledTableCell>
                                     <StyledTableCell align="center">
-                                        <Button
-                                            color="primary"
-                                            onClick={() => {
-                                                billDataView(row.InvoiceWKMaster.WKMasterID);
+                                        <Box
+                                            sx={{
+                                                display: 'flex',
+                                                justifyContent: 'center',
+                                                '& button': { mx: { sm: 0.3, md: 0.3, lg: 0.6, xl: 1.5 }, p: 0, fontSize: 1 }
                                             }}
                                         >
-                                            檢視
-                                        </Button>
+                                            <Button
+                                                color="primary"
+                                                variant="outlined"
+                                                onClick={() => {
+                                                    billDataView(row.InvoiceWKMaster.WKMasterID);
+                                                }}
+                                            >
+                                                檢視
+                                            </Button>
+                                        </Box>
                                     </StyledTableCell>
                                 </TableRow>
                             );

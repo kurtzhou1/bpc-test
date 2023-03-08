@@ -3,27 +3,14 @@ import { useState, useRef } from 'react';
 // project import
 import { handleNumber, BootstrapDialogTitle } from 'components/commonFunction';
 // material-ui
-import {
-    Typography,
-    Button,
-    Table,
-    Dialog,
-    DialogContent,
-    DialogContentText,
-    Grid,
-    FormControl,
-    InputLabel,
-    Select,
-    DialogActions,
-    TextField
-} from '@mui/material';
+import { Typography, Button, Table, Dialog, DialogContent, DialogContentText, DialogActions, TextField, Box } from '@mui/material';
 import TableBody from '@mui/material/TableBody';
 import TableCell, { tableCellClasses } from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
-import { alpha, styled } from '@mui/material/styles';
+import { styled } from '@mui/material/styles';
 
 import dayjs from 'dayjs';
 
@@ -270,14 +257,23 @@ const ToBillDataList = ({ listInfo, apiQuery }) => {
                                     <StyledTableCell align="center">{row.InvoiceWKDetail.length}</StyledTableCell>
                                     <StyledTableCell align="center">{handleNumber(row.InvoiceWKMaster.TotalAmount)}</StyledTableCell>
                                     <StyledTableCell align="center">
-                                        <Button
-                                            color="primary"
-                                            onClick={() => {
-                                                toBillData(row.InvoiceWKMaster.WKMasterID);
+                                        <Box
+                                            sx={{
+                                                display: 'flex',
+                                                justifyContent: 'center',
+                                                '& button': { mx: { sm: 0.3, md: 0.3, lg: 0.6, xl: 1.5 }, p: 0, fontSize: 1 }
                                             }}
                                         >
-                                            立帳作業
-                                        </Button>
+                                            <Button
+                                                color="primary"
+                                                variant="outlined"
+                                                onClick={() => {
+                                                    toBillData(row.InvoiceWKMaster.WKMasterID);
+                                                }}
+                                            >
+                                                立帳作業
+                                            </Button>
+                                        </Box>
                                     </StyledTableCell>
                                 </TableRow>
                             );

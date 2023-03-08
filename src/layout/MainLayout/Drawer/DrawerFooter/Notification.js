@@ -88,12 +88,13 @@ const Notification = () => {
                     {drawerOpen ? <ListItemText sx={{ flexShrink: 0, ml: 0.5 }}>Notification</ListItemText> : ''}
                 </IconButton>
                 <Popper
-                    placement={matchesXs ? 'bottom' : 'bottom-end'}
+                    // placement={matchesXs ? 'bottom' : 'bottom-end'}
+                    placement={matchesXs ? 'right' : 'right-end'}
                     open={open}
                     anchorEl={anchorRef.current}
                     role={undefined}
                     transition
-                    disablePortal
+                    disablePortal={false}
                     popperOptions={{
                         modifiers: [
                             {
@@ -103,6 +104,9 @@ const Notification = () => {
                                 }
                             }
                         ]
+                    }}
+                    sx={{
+                        zIndex: 1800
                     }}
                 >
                     {({ TransitionProps }) => (
@@ -154,13 +158,14 @@ const Notification = () => {
                                                 </ListItemAvatar>
                                                 <ListItemText
                                                     primary={
-                                                        <Typography variant="h6">
-                                                            It&apos;s{' '}
-                                                            <Typography component="span" variant="subtitle1">
-                                                                Cristina danny&apos;s
-                                                            </Typography>{' '}
-                                                            birthday today.
-                                                        </Typography>
+                                                        // <Typography variant="h6">
+                                                        //     It&apos;s
+                                                        //     <Typography component="span" variant="subtitle1">
+                                                        //         Cristina danny&apos;s
+                                                        //     </Typography>
+                                                        //     birthday today.
+                                                        // </Typography>
+                                                        <Typography variant="h6">發票工作管理有一筆資料即將到期</Typography>
                                                     }
                                                     secondary="2 min ago"
                                                 />
@@ -184,12 +189,13 @@ const Notification = () => {
                                                 </ListItemAvatar>
                                                 <ListItemText
                                                     primary={
-                                                        <Typography variant="h6">
-                                                            <Typography component="span" variant="subtitle1">
-                                                                Aida Burg
-                                                            </Typography>{' '}
-                                                            commented your post.
-                                                        </Typography>
+                                                        // <Typography variant="h6">
+                                                        //     <Typography component="span" variant="subtitle1">
+                                                        //         Aida Burg
+                                                        //     </Typography>
+                                                        //     commented your post.
+                                                        // </Typography>
+                                                        <Typography variant="h6">立帳管理有一筆資料即將到期</Typography>
                                                     }
                                                     secondary="5 August"
                                                 />
@@ -213,12 +219,13 @@ const Notification = () => {
                                                 </ListItemAvatar>
                                                 <ListItemText
                                                     primary={
-                                                        <Typography variant="h6">
-                                                            Your Profile is Complete &nbsp;
-                                                            <Typography component="span" variant="subtitle1">
-                                                                60%
-                                                            </Typography>{' '}
-                                                        </Typography>
+                                                        // <Typography variant="h6">
+                                                        //     Your Profile is Complete &nbsp;
+                                                        //     <Typography component="span" variant="subtitle1">
+                                                        //         60%
+                                                        //     </Typography>
+                                                        // </Typography>
+                                                        <Typography variant="h6">立帳管理有一筆資料即將到期</Typography>
                                                     }
                                                     secondary="7 hours ago"
                                                 />
@@ -242,15 +249,16 @@ const Notification = () => {
                                                 </ListItemAvatar>
                                                 <ListItemText
                                                     primary={
-                                                        <Typography variant="h6">
-                                                            <Typography component="span" variant="subtitle1">
-                                                                Cristina Danny
-                                                            </Typography>{' '}
-                                                            invited to join{' '}
-                                                            <Typography component="span" variant="subtitle1">
-                                                                Meeting.
-                                                            </Typography>
-                                                        </Typography>
+                                                        // <Typography variant="h6">
+                                                        //     <Typography component="span" variant="subtitle1">
+                                                        //         Cristina Danny
+                                                        //     </Typography>
+                                                        //     invited to join
+                                                        //     <Typography component="span" variant="subtitle1">
+                                                        //         Meeting.
+                                                        //     </Typography>
+                                                        // </Typography>
+                                                        <Typography variant="h6">立帳管理有一筆資料即將到期</Typography>
                                                     }
                                                     secondary="Daily scrum meeting time"
                                                 />
@@ -261,7 +269,7 @@ const Notification = () => {
                                                 </ListItemSecondaryAction>
                                             </ListItemButton>
                                             <Divider />
-                                            <ListItemButton sx={{ textAlign: 'center', py: `${12}px !important` }}>
+                                            {/* <ListItemButton sx={{ textAlign: 'center', py: `${12}px !important` }}>
                                                 <ListItemText
                                                     primary={
                                                         <Typography variant="h6" color="primary">
@@ -269,7 +277,7 @@ const Notification = () => {
                                                         </Typography>
                                                     }
                                                 />
-                                            </ListItemButton>
+                                            </ListItemButton> */}
                                         </List>
                                     </MainCard>
                                 </ClickAwayListener>
