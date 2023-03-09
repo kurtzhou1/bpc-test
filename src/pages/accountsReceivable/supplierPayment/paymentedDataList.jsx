@@ -178,7 +178,6 @@ const WriteOffedDataList = ({ listInfo, apiQuery }) => {
     //         .then((res) => res.json())
     //         .then((data) => {
     //             console.log('立帳成功=>>', data);
-    //             alert('送出立帳成功');
     //             apiQuery();
     //             handleDialogClose();
     //         })

@@ -30,7 +30,12 @@ import dayjs from 'dayjs';
 
 import { addSuppliers, supplierNameList, deleteSuppliers, editSuppliers } from 'components/apis.jsx';
 
+// redux
+import { useDispatch } from 'react-redux';
+import { setMessageStateOpen } from 'store/reducers/dropdown';
+
 const SupplierDataList = ({}) => {
+    const dispatch = useDispatch();
     // const fakeData = [
     //     {
     //         SupplierID: 1,
@@ -133,7 +138,7 @@ const SupplierDataList = ({}) => {
         fetch(addSuppliers, { method: 'POST', body: JSON.stringify(tmpArray), headers: { 'Content-Type': 'application/json' } })
             .then((res) => res.json())
             .then(() => {
-                alert('新增供應商資料成功');
+                dispatch(setMessageStateOpen({ messageStateOpen: { isOpen: true, severity: 'success', message: '新增供應商資料成功' } }));
                 infoInit();
                 querySuppliersInfo();
             })
@@ -144,7 +149,7 @@ const SupplierDataList = ({}) => {
         fetch(deleteSuppliers, { method: 'POST', body: JSON.stringify(row), headers: { 'Content-Type': 'application/json' } })
             .then((res) => res.json())
             .then(() => {
-                alert('刪除供應商資料成功');
+                dispatch(setMessageStateOpen({ messageStateOpen: { isOpen: true, severity: 'success', message: '刪除供應商資料成功' } }));
                 querySuppliersInfo();
             })
             .catch((e) => console.log('e1=>>', e));
@@ -176,7 +181,7 @@ const SupplierDataList = ({}) => {
         fetch(editSuppliers, { method: 'POST', body: JSON.stringify(tmpArray), headers: { 'Content-Type': 'application/json' } })
             .then((res) => res.json())
             .then((data) => {
-                alert('更新供應商資料成功');
+                dispatch(setMessageStateOpen({ messageStateOpen: { isOpen: true, severity: 'success', message: '更新供應商資料成功' } }));
                 editInfoInit();
                 querySuppliersInfo();
             })

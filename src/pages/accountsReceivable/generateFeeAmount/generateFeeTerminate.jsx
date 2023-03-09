@@ -46,7 +46,6 @@ const GenerateFeeTerminate = ({ infoTerminal, handleTerminalClose }) => {
         // fetch(updateLiability, { method: 'POST', body: JSON.stringify(tmpArray) })
         //     .then((res) => res.json())
         //     .then(() => {
-        //         alert('終止成功');
         //         apiQuery();
         //         handleTerminalClose();
         //     })

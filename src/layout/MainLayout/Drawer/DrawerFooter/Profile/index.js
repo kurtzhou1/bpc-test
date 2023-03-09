@@ -64,7 +64,8 @@ const Profile = () => {
     const menu = useSelector((state) => state.menu);
     const { drawerOpen } = menu;
     const { i18n } = useTranslation();
-    const [lang, setLang] = useState(null);
+    // const [lang, setLang] = useState('');
+    const [isZh, setIsZh] = useState(true);
 
     const handleLogout = async () => {
         // logout
@@ -89,13 +90,9 @@ const Profile = () => {
         setValue(newValue);
     };
 
-    const handleSwitch = (e) => {
-        console.log('e=>>', e.target.checked);
-        if (e.target.checked) {
-            setLang('zh_tw');
-        } else {
-            setLang('en');
-        }
+    const handleSwitch = (v) => {
+        console.log('v=>>', v.target.checked);
+        setIsZh(v.target.checked);
     };
 
     const iconBackColorOpen = 'grey.300';
@@ -142,10 +139,16 @@ const Profile = () => {
     }));
 
     useEffect(() => {
-        if (lang !== null) i18n.changeLanguage(lang);
-        console.log('lang=>>', lang);
+        console.log('isZh1=>>', isZh);
+        if (isZh) {
+            i18n.changeLanguage('zh_tw');
+        } else {
+            i18n.changeLanguage('en');
+        }
         // console.log('useTranslation=>>', useTranslation);
-    }, [lang]);
+    }, [isZh]);
+
+    console.log('isZh2=>>', isZh);
 
     return (
         <Box sx={{ flexShrink: 0, ml: 0 }}>
@@ -223,6 +226,7 @@ const Profile = () => {
                                                         <Typography>英</Typography>
                                                         <AntSwitch
                                                             defaultChecked
+                                                            value={isZh}
                                                             inputProps={{ 'aria-label': 'ant design' }}
                                                             onChange={handleSwitch}
                                                         />

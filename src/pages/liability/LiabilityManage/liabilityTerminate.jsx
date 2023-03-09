@@ -12,7 +12,12 @@ import { updateLiability } from 'components/apis.jsx';
 // project
 import { BootstrapDialogTitle } from 'components/commonFunction';
 
+// redux
+import { useDispatch } from 'react-redux';
+import { setMessageStateOpen } from 'store/reducers/dropdown';
+
 const LiabilityTerminate = ({ dialogTerminate, handleDialogClose, terminateInfo, apiQuery }) => {
+    const dispatch = useDispatch();
     const [endNote, setEndNote] = useState([]);
 
     const terminalLiability = () => {
@@ -26,7 +31,7 @@ const LiabilityTerminate = ({ dialogTerminate, handleDialogClose, terminateInfo,
         fetch(updateLiability, { method: 'POST', body: JSON.stringify(tmpArray) })
             .then((res) => res.json())
             .then(() => {
-                alert('終止成功');
+                dispatch(setMessageStateOpen({ messageStateOpen: { isOpen: true, severity: 'success', message: '終止成功' } }));
                 apiQuery();
                 handleDialogClose();
             })

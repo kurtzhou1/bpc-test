@@ -29,8 +29,12 @@ import { alpha, styled } from '@mui/material/styles';
 import dayjs from 'dayjs';
 
 import { addCBPBankAccount, getCBPBankAccountInfo, deleteCBPBankAccount, editCBPBankAccount } from 'components/apis.jsx';
+// redux
+import { useDispatch } from 'react-redux';
+import { setMessageStateOpen } from 'store/reducers/dropdown';
 
 const CBPBankAccount = ({}) => {
+    const dispatch = useDispatch();
     const fakeData = [
         {
             CorpID: 1,
@@ -132,7 +136,9 @@ const CBPBankAccount = ({}) => {
         fetch(addCBPBankAccount, { method: 'POST', body: JSON.stringify(tmpArray), headers: { 'Content-Type': 'application/json' } })
             .then((res) => res.json())
             .then(() => {
-                alert('新增聯盟金融帳戶資料成功');
+                dispatch(
+                    setMessageStateOpen({ messageStateOpen: { isOpen: true, severity: 'success', message: '新增聯盟金融帳戶資料成功' } })
+                );
                 infoInit();
                 queryCBPBankAccountInfo();
             })
@@ -143,7 +149,9 @@ const CBPBankAccount = ({}) => {
         fetch(deleteCBPBankAccount, { method: 'POST', body: JSON.stringify(row), headers: { 'Content-Type': 'application/json' } })
             .then((res) => res.json())
             .then(() => {
-                alert('刪除聯盟金融帳戶資料成功');
+                dispatch(
+                    setMessageStateOpen({ messageStateOpen: { isOpen: true, severity: 'success', message: '刪除聯盟金融帳戶資料成功' } })
+                );
                 queryCBPBankAccountInfo();
             })
             .catch((e) => console.log('e1=>>', e));
@@ -176,7 +184,9 @@ const CBPBankAccount = ({}) => {
         fetch(editCBPBankAccount, { method: 'POST', body: JSON.stringify(tmpArray), headers: { 'Content-Type': 'application/json' } })
             .then((res) => res.json())
             .then((data) => {
-                alert('更新聯盟金融帳戶資料成功');
+                dispatch(
+                    setMessageStateOpen({ messageStateOpen: { isOpen: true, severity: 'success', message: '更新聯盟金融帳戶資料成功' } })
+                );
                 editInfoInit();
                 queryCBPBankAccountInfo();
             })

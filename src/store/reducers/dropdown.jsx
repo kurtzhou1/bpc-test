@@ -6,7 +6,8 @@ const initialState = {
     supNmList: [],
     subCableList: [],
     partiesList: [],
-    bmsList: []
+    bmsList: [],
+    messageStateOpen: { isOpen: false, severity: '', message: '' }
 };
 
 // ==============================|| SLICE - MENU ||============================== //
@@ -26,10 +27,13 @@ const dropdown = createSlice({
         },
         setBillMileStoneList(state, action) {
             state.bmsList = action.payload.bmsList;
+        },
+        setMessageStateOpen(state, action) {
+            state.messageStateOpen = action.payload.messageStateOpen;
         }
     }
 });
 
 export default dropdown.reducer;
 
-export const { setSupplierNameList, setSubmarineCableList, setPartiesList, setBillMileStoneList } = dropdown.actions;
+export const { setSupplierNameList, setSubmarineCableList, setPartiesList, setBillMileStoneList, setMessageStateOpen } = dropdown.actions;

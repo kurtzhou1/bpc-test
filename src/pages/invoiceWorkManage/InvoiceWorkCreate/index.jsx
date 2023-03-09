@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, forwardRef } from 'react';
 
 // material-ui
 import { Typography, Grid, Button, FormControl, InputLabel, Select, MenuItem, RadioGroup, FormControlLabel, Radio } from '@mui/material';
@@ -17,6 +17,10 @@ import { TextField } from '@mui/material/index';
 // api
 import { supplierNameList, submarineCableList, billMilestoneList, generateInvoice } from 'components/apis.jsx';
 import { handleNumber } from 'components/commonFunction';
+
+// redux
+import { useDispatch } from 'react-redux';
+import { setMessageStateOpen } from 'store/reducers/dropdown';
 
 // ==============================|| SAMPLE PAGE ||============================== //
 
@@ -46,6 +50,8 @@ const InvoiceWorkManage = () => {
     const [editItem, setEditItem] = useState(NaN);
     const [listInfo, setListInfo] = useState([]);
     const [isListEdit, setIsListEdit] = useState(false);
+
+    const dispatch = useDispatch();
 
     const itemInfoInitial = () => {
         setSupplierName('');
@@ -109,7 +115,9 @@ const InvoiceWorkManage = () => {
             detailAmount = detailAmount + i.FeeAmount;
         });
         if (Number(totalAmount.toString().replaceAll(',', '')).toFixed(2) !== Number(detailAmount).toFixed(2)) {
-            alert('總金額不等於費用項目金額加總');
+            dispatch(
+                setMessageStateOpen({ messageStateOpen: { isOpen: true, severity: 'error', message: '總金額不等於費用項目金額加總' } })
+            );
             return false;
         }
         return true;
@@ -222,11 +230,11 @@ const InvoiceWorkManage = () => {
                 .then((res) => res.json())
                 .then((data) => {
                     console.log('data=>>', data);
-                    alert('送出發票成功');
+                    dispatch(setMessageStateOpen({ messageStateOpen: { isOpen: true, severity: 'success', message: '送出發票成功' } }));
+                    setListInfo([]);
                 })
                 .catch((e) => console.log('e=>>', e));
         });
-        setListInfo([]);
     };
 
     useEffect(() => {

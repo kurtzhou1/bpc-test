@@ -1,10 +1,11 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, forwardRef } from 'react';
 import { Outlet } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 
 // material-ui
 import { useTheme } from '@mui/material/styles';
-import { Box, Toolbar, useMediaQuery } from '@mui/material';
+import { Box, Toolbar, useMediaQuery, Snackbar } from '@mui/material';
+import MuiAlert from '@mui/material/Alert';
 
 // project import
 import Drawer from './Drawer';
@@ -14,7 +15,13 @@ import Breadcrumbs from 'components/@extended/Breadcrumbs';
 
 // types
 import { openDrawer } from 'store/reducers/menu';
-import { setSupplierNameList, setSubmarineCableList, setPartiesList, setBillMileStoneList } from 'store/reducers/dropdown';
+import {
+    setSupplierNameList,
+    setSubmarineCableList,
+    setPartiesList,
+    setBillMileStoneList,
+    setMessageStateOpen
+} from 'store/reducers/dropdown';
 
 // api
 import {
@@ -43,6 +50,19 @@ const MainLayout = () => {
     const handleDrawerToggle = () => {
         setOpen(!open);
         dispatch(openDrawer({ drawerOpen: !open }));
+    };
+
+    //messageInfo
+    const { messageStateOpen } = useSelector((state) => state.dropdown); //message狀態
+    const Alert = forwardRef(function Alert(props, ref) {
+        return <MuiAlert elevation={6} ref={ref} {...props} />;
+    });
+    const handleClose = (event, reason) => {
+        console.log('handleClose=>>', reason);
+        if (reason === 'clickaway') {
+            return;
+        }
+        dispatch(setMessageStateOpen({ messageStateOpen: { isOpen: false, severity: '', message: '' } }));
     };
 
     // set media wise responsive drawer
@@ -100,6 +120,16 @@ const MainLayout = () => {
                 <Breadcrumbs navigation={navigation} title divider={false} />
                 <Outlet sx={{ width: '100%' }} />
             </Box>
+            <Snackbar
+                anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
+                open={messageStateOpen.isOpen}
+                autoHideDuration={3000}
+                onClose={handleClose}
+            >
+                <Alert onClose={handleClose} severity={messageStateOpen.severity} sx={{ width: '100%' }}>
+                    {messageStateOpen.message}
+                </Alert>
+            </Snackbar>
         </Box>
     );
 };

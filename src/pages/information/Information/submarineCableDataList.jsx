@@ -30,7 +30,12 @@ import dayjs from 'dayjs';
 
 import { addSubmarineCables, submarineCableList, deleteSubmarineCables, editSubmarineCables } from 'components/apis.jsx';
 
+// redux
+import { useDispatch } from 'react-redux';
+import { setMessageStateOpen } from 'store/reducers/dropdown';
+
 const SubmarineCableDataList = ({}) => {
+    const dispatch = useDispatch();
     const fakeData = [
         {
             CorpID: 1,
@@ -96,7 +101,7 @@ const SubmarineCableDataList = ({}) => {
         fetch(addSubmarineCables, { method: 'POST', body: JSON.stringify(tmpArray), headers: { 'Content-Type': 'application/json' } })
             .then((res) => res.json())
             .then(() => {
-                alert('新增海纜資料成功');
+                dispatch(setMessageStateOpen({ messageStateOpen: { isOpen: true, severity: 'success', message: '新增海纜資料成功' } }));
                 infoInit();
                 querySubmarineCablesInfo();
             })
@@ -107,7 +112,7 @@ const SubmarineCableDataList = ({}) => {
         fetch(deleteSubmarineCables, { method: 'POST', body: JSON.stringify(row), headers: { 'Content-Type': 'application/json' } })
             .then((res) => res.json())
             .then(() => {
-                alert('刪除海纜資料成功');
+                dispatch(setMessageStateOpen({ messageStateOpen: { isOpen: true, severity: 'success', message: '刪除海纜資料成功' } }));
                 querySubmarineCablesInfo();
             })
             .catch((e) => console.log('e1=>>', e));
@@ -129,7 +134,7 @@ const SubmarineCableDataList = ({}) => {
         fetch(editSubmarineCables, { method: 'POST', body: JSON.stringify(tmpArray), headers: { 'Content-Type': 'application/json' } })
             .then((res) => res.json())
             .then(() => {
-                alert('更新海纜資料成功');
+                dispatch(setMessageStateOpen({ messageStateOpen: { isOpen: true, severity: 'success', message: '更新海纜資料成功' } }));
                 editInfoInit();
                 querySubmarineCablesInfo();
             })

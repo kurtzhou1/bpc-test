@@ -30,7 +30,12 @@ import dayjs from 'dayjs';
 
 import { addParties, getPartiesInfoList, deleteParties, editParties } from 'components/apis.jsx';
 
+// redux
+import { useDispatch } from 'react-redux';
+import { setMessageStateOpen } from 'store/reducers/dropdown';
+
 const PartyDataList = ({}) => {
+    const dispatch = useDispatch();
     const fakeData = [
         {
             PartyID: 1,
@@ -132,7 +137,7 @@ const PartyDataList = ({}) => {
         fetch(addParties, { method: 'POST', body: JSON.stringify(tmpArray), headers: { 'Content-Type': 'application/json' } })
             .then((res) => res.json())
             .then(() => {
-                alert('新增會員資料成功');
+                dispatch(setMessageStateOpen({ messageStateOpen: { isOpen: true, severity: 'success', message: '新增會員資料成功' } }));
                 infoInit();
                 queryPartiesInfo();
             })
@@ -143,7 +148,7 @@ const PartyDataList = ({}) => {
         fetch(deleteParties, { method: 'POST', body: JSON.stringify(row), headers: { 'Content-Type': 'application/json' } })
             .then((res) => res.json())
             .then(() => {
-                alert('刪除會員資料成功');
+                dispatch(setMessageStateOpen({ messageStateOpen: { isOpen: true, severity: 'success', message: '刪除會員資料成功' } }));
                 queryPartiesInfo();
             })
             .catch((e) => console.log('e1=>>', e));
@@ -176,7 +181,7 @@ const PartyDataList = ({}) => {
         fetch(editParties, { method: 'POST', body: JSON.stringify(tmpArray), headers: { 'Content-Type': 'application/json' } })
             .then((res) => res.json())
             .then((data) => {
-                alert('更新會員資料成功');
+                dispatch(setMessageStateOpen({ messageStateOpen: { isOpen: true, severity: 'success', message: '更新會員資料成功' } }));
                 editInfoInit();
                 queryPartiesInfo();
             })

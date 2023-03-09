@@ -33,7 +33,12 @@ import dayjs from 'dayjs';
 
 import { addCorporates, getCorporatesInfo, deleteCorporates, editCorporates } from 'components/apis.jsx';
 
+// redux
+import { useDispatch } from 'react-redux';
+import { setMessageStateOpen } from 'store/reducers/dropdown';
+
 const GeneratedDataList = ({}) => {
+    const dispatch = useDispatch();
     const fakeData = [
         {
             CorpID: 1,
@@ -106,7 +111,7 @@ const GeneratedDataList = ({}) => {
         fetch(addCorporates, { method: 'POST', body: JSON.stringify(tmpArray), headers: { 'Content-Type': 'application/json' } })
             .then((res) => res.json())
             .then(() => {
-                alert('新增聯盟資料成功');
+                dispatch(setMessageStateOpen({ messageStateOpen: { isOpen: true, severity: 'success', message: '新增聯盟資料成功' } }));
                 infoInit();
                 queryCorporatesInfo();
             })
@@ -117,7 +122,7 @@ const GeneratedDataList = ({}) => {
         fetch(deleteCorporates, { method: 'POST', body: JSON.stringify(row), headers: { 'Content-Type': 'application/json' } })
             .then((res) => res.json())
             .then(() => {
-                alert('刪除聯盟資料成功');
+                dispatch(setMessageStateOpen({ messageStateOpen: { isOpen: true, severity: 'success', message: '刪除聯盟資料成功' } }));
                 queryCorporatesInfo();
             })
             .catch((e) => console.log('e1=>>', e));
@@ -142,7 +147,7 @@ const GeneratedDataList = ({}) => {
         fetch(editCorporates, { method: 'POST', body: JSON.stringify(tmpArray), headers: { 'Content-Type': 'application/json' } })
             .then((res) => res.json())
             .then(() => {
-                alert('更新聯盟資料成功');
+                dispatch(setMessageStateOpen({ messageStateOpen: { isOpen: true, severity: 'success', message: '更新聯盟資料成功' } }));
                 editInfoInit();
                 queryCorporatesInfo();
             })

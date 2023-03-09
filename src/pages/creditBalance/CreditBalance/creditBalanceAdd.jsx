@@ -100,8 +100,6 @@ const CreditBalanceAdd = ({ handleDialogClose, isDialogOpen, billMilestone, part
         }
     }));
 
-    console.log('partiesList=>>', partiesList);
-
     return (
         <Dialog onClose={handleDialogClose} maxWidth="sm" fullWidth open={isDialogOpen}>
             <BootstrapDialogTitle id="customized-dialog-title" onClose={handleDialogClose}>

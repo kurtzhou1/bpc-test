@@ -30,9 +30,14 @@ import {
 // redux
 import { useSelector } from 'react-redux';
 
+// redux
+import { useDispatch } from 'react-redux';
+import { setMessageStateOpen } from 'store/reducers/dropdown';
+
 // ==============================|| SAMPLE PAGE ||============================== //
 
 const InvoiceWorkManage = () => {
+    const dispatch = useDispatch();
     const [invoiceDetailInfo, setInvoiceDetailInfo] = useState([]);
     const [supplierName, setSupplierName] = useState(''); //供應商
     const [invoiceNo, setInvoiceNo] = useState(''); //發票號碼
@@ -183,7 +188,7 @@ const InvoiceWorkManage = () => {
             fetch(updateInvoice, { method: 'POST', body: JSON.stringify(tmpArray) })
                 .then((res) => res.json())
                 .then(() => {
-                    alert('Validated成功');
+                    dispatch(setMessageStateOpen({ messageStateOpen: { isOpen: true, severity: 'success', message: 'Validated成功' } }));
                     queryInit();
                 })
                 .catch((e) => console.log('e1=>>', e));
@@ -196,7 +201,7 @@ const InvoiceWorkManage = () => {
             fetch(updateInvoice, { method: 'POST', body: JSON.stringify(tmpArray) })
                 .then((res) => res.json())
                 .then(() => {
-                    alert('作廢成功');
+                    dispatch(setMessageStateOpen({ messageStateOpen: { isOpen: true, severity: 'success', message: '作廢成功' } }));
                     queryInit();
                 })
                 .catch((e) => console.log('e1=>>', e));
@@ -213,7 +218,7 @@ const InvoiceWorkManage = () => {
                         .then((res) => res.json())
                         .then(() => {
                             console.log('刪除明細成功');
-                            alert('刪除成功');
+                            dispatch(setMessageStateOpen({ messageStateOpen: { isOpen: true, severity: 'success', message: '刪除成功' } }));
                             queryInit();
                         })
                         .catch((e) => console.log('e1=>>', e));
@@ -230,7 +235,9 @@ const InvoiceWorkManage = () => {
         });
 
         if (Number(totalAmount.toString().replaceAll(',', '')).toFixed(2) !== Number(detailAmount).toFixed(2)) {
-            alert('總金額不等於費用項目金額加總');
+            dispatch(
+                setMessageStateOpen({ messageStateOpen: { isOpen: true, severity: 'error', message: '總金額不等於費用項目金額加總' } })
+            );
             return false;
         }
         return true;
@@ -273,7 +280,11 @@ const InvoiceWorkManage = () => {
                             fetch(generateInvoice, { method: 'POST', body: JSON.stringify(combineArray) })
                                 .then((res) => res.json())
                                 .then(() => {
-                                    alert('儲存成功');
+                                    dispatch(
+                                        setMessageStateOpen({
+                                            messageStateOpen: { isOpen: true, severity: 'success', message: '儲存成功' }
+                                        })
+                                    );
                                     // 重新query
                                     queryInit();
                                     itemInfoInitial();

@@ -33,7 +33,12 @@ import dayjs from 'dayjs';
 
 import { addContracts, getContractsInfo, deleteContracts, editContracts } from 'components/apis.jsx';
 
+// redux
+import { useDispatch } from 'react-redux';
+import { setMessageStateOpen } from 'store/reducers/dropdown';
+
 const ContractDataList = ({}) => {
+    const dispatch = useDispatch();
     const fakeData = [
         {
             ContractID: 1,
@@ -113,7 +118,7 @@ const ContractDataList = ({}) => {
         fetch(addContracts, { method: 'POST', body: JSON.stringify(tmpArray), headers: { 'Content-Type': 'application/json' } })
             .then((res) => res.json())
             .then(() => {
-                alert('新增合約資料成功');
+                dispatch(setMessageStateOpen({ messageStateOpen: { isOpen: true, severity: 'success', message: '新增合約資料成功' } }));
                 infoInit();
                 queryContractsInfo();
             })
@@ -124,7 +129,7 @@ const ContractDataList = ({}) => {
         fetch(deleteContracts, { method: 'POST', body: JSON.stringify(row), headers: { 'Content-Type': 'application/json' } })
             .then((res) => res.json())
             .then(() => {
-                alert('刪除合約資料成功');
+                dispatch(setMessageStateOpen({ messageStateOpen: { isOpen: true, severity: 'success', message: '刪除合約資料成功' } }));
                 queryContractsInfo();
             })
             .catch((e) => console.log('e1=>>', e));
@@ -152,7 +157,7 @@ const ContractDataList = ({}) => {
         fetch(editContracts, { method: 'POST', body: JSON.stringify(tmpArray), headers: { 'Content-Type': 'application/json' } })
             .then((res) => res.json())
             .then(() => {
-                alert('更新合約資料成功');
+                dispatch(setMessageStateOpen({ messageStateOpen: { isOpen: true, severity: 'success', message: '更新合約資料成功' } }));
                 editInfoInit();
                 queryContractsInfo();
             })

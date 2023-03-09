@@ -41,7 +41,12 @@ import {
     updateLiability
 } from 'components/apis.jsx';
 
+// redux
+import { useDispatch } from 'react-redux';
+import { setMessageStateOpen } from 'store/reducers/dropdown';
+
 const LiabilityManage = () => {
+    const dispatch = useDispatch();
     const [listInfo, setListInfo] = useState([]);
     const [isDialogOpen, setIsDialogOpen] = useState(false); //新增編輯Liability
     const [dialogAction, setDialogAction] = useState('');
@@ -98,7 +103,7 @@ const LiabilityManage = () => {
         });
         console.log('tmpNumber=>>', tmpNumber);
         if (tmpNumber !== 100) {
-            alert('攤分比例加總須等於100');
+            dispatch(setMessageStateOpen({ messageStateOpen: { isOpen: true, severity: 'error', message: '攤分比例加總須等於100' } }));
         }
         if (list.length > 0 && tmpNumber === 100) {
             fetch(compareLiability, { method: 'POST', body: JSON.stringify(list) })
@@ -106,12 +111,16 @@ const LiabilityManage = () => {
                 .then((data) => {
                     console.log('compareLiability成功', data, data.compareResult);
                     if (data.compareResult.length > 0) {
-                        alert('已經增加過此會員');
+                        dispatch(
+                            setMessageStateOpen({ messageStateOpen: { isOpen: true, severity: 'error', message: '已經增加過此會員' } })
+                        );
                     } else {
                         fetch(addLiabilityapi, { method: 'POST', body: JSON.stringify(list) })
                             .then((res) => res.json())
                             .then(() => {
-                                alert('新增成功');
+                                dispatch(
+                                    setMessageStateOpen({ messageStateOpen: { isOpen: true, severity: 'success', message: '新增成功' } })
+                                );
                                 setAdd([]);
                             })
                             .catch((e) => console.log('e1=>>', e));
@@ -157,25 +166,12 @@ const LiabilityManage = () => {
         fetch(updateLiability, { method: 'POST', body: JSON.stringify(tmpArray) })
             .then((res) => res.json())
             .then(() => {
-                alert('儲存成功');
+                dispatch(setMessageStateOpen({ messageStateOpen: { isOpen: true, severity: 'success', message: '儲存成功' } }));
                 apiQuery();
                 setEditItem(NaN);
                 handleDialogClose();
             })
             .catch((e) => console.log('e1=>>', e));
-
-        // let tmpArray = listInfo.map((i) => i);
-        // tmpArray[editItem].LBRatio = Number(lBRatio).toFixed(10);
-        // tmpArray[editItem].ModifyNote = modifyNote;
-        // fetch(compareLiability, { method: 'POST', body: JSON.stringify(tmpArray) })
-        //     .then((res) => res.json())
-        //     .then(() => {
-        //         alert('儲存成功');
-        //     })
-        //     .catch((e) => console.log('e1=>>', e));
-        // setListInfo([...tmpArray]);
-        // setEditItem(NaN);
-        // handleDialogClose();
     };
 
     // const cancelSearch = () => {

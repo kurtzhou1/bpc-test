@@ -29,7 +29,12 @@ import dayjs from 'dayjs';
 
 import { toBillDataapi, sendJounary } from 'components/apis.jsx';
 
+// redux
+import { useDispatch } from 'react-redux';
+import { setMessageStateOpen } from 'store/reducers/dropdown';
+
 const InvalidatedDataList = ({ listInfo, BootstrapDialogTitle, apiQuery }) => {
+    const dispatch = useDispatch();
     // const fakeData = {
     //     TotalAmount: 5582012.72,
     //     InvoiceMaster: [
@@ -157,8 +162,7 @@ const InvalidatedDataList = ({ listInfo, BootstrapDialogTitle, apiQuery }) => {
         fetch(sendJounary, { method: 'POST', body: JSON.stringify(tmpData) })
             .then((res) => res.json())
             .then((data) => {
-                console.log('立帳成功=>>', data);
-                alert('送出立帳成功');
+                dispatch(setMessageStateOpen({ messageStateOpen: { isOpen: true, severity: 'success', message: '送出立帳成功' } }));
                 apiQuery();
                 handleDialogClose();
             })

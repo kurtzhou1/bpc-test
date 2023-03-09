@@ -39,7 +39,8 @@ import { BootstrapDialogTitle } from 'components/commonFunction';
 import { deleteLiability, addLiabilityapi } from 'components/apis.jsx';
 
 // redux
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
+import { setMessageStateOpen } from 'store/reducers/dropdown';
 
 const LiabilityAdd = ({
     handleDialogClose,
@@ -63,6 +64,7 @@ const LiabilityAdd = ({
     lBRawID,
     apiQuery
 }) => {
+    const dispatch = useDispatch();
     const [listInfo, setListInfo] = useState([]);
     const [splitNumber, setSplitNumber] = useState('');
 
@@ -137,7 +139,7 @@ const LiabilityAdd = ({
                     fetch(addLiabilityapi, { method: 'POST', body: JSON.stringify(listInfo) })
                         .then((res) => res.json())
                         .then(() => {
-                            alert('分段成功');
+                            dispatch(setMessageStateOpen({ messageStateOpen: { isOpen: true, severity: 'success', message: '分段成功' } }));
                             handleDialogClose();
                             itemDetailInitial();
                             setEditItem(NaN);
@@ -148,7 +150,7 @@ const LiabilityAdd = ({
                 })
                 .catch((e) => console.log('e1=>>', e));
         } else {
-            alert('請增加分段帳號');
+            dispatch(setMessageStateOpen({ messageStateOpen: { isOpen: true, severity: 'error', message: '請增加分段帳號' } }));
         }
     };
 

@@ -30,7 +30,12 @@ import dayjs from 'dayjs';
 
 import { addPartiesByContract, getPartiesByContractInfo, deletePartiesByContract, editPartiesByContract } from 'components/apis.jsx';
 
+// redux
+import { useDispatch } from 'react-redux';
+import { setMessageStateOpen } from 'store/reducers/dropdown';
+
 const SuppliersByContractDataList = ({}) => {
+    const dispatch = useDispatch();
     const fakeData = [
         {
             ContractID: 1,
@@ -89,7 +94,7 @@ const SuppliersByContractDataList = ({}) => {
         fetch(addPartiesByContract, { method: 'POST', body: JSON.stringify(tmpArray), headers: { 'Content-Type': 'application/json' } })
             .then((res) => res.json())
             .then(() => {
-                alert('新增合約廠商資料成功');
+                dispatch(setMessageStateOpen({ messageStateOpen: { isOpen: true, severity: 'success', message: '新增合約廠商資料成功' } }));
                 infoInit();
                 queryPartiesByContractInfo();
             })
@@ -100,7 +105,7 @@ const SuppliersByContractDataList = ({}) => {
         fetch(deletePartiesByContract, { method: 'POST', body: JSON.stringify(row), headers: { 'Content-Type': 'application/json' } })
             .then((res) => res.json())
             .then(() => {
-                alert('刪除合約廠商資料成功');
+                dispatch(setMessageStateOpen({ messageStateOpen: { isOpen: true, severity: 'success', message: '刪除合約廠商資料成功' } }));
                 queryPartiesByContractInfo();
             })
             .catch((e) => console.log('e1=>>', e));
@@ -120,7 +125,7 @@ const SuppliersByContractDataList = ({}) => {
         fetch(editPartiesByContract, { method: 'POST', body: JSON.stringify(tmpArray), headers: { 'Content-Type': 'application/json' } })
             .then((res) => res.json())
             .then(() => {
-                alert('更新合約廠商資料成功');
+                dispatch(setMessageStateOpen({ messageStateOpen: { isOpen: true, severity: 'success', message: '更新合約廠商資料成功' } }));
                 editInfoInit();
                 queryPartiesByContractInfo();
             })

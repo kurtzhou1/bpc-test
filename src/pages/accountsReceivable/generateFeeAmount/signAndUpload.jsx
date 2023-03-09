@@ -35,7 +35,12 @@ import CheckBoxIcon from '@mui/icons-material/CheckBox';
 import { uploadFileApi } from 'components/apis.jsx';
 import MainCard from 'components/MainCard';
 
+// redux
+import { useDispatch } from 'react-redux';
+import { setMessageStateOpen } from 'store/reducers/dropdown';
+
 const SignAndUpload = ({ uploadOpen, handUploadClose }) => {
+    const dispatch = useDispatch();
     const [uploadFile, setUploadFile] = useState(null);
     const [isUpload, setIsUpload] = useState(false); //是否需攤分
     const fileTypes = ['PDF', 'WORD', 'PNG'];
@@ -60,7 +65,7 @@ const SignAndUpload = ({ uploadOpen, handUploadClose }) => {
             .then((res) => res.json())
             .then((data) => {
                 console.log('上傳成功=>>', data);
-                alert('上傳成功');
+                dispatch(setMessageStateOpen({ messageStateOpen: { isOpen: true, severity: 'success', message: '上傳成功' } }));
                 setUploadFile(null);
                 handUploadClose();
             })
