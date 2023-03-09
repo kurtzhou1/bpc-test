@@ -55,7 +55,7 @@ const MainLayout = () => {
     //messageInfo
     const { messageStateOpen } = useSelector((state) => state.dropdown); //message狀態
     const Alert = forwardRef(function Alert(props, ref) {
-        return <MuiAlert elevation={6} ref={ref} {...props} />;
+        return <MuiAlert elevation={6} ref={ref} {...props} sx={{ fontSize: 16 }} />;
     });
     const handleClose = (event, reason) => {
         console.log('handleClose=>>', reason);
