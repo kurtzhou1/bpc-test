@@ -13,7 +13,8 @@ const DrawerContent = () => (
             '& .simplebar-content': {
                 display: 'flex',
                 flexDirection: 'column'
-            }
+            },
+            mb: 1
         }}
     >
         <Notification />

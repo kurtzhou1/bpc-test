@@ -64,7 +64,6 @@ const Profile = () => {
     const menu = useSelector((state) => state.menu);
     const { drawerOpen } = menu;
     const { i18n } = useTranslation();
-    // const [lang, setLang] = useState('');
     const [isZh, setIsZh] = useState(true);
 
     const handleLogout = async () => {
@@ -151,7 +150,7 @@ const Profile = () => {
     console.log('isZh2=>>', isZh);
 
     return (
-        <Box sx={{ flexShrink: 0, ml: 0 }}>
+        <Box sx={{ flexShrink: 0, mb: 0.5 }}>
             <ButtonBase
                 sx={{
                     p: 0.25,
