@@ -60,6 +60,8 @@ const LiabilityAdd = ({
     setLBRatio,
     modifyNote,
     setModifyNote,
+    note,
+    setNote,
     setEditItem,
     lBRawID,
     apiQuery
@@ -326,18 +328,14 @@ const LiabilityAdd = ({
                         </Typography>
                     </Grid>
                     <Grid item xs={4} sm={4} md={4} lg={4}>
-                        {/* {dialogAction === 'Edit' ? ( */}
                         <TextField
                             fullWidth
                             variant="outlined"
-                            value={modifyNote}
+                            value={note}
                             size="small"
-                            label="填寫異動原因"
-                            onChange={(e) => setModifyNote(e.target.value)}
+                            label="填寫備註"
+                            onChange={(e) => setNote(e.target.value)}
                         />
-                        {/* ) : ( */}
-                        {/* '' */}
-                        {/* )} */}
                     </Grid>
                     <Grid item xs={2} sm={2} md={2} lg={2} display="flex" justifyContent="center">
                         {dialogAction === 'Edit' ? (

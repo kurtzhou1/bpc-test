@@ -57,7 +57,8 @@ const LiabilityManage = () => {
     const [partyName, setPartyName] = useState([]); //會員名稱
     const [lBRatio, setLBRatio] = useState(0); //攤分比例
     const [editItem, setEditItem] = useState(NaN); //編輯項目
-    const [modifyNote, setModifyNote] = useState('');
+    const [note, setNote] = useState(''); //備註
+    const [modifyNote, setModifyNote] = useState(''); //異動原因
 
     const [filterList, setFilterList] = useState(listInfo);
 
@@ -245,6 +246,8 @@ const LiabilityManage = () => {
                     setLBRatio={setLBRatio}
                     modifyNote={modifyNote}
                     setModifyNote={setModifyNote}
+                    note={note}
+                    setNote={setNote}
                     setEditItem={setEditItem}
                     lBRawID={lBRawID}
                     apiQuery={apiQuery}
