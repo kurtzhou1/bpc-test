@@ -56,17 +56,17 @@ const ReceivableQuery = ({ creditBalanceQuery }) => {
                 </Grid>
                 <Grid item xs={1} sm={1} md={1} lg={1}>
                     <Typography variant="h5" sx={{ fontSize: { lg: '0.5rem', xl: '0.88rem' }, ml: { lg: '0.5rem', xl: '1.5rem' } }}>
-                        記帳段號：
+                        供應商：
                     </Typography>
                 </Grid>
                 <Grid item xs={2} sm={2} md={2} lg={2}>
                     <FormControl fullWidth size="small">
-                        <InputLabel id="demo-simple-select-label">選擇記帳段號</InputLabel>
+                        <InputLabel id="demo-simple-select-label">選擇供應商</InputLabel>
                         <Select
                             // labelId="demo-simple-select-label"
                             // id="demo-simple-select"
                             // value={submarineCable}
-                            label="記帳段號"
+                            label="供應商"
                             onChange={(e) => setSubmarineCable(e.target.value)}
                         >
                             <MenuItem value={'一段'}>一段</MenuItem>
@@ -77,17 +77,17 @@ const ReceivableQuery = ({ creditBalanceQuery }) => {
                 </Grid>
                 <Grid item xs={1} sm={1} md={1} lg={1}>
                     <Typography variant="h5" sx={{ fontSize: { lg: '0.5rem', xl: '0.88rem' }, ml: { lg: '0.5rem', xl: '1.5rem' } }}>
-                        海纜作業：
+                        海纜名稱：
                     </Typography>
                 </Grid>
                 <Grid item xs={2} sm={2} md={2} lg={2}>
                     <FormControl fullWidth size="small">
-                        <InputLabel id="demo-simple-select-label">選擇海纜作業</InputLabel>
+                        <InputLabel id="demo-simple-select-label">選擇海纜名稱</InputLabel>
                         <Select
                             // labelId="demo-simple-select-label"
                             // id="demo-simple-select"
                             // value={submarineCable}
-                            label="海纜作業"
+                            label="海纜名稱"
                             onChange={(e) => setSubmarineCable(e.target.value)}
                         >
                             <MenuItem value={'一段'}>一段</MenuItem>

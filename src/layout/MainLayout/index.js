@@ -113,13 +113,16 @@ const MainLayout = () => {
     return (
         <Box sx={{ display: 'flex', width: '100%' }}>
             {/* <Header open={open} handleDrawerToggle={handleDrawerToggle} /> */}
+            {/* Side Bar */}
             <Drawer open={open} handleDrawerToggle={handleDrawerToggle} />
+            {/* Content */}
             <Box component="main" sx={{ width: '100%', flexGrow: 1, p: { xs: 2, sm: 3 } }}>
                 {/* <Toolbar /> */}
                 {/* <Breadcrumbs navigation={navigation} title titleBottom card={false} divider={false} /> */}
                 <Breadcrumbs navigation={navigation} title divider={false} />
                 <Outlet sx={{ width: '100%' }} />
             </Box>
+            {/* 警示按鈕 */}
             <Snackbar
                 anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
                 open={messageStateOpen.isOpen}

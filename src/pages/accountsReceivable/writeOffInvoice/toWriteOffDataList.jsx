@@ -1,7 +1,7 @@
 import { useState, useRef } from 'react';
 
 // project import
-import DeductWork from './deductWork';
+import WriteOffWork from './writeOffWork';
 import { handleNumber } from 'components/commonFunction';
 import MainCard from 'components/MainCard';
 import GenerateFeeTerminate from './generateFeeTerminate';
@@ -192,7 +192,7 @@ const ToWriteOffDataList = ({ listInfo, apiQuery }) => {
 
     return (
         <>
-            <DeductWork
+            <WriteOffWork
                 isDialogOpen={isDialogOpen}
                 handleDialogClose={handleDialogClose}
                 deductInfo={deductInfo.current}
@@ -204,13 +204,17 @@ const ToWriteOffDataList = ({ listInfo, apiQuery }) => {
                     <TableHead>
                         <TableRow>
                             <StyledTableCell align="center">NO</StyledTableCell>
-                            <StyledTableCell align="center">會員</StyledTableCell>
                             <StyledTableCell align="center">海纜名稱</StyledTableCell>
-                            <StyledTableCell align="center">海纜作業</StyledTableCell>
+                            <StyledTableCell align="center">會員</StyledTableCell>
+                            <StyledTableCell align="center">帳單號碼</StyledTableCell>
+                            <StyledTableCell align="center">供應商</StyledTableCell>
+                            {/* <StyledTableCell align="center">合約種類</StyledTableCell> */}
+                            {/* <StyledTableCell align="center">海纜作業</StyledTableCell> */}
                             <StyledTableCell align="center">帳單日期</StyledTableCell>
-                            <StyledTableCell align="center">帳單截止日</StyledTableCell>
+                            {/* <StyledTableCell align="center">帳單截止日</StyledTableCell> */}
                             <StyledTableCell align="center">明細數量</StyledTableCell>
-                            <StyledTableCell align="center">是否為pro-forma</StyledTableCell>
+                            <StyledTableCell align="center">總價</StyledTableCell>
+                            {/* <StyledTableCell align="center">是否為pro-forma</StyledTableCell> */}
                             <StyledTableCell align="center">處理狀態</StyledTableCell>
                             <StyledTableCell align="center">Action</StyledTableCell>
                         </TableRow>
@@ -221,8 +225,8 @@ const ToWriteOffDataList = ({ listInfo, apiQuery }) => {
                             return (
                                 <TableRow key={row.WKMasterID + row.InvoiceNo} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
                                     <StyledTableCell align="center">{id + 1}</StyledTableCell>
-                                    <StyledTableCell align="center">{row.PartyName}</StyledTableCell>
                                     <StyledTableCell align="center">{row.SubmarineCable}</StyledTableCell>
+                                    <StyledTableCell align="center">{row.PartyName}</StyledTableCell>
                                     <StyledTableCell align="center">{row.WorkTitle}</StyledTableCell>
                                     <StyledTableCell align="center">{dayjs(row.IssueDate).format('YYYY/MM/DD')}</StyledTableCell>
                                     <StyledTableCell align="center">{dayjs(row.IssueDate).format('YYYY/MM/DD')}</StyledTableCell>
@@ -261,7 +265,7 @@ const ToWriteOffDataList = ({ listInfo, apiQuery }) => {
                                             >
                                                 檢視
                                             </Button> */}
-                                            <Button
+                                            {/* <Button
                                                 color="error"
                                                 size="small"
                                                 variant="outlined"
@@ -270,7 +274,7 @@ const ToWriteOffDataList = ({ listInfo, apiQuery }) => {
                                                 }}
                                             >
                                                 作廢
-                                            </Button>
+                                            </Button> */}
                                         </Box>
                                     </StyledTableCell>
                                 </TableRow>

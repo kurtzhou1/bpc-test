@@ -95,28 +95,6 @@ const BilledDataList = ({ listInfo, apiQuery }) => {
             .catch((e) => console.log('e1=>>', e));
     };
 
-    // const billDataViewInvalid = (WKMasterID) => {
-    //     // updateInvoice, updateInvoiceMaster
-    //     let tmpArray = {
-    //         WKMasterID: WKMasterID,
-    //         Status: 'INVALID'
-    //     };
-    //     fetch(updateInvoice, { method: 'POST', body: JSON.stringify(tmpArray) })
-    //         .then((res) => res.json())
-    //         .then(() => {
-    //             console.log('updateInvoice invalid success');
-    //         })
-    //         .catch((e) => console.log('e1=>>', e));
-    //     fetch(updateInvoiceMaster, { method: 'POST', body: JSON.stringify(tmpArray) })
-    //         .then((res) => res.json())
-    //         .then(() => {
-    //             console.log('updateInvoiceMaster invalid success');
-    //             alert('作廢成功');
-    //         })
-    //         .catch((e) => console.log('e1=>>', e));
-    //     apiQuery();
-    // };
-
     return (
         <>
             <Dialog onClose={handleDialogClose} maxWidth="lg" fullWidth open={isDialogOpen}>

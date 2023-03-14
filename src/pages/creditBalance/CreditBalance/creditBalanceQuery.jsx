@@ -135,9 +135,12 @@ const CreditBalanceQuery = ({ setListInfo, partiesList, subCableList }) => {
                             label="發票供應商"
                             onChange={(e) => setCBType(e.target.value)}
                         >
-                            <MenuItem value={'CB種類1'}>CB種類1</MenuItem>
-                            <MenuItem value={'CB種類2'}>CB種類2</MenuItem>
-                            <MenuItem value={'CB種類3'}>CB種類3</MenuItem>
+                            {/* <MenuItem value={'一般'}>一般</MenuItem> */}
+                            <MenuItem value={'MWG'}>MWG</MenuItem>
+                            <MenuItem value={'重溢繳'}>重溢繳</MenuItem>
+                            <MenuItem value={'賠償'}>賠償</MenuItem>
+                            <MenuItem value={'賠償'}>預付</MenuItem>
+                            <MenuItem value={'其他'}>其他</MenuItem>
                         </Select>
                     </FormControl>
                 </Grid>
@@ -177,9 +180,9 @@ const CreditBalanceQuery = ({ setListInfo, partiesList, subCableList }) => {
                             label="海纜作業"
                             onChange={(e) => setWorkTitle(e.target.value)}
                         >
-                            <MenuItem value={'一段'}>一段</MenuItem>
-                            <MenuItem value={'二段'}>二段</MenuItem>
-                            <MenuItem value={'三段'}>三段</MenuItem>
+                            <MenuItem value={'Upgrade'}>Upgrade</MenuItem>
+                            <MenuItem value={'Construction'}>Construction</MenuItem>
+                            <MenuItem value={'O&M'}>O&M</MenuItem>
                         </Select>
                     </FormControl>
                 </Grid>

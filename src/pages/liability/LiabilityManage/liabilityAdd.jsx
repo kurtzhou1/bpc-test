@@ -321,6 +321,25 @@ const LiabilityAdd = ({
                     </Grid>
                     {/* row3 */}
                     <Grid item xs={2} sm={2} md={2} lg={2} display="flex" justifyContent="center">
+                        <Typography variant="h5" sx={{ fontSize: { lg: '0.5rem', xl: '0.88rem' }, ml: { lg: '0.5rem', xl: '1.5rem' } }}>
+                            備註：
+                        </Typography>
+                    </Grid>
+                    <Grid item xs={4} sm={4} md={4} lg={4}>
+                        {/* {dialogAction === 'Edit' ? ( */}
+                        <TextField
+                            fullWidth
+                            variant="outlined"
+                            value={modifyNote}
+                            size="small"
+                            label="填寫異動原因"
+                            onChange={(e) => setModifyNote(e.target.value)}
+                        />
+                        {/* ) : ( */}
+                        {/* '' */}
+                        {/* )} */}
+                    </Grid>
+                    <Grid item xs={2} sm={2} md={2} lg={2} display="flex" justifyContent="center">
                         {dialogAction === 'Edit' ? (
                             <Typography variant="h5" sx={{ fontSize: { lg: '0.5rem', xl: '0.88rem' }, ml: { lg: '0.5rem', xl: '1.5rem' } }}>
                                 異動原因：
@@ -329,7 +348,7 @@ const LiabilityAdd = ({
                             ''
                         )}
                     </Grid>
-                    <Grid item xs={9} sm={9} md={9} lg={9}>
+                    <Grid item xs={3} sm={3} md={3} lg={3}>
                         {dialogAction === 'Edit' ? (
                             <TextField
                                 fullWidth
