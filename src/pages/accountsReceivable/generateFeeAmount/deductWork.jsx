@@ -72,6 +72,7 @@ const ToGenerateDataList = ({ isDialogOpen, handleDialogClose, billDetailInfo, a
     const [cbDataList, setCbDataList] = useState(fakeData);
     const tmpCBArray = useRef([]);
     const editItem = useRef(-1);
+    const [cbToCn, setCbToCn] = useState({}); //處理狀態
     const StyledTableCell = styled(TableCell)(({ theme }) => ({
         [`&.${tableCellClasses.head}`]: {
             // backgroundColor: theme.palette.common.gary,
@@ -87,7 +88,6 @@ const ToGenerateDataList = ({ isDialogOpen, handleDialogClose, billDetailInfo, a
     }));
 
     const deductWork = (data, id) => {
-        console.log('data=>>', data);
         let tmpQuery =
             addCB +
             '/SubmarineCable=' +
@@ -110,9 +110,29 @@ const ToGenerateDataList = ({ isDialogOpen, handleDialogClose, billDetailInfo, a
         editItem.current = id;
         setIsDeductWorkOpen(true);
     };
+    
 
-    const changeDiff = (diff, cbid) => {
-        let tmpArray = tmpCBArray.map((i) => i);
+    const changeDiff = (value, cbid) => {
+        let tmpArray = tmpCBArray.current.map((i) => i);
+        if (tmpArray.length > 0) {
+            tmpArray.forEach((i) => {
+                console.log(i.CBID, cbid);
+                if (i.CBID === cbid) {
+                    console.log('YES');
+                    i.TransAmount = value;
+                } else if() {
+                    console.log('NO');
+                    tmpArray.push({ CBID: cbid, TransAmount: value });
+                }
+            });
+        } else {
+            console.log('NONO');
+            tmpArray.push({ CBID: cbid, TransAmount: value });
+        }
+        tmpCBArray.current = tmpArray;
+        console.log('data=>>', tmpCBArray.current);
+
+        // setCbToCn({ ...cbToCn, CBID: cbid });
         // let tmpArray = cbDataList.map((i) => i);
         // let tmpAmount = 0;
         // tmpArray[id].Difference = Number(diff);
@@ -216,7 +236,6 @@ const ToGenerateDataList = ({ isDialogOpen, handleDialogClose, billDetailInfo, a
                                     </TableHead>
                                     <TableBody>
                                         {billDetailInfo.map((row, id) => {
-                                            console.log('row=>>', row);
                                             return (
                                                 <TableRow
                                                     key={row.BillMasterID + row?.BillDetailID + row?.InvDetailID}
@@ -278,7 +297,7 @@ const ToGenerateDataList = ({ isDialogOpen, handleDialogClose, billDetailInfo, a
                                                         // let afterDiff = row.FeeAmountPost + row.Difference;
                                                         return (
                                                             <TableRow
-                                                                key={row.FeeAmountPre + row?.PartyName + row?.LBRatio}
+                                                                key={row.CBType + row?.CurrAmount + row?.Note}
                                                                 sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                                                             >
                                                                 <TableCell align="center">{id + 1}</TableCell>

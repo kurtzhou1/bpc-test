@@ -146,8 +146,6 @@ const Profile = () => {
         // console.log('useTranslation=>>', useTranslation);
     }, [isZh]);
 
-    console.log('isZh2=>>', isZh);
-
     return (
         <Box sx={{ flexShrink: 0, mb: 0.5 }}>
             <ButtonBase
