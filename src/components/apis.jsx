@@ -48,6 +48,14 @@ export const uploadFileApi = 'http://10.193.130.7:8000/api/v1/uploadfile';
 export const addCB = 'http://10.193.130.7:8000/api/v1/CreditBalance';
 export const queryCB = 'http://10.193.130.7:8000/api/v1/CreditBalance';
 
+// 待合併
+export const queryToCombineInvo = 'http://10.193.130.7:8000/api/v1/getInvoiceMaster&InvoiceDetail';
+export const combineInvo = 'http://10.193.130.7:8000/api/v1/getBillMaster&BillDetailStream';
+export const isBillNoCheckOK = 'http://10.193.130.7:8000/api/v1/checkBillingNo';
+export const generateBillNo = 'http://10.193.130.7:8000/api/v1/checkBillingNo';
+export const invoCombine = 'http://10.193.130.7:8000/api/v1/initBillMaster&BillDetail';
+export const queryToDecutBill = 'http://10.193.130.7:8000/api/v1/getBillMaster&BillDetail';
+
 // 基本資料-Suppliers
 export const addSuppliers = 'http://10.193.130.7:8000/api/v1/Suppliers';
 export const deleteSuppliers = 'http://10.193.130.7:8000/api/v1/deleteSuppliers';

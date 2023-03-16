@@ -39,19 +39,23 @@ const SubmarineCableDataList = ({}) => {
     const fakeData = [
         {
             CorpID: 1,
-            cableName: 'NEC',
-            SubmarineCable: '+886'
+            Code: 'NEC',
+            CableName: 'NEC',
+            Note: '+886'
         },
         {
             CorpID: 2,
-            cableName: 'NEC#2',
-            SubmarineCable: '+888'
+            Code: 'NEC#2',
+            CableName: 'NEC#2',
+            Note: '+888'
         }
     ];
     const [infoList, setInfoList] = useState(fakeData);
     const [cableName, setCableName] = useState(''); //海纜名稱
+    const [code, setCode] = useState(''); //代碼
     const [note, setNote] = useState(''); //摘要
     const cableID = useRef(-1);
+    const [codeEdit, setCodeEdit] = useState(''); //代碼編輯
     const [cableNameEdit, setCableNameEdit] = useState(''); //供應商編輯
     const [noteEdit, setNoteEdit] = useState(''); //帳號名稱編輯
 
@@ -70,12 +74,14 @@ const SubmarineCableDataList = ({}) => {
     }));
 
     const infoInit = () => {
+        setCode('');
         setCableName('');
         setNote('');
     };
 
     const editInfoInit = () => {
         cableID.current = -1;
+        setCodeEdit('');
         setCableNameEdit('');
         setNoteEdit('');
     };
@@ -94,6 +100,7 @@ const SubmarineCableDataList = ({}) => {
 
     const addPartyInfo = () => {
         let tmpArray = {
+            Code: code,
             CableName: cableName,
             Note: note
         };
@@ -119,18 +126,19 @@ const SubmarineCableDataList = ({}) => {
     };
 
     const editPartyInfo = (row) => {
-        cableID.current = row.CableID;
+        cableID.current = row.CorpID;
+        setCodeEdit(row.Code);
         setCableNameEdit(row.CableName);
         setNoteEdit(row.Note);
     };
 
     const saveEditPartyInfo = () => {
         let tmpArray = {
-            CorpID: cableID.current,
+            // CorpID: cableID.current,
+            Code: codeEdit,
             CableName: cableNameEdit,
             Note: noteEdit
         };
-        console.log('123=>>', tmpArray);
         fetch(editSubmarineCables, { method: 'POST', body: JSON.stringify(tmpArray), headers: { 'Content-Type': 'application/json' } })
             .then((res) => res.json())
             .then(() => {
@@ -151,6 +159,7 @@ const SubmarineCableDataList = ({}) => {
                 <TableHead>
                     <TableRow>
                         <StyledTableCell align="center">NO</StyledTableCell>
+                        <StyledTableCell align="center">代碼</StyledTableCell>
                         <StyledTableCell align="center">海纜名稱</StyledTableCell>
                         <StyledTableCell align="center">摘要</StyledTableCell>
                         <StyledTableCell align="center">Action</StyledTableCell>
@@ -163,9 +172,10 @@ const SubmarineCableDataList = ({}) => {
                                 // key={row.InvoiceWKMaster?.WKMasterID + row.InvoiceWKMaster?.InvoiceNo}
                                 sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                             >
-                                {row.CableID !== cableID.current ? (
+                                {row.CorpID !== cableID.current ? (
                                     <>
                                         <StyledTableCell align="center">{id + 1}</StyledTableCell>
+                                        <StyledTableCell align="center">{row.Code}</StyledTableCell>
                                         <StyledTableCell align="center">{row.CableName}</StyledTableCell>
                                         <StyledTableCell align="center">{row.Note}</StyledTableCell>
                                         <StyledTableCell align="center">
@@ -200,6 +210,16 @@ const SubmarineCableDataList = ({}) => {
                                 ) : (
                                     <>
                                         <TableCell align="center">{id + 1}</TableCell>
+                                        <TableCell align="center">
+                                            <TextField
+                                                size="small"
+                                                // style={{ width: '30%' }}
+                                                value={codeEdit}
+                                                onChange={(e) => {
+                                                    setCodeEdit(e.target.value);
+                                                }}
+                                            />
+                                        </TableCell>
                                         <TableCell align="center">
                                             <TextField
                                                 size="small"
@@ -254,6 +274,16 @@ const SubmarineCableDataList = ({}) => {
                     })}
                     <TableRow sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
                         <TableCell align="center"></TableCell>
+                        <TableCell align="center">
+                            <TextField
+                                size="small"
+                                // style={{ width: '30%' }}
+                                value={code}
+                                onChange={(e) => {
+                                    setCode(e.target.value);
+                                }}
+                            />
+                        </TableCell>
                         <TableCell align="center">
                             <TextField
                                 size="small"

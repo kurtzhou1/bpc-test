@@ -127,8 +127,6 @@ const CreateInvoiceDetail = ({
                                     {i}
                                 </MenuItem>
                             ))}
-                            {/* <MenuItem value={'BM9'}>BM9</MenuItem>
-                            <MenuItem value={'BM12a'}>BM12a</MenuItem> */}
                         </Select>
                     </FormControl>
                 </Grid>

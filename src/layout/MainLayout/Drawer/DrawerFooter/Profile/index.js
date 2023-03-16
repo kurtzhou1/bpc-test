@@ -138,7 +138,6 @@ const Profile = () => {
     }));
 
     useEffect(() => {
-        console.log('isZh1=>>', isZh);
         if (isZh) {
             i18n.changeLanguage('zh_tw');
         } else {

@@ -39,6 +39,7 @@ const PartyDataList = ({}) => {
     const fakeData = [
         {
             PartyID: 1,
+            Code: 'NEC',
             SubmarineCable: 'NEC',
             WorkTitle: '+886',
             PartyName: 'Taiwan',
@@ -49,6 +50,7 @@ const PartyDataList = ({}) => {
         },
         {
             PartyID: 2,
+            Code: 'NEC',
             SubmarineCable: 'NEC',
             WorkTitle: '+886',
             PartyName: 'Taiwan',
@@ -61,12 +63,14 @@ const PartyDataList = ({}) => {
     const [infoList, setInfoList] = useState(fakeData);
     const [submarineCable, setSubmarineCable] = useState(''); //海纜名稱
     const [workTitle, setWorkTitle] = useState(''); //海纜作業
+    const [code, setCode] = useState(''); //代碼
     const [partyName, setPartyName] = useState(''); //會員名稱
     const [address, setAddress] = useState(''); //公司地址
     const [contact, setContact] = useState(''); //聯繫窗口
     const [email, setEmail] = useState(''); //電子郵件
     const [tel, setTel] = useState(''); //電話
     const partyID = useRef(-1);
+    const [codeEdit, setCodeEdit] = useState(''); //代碼編輯
     const [submarineCableEdit, setSubmarineCableEdit] = useState(''); //供應商編輯
     const [workTitleEdit, setWorkTitleEdit] = useState(''); //帳號名稱編輯
     const [partyNameEdit, setPartyNameEdit] = useState(''); //銀行帳號編輯
@@ -125,6 +129,7 @@ const PartyDataList = ({}) => {
 
     const addPartyInfo = () => {
         let tmpArray = {
+            Code: code,
             SubmarineCable: submarineCable,
             WorkTitle: workTitle,
             PartyName: partyName,
@@ -157,6 +162,7 @@ const PartyDataList = ({}) => {
     const editPartyInfo = (row) => {
         // setEditItem(id);
         partyID.current = row.PartyID;
+        setCodeEdit(row.Code);
         setSubmarineCableEdit(row.SubmarineCable);
         setWorkTitleEdit(row.WorkTitle);
         setPartyNameEdit(row.PartyName);
@@ -198,6 +204,7 @@ const PartyDataList = ({}) => {
                 <TableHead>
                     <TableRow>
                         <StyledTableCell align="center">NO</StyledTableCell>
+                        <StyledTableCell align="center">代碼</StyledTableCell>
                         <StyledTableCell align="center">海纜名稱</StyledTableCell>
                         <StyledTableCell align="center">海纜作業</StyledTableCell>
                         <StyledTableCell align="center">會員名稱</StyledTableCell>
@@ -218,6 +225,7 @@ const PartyDataList = ({}) => {
                                 {row.PartyID !== partyID.current ? (
                                     <>
                                         <StyledTableCell align="center">{id + 1}</StyledTableCell>
+                                        <StyledTableCell align="center">{row.Code}</StyledTableCell>
                                         <StyledTableCell align="center">{row.SubmarineCable}</StyledTableCell>
                                         <StyledTableCell align="center">{row.WorkTitle}</StyledTableCell>
                                         <StyledTableCell align="center">{row.PartyName}</StyledTableCell>
@@ -257,6 +265,16 @@ const PartyDataList = ({}) => {
                                 ) : (
                                     <>
                                         <TableCell align="center">{id + 1}</TableCell>
+                                        <TableCell align="center">
+                                            <TextField
+                                                size="small"
+                                                // style={{ width: '30%' }}
+                                                value={codeEdit}
+                                                onChange={(e) => {
+                                                    setCodeEdit(e.target.value);
+                                                }}
+                                            />
+                                        </TableCell>
                                         <TableCell align="center">
                                             <TextField
                                                 size="small"
@@ -356,6 +374,16 @@ const PartyDataList = ({}) => {
                     })}
                     <TableRow sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
                         <TableCell align="center"></TableCell>
+                        <TableCell align="center">
+                            <TextField
+                                size="small"
+                                // style={{ width: '30%' }}
+                                value={code}
+                                onChange={(e) => {
+                                    setCode(e.target.value);
+                                }}
+                            />
+                        </TableCell>
                         <TableCell align="center">
                             <TextField
                                 size="small"

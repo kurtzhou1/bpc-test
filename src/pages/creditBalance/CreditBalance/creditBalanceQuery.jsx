@@ -89,8 +89,6 @@ const CreditBalanceQuery = ({ setListInfo, partiesList, subCableList }) => {
             .catch((e) => console.log('e1=>>', e));
     };
 
-    console.log('1=>>', partiesList, subCableList);
-
     const handleChange = (event) => {
         setCurrAmount({ ...currAmount, [event.target.name]: event.target.checked });
     };
@@ -173,13 +171,7 @@ const CreditBalanceQuery = ({ setListInfo, partiesList, subCableList }) => {
                 <Grid item xs={2} sm={2} md={2} lg={2}>
                     <FormControl fullWidth size="small">
                         <InputLabel id="demo-simple-select-label">選擇海纜作業</InputLabel>
-                        <Select
-                            // labelId="demo-simple-select-label"
-                            // id="demo-simple-select"
-                            value={workTitle}
-                            label="海纜作業"
-                            onChange={(e) => setWorkTitle(e.target.value)}
-                        >
+                        <Select value={workTitle} label="海纜作業" onChange={(e) => setWorkTitle(e.target.value)}>
                             <MenuItem value={'Upgrade'}>Upgrade</MenuItem>
                             <MenuItem value={'Construction'}>Construction</MenuItem>
                             <MenuItem value={'O&M'}>O&M</MenuItem>

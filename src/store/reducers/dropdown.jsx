@@ -3,10 +3,10 @@ import { createSlice } from '@reduxjs/toolkit';
 
 // initial state
 const initialState = {
-    supNmList: [],
-    subCableList: [],
-    partiesList: [],
-    bmsList: [],
+    supNmList: [], //供應商下拉選單
+    subCableList: [], //海纜名稱下拉選單
+    partiesList: [], //會員下拉選單
+    bmsList: [], //記帳段號下拉選單
     messageStateOpen: { isOpen: false, severity: '', message: '' }
 };
 

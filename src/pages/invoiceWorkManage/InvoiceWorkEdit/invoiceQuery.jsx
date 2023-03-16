@@ -280,27 +280,6 @@ const InvoiceQueryBlock = ({ setListInfo, queryApi, supNmList, subCableList, bil
                     </FormGroup>
                 </Grid>
                 {/* row2 */}
-                {/* <Grid item xs={12} sm={2} md={1} lg={1}>
-                    <Typography variant="h5" sx={{ fontSize: { lg: '0.5rem', xl: '0.88rem' }, ml: { lg: '0.5rem', xl: '1.5rem' } }}>
-                        會員名稱：
-                    </Typography>
-                </Grid>
-                <Grid item xs={2} sm={2} md={2} lg={2}>
-                    <FormControl fullWidth size="small">
-                        <InputLabel id="demo-simple-select-label">選擇會員</InputLabel>
-                        <Select
-                            // labelId="demo-simple-select-label"
-                            // id="demo-simple-select"
-                            value={partyNameQuery}
-                            label="會員"
-                            onChange={(e) => setPartyNameQuery(e.target.value)}
-                        >
-                            <MenuItem value={'Taiwan'}>Taiwan</MenuItem>
-                            <MenuItem value={'Japan'}>Japan</MenuItem>
-                            <MenuItem value={'Korean'}>Korean</MenuItem>
-                        </Select>
-                    </FormControl>
-                </Grid> */}
                 <Grid item xs={12} sm={2} md={1} lg={1}>
                     <Typography variant="h5" sx={{ fontSize: { lg: '0.5rem', xl: '0.88rem' }, ml: { lg: '0.5rem', xl: '1.5rem' } }}>
                         記帳段號：

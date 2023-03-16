@@ -39,60 +39,6 @@ import dayjs from 'dayjs';
 import { toBillDataapi, sendJounary } from 'components/apis.jsx';
 
 const ToGenerateDataList = ({ listInfo, apiQuery }) => {
-    const fakeData = {
-        TotalAmount: 5582012.72,
-        InvoiceMaster: [
-            {
-                InvMasterID: 1,
-                WKMasterID: 1,
-                InvoiceNo: 'DT0170168-1',
-                PartyName: 'Edge',
-                SupplierName: 'NEC',
-                SubmarineCable: 'SJC2',
-                WorkTitle: 'Construction',
-                IssueDate: '2022-09-09T00:00:00',
-                DueDate: '2022-11-08T00:00:00',
-                IsPro: false,
-                ContractType: 'SC',
-                Status: ''
-            }
-        ],
-        InvoiceDetail: [
-            {
-                WKMasterID: 1,
-                WKDetailID: 1,
-                InvMasterID: 1,
-                InvoiceNo: 'DT0170168-1',
-                PartyName: 'Edge',
-                SupplierName: 'NEC',
-                SubmarineCable: 'SJC2',
-                WorkTitle: 'Construction',
-                BillMilestone: 'BM9a',
-                FeeItem: 'BM9a Sea...',
-                LBRatio: 28.5714285714,
-                FeeAmountPre: 1288822.32,
-                FeeAmountPost: 369234.95,
-                Difference: 0
-            },
-            {
-                WKMasterID: 2,
-                WKDetailID: 2,
-                InvMasterID: 2,
-                InvoiceNo: 'DT0170168-2',
-                PartyName: 'Edge',
-                SupplierName: 'NEC',
-                SubmarineCable: 'SJC2',
-                WorkTitle: 'Construction',
-                BillMilestone: 'BM9a',
-                FeeItem: 'BM12a Under the Sea',
-                LBRatio: 28.5714285714,
-                FeeAmountPre: 1288844.44,
-                FeeAmountPost: 368244.44,
-                Difference: 0
-            }
-        ]
-    };
-
     const [isDialogOpen, setIsDialogOpen] = useState(false); //折抵作業
     const [isDeductWorkOpen, setIsDeductWorkOpen] = useState(false); //作廢
     const [infoBack, setInfoBack] = useState(false); //退回

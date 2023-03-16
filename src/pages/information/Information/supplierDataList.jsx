@@ -36,42 +36,22 @@ import { setMessageStateOpen } from 'store/reducers/dropdown';
 
 const SupplierDataList = ({}) => {
     const dispatch = useDispatch();
-    // const fakeData = [
-    //     {
-    //         SupplierID: 1,
-    //         SupplierName: 'NEC',
-    //         BankAcctName: '88888888888',
-    //         Fax: '+886',
-    //         BankAcctNo: 'Taiwan',
-    //         SWIFTCode: 'google.com',
-    //         IBAN: 'XXX',
-    //         BankName: '123',
-    //         BankAddress: '123'
-    //     },
-    //     {
-    //         SupplierID: 2,
-    //         SupplierName: 'NEC',
-    //         BankAcctName: '+886',
-    //         Fax: '+886',
-    //         BankAcctNo: 'Taiwan',
-    //         SWIFTCode: 'google.com',
-    //         IBAN: 'XXX',
-    //         BankName: '123',
-    //         BankAddress: '123'
-    //     }
-    // ];
     const [infoList, setInfoList] = useState([]);
     const [supplierName, setSupplierName] = useState(''); //供應商
+    const [code, setCode] = useState(''); //代碼
     const [bankAcctName, setBankAcctName] = useState(''); //帳號名稱
     const [bankAcctNo, setBankAcctNo] = useState(''); //銀行帳號
+    const [savingbankAcctNo, setSavingBankAcctNo] = useState(''); //銀行帳號
     const [sWIFTCode, setSWIFTCode] = useState(''); //國際銀行代碼
     const [iBAN, setIBAN] = useState(''); //國際銀行帳戶號碼
     const [bankName, setBankName] = useState(''); //銀行名稱
     const [bankAddress, setBankAddress] = useState(''); //銀行地址
     const supplierID = useRef(-1);
+    const [codeEdit, setCodeEdit] = useState(''); //代碼編輯
     const [supplierNameEdit, setSupplierNameEdit] = useState(''); //供應商編輯
     const [bankAcctNameEdit, setBankAcctNameEdit] = useState(''); //帳號名稱編輯
-    const [bankAcctNoEdit, setBankAcctNoEdit] = useState(''); //銀行帳號編輯
+    const [bankAcctNoEdit, setBankAcctNoEdit] = useState(''); //銀行帳號1編輯
+    const [savingBankAcctNoEdit, setSavingBankAcctNoEdit] = useState(''); //銀行帳號2編輯
     const [sWIFTCodeEdit, setSWIFTCodeEdit] = useState(''); //國際銀行代碼編輯
     const [iBANEdit, setIBANEdit] = useState(''); //國際銀行帳戶號碼編輯
     const [bankNameEdit, setBankNameEdit] = useState(''); //銀行名稱編輯
@@ -92,6 +72,7 @@ const SupplierDataList = ({}) => {
     }));
 
     const infoInit = () => {
+        setCode('');
         setSupplierName('');
         setBankAcctName('');
         setBankAcctNo('');
@@ -103,6 +84,7 @@ const SupplierDataList = ({}) => {
 
     const editInfoInit = () => {
         supplierID.current = -1;
+        setCodeEdit('');
         setSupplierNameEdit('');
         setBankAcctNameEdit('');
         setBankAcctNoEdit('');
@@ -126,6 +108,7 @@ const SupplierDataList = ({}) => {
 
     const addSupplierInfo = () => {
         let tmpArray = {
+            Code: code,
             SupplierName: supplierName,
             BankAcctName: bankAcctName,
             BankAcctNo: bankAcctNo,
@@ -158,6 +141,7 @@ const SupplierDataList = ({}) => {
     const editSupplierInfo = (row) => {
         // setEditItem(id);
         supplierID.current = row.SupplierID;
+        setCodeEdit(row.Code);
         setSupplierNameEdit(row.SupplierName);
         setBankAcctNameEdit(row.BankAcctName);
         setBankAcctNoEdit(row.BankAcctNo);
@@ -172,7 +156,8 @@ const SupplierDataList = ({}) => {
             SupplierID: supplierID.current,
             SupplierName: supplierNameEdit,
             BankAcctName: bankAcctNameEdit,
-            BankAcctNo: bankAcctNoEdit,
+            BankAcctNo1: bankAcctNoEdit,
+            BankAcctNo2: savingBankAcctNoEdit,
             SWIFTCode: sWIFTCodeEdit,
             IBAN: iBANEdit,
             BankName: bankNameEdit,
@@ -197,14 +182,18 @@ const SupplierDataList = ({}) => {
             <Table sx={{ minWidth: 300 }} stickyHeader aria-label="sticky table">
                 <TableHead>
                     <TableRow>
-                        <StyledTableCell align="center">NO</StyledTableCell>
+                        <StyledTableCell align="center">No.</StyledTableCell>
+                        <StyledTableCell align="center">代碼</StyledTableCell>
                         <StyledTableCell align="center">供應商名稱</StyledTableCell>
-                        <StyledTableCell align="center">帳號名稱</StyledTableCell>
-                        <StyledTableCell align="center">銀行帳號</StyledTableCell>
+                        <StyledTableCell align="center">Bank Name</StyledTableCell>
+                        <StyledTableCell align="center">Bank Address</StyledTableCell>
+                        <StyledTableCell align="center">Account Name</StyledTableCell>
+                        <StyledTableCell align="center">Account No.</StyledTableCell>
+                        <StyledTableCell align="center">Saving Account No.</StyledTableCell>
+                        <StyledTableCell align="center">ACH-</StyledTableCell>
+                        <StyledTableCell align="center">Wire/Routung</StyledTableCell>
                         <StyledTableCell align="center">SWIFT Code</StyledTableCell>
                         <StyledTableCell align="center">IBAN</StyledTableCell>
-                        <StyledTableCell align="center">銀行名稱</StyledTableCell>
-                        <StyledTableCell align="center">銀行地址</StyledTableCell>
                         <StyledTableCell align="center">Action</StyledTableCell>
                     </TableRow>
                 </TableHead>
@@ -218,13 +207,15 @@ const SupplierDataList = ({}) => {
                                 {row.SupplierID !== supplierID.current ? (
                                     <>
                                         <StyledTableCell align="center">{id + 1}</StyledTableCell>
+                                        <StyledTableCell align="center">{row.Code}</StyledTableCell>
                                         <StyledTableCell align="center">{row.SupplierName}</StyledTableCell>
+                                        <StyledTableCell align="center">{row.BankName}</StyledTableCell>
+                                        <StyledTableCell align="center">{row.BankAddress}</StyledTableCell>
                                         <StyledTableCell align="center">{row.BankAcctName}</StyledTableCell>
                                         <StyledTableCell align="center">{row.BankAcctNo}</StyledTableCell>
                                         <StyledTableCell align="center">{row.SWIFTCode}</StyledTableCell>
                                         <StyledTableCell align="center">{row.IBAN}</StyledTableCell>
-                                        <StyledTableCell align="center">{row.BankName}</StyledTableCell>
-                                        <StyledTableCell align="center">{row.BankAddress}</StyledTableCell>
+
                                         <StyledTableCell align="center">
                                             <Box
                                                 sx={{
@@ -256,7 +247,16 @@ const SupplierDataList = ({}) => {
                                     </>
                                 ) : (
                                     <>
-                                        <TableCell align="center">{id + 1}</TableCell>
+                                        <TableCell align="center">
+                                            <TextField
+                                                size="small"
+                                                // style={{ width: '30%' }}
+                                                value={codeEdit}
+                                                onChange={(e) => {
+                                                    setCodeEdit(e.target.value);
+                                                }}
+                                            />
+                                        </TableCell>
                                         <TableCell align="center">
                                             <TextField
                                                 size="small"
@@ -264,42 +264,6 @@ const SupplierDataList = ({}) => {
                                                 value={supplierNameEdit}
                                                 onChange={(e) => {
                                                     setSupplierNameEdit(e.target.value);
-                                                }}
-                                            />
-                                        </TableCell>
-                                        <TableCell align="center">
-                                            <TextField
-                                                size="small"
-                                                value={bankAcctNameEdit}
-                                                onChange={(e) => {
-                                                    setBankAcctNameEdit(e.target.value);
-                                                }}
-                                            />
-                                        </TableCell>
-                                        <TableCell align="center">
-                                            <TextField
-                                                size="small"
-                                                value={bankAcctNoEdit}
-                                                onChange={(e) => {
-                                                    setBankAcctNoEdit(e.target.value);
-                                                }}
-                                            />
-                                        </TableCell>
-                                        <TableCell align="center">
-                                            <TextField
-                                                size="small"
-                                                value={sWIFTCodeEdit}
-                                                onChange={(e) => {
-                                                    setSWIFTCodeEdit(e.target.value);
-                                                }}
-                                            />
-                                        </TableCell>
-                                        <TableCell align="center">
-                                            <TextField
-                                                size="small"
-                                                value={iBANEdit}
-                                                onChange={(e) => {
-                                                    setIBANEdit(e.target.value);
                                                 }}
                                             />
                                         </TableCell>
@@ -321,6 +285,54 @@ const SupplierDataList = ({}) => {
                                                 }}
                                             />
                                         </TableCell>
+                                        <TableCell align="center">
+                                            <TextField
+                                                size="small"
+                                                value={bankAcctNameEdit}
+                                                onChange={(e) => {
+                                                    setBankAcctNameEdit(e.target.value);
+                                                }}
+                                            />
+                                        </TableCell>
+                                        <TableCell align="center">
+                                            <TextField
+                                                size="small"
+                                                value={bankAcctNoEdit}
+                                                disabled={savingBankAcctNoEdit.length > 0}
+                                                onChange={(e) => {
+                                                    setBankAcctNoEdit(e.target.value);
+                                                }}
+                                            />
+                                        </TableCell>
+                                        <TableCell align="center">
+                                            <TextField
+                                                size="small"
+                                                value={savingBankAcctNoEdit}
+                                                disabled={bankAcctNoEdit.length > 0}
+                                                onChange={(e) => {
+                                                    setSavingBankAcctNoEdit(e.target.value);
+                                                }}
+                                            />
+                                        </TableCell>
+                                        <TableCell align="center">
+                                            <TextField
+                                                size="small"
+                                                value={sWIFTCodeEdit}
+                                                onChange={(e) => {
+                                                    setSWIFTCodeEdit(e.target.value);
+                                                }}
+                                            />
+                                        </TableCell>
+                                        <TableCell align="center">
+                                            <TextField
+                                                size="small"
+                                                value={iBANEdit}
+                                                onChange={(e) => {
+                                                    setIBANEdit(e.target.value);
+                                                }}
+                                            />
+                                        </TableCell>
+
                                         <StyledTableCell align="center">
                                             <Box
                                                 sx={{
@@ -355,7 +367,16 @@ const SupplierDataList = ({}) => {
                         );
                     })}
                     <TableRow sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
-                        <TableCell align="center"></TableCell>
+                        <TableCell align="center">
+                            <TextField
+                                size="small"
+                                // style={{ width: '30%' }}
+                                value={code}
+                                onChange={(e) => {
+                                    setCode(e.target.value);
+                                }}
+                            />
+                        </TableCell>
                         <TableCell align="center">
                             <TextField
                                 size="small"
@@ -363,42 +384,6 @@ const SupplierDataList = ({}) => {
                                 value={supplierName}
                                 onChange={(e) => {
                                     setSupplierName(e.target.value);
-                                }}
-                            />
-                        </TableCell>
-                        <TableCell align="center">
-                            <TextField
-                                size="small"
-                                value={bankAcctName}
-                                onChange={(e) => {
-                                    setBankAcctName(e.target.value);
-                                }}
-                            />
-                        </TableCell>
-                        <TableCell align="center">
-                            <TextField
-                                size="small"
-                                value={bankAcctNo}
-                                onChange={(e) => {
-                                    setBankAcctNo(e.target.value);
-                                }}
-                            />
-                        </TableCell>
-                        <TableCell align="center">
-                            <TextField
-                                size="small"
-                                value={sWIFTCode}
-                                onChange={(e) => {
-                                    setSWIFTCode(e.target.value);
-                                }}
-                            />
-                        </TableCell>
-                        <TableCell align="center">
-                            <TextField
-                                size="small"
-                                value={iBAN}
-                                onChange={(e) => {
-                                    setIBAN(e.target.value);
                                 }}
                             />
                         </TableCell>
@@ -420,6 +405,54 @@ const SupplierDataList = ({}) => {
                                 }}
                             />
                         </TableCell>
+                        <TableCell align="center">
+                            <TextField
+                                size="small"
+                                value={bankAcctName}
+                                onChange={(e) => {
+                                    setBankAcctName(e.target.value);
+                                }}
+                            />
+                        </TableCell>
+                        <TableCell align="center">
+                            <TextField
+                                size="small"
+                                value={bankAcctNo}
+                                disabled={savingbankAcctNo.length > 0}
+                                onChange={(e) => {
+                                    setBankAcctNo(e.target.value);
+                                }}
+                            />
+                        </TableCell>
+                        <TableCell align="center">
+                            <TextField
+                                size="small"
+                                disabled={bankAcctNo.length > 0}
+                                value={savingbankAcctNo}
+                                onChange={(e) => {
+                                    setSavingBankAcctNo(e.target.value);
+                                }}
+                            />
+                        </TableCell>
+                        <TableCell align="center">
+                            <TextField
+                                size="small"
+                                value={sWIFTCode}
+                                onChange={(e) => {
+                                    setSWIFTCode(e.target.value);
+                                }}
+                            />
+                        </TableCell>
+                        <TableCell align="center">
+                            <TextField
+                                size="small"
+                                value={iBAN}
+                                onChange={(e) => {
+                                    setIBAN(e.target.value);
+                                }}
+                            />
+                        </TableCell>
+
                         <TableCell align="center">
                             <Box
                                 sx={{

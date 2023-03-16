@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { Grid, Button, IconButton, Box, Tabs, Tab, Typography, DialogTitle } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 // import { styled } from '@mui/material/styles';
@@ -15,9 +15,13 @@ import DraftDataList from './draftDataList';
 
 import ReceivableQuery from './receivableQuery';
 
-const GenerateFeeAmount = () => {
-    const [value, setValue] = useState(2);
+// redux
+import { useDispatch } from 'react-redux';
+import { setMessageStateOpen } from 'store/reducers/dropdown';
 
+const GenerateFeeAmount = () => {
+    const [value, setValue] = useState(0);
+    const dispatch = useDispatch();
     const handleChange = (event, newValue) => {
         setValue(newValue);
     };
@@ -32,36 +36,154 @@ const GenerateFeeAmount = () => {
     // 以下都無用的
     const fakeData = [
         {
-            CBType: 'MWG',
-            PartyName: 'CHT',
-            InvoiceNo: '234567',
-            BillingNo: '12345',
-            SubmarineCable: 'SJC',
-            WorkTitle: 'Upgrade',
-            CurrAmount: 1234,
-            CreateDate: '2023-01-01 12:12:!2',
-            Note: '測試'
+            BillMaster: {
+                BillMasterID: 1,
+                BillingNo: 'string',
+                PONo: 'string',
+                SupplierName: 'string',
+                SubmarineCable: 'string',
+                WorkTitle: 'string',
+                PartyName: 'string',
+                IssueDate: '2023-03-14 00:00:00',
+                DueDate: '2023-03-20 00:00:00',
+                FeeAmountSum: 123.45,
+                ReceivedAmountSum: 123.45,
+                IsPro: 1,
+                Status: 'string'
+            },
+            BillDetail: [
+                {
+                    BillDetailID: 1,
+                    BillMasterID: 2,
+                    WKMasterID: 3,
+                    InvDetailID: 4,
+                    PartyName: 'string',
+                    SupplierName: 'string',
+                    SubmarineCable: 'string',
+                    WorkTitle: 'string',
+                    BillMilestone: 'string',
+                    FeeItem: 'string',
+                    OrgFeeAmount: 123.45,
+                    DedAmount: 123.45,
+                    FeeAmount: 123.45,
+                    ReceivedAmount: 123.45,
+                    OverAmount: 123.45,
+                    ShortAmount: 123.45,
+                    BankFees: 123.45,
+                    ToCBAmount: 123.45,
+                    ShortOverReason: 'string',
+                    WriteOffDate: '2023-03-14 00:00:00',
+                    ReceiveDate: '2023-03-14 00:00:00',
+                    Note: 'string',
+                    Status: 'string'
+                },
+                {
+                    BillDetailID: 1,
+                    BillMasterID: 2,
+                    WKMasterID: 3,
+                    InvDetailID: 4,
+                    PartyName: 'string',
+                    SupplierName: 'string',
+                    SubmarineCable: 'string',
+                    WorkTitle: 'string',
+                    BillMilestone: 'string',
+                    FeeItem: 'string',
+                    OrgFeeAmount: 123.45,
+                    DedAmount: 123.45,
+                    FeeAmount: 123.45,
+                    ReceivedAmount: 123.45,
+                    OverAmount: 123.45,
+                    ShortAmount: 123.45,
+                    BankFees: 123.45,
+                    ToCBAmount: 123.45,
+                    ShortOverReason: 'string',
+                    WriteOffDate: '2023-03-14 00:00:00',
+                    ReceiveDate: '2023-03-14 00:00:00',
+                    Note: 'string',
+                    Status: 'string'
+                }
+            ]
+        },
+        {
+            BillMaster: {
+                BillMasterID: 1,
+                BillingNo: 'string',
+                PONo: 'string',
+                SupplierName: 'string',
+                SubmarineCable: 'string',
+                WorkTitle: 'string',
+                PartyName: 'string',
+                IssueDate: '2023-03-14 00:00:00',
+                DueDate: '2023-03-20 00:00:00',
+                FeeAmountSum: 123.45,
+                ReceivedAmountSum: 123.45,
+                IsPro: 1,
+                Status: 'string'
+            },
+            BillDetail: [
+                {
+                    BillDetailID: 1,
+                    BillMasterID: 2,
+                    WKMasterID: 3,
+                    InvDetailID: 4,
+                    PartyName: 'string',
+                    SupplierName: 'string',
+                    SubmarineCable: 'string',
+                    WorkTitle: 'string',
+                    BillMilestone: 'string',
+                    FeeItem: 'string',
+                    OrgFeeAmount: 123.45,
+                    DedAmount: 123.45,
+                    FeeAmount: 123.45,
+                    ReceivedAmount: 123.45,
+                    OverAmount: 123.45,
+                    ShortAmount: 123.45,
+                    BankFees: 123.45,
+                    ToCBAmount: 123.45,
+                    ShortOverReason: 'string',
+                    WriteOffDate: '2023-03-14 00:00:00',
+                    ReceiveDate: '2023-03-14 00:00:00',
+                    Note: 'string',
+                    Status: 'string'
+                },
+                {
+                    BillDetailID: 1,
+                    BillMasterID: 2,
+                    WKMasterID: 3,
+                    InvDetailID: 4,
+                    PartyName: 'string',
+                    SupplierName: 'string',
+                    SubmarineCable: 'string',
+                    WorkTitle: 'string',
+                    BillMilestone: 'string',
+                    FeeItem: 'string',
+                    OrgFeeAmount: 123.45,
+                    DedAmount: 123.45,
+                    FeeAmount: 123.45,
+                    ReceivedAmount: 123.45,
+                    OverAmount: 123.45,
+                    ShortAmount: 123.45,
+                    BankFees: 123.45,
+                    ToCBAmount: 123.45,
+                    ShortOverReason: 'string',
+                    WriteOffDate: '2023-03-14 00:00:00',
+                    ReceiveDate: '2023-03-14 00:00:00',
+                    Note: 'string',
+                    Status: 'string'
+                }
+            ]
         }
     ];
 
     const [listInfo, setListInfo] = useState(fakeData);
     const [isDialogOpen, setIsDialogOpen] = useState(false);
-    const [dialogAction, setDialogAction] = useState('');
 
     const [billMilestone, setBillMilestone] = useState(''); //記帳段號
     const [partyName, setPartyName] = useState([]); //會員名稱
     const [lBRatio, setLBRatio] = useState(''); //攤分比例
     const [editItem, setEditItem] = useState(NaN);
     const [modifyNote, setModifyNote] = useState('');
-
-    const receivableQuery = () => {
-        console.log('ReceivableQueryFunction');
-    };
-
-    const handleDialogOpen = () => {
-        setIsDialogOpen(true);
-        setDialogAction('add');
-    };
+    const totalCombineAmount = useRef(0); //勾選合併帳單總金額
 
     const handleDialogClose = () => {
         setIsDialogOpen(false);
@@ -112,13 +234,12 @@ const GenerateFeeAmount = () => {
         }
     };
 
-    //儲存編輯
-    const saveEdit = () => {
-        setEditItem(NaN);
-        deletelistInfoItem(editItem);
-        addLiability();
-        setIsListEdit(false);
-        itemDetailInitial();
+    const handleDialogOpen = () => {
+        if (totalCombineAmount.current > 0) {
+            setIsDialogOpen(true);
+        } else {
+            dispatch(setMessageStateOpen({ messageStateOpen: { isOpen: true, severity: 'error', message: '請至少勾選一筆發票項目' } }));
+        }
     };
 
     useEffect(() => {
@@ -131,26 +252,8 @@ const GenerateFeeAmount = () => {
 
     return (
         <Grid container spacing={1}>
-            {/* <Grid item xs={12} display="flex" justifyContent="right">
-                <Button sx={{ mr: '0.25rem' }} variant="contained" onClick={handleDialogOpen}>
-                    + 新增Credit Balance
-                </Button>
-                <CreditBalanceAdd
-                    handleDialogClose={handleDialogClose}
-                    addLiability={addLiability}
-                    saveEdit={saveEdit}
-                    partyName={partyName}
-                    setPartyName={setPartyName}
-                    isDialogOpen={isDialogOpen}
-                    billMilestone={billMilestone}
-                    setBillMilestone={setBillMilestone}
-                    dialogAction={dialogAction}
-                    lBRatio={lBRatio}
-                    setLBRatio={setLBRatio}
-                />
-            </Grid> */}
             <Grid item xs={12}>
-                <ReceivableQuery receivableQuery={receivableQuery} />
+                <ReceivableQuery value={value} setListInfo={setListInfo} />
             </Grid>
             <Grid item xs={12}>
                 <MainCard
@@ -178,7 +281,7 @@ const GenerateFeeAmount = () => {
                                         top: 4
                                     }}
                                     onClick={() => {
-                                        setIsDialogOpen(true);
+                                        handleDialogOpen();
                                     }}
                                 >
                                     + 合併帳單
@@ -199,10 +302,15 @@ const GenerateFeeAmount = () => {
                         )}
                     </Box>
                     <TabPanel value={value} index={0}>
-                        <ToCombineDataList handleDialogClose={handleDialogClose} isDialogOpen={isDialogOpen} />
+                        <ToCombineDataList
+                            handleDialogClose={handleDialogClose}
+                            isDialogOpen={isDialogOpen}
+                            listInfo={listInfo}
+                            totalCombineAmount={totalCombineAmount}
+                        />
                     </TabPanel>
                     <TabPanel value={value} index={1}>
-                        <ToDeductDataList />
+                        <ToDeductDataList listInfo={listInfo} />
                     </TabPanel>
                     <TabPanel value={value} index={2}>
                         <DeductedDataList />
