@@ -38,7 +38,6 @@ const SupplierDataList = ({}) => {
     const dispatch = useDispatch();
     const [infoList, setInfoList] = useState([]);
     const [supplierName, setSupplierName] = useState(''); //供應商
-    const [code, setCode] = useState(''); //代碼
     const [bankAcctName, setBankAcctName] = useState(''); //帳號名稱
     const [bankAcctNo, setBankAcctNo] = useState(''); //銀行帳號
     const [savingbankAcctNo, setSavingBankAcctNo] = useState(''); //銀行帳號
@@ -46,6 +45,8 @@ const SupplierDataList = ({}) => {
     const [iBAN, setIBAN] = useState(''); //國際銀行帳戶號碼
     const [bankName, setBankName] = useState(''); //銀行名稱
     const [bankAddress, setBankAddress] = useState(''); //銀行地址
+    const [aCHNo, setaCHno] = useState(''); //ACH NO
+    const [wireRouting, setWireRouting] = useState(''); //Wire/Routing
     const supplierID = useRef(-1);
     const [codeEdit, setCodeEdit] = useState(''); //代碼編輯
     const [supplierNameEdit, setSupplierNameEdit] = useState(''); //供應商編輯
@@ -56,6 +57,8 @@ const SupplierDataList = ({}) => {
     const [iBANEdit, setIBANEdit] = useState(''); //國際銀行帳戶號碼編輯
     const [bankNameEdit, setBankNameEdit] = useState(''); //銀行名稱編輯
     const [bankAddressEdit, setBankAddressEdit] = useState(''); //銀行地址編輯
+    const [aCHNoEdit, setaCHnoEdit] = useState(''); //ACH NO編輯
+    const [wireRoutingEdit, setWireRoutingEdit] = useState(''); //Wire/Routing編輯
 
     const StyledTableCell = styled(TableCell)(({ theme }) => ({
         [`&.${tableCellClasses.head}`]: {
@@ -108,14 +111,15 @@ const SupplierDataList = ({}) => {
 
     const addSupplierInfo = () => {
         let tmpArray = {
-            Code: code,
             SupplierName: supplierName,
             BankAcctName: bankAcctName,
             BankAcctNo: bankAcctNo,
             SWIFTCode: sWIFTCode,
             IBAN: iBAN,
             BankName: bankName,
-            BankAddress: bankAddress
+            BankAddress: bankAddress,
+            ACHNo: aCHNo,
+            WireRouting: wireRouting
         };
         console.log('addSupplierInfo=>>', tmpArray);
         fetch(addSuppliers, { method: 'POST', body: JSON.stringify(tmpArray), headers: { 'Content-Type': 'application/json' } })
@@ -141,7 +145,6 @@ const SupplierDataList = ({}) => {
     const editSupplierInfo = (row) => {
         // setEditItem(id);
         supplierID.current = row.SupplierID;
-        setCodeEdit(row.Code);
         setSupplierNameEdit(row.SupplierName);
         setBankAcctNameEdit(row.BankAcctName);
         setBankAcctNoEdit(row.BankAcctNo);
@@ -149,6 +152,8 @@ const SupplierDataList = ({}) => {
         setIBANEdit(row.IBAN);
         setBankNameEdit(row.BankName);
         setBankAddressEdit(row.BankAddress);
+        setaCHnoEdit(row.ACHNo);
+        setWireRoutingEdit(row.WireRouting);
     };
 
     const saveEditSupplierInfo = () => {
@@ -161,7 +166,9 @@ const SupplierDataList = ({}) => {
             SWIFTCode: sWIFTCodeEdit,
             IBAN: iBANEdit,
             BankName: bankNameEdit,
-            BankAddress: bankAddressEdit
+            BankAddress: bankAddressEdit,
+            ACHNo: aCHNoEdit,
+            WireRouting: wireRoutingEdit
         };
         fetch(editSuppliers, { method: 'POST', body: JSON.stringify(tmpArray), headers: { 'Content-Type': 'application/json' } })
             .then((res) => res.json())
@@ -183,7 +190,6 @@ const SupplierDataList = ({}) => {
                 <TableHead>
                     <TableRow>
                         <StyledTableCell align="center">No.</StyledTableCell>
-                        <StyledTableCell align="center">代碼</StyledTableCell>
                         <StyledTableCell align="center">供應商名稱</StyledTableCell>
                         <StyledTableCell align="center">Bank Name</StyledTableCell>
                         <StyledTableCell align="center">Bank Address</StyledTableCell>
@@ -191,7 +197,7 @@ const SupplierDataList = ({}) => {
                         <StyledTableCell align="center">Account No.</StyledTableCell>
                         <StyledTableCell align="center">Saving Account No.</StyledTableCell>
                         <StyledTableCell align="center">ACH-</StyledTableCell>
-                        <StyledTableCell align="center">Wire/Routung</StyledTableCell>
+                        <StyledTableCell align="center">Wire/Routing</StyledTableCell>
                         <StyledTableCell align="center">SWIFT Code</StyledTableCell>
                         <StyledTableCell align="center">IBAN</StyledTableCell>
                         <StyledTableCell align="center">Action</StyledTableCell>
@@ -207,15 +213,15 @@ const SupplierDataList = ({}) => {
                                 {row.SupplierID !== supplierID.current ? (
                                     <>
                                         <StyledTableCell align="center">{id + 1}</StyledTableCell>
-                                        <StyledTableCell align="center">{row.Code}</StyledTableCell>
                                         <StyledTableCell align="center">{row.SupplierName}</StyledTableCell>
                                         <StyledTableCell align="center">{row.BankName}</StyledTableCell>
                                         <StyledTableCell align="center">{row.BankAddress}</StyledTableCell>
                                         <StyledTableCell align="center">{row.BankAcctName}</StyledTableCell>
                                         <StyledTableCell align="center">{row.BankAcctNo}</StyledTableCell>
+                                        <StyledTableCell align="center">{row.ACHNo}</StyledTableCell>
+                                        <StyledTableCell align="center">{row.WireRouting}</StyledTableCell>
                                         <StyledTableCell align="center">{row.SWIFTCode}</StyledTableCell>
                                         <StyledTableCell align="center">{row.IBAN}</StyledTableCell>
-
                                         <StyledTableCell align="center">
                                             <Box
                                                 sx={{
@@ -247,16 +253,7 @@ const SupplierDataList = ({}) => {
                                     </>
                                 ) : (
                                     <>
-                                        <TableCell align="center">
-                                            <TextField
-                                                size="small"
-                                                // style={{ width: '30%' }}
-                                                value={codeEdit}
-                                                onChange={(e) => {
-                                                    setCodeEdit(e.target.value);
-                                                }}
-                                            />
-                                        </TableCell>
+                                        <TableCell align="center"></TableCell>
                                         <TableCell align="center">
                                             <TextField
                                                 size="small"
@@ -317,6 +314,24 @@ const SupplierDataList = ({}) => {
                                         <TableCell align="center">
                                             <TextField
                                                 size="small"
+                                                value={aCHNoEdit}
+                                                onChange={(e) => {
+                                                    setaCHnoEdit(e.target.value);
+                                                }}
+                                            />
+                                        </TableCell>
+                                        <TableCell align="center">
+                                            <TextField
+                                                size="small"
+                                                value={wireRoutingEdit}
+                                                onChange={(e) => {
+                                                    setWireRoutingEdit(e.target.value);
+                                                }}
+                                            />
+                                        </TableCell>
+                                        <TableCell align="center">
+                                            <TextField
+                                                size="small"
                                                 value={sWIFTCodeEdit}
                                                 onChange={(e) => {
                                                     setSWIFTCodeEdit(e.target.value);
@@ -332,7 +347,6 @@ const SupplierDataList = ({}) => {
                                                 }}
                                             />
                                         </TableCell>
-
                                         <StyledTableCell align="center">
                                             <Box
                                                 sx={{
@@ -367,16 +381,7 @@ const SupplierDataList = ({}) => {
                         );
                     })}
                     <TableRow sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
-                        <TableCell align="center">
-                            <TextField
-                                size="small"
-                                // style={{ width: '30%' }}
-                                value={code}
-                                onChange={(e) => {
-                                    setCode(e.target.value);
-                                }}
-                            />
-                        </TableCell>
+                        <TableCell align="center"></TableCell>
                         <TableCell align="center">
                             <TextField
                                 size="small"
@@ -431,6 +436,24 @@ const SupplierDataList = ({}) => {
                                 value={savingbankAcctNo}
                                 onChange={(e) => {
                                     setSavingBankAcctNo(e.target.value);
+                                }}
+                            />
+                        </TableCell>
+                        <TableCell align="center">
+                            <TextField
+                                size="small"
+                                value={aCHNo}
+                                onChange={(e) => {
+                                    setaCHno(e.target.value);
+                                }}
+                            />
+                        </TableCell>
+                        <TableCell align="center">
+                            <TextField
+                                size="small"
+                                value={wireRouting}
+                                onChange={(e) => {
+                                    setWireRouting(e.target.value);
                                 }}
                             />
                         </TableCell>

@@ -100,7 +100,7 @@ const SubmarineCableDataList = ({}) => {
 
     const addPartyInfo = () => {
         let tmpArray = {
-            Code: code,
+            CableCode: code,
             CableName: cableName,
             Note: note
         };
@@ -135,7 +135,7 @@ const SubmarineCableDataList = ({}) => {
     const saveEditPartyInfo = () => {
         let tmpArray = {
             // CorpID: cableID.current,
-            Code: codeEdit,
+            CableCode: codeEdit,
             CableName: cableNameEdit,
             Note: noteEdit
         };
@@ -175,7 +175,7 @@ const SubmarineCableDataList = ({}) => {
                                 {row.CorpID !== cableID.current ? (
                                     <>
                                         <StyledTableCell align="center">{id + 1}</StyledTableCell>
-                                        <StyledTableCell align="center">{row.Code}</StyledTableCell>
+                                        <StyledTableCell align="center">{row.CableCode}</StyledTableCell>
                                         <StyledTableCell align="center">{row.CableName}</StyledTableCell>
                                         <StyledTableCell align="center">{row.Note}</StyledTableCell>
                                         <StyledTableCell align="center">

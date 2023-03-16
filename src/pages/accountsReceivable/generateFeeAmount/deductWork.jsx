@@ -35,12 +35,43 @@ import dayjs from 'dayjs';
 import { toBillDataapi, sendJounary } from 'components/apis.jsx';
 
 const ToGenerateDataList = ({ isDialogOpen, handleDialogClose, billDetailInfo, actionName }) => {
+    const fakeData = [
+        {
+            CBID: 1,
+            BLDetailID: 1,
+            WorkTitle: 'test123',
+            InvoiceNo: 'test123',
+            PartyName: 'CHT',
+            LastUpdDate: '2023-03-01 00:00:00',
+            SubmarineCable: 'test123',
+            CBType: 'test123',
+            BillingNo: 'test123',
+            BillMilestone: 'test123',
+            CurrAmount: 3.14,
+            CreateDate: '2023-03-0100:00:00',
+            Note: 'test123'
+        },
+        {
+            CBID: 2,
+            BLDetailID: 2,
+            WorkTitle: 'test456',
+            InvoiceNo: 'test456',
+            PartyName: 'CHT',
+            LastUpdDate: '2023-03-02 00:00:00',
+            SubmarineCable: 'test456',
+            CBType: 'test456',
+            BillingNo: 'test456',
+            BillMilestone: 'test456',
+            CurrAmount: 3.14,
+            CreateDate: '2023-03-0100:00:00',
+            Note: 'test456'
+        }
+    ];
+
     const [isDeductWorkOpen, setIsDeductWorkOpen] = useState(false);
-    const [editItem, setEditItem] = useState();
-    // const [toBillDataMain, setToBillDataMain] = useState(fakeData.InvoiceMaster);
-    // const [toBillDataInfo, setToBillDataInfo] = useState(fakeData.InvoiceDetail); //發票明細檔
-    // const [totalAmount, setTotalAmount] = useState(fakeData.TotalAmount); //發票總金額
-    const [currentAmount, setCurrentAmount] = useState(''); //目前金額
+    const [cbDataList, setCbDataList] = useState(fakeData);
+    const tmpCBArray = useRef([]);
+    const editItem = useRef(-1);
     const StyledTableCell = styled(TableCell)(({ theme }) => ({
         [`&.${tableCellClasses.head}`]: {
             // backgroundColor: theme.palette.common.gary,
@@ -55,13 +86,42 @@ const ToGenerateDataList = ({ isDialogOpen, handleDialogClose, billDetailInfo, a
         }
     }));
 
-    const deductWork = (id) => {
-        console.log('我問號');
-        setEditItem(id);
+    const deductWork = (data, id) => {
+        console.log('data=>>', data);
+        let tmpQuery =
+            addCB +
+            '/SubmarineCable=' +
+            data.SubmarineCable +
+            '&WorkTitle=' +
+            data.WorkTitle +
+            '&BillMilestone=' +
+            data.BillMilestone +
+            '&PartyName=' +
+            data.PartyName;
+        console.log('tmpQuery=>>', tmpQuery);
+        fetch(tmpQuery, { method: 'GET' })
+            .then((res) => res.json())
+            .then((data) => {
+                if (Array.isArray(data)) {
+                    setCbDataList(data);
+                }
+            })
+            .catch((e) => console.log('e1=>>', e));
+        editItem.current = id;
         setIsDeductWorkOpen(true);
     };
 
-    console.log('12345=>>', billDetailInfo);
+    const changeDiff = (diff, cbid) => {
+        let tmpArray = tmpCBArray.map((i) => i);
+        // let tmpArray = cbDataList.map((i) => i);
+        // let tmpAmount = 0;
+        // tmpArray[id].Difference = Number(diff);
+        // tmpArray.forEach((i) => {
+        //     tmpAmount = tmpAmount + i.FeeAmountPost + i.Difference;
+        // });
+        // setToBillDataInfo(tmpArray);
+        // setCurrentAmount(tmpAmount.toFixed(2));
+    };
 
     return (
         <Dialog onClose={handleDialogClose} maxWidth="xl" open={isDialogOpen}>
@@ -101,14 +161,7 @@ const ToGenerateDataList = ({ isDialogOpen, handleDialogClose, billDetailInfo, a
                                     </Typography>
                                 </Grid>
                                 <Grid item xs={3} sm={3} md={3} lg={3}>
-                                    <TextField
-                                        value={billDetailInfo.IssueDate}
-                                        fullWidth
-                                        disabled={true}
-                                        variant="outlined"
-                                        size="small"
-                                        // type="number"
-                                    />
+                                    <TextField value={billDetailInfo.IssueDate} fullWidth disabled={true} variant="outlined" size="small" />
                                 </Grid>
                                 <Grid item xs={1} sm={1} md={1} lg={1} />
                                 <Grid item xs={1} sm={1} md={1} lg={1} />
@@ -127,7 +180,6 @@ const ToGenerateDataList = ({ isDialogOpen, handleDialogClose, billDetailInfo, a
                                         disabled={true}
                                         variant="outlined"
                                         size="small"
-                                        // type="number"
                                     />
                                 </Grid>
                                 <Grid item xs={2} sm={2} md={2} lg={2}>
@@ -139,14 +191,7 @@ const ToGenerateDataList = ({ isDialogOpen, handleDialogClose, billDetailInfo, a
                                     </Typography>
                                 </Grid>
                                 <Grid item xs={3} sm={3} md={3} lg={3}>
-                                    <TextField
-                                        value={billDetailInfo.WorkTitle}
-                                        fullWidth
-                                        disabled={true}
-                                        variant="outlined"
-                                        size="small"
-                                        // type="number"
-                                    />
+                                    <TextField value={billDetailInfo.WorkTitle} fullWidth disabled={true} variant="outlined" size="small" />
                                 </Grid>
                                 <Grid item xs={1} sm={1} md={1} lg={1} />
                             </Grid>
@@ -191,10 +236,10 @@ const ToGenerateDataList = ({ isDialogOpen, handleDialogClose, billDetailInfo, a
                                                         <TableCell align="center">
                                                             <Button
                                                                 color="primary"
-                                                                variant={editItem === id ? 'contained' : 'outlined'}
+                                                                variant={editItem.current === id ? 'contained' : 'outlined'}
                                                                 size="small"
                                                                 onClick={() => {
-                                                                    deductWork(id);
+                                                                    deductWork(row, id);
                                                                 }}
                                                             >
                                                                 折抵
@@ -229,19 +274,17 @@ const ToGenerateDataList = ({ isDialogOpen, handleDialogClose, billDetailInfo, a
                                                     </TableRow>
                                                 </TableHead>
                                                 <TableBody>
-                                                    {toBillDataInfo.map((row, id) => {
-                                                        let afterDiff = row.FeeAmountPost + row.Difference;
+                                                    {cbDataList.map((row, id) => {
+                                                        // let afterDiff = row.FeeAmountPost + row.Difference;
                                                         return (
                                                             <TableRow
                                                                 key={row.FeeAmountPre + row?.PartyName + row?.LBRatio}
                                                                 sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                                                             >
-                                                                <TableCell align="center">{row.FeeItem}</TableCell>
-                                                                <TableCell align="center">{row.PartyName}</TableCell>
-                                                                <TableCell align="center">{`${row.LBRatio}%`}</TableCell>
-                                                                <TableCell align="center">{`$${handleNumber(
-                                                                    row.FeeAmountPost
-                                                                )}`}</TableCell>
+                                                                <TableCell align="center">{id + 1}</TableCell>
+                                                                <TableCell align="center">{row.CBType}</TableCell>
+                                                                <TableCell align="center">{row.CurrAmount}</TableCell>
+                                                                <TableCell align="center">{row.Note}</TableCell>
                                                                 <TableCell align="center">
                                                                     <TextField
                                                                         label="$"
@@ -250,13 +293,13 @@ const ToGenerateDataList = ({ isDialogOpen, handleDialogClose, billDetailInfo, a
                                                                         style={{ width: '30%' }}
                                                                         // value={diffNumber}
                                                                         onChange={(e) => {
-                                                                            changeDiff(e.target.value, id);
+                                                                            changeDiff(e.target.value, row.CBID);
                                                                         }}
                                                                     />
                                                                 </TableCell>
-                                                                <TableCell align="center">{`$${handleNumber(
+                                                                {/* <TableCell align="center">{`$${handleNumber(
                                                                     afterDiff.toFixed(2)
-                                                                )}`}</TableCell>
+                                                                )}`}</TableCell> */}
                                                             </TableRow>
                                                         );
                                                     })}
@@ -272,7 +315,7 @@ const ToGenerateDataList = ({ isDialogOpen, handleDialogClose, billDetailInfo, a
                                             sx={{ ml: '0.5rem', mt: '0.5rem' }}
                                             onClick={() => {
                                                 setIsDeductWorkOpen(false);
-                                                setEditItem();
+                                                editItem.current = -1;
                                             }}
                                         >
                                             儲存
@@ -284,7 +327,7 @@ const ToGenerateDataList = ({ isDialogOpen, handleDialogClose, billDetailInfo, a
                                             sx={{ ml: '0.5rem', mt: '0.5rem' }}
                                             onClick={() => {
                                                 setIsDeductWorkOpen(false);
-                                                setEditItem();
+                                                editItem.current = -1;
                                             }}
                                         >
                                             取消
@@ -318,7 +361,7 @@ const ToGenerateDataList = ({ isDialogOpen, handleDialogClose, billDetailInfo, a
                     onClick={() => {
                         handleDialogClose();
                         setIsDeductWorkOpen(false);
-                        setEditItem();
+                        editItem.current = -1;
                     }}
                 >
                     取消
