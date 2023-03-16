@@ -42,12 +42,12 @@ const ToGenerateDataList = ({ listInfo, apiQuery }) => {
     const [isDialogOpen, setIsDialogOpen] = useState(false); //折抵作業
     const [isDeductWorkOpen, setIsDeductWorkOpen] = useState(false); //作廢
     const [infoBack, setInfoBack] = useState(false); //退回
-    const deductInfo = useRef({});
+    const billDetailInfo = useRef([]);
     const actionName = useRef('');
     const [editItem, setEditItem] = useState();
-    const [toBillDataMain, setToBillDataMain] = useState(fakeData.InvoiceMaster); //發票主檔
-    const [toBillDataInfo, setToBillDataInfo] = useState(fakeData.InvoiceDetail); //發票明細檔
-    const [totalAmount, setTotalAmount] = useState(fakeData.TotalAmount); //發票總金額
+    // const [toBillDataMain, setToBillDataMain] = useState(fakeData.InvoiceMaster); //發票主檔
+    // const [toBillDataInfo, setToBillDataInfo] = useState(fakeData.InvoiceDetail); //發票明細檔
+    // const [totalAmount, setTotalAmount] = useState(fakeData.TotalAmount); //發票總金額
     const [currentAmount, setCurrentAmount] = useState(''); //目前金額
     const [infoTerminal, setInfoTerminal] = useState(false);
     const StyledTableCell = styled(TableCell)(({ theme }) => ({
@@ -66,13 +66,13 @@ const ToGenerateDataList = ({ listInfo, apiQuery }) => {
     }));
 
     const handleDialogClose = () => {
-        deductInfo.current = '可折抵CB';
         setIsDialogOpen(false);
         setEditItem();
     };
 
     const handleDialogOpen = (action, info) => {
-        deductInfo.current = info;
+        console.log('info=>>', info);
+        billDetailInfo.current = info.BillDetail;
         actionName.current = action;
         setIsDialogOpen(true);
     };
@@ -90,7 +90,7 @@ const ToGenerateDataList = ({ listInfo, apiQuery }) => {
             <DeductWork
                 isDialogOpen={isDialogOpen}
                 handleDialogClose={handleDialogClose}
-                deductInfo={deductInfo.current}
+                billDetailInfo={billDetailInfo.current}
                 actionName={actionName.current}
             />
             <GenerateFeeTerminate infoTerminal={infoTerminal} handleTerminalClose={handleTerminalClose} />
@@ -112,19 +112,21 @@ const ToGenerateDataList = ({ listInfo, apiQuery }) => {
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {toBillDataMain?.map((row, id) => {
-                            console.log('row=>>', row);
+                        {listInfo?.map((row, id) => {
                             return (
-                                <TableRow key={row.WKMasterID + row.InvoiceNo} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
+                                <TableRow
+                                    key={row.BillMaster.BillMasterID + row.BillMaster.BillMasterID}
+                                    sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                                >
                                     <StyledTableCell align="center">{id + 1}</StyledTableCell>
-                                    <StyledTableCell align="center">{row.PartyName}</StyledTableCell>
-                                    <StyledTableCell align="center">{row.SubmarineCable}</StyledTableCell>
-                                    <StyledTableCell align="center">{row.WorkTitle}</StyledTableCell>
-                                    <StyledTableCell align="center">{dayjs(row.IssueDate).format('YYYY/MM/DD')}</StyledTableCell>
-                                    <StyledTableCell align="center">{dayjs(row.IssueDate).format('YYYY/MM/DD')}</StyledTableCell>
-                                    <StyledTableCell align="center">{toBillDataInfo.length}</StyledTableCell>
-                                    <StyledTableCell align="center">{row.IsPro ? '是' : '否'}</StyledTableCell>
-                                    <StyledTableCell align="center">{row.Status}</StyledTableCell>
+                                    <StyledTableCell align="center">{row.BillMaster.PartyName}</StyledTableCell>
+                                    <StyledTableCell align="center">{row.BillMaster.SubmarineCable}</StyledTableCell>
+                                    <StyledTableCell align="center">{row.BillMaster.WorkTitle}</StyledTableCell>
+                                    <StyledTableCell align="center">{dayjs(row.BillMaster.IssueDate).format('YYYY/MM/DD')}</StyledTableCell>
+                                    <StyledTableCell align="center">{dayjs(row.BillMaster.DueDate).format('YYYY/MM/DD')}</StyledTableCell>
+                                    <StyledTableCell align="center">{row.BillDetail.length}</StyledTableCell>
+                                    <StyledTableCell align="center">{row.BillMaster.IsPro === 1 ? '是' : '否'}</StyledTableCell>
+                                    <StyledTableCell align="center">{row.BillMaster.Status}</StyledTableCell>
                                     <StyledTableCell align="center">
                                         <Box sx={{ display: 'flex', justifyContent: 'center', '& button': { mx: 1, p: 0, fontSize: 1 } }}>
                                             <Button
@@ -133,10 +135,7 @@ const ToGenerateDataList = ({ listInfo, apiQuery }) => {
                                                 variant="outlined"
                                                 onClick={() => {
                                                     handleDialogOpen('deduct', {
-                                                        PartyName: row.PartyName,
-                                                        IssueDate: dayjs(row.IssueDate).format('YYYY/MM/DD'),
-                                                        SubmarineCable: row.SubmarineCable,
-                                                        WorkTitle: row.WorkTitle
+                                                        BillDetail: row.BillDetail
                                                     });
                                                 }}
                                             >

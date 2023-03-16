@@ -39,7 +39,7 @@ const PartyDataList = ({}) => {
     const fakeData = [
         {
             PartyID: 1,
-            Code: 'NEC',
+            PartyCode: 'NEC',
             SubmarineCable: 'NEC',
             WorkTitle: '+886',
             PartyName: 'Taiwan',
@@ -50,7 +50,7 @@ const PartyDataList = ({}) => {
         },
         {
             PartyID: 2,
-            Code: 'NEC',
+            PartyCode: 'NEC',
             SubmarineCable: 'NEC',
             WorkTitle: '+886',
             PartyName: 'Taiwan',
@@ -129,7 +129,7 @@ const PartyDataList = ({}) => {
 
     const addPartyInfo = () => {
         let tmpArray = {
-            Code: code,
+            PartyCode: code,
             SubmarineCable: submarineCable,
             WorkTitle: workTitle,
             PartyName: partyName,
@@ -162,7 +162,7 @@ const PartyDataList = ({}) => {
     const editPartyInfo = (row) => {
         // setEditItem(id);
         partyID.current = row.PartyID;
-        setCodeEdit(row.Code);
+        setCodeEdit(row.PartyCode);
         setSubmarineCableEdit(row.SubmarineCable);
         setWorkTitleEdit(row.WorkTitle);
         setPartyNameEdit(row.PartyName);
@@ -183,7 +183,6 @@ const PartyDataList = ({}) => {
             Email: emailEdit,
             Tel: telEdit
         };
-        console.log('123=>>', tmpArray);
         fetch(editParties, { method: 'POST', body: JSON.stringify(tmpArray), headers: { 'Content-Type': 'application/json' } })
             .then((res) => res.json())
             .then((data) => {
@@ -225,7 +224,7 @@ const PartyDataList = ({}) => {
                                 {row.PartyID !== partyID.current ? (
                                     <>
                                         <StyledTableCell align="center">{id + 1}</StyledTableCell>
-                                        <StyledTableCell align="center">{row.Code}</StyledTableCell>
+                                        <StyledTableCell align="center">{row.PartyCode}</StyledTableCell>
                                         <StyledTableCell align="center">{row.SubmarineCable}</StyledTableCell>
                                         <StyledTableCell align="center">{row.WorkTitle}</StyledTableCell>
                                         <StyledTableCell align="center">{row.PartyName}</StyledTableCell>
