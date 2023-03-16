@@ -196,7 +196,7 @@ const SupplierDataList = ({}) => {
                         <StyledTableCell align="center">Account Name</StyledTableCell>
                         <StyledTableCell align="center">Account No.</StyledTableCell>
                         <StyledTableCell align="center">Saving Account No.</StyledTableCell>
-                        <StyledTableCell align="center">ACH-</StyledTableCell>
+                        <StyledTableCell align="center">ACH No</StyledTableCell>
                         <StyledTableCell align="center">Wire/Routing</StyledTableCell>
                         <StyledTableCell align="center">SWIFT Code</StyledTableCell>
                         <StyledTableCell align="center">IBAN</StyledTableCell>
