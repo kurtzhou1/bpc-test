@@ -110,7 +110,6 @@ const ToGenerateDataList = ({ isDialogOpen, handleDialogClose, billDetailInfo, a
         editItem.current = id;
         setIsDeductWorkOpen(true);
     };
-    
 
     const changeDiff = (value, cbid) => {
         let tmpArray = tmpCBArray.current.map((i) => i);
@@ -120,7 +119,7 @@ const ToGenerateDataList = ({ isDialogOpen, handleDialogClose, billDetailInfo, a
                 if (i.CBID === cbid) {
                     console.log('YES');
                     i.TransAmount = value;
-                } else if() {
+                } else {
                     console.log('NO');
                     tmpArray.push({ CBID: cbid, TransAmount: value });
                 }
