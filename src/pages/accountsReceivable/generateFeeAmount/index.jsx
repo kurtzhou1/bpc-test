@@ -20,7 +20,7 @@ import { useDispatch } from 'react-redux';
 import { setMessageStateOpen } from 'store/reducers/dropdown';
 
 const GenerateFeeAmount = () => {
-    const [value, setValue] = useState(1);
+    const [value, setValue] = useState(2);
     const dispatch = useDispatch();
     const handleChange = (event, newValue) => {
         setValue(newValue);
@@ -34,7 +34,7 @@ const GenerateFeeAmount = () => {
     };
 
     // 以下都無用的
-    const fakeData = [
+    const fakeData1 = [
         {
             BillMaster: {
                 BillMasterID: 1,
@@ -53,7 +53,7 @@ const GenerateFeeAmount = () => {
             },
             BillDetail: [
                 {
-                    BillDetailID: 1,
+                    BillDetailID: 133333333,
                     BillMasterID: 2,
                     WKMasterID: 3,
                     InvDetailID: 4,
@@ -78,7 +78,7 @@ const GenerateFeeAmount = () => {
                     Status: 'string'
                 },
                 {
-                    BillDetailID: 1,
+                    BillDetailID: 23333333,
                     BillMasterID: 3,
                     WKMasterID: 3,
                     InvDetailID: 4,
@@ -106,7 +106,7 @@ const GenerateFeeAmount = () => {
         },
         {
             BillMaster: {
-                BillMasterID: 1,
+                BillMasterID: 2,
                 BillingNo: 'string',
                 PONo: 'string',
                 SupplierName: 'string',
@@ -122,7 +122,7 @@ const GenerateFeeAmount = () => {
             },
             BillDetail: [
                 {
-                    BillDetailID: 1,
+                    BillDetailID: 111,
                     BillMasterID: 2,
                     WKMasterID: 3,
                     InvDetailID: 4,
@@ -147,7 +147,7 @@ const GenerateFeeAmount = () => {
                     Status: 'string'
                 },
                 {
-                    BillDetailID: 1,
+                    BillDetailID: 222,
                     BillMasterID: 2,
                     WKMasterID: 3,
                     InvDetailID: 4,
@@ -175,7 +175,145 @@ const GenerateFeeAmount = () => {
         }
     ];
 
-    const [listInfo, setListInfo] = useState(fakeData);
+    const fakeData2 = [
+        {
+            BillMaster: {
+                BillMasterID: 1,
+                BillingNo: 'string',
+                PartyName: 'string',
+                SubmarineCable: 'string',
+                WorkTitle: 'string',
+                IssueDate: '2023-01-01 00:00:00',
+                DueDate: '2023-01-01 00:00:00',
+                FeeAmountSum: 123.45,
+                ReceivedAmountSum: 123.45,
+                IsPro: 0,
+                Status: 'string'
+            },
+            data: [
+                {
+                    BillDetail: {
+                        BillDetailID: 1,
+                        BillMasterID: 1,
+                        WKMasterID: 1,
+                        InvDetailID: 1,
+                        PartyName: 'string',
+                        SupplierName: 'string',
+                        SubmarineCable: 'string',
+                        WorkTitle: 'string',
+                        BillMilestone: 'string',
+                        FeeItem: 'string',
+                        OrgFeeAmount: 123.45,
+                        DedAmount: 123.45,
+                        FeeAmount: 123.45,
+                        ReceivedAmount: 123.45,
+                        OverAmount: 123.45,
+                        ShortAmount: 123.45,
+                        BankFees: 123.45,
+                        ShortOverReason: 'string',
+                        WriteOffDate: '2023-03-01 00:00:00',
+                        ReceiveDate: '2023-03-01 00:00:00',
+                        Note: 'string',
+                        ToCBAmount: 123.45,
+                        Status: 'string'
+                    },
+                    CB: [
+                        {
+                            CBID: 1,
+                            CBType: 'string',
+                            BillingNo: 'string',
+                            BLDetailID: 1,
+                            SubmarineCable: 'string',
+                            WorkTitle: 'string',
+                            BillMilestone: 'string',
+                            InvoiceNo: 'string',
+                            CurrAmount: 123.45,
+                            PartyName: 'string',
+                            CreateDate: '2023-04-01 00:00:00',
+                            LastUpdDate: '2023-04-01 00:00:00',
+                            Note: 'string'
+                        },
+                        {
+                            CBID: 2,
+                            CBType: 'string',
+                            BillingNo: 'string',
+                            BLDetailID: 1,
+                            SubmarineCable: 'string',
+                            WorkTitle: 'string',
+                            BillMilestone: 'string',
+                            InvoiceNo: 'string',
+                            CurrAmount: 123.45,
+                            PartyName: 'string',
+                            CreateDate: '2023-04-01 00:00:00',
+                            LastUpdDate: '2023-04-01 00:00:00',
+                            Note: 'string'
+                        }
+                    ]
+                },
+                {
+                    BillDetail: {
+                        BillDetailID: 2,
+                        BillMasterID: 2,
+                        WKMasterID: 2,
+                        InvDetailID: 2,
+                        PartyName: 'string',
+                        SupplierName: 'string',
+                        SubmarineCable: 'string',
+                        WorkTitle: 'string',
+                        BillMilestone: 'string',
+                        FeeItem: 'string',
+                        OrgFeeAmount: 123.45,
+                        DedAmount: 123.45,
+                        FeeAmount: 123.45,
+                        ReceivedAmount: 123.45,
+                        OverAmount: 123.45,
+                        ShortAmount: 123.45,
+                        BankFees: 123.45,
+                        ShortOverReason: 'string',
+                        WriteOffDate: '2023-03-01 00:00:00',
+                        ReceiveDate: '2023-03-01 00:00:00',
+                        Note: 'string',
+                        ToCBAmount: 123.45,
+                        Status: 'string'
+                    },
+                    CB: [
+                        {
+                            CBID: 1,
+                            CBType: 'string',
+                            BillingNo: 'string',
+                            BLDetailID: 1,
+                            SubmarineCable: 'string',
+                            WorkTitle: 'string',
+                            BillMilestone: 'string',
+                            InvoiceNo: 'string',
+                            CurrAmount: 123.45,
+                            PartyName: 'string',
+                            CreateDate: '2023-04-01 00:00:00',
+                            LastUpdDate: '2023-04-01 00:00:00',
+                            Note: 'string'
+                        },
+                        {
+                            CBID: 2,
+                            CBType: 'string',
+                            BillingNo: 'string',
+                            BLDetailID: 1,
+                            SubmarineCable: 'string',
+                            WorkTitle: 'string',
+                            BillMilestone: 'string',
+                            InvoiceNo: 'string',
+                            CurrAmount: 123.45,
+                            PartyName: 'string',
+                            CreateDate: '2023-04-01 00:00:00',
+                            LastUpdDate: '2023-04-01 00:00:00',
+                            Note: 'string'
+                        }
+                    ]
+                }
+            ]
+        }
+    ];
+
+    const [listInfo, setListInfo] = useState(fakeData2);
     const [isDialogOpen, setIsDialogOpen] = useState(false);
 
     const [billMilestone, setBillMilestone] = useState(''); //記帳段號
@@ -194,33 +332,6 @@ const GenerateFeeAmount = () => {
         setPartyName([]);
         setLBRatio('');
         setModifyNote('');
-    };
-
-    //新增
-    const addLiability = (list) => {
-        if (list.length > 0) {
-            let tmpArray = listInfo.map((i) => i);
-            list.forEach((i) => {
-                tmpArray.push({
-                    BillMilestone: i.BillMilestone,
-                    PartyName: i.PartyName,
-                    LBRatio: i.LbRatio,
-                    createTime: new Date(),
-                    modifyNote: modifyNote.trim() === '' ? '' : modifyNote
-                });
-            });
-
-            setListInfo([...tmpArray]);
-            handleDialogClose();
-            itemDetailInitial();
-        }
-    };
-
-    //刪除
-    const deletelistInfoItem = (deleteItem) => {
-        let tmpArray = listInfo.map((i) => i);
-        tmpArray.splice(deleteItem, 1);
-        setListInfo([...tmpArray]);
     };
 
     //編輯
@@ -313,7 +424,7 @@ const GenerateFeeAmount = () => {
                         <ToDeductDataList listInfo={listInfo} />
                     </TabPanel>
                     <TabPanel value={value} index={2}>
-                        <DeductedDataList />
+                        <DeductedDataList listInfo={listInfo} />
                     </TabPanel>
                     <TabPanel value={value} index={3}>
                         <DraftDataList />

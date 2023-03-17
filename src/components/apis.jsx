@@ -55,6 +55,8 @@ export const isBillNoCheckOK = 'http://10.193.130.7:8000/api/v1/checkBillingNo';
 export const generateBillNo = 'http://10.193.130.7:8000/api/v1/checkBillingNo';
 export const invoCombine = 'http://10.193.130.7:8000/api/v1/initBillMaster&BillDetail';
 export const queryToDecutBill = 'http://10.193.130.7:8000/api/v1/getBillMaster&BillDetail';
+export const sendDuctInfo = 'http://10.193.130.7:8000/api/v1/generateBillMaster&BillDetail';
+export const quertDeductedData = 'http://10.193.130.7:8000/api/v1/getBillMaster&BillDetailWithCBData';
 
 // 基本資料-Suppliers
 export const addSuppliers = 'http://10.193.130.7:8000/api/v1/Suppliers';

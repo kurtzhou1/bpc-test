@@ -2,7 +2,7 @@ import { useState, useRef } from 'react';
 
 // project import
 import { handleNumber, BootstrapDialogTitle } from 'components/commonFunction';
-import { addCB } from 'components/apis';
+import { addCB, sendDuctInfo } from 'components/apis';
 import MainCard from 'components/MainCard';
 // material-ui
 import {
@@ -32,61 +32,64 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 
 import dayjs from 'dayjs';
 
-import { toBillDataapi, sendJounary } from 'components/apis.jsx';
+// redux
+import { useDispatch } from 'react-redux';
+import { setMessageStateOpen } from 'store/reducers/dropdown';
 
-const ToGenerateDataList = ({ isDialogOpen, handleDialogClose, billDetailInfo, actionName }) => {
-    const fakeData = [
-        {
-            CBID: 1,
-            BLDetailID: 1,
-            WorkTitle: 'test123',
-            InvoiceNo: 'test123',
-            PartyName: 'CHT',
-            LastUpdDate: '2023-03-01 00:00:00',
-            SubmarineCable: 'test123',
-            CBType: 'test123',
-            BillingNo: 'test123',
-            BillMilestone: 'test123',
-            CurrAmount: 3333.14,
-            CreateDate: '2023-03-0100:00:00',
-            Note: 'test123'
-        },
-        {
-            CBID: 2,
-            BLDetailID: 2,
-            WorkTitle: 'test456',
-            InvoiceNo: 'test456',
-            PartyName: 'CHT',
-            LastUpdDate: '2023-03-02 00:00:00',
-            SubmarineCable: 'test456',
-            CBType: 'test456',
-            BillingNo: 'test456',
-            BillMilestone: 'test456',
-            CurrAmount: 3.14,
-            CreateDate: '2023-03-0100:00:00',
-            Note: 'test456'
-        }
-    ];
+const fakeData = [
+    {
+        CBID: 1,
+        BLDetailID: 1,
+        WorkTitle: 'test123',
+        InvoiceNo: 'test123',
+        PartyName: 'CHT',
+        LastUpdDate: '2023-03-01 00:00:00',
+        SubmarineCable: 'test123',
+        CBType: 'test123',
+        BillingNo: 'test123',
+        BillMilestone: 'test123',
+        CurrAmount: 3333.14,
+        CreateDate: '2023-03-0100:00:00',
+        Note: 'test123'
+    },
+    {
+        CBID: 2,
+        BLDetailID: 2,
+        WorkTitle: 'test456',
+        InvoiceNo: 'test456',
+        PartyName: 'CHT',
+        LastUpdDate: '2023-03-02 00:00:00',
+        SubmarineCable: 'test456',
+        CBType: 'test456',
+        BillingNo: 'test456',
+        BillMilestone: 'test456',
+        CurrAmount: 3.14,
+        CreateDate: '2023-03-0100:00:00',
+        Note: 'test456'
+    }
+];
 
+const StyledTableCell = styled(TableCell)(({ theme }) => ({
+    [`&.${tableCellClasses.head}`]: {
+        // backgroundColor: theme.palette.common.gary,
+        color: theme.palette.common.black,
+        paddingTop: '0.2rem',
+        paddingBottom: '0.2rem'
+    },
+    [`&.${tableCellClasses.body}`]: {
+        fontSize: 14,
+        paddingTop: '0.2rem',
+        paddingBottom: '0.2rem'
+    }
+}));
+
+const ToGenerateDataList = ({ isDialogOpen, handleDialogClose, billDetailInfo, billMasterInfo, actionName }) => {
+    const dispatch = useDispatch();
     const [isDeductWorkOpen, setIsDeductWorkOpen] = useState(false);
-    const [cbDataList, setCbDataList] = useState(fakeData);
-    const [tmpCBArray, setTmpCBArray] = useState([{ CBID: 0, TransAmount: 0 }]);
+    const [cbDataList, setCbDataList] = useState(fakeData); //可折抵的Data List
+    const [tmpCBArray, setTmpCBArray] = useState([]); //折抵資料
+    const tmpDeductArray = useRef([]); //總折抵資料
     const editItem = useRef(-1);
-    const [cbToCn, setCbToCn] = useState({}); //處理狀態
-    const StyledTableCell = styled(TableCell)(({ theme }) => ({
-        [`&.${tableCellClasses.head}`]: {
-            // backgroundColor: theme.palette.common.gary,
-            color: theme.palette.common.black,
-            paddingTop: '0.2rem',
-            paddingBottom: '0.2rem'
-        },
-        [`&.${tableCellClasses.body}`]: {
-            fontSize: 14,
-            paddingTop: '0.2rem',
-            paddingBottom: '0.2rem'
-        }
-    }));
-
     const deductWork = (data, id) => {
         let tmpQuery =
             addCB +
@@ -98,7 +101,6 @@ const ToGenerateDataList = ({ isDialogOpen, handleDialogClose, billDetailInfo, a
             data.BillMilestone +
             '&PartyName=' +
             data.PartyName;
-        console.log('tmpQuery=>>', tmpQuery);
         fetch(tmpQuery, { method: 'GET' })
             .then((res) => res.json())
             .then((data) => {
@@ -111,34 +113,55 @@ const ToGenerateDataList = ({ isDialogOpen, handleDialogClose, billDetailInfo, a
         setIsDeductWorkOpen(true);
     };
 
-    const changeDiff = (value, cbid) => {
+    const changeDiff = (maxValue, value, cbid) => {
         let tmpArrayFiliter = tmpCBArray.filter((i) => i.CBID === cbid);
         let tmpArray = tmpCBArray.map((i) => i);
         if (tmpArrayFiliter.length > 0) {
             tmpArray.forEach((i) => {
-                console.log(i.CBID, cbid);
                 if (i.CBID === cbid) {
-                    i.TransAmount = value;
+                    i.TransAmount = Number(value) > maxValue ? maxValue : Number(value) < 0 ? 0 : Number(value);
                 }
             });
         } else {
-            tmpArray.push({ CBID: cbid, TransAmount: value });
+            tmpArray.push({ CBID: cbid, TransAmount: Number(value) > maxValue ? maxValue : Number(value) < 0 ? 0 : Number(value) });
         }
         setTmpCBArray(tmpArray);
+    };
 
-        // setCbToCn({ ...cbToCn, CBID: cbid });
-        // let tmpArray = cbDataList.map((i) => i);
-        // let tmpAmount = 0;
-        // tmpArray[id].Difference = Number(diff);
-        // tmpArray.forEach((i) => {
-        //     tmpAmount = tmpAmount + i.FeeAmountPost + i.Difference;
-        // });
-        // setToBillDataInfo(tmpArray);
-        // setCurrentAmount(tmpAmount.toFixed(2));
+    const saveDeduct = () => {
+        let tmpArrayFiliter = tmpDeductArray.current.filter((i) => i.BillDetailID === billDetailInfo[editItem.current].BillDetailID);
+        let tmpArray = tmpDeductArray.current.map((i) => i);
+        if (tmpArrayFiliter.length > 0) {
+            tmpArray.forEach((i) => {
+                if (i.BillDetailID === billDetailInfo[editItem.current].BillDetailID) {
+                    i.CB = tmpCBArray;
+                }
+            });
+        } else {
+            tmpArray.push({ BillDetailID: billDetailInfo[editItem.current].BillDetailID, CB: tmpCBArray });
+        }
+        tmpDeductArray.current = tmpArray;
+        setTmpCBArray([]);
+        setIsDeductWorkOpen(false);
+        editItem.current = -1;
+    };
+
+    const sendDuct = () => {
+        let tmpArray = {
+            BillMaster: billMasterInfo,
+            Deduct: tmpDeductArray.current
+        };
+        fetch(sendDuctInfo, { method: 'POST', body: JSON.stringify(tmpArray) })
+            .then((res) => res.json())
+            .then(() => {
+                dispatch(setMessageStateOpen({ messageStateOpen: { isOpen: true, severity: 'success', message: '送出成功' } }));
+            })
+            .catch((e) => console.log('e1=>>', e));
+        handleDialogClose();
     };
 
     return (
-        <Dialog onClose={handleDialogClose} maxWidth="xl" open={isDialogOpen}>
+        <Dialog onClose={handleDialogClose} maxWidth="sm" open={isDialogOpen}>
             <BootstrapDialogTitle id="customized-dialog-title" onClose={handleDialogClose}>
                 折抵作業
             </BootstrapDialogTitle>
@@ -222,7 +245,6 @@ const ToGenerateDataList = ({ isDialogOpen, handleDialogClose, billDetailInfo, a
                                             <StyledTableCell align="center">NO</StyledTableCell>
                                             <StyledTableCell align="center">費用項目</StyledTableCell>
                                             <StyledTableCell align="center">費用金額</StyledTableCell>
-                                            {/* {actionName === 'deduct' ? <StyledTableCell align="center">折抵CB種類</StyledTableCell> : ''} */}
                                             <StyledTableCell align="center">折抵金額</StyledTableCell>
                                             <StyledTableCell align="center">總金額</StyledTableCell>
                                             {actionName === 'deduct' ? <StyledTableCell align="center">Action</StyledTableCell> : ''}
@@ -238,11 +260,6 @@ const ToGenerateDataList = ({ isDialogOpen, handleDialogClose, billDetailInfo, a
                                                     <TableCell align="center">{id + 1}</TableCell>
                                                     <TableCell align="center">{row.FeeItem}</TableCell>
                                                     <TableCell align="center">{`$${handleNumber(row.FeeAmount)}`}</TableCell>
-                                                    {/* {actionName === 'deduct' ? (
-                                                        <StyledTableCell align="center">一般、賠償</StyledTableCell>
-                                                    ) : (
-                                                        ''
-                                                    )} */}
                                                     <TableCell align="center">{`$${handleNumber(row.FeeAmount)}`}</TableCell>
                                                     <TableCell align="center">{`$${handleNumber(row.DedAmount.toFixed(2))}`}</TableCell>
                                                     {actionName === 'deduct' ? (
@@ -252,7 +269,17 @@ const ToGenerateDataList = ({ isDialogOpen, handleDialogClose, billDetailInfo, a
                                                                 variant={editItem.current === id ? 'contained' : 'outlined'}
                                                                 size="small"
                                                                 onClick={() => {
-                                                                    deductWork(row, id);
+                                                                    editItem.current === -1
+                                                                        ? deductWork(row, id)
+                                                                        : dispatch(
+                                                                              setMessageStateOpen({
+                                                                                  messageStateOpen: {
+                                                                                      isOpen: true,
+                                                                                      severity: 'warning',
+                                                                                      message: '請先儲存或取消目前折抵作業'
+                                                                                  }
+                                                                              })
+                                                                          );
                                                                 }}
                                                             >
                                                                 折抵
@@ -288,9 +315,9 @@ const ToGenerateDataList = ({ isDialogOpen, handleDialogClose, billDetailInfo, a
                                                 </TableHead>
                                                 <TableBody>
                                                     {cbDataList.map((row, id) => {
-                                                        console.log('1=>>', row.CurrAmount, typeof row.CurrAmount);
-                                                        console.log('2=>>', tmpCBArray, tmpCBArray[id], typeof tmpCBArray[id]);
-                                                        // let afterDiff = row.CurrAmount - tmpCBArray[id].TransAmount;
+                                                        let tmpArray = tmpCBArray.filter((i) => i.CBID === row.CBID);
+                                                        let deductNumber = tmpArray[0] ? tmpArray[0].TransAmount : 0;
+                                                        let afterDiff = row.CurrAmount - deductNumber;
                                                         return (
                                                             <TableRow
                                                                 key={row.CBID + row?.BLDetailID}
@@ -298,7 +325,7 @@ const ToGenerateDataList = ({ isDialogOpen, handleDialogClose, billDetailInfo, a
                                                             >
                                                                 <TableCell align="center">{id + 1}</TableCell>
                                                                 <TableCell align="center">{row.CBType}</TableCell>
-                                                                <TableCell align="center">{row.CurrAmount}</TableCell>
+                                                                <TableCell align="center">{handleNumber(row.CurrAmount)}</TableCell>
                                                                 <TableCell align="center">{row.Note}</TableCell>
                                                                 <TableCell align="center">
                                                                     <TextField
@@ -306,15 +333,15 @@ const ToGenerateDataList = ({ isDialogOpen, handleDialogClose, billDetailInfo, a
                                                                         size="small"
                                                                         type="number"
                                                                         style={{ width: '30%' }}
-                                                                        // value={diffNumber}
+                                                                        value={deductNumber}
                                                                         onChange={(e) => {
-                                                                            changeDiff(e.target.value, row.CBID);
+                                                                            changeDiff(row.CurrAmount, e.target.value, row.CBID);
                                                                         }}
                                                                     />
                                                                 </TableCell>
-                                                                {/* <TableCell align="center">{`$${handleNumber(
+                                                                <TableCell align="center">{`$${handleNumber(
                                                                     afterDiff.toFixed(2)
-                                                                )}`}</TableCell> */}
+                                                                )}`}</TableCell>
                                                             </TableRow>
                                                         );
                                                     })}
@@ -329,8 +356,7 @@ const ToGenerateDataList = ({ isDialogOpen, handleDialogClose, billDetailInfo, a
                                             size="small"
                                             sx={{ ml: '0.5rem', mt: '0.5rem' }}
                                             onClick={() => {
-                                                setIsDeductWorkOpen(false);
-                                                editItem.current = -1;
+                                                saveDeduct();
                                             }}
                                         >
                                             儲存
@@ -342,6 +368,8 @@ const ToGenerateDataList = ({ isDialogOpen, handleDialogClose, billDetailInfo, a
                                             sx={{ ml: '0.5rem', mt: '0.5rem' }}
                                             onClick={() => {
                                                 setIsDeductWorkOpen(false);
+                                                setTmpCBArray([]);
+                                                tmpDeductArray.current = [];
                                                 editItem.current = -1;
                                             }}
                                         >
@@ -360,8 +388,8 @@ const ToGenerateDataList = ({ isDialogOpen, handleDialogClose, billDetailInfo, a
             <DialogActions>
                 {actionName === 'deduct' ? (
                     <>
-                        <Button sx={{ mr: '0.05rem' }} variant="contained" onClick={handleDialogClose}>
-                            儲存
+                        <Button sx={{ mr: '0.05rem' }} variant="contained" onClick={sendDuct}>
+                            送出
                         </Button>
                         <Button sx={{ mr: '0.05rem' }} variant="contained" onClick={handleDialogClose}>
                             Reset
@@ -376,6 +404,8 @@ const ToGenerateDataList = ({ isDialogOpen, handleDialogClose, billDetailInfo, a
                     onClick={() => {
                         handleDialogClose();
                         setIsDeductWorkOpen(false);
+                        setTmpCBArray([]);
+                        tmpDeductArray.current = [];
                         editItem.current = -1;
                     }}
                 >

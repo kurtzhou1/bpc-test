@@ -42,6 +42,7 @@ const ToGenerateDataList = ({ listInfo, apiQuery }) => {
     const [isDialogOpen, setIsDialogOpen] = useState(false); //折抵作業
     const [isDeductWorkOpen, setIsDeductWorkOpen] = useState(false); //作廢
     const [infoBack, setInfoBack] = useState(false); //退回
+    const billMasterInfo = useRef([]);
     const billDetailInfo = useRef([]);
     const actionName = useRef('');
     const [editItem, setEditItem] = useState();
@@ -72,6 +73,7 @@ const ToGenerateDataList = ({ listInfo, apiQuery }) => {
 
     const handleDialogOpen = (action, info) => {
         billDetailInfo.current = info.BillDetail;
+        billMasterInfo.current = info.BillMaster;
         actionName.current = action;
         setIsDialogOpen(true);
     };
@@ -90,6 +92,7 @@ const ToGenerateDataList = ({ listInfo, apiQuery }) => {
                 isDialogOpen={isDialogOpen}
                 handleDialogClose={handleDialogClose}
                 billDetailInfo={billDetailInfo.current}
+                billMasterInfo={billMasterInfo.current}
                 actionName={actionName.current}
             />
             <GenerateFeeTerminate infoTerminal={infoTerminal} handleTerminalClose={handleTerminalClose} />
@@ -134,7 +137,8 @@ const ToGenerateDataList = ({ listInfo, apiQuery }) => {
                                                 variant="outlined"
                                                 onClick={() => {
                                                     handleDialogOpen('deduct', {
-                                                        BillDetail: row.BillDetail
+                                                        BillDetail: row.BillDetail,
+                                                        BillMaster: row.BillMaster
                                                     });
                                                 }}
                                             >

@@ -15,7 +15,7 @@ import {
 
 // project import
 import MainCard from 'components/MainCard';
-import { queryToCombineInvo, queryToDecutBill } from 'components/apis';
+import { queryToCombineInvo, queryToDecutBill, quertDeductedData } from 'components/apis';
 
 // day
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
@@ -68,6 +68,13 @@ const ReceivableQuery = ({ value, setListInfo }) => {
                 tmpQuery = tmpQuery + '/all';
             }
             tmpQuery = queryToDecutBill + tmpQuery;
+        } else if (value === 2) {
+            if (tmpQuery.includes('&')) {
+                tmpQuery = '/' + tmpQuery.slice(0, -1);
+            } else {
+                tmpQuery = tmpQuery + '/all';
+            }
+            tmpQuery = quertDeductedData + tmpQuery;
         }
         console.log('tmpQuery=>>', tmpQuery);
         fetch(tmpQuery, { method: 'GET' })
