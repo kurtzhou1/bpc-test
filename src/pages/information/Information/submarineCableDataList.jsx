@@ -38,24 +38,24 @@ const SubmarineCableDataList = ({}) => {
     const dispatch = useDispatch();
     const fakeData = [
         {
-            CorpID: 1,
-            Code: 'NEC',
+            CableID: 1,
+            CableCode: 'NEC',
             CableName: 'NEC',
             Note: '+886'
         },
         {
-            CorpID: 2,
-            Code: 'NEC#2',
+            CableID: 2,
+            CableCode: 'NEC#2',
             CableName: 'NEC#2',
             Note: '+888'
         }
     ];
     const [infoList, setInfoList] = useState(fakeData);
     const [cableName, setCableName] = useState(''); //海纜名稱
-    const [code, setCode] = useState(''); //代碼
+    const [cableCode, setCableCode] = useState(''); //代碼
     const [note, setNote] = useState(''); //摘要
-    const cableID = useRef(-1);
-    const [codeEdit, setCodeEdit] = useState(''); //代碼編輯
+    const cableIDEdit = useRef(-1);
+    const [cableCodeEdit, setCableCodeEdit] = useState(''); //代碼編輯
     const [cableNameEdit, setCableNameEdit] = useState(''); //供應商編輯
     const [noteEdit, setNoteEdit] = useState(''); //帳號名稱編輯
 
@@ -74,14 +74,14 @@ const SubmarineCableDataList = ({}) => {
     }));
 
     const infoInit = () => {
-        setCode('');
+        setCableCode('');
         setCableName('');
         setNote('');
     };
 
     const editInfoInit = () => {
-        cableID.current = -1;
-        setCodeEdit('');
+        cableIDEdit.current = -1;
+        setCableCodeEdit('');
         setCableNameEdit('');
         setNoteEdit('');
     };
@@ -100,11 +100,11 @@ const SubmarineCableDataList = ({}) => {
 
     const addPartyInfo = () => {
         let tmpArray = {
-            CableCode: code,
+            CableID: cableIDEdit.current,
+            CableCode: cableCode,
             CableName: cableName,
             Note: note
         };
-        console.log('tmpArray=>>', tmpArray);
         fetch(addSubmarineCables, { method: 'POST', body: JSON.stringify(tmpArray), headers: { 'Content-Type': 'application/json' } })
             .then((res) => res.json())
             .then(() => {
@@ -126,16 +126,16 @@ const SubmarineCableDataList = ({}) => {
     };
 
     const editPartyInfo = (row) => {
-        cableID.current = row.CorpID;
-        setCodeEdit(row.Code);
+        cableIDEdit.current = row.CableID;
+        setCableCodeEdit(row.CableCode);
         setCableNameEdit(row.CableName);
         setNoteEdit(row.Note);
     };
 
     const saveEditPartyInfo = () => {
         let tmpArray = {
-            // CorpID: cableID.current,
-            CableCode: codeEdit,
+            CableID: cableIDEdit.current,
+            CableCode: cableCodeEdit,
             CableName: cableNameEdit,
             Note: noteEdit
         };
@@ -172,7 +172,7 @@ const SubmarineCableDataList = ({}) => {
                                 // key={row.InvoiceWKMaster?.WKMasterID + row.InvoiceWKMaster?.InvoiceNo}
                                 sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                             >
-                                {row.CorpID !== cableID.current ? (
+                                {row.CableID !== cableIDEdit.current ? (
                                     <>
                                         <StyledTableCell align="center">{id + 1}</StyledTableCell>
                                         <StyledTableCell align="center">{row.CableCode}</StyledTableCell>
@@ -214,9 +214,9 @@ const SubmarineCableDataList = ({}) => {
                                             <TextField
                                                 size="small"
                                                 // style={{ width: '30%' }}
-                                                value={codeEdit}
+                                                value={cableCodeEdit}
                                                 onChange={(e) => {
-                                                    setCodeEdit(e.target.value);
+                                                    setCableCodeEdit(e.target.value);
                                                 }}
                                             />
                                         </TableCell>
@@ -278,9 +278,9 @@ const SubmarineCableDataList = ({}) => {
                             <TextField
                                 size="small"
                                 // style={{ width: '30%' }}
-                                value={code}
+                                value={cableCode}
                                 onChange={(e) => {
-                                    setCode(e.target.value);
+                                    setCableCode(e.target.value);
                                 }}
                             />
                         </TableCell>
