@@ -79,7 +79,7 @@ const GenerateFeeAmount = () => {
                 },
                 {
                     BillDetailID: 1,
-                    BillMasterID: 2,
+                    BillMasterID: 3,
                     WKMasterID: 3,
                     InvDetailID: 4,
                     PartyName: 'string',

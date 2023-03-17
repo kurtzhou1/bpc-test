@@ -47,7 +47,7 @@ const ToGenerateDataList = ({ isDialogOpen, handleDialogClose, billDetailInfo, a
             CBType: 'test123',
             BillingNo: 'test123',
             BillMilestone: 'test123',
-            CurrAmount: 3.14,
+            CurrAmount: 3333.14,
             CreateDate: '2023-03-0100:00:00',
             Note: 'test123'
         },
@@ -70,7 +70,7 @@ const ToGenerateDataList = ({ isDialogOpen, handleDialogClose, billDetailInfo, a
 
     const [isDeductWorkOpen, setIsDeductWorkOpen] = useState(false);
     const [cbDataList, setCbDataList] = useState(fakeData);
-    const tmpCBArray = useRef([]);
+    const [tmpCBArray, setTmpCBArray] = useState([{ CBID: 0, TransAmount: 0 }]);
     const editItem = useRef(-1);
     const [cbToCn, setCbToCn] = useState({}); //處理狀態
     const StyledTableCell = styled(TableCell)(({ theme }) => ({
@@ -112,24 +112,19 @@ const ToGenerateDataList = ({ isDialogOpen, handleDialogClose, billDetailInfo, a
     };
 
     const changeDiff = (value, cbid) => {
-        let tmpArray = tmpCBArray.current.map((i) => i);
-        if (tmpArray.length > 0) {
+        let tmpArrayFiliter = tmpCBArray.filter((i) => i.CBID === cbid);
+        let tmpArray = tmpCBArray.map((i) => i);
+        if (tmpArrayFiliter.length > 0) {
             tmpArray.forEach((i) => {
                 console.log(i.CBID, cbid);
                 if (i.CBID === cbid) {
-                    console.log('YES');
                     i.TransAmount = value;
-                } else {
-                    console.log('NO');
-                    tmpArray.push({ CBID: cbid, TransAmount: value });
                 }
             });
         } else {
-            console.log('NONO');
             tmpArray.push({ CBID: cbid, TransAmount: value });
         }
-        tmpCBArray.current = tmpArray;
-        console.log('data=>>', tmpCBArray.current);
+        setTmpCBArray(tmpArray);
 
         // setCbToCn({ ...cbToCn, CBID: cbid });
         // let tmpArray = cbDataList.map((i) => i);
@@ -237,7 +232,7 @@ const ToGenerateDataList = ({ isDialogOpen, handleDialogClose, billDetailInfo, a
                                         {billDetailInfo.map((row, id) => {
                                             return (
                                                 <TableRow
-                                                    key={row.BillMasterID + row?.BillDetailID + row?.InvDetailID}
+                                                    key={row.BillDetailID + row?.BillMasterID}
                                                     sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                                                 >
                                                     <TableCell align="center">{id + 1}</TableCell>
@@ -293,10 +288,12 @@ const ToGenerateDataList = ({ isDialogOpen, handleDialogClose, billDetailInfo, a
                                                 </TableHead>
                                                 <TableBody>
                                                     {cbDataList.map((row, id) => {
-                                                        // let afterDiff = row.FeeAmountPost + row.Difference;
+                                                        console.log('1=>>', row.CurrAmount, typeof row.CurrAmount);
+                                                        console.log('2=>>', tmpCBArray, tmpCBArray[id], typeof tmpCBArray[id]);
+                                                        // let afterDiff = row.CurrAmount - tmpCBArray[id].TransAmount;
                                                         return (
                                                             <TableRow
-                                                                key={row.CBType + row?.CurrAmount + row?.Note}
+                                                                key={row.CBID + row?.BLDetailID}
                                                                 sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                                                             >
                                                                 <TableCell align="center">{id + 1}</TableCell>
