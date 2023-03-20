@@ -124,7 +124,7 @@ const GeneratedDataList = ({ listInfo }) => {
                                     <StyledTableCell align="center">{row.BillMaster.BillingNo}</StyledTableCell>
                                     <StyledTableCell align="center">{row.BillMaster.SupplierName}</StyledTableCell>
                                     <StyledTableCell align="center">{dayjs(row.BillMaster.IssueDate).format('YYYY/MM/DD')}</StyledTableCell>
-                                    <StyledTableCell align="center">{row.data.length}</StyledTableCell>
+                                    <StyledTableCell align="center">{row.data ? row.data.length : 0}</StyledTableCell>
                                     <StyledTableCell align="center">{row.BillMaster.FeeAmountSum}</StyledTableCell>
                                     <StyledTableCell align="center">{row.BillMaster.Status}</StyledTableCell>
                                     <StyledTableCell align="center">

@@ -204,9 +204,9 @@ const PartyDataList = ({}) => {
                     <TableRow>
                         <StyledTableCell align="center">NO</StyledTableCell>
                         <StyledTableCell align="center">代碼</StyledTableCell>
+                        <StyledTableCell align="center">會員名稱</StyledTableCell>
                         <StyledTableCell align="center">海纜名稱</StyledTableCell>
                         <StyledTableCell align="center">海纜作業</StyledTableCell>
-                        <StyledTableCell align="center">會員名稱</StyledTableCell>
                         <StyledTableCell align="center">公司地址</StyledTableCell>
                         <StyledTableCell align="center">聯絡窗口</StyledTableCell>
                         <StyledTableCell align="center">電子郵件</StyledTableCell>
@@ -225,9 +225,9 @@ const PartyDataList = ({}) => {
                                     <>
                                         <StyledTableCell align="center">{id + 1}</StyledTableCell>
                                         <StyledTableCell align="center">{row.PartyCode}</StyledTableCell>
+                                        <StyledTableCell align="center">{row.PartyName}</StyledTableCell>
                                         <StyledTableCell align="center">{row.SubmarineCable}</StyledTableCell>
                                         <StyledTableCell align="center">{row.WorkTitle}</StyledTableCell>
-                                        <StyledTableCell align="center">{row.PartyName}</StyledTableCell>
                                         <StyledTableCell align="center">{row.Address}</StyledTableCell>
                                         <StyledTableCell align="center">{row.Contact}</StyledTableCell>
                                         <StyledTableCell align="center">{row.Email}</StyledTableCell>
@@ -277,6 +277,15 @@ const PartyDataList = ({}) => {
                                         <TableCell align="center">
                                             <TextField
                                                 size="small"
+                                                value={partyNameEdit}
+                                                onChange={(e) => {
+                                                    setPartyNameEdit(e.target.value);
+                                                }}
+                                            />
+                                        </TableCell>
+                                        <TableCell align="center">
+                                            <TextField
+                                                size="small"
                                                 // style={{ width: '30%' }}
                                                 value={submarineCableEdit}
                                                 onChange={(e) => {
@@ -293,15 +302,7 @@ const PartyDataList = ({}) => {
                                                 }}
                                             />
                                         </TableCell>
-                                        <TableCell align="center">
-                                            <TextField
-                                                size="small"
-                                                value={partyNameEdit}
-                                                onChange={(e) => {
-                                                    setPartyNameEdit(e.target.value);
-                                                }}
-                                            />
-                                        </TableCell>
+
                                         <TableCell align="center">
                                             <TextField
                                                 size="small"
@@ -386,6 +387,15 @@ const PartyDataList = ({}) => {
                         <TableCell align="center">
                             <TextField
                                 size="small"
+                                value={partyName}
+                                onChange={(e) => {
+                                    setPartyName(e.target.value);
+                                }}
+                            />
+                        </TableCell>
+                        <TableCell align="center">
+                            <TextField
+                                size="small"
                                 // style={{ width: '30%' }}
                                 value={submarineCable}
                                 onChange={(e) => {
@@ -402,15 +412,7 @@ const PartyDataList = ({}) => {
                                 }}
                             />
                         </TableCell>
-                        <TableCell align="center">
-                            <TextField
-                                size="small"
-                                value={partyName}
-                                onChange={(e) => {
-                                    setPartyName(e.target.value);
-                                }}
-                            />
-                        </TableCell>
+
                         <TableCell align="center">
                             <TextField
                                 size="small"

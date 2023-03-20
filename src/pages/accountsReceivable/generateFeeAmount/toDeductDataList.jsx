@@ -126,7 +126,7 @@ const ToGenerateDataList = ({ listInfo, apiQuery }) => {
                                     <StyledTableCell align="center">{row.BillMaster.WorkTitle}</StyledTableCell>
                                     <StyledTableCell align="center">{dayjs(row.BillMaster.IssueDate).format('YYYY/MM/DD')}</StyledTableCell>
                                     <StyledTableCell align="center">{dayjs(row.BillMaster.DueDate).format('YYYY/MM/DD')}</StyledTableCell>
-                                    <StyledTableCell align="center">{row.BillDetail.length}</StyledTableCell>
+                                    <StyledTableCell align="center">{row.BillDetail ? row.BillDetail.length : 0}</StyledTableCell>
                                     <StyledTableCell align="center">{row.BillMaster.IsPro === 1 ? '是' : '否'}</StyledTableCell>
                                     <StyledTableCell align="center">{row.BillMaster.Status}</StyledTableCell>
                                     <StyledTableCell align="center">
