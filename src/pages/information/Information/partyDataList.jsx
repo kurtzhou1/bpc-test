@@ -174,7 +174,7 @@ const PartyDataList = ({}) => {
 
     const saveEditPartyInfo = () => {
         let tmpArray = {
-            PartyID: partyID.current,
+            PartyID: codeEdit,
             SubmarineCable: submarineCableEdit,
             WorkTitle: workTitleEdit,
             PartyName: partyNameEdit,
