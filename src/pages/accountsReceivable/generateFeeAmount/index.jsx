@@ -21,8 +21,12 @@ import { setMessageStateOpen } from 'store/reducers/dropdown';
 
 const GenerateFeeAmount = () => {
     const [value, setValue] = useState(1);
+    const [listInfo, setListInfo] = useState([]);
+    const [dataList, setDataList] = useState([]);
     const dispatch = useDispatch();
     const handleChange = (event, newValue) => {
+        setListInfo([]);
+        setDataList([]);
         setValue(newValue);
     };
 
@@ -313,7 +317,6 @@ const GenerateFeeAmount = () => {
         }
     ];
 
-    const [listInfo, setListInfo] = useState(fakeData2);
     const [isDialogOpen, setIsDialogOpen] = useState(false);
 
     const [billMilestone, setBillMilestone] = useState(''); //記帳段號
@@ -360,6 +363,22 @@ const GenerateFeeAmount = () => {
             setIsDialogOpen(true);
         }
     }, [editItem]);
+
+    useEffect(() => {
+        if (listInfo && listInfo.length) {
+            console.log('listInfo~~Yes=>>', listInfo);
+            setDataList(listInfo);
+        } else {
+            console.log('listInfo~~No=>>', value);
+            if (value === 1) {
+                setDataList(fakeData1);
+            } else if (value === 2) {
+                setDataList(fakeData1);
+            } else {
+                setDataList([]);
+            }
+        }
+    }, [listInfo]);
 
     return (
         <Grid container spacing={1}>
@@ -416,15 +435,15 @@ const GenerateFeeAmount = () => {
                         <ToCombineDataList
                             handleDialogClose={handleDialogClose}
                             isDialogOpen={isDialogOpen}
-                            listInfo={listInfo}
+                            dataList={dataList}
                             totalCombineAmount={totalCombineAmount}
                         />
                     </TabPanel>
                     <TabPanel value={value} index={1}>
-                        <ToDeductDataList listInfo={listInfo} />
+                        <ToDeductDataList dataList={dataList} />
                     </TabPanel>
                     <TabPanel value={value} index={2}>
-                        <DeductedDataList listInfo={listInfo} />
+                        <DeductedDataList dataList={dataList} />
                     </TabPanel>
                     <TabPanel value={value} index={3}>
                         <DraftDataList />

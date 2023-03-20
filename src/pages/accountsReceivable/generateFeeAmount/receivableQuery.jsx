@@ -76,14 +76,19 @@ const ReceivableQuery = ({ value, setListInfo }) => {
             }
             tmpQuery = quertDeductedData + tmpQuery;
         }
-        console.log('tmpQuery=>>', tmpQuery);
         fetch(tmpQuery, { method: 'GET' })
             .then((res) => res.json())
             .then((data) => {
                 setListInfo(data);
             })
-            .catch((e) => console.log('e1=>>', e));
+            .catch((e) => {
+                console.log('e1=>>', e);
+            });
     };
+
+    useEffect(() => {
+        receivableQuery();
+    }, [value]);
 
     return (
         <MainCard title={`${value === 0 ? '發票' : '帳單'}查詢`} sx={{ width: '100%' }}>

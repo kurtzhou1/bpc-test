@@ -38,7 +38,7 @@ import dayjs from 'dayjs';
 
 import { toBillDataapi, sendJounary } from 'components/apis.jsx';
 
-const ToGenerateDataList = ({ listInfo, apiQuery }) => {
+const ToGenerateDataList = ({ dataList, apiQuery }) => {
     const [isDialogOpen, setIsDialogOpen] = useState(false); //折抵作業
     const [isDeductWorkOpen, setIsDeductWorkOpen] = useState(false); //作廢
     const [infoBack, setInfoBack] = useState(false); //退回
@@ -46,10 +46,6 @@ const ToGenerateDataList = ({ listInfo, apiQuery }) => {
     const billDetailInfo = useRef([]);
     const actionName = useRef('');
     const [editItem, setEditItem] = useState();
-    // const [toBillDataMain, setToBillDataMain] = useState(fakeData.InvoiceMaster); //發票主檔
-    // const [toBillDataInfo, setToBillDataInfo] = useState(fakeData.InvoiceDetail); //發票明細檔
-    // const [totalAmount, setTotalAmount] = useState(fakeData.TotalAmount); //發票總金額
-    const [currentAmount, setCurrentAmount] = useState(''); //目前金額
     const [infoTerminal, setInfoTerminal] = useState(false);
     const StyledTableCell = styled(TableCell)(({ theme }) => ({
         [`&.${tableCellClasses.head}`]: {
@@ -72,6 +68,7 @@ const ToGenerateDataList = ({ listInfo, apiQuery }) => {
     };
 
     const handleDialogOpen = (action, info) => {
+        console.log('action=>>', action, 'info=>>', info);
         billDetailInfo.current = info.BillDetail;
         billMasterInfo.current = info.BillMaster;
         actionName.current = action;
@@ -114,7 +111,7 @@ const ToGenerateDataList = ({ listInfo, apiQuery }) => {
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {listInfo?.map((row, id) => {
+                        {dataList?.map((row, id) => {
                             return (
                                 <TableRow
                                     key={row.BillMaster.BillMasterID + row.BillMaster.BillMasterID}

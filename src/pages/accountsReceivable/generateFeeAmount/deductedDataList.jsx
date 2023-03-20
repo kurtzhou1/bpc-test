@@ -35,7 +35,7 @@ import dayjs from 'dayjs';
 
 import { toBillDataapi, sendJounary } from 'components/apis.jsx';
 
-const GeneratedDataList = ({ listInfo }) => {
+const GeneratedDataList = ({ dataList }) => {
     const deductInfo = useRef({});
     const actionName = useRef('');
     const [isDialogOpen, setIsDialogOpen] = useState(false); //檢視
@@ -75,7 +75,7 @@ const GeneratedDataList = ({ listInfo }) => {
         setInfoBack(false);
     };
 
-    console.log('listInfo=>>', listInfo);
+    console.log('dataList=>>', dataList);
 
     return (
         <>
@@ -105,7 +105,7 @@ const GeneratedDataList = ({ listInfo }) => {
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {listInfo?.map((row, id) => {
+                        {dataList?.map((row, id) => {
                             console.log('row=>>', row);
                             return (
                                 <TableRow

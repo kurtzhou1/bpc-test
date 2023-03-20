@@ -60,8 +60,6 @@ const GenerateBack = ({ infoBack, handleBackClose }) => {
         console.log('tmpArray=>>', tmpArray);
     };
 
-    console.log('isDefault=>>', isDefault);
-
     return (
         <Dialog onClose={handleBackClose} maxWidth="xs" fullWidth open={infoBack}>
             <BootstrapDialogTitle id="customized-dialog-title" onClose={handleBackClose}>
