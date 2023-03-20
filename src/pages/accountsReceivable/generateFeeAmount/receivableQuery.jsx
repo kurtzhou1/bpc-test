@@ -32,12 +32,13 @@ import { useSelector } from 'react-redux';
 
 const ReceivableQuery = ({ value, setListInfo }) => {
     // const [issueDate, setIssueDate] = useState([null, null]); //發票日期
-    const { partiesList, bmsList } = useSelector((state) => state.dropdown); //供應商下拉選單 + 海纜名稱下拉選單
+    const { partiesList, subCableList, supNmList } = useSelector((state) => state.dropdown); //供應商下拉選單 + 海纜名稱下拉選單
     const [workTitle, setWorkTitle] = useState(''); //海纜作業
     const [partyName, setPartyName] = useState(''); //會員代號
-    const [billMilestone, setBillMilestone] = useState(''); //記帳段號
+    // const [billMilestone, setBillMilestone] = useState(''); //記帳段號
     const [supplierName, setSupplierName] = useState(''); //供應商
     const [submarineCable, setSubmarineCable] = useState(''); //海纜名稱
+    const [invoiceNo, setInvoiceNo] = useState(''); //發票號碼
 
     const receivableQuery = () => {
         let tmpQuery = '';
@@ -49,6 +50,9 @@ const ReceivableQuery = ({ value, setListInfo }) => {
         }
         if (submarineCable && submarineCable !== '') {
             tmpQuery = tmpQuery + 'SubmarineCable=' + submarineCable + '&';
+        }
+        if (invoiceNo && invoiceNo !== '') {
+            tmpQuery = tmpQuery + 'InvoiceNo=' + invoiceNo + '&';
         }
         if (workTitle && workTitle !== '') {
             tmpQuery = tmpQuery + 'WorkTitle=' + workTitle + '&';
@@ -102,13 +106,7 @@ const ReceivableQuery = ({ value, setListInfo }) => {
                 <Grid item xs={2} sm={2} md={2} lg={2}>
                     <FormControl fullWidth size="small">
                         <InputLabel id="demo-simple-select-label">選擇會員</InputLabel>
-                        <Select
-                            // labelId="demo-simple-select-label"
-                            // id="demo-simple-select"
-                            value={partyName}
-                            label="會員"
-                            onChange={(e) => setPartyName(e.target.value)}
-                        >
+                        <Select value={partyName} label="會員" onChange={(e) => setPartyName(e.target.value)}>
                             {partiesList.map((i) => (
                                 <MenuItem value={i.PartyName}>{i.PartyName}</MenuItem>
                             ))}
@@ -117,21 +115,14 @@ const ReceivableQuery = ({ value, setListInfo }) => {
                 </Grid>
                 <Grid item xs={1} sm={1} md={1} lg={1}>
                     <Typography variant="h5" sx={{ fontSize: { lg: '0.5rem', xl: '0.88rem' }, ml: { lg: '0.5rem', xl: '1.5rem' } }}>
-                        記帳段號：
+                        海纜名稱：
                     </Typography>
                 </Grid>
                 <Grid item xs={2} sm={2} md={2} lg={2}>
                     <FormControl fullWidth size="small">
-                        <InputLabel id="demo-simple-select-label">選擇記帳段號</InputLabel>
-                        <Select
-                            // labelId="demo-simple-select-label"
-                            // id="demo-simple-select"
-                            value={billMilestone}
-                            label="記帳段號"
-                            size="small"
-                            onChange={(e) => setBillMilestone(e.target.value)}
-                        >
-                            {bmsList.map((i) => (
+                        <InputLabel id="demo-simple-select-label">選擇海纜名稱</InputLabel>
+                        <Select value={submarineCable} label="海纜名稱" size="small" onChange={(e) => setSubmarineCable(e.target.value)}>
+                            {subCableList.map((i) => (
                                 <MenuItem key={i} value={i}>
                                     {i}
                                 </MenuItem>
@@ -154,7 +145,40 @@ const ReceivableQuery = ({ value, setListInfo }) => {
                         </Select>
                     </FormControl>
                 </Grid>
-                <Grid item xs={3} sm={3} md={3} lg={3} />
+                <Grid item xs={1} sm={1} md={1} lg={1}>
+                    <Typography variant="h5" sx={{ fontSize: { lg: '0.5rem', xl: '0.88rem' }, ml: { lg: '0.5rem', xl: '1.5rem' } }}>
+                        供應商：
+                    </Typography>
+                </Grid>
+                <Grid item xs={2} sm={2} md={2} lg={2}>
+                    <FormControl fullWidth size="small">
+                        <InputLabel id="demo-simple-select-label">選擇供應商</InputLabel>
+                        <Select value={supplierName} label="供應商" onChange={(e) => setSupplierName(e.target.value)}>
+                            {supNmList.map((i) => (
+                                <MenuItem key={i} value={i}>
+                                    {i}
+                                </MenuItem>
+                            ))}
+                        </Select>
+                    </FormControl>
+                </Grid>
+                <Grid item xs={1} sm={1} md={1} lg={1}>
+                    <Typography variant="h5" sx={{ fontSize: { lg: '0.5rem', xl: '0.88rem' }, ml: { lg: '0.5rem', xl: '1.5rem' } }}>
+                        發票號碼：
+                    </Typography>
+                </Grid>
+                <Grid item xs={2} sm={2} md={2} lg={2}>
+                    <FormControl fullWidth size="small">
+                        <TextField
+                            fullWidth
+                            variant="outlined"
+                            value={invoiceNo}
+                            size="small"
+                            label="填寫發票號碼"
+                            onChange={(e) => setInvoiceNo(e.target.value)}
+                        />
+                    </FormControl>
+                </Grid>
                 <Grid item xs={12} sm={12} md={12} lg={12} display="flex" justifyContent="end" alignItems="center">
                     <Button sx={{ mr: '0.5rem' }} variant="contained" onClick={receivableQuery}>
                         查詢
