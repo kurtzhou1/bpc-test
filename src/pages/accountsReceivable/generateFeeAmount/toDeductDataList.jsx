@@ -53,12 +53,6 @@ const ToGenerateDataList = ({ dataList, apiQuery }) => {
             color: theme.palette.common.black,
             paddingTop: '0.2rem',
             paddingBottom: '0.2rem'
-        },
-        [`&.${tableCellClasses.body}.totalAmount`]: {
-            fontSize: 14,
-            paddingTop: '0.2rem',
-            paddingBottom: '0.2rem',
-            backgroundColor: '#CFD8DC'
         }
     }));
 
@@ -68,7 +62,6 @@ const ToGenerateDataList = ({ dataList, apiQuery }) => {
     };
 
     const handleDialogOpen = (action, info) => {
-        console.log('action=>>', action, 'info=>>', info);
         billDetailInfo.current = info.BillDetail;
         billMasterInfo.current = info.BillMaster;
         actionName.current = action;

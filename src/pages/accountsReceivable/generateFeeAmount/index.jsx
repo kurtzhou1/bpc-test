@@ -68,7 +68,7 @@ const GenerateFeeAmount = () => {
                     BillMilestone: 'string',
                     FeeItem: 'string',
                     OrgFeeAmount: 123.45,
-                    DedAmount: 123.45,
+                    DedAmount: 13.45,
                     FeeAmount: 123.45,
                     ReceivedAmount: 123.45,
                     OverAmount: 123.45,
@@ -373,7 +373,7 @@ const GenerateFeeAmount = () => {
             if (value === 1) {
                 setDataList(fakeData1);
             } else if (value === 2) {
-                setDataList(fakeData1);
+                setDataList(fakeData2);
             } else {
                 setDataList([]);
             }

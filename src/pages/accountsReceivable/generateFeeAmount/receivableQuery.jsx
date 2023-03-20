@@ -56,9 +56,9 @@ const ReceivableQuery = ({ value, setListInfo }) => {
         if (value === 0) {
             if (tmpQuery.includes('&')) {
                 tmpQuery = tmpQuery.slice(0, -1);
-                tmpQuery = '/TO_MERGE&' + tmpQuery;
+                tmpQuery = '/Status=TO_MERGE&' + tmpQuery;
             } else {
-                tmpQuery = tmpQuery + '/TO_MERGE';
+                tmpQuery = tmpQuery + '/Status=TO_MERGE';
             }
             tmpQuery = queryToCombineInvo + tmpQuery;
         } else if (value === 1) {
