@@ -44,7 +44,6 @@ const ToGenerateDataList = ({ dataList, apiQuery }) => {
     const [infoBack, setInfoBack] = useState(false); //退回
     const billMasterInfo = useRef([]);
     const billDetailInfo = useRef([]);
-    const partyName = useRef('');
     const actionName = useRef('');
     const [editItem, setEditItem] = useState();
     const [infoTerminal, setInfoTerminal] = useState(false);
@@ -63,9 +62,9 @@ const ToGenerateDataList = ({ dataList, apiQuery }) => {
     };
 
     const handleDialogOpen = (action, info) => {
+        console.log('info=>>', info);
         billDetailInfo.current = info.BillDetail;
         billMasterInfo.current = info.BillMaster;
-        partyName.current = info.PartyName;
         actionName.current = action;
         setIsDialogOpen(true);
     };
@@ -85,7 +84,6 @@ const ToGenerateDataList = ({ dataList, apiQuery }) => {
                 handleDialogClose={handleDialogClose}
                 billDetailInfo={billDetailInfo.current}
                 billMasterInfo={billMasterInfo.current}
-                partyName={partyName.current}
                 actionName={actionName.current}
             />
             <GenerateFeeTerminate infoTerminal={infoTerminal} handleTerminalClose={handleTerminalClose} />

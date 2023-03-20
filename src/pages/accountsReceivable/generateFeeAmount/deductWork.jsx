@@ -89,7 +89,7 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
     }
 }));
 
-const ToGenerateDataList = ({ isDialogOpen, handleDialogClose, billDetailInfo, billMasterInfo, partyName, actionName }) => {
+const ToGenerateDataList = ({ isDialogOpen, handleDialogClose, billDetailInfo, billMasterInfo, actionName }) => {
     const dispatch = useDispatch();
     const [isDeductWorkOpen, setIsDeductWorkOpen] = useState(false);
     const [cbDataList, setCbDataList] = useState(fakeData); //可折抵的Data List
@@ -166,7 +166,12 @@ const ToGenerateDataList = ({ isDialogOpen, handleDialogClose, billDetailInfo, b
         editItem.current = -1;
     };
 
-    const sendDuct = () => {
+    const handleReset = () => {
+        tmpDeductArray.current = [];
+        handleDialogClose();
+    };
+
+    const sendDuctWork = () => {
         let tmpArray = {
             BillMaster: billMasterInfo,
             Deduct: tmpDeductArray.current
@@ -210,25 +215,24 @@ const ToGenerateDataList = ({ isDialogOpen, handleDialogClose, billDetailInfo, b
                                     </Typography>
                                 </Grid>
                                 <Grid item xs={3} sm={3} md={3} lg={3}>
-                                    <TextField
-                                        value={partyName}
-                                        fullWidth
-                                        disabled={true}
-                                        variant="outlined"
-                                        size="small"
-                                        // type="number"
-                                    />
+                                    <TextField value={billMasterInfo.PartyName} fullWidth disabled={true} variant="outlined" size="small" />
                                 </Grid>
                                 <Grid item xs={2} sm={2} md={2} lg={2}>
                                     <Typography
                                         variant="h5"
                                         sx={{ fontSize: { lg: '0.5rem', xl: '0.88rem' }, ml: { lg: '0.5rem', xl: '1.5rem' } }}
                                     >
-                                        發票截止日期：
+                                        帳單截止日期：
                                     </Typography>
                                 </Grid>
                                 <Grid item xs={3} sm={3} md={3} lg={3}>
-                                    <TextField value={billDetailInfo.IssueDate} fullWidth disabled={true} variant="outlined" size="small" />
+                                    <TextField
+                                        value={dayjs(billMasterInfo.DueDate).format('YYYY/MM/DD')}
+                                        fullWidth
+                                        disabled={true}
+                                        variant="outlined"
+                                        size="small"
+                                    />
                                 </Grid>
                                 <Grid item xs={1} sm={1} md={1} lg={1} />
                                 <Grid item xs={1} sm={1} md={1} lg={1} />
@@ -242,7 +246,7 @@ const ToGenerateDataList = ({ isDialogOpen, handleDialogClose, billDetailInfo, b
                                 </Grid>
                                 <Grid item xs={3} sm={3} md={3} lg={3}>
                                     <TextField
-                                        value={billDetailInfo.SubmarineCable}
+                                        value={billMasterInfo.SubmarineCable}
                                         fullWidth
                                         disabled={true}
                                         variant="outlined"
@@ -258,7 +262,7 @@ const ToGenerateDataList = ({ isDialogOpen, handleDialogClose, billDetailInfo, b
                                     </Typography>
                                 </Grid>
                                 <Grid item xs={3} sm={3} md={3} lg={3}>
-                                    <TextField value={billDetailInfo.WorkTitle} fullWidth disabled={true} variant="outlined" size="small" />
+                                    <TextField value={billMasterInfo.WorkTitle} fullWidth disabled={true} variant="outlined" size="small" />
                                 </Grid>
                                 <Grid item xs={1} sm={1} md={1} lg={1} />
                             </Grid>
@@ -335,7 +339,11 @@ const ToGenerateDataList = ({ isDialogOpen, handleDialogClose, billDetailInfo, b
                                             <StyledTableCell className="totalAmount" align="center">{`$${handleNumber(
                                                 feeAmountTotal.toFixed(2)
                                             )}`}</StyledTableCell>
-                                            <StyledTableCell className="totalAmount" align="center"></StyledTableCell>
+                                            {actionName === 'deduct' ? (
+                                                <StyledTableCell className="totalAmount" align="center"></StyledTableCell>
+                                            ) : (
+                                                ''
+                                            )}
                                         </TableRow>
                                     </TableBody>
                                 </Table>
@@ -344,7 +352,7 @@ const ToGenerateDataList = ({ isDialogOpen, handleDialogClose, billDetailInfo, b
                     </Grid>
                     {isDeductWorkOpen && actionName === 'deduct' ? (
                         <Grid item xs={12} sm={12} md={12} lg={12}>
-                            <MainCard title={`${partyName}可折抵CB`}>
+                            <MainCard title={`${billMasterInfo.PartyName}可折抵CB`}>
                                 <Grid container>
                                     <Grid item xs={12} sm={12} md={12} lg={12}>
                                         <TableContainer component={Paper} sx={{ maxHeight: 350 }}>
@@ -432,10 +440,10 @@ const ToGenerateDataList = ({ isDialogOpen, handleDialogClose, billDetailInfo, b
             <DialogActions>
                 {actionName === 'deduct' ? (
                     <>
-                        <Button sx={{ mr: '0.05rem' }} variant="contained" onClick={sendDuct}>
+                        <Button sx={{ mr: '0.05rem' }} variant="contained" onClick={sendDuctWork}>
                             送出
                         </Button>
-                        <Button sx={{ mr: '0.05rem' }} variant="contained" onClick={handleDialogClose}>
+                        <Button sx={{ mr: '0.05rem' }} variant="contained" onClick={handleReset}>
                             Reset
                         </Button>
                     </>

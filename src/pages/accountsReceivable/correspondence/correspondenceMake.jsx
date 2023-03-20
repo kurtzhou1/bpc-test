@@ -65,10 +65,17 @@ const CorrespondenceMake = ({ isDialogOpen, handleDialogClose, listInfo }) => {
     const [supplierSWIFTCode, setSupplierSWIFTCode] = useState(''); //受款者國際銀行代碼
     const [supplierBankAddress, setSupplierBankAddress] = useState(''); //受款者銀行地址
 
+    const [isOne, setIsOne] = useState(false);
+
     const itemDetailInitial = () => {
         setPartyName([]);
         setLBRatio('');
         setIsEdit(false);
+    };
+
+    const handlePrint = (v) => {
+        setIsOne(v);
+        window.print();
     };
 
     const StyledTableCell = styled(TableCell)(({ theme }) => ({
@@ -475,18 +482,25 @@ const CorrespondenceMake = ({ isDialogOpen, handleDialogClose, listInfo }) => {
                     sx={{ mr: '0.05rem' }}
                     variant="contained"
                     onClick={() => {
-                        window.print();
-                        // itemDetailInitial();
+                        handlePrint(true);
                     }}
                 >
-                    列印
+                    列印函稿
+                </Button>
+                <Button
+                    sx={{ mr: '0.05rem' }}
+                    variant="contained"
+                    onClick={() => {
+                        handlePrint(false);
+                    }}
+                >
+                    列印函
                 </Button>
                 <Button
                     sx={{ mr: '0.05rem' }}
                     variant="contained"
                     onClick={() => {
                         handleDialogClose();
-                        // itemDetailInitial();
                     }}
                 >
                     取消
@@ -495,7 +509,9 @@ const CorrespondenceMake = ({ isDialogOpen, handleDialogClose, listInfo }) => {
             <Grid container spacing={1} className="no-show">
                 <Grid item xs={12} sm={12} md={12} lg={12}>
                     <Typography sx={{ fontFamily: 'DFKai-sb', fontWeight: 'bold' }}>
-                        <Box sx={{ fontSize: '32px', m: 2 }}>中華電信股份有限公司國際電信分公司&nbsp;&nbsp;&nbsp;函</Box>
+                        <Box sx={{ fontSize: '32px', m: 2 }}>
+                            中華電信股份有限公司國際電信分公司&nbsp;&nbsp;&nbsp;函{isOne ? '' : '(稿)'}
+                        </Box>
                         <Box sx={{ fontSize: '20px', textAlign: 'right' }}>地址：106&nbsp;台北市愛國東路31號</Box>
                         <Box sx={{ fontSize: '20px', textAlign: 'right' }}>{`聯絡方式：${contact}(${tel})`}</Box>
                         <Box sx={{ fontSize: '20px', textAlign: 'right' }}>{`e-mail：${email}`}</Box>
@@ -523,6 +539,30 @@ const CorrespondenceMake = ({ isDialogOpen, handleDialogClose, listInfo }) => {
                         <Box sx={{ fontSize: '20px' }}>&nbsp;&nbsp;&nbsp;&nbsp;Invoice No.15328/15428, {cableName}, US$48,576.00</Box>
                         <Box sx={{ fontSize: '20px' }}>三、本款項為全額到行。</Box>
                         <Box sx={{ fontSize: '20px' }}>四、檢附貴行外幣活期存款第007-53-110022號帳戶同額美金取款憑條乙紙。</Box>
+                        {isOne ? (
+                            ''
+                        ) : (
+                            <>
+                                <Box sx={{ fontSize: '20px' }}>&nbsp;&nbsp;</Box>
+                                <Box sx={{ fontSize: '20px' }}>分公司總經理&nbsp;&nbsp;&nbsp;吳。。</Box>
+                                <Box sx={{ fontSize: '20px' }}>主辦單位簽核：(簽核原則:由上而下，由左而右)：</Box>
+                                <Box sx={{ fontSize: '20px' }}>判後：</Box>
+                                <Box sx={{ fontSize: '20px' }}>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;國際電信分公司會計駐點</Box>
+                                <Box sx={{ fontSize: '20px' }}>&nbsp;&nbsp;</Box>
+                                <Box sx={{ fontSize: '20px' }}>&nbsp;&nbsp;</Box>
+                                <Box sx={{ fontSize: '20px' }}>&nbsp;&nbsp;</Box>
+                                <Box sx={{ fontSize: '20px' }}>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;國際電信分公司行政管理處(總務科)</Box>
+                                <Box sx={{ fontSize: '20px' }}>&nbsp;&nbsp;</Box>
+                                <Box sx={{ fontSize: '20px' }}>&nbsp;&nbsp;</Box>
+                                <Box sx={{ fontSize: '20px' }}>&nbsp;&nbsp;</Box>
+                                <Box sx={{ fontSize: '20px' }}>
+                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;決行：CBP Director((策略暨事業規劃處&nbsp;處長)
+                                </Box>
+                                <Box sx={{ fontSize: '20px' }}>&nbsp;&nbsp;</Box>
+                                <Box sx={{ fontSize: '20px' }}>&nbsp;&nbsp;</Box>
+                                <Box sx={{ fontSize: '20px' }}>&nbsp;&nbsp;</Box>
+                            </>
+                        )}
                     </Typography>
                 </Grid>
             </Grid>
