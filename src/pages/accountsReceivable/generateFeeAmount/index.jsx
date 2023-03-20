@@ -38,6 +38,79 @@ const GenerateFeeAmount = () => {
     };
 
     // 以下都無用的
+    const fakeData0 = [
+        {
+            InvoiceMaster: {
+                InvoiceNo: 'DT0170168-11',
+                WKMasterID: 1,
+                PartyName: 'CHT',
+                SubmarineCable: 'SJC2',
+                ContractType: 'SC',
+                DueDate: '2022-11-08T12:00:00',
+                IsPro: false,
+                InvMasterID: 9,
+                SupplierName: 'NEC',
+                WorkTitle: 'Construction',
+                IssueDate: '2022-09-09T12:00:00',
+                Status: 'TO_MERGE'
+            },
+            InvoiceDetail: [
+                {
+                    WKDetailID: 1,
+                    InvDetailID: 33,
+                    PartyName: 'CHT',
+                    SupplierName: 'NEC',
+                    WorkTitle: 'Construction',
+                    FeeItem: 'BM12 Branching Units (100%)-Service',
+                    LBRatio: 7.1428571429,
+                    Difference: 0,
+                    InvMasterID: 9,
+                    WKMasterID: 1,
+                    InvoiceNo: 'DT0170168-1111111',
+                    SubmarineCable: 'SJC2',
+                    BillMilestone: 'BM12',
+                    FeeAmountPre: 1487661.54,
+                    FeeAmountPost: 106261.54
+                }
+            ]
+        },
+        {
+            InvoiceMaster: {
+                InvoiceNo: 'DT0170168-22',
+                WKMasterID: 1,
+                PartyName: 'CHT',
+                SubmarineCable: 'SJC2',
+                ContractType: 'SC',
+                DueDate: '2022-11-08T12:00:00',
+                IsPro: false,
+                InvMasterID: 9,
+                SupplierName: 'NEC',
+                WorkTitle: 'Construction',
+                IssueDate: '2022-09-09T12:00:00',
+                Status: 'TO_MERGE'
+            },
+            InvoiceDetail: [
+                {
+                    WKDetailID: 1,
+                    InvDetailID: 33,
+                    PartyName: 'CHT',
+                    SupplierName: 'NEC',
+                    WorkTitle: 'Construction',
+                    FeeItem: 'BM12 Branching Units (100%)-Service',
+                    LBRatio: 7.1428571429,
+                    Difference: 0,
+                    InvMasterID: 9,
+                    WKMasterID: 1,
+                    InvoiceNo: 'DT0170168-222222',
+                    SubmarineCable: 'SJC2',
+                    BillMilestone: 'BM12',
+                    FeeAmountPre: 1487661.54,
+                    FeeAmountPost: 106261.54
+                }
+            ]
+        }
+    ];
+
     const fakeData1 = [
         {
             BillMaster: {
@@ -374,6 +447,8 @@ const GenerateFeeAmount = () => {
                 setDataList(fakeData1);
             } else if (value === 2) {
                 setDataList(fakeData2);
+            } else if (value === 0) {
+                setDataList(fakeData0);
             } else {
                 setDataList([]);
             }

@@ -36,7 +36,6 @@ import { useDispatch } from 'react-redux';
 import { setMessageStateOpen } from 'store/reducers/dropdown';
 
 const ToCombineDataList = ({ handleDialogClose, isDialogOpen, dataList, totalCombineAmount }) => {
-    console.log('dataList=>>', dataList);
     const dispatch = useDispatch();
     const fakeData = {
         BillMaster: {
@@ -107,8 +106,6 @@ const ToCombineDataList = ({ handleDialogClose, isDialogOpen, dataList, totalCom
     const billingNoTmp = useRef('');
     const [cbToCn, setCbToCn] = useState({}); //處理狀態
     const comBineDataList = useRef([]);
-
-    console.log('dataList=>>', dataList);
 
     const StyledTableCell = styled(TableCell)(({ theme }) => ({
         [`&.${tableCellClasses.head}`]: {
@@ -193,7 +190,7 @@ const ToCombineDataList = ({ handleDialogClose, isDialogOpen, dataList, totalCom
     useEffect(() => {
         let tmpAmount = 0;
         let tmpArray = dataList.filter((i) => {
-            return cbToCn[i.InvoiceMaster?.InvoiceNo];
+            return cbToCn[i.InvoiceMaster.InvoiceNo];
         });
         tmpArray.forEach((i) => {
             tmpAmount = tmpAmount + i.InvoiceDetail[0].FeeAmountPre;
@@ -364,7 +361,7 @@ const ToCombineDataList = ({ handleDialogClose, isDialogOpen, dataList, totalCom
                                 >
                                     <TableCell align="center">
                                         <Checkbox
-                                            name={row.InvoiceMaster?.InvoiceNo + id}
+                                            name={row.InvoiceMaster?.InvoiceNo}
                                             onChange={handleChange}
                                             checked={cbToCn.id}
                                             // sx={{ '& .MuiSvgIcon-root': { fontSize: { lg: 14, xl: 20 } } }}

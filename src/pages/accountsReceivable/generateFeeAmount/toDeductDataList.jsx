@@ -44,6 +44,7 @@ const ToGenerateDataList = ({ dataList, apiQuery }) => {
     const [infoBack, setInfoBack] = useState(false); //退回
     const billMasterInfo = useRef([]);
     const billDetailInfo = useRef([]);
+    const partyName = useRef('');
     const actionName = useRef('');
     const [editItem, setEditItem] = useState();
     const [infoTerminal, setInfoTerminal] = useState(false);
@@ -64,6 +65,7 @@ const ToGenerateDataList = ({ dataList, apiQuery }) => {
     const handleDialogOpen = (action, info) => {
         billDetailInfo.current = info.BillDetail;
         billMasterInfo.current = info.BillMaster;
+        partyName.current = info.PartyName;
         actionName.current = action;
         setIsDialogOpen(true);
     };
@@ -83,6 +85,7 @@ const ToGenerateDataList = ({ dataList, apiQuery }) => {
                 handleDialogClose={handleDialogClose}
                 billDetailInfo={billDetailInfo.current}
                 billMasterInfo={billMasterInfo.current}
+                partyName={partyName.current}
                 actionName={actionName.current}
             />
             <GenerateFeeTerminate infoTerminal={infoTerminal} handleTerminalClose={handleTerminalClose} />
@@ -128,7 +131,8 @@ const ToGenerateDataList = ({ dataList, apiQuery }) => {
                                                 onClick={() => {
                                                     handleDialogOpen('deduct', {
                                                         BillDetail: row.BillDetail,
-                                                        BillMaster: row.BillMaster
+                                                        BillMaster: row.BillMaster,
+                                                        PartyName: row.BillMaster.PartyName
                                                     });
                                                 }}
                                             >
@@ -140,10 +144,9 @@ const ToGenerateDataList = ({ dataList, apiQuery }) => {
                                                 variant="outlined"
                                                 onClick={() => {
                                                     handleDialogOpen('view', {
-                                                        PartyName: row.PartyName,
-                                                        IssueDate: dayjs(row.IssueDate).format('YYYY/MM/DD'),
-                                                        SubmarineCable: row.SubmarineCable,
-                                                        WorkTitle: row.WorkTitle
+                                                        BillDetail: row.BillDetail,
+                                                        BillMaster: row.BillMaster,
+                                                        PartyName: row.BillMaster.PartyName
                                                     });
                                                 }}
                                             >

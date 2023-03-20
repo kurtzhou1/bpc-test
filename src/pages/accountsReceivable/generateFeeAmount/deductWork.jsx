@@ -89,7 +89,7 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
     }
 }));
 
-const ToGenerateDataList = ({ isDialogOpen, handleDialogClose, billDetailInfo, billMasterInfo, actionName }) => {
+const ToGenerateDataList = ({ isDialogOpen, handleDialogClose, billDetailInfo, billMasterInfo, partyName, actionName }) => {
     const dispatch = useDispatch();
     const [isDeductWorkOpen, setIsDeductWorkOpen] = useState(false);
     const [cbDataList, setCbDataList] = useState(fakeData); //可折抵的Data List
@@ -105,6 +105,9 @@ const ToGenerateDataList = ({ isDialogOpen, handleDialogClose, billDetailInfo, b
         setTmpCBArray([]);
         tmpDeductArray.current = [];
         editItem.current = -1;
+        orgFeeAmount.current = 0;
+        dedAmount.current = 0;
+        setFeeAmountTotal(0);
     };
 
     const deductWork = (data, id) => {
@@ -208,7 +211,7 @@ const ToGenerateDataList = ({ isDialogOpen, handleDialogClose, billDetailInfo, b
                                 </Grid>
                                 <Grid item xs={3} sm={3} md={3} lg={3}>
                                     <TextField
-                                        value={billDetailInfo.PartyName}
+                                        value={partyName}
                                         fullWidth
                                         disabled={true}
                                         variant="outlined"
@@ -341,7 +344,7 @@ const ToGenerateDataList = ({ isDialogOpen, handleDialogClose, billDetailInfo, b
                     </Grid>
                     {isDeductWorkOpen && actionName === 'deduct' ? (
                         <Grid item xs={12} sm={12} md={12} lg={12}>
-                            <MainCard title={`${billDetailInfo.PartyName}可折抵CB`}>
+                            <MainCard title={`${partyName}可折抵CB`}>
                                 <Grid container>
                                     <Grid item xs={12} sm={12} md={12} lg={12}>
                                         <TableContainer component={Paper} sx={{ maxHeight: 350 }}>

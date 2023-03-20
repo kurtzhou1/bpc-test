@@ -75,8 +75,6 @@ const GeneratedDataList = ({ dataList }) => {
         setInfoBack(false);
     };
 
-    console.log('dataList=>>', dataList);
-
     return (
         <>
             {/* <DeductWork
