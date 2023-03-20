@@ -179,7 +179,7 @@ const ReceivableQuery = ({ value, setListInfo }) => {
                         />
                     </FormControl>
                 </Grid>
-                <Grid item xs={12} sm={12} md={12} lg={12} display="flex" justifyContent="end" alignItems="center">
+                <Grid item xs={9} sm={9} md={9} lg={9} display="flex" justifyContent="end" alignItems="center">
                     <Button sx={{ mr: '0.5rem' }} variant="contained" onClick={receivableQuery}>
                         查詢
                     </Button>
