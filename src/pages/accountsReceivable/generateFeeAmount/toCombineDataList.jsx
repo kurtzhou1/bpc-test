@@ -105,7 +105,8 @@ const ToCombineDataList = ({ handleDialogClose, isDialogOpen, dataList, totalCom
     const [billingNo, setBillingNo] = useState('');
     const billingNoTmp = useRef('');
     const [cbToCn, setCbToCn] = useState({}); //處理狀態
-    const comBineDataList = useRef([]);
+    const comBineDataList = useRef([]); //按下合併帳單後畫面顯示的資料
+    const sendComBineData = useRef({}); //按下合併帳單時送出的資料
 
     const StyledTableCell = styled(TableCell)(({ theme }) => ({
         [`&.${tableCellClasses.head}`]: {
@@ -189,12 +190,15 @@ const ToCombineDataList = ({ handleDialogClose, isDialogOpen, dataList, totalCom
 
     useEffect(() => {
         let tmpAmount = 0;
+        let tmpSendArray = [];
         let tmpArray = dataList.filter((i) => {
             return cbToCn[i.InvoiceMaster.InvoiceNo];
         });
         tmpArray.forEach((i) => {
             tmpAmount = tmpAmount + i.InvoiceDetail[0].FeeAmountPre;
+            tmpSendArray.push(i.InvoiceMaster);
         });
+        sendComBineData.current = { InvoiceMaster: tmpSendArray };
         comBineDataList.current = tmpArray;
         totalCombineAmount.current = tmpAmount;
     }, [cbToCn]);
@@ -203,7 +207,7 @@ const ToCombineDataList = ({ handleDialogClose, isDialogOpen, dataList, totalCom
         if (isDialogOpen) {
             fetch(combineInvo, {
                 method: 'POST',
-                body: comBineDataList.current
+                body: JSON.stringify(sendComBineData.current)
             })
                 .then((res) => res.json())
                 .then((data) => {
@@ -281,13 +285,8 @@ const ToCombineDataList = ({ handleDialogClose, isDialogOpen, dataList, totalCom
                                     </TableHead>
                                     <TableBody>
                                         {comBineDataList.current.map((row, id) => {
-                                            console.log('row=>>', row);
-                                            // row.InvoiceDetail.map((i) => {
                                             return (
-                                                <TableRow
-                                                    // key={row.FeeAmountPre + row?.PartyName + row?.LBRatio}
-                                                    sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-                                                >
+                                                <TableRow sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
                                                     <TableCell align="center">{row.InvoiceMaster.PartyName}</TableCell>
                                                     <TableCell align="center">{row.InvoiceMaster.InvoiceNo}</TableCell>
                                                     <TableCell align="center">{row.InvoiceMaster.SupplierName}</TableCell>
@@ -301,7 +300,6 @@ const ToCombineDataList = ({ handleDialogClose, isDialogOpen, dataList, totalCom
                                                     )}`}</TableCell>
                                                 </TableRow>
                                             );
-                                            // });
                                         })}
                                         <TableRow sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
                                             <StyledTableCell className="totalAmount" align="center">

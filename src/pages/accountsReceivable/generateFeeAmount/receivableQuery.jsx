@@ -35,10 +35,11 @@ const ReceivableQuery = ({ value, setListInfo }) => {
     const { partiesList, subCableList, supNmList } = useSelector((state) => state.dropdown); //供應商下拉選單 + 海纜名稱下拉選單
     const [workTitle, setWorkTitle] = useState(''); //海纜作業
     const [partyName, setPartyName] = useState(''); //會員代號
-    // const [billMilestone, setBillMilestone] = useState(''); //記帳段號
     const [supplierName, setSupplierName] = useState(''); //供應商
     const [submarineCable, setSubmarineCable] = useState(''); //海纜名稱
     const [invoiceNo, setInvoiceNo] = useState(''); //發票號碼
+
+    const initQuery = () => {};
 
     const receivableQuery = () => {
         let tmpQuery = '';
@@ -165,6 +166,23 @@ const ReceivableQuery = ({ value, setListInfo }) => {
                 <Grid item xs={1} sm={1} md={1} lg={1}>
                     <Typography variant="h5" sx={{ fontSize: { lg: '0.5rem', xl: '0.88rem' }, ml: { lg: '0.5rem', xl: '1.5rem' } }}>
                         發票號碼：
+                    </Typography>
+                </Grid>
+                <Grid item xs={2} sm={2} md={2} lg={2}>
+                    <FormControl fullWidth size="small">
+                        <TextField
+                            fullWidth
+                            variant="outlined"
+                            value={invoiceNo}
+                            size="small"
+                            label="填寫發票號碼"
+                            onChange={(e) => setInvoiceNo(e.target.value)}
+                        />
+                    </FormControl>
+                </Grid>
+                <Grid item xs={1} sm={1} md={1} lg={1}>
+                    <Typography variant="h5" sx={{ fontSize: { lg: '0.5rem', xl: '0.88rem' }, ml: { lg: '0.5rem', xl: '1.5rem' } }}>
+                        帳單日期：
                     </Typography>
                 </Grid>
                 <Grid item xs={2} sm={2} md={2} lg={2}>
