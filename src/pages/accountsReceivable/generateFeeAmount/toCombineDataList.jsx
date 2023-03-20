@@ -107,6 +107,8 @@ const ToCombineDataList = ({ handleDialogClose, isDialogOpen, listInfo, totalCom
     const [cbToCn, setCbToCn] = useState({}); //處理狀態
     const comBineDataList = useRef([]);
 
+    console.log('listInfo=>>', listInfo);
+
     const StyledTableCell = styled(TableCell)(({ theme }) => ({
         [`&.${tableCellClasses.head}`]: {
             // backgroundColor: theme.palette.common.gary,
@@ -190,7 +192,7 @@ const ToCombineDataList = ({ handleDialogClose, isDialogOpen, listInfo, totalCom
     useEffect(() => {
         let tmpAmount = 0;
         let tmpArray = listInfo.filter((i) => {
-            return cbToCn[i.InvoiceMaster.InvoiceNo];
+            return cbToCn[i.InvoiceMaster?.InvoiceNo];
         });
         tmpArray.forEach((i) => {
             tmpAmount = tmpAmount + i.InvoiceDetail[0].FeeAmountPre;
@@ -355,26 +357,31 @@ const ToCombineDataList = ({ handleDialogClose, isDialogOpen, listInfo, totalCom
                     <TableBody>
                         {listInfo.map((row, id) => {
                             return (
-                                <TableRow key={row.InvoiceMaster.InvoiceNo} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
+                                <TableRow
+                                    key={row.InvoiceMaster?.InvoiceNo + id}
+                                    sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                                >
                                     <TableCell align="center">
                                         <Checkbox
-                                            name={row.InvoiceMaster.InvoiceNo}
+                                            name={row.InvoiceMaster?.InvoiceNo + id}
                                             onChange={handleChange}
                                             checked={cbToCn.id}
                                             // sx={{ '& .MuiSvgIcon-root': { fontSize: { lg: 14, xl: 20 } } }}
                                         />
                                     </TableCell>
                                     <TableCell align="center">{id + 1}</TableCell>
-                                    <TableCell align="center">{row.InvoiceMaster.PartyName}</TableCell>
-                                    <TableCell align="center">{row.InvoiceMaster.SubmarineCable}</TableCell>
-                                    <TableCell align="center">{row.InvoiceMaster.WorkTitle}</TableCell>
-                                    <TableCell align="center">{row.InvoiceMaster.InvoiceNo}</TableCell>
-                                    <TableCell align="center">{row.InvoiceMaster.SupplierName}</TableCell>
-                                    <TableCell align="center">{row.InvoiceMaster ? row.InvoiceMaster.ContractType : 0}</TableCell>
-                                    <TableCell align="center">{dayjs(row.InvoiceMaster.IssueDate).format('YYYY/MM/DD')}</TableCell>
-                                    <TableCell align="center">{row.InvoiceDetail.length}</TableCell>
-                                    <TableCell align="center">{`$${handleNumber(row.InvoiceDetail[0].FeeAmountPre)}`}</TableCell>
-                                    <TableCell align="center">{row.InvoiceMaster.Status}</TableCell>
+                                    <TableCell align="center">{row.InvoiceMaster?.PartyName}</TableCell>
+                                    <TableCell align="center">{row.InvoiceMaster?.SubmarineCable}</TableCell>
+                                    <TableCell align="center">{row.InvoiceMaster?.WorkTitle}</TableCell>
+                                    <TableCell align="center">{row.InvoiceMaster?.InvoiceNo}</TableCell>
+                                    <TableCell align="center">{row.InvoiceMaster?.SupplierName}</TableCell>
+                                    <TableCell align="center">{row.InvoiceMaster?.ContractType}</TableCell>
+                                    <TableCell align="center">{dayjs(row.InvoiceMaster?.IssueDate).format('YYYY/MM/DD')}</TableCell>
+                                    <TableCell align="center">{row.InvoiceDetail ? row.InvoiceDetail.length : 0}</TableCell>
+                                    <TableCell align="center">{`$${handleNumber(
+                                        row.InvoiceDetail ? row.InvoiceDetail[0].FeeAmountPre : 0
+                                    )}`}</TableCell>
+                                    <TableCell align="center">{row.InvoiceMaster?.Status}</TableCell>
                                 </TableRow>
                             );
                         })}
