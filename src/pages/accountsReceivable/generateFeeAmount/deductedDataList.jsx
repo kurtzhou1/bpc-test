@@ -75,10 +75,6 @@ const GeneratedDataList = ({ listInfo }) => {
         setInfoBack(false);
     };
 
-    const handUploadClose = () => {
-        setUploadOpen(false);
-    };
-
     console.log('listInfo=>>', listInfo);
 
     return (
@@ -90,8 +86,7 @@ const GeneratedDataList = ({ listInfo }) => {
                 actionName={actionName.current}
             />
             <GenerateFeeTerminate infoTerminal={infoTerminal} handleTerminalClose={handleTerminalClose} />
-            <GenerateBack infoBack={infoBack} handleBackClose={handleBackClose} />
-            <SignAndUpload uploadOpen={uploadOpen} handUploadClose={handUploadClose} /> */}
+            <GenerateBack infoBack={infoBack} handleBackClose={handleBackClose} />  */}
             <TableContainer component={Paper} sx={{ maxHeight: 350 }}>
                 <Table sx={{ minWidth: 300 }} stickyHeader aria-label="sticky table">
                     <TableHead>

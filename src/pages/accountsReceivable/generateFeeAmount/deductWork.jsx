@@ -2,7 +2,7 @@ import { useState, useRef } from 'react';
 
 // project import
 import { handleNumber, BootstrapDialogTitle } from 'components/commonFunction';
-import { addCB, sendDuctInfo } from 'components/apis';
+import { queryCB, sendDuctInfo } from 'components/apis';
 import MainCard from 'components/MainCard';
 // material-ui
 import {
@@ -92,7 +92,7 @@ const ToGenerateDataList = ({ isDialogOpen, handleDialogClose, billDetailInfo, b
     const editItem = useRef(-1);
     const deductWork = (data, id) => {
         let tmpQuery =
-            addCB +
+            queryCB +
             '/SubmarineCable=' +
             data.SubmarineCable +
             '&WorkTitle=' +

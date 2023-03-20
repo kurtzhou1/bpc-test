@@ -45,7 +45,6 @@ export const updateInvoiceMaster = 'http://10.193.130.7:8000/api/v1/updateInvoic
 export const uploadFileApi = 'http://10.193.130.7:8000/api/v1/uploadfile';
 
 // CB
-export const addCB = 'http://10.193.130.7:8000/api/v1/CreditBalance';
 export const queryCB = 'http://10.193.130.7:8000/api/v1/CreditBalance';
 
 // 待合併

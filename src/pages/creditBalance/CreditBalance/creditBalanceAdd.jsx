@@ -37,7 +37,7 @@ import Paper from '@mui/material/Paper';
 import { styled } from '@mui/material/styles';
 
 // api
-import { addCB } from 'components/apis.jsx';
+import { queryCB } from 'components/apis.jsx';
 
 const CreditBalanceAdd = ({ handleDialogClose, isDialogOpen, billMilestone, partiesList, subCableList }) => {
     const [listInfo, setListInfo] = useState([]);
@@ -76,7 +76,7 @@ const CreditBalanceAdd = ({ handleDialogClose, isDialogOpen, billMilestone, part
             CurrAmount: currAmount ? currAmount : null,
             Note: note ? note : null
         };
-        fetch(sendJounary, { method: 'POST', body: JSON.stringify(tmpArray) })
+        fetch(queryCB, { method: 'POST', body: JSON.stringify(tmpArray) })
             .then((res) => res.json())
             .then(() => {
                 alert('送出Credit Balance成功');
