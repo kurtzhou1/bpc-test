@@ -2,7 +2,8 @@ import { useState, useRef } from 'react';
 
 // project import
 import { handleNumber, BootstrapDialogTitle } from 'components/commonFunction';
-import DeductWork from './deductWork';
+import BillDraftMake from './billDraftMake';
+// import DeductWork from './deductWork';
 import GenerateFeeTerminate from './generateFeeTerminate';
 import SignAndUpload from './signAndUpload';
 import GenerateBack from './generateBack';
@@ -34,69 +35,14 @@ import dayjs from 'dayjs';
 
 import { toBillDataapi, sendJounary } from 'components/apis.jsx';
 
-const DraftDataList = ({ listInfo, apiQuery }) => {
-    const fakeData = {
-        TotalAmount: 5582012.72,
-        InvoiceMaster: [
-            {
-                InvMasterID: 1,
-                WKMasterID: 1,
-                InvoiceNo: 'DT0170168-1',
-                PartyName: 'Edge',
-                SupplierName: 'NEC',
-                SubmarineCable: 'SJC2',
-                WorkTitle: 'Construction',
-                IssueDate: '2022-09-09T00:00:00',
-                DueDate: '2022-11-08T00:00:00',
-                IsPro: false,
-                ContractType: 'SC',
-                Status: ''
-            }
-        ],
-        InvoiceDetail: [
-            {
-                WKMasterID: 1,
-                WKDetailID: 1,
-                InvMasterID: 1,
-                InvoiceNo: 'DT0170168-1',
-                PartyName: 'Edge',
-                SupplierName: 'NEC',
-                SubmarineCable: 'SJC2',
-                WorkTitle: 'Construction',
-                BillMilestone: 'BM9a',
-                FeeItem: 'BM9a Sea...',
-                LBRatio: 28.5714285714,
-                FeeAmountPre: 1288822.32,
-                FeeAmountPost: 369234.95,
-                Difference: 0
-            },
-            {
-                WKMasterID: 2,
-                WKDetailID: 2,
-                InvMasterID: 2,
-                InvoiceNo: 'DT0170168-2',
-                PartyName: 'Edge',
-                SupplierName: 'NEC',
-                SubmarineCable: 'SJC2',
-                WorkTitle: 'Construction',
-                BillMilestone: 'BM9a',
-                FeeItem: 'BM12a Under the Sea',
-                LBRatio: 28.5714285714,
-                FeeAmountPre: 1288844.44,
-                FeeAmountPost: 368244.44,
-                Difference: 0
-            }
-        ]
-    };
+const DraftDataList = ({ dataList }) => {
+    console.log('dataList=>>', dataList);
     const deductInfo = useRef({});
     const actionName = useRef('');
     const [isDialogOpen, setIsDialogOpen] = useState(false); //檢視
     const [infoTerminal, setInfoTerminal] = useState(false); //作廢
     const [uploadOpen, setUploadOpen] = useState(false); //上傳
-    const [toBillDataMain, setToBillDataMain] = useState(fakeData.InvoiceMaster); //發票主檔
-    const [toBillDataInfo, setToBillDataInfo] = useState(fakeData.InvoiceDetail); //發票明細檔
     const [infoBack, setInfoBack] = useState(false); //退回
-    const [totalAmount, setTotalAmount] = useState(fakeData.TotalAmount); //發票總金額
     const [currentAmount, setCurrentAmount] = useState(''); //目前金額
     const StyledTableCell = styled(TableCell)(({ theme }) => ({
         [`&.${tableCellClasses.head}`]: {
@@ -138,15 +84,10 @@ const DraftDataList = ({ listInfo, apiQuery }) => {
 
     return (
         <>
-            <DeductWork
-                isDialogOpen={isDialogOpen}
-                handleDialogClose={handleDialogClose}
-                deductInfo={deductInfo.current}
-                actionName={actionName.current}
-            />
             <GenerateFeeTerminate infoTerminal={infoTerminal} handleTerminalClose={handleTerminalClose} />
             <GenerateBack infoBack={infoBack} handleBackClose={handleBackClose} />
             <SignAndUpload uploadOpen={uploadOpen} handUploadClose={handUploadClose} />
+            <BillDraftMake isDialogOpen={isDialogOpen} handleDialogClose={handleDialogClose} />
             <TableContainer component={Paper} sx={{ maxHeight: 350 }}>
                 <Table sx={{ minWidth: 300 }} stickyHeader aria-label="sticky table">
                     <TableHead>
@@ -166,7 +107,7 @@ const DraftDataList = ({ listInfo, apiQuery }) => {
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {toBillDataInfo?.map((row, id) => {
+                        {dataList?.map((row, id) => {
                             console.log('row=>>', row);
                             return (
                                 <TableRow
@@ -180,7 +121,8 @@ const DraftDataList = ({ listInfo, apiQuery }) => {
                                     <StyledTableCell align="center">{row.InvoiceNo}</StyledTableCell>
                                     <StyledTableCell align="center">{row.SupplierName}</StyledTableCell>
                                     <StyledTableCell align="center">{dayjs(row.IssueDate).format('YYYY/MM/DD')}</StyledTableCell>
-                                    <StyledTableCell align="center">{toBillDataInfo.length}</StyledTableCell>
+                                    <StyledTableCell align="center">{dataList.length}</StyledTableCell>
+                                    <StyledTableCell align="center"></StyledTableCell>
                                     <StyledTableCell align="center">{row.TotalAmount}</StyledTableCell>
                                     <StyledTableCell align="center">{row.Status}</StyledTableCell>
                                     <StyledTableCell align="center">
@@ -204,7 +146,7 @@ const DraftDataList = ({ listInfo, apiQuery }) => {
                                                     });
                                                 }}
                                             >
-                                                檢視
+                                                製作帳單
                                             </Button>
                                             <Button
                                                 color="primary"
@@ -214,7 +156,6 @@ const DraftDataList = ({ listInfo, apiQuery }) => {
                                                     setUploadOpen(true);
                                                 }}
                                             >
-                                                {/* 簽核/產製Draft */}
                                                 簽核
                                             </Button>
                                             <Button

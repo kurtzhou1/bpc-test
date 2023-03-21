@@ -20,7 +20,7 @@ import { useDispatch } from 'react-redux';
 import { setMessageStateOpen } from 'store/reducers/dropdown';
 
 const GenerateFeeAmount = () => {
-    const [value, setValue] = useState(0);
+    const [value, setValue] = useState(3);
     const [listInfo, setListInfo] = useState([]);
     const [dataList, setDataList] = useState([]);
     const dispatch = useDispatch();
@@ -445,7 +445,7 @@ const GenerateFeeAmount = () => {
             console.log('listInfo~~No=>>', value);
             if (value === 1) {
                 setDataList(fakeData1);
-            } else if (value === 2) {
+            } else if (value === 2 || value === 3) {
                 setDataList(fakeData2);
             } else if (value === 0) {
                 setDataList(fakeData0);
@@ -521,7 +521,7 @@ const GenerateFeeAmount = () => {
                         <DeductedDataList dataList={dataList} />
                     </TabPanel>
                     <TabPanel value={value} index={3}>
-                        <DraftDataList />
+                        <DraftDataList dataList={dataList} />
                     </TabPanel>
                     <TabPanel value={value} index={4}>
                         <SignedDataList />

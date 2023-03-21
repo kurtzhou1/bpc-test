@@ -97,6 +97,13 @@ const ReceivableQuery = ({ value, setListInfo }) => {
                 tmpQuery = tmpQuery + '/all';
             }
             tmpQuery = quertDeductedData + tmpQuery;
+        } else if (value === 3) {
+            if (tmpQuery.includes('&')) {
+                tmpQuery = '/' + tmpQuery.slice(0, -1);
+            } else {
+                tmpQuery = tmpQuery + '/all';
+            }
+            tmpQuery = quertDeductedData + tmpQuery;
         }
         console.log('tmpQuery=>>', tmpQuery);
         fetch(tmpQuery, { method: 'GET' })
