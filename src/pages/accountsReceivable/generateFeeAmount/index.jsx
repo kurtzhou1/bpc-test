@@ -20,7 +20,7 @@ import { useDispatch } from 'react-redux';
 import { setMessageStateOpen } from 'store/reducers/dropdown';
 
 const GenerateFeeAmount = () => {
-    const [value, setValue] = useState(1);
+    const [value, setValue] = useState(0);
     const [listInfo, setListInfo] = useState([]);
     const [dataList, setDataList] = useState([]);
     const dispatch = useDispatch();

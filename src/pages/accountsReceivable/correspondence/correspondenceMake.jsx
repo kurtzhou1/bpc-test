@@ -544,7 +544,7 @@ const CorrespondenceMake = ({ isDialogOpen, handleDialogClose, listInfo }) => {
                         ) : (
                             <>
                                 <Box sx={{ fontSize: '20px' }}>&nbsp;&nbsp;</Box>
-                                <Box sx={{ fontSize: '20px' }}>分公司總經理&nbsp;&nbsp;&nbsp;吳。。</Box>
+                                <Box sx={{ fontSize: '20px' }}>分公司總經理&nbsp;&nbsp;&nbsp;吳&nbsp;O&nbsp;O</Box>
                                 <Box sx={{ fontSize: '20px' }}>主辦單位簽核：(簽核原則:由上而下，由左而右)：</Box>
                                 <Box sx={{ fontSize: '20px' }}>判後：</Box>
                                 <Box sx={{ fontSize: '20px' }}>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;國際電信分公司會計駐點</Box>

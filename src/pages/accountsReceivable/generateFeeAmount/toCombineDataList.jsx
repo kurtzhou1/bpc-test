@@ -101,6 +101,7 @@ const ToCombineDataList = ({ handleDialogClose, isDialogOpen, dataList, totalCom
     };
 
     const [issueDate, setIssueDate] = useState(new Date()); //發票日期
+    const [poNo, setPoNo] = useState(''); //PO號碼
     const [billList, setBillList] = useState(fakeData);
     const [billingNo, setBillingNo] = useState('');
     const billingNoTmp = useRef('');
@@ -157,7 +158,10 @@ const ToCombineDataList = ({ handleDialogClose, isDialogOpen, dataList, totalCom
             BillingNo: billingNo
         };
         billList.BillMaster.BillingNo = billingNo;
-        billList.BillMaster.DueDate = dayjs(issueDate).format('YYYY-MM-DD hh:mm:ss');
+        // billList.BillMaster.DueDate = dayjs(issueDate).format('YYYY-MM-DD hh:mm:ss');
+        billList.DueDate = dayjs(issueDate).format('YYYY-MM-DD hh:mm:ss');
+        billList.PONo = poNo;
+        console.log('billList=>>', billList);
         fetch(isBillNoCheckOK, {
             method: 'POST',
             body: JSON.stringify(tmpArray)
@@ -167,7 +171,7 @@ const ToCombineDataList = ({ handleDialogClose, isDialogOpen, dataList, totalCom
                 if (data.message.length > 0) {
                     fetch(invoCombine, {
                         method: 'POST',
-                        body: billList
+                        body: JSON.stringify(billList)
                     })
                         .then((res) => res.json())
                         .then(() => {
@@ -224,8 +228,8 @@ const ToCombineDataList = ({ handleDialogClose, isDialogOpen, dataList, totalCom
                 </BootstrapDialogTitle>
                 <DialogContent>
                     <Grid container spacing={1} display="flex">
-                        <Grid item xs={6} sm={3} md={2} lg={2} display="flex" justifyContent="center" alignItems="center">
-                            <Typography variant="h5" sx={{ fontSize: { lg: '0.5rem', xl: '0.88rem' }, ml: { lg: '0.5rem', xl: '1.5rem' } }}>
+                        <Grid item xs={6} sm={3} md={1} lg={1} display="flex" justifyContent="center" alignItems="center">
+                            <Typography variant="h5" sx={{ fontSize: { lg: '0.5rem', xl: '0.88rem' } }}>
                                 發票日期：
                             </Typography>
                         </Grid>
@@ -243,8 +247,26 @@ const ToCombineDataList = ({ handleDialogClose, isDialogOpen, dataList, totalCom
                                 </LocalizationProvider>
                             </FormControl>
                         </Grid>
-                        <Grid item xs={6} sm={3} md={2} lg={2} display="flex" justifyContent="center" alignItems="center">
-                            <Typography variant="h5" sx={{ fontSize: { lg: '0.5rem', xl: '0.88rem' }, ml: { lg: '0.5rem', xl: '1.5rem' } }}>
+                        <Grid item xs={6} sm={3} md={1} lg={1} display="flex" justifyContent="center" alignItems="center">
+                            <Typography variant="h5" sx={{ fontSize: { lg: '0.5rem', xl: '0.88rem' } }}>
+                                PO號碼：
+                            </Typography>
+                        </Grid>
+                        <Grid item xs={6} sm={3} md={2} lg={2}>
+                            <TextField
+                                value={poNo}
+                                fullWidth
+                                variant="outlined"
+                                size="small"
+                                // type="number"
+                                label="填寫Po號碼"
+                                onChange={(e) => {
+                                    setPoNo(e.target.value);
+                                }}
+                            />
+                        </Grid>
+                        <Grid item xs={6} sm={3} md={1} lg={1} display="flex" justifyContent="center" alignItems="center">
+                            <Typography variant="h5" sx={{ fontSize: { lg: '0.5rem', xl: '0.88rem' } }}>
                                 帳單號碼：
                             </Typography>
                         </Grid>
@@ -266,7 +288,7 @@ const ToCombineDataList = ({ handleDialogClose, isDialogOpen, dataList, totalCom
                                 自動產生號碼
                             </Button>
                         </Grid>
-                        <Grid item xs={0} sm={0} md={2} lg={2} />
+                        <Grid item xs={0} sm={0} md={1} lg={1} />
                         <Grid item xs={12} sm={12} md={12} lg={12}>
                             <TableContainer component={Paper} sx={{ maxHeight: 350 }}>
                                 <Table sx={{ minWidth: 300 }} stickyHeader aria-label="sticky table">
