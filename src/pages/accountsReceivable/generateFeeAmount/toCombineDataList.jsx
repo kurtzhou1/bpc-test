@@ -156,7 +156,6 @@ const ToCombineDataList = ({ handleDialogClose, isDialogOpen, dataList, totalCom
         let tmpArray = {
             BillingNo: billingNo
         };
-        // let tmpCombineArray = billList.map((i) => i);
         billList.BillMaster.BillingNo = billingNo;
         billList.BillMaster.DueDate = dayjs(issueDate).format('YYYY-MM-DD hh:mm:ss');
         fetch(isBillNoCheckOK, {
