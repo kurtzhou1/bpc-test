@@ -41,7 +41,11 @@ const CBPBankAccount = ({}) => {
             CorpName: 'NEC',
             AcctName: '+886',
             AcctNo: 'Taiwan',
+            SavingAcctNo: '123',
+            ACHNo: 'ACHNo',
+            WireRouting: '123',
             SWIFTCode: 'XXX',
+            Branch: 'branch',
             IBAN: '123',
             Name: '123',
             Address: 'google.com'
@@ -52,6 +56,10 @@ const CBPBankAccount = ({}) => {
             AcctName: '+886',
             AcctNo: 'Taiwan',
             SWIFTCode: 'XXX',
+            SavingAcctNo: '123',
+            ACHNo: 'ACHNo',
+            WireRouting: '123',
+            Branch: 'branch',
             IBAN: '123',
             Name: '123',
             Address: 'google.com'
@@ -61,7 +69,11 @@ const CBPBankAccount = ({}) => {
     const [corpName, setCorpName] = useState(''); //聯盟代號
     const [acctName, setAcctName] = useState(''); //海纜作業
     const [acctNo, setAcctNo] = useState(''); //會員名稱
+    const [savingbankAcctNo, setSavingBankAcctNo] = useState(''); //銀行帳號2
     const [sWIFTCode, setSWIFTCode] = useState(''); //聯繫窗口
+    const [aCHNo, setaCHno] = useState(''); //ACH NO
+    const [wireRouting, setWireRouting] = useState(''); //Wire/Routing
+    const [branch, setBranch] = useState('');
     const [iBAN, setIBAN] = useState(''); //電子郵件
     const [name, setName] = useState(''); //電話
     const [address, setAddress] = useState(''); //公司地址
@@ -69,10 +81,14 @@ const CBPBankAccount = ({}) => {
     const [corpNameEdit, setCorpNameEdit] = useState(''); //供應商編輯
     const [acctNameEdit, setAcctNameEdit] = useState(''); //帳號名稱編輯
     const [acctNoEdit, setAcctNoEdit] = useState(''); //銀行帳號編輯
+    const [savingBankAcctNoEdit, setSavingBankAcctNoEdit] = useState(''); //銀行帳號2編輯
     const [sWIFTCodeEdit, setSWIFTCodeEdit] = useState(''); //國際銀行帳戶號碼編輯
     const [iBANEdit, setIBANEdit] = useState(''); //銀行名稱編輯
     const [nameEdit, setNameEdit] = useState(''); //銀行地址編輯
     const [addressEdit, setAddressEdit] = useState(''); //國際銀行代碼編輯
+    const [aCHNoEdit, setaCHnoEdit] = useState(''); //ACH NO編輯
+    const [wireRoutingEdit, setWireRoutingEdit] = useState(''); //Wire/Routing編輯
+    const [branchEdit, setBranchEdit] = useState('');
 
     const StyledTableCell = styled(TableCell)(({ theme }) => ({
         [`&.${tableCellClasses.head}`]: {
@@ -97,6 +113,10 @@ const CBPBankAccount = ({}) => {
         setIBAN('');
         setName('');
         setAddress('');
+        setSavingBankAcctNo('');
+        setaCHno('');
+        setWireRouting('');
+        setBranch('');
     };
 
     const editInfoInit = () => {
@@ -108,6 +128,10 @@ const CBPBankAccount = ({}) => {
         setIBANEdit('');
         setNameEdit('');
         setAddressEdit('');
+        setSavingBankAcctNoEdit('');
+        setaCHnoEdit('');
+        setWireRoutingEdit('');
+        setBranchEdit('');
     };
 
     const queryCBPBankAccountInfo = () => {
@@ -127,9 +151,13 @@ const CBPBankAccount = ({}) => {
             CorpName: corpName,
             AcctName: acctName,
             AcctNo: acctNo,
+            SavingAcctNo: savingbankAcctNo,
             SWIFTCode: sWIFTCode,
             IBAN: iBAN,
+            ACHNo: aCHNo,
+            WireRouting: wireRouting,
             Name: name,
+            Branch: branch,
             Address: address
         };
         console.log('tmpArray=>>', tmpArray);
@@ -167,6 +195,10 @@ const CBPBankAccount = ({}) => {
         setIBANEdit(row.IBAN);
         setNameEdit(row.Name);
         setAddressEdit(row.Address);
+        setSavingBankAcctNoEdit(row.SavingAcctNo);
+        setaCHnoEdit(row.ACHNo);
+        setWireRoutingEdit(row.WireRouting);
+        setBranchEdit(row.Branch);
     };
 
     const saveEditCBPBankAccountInfo = () => {
@@ -175,9 +207,13 @@ const CBPBankAccount = ({}) => {
             CorpName: corpNameEdit,
             AcctName: acctNameEdit,
             AcctNo: acctNoEdit,
+            SavingAcctNo: savingBankAcctNoEdit,
             SWIFTCode: sWIFTCodeEdit,
             IBAN: iBANEdit,
+            ACHNo: aCHNoEdit,
+            WireRouting: wireRoutingEdit,
             Name: nameEdit,
+            Branch: branchEdit,
             Address: addressEdit
         };
         console.log('123=>>', tmpArray);
@@ -205,12 +241,16 @@ const CBPBankAccount = ({}) => {
                     <TableRow>
                         <StyledTableCell align="center">NO</StyledTableCell>
                         <StyledTableCell align="center">聯盟代號/名稱</StyledTableCell>
-                        <StyledTableCell align="center">帳號名稱</StyledTableCell>
-                        <StyledTableCell align="center">銀行帳號</StyledTableCell>
-                        <StyledTableCell align="center">國際銀行代碼</StyledTableCell>
-                        <StyledTableCell align="center">國際銀行帳戶號碼</StyledTableCell>
-                        <StyledTableCell align="center">銀行名稱</StyledTableCell>
-                        <StyledTableCell align="center">銀行地址</StyledTableCell>
+                        <StyledTableCell align="center">Account Name</StyledTableCell>
+                        <StyledTableCell align="center">Account No.</StyledTableCell>
+                        <StyledTableCell align="center">Saving Account No.</StyledTableCell>
+                        <StyledTableCell align="center">SWIFT Code</StyledTableCell>
+                        <StyledTableCell align="center">IBAN</StyledTableCell>
+                        <StyledTableCell align="center">ACH No</StyledTableCell>
+                        <StyledTableCell align="center">Wire/Routing</StyledTableCell>
+                        <StyledTableCell align="center">Bank Name</StyledTableCell>
+                        <StyledTableCell align="center">Branch Name</StyledTableCell>
+                        <StyledTableCell align="center">Bank Address</StyledTableCell>
                         <StyledTableCell align="center">Action</StyledTableCell>
                     </TableRow>
                 </TableHead>
@@ -228,9 +268,13 @@ const CBPBankAccount = ({}) => {
                                         <StyledTableCell align="center">{row.CorpName}</StyledTableCell>
                                         <StyledTableCell align="center">{row.AcctName}</StyledTableCell>
                                         <StyledTableCell align="center">{row.AcctNo}</StyledTableCell>
+                                        <StyledTableCell align="center">{row.SavingAcctNo}</StyledTableCell>
                                         <StyledTableCell align="center">{row.SWIFTCode}</StyledTableCell>
                                         <StyledTableCell align="center">{row.IBAN}</StyledTableCell>
+                                        <StyledTableCell align="center">{row.ACHNo}</StyledTableCell>
+                                        <StyledTableCell align="center">{row.WireRouting}</StyledTableCell>
                                         <StyledTableCell align="center">{row.Name}</StyledTableCell>
+                                        <StyledTableCell align="center">{row.Branch}</StyledTableCell>
                                         <StyledTableCell align="center">{row.Address}</StyledTableCell>
                                         <StyledTableCell align="center">
                                             <Box
@@ -295,9 +339,9 @@ const CBPBankAccount = ({}) => {
                                         <TableCell align="center">
                                             <TextField
                                                 size="small"
-                                                value={addressEdit}
+                                                value={savingBankAcctNoEdit}
                                                 onChange={(e) => {
-                                                    setAddressEdit(e.target.value);
+                                                    setSavingBankAcctNoEdit(e.target.value);
                                                 }}
                                             />
                                         </TableCell>
@@ -322,9 +366,45 @@ const CBPBankAccount = ({}) => {
                                         <TableCell align="center">
                                             <TextField
                                                 size="small"
+                                                value={aCHNoEdit}
+                                                onChange={(e) => {
+                                                    setaCHnoEdit(e.target.value);
+                                                }}
+                                            />
+                                        </TableCell>
+                                        <TableCell align="center">
+                                            <TextField
+                                                size="small"
+                                                value={wireRoutingEdit}
+                                                onChange={(e) => {
+                                                    setWireRoutingEdit(e.target.value);
+                                                }}
+                                            />
+                                        </TableCell>
+                                        <TableCell align="center">
+                                            <TextField
+                                                size="small"
                                                 value={nameEdit}
                                                 onChange={(e) => {
                                                     setNameEdit(e.target.value);
+                                                }}
+                                            />
+                                        </TableCell>
+                                        <TableCell align="center">
+                                            <TextField
+                                                size="small"
+                                                value={branchEdit}
+                                                onChange={(e) => {
+                                                    setBranchEdit(e.target.value);
+                                                }}
+                                            />
+                                        </TableCell>
+                                        <TableCell align="center">
+                                            <TextField
+                                                size="small"
+                                                value={addressEdit}
+                                                onChange={(e) => {
+                                                    setAddressEdit(e.target.value);
                                                 }}
                                             />
                                         </TableCell>
@@ -366,7 +446,6 @@ const CBPBankAccount = ({}) => {
                         <TableCell align="center">
                             <TextField
                                 size="small"
-                                // style={{ width: '30%' }}
                                 value={corpName}
                                 onChange={(e) => {
                                     setCorpName(e.target.value);
@@ -394,6 +473,15 @@ const CBPBankAccount = ({}) => {
                         <TableCell align="center">
                             <TextField
                                 size="small"
+                                value={savingbankAcctNo}
+                                onChange={(e) => {
+                                    setSavingBankAcctNo(e.target.value);
+                                }}
+                            />
+                        </TableCell>
+                        <TableCell align="center">
+                            <TextField
+                                size="small"
                                 value={sWIFTCode}
                                 onChange={(e) => {
                                     setSWIFTCode(e.target.value);
@@ -412,9 +500,36 @@ const CBPBankAccount = ({}) => {
                         <TableCell align="center">
                             <TextField
                                 size="small"
+                                value={aCHNo}
+                                onChange={(e) => {
+                                    setaCHno(e.target.value);
+                                }}
+                            />
+                        </TableCell>
+                        <TableCell align="center">
+                            <TextField
+                                size="small"
+                                value={wireRouting}
+                                onChange={(e) => {
+                                    setWireRouting(e.target.value);
+                                }}
+                            />
+                        </TableCell>
+                        <TableCell align="center">
+                            <TextField
+                                size="small"
                                 value={name}
                                 onChange={(e) => {
                                     setName(e.target.value);
+                                }}
+                            />
+                        </TableCell>
+                        <TableCell align="center">
+                            <TextField
+                                size="small"
+                                value={branch}
+                                onChange={(e) => {
+                                    setBranch(e.target.value);
                                 }}
                             />
                         </TableCell>

@@ -154,22 +154,20 @@ const Information = () => {
                 <MainCard
                     title={`${
                         value == 0
-                            ? '供應商'
+                            ? '海纜代號'
                             : value == 1
-                            ? '會員'
+                            ? '供應商'
                             : value == 2
-                            ? '聯盟'
+                            ? '會員'
                             : value == 3
                             ? '合約'
                             : value == 4
-                            ? '海纜代號'
-                            : value == 5
                             ? '海纜作業'
-                            : value == 6
+                            : value == 5
                             ? '合約種類'
-                            : value == 7
+                            : value == 6
                             ? '合約會員'
-                            : value == 8
+                            : value == 7
                             ? '合約廠商'
                             : '聯盟金融帳戶'
                     }資料列表`}
@@ -179,13 +177,13 @@ const Information = () => {
                             <Tab label="海纜代號" {...a11yProps(0)} />
                             <Tab label="供應商" {...a11yProps(1)} />
                             <Tab label="會員" {...a11yProps(2)} />
-                            <Tab label="聯盟" {...a11yProps(3)} />
-                            <Tab label="合約" {...a11yProps(4)} />
-                            <Tab label="海纜作業" {...a11yProps(5)} />
-                            <Tab label="合約種類" {...a11yProps(6)} />
-                            <Tab label="合約會員" {...a11yProps(7)} />
-                            <Tab label="合約廠商" {...a11yProps(8)} />
-                            <Tab label="聯盟金融帳戶" {...a11yProps(9)} />
+                            {/* <Tab label="聯盟" {...a11yProps(3)} /> */}
+                            <Tab label="合約" {...a11yProps(3)} />
+                            <Tab label="海纜作業" {...a11yProps(4)} />
+                            <Tab label="合約種類" {...a11yProps(5)} />
+                            <Tab label="合約會員" {...a11yProps(6)} />
+                            <Tab label="合約廠商" {...a11yProps(7)} />
+                            <Tab label="聯盟金融帳戶" {...a11yProps(8)} />
                         </Tabs>
                     </Box>
                     <TabPanel value={value} index={0}>
@@ -197,25 +195,25 @@ const Information = () => {
                     <TabPanel value={value} index={2}>
                         <PartyDataList />
                     </TabPanel>
-                    <TabPanel value={value} index={3}>
+                    {/* <TabPanel value={value} index={3}>
                         <CorporatesDataList />
-                    </TabPanel>
-                    <TabPanel value={value} index={4}>
+                    </TabPanel> */}
+                    <TabPanel value={value} index={3}>
                         <ContractDataList />
                     </TabPanel>
-                    <TabPanel value={value} index={5}>
+                    <TabPanel value={value} index={4}>
                         <CableWorkDataList />
                     </TabPanel>
-                    <TabPanel value={value} index={6}>
+                    <TabPanel value={value} index={5}>
                         <ContractTypeDataList />
                     </TabPanel>
-                    <TabPanel value={value} index={7}>
+                    <TabPanel value={value} index={6}>
                         <PartiesByContractDataList />
                     </TabPanel>
-                    <TabPanel value={value} index={8}>
+                    <TabPanel value={value} index={7}>
                         <SuppliersByContractDataList />
                     </TabPanel>
-                    <TabPanel value={value} index={9}>
+                    <TabPanel value={value} index={8}>
                         <CBPBankAccount />
                     </TabPanel>
                 </MainCard>

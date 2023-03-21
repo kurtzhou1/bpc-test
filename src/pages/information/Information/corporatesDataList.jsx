@@ -38,6 +38,7 @@ import { useDispatch } from 'react-redux';
 import { setMessageStateOpen } from 'store/reducers/dropdown';
 
 const GeneratedDataList = ({}) => {
+    // 暫時用不到
     const dispatch = useDispatch();
     const fakeData = [
         {

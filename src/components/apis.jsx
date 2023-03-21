@@ -67,7 +67,7 @@ export const addParties = 'http://10.193.130.7:8000/api/v1/Parties';
 export const deleteParties = 'http://10.193.130.7:8000/api/v1/deleteParties';
 export const editParties = 'http://10.193.130.7:8000/api/v1/updateParties';
 
-// 基本資料-Corporates
+// 基本資料-Corporates(暫時用不到)
 export const getCorporatesInfo = 'http://10.193.130.7:8000/api/v1/Corporates/all';
 export const addCorporates = 'http://10.193.130.7:8000/api/v1/Corporates';
 export const deleteCorporates = 'http://10.193.130.7:8000/api/v1/deleteCorporates';

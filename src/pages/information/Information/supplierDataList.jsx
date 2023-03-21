@@ -218,6 +218,7 @@ const SupplierDataList = ({}) => {
                                         <StyledTableCell align="center">{row.BankAddress}</StyledTableCell>
                                         <StyledTableCell align="center">{row.BankAcctName}</StyledTableCell>
                                         <StyledTableCell align="center">{row.BankAcctNo}</StyledTableCell>
+                                        <StyledTableCell align="center">{row.SavingAcctNo}</StyledTableCell>
                                         <StyledTableCell align="center">{row.ACHNo}</StyledTableCell>
                                         <StyledTableCell align="center">{row.WireRouting}</StyledTableCell>
                                         <StyledTableCell align="center">{row.SWIFTCode}</StyledTableCell>
