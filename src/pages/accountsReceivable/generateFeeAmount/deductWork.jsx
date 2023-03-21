@@ -186,14 +186,16 @@ const ToGenerateDataList = ({ isDialogOpen, handleDialogClose, billDetailInfo, b
     };
 
     useEffect(() => {
-        let tmpFeeAmount = 0;
-        billDetailInfo.forEach((row) => {
-            orgFeeAmount.current = orgFeeAmount.current + row.OrgFeeAmount;
-            dedAmount.current = dedAmount.current + row.DedAmount;
-            tmpFeeAmount = tmpFeeAmount + row.FeeAmount;
-        });
-        setFeeAmountTotal(tmpFeeAmount);
-    }, [billDetailInfo]);
+        if (isDialogOpen) {
+            let tmpFeeAmount = 0;
+            billDetailInfo.forEach((row) => {
+                orgFeeAmount.current = orgFeeAmount.current + row.OrgFeeAmount;
+                dedAmount.current = dedAmount.current + row.DedAmount;
+                tmpFeeAmount = tmpFeeAmount + row.FeeAmount;
+            });
+            setFeeAmountTotal(tmpFeeAmount);
+        }
+    }, [billDetailInfo, isDialogOpen]);
 
     return (
         <Dialog onClose={handleDialogClose} maxWidth="sm" open={isDialogOpen}>

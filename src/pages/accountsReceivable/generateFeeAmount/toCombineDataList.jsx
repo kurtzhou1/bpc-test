@@ -140,7 +140,7 @@ const ToCombineDataList = ({ handleDialogClose, isDialogOpen, dataList, totalCom
         };
         fetch(generateBillNo, {
             method: 'POST',
-            body: tmpArray
+            body: JSON.stringify(tmpArray)
         })
             .then((res) => res.json())
             .then((data) => {
@@ -161,7 +161,7 @@ const ToCombineDataList = ({ handleDialogClose, isDialogOpen, dataList, totalCom
         billList.BillMaster.DueDate = dayjs(issueDate).format('YYYY-MM-DD hh:mm:ss');
         fetch(isBillNoCheckOK, {
             method: 'POST',
-            body: tmpArray
+            body: JSON.stringify(tmpArray)
         })
             .then((res) => res.json())
             .then((data) => {

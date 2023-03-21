@@ -62,7 +62,6 @@ const ToGenerateDataList = ({ dataList, apiQuery }) => {
     };
 
     const handleDialogOpen = (action, info) => {
-        console.log('info=>>', info);
         billDetailInfo.current = info.BillDetail;
         billMasterInfo.current = info.BillMaster;
         actionName.current = action;
