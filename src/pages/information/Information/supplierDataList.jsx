@@ -18,7 +18,7 @@ import { addSuppliers, supplierNameList, deleteSuppliers, editSuppliers } from '
 
 // redux
 import { useDispatch } from 'react-redux';
-import { setMessageStateOpen } from 'store/reducers/dropdown';
+import { setMessageStateOpen, setSupplierNameList } from 'store/reducers/dropdown';
 
 const SupplierDataList = ({}) => {
     const dispatch = useDispatch();
@@ -95,6 +95,7 @@ const SupplierDataList = ({}) => {
                 console.log('取得Suppliers資料成功=>', data);
                 if (Array.isArray(data)) {
                     setInfoList(data);
+                    dispatch(setSupplierNameList({ supNmList: data }));
                 }
             })
             .catch((e) => console.log('e1=>>', e));
@@ -179,7 +180,7 @@ const SupplierDataList = ({}) => {
     }, []);
 
     return (
-        <TableContainer component={Paper} sx={{ maxHeight: 350 }}>
+        <TableContainer component={Paper} sx={{ maxHeight: 700 }}>
             <Table sx={{ minWidth: 300 }} stickyHeader aria-label="sticky table">
                 <TableHead>
                     <TableRow>

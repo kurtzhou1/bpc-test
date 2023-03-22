@@ -287,7 +287,7 @@ const PartyDataList = ({}) => {
     }, []);
 
     return (
-        <TableContainer component={Paper} sx={{ maxHeight: 350 }}>
+        <TableContainer component={Paper} sx={{ maxHeight: 700 }}>
             <Table sx={{ minWidth: 300 }} stickyHeader aria-label="sticky table">
                 <TableHead>
                     <TableRow>

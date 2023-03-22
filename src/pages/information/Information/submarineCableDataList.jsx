@@ -18,7 +18,7 @@ import { addSubmarineCables, submarineCableList, deleteSubmarineCables, editSubm
 
 // redux
 import { useDispatch } from 'react-redux';
-import { setMessageStateOpen } from 'store/reducers/dropdown';
+import { setMessageStateOpen, setSubmarineCableList } from 'store/reducers/dropdown';
 
 const SubmarineCableDataList = ({}) => {
     const dispatch = useDispatch();
@@ -79,6 +79,7 @@ const SubmarineCableDataList = ({}) => {
                 console.log('取得海纜資料成功=>', data);
                 if (Array.isArray(data)) {
                     setInfoList(data);
+                    dispatch(setSubmarineCableList({ subCableList: data }));
                 }
             })
             .catch((e) => console.log('e1=>>', e));
@@ -139,7 +140,7 @@ const SubmarineCableDataList = ({}) => {
     }, []);
 
     return (
-        <TableContainer component={Paper} sx={{ maxHeight: 350 }}>
+        <TableContainer component={Paper} sx={{ maxHeight: 700 }}>
             <Table sx={{ minWidth: 300 }} stickyHeader aria-label="sticky table">
                 <TableHead>
                     <TableRow>
