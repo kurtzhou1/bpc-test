@@ -3,20 +3,7 @@ import { useState, useRef } from 'react';
 // project import
 import { handleNumber } from 'components/commonFunction';
 // material-ui
-import {
-    Typography,
-    Button,
-    Table,
-    Dialog,
-    DialogContent,
-    DialogContentText,
-    Grid,
-    FormControl,
-    InputLabel,
-    Select,
-    DialogActions,
-    TextField
-} from '@mui/material';
+import { Button, Table, TextField, Box } from '@mui/material';
 import TableBody from '@mui/material/TableBody';
 import TableCell, { tableCellClasses } from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
@@ -35,60 +22,6 @@ import { setMessageStateOpen } from 'store/reducers/dropdown';
 
 const InvalidatedDataList = ({ listInfo, BootstrapDialogTitle, apiQuery }) => {
     const dispatch = useDispatch();
-    // const fakeData = {
-    //     TotalAmount: 5582012.72,
-    //     InvoiceMaster: [
-    //         {
-    //             InvMasterID: 1,
-    //             WKMasterID: 1,
-    //             InvoiceNo: 'DT0170168-1',
-    //             PartyName: 'Edge',
-    //             SupplierName: 'NEC',
-    //             SubmarineCable: 'SJC2',
-    //             WorkTitle: 'Construction',
-    //             IssueDate: '2022-09-09T00:00:00',
-    //             DueDate: '2022-11-08T00:00:00',
-    //             IsPro: false,
-    //             ContractType: 'SC',
-    //             Status: ''
-    //         }
-    //     ],
-    //     InvoiceDetail: [
-    //         {
-    //             WKMasterID: 1,
-    //             WKDetailID: 1,
-    //             InvMasterID: 1,
-    //             InvoiceNo: 'DT0170168-1',
-    //             PartyName: 'Edge',
-    //             SupplierName: 'NEC',
-    //             SubmarineCable: 'SJC2',
-    //             WorkTitle: 'Construction',
-    //             BillMilestone: 'BM9a',
-    //             FeeItem: 'BM9a Sea...',
-    //             LBRatio: 28.5714285714,
-    //             FeeAmountPre: 1288822.32,
-    //             FeeAmountPost: 368234.95,
-    //             Difference: 0
-    //         },
-    //         {
-    //             WKMasterID: 2,
-    //             WKDetailID: 2,
-    //             InvMasterID: 2,
-    //             InvoiceNo: 'DT0170168-2',
-    //             PartyName: 'Edge',
-    //             SupplierName: 'NEC',
-    //             SubmarineCable: 'SJC2',
-    //             WorkTitle: 'Construction',
-    //             BillMilestone: 'BM9a',
-    //             FeeItem: 'BM9a Sea...',
-    //             LBRatio: 28.5714285714,
-    //             FeeAmountPre: 1288844.44,
-    //             FeeAmountPost: 368244.44,
-    //             Difference: 0
-    //         }
-    //     ]
-    // };
-
     const [isDialogOpen, setIsDialogOpen] = useState(false);
     const toBillDataMain = useRef();
     const [toBillDataInfo, setToBillDataInfo] = useState([]); //發票明細檔
@@ -170,118 +103,50 @@ const InvalidatedDataList = ({ listInfo, BootstrapDialogTitle, apiQuery }) => {
     };
 
     return (
-        <>
-            <Dialog onClose={handleDialogClose} maxWidth="lg" fullWidth open={isDialogOpen}>
-                <BootstrapDialogTitle id="customized-dialog-title" onClose={handleDialogClose}>
-                    立帳作業
-                </BootstrapDialogTitle>
-                <DialogContent>
-                    <TableContainer component={Paper} sx={{ maxHeight: 350 }}>
-                        <Table sx={{ minWidth: 300 }} stickyHeader aria-label="sticky table">
-                            <TableHead>
-                                <TableRow>
-                                    <StyledTableCell align="center"></StyledTableCell>
-                                    <StyledTableCell align="center">NO</StyledTableCell>
-                                    <StyledTableCell align="center">供應商名稱</StyledTableCell>
-                                    <StyledTableCell align="center">電話</StyledTableCell>
-                                    <StyledTableCell align="center">傳真</StyledTableCell>
-                                    <StyledTableCell align="center">地址</StyledTableCell>
-                                    <StyledTableCell align="center">E-mail</StyledTableCell>
-                                    <StyledTableCell align="center">Name</StyledTableCell>
-                                    <StyledTableCell align="center">Action</StyledTableCell>
-                                </TableRow>
-                            </TableHead>
-                            <TableBody>
-                                {toBillDataInfo.map((row, id) => {
-                                    let afterDiff = row.FeeAmountPost + row.Difference;
-                                    return (
-                                        <TableRow
-                                            key={row.FeeAmountPre + row?.PartyName + row?.LBRatio}
-                                            sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-                                        >
-                                            <TableCell align="center">{row.FeeItem}</TableCell>
-                                            <TableCell align="center">{`$${handleNumber(row.FeeAmountPre)}`}</TableCell>
-                                            <TableCell align="center">{row.PartyName}</TableCell>
-                                            <TableCell align="center">{`${row.LBRatio}%`}</TableCell>
-                                            <TableCell align="center">{`$${handleNumber(row.FeeAmountPost)}`}</TableCell>
-                                            <TableCell align="center">
-                                                <TextField
-                                                    label="$"
-                                                    size="small"
-                                                    type="number"
-                                                    style={{ width: '30%' }}
-                                                    // value={diffNumber}
-                                                    onChange={(e) => {
-                                                        changeDiff(e.target.value, id);
-                                                    }}
-                                                />
-                                            </TableCell>
-                                            <TableCell align="center">{`$${handleNumber(afterDiff.toFixed(2))}`}</TableCell>
-                                        </TableRow>
-                                    );
-                                })}
-                            </TableBody>
-                        </Table>
-                    </TableContainer>
-                    <DialogContentText sx={{ fontSize: '20px', mt: '0.5rem' }}>發票總金額：${handleNumber(totalAmount)}</DialogContentText>
-                    <DialogContentText sx={{ fontSize: '20px', color: '#CC0000' }}>
-                        目前金額：${handleNumber(currentAmount)}
-                    </DialogContentText>
-                </DialogContent>
-                <DialogActions>
-                    <Button sx={{ mr: '0.05rem' }} variant="contained" onClick={sendJounaryInfo}>
-                        新增
-                    </Button>
-                    <Button sx={{ mr: '0.05rem' }} variant="contained" onClick={handleDialogClose}>
-                        取消
-                    </Button>
-                </DialogActions>
-            </Dialog>
-            <TableContainer component={Paper} sx={{ maxHeight: 350 }}>
-                <Table sx={{ minWidth: 300 }} stickyHeader aria-label="sticky table">
-                    <TableHead>
-                        <TableRow>
-                            <StyledTableCell align="center">NO</StyledTableCell>
-                            <StyledTableCell align="center">合約種類代號</StyledTableCell>
-                            <StyledTableCell align="center">摘要</StyledTableCell>
-                            <StyledTableCell align="center">Action</StyledTableCell>
-                        </TableRow>
-                    </TableHead>
-                    <TableBody>
-                        {listInfo?.map((row, id) => {
-                            return (
-                                <TableRow
-                                    key={row.InvoiceWKMaster?.WKMasterID + row.InvoiceWKMaster?.InvoiceNo}
-                                    sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-                                >
-                                    <StyledTableCell align="center">{id + 1}</StyledTableCell>
-                                    <StyledTableCell align="center">{row.InvoiceWKMaster.WKMasterID}</StyledTableCell>
-                                    <StyledTableCell align="center">{row.InvoiceWKMaster.InvoiceNo}</StyledTableCell>
-                                    <StyledTableCell align="center">{row.InvoiceWKMaster.SupplierName}</StyledTableCell>
-                                    <StyledTableCell align="center">{row.InvoiceWKMaster.SubmarineCable}</StyledTableCell>
-                                    <StyledTableCell align="center">{row.InvoiceWKMaster.WorkTitle}</StyledTableCell>
-                                    <StyledTableCell align="center">
-                                        {dayjs(row.InvoiceWKMaster.IssueDate).format('YYYY/MM/DD')}
-                                    </StyledTableCell>
-                                    <StyledTableCell align="center">{row.InvoiceWKDetail.length}</StyledTableCell>
-                                    <StyledTableCell align="center">{handleNumber(row.InvoiceWKMaster.TotalAmount)}</StyledTableCell>
-                                    <StyledTableCell align="center">
-                                        <Button
-                                            color="primary"
-                                            onClick={() => {
-                                                toBillData(row.InvoiceWKMaster.WKMasterID);
-                                            }}
-                                        >
-                                            立帳作業
-                                        </Button>
-                                    </StyledTableCell>
-                                </TableRow>
-                            );
-                        })}
-                    </TableBody>
-                </Table>
-            </TableContainer>
-        </>
+        <TableContainer component={Paper} sx={{ maxHeight: 350 }}>
+            <Table sx={{ minWidth: 300 }} stickyHeader aria-label="sticky table">
+                <TableHead>
+                    <TableRow>
+                        <StyledTableCell align="center">NO</StyledTableCell>
+                        <StyledTableCell align="center">合約種類代號</StyledTableCell>
+                        <StyledTableCell align="center">摘要</StyledTableCell>
+                        <StyledTableCell align="center">Action</StyledTableCell>
+                    </TableRow>
+                </TableHead>
+                <TableBody>
+                    {listInfo?.map((row, id) => {
+                        return (
+                            <TableRow
+                                key={row.InvoiceWKMaster?.WKMasterID + row.InvoiceWKMaster?.InvoiceNo}
+                                sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                            >
+                                <StyledTableCell align="center">{id + 1}</StyledTableCell>
+                                <StyledTableCell align="center">{row.InvoiceWKMaster.WKMasterID}</StyledTableCell>
+                                <StyledTableCell align="center">{row.InvoiceWKMaster.InvoiceNo}</StyledTableCell>
+                                <StyledTableCell align="center">{row.InvoiceWKMaster.SupplierName}</StyledTableCell>
+                                <StyledTableCell align="center">{row.InvoiceWKMaster.SubmarineCable}</StyledTableCell>
+                                <StyledTableCell align="center">{row.InvoiceWKMaster.WorkTitle}</StyledTableCell>
+                                <StyledTableCell align="center">
+                                    {dayjs(row.InvoiceWKMaster.IssueDate).format('YYYY/MM/DD')}
+                                </StyledTableCell>
+                                <StyledTableCell align="center">{row.InvoiceWKDetail.length}</StyledTableCell>
+                                <StyledTableCell align="center">{handleNumber(row.InvoiceWKMaster.TotalAmount)}</StyledTableCell>
+                                <StyledTableCell align="center">
+                                    <Button
+                                        color="primary"
+                                        onClick={() => {
+                                            toBillData(row.InvoiceWKMaster.WKMasterID);
+                                        }}
+                                    >
+                                        立帳作業
+                                    </Button>
+                                </StyledTableCell>
+                            </TableRow>
+                        );
+                    })}
+                </TableBody>
+            </Table>
+        </TableContainer>
     );
 };
 

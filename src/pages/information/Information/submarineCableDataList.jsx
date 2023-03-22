@@ -3,21 +3,7 @@ import { useState, useRef, useEffect } from 'react';
 // project import
 import { handleNumber } from 'components/commonFunction';
 // material-ui
-import {
-    Typography,
-    Button,
-    Table,
-    Dialog,
-    DialogContent,
-    DialogContentText,
-    Grid,
-    FormControl,
-    InputLabel,
-    Select,
-    DialogActions,
-    TextField,
-    Box
-} from '@mui/material';
+import { Button, Table, TextField, Box } from '@mui/material';
 import TableBody from '@mui/material/TableBody';
 import TableCell, { tableCellClasses } from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
@@ -100,7 +86,6 @@ const SubmarineCableDataList = ({}) => {
 
     const addPartyInfo = () => {
         let tmpArray = {
-            CableID: cableIDEdit.current,
             CableCode: cableCode,
             CableName: cableName,
             Note: note

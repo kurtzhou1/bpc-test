@@ -3,21 +3,7 @@ import { useState, useRef, useEffect } from 'react';
 // project import
 import { handleNumber } from 'components/commonFunction';
 // material-ui
-import {
-    Typography,
-    Button,
-    Table,
-    Dialog,
-    DialogContent,
-    DialogContentText,
-    Grid,
-    FormControl,
-    InputLabel,
-    Select,
-    DialogActions,
-    TextField,
-    Box
-} from '@mui/material';
+import { Button, Table, TextField, Box } from '@mui/material';
 import TableBody from '@mui/material/TableBody';
 import TableCell, { tableCellClasses } from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
@@ -48,7 +34,6 @@ const SupplierDataList = ({}) => {
     const [aCHNo, setaCHno] = useState(''); //ACH NO
     const [wireRouting, setWireRouting] = useState(''); //Wire/Routing
     const supplierID = useRef(-1);
-    const [codeEdit, setCodeEdit] = useState(''); //代碼編輯
     const [supplierNameEdit, setSupplierNameEdit] = useState(''); //供應商編輯
     const [bankAcctNameEdit, setBankAcctNameEdit] = useState(''); //帳號名稱編輯
     const [bankAcctNoEdit, setBankAcctNoEdit] = useState(''); //銀行帳號1編輯
@@ -75,7 +60,6 @@ const SupplierDataList = ({}) => {
     }));
 
     const infoInit = () => {
-        setCode('');
         setSupplierName('');
         setBankAcctName('');
         setBankAcctNo('');
@@ -83,11 +67,13 @@ const SupplierDataList = ({}) => {
         setIBAN('');
         setBankName('');
         setBankAddress('');
+        setSavingBankAcctNo('');
+        setaCHno('');
+        setWireRouting('');
     };
 
     const editInfoInit = () => {
         supplierID.current = -1;
-        setCodeEdit('');
         setSupplierNameEdit('');
         setBankAcctNameEdit('');
         setBankAcctNoEdit('');
@@ -95,6 +81,9 @@ const SupplierDataList = ({}) => {
         setIBANEdit('');
         setBankNameEdit('');
         setBankAddressEdit('');
+        setSavingBankAcctNoEdit('');
+        setWireRoutingEdit('');
+        setaCHnoEdit('');
     };
 
     const querySuppliersInfo = () => {
