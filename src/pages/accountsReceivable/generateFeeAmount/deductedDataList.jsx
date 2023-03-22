@@ -6,6 +6,7 @@ import DeductWork from './deductWork';
 import GenerateFeeTerminate from './generateFeeTerminate';
 import GenerateBack from './generateBack';
 import SignAndUpload from './signAndUpload';
+import BillDraftMake from './billDraftMake';
 // material-ui
 import {
     Typography,
@@ -85,6 +86,7 @@ const GeneratedDataList = ({ dataList }) => {
             />
             <GenerateFeeTerminate infoTerminal={infoTerminal} handleTerminalClose={handleTerminalClose} />
             <GenerateBack infoBack={infoBack} handleBackClose={handleBackClose} />  */}
+            <BillDraftMake isDialogOpen={isDialogOpen} handleDialogClose={handleDialogClose} />
             <TableContainer component={Paper} sx={{ maxHeight: 350 }}>
                 <Table sx={{ minWidth: 300 }} stickyHeader aria-label="sticky table">
                     <TableHead>
@@ -123,19 +125,6 @@ const GeneratedDataList = ({ dataList }) => {
                                     <StyledTableCell align="center">
                                         <Box sx={{ display: 'flex', justifyContent: 'center', '& button': { mx: 1, p: 0, fontSize: 1 } }}>
                                             <Button
-                                                color="primary"
-                                                size="small"
-                                                variant="outlined"
-                                                onClick={() => {
-                                                    handleDialogOpen('deduct', {
-                                                        BillDetail: row.BillDetail,
-                                                        BillMaster: row.BillMaster
-                                                    });
-                                                }}
-                                            >
-                                                折抵作業
-                                            </Button>
-                                            <Button
                                                 color="success"
                                                 size="small"
                                                 variant="outlined"
@@ -150,6 +139,35 @@ const GeneratedDataList = ({ dataList }) => {
                                             >
                                                 檢視
                                             </Button>
+                                            <Button
+                                                color="primary"
+                                                size="small"
+                                                variant="outlined"
+                                                onClick={() => {
+                                                    handleDialogOpen('viewDeducted', {
+                                                        PartyName: row.PartyName,
+                                                        IssueDate: dayjs(row.IssueDate).format('YYYY/MM/DD'),
+                                                        SubmarineCable: row.SubmarineCable,
+                                                        WorkTitle: row.WorkTitle
+                                                    });
+                                                }}
+                                            >
+                                                產製帳單
+                                            </Button>
+                                            <Button
+                                                color="info"
+                                                size="small"
+                                                variant="outlined"
+                                                onClick={() => {
+                                                    handleDialogOpen('deduct', {
+                                                        BillDetail: row.BillDetail,
+                                                        BillMaster: row.BillMaster
+                                                    });
+                                                }}
+                                            >
+                                                簽核
+                                            </Button>
+
                                             <Button
                                                 color="warning"
                                                 size="small"

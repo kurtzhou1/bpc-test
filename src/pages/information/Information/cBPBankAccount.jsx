@@ -316,6 +316,7 @@ const CBPBankAccount = ({}) => {
                                         <TableCell align="center">
                                             <TextField
                                                 size="small"
+                                                disabled={savingBankAcctNoEdit.length > 0}
                                                 value={acctNoEdit}
                                                 onChange={(e) => {
                                                     setAcctNoEdit(e.target.value);
@@ -325,6 +326,7 @@ const CBPBankAccount = ({}) => {
                                         <TableCell align="center">
                                             <TextField
                                                 size="small"
+                                                disabled={acctNoEdit.length > 0}
                                                 value={savingBankAcctNoEdit}
                                                 onChange={(e) => {
                                                     setSavingBankAcctNoEdit(e.target.value);
@@ -451,6 +453,7 @@ const CBPBankAccount = ({}) => {
                             <TextField
                                 size="small"
                                 value={acctNo}
+                                disabled={savingbankAcctNo.length > 0}
                                 onChange={(e) => {
                                     setAcctNo(e.target.value);
                                 }}
@@ -460,6 +463,7 @@ const CBPBankAccount = ({}) => {
                             <TextField
                                 size="small"
                                 value={savingbankAcctNo}
+                                disabled={acctNo.length > 0}
                                 onChange={(e) => {
                                     setSavingBankAcctNo(e.target.value);
                                 }}

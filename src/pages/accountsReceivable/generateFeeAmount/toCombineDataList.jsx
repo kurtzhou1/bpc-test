@@ -224,13 +224,13 @@ const ToCombineDataList = ({ handleDialogClose, isDialogOpen, dataList, totalCom
         <>
             <Dialog onClose={handleDialogClose} maxWidth="md" fullWidth open={isDialogOpen}>
                 <BootstrapDialogTitle id="customized-dialog-title" onClose={handleDialogClose}>
-                    立帳作業
+                    合併帳單作業
                 </BootstrapDialogTitle>
                 <DialogContent>
                     <Grid container spacing={1} display="flex">
-                        <Grid item xs={6} sm={3} md={1} lg={1} display="flex" justifyContent="center" alignItems="center">
+                        <Grid item xs={6} sm={3} md={2} lg={2} display="flex" justifyContent="center" alignItems="center">
                             <Typography variant="h5" sx={{ fontSize: { lg: '0.5rem', xl: '0.88rem' } }}>
-                                發票日期：
+                                帳單到期日期：
                             </Typography>
                         </Grid>
                         <Grid item xs={6} sm={3} md={2} lg={2}>
@@ -288,7 +288,6 @@ const ToCombineDataList = ({ handleDialogClose, isDialogOpen, dataList, totalCom
                                 自動產生號碼
                             </Button>
                         </Grid>
-                        <Grid item xs={0} sm={0} md={1} lg={1} />
                         <Grid item xs={12} sm={12} md={12} lg={12}>
                             <TableContainer component={Paper} sx={{ maxHeight: 350 }}>
                                 <Table sx={{ minWidth: 300 }} stickyHeader aria-label="sticky table">

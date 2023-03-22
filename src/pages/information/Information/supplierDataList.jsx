@@ -30,6 +30,7 @@ const SupplierDataList = ({}) => {
     const [sWIFTCode, setSWIFTCode] = useState(''); //國際銀行代碼
     const [iBAN, setIBAN] = useState(''); //國際銀行帳戶號碼
     const [bankName, setBankName] = useState(''); //銀行名稱
+    const [branch, setBranch] = useState(''); //分行名稱
     const [bankAddress, setBankAddress] = useState(''); //銀行地址
     const [aCHNo, setaCHno] = useState(''); //ACH NO
     const [wireRouting, setWireRouting] = useState(''); //Wire/Routing
@@ -41,6 +42,7 @@ const SupplierDataList = ({}) => {
     const [sWIFTCodeEdit, setSWIFTCodeEdit] = useState(''); //國際銀行代碼編輯
     const [iBANEdit, setIBANEdit] = useState(''); //國際銀行帳戶號碼編輯
     const [bankNameEdit, setBankNameEdit] = useState(''); //銀行名稱編輯
+    const [branchEdit, setBranchEdit] = useState(''); //分行名稱
     const [bankAddressEdit, setBankAddressEdit] = useState(''); //銀行地址編輯
     const [aCHNoEdit, setaCHnoEdit] = useState(''); //ACH NO編輯
     const [wireRoutingEdit, setWireRoutingEdit] = useState(''); //Wire/Routing編輯
@@ -102,6 +104,7 @@ const SupplierDataList = ({}) => {
         let tmpArray = {
             SupplierName: supplierName,
             BankAcctName: bankAcctName,
+            Branch: branch,
             BankAcctNo: bankAcctNo,
             SWIFTCode: sWIFTCode,
             IBAN: iBAN,
@@ -136,6 +139,7 @@ const SupplierDataList = ({}) => {
         supplierID.current = row.SupplierID;
         setSupplierNameEdit(row.SupplierName);
         setBankAcctNameEdit(row.BankAcctName);
+        setBranchEdit(row.Branch);
         setBankAcctNoEdit(row.BankAcctNo);
         setSWIFTCodeEdit(row.SWIFTCode);
         setIBANEdit(row.IBAN);
@@ -150,6 +154,7 @@ const SupplierDataList = ({}) => {
             SupplierID: supplierID.current,
             SupplierName: supplierNameEdit,
             BankAcctName: bankAcctNameEdit,
+            Branch: branchEdit,
             BankAcctNo1: bankAcctNoEdit,
             BankAcctNo2: savingBankAcctNoEdit,
             SWIFTCode: sWIFTCodeEdit,
@@ -181,6 +186,7 @@ const SupplierDataList = ({}) => {
                         <StyledTableCell align="center">No.</StyledTableCell>
                         <StyledTableCell align="center">供應商名稱</StyledTableCell>
                         <StyledTableCell align="center">Bank Name</StyledTableCell>
+                        <StyledTableCell align="center">Branch Name</StyledTableCell>
                         <StyledTableCell align="center">Bank Address</StyledTableCell>
                         <StyledTableCell align="center">Account Name</StyledTableCell>
                         <StyledTableCell align="center">Account No.</StyledTableCell>
@@ -204,6 +210,7 @@ const SupplierDataList = ({}) => {
                                         <StyledTableCell align="center">{id + 1}</StyledTableCell>
                                         <StyledTableCell align="center">{row.SupplierName}</StyledTableCell>
                                         <StyledTableCell align="center">{row.BankName}</StyledTableCell>
+                                        <StyledTableCell align="center">{row.Branch}</StyledTableCell>
                                         <StyledTableCell align="center">{row.BankAddress}</StyledTableCell>
                                         <StyledTableCell align="center">{row.BankAcctName}</StyledTableCell>
                                         <StyledTableCell align="center">{row.BankAcctNo}</StyledTableCell>
@@ -260,6 +267,15 @@ const SupplierDataList = ({}) => {
                                                 value={bankNameEdit}
                                                 onChange={(e) => {
                                                     setBankNameEdit(e.target.value);
+                                                }}
+                                            />
+                                        </TableCell>
+                                        <TableCell align="center">
+                                            <TextField
+                                                size="small"
+                                                value={branchEdit}
+                                                onChange={(e) => {
+                                                    setBranchEdit(e.target.value);
                                                 }}
                                             />
                                         </TableCell>
@@ -388,6 +404,15 @@ const SupplierDataList = ({}) => {
                                 value={bankName}
                                 onChange={(e) => {
                                     setBankName(e.target.value);
+                                }}
+                            />
+                        </TableCell>
+                        <TableCell align="center">
+                            <TextField
+                                size="small"
+                                value={branch}
+                                onChange={(e) => {
+                                    setBranch(e.target.value);
                                 }}
                             />
                         </TableCell>

@@ -122,20 +122,6 @@ const ToGenerateDataList = ({ dataList, apiQuery }) => {
                                     <StyledTableCell align="center">
                                         <Box sx={{ display: 'flex', justifyContent: 'center', '& button': { mx: 1, p: 0, fontSize: 1 } }}>
                                             <Button
-                                                color="primary"
-                                                size="small"
-                                                variant="outlined"
-                                                onClick={() => {
-                                                    handleDialogOpen('deduct', {
-                                                        BillDetail: row.BillDetail,
-                                                        BillMaster: row.BillMaster,
-                                                        PartyName: row.BillMaster.PartyName
-                                                    });
-                                                }}
-                                            >
-                                                折抵作業
-                                            </Button>
-                                            <Button
                                                 color="success"
                                                 size="small"
                                                 variant="outlined"
@@ -148,6 +134,20 @@ const ToGenerateDataList = ({ dataList, apiQuery }) => {
                                                 }}
                                             >
                                                 檢視
+                                            </Button>
+                                            <Button
+                                                color="primary"
+                                                size="small"
+                                                variant="outlined"
+                                                onClick={() => {
+                                                    handleDialogOpen('deduct', {
+                                                        BillDetail: row.BillDetail,
+                                                        BillMaster: row.BillMaster,
+                                                        PartyName: row.BillMaster.PartyName
+                                                    });
+                                                }}
+                                            >
+                                                折抵作業
                                             </Button>
                                             <Button
                                                 color="warning"

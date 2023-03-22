@@ -471,9 +471,9 @@ const GenerateFeeAmount = () => {
                             <Tab label="待合併" {...a11yProps(0)} />
                             <Tab label="待抵扣" {...a11yProps(1)} />
                             <Tab label="已抵扣" {...a11yProps(2)} />
-                            <Tab label="draft初稿" {...a11yProps(3)} />
-                            <Tab label="已簽核" {...a11yProps(4)} />
-                            <Tab label="已作廢" {...a11yProps(5)} />
+                            {/* <Tab label="draft初稿" {...a11yProps(3)} /> */}
+                            <Tab label="已簽核" {...a11yProps(3)} />
+                            <Tab label="已作廢" {...a11yProps(4)} />
                         </Tabs>
                         {value == 0 ? (
                             <>
@@ -520,13 +520,13 @@ const GenerateFeeAmount = () => {
                     <TabPanel value={value} index={2}>
                         <DeductedDataList dataList={dataList} />
                     </TabPanel>
-                    <TabPanel value={value} index={3}>
+                    {/* <TabPanel value={value} index={3}>
                         <DraftDataList dataList={dataList} />
-                    </TabPanel>
-                    <TabPanel value={value} index={4}>
+                    </TabPanel> */}
+                    <TabPanel value={value} index={3}>
                         <SignedDataList />
                     </TabPanel>
-                    <TabPanel value={value} index={5}>
+                    <TabPanel value={value} index={4}>
                         <InvalidatedDataList />
                     </TabPanel>
                 </MainCard>

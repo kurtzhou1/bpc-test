@@ -36,7 +36,7 @@ import dayjs from 'dayjs';
 import { toBillDataapi, sendJounary } from 'components/apis.jsx';
 
 const DraftDataList = ({ dataList }) => {
-    console.log('dataList=>>', dataList);
+    // 暫時拿掉
     const deductInfo = useRef({});
     const actionName = useRef('');
     const [isDialogOpen, setIsDialogOpen] = useState(false); //檢視

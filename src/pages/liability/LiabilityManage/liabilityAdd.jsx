@@ -42,6 +42,20 @@ import { deleteLiability, addLiabilityapi } from 'components/apis.jsx';
 import { useSelector, useDispatch } from 'react-redux';
 import { setMessageStateOpen } from 'store/reducers/dropdown';
 
+const StyledTableCell = styled(TableCell)(({ theme }) => ({
+    [`&.${tableCellClasses.head}`]: {
+        // backgroundColor: theme.palette.common.gary,
+        color: theme.palette.common.black,
+        paddingTop: '0.2rem',
+        paddingBottom: '0.2rem'
+    },
+    [`&.${tableCellClasses.body}`]: {
+        fontSize: 14,
+        paddingTop: '0.2rem',
+        paddingBottom: '0.2rem'
+    }
+}));
+
 const LiabilityAdd = ({
     handleDialogClose,
     addLiability,
@@ -82,6 +96,7 @@ const LiabilityAdd = ({
         setWorkTitle('');
         setSubmarineCable('');
         setSplitNumber('');
+        setNote('');
     };
 
     //新增
@@ -94,16 +109,13 @@ const LiabilityAdd = ({
                 PartyName: e.PartyName,
                 LBRatio: lBRatio,
                 SubmarineCable: submarineCable,
-                WorkTitle: workTitle
+                WorkTitle: workTitle,
+                Note: note
             });
         });
         setListInfo([...tmpArray]);
         itemDetailInitial();
-        // console.log('dialogAction=>>', listInfo.length > 0 && dialogAction === 'add');
-        // console.log(listInfo);
-        // if (listInfo.length > 0 && dialogAction === 'add') {
         setBillMilestone(billMilestone);
-        // }
     };
 
     //分段+
@@ -116,7 +128,8 @@ const LiabilityAdd = ({
                 PartyName: e,
                 LBRatio: lBRatio,
                 SubmarineCable: submarineCable,
-                WorkTitle: workTitle
+                WorkTitle: workTitle,
+                ModifyNote: modifyNote
             });
         });
         setListInfo([...tmpArray]);
@@ -155,20 +168,6 @@ const LiabilityAdd = ({
             dispatch(setMessageStateOpen({ messageStateOpen: { isOpen: true, severity: 'error', message: '請增加分段帳號' } }));
         }
     };
-
-    const StyledTableCell = styled(TableCell)(({ theme }) => ({
-        [`&.${tableCellClasses.head}`]: {
-            // backgroundColor: theme.palette.common.gary,
-            color: theme.palette.common.black,
-            paddingTop: '0.2rem',
-            paddingBottom: '0.2rem'
-        },
-        [`&.${tableCellClasses.body}`]: {
-            fontSize: 14,
-            paddingTop: '0.2rem',
-            paddingBottom: '0.2rem'
-        }
-    }));
 
     return (
         <Dialog onClose={handleDialogClose} maxWidth="md" fullWidth open={isDialogOpen}>
@@ -332,6 +331,7 @@ const LiabilityAdd = ({
                             fullWidth
                             variant="outlined"
                             value={note}
+                            disabled={dialogAction === 'Edit' || dialogAction === 'Split'}
                             size="small"
                             label="填寫備註"
                             onChange={(e) => setNote(e.target.value)}
