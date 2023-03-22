@@ -20,6 +20,20 @@ import { addParties, getPartiesInfoList, deleteParties, editParties } from 'comp
 import { useDispatch } from 'react-redux';
 import { setMessageStateOpen } from 'store/reducers/dropdown';
 
+const StyledTableCell = styled(TableCell)(({ theme }) => ({
+    [`&.${tableCellClasses.head}`]: {
+        // backgroundColor: theme.palette.common.gary,
+        color: theme.palette.common.black,
+        paddingTop: '0.2rem',
+        paddingBottom: '0.2rem'
+    },
+    [`&.${tableCellClasses.body}`]: {
+        fontSize: 14,
+        paddingTop: '0.2rem',
+        paddingBottom: '0.2rem'
+    }
+}));
+
 const PartyDataList = ({}) => {
     const dispatch = useDispatch();
     const fakeData = [
@@ -31,8 +45,19 @@ const PartyDataList = ({}) => {
             PartyName: 'Taiwan',
             Address: 'google.com',
             Contact: 'XXX',
-            Email: '123',
-            Tel: '123'
+            Email: 'pppp@gmail.com',
+            Tel: '+886912123',
+            CompanyName: 'CompanyName',
+            BankAcctName: 'BankAcctName',
+            AccountNo: 'AccountNo',
+            SavingAccountNo: 'SavingAccountNo',
+            SWIFTCode: 'SWIFTCode',
+            IBAN: 'IBAN',
+            ACHNo: 'ACHNo',
+            WireRouting: 'WireRouting',
+            BankName: 'BankName',
+            Branch: 'Branch',
+            BankAddress: 'BankAddress'
         },
         {
             PartyID: 2,
@@ -42,8 +67,19 @@ const PartyDataList = ({}) => {
             PartyName: 'Taiwan',
             Address: 'google.com',
             Contact: 'XXX',
-            Email: '123',
-            Tel: '123'
+            Email: 'pppp@gmail.com',
+            Tel: '886912123',
+            CompanyName: 1,
+            BankAcctName: 2,
+            AccountNo: 3,
+            SavingAccountNo: 4,
+            SWIFTCode: 5,
+            IBAN: 6,
+            ACHNo: 7,
+            WireRouting: 8,
+            BankName: 9,
+            Branch: 0,
+            BankAddress: 1111
         }
     ];
     const [infoList, setInfoList] = useState(fakeData);
@@ -55,6 +91,17 @@ const PartyDataList = ({}) => {
     const [contact, setContact] = useState(''); //聯繫窗口
     const [email, setEmail] = useState(''); //電子郵件
     const [tel, setTel] = useState(''); //電話
+    const [companyName, setCompanyName] = useState('');
+    const [bankAcctName, setBankAcctName] = useState('');
+    const [accountNo, setAccountNo] = useState('');
+    const [savingAccountNo, setSavingAccountNo] = useState('');
+    const [sWIFTCode, setSWIFTCode] = useState('');
+    const [iBAN, setIBAN] = useState('');
+    const [aCHNo, setACHNo] = useState('');
+    const [wireRouting, setWireRouting] = useState('');
+    const [bankName, setBankName] = useState('');
+    const [branch, setBranch] = useState('');
+    const [bankAddress, setBankAddress] = useState('');
     const partyID = useRef(-1);
     const [codeEdit, setCodeEdit] = useState(''); //代碼編輯
     const [submarineCableEdit, setSubmarineCableEdit] = useState(''); //供應商編輯
@@ -63,31 +110,39 @@ const PartyDataList = ({}) => {
     const [addressEdit, setAddressEdit] = useState(''); //國際銀行代碼編輯
     const [contactEdit, setContactEdit] = useState(''); //國際銀行帳戶號碼編輯
     const [emailEdit, setEmailEdit] = useState(''); //銀行名稱編輯
-    const [telEdit, setTelEdit] = useState(''); //銀行地址編輯
-
-    const StyledTableCell = styled(TableCell)(({ theme }) => ({
-        [`&.${tableCellClasses.head}`]: {
-            // backgroundColor: theme.palette.common.gary,
-            color: theme.palette.common.black,
-            paddingTop: '0.2rem',
-            paddingBottom: '0.2rem'
-        },
-        [`&.${tableCellClasses.body}`]: {
-            fontSize: 14,
-            paddingTop: '0.2rem',
-            paddingBottom: '0.2rem'
-        }
-    }));
+    const [telEdit, setTelEdit] = useState('');
+    const [companyNameEdit, setCompanyNameEdit] = useState('');
+    const [bankAcctNameEdit, setBankAcctNameEdit] = useState('');
+    const [accountNoEdit, setAccountNoEdit] = useState('');
+    const [savingAccountNoEdit, setSavingAccountNoEdit] = useState('');
+    const [sWIFTCodeEdit, setSWIFTCodeEdit] = useState('');
+    const [iBANEdit, setIBANEdit] = useState('');
+    const [aCHNoEdit, setACHNoEdit] = useState('');
+    const [wireRoutingEdit, setWireRoutingEdit] = useState('');
+    const [bankNameEdit, setBankNameEdit] = useState('');
+    const [branchEdit, setBranchEdit] = useState('');
+    const [bankAddressEdit, setBankAddressEdit] = useState('');
 
     const infoInit = () => {
         setSubmarineCable('');
         setWorkTitle('');
         setPartyName('');
         setAddress('');
-        setContactEdit('');
         setContact('');
         setEmail('');
         setTel('');
+        setCompanyName('');
+        setBankAcctName('');
+        setAccountNo('');
+        setSavingAccountNo('');
+        setSWIFTCode('');
+        setIBAN('');
+        setACHNo('');
+        setWireRouting('');
+        setBankName('');
+        setBranch('');
+        setBankAddress('');
+        setCode('');
     };
 
     const editInfoInit = () => {
@@ -99,6 +154,18 @@ const PartyDataList = ({}) => {
         setContactEdit('');
         setEmailEdit('');
         setTelEdit('');
+        setCompanyNameEdit('');
+        setBankAcctNameEdit('');
+        setAccountNoEdit('');
+        setSavingAccountNoEdit('');
+        setSWIFTCodeEdit('');
+        setIBANEdit('');
+        setACHNoEdit('');
+        setWireRoutingEdit('');
+        setBankNameEdit('');
+        setBranchEdit('');
+        setBankAddressEdit('');
+        setCodeEdit('');
     };
 
     const queryPartiesInfo = () => {
@@ -122,7 +189,18 @@ const PartyDataList = ({}) => {
             Address: address,
             Contact: contact,
             Email: email,
-            Tel: tel
+            Tel: tel,
+            CompanyName: companyName,
+            BankAcctName: bankAcctName,
+            AccountNo: accountNo,
+            SavingAccountNo: savingAccountNo,
+            SWIFTCode: sWIFTCode,
+            IBAN: iBAN,
+            ACHNo: aCHNo,
+            WireRouting: wireRouting,
+            BankName: bankName,
+            Branch: branch,
+            BankAddress: bankAddress
         };
         console.log('tmpArray=>>', tmpArray);
         fetch(addParties, { method: 'POST', body: JSON.stringify(tmpArray), headers: { 'Content-Type': 'application/json' } })
@@ -147,6 +225,7 @@ const PartyDataList = ({}) => {
 
     const editPartyInfo = (row) => {
         // setEditItem(id);
+        console.log('row=>>', row);
         partyID.current = row.PartyID;
         setCodeEdit(row.PartyCode);
         setSubmarineCableEdit(row.SubmarineCable);
@@ -156,6 +235,17 @@ const PartyDataList = ({}) => {
         setContactEdit(row.Contact);
         setEmailEdit(row.Email);
         setTelEdit(row.Tel);
+        setCompanyNameEdit(row.CompanyName);
+        setBankAcctNameEdit(row.BankAcctName);
+        setAccountNoEdit(row.AccountNo);
+        setSavingAccountNoEdit(row.SavingAccountNo);
+        setSWIFTCodeEdit(row.SWIFTCode);
+        setIBANEdit(row.IBAN);
+        setACHNoEdit(row.ACHNo);
+        setWireRoutingEdit(row.WireRouting);
+        setBankNameEdit(row.BankName);
+        setBranchEdit(row.Branch);
+        setBankAddressEdit(row.BankAddress);
     };
 
     const saveEditPartyInfo = () => {
@@ -168,8 +258,20 @@ const PartyDataList = ({}) => {
             Address: addressEdit,
             Contact: contactEdit,
             Email: emailEdit,
-            Tel: telEdit
+            Tel: telEdit,
+            CompanyName: companyNameEdit,
+            BankAcctName: bankAcctNameEdit,
+            AccountNo: accountNoEdit,
+            SavingAccountNo: savingAccountNoEdit,
+            SWIFTCode: sWIFTCodeEdit,
+            IBAN: iBANEdit,
+            ACHNo: aCHNoEdit,
+            WireRouting: wireRoutingEdit,
+            BankName: bankNameEdit,
+            Branch: branchEdit,
+            BankAddress: bankAddressEdit
         };
+        console.log('tmpArray=>>', tmpArray);
         fetch(editParties, { method: 'POST', body: JSON.stringify(tmpArray), headers: { 'Content-Type': 'application/json' } })
             .then((res) => res.json())
             .then((data) => {
@@ -192,12 +294,23 @@ const PartyDataList = ({}) => {
                         <StyledTableCell align="center">NO</StyledTableCell>
                         <StyledTableCell align="center">代碼</StyledTableCell>
                         <StyledTableCell align="center">會員名稱</StyledTableCell>
-                        <StyledTableCell align="center">海纜名稱</StyledTableCell>
-                        <StyledTableCell align="center">海纜作業</StyledTableCell>
+                        <StyledTableCell align="center">公司名稱</StyledTableCell>
                         <StyledTableCell align="center">公司地址</StyledTableCell>
                         <StyledTableCell align="center">聯絡窗口</StyledTableCell>
                         <StyledTableCell align="center">電子郵件</StyledTableCell>
                         <StyledTableCell align="center">電話</StyledTableCell>
+                        <StyledTableCell align="center">銀行帳號名稱</StyledTableCell>
+                        <StyledTableCell align="center">Account No.</StyledTableCell>
+                        <StyledTableCell align="center">Saving Account No.</StyledTableCell>
+                        <StyledTableCell align="center">SWIFT Code</StyledTableCell>
+                        <StyledTableCell align="center">ACH No</StyledTableCell>
+                        <StyledTableCell align="center">SWIFT Code</StyledTableCell>
+                        <StyledTableCell align="center">Wire/Routing</StyledTableCell>
+                        <StyledTableCell align="center">銀行名稱</StyledTableCell>
+                        <StyledTableCell align="center">分行名稱</StyledTableCell>
+                        <StyledTableCell align="center">銀行地址</StyledTableCell>
+                        <StyledTableCell align="center">海纜名稱</StyledTableCell>
+                        <StyledTableCell align="center">海纜作業</StyledTableCell>
                         <StyledTableCell align="center">Action</StyledTableCell>
                     </TableRow>
                 </TableHead>
@@ -213,12 +326,23 @@ const PartyDataList = ({}) => {
                                         <StyledTableCell align="center">{id + 1}</StyledTableCell>
                                         <StyledTableCell align="center">{row.PartyCode}</StyledTableCell>
                                         <StyledTableCell align="center">{row.PartyName}</StyledTableCell>
-                                        <StyledTableCell align="center">{row.SubmarineCable}</StyledTableCell>
-                                        <StyledTableCell align="center">{row.WorkTitle}</StyledTableCell>
+                                        <StyledTableCell align="center">{row.CompanyName}</StyledTableCell>
                                         <StyledTableCell align="center">{row.Address}</StyledTableCell>
                                         <StyledTableCell align="center">{row.Contact}</StyledTableCell>
                                         <StyledTableCell align="center">{row.Email}</StyledTableCell>
                                         <StyledTableCell align="center">{row.Tel}</StyledTableCell>
+                                        <StyledTableCell align="center">{row.BankAcctName}</StyledTableCell>
+                                        <StyledTableCell align="center">{row.AccountNo}</StyledTableCell>
+                                        <StyledTableCell align="center">{row.SavingAccountNo}</StyledTableCell>
+                                        <StyledTableCell align="center">{row.SWIFTCode}</StyledTableCell>
+                                        <StyledTableCell align="center">{row.IBAN}</StyledTableCell>
+                                        <StyledTableCell align="center">{row.ACHNo}</StyledTableCell>
+                                        <StyledTableCell align="center">{row.WireRouting}</StyledTableCell>
+                                        <StyledTableCell align="center">{row.BankName}</StyledTableCell>
+                                        <StyledTableCell align="center">{row.Branch}</StyledTableCell>
+                                        <StyledTableCell align="center">{row.BankAddress}</StyledTableCell>
+                                        <StyledTableCell align="center">{row.SubmarineCable}</StyledTableCell>
+                                        <StyledTableCell align="center">{row.WorkTitle}</StyledTableCell>
                                         <StyledTableCell align="center">
                                             <Box
                                                 sx={{
@@ -254,7 +378,6 @@ const PartyDataList = ({}) => {
                                         <TableCell align="center">
                                             <TextField
                                                 size="small"
-                                                // style={{ width: '30%' }}
                                                 value={codeEdit}
                                                 onChange={(e) => {
                                                     setCodeEdit(e.target.value);
@@ -273,23 +396,12 @@ const PartyDataList = ({}) => {
                                         <TableCell align="center">
                                             <TextField
                                                 size="small"
-                                                // style={{ width: '30%' }}
-                                                value={submarineCableEdit}
+                                                value={companyNameEdit}
                                                 onChange={(e) => {
-                                                    setSubmarineCableEdit(e.target.value);
+                                                    setCompanyNameEdit(e.target.value);
                                                 }}
                                             />
                                         </TableCell>
-                                        <TableCell align="center">
-                                            <TextField
-                                                size="small"
-                                                value={workTitleEdit}
-                                                onChange={(e) => {
-                                                    setWorkTitleEdit(e.target.value);
-                                                }}
-                                            />
-                                        </TableCell>
-
                                         <TableCell align="center">
                                             <TextField
                                                 size="small"
@@ -326,6 +438,115 @@ const PartyDataList = ({}) => {
                                                 }}
                                             />
                                         </TableCell>
+                                        <TableCell align="center">
+                                            <TextField
+                                                size="small"
+                                                value={bankAcctNameEdit}
+                                                onChange={(e) => {
+                                                    setBankAcctNameEdit(e.target.value);
+                                                }}
+                                            />
+                                        </TableCell>
+                                        <TableCell align="center">
+                                            <TextField
+                                                size="small"
+                                                value={accountNoEdit}
+                                                onChange={(e) => {
+                                                    setAccountNoEdit(e.target.value);
+                                                }}
+                                            />
+                                        </TableCell>
+                                        <TableCell align="center">
+                                            <TextField
+                                                size="small"
+                                                value={savingAccountNoEdit}
+                                                onChange={(e) => {
+                                                    setSavingAccountNoEdit(e.target.value);
+                                                }}
+                                            />
+                                        </TableCell>
+                                        <TableCell align="center">
+                                            <TextField
+                                                size="small"
+                                                value={sWIFTCodeEdit}
+                                                onChange={(e) => {
+                                                    setSWIFTCodeEdit(e.target.value);
+                                                }}
+                                            />
+                                        </TableCell>
+                                        <TableCell align="center">
+                                            <TextField
+                                                size="small"
+                                                value={iBANEdit}
+                                                onChange={(e) => {
+                                                    setIBANEdit(e.target.value);
+                                                }}
+                                            />
+                                        </TableCell>
+                                        <TableCell align="center">
+                                            <TextField
+                                                size="small"
+                                                value={aCHNoEdit}
+                                                onChange={(e) => {
+                                                    setACHNoEdit(e.target.value);
+                                                }}
+                                            />
+                                        </TableCell>
+                                        <TableCell align="center">
+                                            <TextField
+                                                size="small"
+                                                value={wireRoutingEdit}
+                                                onChange={(e) => {
+                                                    setWireRoutingEdit(e.target.value);
+                                                }}
+                                            />
+                                        </TableCell>
+                                        <TableCell align="center">
+                                            <TextField
+                                                size="small"
+                                                value={bankNameEdit}
+                                                onChange={(e) => {
+                                                    setBankNameEdit(e.target.value);
+                                                }}
+                                            />
+                                        </TableCell>
+                                        <TableCell align="center">
+                                            <TextField
+                                                size="small"
+                                                value={branchEdit}
+                                                onChange={(e) => {
+                                                    setBranchEdit(e.target.value);
+                                                }}
+                                            />
+                                        </TableCell>
+                                        <TableCell align="center">
+                                            <TextField
+                                                size="small"
+                                                value={bankAddressEdit}
+                                                onChange={(e) => {
+                                                    setBankAddressEdit(e.target.value);
+                                                }}
+                                            />
+                                        </TableCell>
+                                        <TableCell align="center">
+                                            <TextField
+                                                size="small"
+                                                // style={{ width: '30%' }}
+                                                value={submarineCableEdit}
+                                                onChange={(e) => {
+                                                    setSubmarineCableEdit(e.target.value);
+                                                }}
+                                            />
+                                        </TableCell>
+                                        <TableCell align="center">
+                                            <TextField
+                                                size="small"
+                                                value={workTitleEdit}
+                                                onChange={(e) => {
+                                                    setWorkTitleEdit(e.target.value);
+                                                }}
+                                            />
+                                        </TableCell>
                                         <StyledTableCell align="center">
                                             <Box
                                                 sx={{
@@ -334,22 +555,10 @@ const PartyDataList = ({}) => {
                                                     '& button': { mx: { md: 0.6, lg: 1, xl: 1.8 }, p: 0, fontSize: 1 }
                                                 }}
                                             >
-                                                <Button
-                                                    color="primary"
-                                                    variant="outlined"
-                                                    onClick={() => {
-                                                        saveEditPartyInfo();
-                                                    }}
-                                                >
+                                                <Button color="primary" variant="outlined" onClick={saveEditPartyInfo}>
                                                     儲存
                                                 </Button>
-                                                <Button
-                                                    color="error"
-                                                    variant="outlined"
-                                                    onClick={() => {
-                                                        editInfoInit();
-                                                    }}
-                                                >
+                                                <Button color="error" variant="outlined" onClick={editInfoInit}>
                                                     取消
                                                 </Button>
                                             </Box>
@@ -383,23 +592,12 @@ const PartyDataList = ({}) => {
                         <TableCell align="center">
                             <TextField
                                 size="small"
-                                // style={{ width: '30%' }}
-                                value={submarineCable}
+                                value={companyName}
                                 onChange={(e) => {
-                                    setSubmarineCable(e.target.value);
+                                    setCompanyName(e.target.value);
                                 }}
                             />
                         </TableCell>
-                        <TableCell align="center">
-                            <TextField
-                                size="small"
-                                value={workTitle}
-                                onChange={(e) => {
-                                    setWorkTitle(e.target.value);
-                                }}
-                            />
-                        </TableCell>
-
                         <TableCell align="center">
                             <TextField
                                 size="small"
@@ -433,6 +631,115 @@ const PartyDataList = ({}) => {
                                 value={tel}
                                 onChange={(e) => {
                                     setTel(e.target.value);
+                                }}
+                            />
+                        </TableCell>
+                        <TableCell align="center">
+                            <TextField
+                                size="small"
+                                value={bankAcctName}
+                                onChange={(e) => {
+                                    setBankAcctName(e.target.value);
+                                }}
+                            />
+                        </TableCell>
+                        <TableCell align="center">
+                            <TextField
+                                size="small"
+                                value={accountNo}
+                                onChange={(e) => {
+                                    setAccountNo(e.target.value);
+                                }}
+                            />
+                        </TableCell>
+                        <TableCell align="center">
+                            <TextField
+                                size="small"
+                                value={savingAccountNo}
+                                onChange={(e) => {
+                                    setSavingAccountNo(e.target.value);
+                                }}
+                            />
+                        </TableCell>
+                        <TableCell align="center">
+                            <TextField
+                                size="small"
+                                value={sWIFTCode}
+                                onChange={(e) => {
+                                    setSWIFTCode(e.target.value);
+                                }}
+                            />
+                        </TableCell>
+                        <TableCell align="center">
+                            <TextField
+                                size="small"
+                                value={iBAN}
+                                onChange={(e) => {
+                                    setIBAN(e.target.value);
+                                }}
+                            />
+                        </TableCell>
+                        <TableCell align="center">
+                            <TextField
+                                size="small"
+                                value={aCHNo}
+                                onChange={(e) => {
+                                    setACHNo(e.target.value);
+                                }}
+                            />
+                        </TableCell>
+                        <TableCell align="center">
+                            <TextField
+                                size="small"
+                                value={wireRouting}
+                                onChange={(e) => {
+                                    setWireRouting(e.target.value);
+                                }}
+                            />
+                        </TableCell>
+                        <TableCell align="center">
+                            <TextField
+                                size="small"
+                                value={bankName}
+                                onChange={(e) => {
+                                    setBankName(e.target.value);
+                                }}
+                            />
+                        </TableCell>
+                        <TableCell align="center">
+                            <TextField
+                                size="small"
+                                value={branch}
+                                onChange={(e) => {
+                                    setBranch(e.target.value);
+                                }}
+                            />
+                        </TableCell>
+                        <TableCell align="center">
+                            <TextField
+                                size="small"
+                                value={bankAddress}
+                                onChange={(e) => {
+                                    setBankAddress(e.target.value);
+                                }}
+                            />
+                        </TableCell>
+                        <TableCell align="center">
+                            <TextField
+                                size="small"
+                                // style={{ width: '30%' }}
+                                value={submarineCable}
+                                onChange={(e) => {
+                                    setSubmarineCable(e.target.value);
+                                }}
+                            />
+                        </TableCell>
+                        <TableCell align="center">
+                            <TextField
+                                size="small"
+                                value={workTitle}
+                                onChange={(e) => {
+                                    setWorkTitle(e.target.value);
                                 }}
                             />
                         </TableCell>
