@@ -18,7 +18,7 @@ import { addParties, getPartiesInfoList, deleteParties, editParties } from 'comp
 
 // redux
 import { useDispatch } from 'react-redux';
-import { setMessageStateOpen } from 'store/reducers/dropdown';
+import { setMessageStateOpen, setPartiesList } from 'store/reducers/dropdown';
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
     [`&.${tableCellClasses.head}`]: {
@@ -172,9 +172,9 @@ const PartyDataList = ({}) => {
         fetch(getPartiesInfoList, { method: 'GET' })
             .then((res) => res.json())
             .then((data) => {
-                console.log('取得Parties資料成功=>', data);
                 if (Array.isArray(data)) {
                     setInfoList(data);
+                    dispatch(setPartiesList({ partiesList: data }));
                 }
             })
             .catch((e) => console.log('e1=>>', e));
