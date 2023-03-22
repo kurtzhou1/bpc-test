@@ -14,12 +14,12 @@ import { alpha, styled } from '@mui/material/styles';
 
 import dayjs from 'dayjs';
 
-import { addCBPBankAccount, getCBPBankAccountInfo, deleteCBPBankAccount, editCBPBankAccount } from 'components/apis.jsx';
+import { addCorporates, getCorporatesInfo, deleteCorporates, editCorporates } from 'components/apis.jsx';
 // redux
 import { useDispatch } from 'react-redux';
 import { setMessageStateOpen } from 'store/reducers/dropdown';
 
-const CBPBankAccount = ({}) => {
+const Corporates = ({}) => {
     const dispatch = useDispatch();
     const fakeData = [
         {
@@ -120,11 +120,11 @@ const CBPBankAccount = ({}) => {
         setBranchEdit('');
     };
 
-    const queryCBPBankAccountInfo = () => {
-        fetch(getCBPBankAccountInfo, { method: 'GET' })
+    const queryCorporatesInfo = () => {
+        fetch(getCorporatesInfo, { method: 'GET' })
             .then((res) => res.json())
             .then((data) => {
-                console.log('取得CBPBankAccount資料成功=>', data);
+                console.log('取得Corporates資料成功=>', data);
                 if (Array.isArray(data)) {
                     setInfoList(data);
                 }
@@ -132,7 +132,7 @@ const CBPBankAccount = ({}) => {
             .catch((e) => console.log('e1=>>', e));
     };
 
-    const addCBPBankAccountInfo = () => {
+    const addCorporatesInfo = () => {
         let tmpArray = {
             CorpName: corpName,
             AcctName: acctName,
@@ -147,31 +147,31 @@ const CBPBankAccount = ({}) => {
             Address: address
         };
         console.log('tmpArray=>>', tmpArray);
-        fetch(addCBPBankAccount, { method: 'POST', body: JSON.stringify(tmpArray), headers: { 'Content-Type': 'application/json' } })
+        fetch(addCorporates, { method: 'POST', body: JSON.stringify(tmpArray), headers: { 'Content-Type': 'application/json' } })
             .then((res) => res.json())
             .then(() => {
                 dispatch(
                     setMessageStateOpen({ messageStateOpen: { isOpen: true, severity: 'success', message: '新增聯盟金融帳戶資料成功' } })
                 );
                 infoInit();
-                queryCBPBankAccountInfo();
+                queryCorporatesInfo();
             })
             .catch((e) => console.log('e1=>>', e));
     };
 
-    const deleteCBPBankAccountInfo = (row) => {
-        fetch(deleteCBPBankAccount, { method: 'POST', body: JSON.stringify(row), headers: { 'Content-Type': 'application/json' } })
+    const deleteCorporatesInfo = (row) => {
+        fetch(deleteCorporates, { method: 'POST', body: JSON.stringify(row), headers: { 'Content-Type': 'application/json' } })
             .then((res) => res.json())
             .then(() => {
                 dispatch(
                     setMessageStateOpen({ messageStateOpen: { isOpen: true, severity: 'success', message: '刪除聯盟金融帳戶資料成功' } })
                 );
-                queryCBPBankAccountInfo();
+                queryCorporatesInfo();
             })
             .catch((e) => console.log('e1=>>', e));
     };
 
-    const editCBPBankAccountInfo = (row) => {
+    const editCorporatesInfo = (row) => {
         console.log(row, row.CorpID);
         corpID.current = row.CorpID;
         setCorpNameEdit(row.CorpName);
@@ -187,7 +187,7 @@ const CBPBankAccount = ({}) => {
         setBranchEdit(row.Branch);
     };
 
-    const saveEditCBPBankAccountInfo = () => {
+    const saveEditCorporatesInfo = () => {
         let tmpArray = {
             PartyID: corpID.current,
             CorpName: corpNameEdit,
@@ -203,20 +203,20 @@ const CBPBankAccount = ({}) => {
             Address: addressEdit
         };
         console.log('123=>>', tmpArray);
-        fetch(editCBPBankAccount, { method: 'POST', body: JSON.stringify(tmpArray), headers: { 'Content-Type': 'application/json' } })
+        fetch(editCorporates, { method: 'POST', body: JSON.stringify(tmpArray), headers: { 'Content-Type': 'application/json' } })
             .then((res) => res.json())
             .then((data) => {
                 dispatch(
                     setMessageStateOpen({ messageStateOpen: { isOpen: true, severity: 'success', message: '更新聯盟金融帳戶資料成功' } })
                 );
                 editInfoInit();
-                queryCBPBankAccountInfo();
+                queryCorporatesInfo();
             })
             .catch((e) => console.log('e1=>>', e));
     };
 
     useEffect(() => {
-        queryCBPBankAccountInfo();
+        queryCorporatesInfo();
     }, []);
 
     console.log('corpID.current=>>', corpID.current);
@@ -274,7 +274,7 @@ const CBPBankAccount = ({}) => {
                                                     color="primary"
                                                     variant="outlined"
                                                     onClick={() => {
-                                                        editCBPBankAccountInfo(row);
+                                                        editCorporatesInfo(row);
                                                     }}
                                                 >
                                                     編輯
@@ -283,7 +283,7 @@ const CBPBankAccount = ({}) => {
                                                     color="error"
                                                     variant="outlined"
                                                     onClick={() => {
-                                                        deleteCBPBankAccountInfo(row);
+                                                        deleteCorporatesInfo(row);
                                                     }}
                                                 >
                                                     刪除
@@ -408,7 +408,7 @@ const CBPBankAccount = ({}) => {
                                                     color="primary"
                                                     variant="outlined"
                                                     onClick={() => {
-                                                        saveEditCBPBankAccountInfo();
+                                                        saveEditCorporatesInfo();
                                                     }}
                                                 >
                                                     儲存
@@ -540,7 +540,7 @@ const CBPBankAccount = ({}) => {
                                     '& button': { mx: { md: 0.6, lg: 1, xl: 1.8 }, p: 0, fontSize: 1 }
                                 }}
                             >
-                                <Button color="success" variant="outlined" onClick={addCBPBankAccountInfo}>
+                                <Button color="success" variant="outlined" onClick={addCorporatesInfo}>
                                     新增
                                 </Button>
                             </Box>
@@ -552,4 +552,4 @@ const CBPBankAccount = ({}) => {
     );
 };
 
-export default CBPBankAccount;
+export default Corporates;

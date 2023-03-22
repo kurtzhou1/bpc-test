@@ -68,10 +68,10 @@ export const deleteParties = 'http://10.193.130.7:8000/api/v1/deleteParties';
 export const editParties = 'http://10.193.130.7:8000/api/v1/updateParties';
 
 // 基本資料-Corporates(暫時用不到)
-export const getCorporatesInfo = 'http://10.193.130.7:8000/api/v1/Corporates/all';
-export const addCorporates = 'http://10.193.130.7:8000/api/v1/Corporates';
-export const deleteCorporates = 'http://10.193.130.7:8000/api/v1/deleteCorporates';
-export const editCorporates = 'http://10.193.130.7:8000/api/v1/updateCorporates';
+// export const getCorporatesInfo = 'http://10.193.130.7:8000/api/v1/Corporates/all';
+// export const addCorporates = 'http://10.193.130.7:8000/api/v1/Corporates';
+// export const deleteCorporates = 'http://10.193.130.7:8000/api/v1/deleteCorporates';
+// export const editCorporates = 'http://10.193.130.7:8000/api/v1/updateCorporates';
 
 // 基本資料-Contracts
 export const getContractsInfo = 'http://10.193.130.7:8000/api/v1/Contracts/all';
@@ -90,11 +90,11 @@ export const addPartiesByContract = 'http://10.193.130.7:8000/api/v1/PartiesByCo
 export const deletePartiesByContract = 'http://10.193.130.7:8000/api/v1/deletePartiesByContract';
 export const editPartiesByContract = 'http://10.193.130.7:8000/api/v1/updatePartiesByContract';
 
-// 基本資料-CBPBankAccount
-export const getCBPBankAccountInfo = 'http://10.193.130.7:8000/api/v1/CBPBankAccount/all';
-export const addCBPBankAccount = 'http://10.193.130.7:8000/api/v1/CBPBankAccount';
-export const deleteCBPBankAccount = 'http://10.193.130.7:8000/api/v1/deleteCBPBankAccount';
-export const editCBPBankAccount = 'http://10.193.130.7:8000/api/v1/updateCBPBankAccount';
+// 基本資料-Corporates
+export const getCorporatesInfo = 'http://10.193.130.7:8000/api/v1/Corporates/all';
+export const addCorporates = 'http://10.193.130.7:8000/api/v1/Corporates';
+export const deleteCorporates = 'http://10.193.130.7:8000/api/v1/deleteCorporates';
+export const editCorporates = 'http://10.193.130.7:8000/api/v1/updateCorporates';
 
 // 基本資料-SuppliersByContract
 export const getSuppliersByContractInfo = 'http://10.193.130.7:8000/api/v1/SuppliersByContract/all';
