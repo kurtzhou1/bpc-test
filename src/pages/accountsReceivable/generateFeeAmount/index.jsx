@@ -76,13 +76,13 @@ const fakeData0 = [
     {
         InvoiceMaster: {
             InvoiceNo: 'DT0170168-22',
-            WKMasterID: 1,
+            WKMasterID: 2,
             PartyName: 'CHT',
             SubmarineCable: 'SJC2',
             ContractType: 'SC',
             DueDate: '2022-11-08T12:00:00',
-            IsPro: false,
-            InvMasterID: 9,
+            IsPro: true,
+            InvMasterID: 10,
             SupplierName: 'NEC',
             WorkTitle: 'Construction',
             IssueDate: '2022-09-09T12:00:00',

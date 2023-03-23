@@ -69,7 +69,7 @@ const BillDraftMake = ({ isDialogOpen, handleDialogClose, billInfo }) => {
     const [isEdit, setIsEdit] = useState(false);
     const [subject1, setSubject1] = useState('TPE Cable Network Upgrade#12 Central Billing Party'); //主旨1
     const [subject2, setSubject2] = useState(''); //主旨2
-    const [subject3, setSubject3] = useState(''); //主旨3
+    const [subject3, setSubject3] = useState('Invoice'); //主旨3
     const [number, setNumber] = useState(''); //連絡電話
     const [date, setDate] = useState(''); //發文日期
     const [receipient, setRecipient] = useState(''); //受文者
@@ -236,7 +236,7 @@ const BillDraftMake = ({ isDialogOpen, handleDialogClose, billInfo }) => {
                                                 variant="outlined"
                                                 value={subject1}
                                                 size="small"
-                                                label="自行填寫主旨"
+                                                label="第一行主旨"
                                                 inputProps={{ maxLength: 65 }}
                                                 onChange={(e) => setSubject1(e.target.value)}
                                             />
@@ -247,9 +247,19 @@ const BillDraftMake = ({ isDialogOpen, handleDialogClose, billInfo }) => {
                                                 variant="outlined"
                                                 value={subject2}
                                                 size="small"
-                                                label="自行填寫主旨"
+                                                label="第二行主旨"
                                                 inputProps={{ maxLength: 65 }}
                                                 onChange={(e) => setSubject2(e.target.value)}
+                                            />
+                                        </Grid>
+                                        <Grid item xs={12} sm={12} md={12} lg={12} display="flex">
+                                            <TextField
+                                                fullWidth
+                                                variant="outlined"
+                                                value={subject3}
+                                                size="small"
+                                                inputProps={{ maxLength: 65 }}
+                                                onChange={(e) => setSubject3(e.target.value)}
                                             />
                                         </Grid>
                                     </Grid>
@@ -444,7 +454,7 @@ const BillDraftMake = ({ isDialogOpen, handleDialogClose, billInfo }) => {
                             </Box>
                             <Box
                                 sx={{
-                                    fontSize: subject1.length <= 50 ? '18px' : '15px',
+                                    fontSize: subject2.length <= 50 ? '18px' : '15px',
                                     mt: 1,
                                     // display: 'flex',
                                     // flexWrap: 'nowrap',
@@ -454,7 +464,7 @@ const BillDraftMake = ({ isDialogOpen, handleDialogClose, billInfo }) => {
                             >
                                 {subject2}
                             </Box>
-                            <Box sx={{ fontSize: '24px', m: 1, textAlign: 'center' }}>Pro-forma Invoice</Box>
+                            <Box sx={{ fontSize: '24px', m: 1, textAlign: 'center' }}>{subject3}</Box>
                             <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
                                 <Box sx={{ m: 1, with: '50%' }}>
                                     <Box sx={{ fontSize: '12px', textAlign: 'left' }}>BILL TO：</Box>

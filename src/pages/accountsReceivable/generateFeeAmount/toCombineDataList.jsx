@@ -204,6 +204,7 @@ const ToCombineDataList = ({ handleDialogClose, isDialogOpen, dataList, totalCom
         let tmpArray = dataList.filter((i) => {
             return cbToCn[i.InvoiceMaster.InvoiceNo];
         });
+        console.log('cbToCn=>>', cbToCn);
         console.log('tmpArray=>>', tmpArray);
         tmpArray.forEach((i) => {
             tmpAmount = tmpAmount + i.InvoiceDetail[0].FeeAmountPre;
@@ -379,8 +380,6 @@ const ToCombineDataList = ({ handleDialogClose, isDialogOpen, dataList, totalCom
                     <TableBody>
                         {dataList.map((row, id) => {
                             let tmpAmount = 0;
-                            console.log('row=>>', row);
-                            // tmpAmount = row.InvoiceDetail.FeeAmountPost;
                             row.InvoiceDetail.forEach((i) => {
                                 tmpAmount = tmpAmount + i.FeeAmountPost;
                             });
