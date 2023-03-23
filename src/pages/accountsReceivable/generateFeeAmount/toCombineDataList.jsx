@@ -204,6 +204,7 @@ const ToCombineDataList = ({ handleDialogClose, isDialogOpen, dataList, totalCom
         let tmpArray = dataList.filter((i) => {
             return cbToCn[i.InvoiceMaster.InvMasterID];
         });
+        console.log('dataList=>>', dataList);
         console.log('cbToCn=>>', cbToCn);
         console.log('tmpArray=>>', tmpArray);
         tmpArray.forEach((i) => {
@@ -390,7 +391,7 @@ const ToCombineDataList = ({ handleDialogClose, isDialogOpen, dataList, totalCom
                                 >
                                     <TableCell align="center">
                                         <Checkbox
-                                            name={row.InvoiceMaster?.InvoiceNo}
+                                            name={row.InvoiceMaster?.InvMasterID}
                                             onChange={handleChange}
                                             checked={cbToCn.id}
                                             // sx={{ '& .MuiSvgIcon-root': { fontSize: { lg: 14, xl: 20 } } }}
