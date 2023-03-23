@@ -176,7 +176,7 @@ const ToCombineDataList = ({ handleDialogClose, isDialogOpen, dataList, totalCom
         })
             .then((res) => res.json())
             .then((data) => {
-                if (data.isExist) {
+                if (!data.isExist) {
                     fetch(invoCombine, {
                         method: 'POST',
                         body: JSON.stringify(billList)

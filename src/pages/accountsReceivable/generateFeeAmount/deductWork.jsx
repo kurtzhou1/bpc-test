@@ -117,8 +117,8 @@ const ToGenerateDataList = ({ isDialogOpen, handleDialogClose, billDetailInfo, b
             data.SubmarineCable +
             '&WorkTitle=' +
             data.WorkTitle +
-            '&BillMilestone=' +
-            data.BillMilestone +
+            // '&BillMilestone=' +
+            // data.BillMilestone +
             '&PartyName=' +
             data.PartyName;
         fetch(tmpQuery, { method: 'GET' })
