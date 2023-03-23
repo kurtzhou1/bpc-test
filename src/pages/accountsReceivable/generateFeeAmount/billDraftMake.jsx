@@ -12,7 +12,11 @@ import {
     RadioGroup,
     FormControlLabel,
     Radio,
-    TableCell
+    TableCell,
+    Paper,
+    InputLabel,
+    Select,
+    MenuItem
 } from '@mui/material';
 
 // day
@@ -34,7 +38,6 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import { tableCellClasses } from '@mui/material/TableCell';
-import Paper from '@mui/material/Paper';
 import { styled } from '@mui/material/styles';
 
 // print
@@ -54,21 +57,22 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
         fontFamily: 'DFKai-sb',
         fontSize: '8px',
         background: '#fff',
-        border: 'black 1px solid'
+        border: 'black 1px solid !important'
     }
 }));
 
 const BillDraftMake = ({ isDialogOpen, handleDialogClose, billInfo }) => {
+    const [contact, setContact] = useState('');
+
     const [cblistInfo, setCbListInfo] = useState(billInfo);
     const [isDefault, setIsDefault] = useState(true);
     const [isEdit, setIsEdit] = useState(false);
-    const [subject1, setSubject1] = useState(''); //主旨1
+    const [subject1, setSubject1] = useState('TPE Cable Network Upgrade#12 Central Billing Party'); //主旨1
     const [subject2, setSubject2] = useState(''); //主旨2
     const [subject3, setSubject3] = useState(''); //主旨3
     const [number, setNumber] = useState(''); //連絡電話
     const [date, setDate] = useState(''); //發文日期
     const [receipient, setRecipient] = useState(''); //受文者
-    const [contact, setContact] = useState(''); //聯絡人
     const [tel, setTel] = useState(''); //連絡電話
     const [email, setEmail] = useState(''); //聯絡信箱
 
@@ -96,6 +100,24 @@ const BillDraftMake = ({ isDialogOpen, handleDialogClose, billInfo }) => {
         window.print();
     };
 
+    const styles = {
+        paperContainer: {
+            // backgroundImage: `url(${'https://itbrief.com.au/uploads/story/2021/08/19/GettyImages-1219077605.webp'})`,
+            backgroundImage: `url(${'https://imarketing.iwant-in.net/wp-content/uploads/2020/10/2020_07_12_P1_123RF.jpg'})`,
+            backgroundSize: 'cover',
+            // color: 'white',
+            color: '#000079',
+            width: '10rem',
+            height: '5rem',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            fontSize: '3rem'
+        }
+    };
+
+    console.log('subject1=>>', subject1.length);
+
     return (
         <Dialog onClose={handleDialogClose} maxWidth="lg" fullWidth open={isDialogOpen}>
             <BootstrapDialogTitle id="customized-dialog-title" onClose={handleDialogClose} className="no-print">
@@ -104,23 +126,21 @@ const BillDraftMake = ({ isDialogOpen, handleDialogClose, billInfo }) => {
             <DialogContent dividers className="no-print">
                 <Grid container spacing={1} className="no-print">
                     <Grid item xs={7} sm={7} md={7} lg={7}>
-                        <MainCard title="發文基本資訊" sx={{ width: '100%' }}>
+                        <MainCard title="聯絡窗口及會員資訊" sx={{ width: '100%' }}>
                             <Grid container spacing={1}>
                                 <Grid item xs={2} sm={2} md={2} lg={2} display="flex" justifyContent="center" alignItems="center">
                                     <Typography variant="h5" sx={{ fontSize: { lg: '0.5rem', xl: '0.88rem' } }}>
-                                        發文字號：
+                                        聯絡窗口：
                                     </Typography>
                                 </Grid>
                                 <Grid item xs={2} sm={2} md={2} lg={2}>
                                     <FormControl fullWidth size="small">
-                                        <TextField
-                                            fullWidth
-                                            variant="outlined"
-                                            value={number}
-                                            size="small"
-                                            label="填寫CB種類"
-                                            onChange={(e) => setNumber(e.target.value)}
-                                        />
+                                        <InputLabel id="demo-simple-select-label">選擇聯絡窗口</InputLabel>
+                                        <Select value={contact} label="會員" onChange={(e) => setContact(e.target.value)}>
+                                            <MenuItem value={'張OO'}>張OO</MenuItem>
+                                            <MenuItem value={'林OO'}>林OO</MenuItem>
+                                            <MenuItem value={'陳XX'}>陳XX</MenuItem>
+                                        </Select>
                                     </FormControl>
                                 </Grid>
                                 <Grid item xs={2} sm={2} md={2} lg={2} display="flex" justifyContent="center" alignItems="center">
@@ -205,90 +225,36 @@ const BillDraftMake = ({ isDialogOpen, handleDialogClose, billInfo }) => {
                                     </Typography>
                                 </Grid>
                                 <Grid item xs={12} sm={12} md={12} lg={12} display="flex" justifyContent="center">
-                                    <RadioGroup
-                                        row
-                                        // value={isUpload}
-                                        aria-labelledby="demo-radio-buttons-group-label"
-                                        name="radio-buttons-group"
-                                        onChange={(e) => setIsDefault(e.target.value)}
+                                    <Grid
+                                        container
+                                        spacing={2}
+                                        // sx={{ display: 'flex', flexFlow: 'column', alignItems: 'center', justifyContent: 'center' }}
                                     >
-                                        <Grid
-                                            container
-                                            spacing={2}
-                                            // sx={{ display: 'flex', flexFlow: 'column', alignItems: 'center', justifyContent: 'center' }}
-                                        >
-                                            <Grid item xs={12} sm={12} md={12} lg={12} display="flex">
-                                                {/* <Box sx={{ display: 'flex', flexFlow: 'column', alignItems: 'center', width: '100%' }}> */}
-                                                <FormControlLabel
-                                                    value={true}
-                                                    control={<Radio sx={{ '& .MuiSvgIcon-root': { fontSize: { lg: 14, xl: 20 } } }} />}
-                                                />
-                                                <Typography
-                                                    variant="h5"
-                                                    // onClick={() => {
-                                                    //     setIsUpload(false);
-                                                    // }}
-                                                    sx={{
-                                                        fontSize: { lg: '0.5rem', xl: '0.88rem' },
-                                                        ml: { lg: '0.5rem', xl: '1.5rem' },
-                                                        display: 'flex',
-                                                        // justifyContent: 'center',
-                                                        alignItems: 'center',
-                                                        flexWrap: 'wrap'
-                                                    }}
-                                                >
-                                                    請電匯CIENA JP以支付
-                                                    <TextField
-                                                        variant="outlined"
-                                                        value={subject1}
-                                                        size="small"
-                                                        label="支付項目"
-                                                        onChange={(e) => setSubject1(e.target.value)}
-                                                        sx={{
-                                                            fontSize: { lg: '0.5rem', xl: '0.88rem' },
-                                                            ml: { lg: '0.5rem', xl: '1.5rem' },
-                                                            width: '20%'
-                                                        }}
-                                                    />
-                                                    ，淨額為美金元
-                                                    <TextField
-                                                        variant="outlined"
-                                                        value={subject2}
-                                                        size="small"
-                                                        label="填寫中文金額"
-                                                        onChange={(e) => setSubject2(e.target.value)}
-                                                        sx={{
-                                                            fontSize: { lg: '0.5rem', xl: '0.88rem' },
-                                                            ml: { lg: '0.5rem', xl: '1.5rem' },
-                                                            width: '20%'
-                                                        }}
-                                                        // onChange={(e) => setLBRatio(e.target.value)}
-                                                    />
-                                                    (US$48,576.00)，請查照
-                                                </Typography>
-                                                {/* </Box> */}
-                                            </Grid>
-                                            <Grid item xs={12} sm={12} md={12} lg={12} display="flex">
-                                                <FormControlLabel
-                                                    value={false}
-                                                    control={<Radio sx={{ '& .MuiSvgIcon-root': { fontSize: { lg: 14, xl: 20 } } }} />}
-                                                />
-                                                <TextField
-                                                    fullWidth
-                                                    variant="outlined"
-                                                    value={subject3}
-                                                    size="small"
-                                                    label="自行填寫主旨"
-                                                    onChange={(e) => setSubject3(e.target.value)}
-                                                />
-                                                {/* </Box> */}
-                                            </Grid>
+                                        <Grid item xs={12} sm={12} md={12} lg={12} display="flex">
+                                            <TextField
+                                                fullWidth
+                                                variant="outlined"
+                                                value={subject1}
+                                                size="small"
+                                                label="自行填寫主旨"
+                                                onChange={(e) => setSubject1(e.target.value)}
+                                            />
                                         </Grid>
-                                    </RadioGroup>
+                                        <Grid item xs={12} sm={12} md={12} lg={12} display="flex">
+                                            <TextField
+                                                fullWidth
+                                                variant="outlined"
+                                                value={subject2}
+                                                size="small"
+                                                label="自行填寫主旨"
+                                                onChange={(e) => setSubject2(e.target.value)}
+                                            />
+                                        </Grid>
+                                    </Grid>
                                 </Grid>
                             </Grid>
                         </MainCard>
-                        <MainCard title="說明" sx={{ width: '100%' }}>
+                        <MainCard title="聯盟金融帳戶資訊" sx={{ width: '100%' }}>
                             <Grid container spacing={1}>
                                 <Grid item xs={2} sm={2} md={2} lg={2} display="flex" justifyContent="center" alignItems="center">
                                     <Typography variant="h5" sx={{ fontSize: { lg: '0.5rem', xl: '0.88rem' } }}>
@@ -451,10 +417,9 @@ const BillDraftMake = ({ isDialogOpen, handleDialogClose, billInfo }) => {
                         <Typography sx={{ fontFamily: 'DFKai-sb', fontWeight: 'bold' }}>
                             <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
                                 <Box sx={{ m: 1 }}>
-                                    <Box sx={{ fontSize: '12px', textAlign: 'right' }}>No. 31, Ai-kuo&nbsp;East&nbsp;Road</Box>
-                                    <Box sx={{ fontSize: '12px', textAlign: 'right' }}>Taipei 106 Taiwan</Box>
-                                    <Box sx={{ fontSize: '12px', textAlign: 'right' }}>{`Tel：${email}`}</Box>
-                                    <Box sx={{ fontSize: '12px', textAlign: 'right' }}>{`Fax：${email}`}</Box>
+                                    <Box sx={{ fontSize: '12px', textAlign: 'left' }}>
+                                        <Paper style={styles.paperContainer} />
+                                    </Box>
                                 </Box>
                                 <Box sx={{ m: 1 }}>
                                     <Box sx={{ fontSize: '12px', textAlign: 'right' }}>No. 31, Ai-kuo&nbsp;East&nbsp;Road</Box>
@@ -463,8 +428,29 @@ const BillDraftMake = ({ isDialogOpen, handleDialogClose, billInfo }) => {
                                     <Box sx={{ fontSize: '12px', textAlign: 'right' }}>{`Fax：${email}`}</Box>
                                 </Box>
                             </Box>
-                            <Box sx={{ fontSize: '20px', mt: 1, mb: 1, display: 'flex', flexWrap: 'nowrap' }}>
-                                TPE Cable Network Upgrade#12 Central Billing Party
+                            <Box
+                                sx={{
+                                    fontSize: subject1.length <= 50 ? '18px' : '15px',
+                                    mt: 1,
+                                    // display: 'flex',
+                                    // flexWrap: 'nowrap',
+                                    textAlign: 'center',
+                                    whiteSpace: 'nowrap'
+                                }}
+                            >
+                                {subject1}
+                            </Box>
+                            <Box
+                                sx={{
+                                    fontSize: '18px',
+                                    mt: 1,
+                                    // display: 'flex',
+                                    // flexWrap: 'nowrap',
+                                    textAlign: 'center',
+                                    whiteSpace: 'nowrap'
+                                }}
+                            >
+                                {subject2}
                             </Box>
                             <Box sx={{ fontSize: '24px', m: 1, textAlign: 'center' }}>Pro-forma Invoice</Box>
                             <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>

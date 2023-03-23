@@ -309,7 +309,6 @@ const ToCombineDataList = ({ handleDialogClose, isDialogOpen, dataList, totalCom
                                             <StyledTableCell align="center">發票代碼</StyledTableCell>
                                             <StyledTableCell align="center">供應商</StyledTableCell>
                                             <StyledTableCell align="center">海纜名稱</StyledTableCell>
-                                            <StyledTableCell align="center">合約種類</StyledTableCell>
                                             <StyledTableCell align="center">發票日期</StyledTableCell>
                                             <StyledTableCell align="center">總金額</StyledTableCell>
                                         </TableRow>
@@ -322,7 +321,6 @@ const ToCombineDataList = ({ handleDialogClose, isDialogOpen, dataList, totalCom
                                                     <TableCell align="center">{row.InvoiceNo}</TableCell>
                                                     <TableCell align="center">{row.SupplierName}</TableCell>
                                                     <TableCell align="center">{row.SubmarineCable}</TableCell>
-                                                    <TableCell align="center">{row.ContractType}</TableCell>
                                                     <TableCell align="center">{dayjs(row.IssueDate).format('YYYY/MM/DD')}</TableCell>
                                                     <TableCell align="center">{`$${handleNumber(row.FeeAmount)}`}</TableCell>
                                                 </TableRow>
