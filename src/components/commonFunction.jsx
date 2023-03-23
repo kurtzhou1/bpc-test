@@ -4,6 +4,7 @@ import CloseIcon from '@mui/icons-material/Close';
 
 // 數字格式化
 export const handleNumber = (value) => {
+    console.log('value=>>', value);
     // if ((Number(value) === value && value % 1 === 0) || (Number(value) === value && value % 1 !== 0)) {
     const tmpValue = value.toString().replaceAll(',', '');
     const parts = tmpValue.toString().split('.');

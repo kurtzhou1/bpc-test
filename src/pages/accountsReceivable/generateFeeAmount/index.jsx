@@ -19,6 +19,359 @@ import ReceivableQuery from './receivableQuery';
 import { useDispatch } from 'react-redux';
 import { setMessageStateOpen } from 'store/reducers/dropdown';
 
+// 以下都無用的
+const fakeData0 = [
+    {
+        InvoiceMaster: {
+            InvoiceNo: 'DT0170168-11',
+            WKMasterID: 1,
+            PartyName: 'CHT',
+            SubmarineCable: 'SJC2',
+            ContractType: 'SC',
+            DueDate: '2022-11-08T12:00:00',
+            IsPro: false,
+            InvMasterID: 9,
+            SupplierName: 'NEC',
+            WorkTitle: 'Construction',
+            IssueDate: '2022-09-09T12:00:00',
+            Status: 'TO_MERGE'
+        },
+        InvoiceDetail: [
+            {
+                WKDetailID: 1,
+                InvDetailID: 33,
+                PartyName: 'CHT',
+                SupplierName: 'NEC',
+                WorkTitle: 'Construction',
+                FeeItem: 'BM12 Branching Units (100%)-Service',
+                LBRatio: 7.1428571429,
+                Difference: 0,
+                InvMasterID: 9,
+                WKMasterID: 1,
+                InvoiceNo: 'DT0170168-1111111',
+                SubmarineCable: 'SJC2',
+                BillMilestone: 'BM12',
+                FeeAmountPre: 1487661.54,
+                FeeAmountPost: 106261.54
+            }
+        ]
+    },
+    {
+        InvoiceMaster: {
+            InvoiceNo: 'DT0170168-22',
+            WKMasterID: 1,
+            PartyName: 'CHT',
+            SubmarineCable: 'SJC2',
+            ContractType: 'SC',
+            DueDate: '2022-11-08T12:00:00',
+            IsPro: false,
+            InvMasterID: 9,
+            SupplierName: 'NEC',
+            WorkTitle: 'Construction',
+            IssueDate: '2022-09-09T12:00:00',
+            Status: 'TO_MERGE'
+        },
+        InvoiceDetail: [
+            {
+                WKDetailID: 1,
+                InvDetailID: 33,
+                PartyName: 'CHT',
+                SupplierName: 'NEC',
+                WorkTitle: 'Construction',
+                FeeItem: 'BM12 Branching Units (100%)-Service',
+                LBRatio: 7.1428571429,
+                Difference: 0,
+                InvMasterID: 9,
+                WKMasterID: 1,
+                InvoiceNo: 'DT0170168-222222',
+                SubmarineCable: 'SJC2',
+                BillMilestone: 'BM12',
+                FeeAmountPre: 1487661.54,
+                FeeAmountPost: 106261.54
+            }
+        ]
+    }
+];
+
+const fakeData1 = [
+    {
+        BillMaster: {
+            BillMasterID: 1,
+            BillingNo: 'string',
+            PONo: 'string',
+            SupplierName: 'string',
+            SubmarineCable: 'string',
+            WorkTitle: 'string',
+            PartyName: 'string',
+            IssueDate: '2023-03-14 00:00:00',
+            DueDate: '2023-03-20 00:00:00',
+            FeeAmountSum: 123.45,
+            ReceivedAmountSum: 123.45,
+            IsPro: 1,
+            Status: 'string'
+        },
+        BillDetail: [
+            {
+                BillDetailID: 133333333,
+                BillMasterID: 2,
+                WKMasterID: 3,
+                InvDetailID: 4,
+                PartyName: 'string',
+                SupplierName: 'string',
+                SubmarineCable: 'string',
+                WorkTitle: 'string',
+                BillMilestone: 'string',
+                FeeItem: 'string',
+                OrgFeeAmount: 123.45,
+                DedAmount: 13.45,
+                FeeAmount: 123.45,
+                ReceivedAmount: 123.45,
+                OverAmount: 123.45,
+                ShortAmount: 123.45,
+                BankFees: 123.45,
+                ToCBAmount: 123.45,
+                ShortOverReason: 'string',
+                WriteOffDate: '2023-03-14 00:00:00',
+                ReceiveDate: '2023-03-14 00:00:00',
+                Note: 'string',
+                Status: 'string'
+            },
+            {
+                BillDetailID: 23333333,
+                BillMasterID: 3,
+                WKMasterID: 3,
+                InvDetailID: 4,
+                PartyName: 'string',
+                SupplierName: 'string',
+                SubmarineCable: 'string',
+                WorkTitle: 'string',
+                BillMilestone: 'string',
+                FeeItem: 'string',
+                OrgFeeAmount: 123.45,
+                DedAmount: 123.45,
+                FeeAmount: 123.45,
+                ReceivedAmount: 123.45,
+                OverAmount: 123.45,
+                ShortAmount: 123.45,
+                BankFees: 123.45,
+                ToCBAmount: 123.45,
+                ShortOverReason: 'string',
+                WriteOffDate: '2023-03-14 00:00:00',
+                ReceiveDate: '2023-03-14 00:00:00',
+                Note: 'string',
+                Status: 'string'
+            }
+        ]
+    },
+    {
+        BillMaster: {
+            BillMasterID: 2,
+            BillingNo: 'string',
+            PONo: 'string',
+            SupplierName: 'string',
+            SubmarineCable: 'string',
+            WorkTitle: 'string',
+            PartyName: 'string',
+            IssueDate: '2023-03-14 00:00:00',
+            DueDate: '2023-03-20 00:00:00',
+            FeeAmountSum: 123.45,
+            ReceivedAmountSum: 123.45,
+            IsPro: 1,
+            Status: 'string'
+        },
+        BillDetail: [
+            {
+                BillDetailID: 111,
+                BillMasterID: 2,
+                WKMasterID: 3,
+                InvDetailID: 4,
+                PartyName: 'string',
+                SupplierName: 'string',
+                SubmarineCable: 'string',
+                WorkTitle: 'string',
+                BillMilestone: 'string',
+                FeeItem: 'string',
+                OrgFeeAmount: 123.45,
+                DedAmount: 123.45,
+                FeeAmount: 123.45,
+                ReceivedAmount: 123.45,
+                OverAmount: 123.45,
+                ShortAmount: 123.45,
+                BankFees: 123.45,
+                ToCBAmount: 123.45,
+                ShortOverReason: 'string',
+                WriteOffDate: '2023-03-14 00:00:00',
+                ReceiveDate: '2023-03-14 00:00:00',
+                Note: 'string',
+                Status: 'string'
+            },
+            {
+                BillDetailID: 222,
+                BillMasterID: 2,
+                WKMasterID: 3,
+                InvDetailID: 4,
+                PartyName: 'string',
+                SupplierName: 'string',
+                SubmarineCable: 'string',
+                WorkTitle: 'string',
+                BillMilestone: 'string',
+                FeeItem: 'string',
+                OrgFeeAmount: 123.45,
+                DedAmount: 123.45,
+                FeeAmount: 123.45,
+                ReceivedAmount: 123.45,
+                OverAmount: 123.45,
+                ShortAmount: 123.45,
+                BankFees: 123.45,
+                ToCBAmount: 123.45,
+                ShortOverReason: 'string',
+                WriteOffDate: '2023-03-14 00:00:00',
+                ReceiveDate: '2023-03-14 00:00:00',
+                Note: 'string',
+                Status: 'string'
+            }
+        ]
+    }
+];
+
+const fakeData2 = [
+    {
+        BillMaster: {
+            BillMasterID: 1,
+            BillingNo: 'string',
+            PartyName: 'string',
+            SubmarineCable: 'string',
+            WorkTitle: 'string',
+            IssueDate: '2023-01-01 00:00:00',
+            DueDate: '2023-01-01 00:00:00',
+            FeeAmountSum: 123.45,
+            ReceivedAmountSum: 123.45,
+            IsPro: 0,
+            Status: 'string'
+        },
+        data: [
+            {
+                BillDetail: {
+                    BillDetailID: 1,
+                    BillMasterID: 1,
+                    WKMasterID: 1,
+                    InvDetailID: 1,
+                    PartyName: 'string',
+                    SupplierName: 'string',
+                    SubmarineCable: 'string',
+                    WorkTitle: 'string',
+                    BillMilestone: 'string',
+                    FeeItem: 'string',
+                    OrgFeeAmount: 123.45,
+                    DedAmount: 123.45,
+                    FeeAmount: 123.45,
+                    ReceivedAmount: 123.45,
+                    OverAmount: 123.45,
+                    ShortAmount: 123.45,
+                    BankFees: 123.45,
+                    ShortOverReason: 'string',
+                    WriteOffDate: '2023-03-01 00:00:00',
+                    ReceiveDate: '2023-03-01 00:00:00',
+                    Note: 'string',
+                    ToCBAmount: 123.45,
+                    Status: 'string'
+                },
+                CB: [
+                    {
+                        CBID: 1,
+                        CBType: 'string',
+                        BillingNo: 'string',
+                        BLDetailID: 1,
+                        SubmarineCable: 'string',
+                        WorkTitle: 'string',
+                        BillMilestone: 'string',
+                        InvoiceNo: 'string',
+                        CurrAmount: 123.45,
+                        PartyName: 'string',
+                        CreateDate: '2023-04-01 00:00:00',
+                        LastUpdDate: '2023-04-01 00:00:00',
+                        Note: 'string'
+                    },
+                    {
+                        CBID: 2,
+                        CBType: 'string',
+                        BillingNo: 'string',
+                        BLDetailID: 1,
+                        SubmarineCable: 'string',
+                        WorkTitle: 'string',
+                        BillMilestone: 'string',
+                        InvoiceNo: 'string',
+                        CurrAmount: 123.45,
+                        PartyName: 'string',
+                        CreateDate: '2023-04-01 00:00:00',
+                        LastUpdDate: '2023-04-01 00:00:00',
+                        Note: 'string'
+                    }
+                ]
+            },
+            {
+                BillDetail: {
+                    BillDetailID: 2,
+                    BillMasterID: 2,
+                    WKMasterID: 2,
+                    InvDetailID: 2,
+                    PartyName: 'string',
+                    SupplierName: 'string',
+                    SubmarineCable: 'string',
+                    WorkTitle: 'string',
+                    BillMilestone: 'string',
+                    FeeItem: 'string',
+                    OrgFeeAmount: 123.45,
+                    DedAmount: 123.45,
+                    FeeAmount: 123.45,
+                    ReceivedAmount: 123.45,
+                    OverAmount: 123.45,
+                    ShortAmount: 123.45,
+                    BankFees: 123.45,
+                    ShortOverReason: 'string',
+                    WriteOffDate: '2023-03-01 00:00:00',
+                    ReceiveDate: '2023-03-01 00:00:00',
+                    Note: 'string',
+                    ToCBAmount: 123.45,
+                    Status: 'string'
+                },
+                CB: [
+                    {
+                        CBID: 1,
+                        CBType: 'string',
+                        BillingNo: 'string',
+                        BLDetailID: 1,
+                        SubmarineCable: 'string',
+                        WorkTitle: 'string',
+                        BillMilestone: 'string',
+                        InvoiceNo: 'string',
+                        CurrAmount: 123.45,
+                        PartyName: 'string',
+                        CreateDate: '2023-04-01 00:00:00',
+                        LastUpdDate: '2023-04-01 00:00:00',
+                        Note: 'string'
+                    },
+                    {
+                        CBID: 2,
+                        CBType: 'string',
+                        BillingNo: 'string',
+                        BLDetailID: 1,
+                        SubmarineCable: 'string',
+                        WorkTitle: 'string',
+                        BillMilestone: 'string',
+                        InvoiceNo: 'string',
+                        CurrAmount: 123.45,
+                        PartyName: 'string',
+                        CreateDate: '2023-04-01 00:00:00',
+                        LastUpdDate: '2023-04-01 00:00:00',
+                        Note: 'string'
+                    }
+                ]
+            }
+        ]
+    }
+];
+
 const GenerateFeeAmount = () => {
     const [value, setValue] = useState(2);
     const [listInfo, setListInfo] = useState([]);
@@ -37,390 +390,11 @@ const GenerateFeeAmount = () => {
         };
     };
 
-    // 以下都無用的
-    const fakeData0 = [
-        {
-            InvoiceMaster: {
-                InvoiceNo: 'DT0170168-11',
-                WKMasterID: 1,
-                PartyName: 'CHT',
-                SubmarineCable: 'SJC2',
-                ContractType: 'SC',
-                DueDate: '2022-11-08T12:00:00',
-                IsPro: false,
-                InvMasterID: 9,
-                SupplierName: 'NEC',
-                WorkTitle: 'Construction',
-                IssueDate: '2022-09-09T12:00:00',
-                Status: 'TO_MERGE'
-            },
-            InvoiceDetail: [
-                {
-                    WKDetailID: 1,
-                    InvDetailID: 33,
-                    PartyName: 'CHT',
-                    SupplierName: 'NEC',
-                    WorkTitle: 'Construction',
-                    FeeItem: 'BM12 Branching Units (100%)-Service',
-                    LBRatio: 7.1428571429,
-                    Difference: 0,
-                    InvMasterID: 9,
-                    WKMasterID: 1,
-                    InvoiceNo: 'DT0170168-1111111',
-                    SubmarineCable: 'SJC2',
-                    BillMilestone: 'BM12',
-                    FeeAmountPre: 1487661.54,
-                    FeeAmountPost: 106261.54
-                }
-            ]
-        },
-        {
-            InvoiceMaster: {
-                InvoiceNo: 'DT0170168-22',
-                WKMasterID: 1,
-                PartyName: 'CHT',
-                SubmarineCable: 'SJC2',
-                ContractType: 'SC',
-                DueDate: '2022-11-08T12:00:00',
-                IsPro: false,
-                InvMasterID: 9,
-                SupplierName: 'NEC',
-                WorkTitle: 'Construction',
-                IssueDate: '2022-09-09T12:00:00',
-                Status: 'TO_MERGE'
-            },
-            InvoiceDetail: [
-                {
-                    WKDetailID: 1,
-                    InvDetailID: 33,
-                    PartyName: 'CHT',
-                    SupplierName: 'NEC',
-                    WorkTitle: 'Construction',
-                    FeeItem: 'BM12 Branching Units (100%)-Service',
-                    LBRatio: 7.1428571429,
-                    Difference: 0,
-                    InvMasterID: 9,
-                    WKMasterID: 1,
-                    InvoiceNo: 'DT0170168-222222',
-                    SubmarineCable: 'SJC2',
-                    BillMilestone: 'BM12',
-                    FeeAmountPre: 1487661.54,
-                    FeeAmountPost: 106261.54
-                }
-            ]
-        }
-    ];
-
-    const fakeData1 = [
-        {
-            BillMaster: {
-                BillMasterID: 1,
-                BillingNo: 'string',
-                PONo: 'string',
-                SupplierName: 'string',
-                SubmarineCable: 'string',
-                WorkTitle: 'string',
-                PartyName: 'string',
-                IssueDate: '2023-03-14 00:00:00',
-                DueDate: '2023-03-20 00:00:00',
-                FeeAmountSum: 123.45,
-                ReceivedAmountSum: 123.45,
-                IsPro: 1,
-                Status: 'string'
-            },
-            BillDetail: [
-                {
-                    BillDetailID: 133333333,
-                    BillMasterID: 2,
-                    WKMasterID: 3,
-                    InvDetailID: 4,
-                    PartyName: 'string',
-                    SupplierName: 'string',
-                    SubmarineCable: 'string',
-                    WorkTitle: 'string',
-                    BillMilestone: 'string',
-                    FeeItem: 'string',
-                    OrgFeeAmount: 123.45,
-                    DedAmount: 13.45,
-                    FeeAmount: 123.45,
-                    ReceivedAmount: 123.45,
-                    OverAmount: 123.45,
-                    ShortAmount: 123.45,
-                    BankFees: 123.45,
-                    ToCBAmount: 123.45,
-                    ShortOverReason: 'string',
-                    WriteOffDate: '2023-03-14 00:00:00',
-                    ReceiveDate: '2023-03-14 00:00:00',
-                    Note: 'string',
-                    Status: 'string'
-                },
-                {
-                    BillDetailID: 23333333,
-                    BillMasterID: 3,
-                    WKMasterID: 3,
-                    InvDetailID: 4,
-                    PartyName: 'string',
-                    SupplierName: 'string',
-                    SubmarineCable: 'string',
-                    WorkTitle: 'string',
-                    BillMilestone: 'string',
-                    FeeItem: 'string',
-                    OrgFeeAmount: 123.45,
-                    DedAmount: 123.45,
-                    FeeAmount: 123.45,
-                    ReceivedAmount: 123.45,
-                    OverAmount: 123.45,
-                    ShortAmount: 123.45,
-                    BankFees: 123.45,
-                    ToCBAmount: 123.45,
-                    ShortOverReason: 'string',
-                    WriteOffDate: '2023-03-14 00:00:00',
-                    ReceiveDate: '2023-03-14 00:00:00',
-                    Note: 'string',
-                    Status: 'string'
-                }
-            ]
-        },
-        {
-            BillMaster: {
-                BillMasterID: 2,
-                BillingNo: 'string',
-                PONo: 'string',
-                SupplierName: 'string',
-                SubmarineCable: 'string',
-                WorkTitle: 'string',
-                PartyName: 'string',
-                IssueDate: '2023-03-14 00:00:00',
-                DueDate: '2023-03-20 00:00:00',
-                FeeAmountSum: 123.45,
-                ReceivedAmountSum: 123.45,
-                IsPro: 1,
-                Status: 'string'
-            },
-            BillDetail: [
-                {
-                    BillDetailID: 111,
-                    BillMasterID: 2,
-                    WKMasterID: 3,
-                    InvDetailID: 4,
-                    PartyName: 'string',
-                    SupplierName: 'string',
-                    SubmarineCable: 'string',
-                    WorkTitle: 'string',
-                    BillMilestone: 'string',
-                    FeeItem: 'string',
-                    OrgFeeAmount: 123.45,
-                    DedAmount: 123.45,
-                    FeeAmount: 123.45,
-                    ReceivedAmount: 123.45,
-                    OverAmount: 123.45,
-                    ShortAmount: 123.45,
-                    BankFees: 123.45,
-                    ToCBAmount: 123.45,
-                    ShortOverReason: 'string',
-                    WriteOffDate: '2023-03-14 00:00:00',
-                    ReceiveDate: '2023-03-14 00:00:00',
-                    Note: 'string',
-                    Status: 'string'
-                },
-                {
-                    BillDetailID: 222,
-                    BillMasterID: 2,
-                    WKMasterID: 3,
-                    InvDetailID: 4,
-                    PartyName: 'string',
-                    SupplierName: 'string',
-                    SubmarineCable: 'string',
-                    WorkTitle: 'string',
-                    BillMilestone: 'string',
-                    FeeItem: 'string',
-                    OrgFeeAmount: 123.45,
-                    DedAmount: 123.45,
-                    FeeAmount: 123.45,
-                    ReceivedAmount: 123.45,
-                    OverAmount: 123.45,
-                    ShortAmount: 123.45,
-                    BankFees: 123.45,
-                    ToCBAmount: 123.45,
-                    ShortOverReason: 'string',
-                    WriteOffDate: '2023-03-14 00:00:00',
-                    ReceiveDate: '2023-03-14 00:00:00',
-                    Note: 'string',
-                    Status: 'string'
-                }
-            ]
-        }
-    ];
-
-    const fakeData2 = [
-        {
-            BillMaster: {
-                BillMasterID: 1,
-                BillingNo: 'string',
-                PartyName: 'string',
-                SubmarineCable: 'string',
-                WorkTitle: 'string',
-                IssueDate: '2023-01-01 00:00:00',
-                DueDate: '2023-01-01 00:00:00',
-                FeeAmountSum: 123.45,
-                ReceivedAmountSum: 123.45,
-                IsPro: 0,
-                Status: 'string'
-            },
-            data: [
-                {
-                    BillDetail: {
-                        BillDetailID: 1,
-                        BillMasterID: 1,
-                        WKMasterID: 1,
-                        InvDetailID: 1,
-                        PartyName: 'string',
-                        SupplierName: 'string',
-                        SubmarineCable: 'string',
-                        WorkTitle: 'string',
-                        BillMilestone: 'string',
-                        FeeItem: 'string',
-                        OrgFeeAmount: 123.45,
-                        DedAmount: 123.45,
-                        FeeAmount: 123.45,
-                        ReceivedAmount: 123.45,
-                        OverAmount: 123.45,
-                        ShortAmount: 123.45,
-                        BankFees: 123.45,
-                        ShortOverReason: 'string',
-                        WriteOffDate: '2023-03-01 00:00:00',
-                        ReceiveDate: '2023-03-01 00:00:00',
-                        Note: 'string',
-                        ToCBAmount: 123.45,
-                        Status: 'string'
-                    },
-                    CB: [
-                        {
-                            CBID: 1,
-                            CBType: 'string',
-                            BillingNo: 'string',
-                            BLDetailID: 1,
-                            SubmarineCable: 'string',
-                            WorkTitle: 'string',
-                            BillMilestone: 'string',
-                            InvoiceNo: 'string',
-                            CurrAmount: 123.45,
-                            PartyName: 'string',
-                            CreateDate: '2023-04-01 00:00:00',
-                            LastUpdDate: '2023-04-01 00:00:00',
-                            Note: 'string'
-                        },
-                        {
-                            CBID: 2,
-                            CBType: 'string',
-                            BillingNo: 'string',
-                            BLDetailID: 1,
-                            SubmarineCable: 'string',
-                            WorkTitle: 'string',
-                            BillMilestone: 'string',
-                            InvoiceNo: 'string',
-                            CurrAmount: 123.45,
-                            PartyName: 'string',
-                            CreateDate: '2023-04-01 00:00:00',
-                            LastUpdDate: '2023-04-01 00:00:00',
-                            Note: 'string'
-                        }
-                    ]
-                },
-                {
-                    BillDetail: {
-                        BillDetailID: 2,
-                        BillMasterID: 2,
-                        WKMasterID: 2,
-                        InvDetailID: 2,
-                        PartyName: 'string',
-                        SupplierName: 'string',
-                        SubmarineCable: 'string',
-                        WorkTitle: 'string',
-                        BillMilestone: 'string',
-                        FeeItem: 'string',
-                        OrgFeeAmount: 123.45,
-                        DedAmount: 123.45,
-                        FeeAmount: 123.45,
-                        ReceivedAmount: 123.45,
-                        OverAmount: 123.45,
-                        ShortAmount: 123.45,
-                        BankFees: 123.45,
-                        ShortOverReason: 'string',
-                        WriteOffDate: '2023-03-01 00:00:00',
-                        ReceiveDate: '2023-03-01 00:00:00',
-                        Note: 'string',
-                        ToCBAmount: 123.45,
-                        Status: 'string'
-                    },
-                    CB: [
-                        {
-                            CBID: 1,
-                            CBType: 'string',
-                            BillingNo: 'string',
-                            BLDetailID: 1,
-                            SubmarineCable: 'string',
-                            WorkTitle: 'string',
-                            BillMilestone: 'string',
-                            InvoiceNo: 'string',
-                            CurrAmount: 123.45,
-                            PartyName: 'string',
-                            CreateDate: '2023-04-01 00:00:00',
-                            LastUpdDate: '2023-04-01 00:00:00',
-                            Note: 'string'
-                        },
-                        {
-                            CBID: 2,
-                            CBType: 'string',
-                            BillingNo: 'string',
-                            BLDetailID: 1,
-                            SubmarineCable: 'string',
-                            WorkTitle: 'string',
-                            BillMilestone: 'string',
-                            InvoiceNo: 'string',
-                            CurrAmount: 123.45,
-                            PartyName: 'string',
-                            CreateDate: '2023-04-01 00:00:00',
-                            LastUpdDate: '2023-04-01 00:00:00',
-                            Note: 'string'
-                        }
-                    ]
-                }
-            ]
-        }
-    ];
-
     const [isDialogOpen, setIsDialogOpen] = useState(false);
-
-    const [billMilestone, setBillMilestone] = useState(''); //記帳段號
-    const [partyName, setPartyName] = useState([]); //會員名稱
-    const [lBRatio, setLBRatio] = useState(''); //攤分比例
-    const [editItem, setEditItem] = useState(NaN);
-    const [modifyNote, setModifyNote] = useState('');
     const totalCombineAmount = useRef(0); //勾選合併帳單總金額
-
     const handleDialogClose = () => {
         setIsDialogOpen(false);
     };
-
-    const itemDetailInitial = () => {
-        setBillMilestone('');
-        setPartyName([]);
-        setLBRatio('');
-        setModifyNote('');
-    };
-
-    //編輯
-    const editlistInfoItem = () => {
-        let tmpArray = listInfo[editItem];
-        if (tmpArray) {
-            setBillMilestone(tmpArray?.billMilestone);
-            partyName.current = tmpArray?.partyName;
-            setLBRatio(tmpArray?.lBRatio);
-            setModifyNote(tmpArray?.modifyNote);
-        }
-    };
-
     const handleDialogOpen = () => {
         if (totalCombineAmount.current > 0) {
             setIsDialogOpen(true); //打開的時候才會觸發合併API
@@ -428,14 +402,6 @@ const GenerateFeeAmount = () => {
             dispatch(setMessageStateOpen({ messageStateOpen: { isOpen: true, severity: 'error', message: '請至少勾選一筆發票項目' } }));
         }
     };
-
-    useEffect(() => {
-        itemDetailInitial();
-        if (editItem >= 0) {
-            editlistInfoItem();
-            setIsDialogOpen(true);
-        }
-    }, [editItem]);
 
     useEffect(() => {
         if (listInfo && listInfo.length) {

@@ -163,7 +163,6 @@ const GeneratedDataList = ({ dataList }) => {
                                             >
                                                 簽核
                                             </Button>
-
                                             <Button
                                                 color="warning"
                                                 size="small"

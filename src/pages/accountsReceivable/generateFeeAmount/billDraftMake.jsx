@@ -40,6 +40,24 @@ import { styled } from '@mui/material/styles';
 // print
 import './styles.css';
 
+const StyledTableCell = styled(TableCell)(({ theme }) => ({
+    [`&.${tableCellClasses.head}`]: {
+        // color: theme.palette.common.black,
+        padding: '0.1rem',
+        fontFamily: 'DFKai-sb',
+        fontSize: '8px',
+        background: '#fff',
+        border: 'black 1px solid'
+    },
+    [`&.${tableCellClasses.body}`]: {
+        padding: '0.1rem',
+        fontFamily: 'DFKai-sb',
+        fontSize: '8px',
+        background: '#fff',
+        border: 'black 1px solid'
+    }
+}));
+
 const BillDraftMake = ({ isDialogOpen, handleDialogClose, billInfo }) => {
     const [cblistInfo, setCbListInfo] = useState(billInfo);
     const [isDefault, setIsDefault] = useState(true);
@@ -77,20 +95,6 @@ const BillDraftMake = ({ isDialogOpen, handleDialogClose, billInfo }) => {
         setIsOne(v);
         window.print();
     };
-
-    const StyledTableCell = styled(TableCell)(({ theme }) => ({
-        [`&.${tableCellClasses.head}`]: {
-            // backgroundColor: theme.palette.common.gary,
-            color: theme.palette.common.black,
-            paddingTop: '0.2rem',
-            paddingBottom: '0.2rem'
-        },
-        [`&.${tableCellClasses.body}`]: {
-            fontSize: 14,
-            paddingTop: '0.2rem',
-            paddingBottom: '0.2rem'
-        }
-    }));
 
     return (
         <Dialog onClose={handleDialogClose} maxWidth="lg" fullWidth open={isDialogOpen}>
@@ -484,6 +488,35 @@ const BillDraftMake = ({ isDialogOpen, handleDialogClose, billInfo }) => {
                             <Box sx={{ fontSize: '12px', m: 1, display: 'flex', justifyContent: 'space-between' }}>
                                 <Box>PO No 1234567890</Box>
                                 <Box>(Currencv:USD)</Box>
+                            </Box>
+                            <Box>
+                                <TableContainer component={Paper} sx={{ maxHeight: 350 }}>
+                                    <Table sx={{ minWidth: 300 }} stickyHeader aria-label="sticky table">
+                                        <TableHead>
+                                            <TableRow>
+                                                <StyledTableCell align="center">Supplier</StyledTableCell>
+                                                <StyledTableCell align="center">INV. No.</StyledTableCell>
+                                                <StyledTableCell align="center">Description</StyledTableCell>
+                                                <StyledTableCell align="center">Amount Billed</StyledTableCell>
+                                                <StyledTableCell align="center">Liability</StyledTableCell>
+                                                <StyledTableCell align="center">Your share</StyledTableCell>
+                                            </TableRow>
+                                        </TableHead>
+                                        <TableBody>
+                                            {/* {dataList?.map((row, id) => {
+                            return ( */}
+                                            <TableRow sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
+                                                <StyledTableCell align="center">1</StyledTableCell>
+                                                <StyledTableCell align="center">2</StyledTableCell>
+                                                <StyledTableCell align="center">3</StyledTableCell>
+                                                <StyledTableCell align="center">4</StyledTableCell>
+                                                <StyledTableCell align="center">5</StyledTableCell>
+                                                <StyledTableCell align="center">6</StyledTableCell>
+                                            </TableRow>
+                                            {/* ); })} */}
+                                        </TableBody>
+                                    </Table>
+                                </TableContainer>
                             </Box>
                             <Box sx={{ fontSize: '20px' }}>&nbsp;&nbsp;</Box>
                             <Box sx={{ fontSize: '20px' }}>&nbsp;&nbsp;</Box>

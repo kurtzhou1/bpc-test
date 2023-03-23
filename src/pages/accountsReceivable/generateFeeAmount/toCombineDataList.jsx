@@ -58,7 +58,9 @@ const fakeData = {
             SubmarineC: 'str',
             WorkTitle: 'O&M',
             BillMilestone: 'str',
+            SubmarineCable: 'str',
             FeeItem: 'str',
+            FeeAmount: 999,
             OrgFeeAmount: 19870131.8888,
             DedAmount: 19870131.8888,
             FeeAmount: 19870131.8888,
@@ -80,6 +82,7 @@ const fakeData = {
             SupplierName: 'str',
             SubmarineC: 'str',
             WorkTitle: 'O&M',
+            SubmarineCable: 'str',
             BillMilestone: 'str',
             FeeItem: 'str',
             OrgFeeAmount: 19870131.8888,
@@ -90,6 +93,7 @@ const fakeData = {
             ShortAmount: 19870131.8888,
             BankFees: 19870131.8888,
             ShortOverReason: 'str',
+            FeeAmount: 999,
             WriteOffDate: '2022-09-09T12:00:00',
             ReceiveDate: '2022-09-09T12:00:00',
             Note: 'str',
@@ -99,6 +103,21 @@ const fakeData = {
     ]
 };
 
+const StyledTableCell = styled(TableCell)(({ theme }) => ({
+    [`&.${tableCellClasses.head}`]: {
+        // backgroundColor: theme.palette.common.gary,
+        color: theme.palette.common.black,
+        paddingTop: '0.2rem',
+        paddingBottom: '0.2rem'
+    },
+    [`&.${tableCellClasses.body}.totalAmount`]: {
+        fontSize: 14,
+        paddingTop: '0.2rem',
+        paddingBottom: '0.2rem',
+        backgroundColor: '#CFD8DC'
+    }
+}));
+
 const ToCombineDataList = ({ handleDialogClose, isDialogOpen, dataList, totalCombineAmount }) => {
     const dispatch = useDispatch();
     const [issueDate, setIssueDate] = useState(new Date()); //發票日期
@@ -107,23 +126,8 @@ const ToCombineDataList = ({ handleDialogClose, isDialogOpen, dataList, totalCom
     const [billingNo, setBillingNo] = useState('');
     const billingNoOld = useRef('');
     const [cbToCn, setCbToCn] = useState({}); //處理狀態
-    const comBineDataList = useRef([]); //按下合併帳單後畫面顯示的資料
     const sendComBineData = useRef({}); //按下合併帳單時送出的資料
-
-    const StyledTableCell = styled(TableCell)(({ theme }) => ({
-        [`&.${tableCellClasses.head}`]: {
-            // backgroundColor: theme.palette.common.gary,
-            color: theme.palette.common.black,
-            paddingTop: '0.2rem',
-            paddingBottom: '0.2rem'
-        },
-        [`&.${tableCellClasses.body}.totalAmount`]: {
-            fontSize: 14,
-            paddingTop: '0.2rem',
-            paddingBottom: '0.2rem',
-            backgroundColor: '#CFD8DC'
-        }
-    }));
+    const totalAmount = useRef(0);
 
     const handleChange = (event) => {
         setCbToCn({ ...cbToCn, [event.target.name]: event.target.checked });
@@ -134,6 +138,7 @@ const ToCombineDataList = ({ handleDialogClose, isDialogOpen, dataList, totalCom
         setIssueDate(new Date());
         setBillingNo('');
         billingNoOld.current = '';
+        totalAmount.current = 0;
     };
 
     //自動產生號碼
@@ -203,13 +208,13 @@ const ToCombineDataList = ({ handleDialogClose, isDialogOpen, dataList, totalCom
             tmpAmount = tmpAmount + i.InvoiceDetail[0].FeeAmountPre;
             tmpSendArray.push(i.InvoiceMaster);
         });
-        sendComBineData.current = { InvoiceMaster: tmpSendArray };
-        comBineDataList.current = tmpArray;
+        sendComBineData.current = { InvoiceMaster: tmpSendArray }; //按下合併帳單時，送出的資料
         totalCombineAmount.current = tmpAmount;
     }, [cbToCn]);
 
     useEffect(() => {
         if (isDialogOpen) {
+            let tmpAmount = 0;
             fetch(combineInvo, {
                 method: 'POST',
                 body: JSON.stringify(sendComBineData.current)
@@ -218,12 +223,14 @@ const ToCombineDataList = ({ handleDialogClose, isDialogOpen, dataList, totalCom
                 .then((data) => {
                     setBillList(data);
                     billingNoOld.current = data.BillMaster.BillingNo;
+                    data.BillDetail.forEach((i) => {
+                        tmpAmount = tmpAmount + i.FeeAmount;
+                    });
+                    totalAmount.current = tmpAmount;
                 })
                 .catch((e) => console.log('e1=>>', e));
         }
     }, [isDialogOpen]);
-
-    console.log('comBineDataList.current=>>', comBineDataList.current);
 
     return (
         <>
@@ -308,20 +315,16 @@ const ToCombineDataList = ({ handleDialogClose, isDialogOpen, dataList, totalCom
                                         </TableRow>
                                     </TableHead>
                                     <TableBody>
-                                        {comBineDataList.current.map((row, id) => {
+                                        {billList.BillDetail.map((row, id) => {
                                             return (
                                                 <TableRow sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
-                                                    <TableCell align="center">{row.InvoiceMaster.PartyName}</TableCell>
-                                                    <TableCell align="center">{row.InvoiceMaster.InvoiceNo}</TableCell>
-                                                    <TableCell align="center">{row.InvoiceMaster.SupplierName}</TableCell>
-                                                    <TableCell align="center">{row.InvoiceMaster.SubmarineCable}</TableCell>
-                                                    <TableCell align="center">{row.InvoiceMaster.ContractType}</TableCell>
-                                                    <TableCell align="center">
-                                                        {dayjs(row.InvoiceMaster.IssueDate).format('YYYY/MM/DD')}
-                                                    </TableCell>
-                                                    <TableCell align="center">{`$${handleNumber(
-                                                        row.InvoiceDetail[0].FeeAmountPre
-                                                    )}`}</TableCell>
+                                                    <TableCell align="center">{row.PartyName}</TableCell>
+                                                    <TableCell align="center">{row.InvoiceNo}</TableCell>
+                                                    <TableCell align="center">{row.SupplierName}</TableCell>
+                                                    <TableCell align="center">{row.SubmarineCable}</TableCell>
+                                                    <TableCell align="center">{row.ContractType}</TableCell>
+                                                    <TableCell align="center">{dayjs(row.IssueDate).format('YYYY/MM/DD')}</TableCell>
+                                                    <TableCell align="center">{`$${handleNumber(row.FeeAmount)}`}</TableCell>
                                                 </TableRow>
                                             );
                                         })}
@@ -335,7 +338,7 @@ const ToCombineDataList = ({ handleDialogClose, isDialogOpen, dataList, totalCom
                                             <StyledTableCell className="totalAmount" align="center"></StyledTableCell>
                                             <StyledTableCell className="totalAmount" align="center"></StyledTableCell>
                                             <StyledTableCell className="totalAmount" align="center">{`$${handleNumber(
-                                                totalCombineAmount.current
+                                                totalAmount.current
                                             )}`}</StyledTableCell>
                                         </TableRow>
                                     </TableBody>
@@ -343,9 +346,9 @@ const ToCombineDataList = ({ handleDialogClose, isDialogOpen, dataList, totalCom
                             </TableContainer>
                         </Grid>
                     </Grid>
-                    <DialogContentText sx={{ fontSize: '20px', mt: '0.5rem' }}>
+                    {/* <DialogContentText sx={{ fontSize: '20px', mt: '0.5rem' }}>
                         總金額：${handleNumber(totalCombineAmount.current)}
-                    </DialogContentText>
+                    </DialogContentText> */}
                 </DialogContent>
                 <DialogActions>
                     <Button sx={{ mr: '0.05rem' }} variant="contained" onClick={handleCombine}>
