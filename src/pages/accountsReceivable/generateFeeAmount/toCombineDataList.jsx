@@ -334,7 +334,6 @@ const ToCombineDataList = ({ handleDialogClose, isDialogOpen, dataList, totalCom
                                             <StyledTableCell className="totalAmount" align="center"></StyledTableCell>
                                             <StyledTableCell className="totalAmount" align="center"></StyledTableCell>
                                             <StyledTableCell className="totalAmount" align="center"></StyledTableCell>
-                                            <StyledTableCell className="totalAmount" align="center"></StyledTableCell>
                                             <StyledTableCell className="totalAmount" align="center">{`$${handleNumber(
                                                 totalAmount.current
                                             )}`}</StyledTableCell>
