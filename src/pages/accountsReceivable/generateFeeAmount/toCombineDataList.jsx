@@ -2,7 +2,7 @@ import { useState, useRef, useEffect } from 'react';
 
 // project import
 import { handleNumber, BootstrapDialogTitle } from 'components/commonFunction';
-import { combineInvo, isBillNoCheckOK, invoCombine, generateBillNo } from 'components/apis';
+import { combineInvo, isBillNoCheckOK, invoCombine, generateBillNoCovert } from 'components/apis';
 // material-ui
 import {
     Typography,
@@ -35,76 +35,77 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { useDispatch } from 'react-redux';
 import { setMessageStateOpen } from 'store/reducers/dropdown';
 
-const ToCombineDataList = ({ handleDialogClose, isDialogOpen, dataList, totalCombineAmount }) => {
-    const dispatch = useDispatch();
-    const fakeData = {
-        BillMaster: {
-            BillingNo: '3345678',
+const fakeData = {
+    message: 'success',
+    BillMaster: {
+        BillingNo: '3345678',
+        PartyName: 'str',
+        SubmarineCable: 'str',
+        WorkTitle: 'str',
+        IssueDate: '2022-09-09T12:00:00',
+        DueDate: '2022-09-09T12:00:00',
+        FeeAmountSum: 19870131.8888,
+        ReceivedAmountSum: 19870131.8888,
+        IsPro: true,
+        Status: 'str'
+    },
+    BillDetail: [
+        {
+            WKMasterID: 131,
+            InvDetailID: 131,
             PartyName: 'str',
-            SubmarineCable: 'str',
-            WorkTitle: 'str',
-            IssueDate: '2022-09-09T12:00:00',
-            DueDate: '2022-09-09T12:00:00',
-            FeeAmountSum: 19870131.8888,
-            ReceivedAmountSum: 19870131.8888,
-            IsPro: true,
+            SupplierName: 'str',
+            SubmarineC: 'str',
+            WorkTitle: 'O&M',
+            BillMilestone: 'str',
+            FeeItem: 'str',
+            OrgFeeAmount: 19870131.8888,
+            DedAmount: 19870131.8888,
+            FeeAmount: 19870131.8888,
+            ReceivedAmount: 19870131.8888,
+            OverAmount: 19870131.8888,
+            ShortAmount: 19870131.8888,
+            BankFees: 19870131.8888,
+            ShortOverReason: 'str',
+            WriteOffDate: '2022-09-09T12:00:00',
+            ReceiveDate: '2022-09-09T12:00:00',
+            Note: 'str',
+            ToCBAmount: 'str',
             Status: 'str'
         },
-        BillDetail: [
-            {
-                WKMasterID: 131,
-                InvDetailID: 131,
-                PartyName: 'str',
-                SupplierName: 'str',
-                SubmarineC: 'str',
-                WorkTitle: 'O&M',
-                BillMilestone: 'str',
-                FeeItem: 'str',
-                OrgFeeAmount: 19870131.8888,
-                DedAmount: 19870131.8888,
-                FeeAmount: 19870131.8888,
-                ReceivedAmount: 19870131.8888,
-                OverAmount: 19870131.8888,
-                ShortAmount: 19870131.8888,
-                BankFees: 19870131.8888,
-                ShortOverReason: 'str',
-                WriteOffDate: '2022-09-09T12:00:00',
-                ReceiveDate: '2022-09-09T12:00:00',
-                Note: 'str',
-                ToCBAmount: 'str',
-                Status: 'str'
-            },
-            {
-                WKMasterID: 131,
-                InvDetailID: 131,
-                PartyName: 'str',
-                SupplierName: 'str',
-                SubmarineC: 'str',
-                WorkTitle: 'O&M',
-                BillMilestone: 'str',
-                FeeItem: 'str',
-                OrgFeeAmount: 19870131.8888,
-                DedAmount: 19870131.8888,
-                FeeAmount: 19870131.8888,
-                ReceivedAmount: 19870131.8888,
-                OverAmount: 19870131.8888,
-                ShortAmount: 19870131.8888,
-                BankFees: 19870131.8888,
-                ShortOverReason: 'str',
-                WriteOffDate: '2022-09-09T12:00:00',
-                ReceiveDate: '2022-09-09T12:00:00',
-                Note: 'str',
-                ToCBAmount: 'str',
-                Status: 'str'
-            }
-        ]
-    };
+        {
+            WKMasterID: 131,
+            InvDetailID: 131,
+            PartyName: 'str',
+            SupplierName: 'str',
+            SubmarineC: 'str',
+            WorkTitle: 'O&M',
+            BillMilestone: 'str',
+            FeeItem: 'str',
+            OrgFeeAmount: 19870131.8888,
+            DedAmount: 19870131.8888,
+            FeeAmount: 19870131.8888,
+            ReceivedAmount: 19870131.8888,
+            OverAmount: 19870131.8888,
+            ShortAmount: 19870131.8888,
+            BankFees: 19870131.8888,
+            ShortOverReason: 'str',
+            WriteOffDate: '2022-09-09T12:00:00',
+            ReceiveDate: '2022-09-09T12:00:00',
+            Note: 'str',
+            ToCBAmount: 'str',
+            Status: 'str'
+        }
+    ]
+};
 
+const ToCombineDataList = ({ handleDialogClose, isDialogOpen, dataList, totalCombineAmount }) => {
+    const dispatch = useDispatch();
     const [issueDate, setIssueDate] = useState(new Date()); //發票日期
     const [poNo, setPoNo] = useState(''); //PO號碼
     const [billList, setBillList] = useState(fakeData);
     const [billingNo, setBillingNo] = useState('');
-    const billingNoTmp = useRef('');
+    const billingNoOld = useRef('');
     const [cbToCn, setCbToCn] = useState({}); //處理狀態
     const comBineDataList = useRef([]); //按下合併帳單後畫面顯示的資料
     const sendComBineData = useRef({}); //按下合併帳單時送出的資料
@@ -132,20 +133,22 @@ const ToCombineDataList = ({ handleDialogClose, isDialogOpen, dataList, totalCom
         handleDialogClose();
         setIssueDate(new Date());
         setBillingNo('');
-        billingNoTmp.current = '';
+        billingNoOld.current = '';
     };
 
+    //自動產生號碼
     const billNoGenerate = () => {
         let tmpArray = {
-            BillingNo: billingNoTmp.current
+            BillingNo: billingNoOld.current
         };
-        fetch(generateBillNo, {
+        console.log('tmpArray=>>', tmpArray);
+        fetch(generateBillNoCovert, {
             method: 'POST',
             body: JSON.stringify(tmpArray)
         })
             .then((res) => res.json())
             .then((data) => {
-                if (data.message.length > 0) {
+                if (data.BillingNo.length > 0) {
                     setBillingNo(data.BillingNo);
                 }
             })
@@ -168,7 +171,7 @@ const ToCombineDataList = ({ handleDialogClose, isDialogOpen, dataList, totalCom
         })
             .then((res) => res.json())
             .then((data) => {
-                if (data.message.length > 0) {
+                if (data.isExist) {
                     fetch(invoCombine, {
                         method: 'POST',
                         body: JSON.stringify(billList)
@@ -214,11 +217,13 @@ const ToCombineDataList = ({ handleDialogClose, isDialogOpen, dataList, totalCom
                 .then((res) => res.json())
                 .then((data) => {
                     setBillList(data);
-                    billingNoTmp.current = data.BillMaster.BillingNo;
+                    billingNoOld.current = data.BillMaster.BillingNo;
                 })
                 .catch((e) => console.log('e1=>>', e));
         }
     }, [isDialogOpen]);
+
+    console.log('comBineDataList.current=>>', comBineDataList.current);
 
     return (
         <>

@@ -40,8 +40,8 @@ import { styled } from '@mui/material/styles';
 // print
 import './styles.css';
 
-const BillDraftMake = ({ isDialogOpen, handleDialogClose, listInfo }) => {
-    const [cblistInfo, setCbListInfo] = useState(listInfo);
+const BillDraftMake = ({ isDialogOpen, handleDialogClose, billInfo }) => {
+    const [cblistInfo, setCbListInfo] = useState(billInfo);
     const [isDefault, setIsDefault] = useState(true);
     const [isEdit, setIsEdit] = useState(false);
     const [subject1, setSubject1] = useState(''); //主旨1
@@ -95,7 +95,7 @@ const BillDraftMake = ({ isDialogOpen, handleDialogClose, listInfo }) => {
     return (
         <Dialog onClose={handleDialogClose} maxWidth="lg" fullWidth open={isDialogOpen}>
             <BootstrapDialogTitle id="customized-dialog-title" onClose={handleDialogClose} className="no-print">
-                製作函稿
+                產製帳單
             </BootstrapDialogTitle>
             <DialogContent dividers className="no-print">
                 <Grid container spacing={1} className="no-print">
@@ -296,7 +296,7 @@ const BillDraftMake = ({ isDialogOpen, handleDialogClose, listInfo }) => {
                                         <TextField
                                             fullWidth
                                             variant="outlined"
-                                            // disabled={listInfo.length > 0}
+                                            // disabled={billInfo.length > 0}
                                             value={acctNo}
                                             size="small"
                                             label="填寫銀行帳號"
@@ -445,34 +445,76 @@ const BillDraftMake = ({ isDialogOpen, handleDialogClose, listInfo }) => {
                     </Grid>
                     <Grid item xs={5} sm={5} md={5} lg={5}>
                         <Typography sx={{ fontFamily: 'DFKai-sb', fontWeight: 'bold' }}>
-                            <Box sx={{ fontSize: '20px', m: 1 }}>中華電信股份有限公司國際電信分公司&nbsp;&nbsp;&nbsp;函</Box>
-                            <Box sx={{ fontSize: '12px', textAlign: 'right' }}>地址：106&nbsp;台北市愛國東路31號</Box>
-                            <Box sx={{ fontSize: '12px', textAlign: 'right' }}>{`聯絡方式：${contact}(${tel})`}</Box>
-                            <Box sx={{ fontSize: '12px', textAlign: 'right' }}>{`e-mail：${email}`}</Box>
-                            <Box sx={{ fontSize: '14px' }}>{`受文者：${receipient}`}</Box>
-                            <Box sx={{ fontSize: '12px' }}>發文日期：中華民國112年01月30日</Box>
-                            <Box sx={{ fontSize: '12px' }}>{`發文字號：${number}`}</Box>
-                            <Box sx={{ fontSize: '12px' }}>速別：最速件</Box>
-                            <Box sx={{ fontSize: '12px' }}>密等及解密條件或保密期限：</Box>
-                            <Box sx={{ fontSize: '12px' }}>附件： 如文</Box>
-                            <Box sx={{ fontSize: '14px' }}>
-                                主旨：
-                                {isDefault === 'true' || isDefault === true
-                                    ? `請電匯CIENA JP以支付${subject1}，淨額為美金${subject2}元(US$48,576.00)，請查照。`
-                                    : subject3}
+                            <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
+                                <Box sx={{ m: 1 }}>
+                                    <Box sx={{ fontSize: '12px', textAlign: 'right' }}>No. 31, Ai-kuo&nbsp;East&nbsp;Road</Box>
+                                    <Box sx={{ fontSize: '12px', textAlign: 'right' }}>Taipei 106 Taiwan</Box>
+                                    <Box sx={{ fontSize: '12px', textAlign: 'right' }}>{`Tel：${email}`}</Box>
+                                    <Box sx={{ fontSize: '12px', textAlign: 'right' }}>{`Fax：${email}`}</Box>
+                                </Box>
+                                <Box sx={{ m: 1 }}>
+                                    <Box sx={{ fontSize: '12px', textAlign: 'right' }}>No. 31, Ai-kuo&nbsp;East&nbsp;Road</Box>
+                                    <Box sx={{ fontSize: '12px', textAlign: 'right' }}>Taipei 106 Taiwan</Box>
+                                    <Box sx={{ fontSize: '12px', textAlign: 'right' }}>{`Tel：${email}`}</Box>
+                                    <Box sx={{ fontSize: '12px', textAlign: 'right' }}>{`Fax：${email}`}</Box>
+                                </Box>
                             </Box>
-                            <Box sx={{ fontSize: '14px' }}>說明：</Box>
-                            <Box sx={{ fontSize: '12px' }}>一、請貴分行自本分公司之帳戶(帳號{acctNo})匯至以下帳戶</Box>
-                            <Box sx={{ fontSize: '12px' }}>&nbsp;&nbsp;&nbsp;&nbsp;Account Name: {supplierAcctName}.</Box>
-                            <Box sx={{ fontSize: '12px' }}>&nbsp;&nbsp;&nbsp;&nbsp;Bank: {supplierBank}</Box>
-                            <Box sx={{ fontSize: '12px' }}>&nbsp;&nbsp;&nbsp;&nbsp;Address：{supplierBankAddress}</Box>
-                            <Box sx={{ fontSize: '12px' }}>&nbsp;&nbsp;&nbsp;&nbsp;Account Number: {supplierAcctNumber}</Box>
-                            <Box sx={{ fontSize: '12px' }}>&nbsp;&nbsp;&nbsp;&nbsp;IBAN: {iBAN}</Box>
-                            <Box sx={{ fontSize: '12px' }}>&nbsp;&nbsp;&nbsp;&nbsp;SWIFT: {supplierSWIFTCode}</Box>
-                            <Box sx={{ fontSize: '12px' }}>二、本款項請即時匯出，匯款時請附加說明：</Box>
-                            <Box sx={{ fontSize: '12px' }}>&nbsp;&nbsp;&nbsp;&nbsp;Invoice No.15328/15428, {cableName}, US$48,576.00</Box>
-                            <Box sx={{ fontSize: '12px' }}>三、本款項為全額到行。</Box>
-                            <Box sx={{ fontSize: '12px' }}>四、檢附貴行外幣活期存款第007-53-110022號帳戶同額美金取款憑條乙紙。</Box>
+                            <Box sx={{ fontSize: '20px', mt: 1, mb: 1, display: 'flex', flexWrap: 'nowrap' }}>
+                                TPE Cable Network Upgrade#12 Central Billing Party
+                            </Box>
+                            <Box sx={{ fontSize: '24px', m: 1, textAlign: 'center' }}>Pro-forma Invoice</Box>
+                            <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
+                                <Box sx={{ m: 1, with: '50%' }}>
+                                    <Box sx={{ fontSize: '12px', textAlign: 'left' }}>BILL TO：</Box>
+                                    <Box sx={{ fontSize: '12px', textAlign: 'left' }}>
+                                        China United Network Communications Group Company Limited. International Dept.
+                                    </Box>
+                                    <Box sx={{ fontSize: '12px', textAlign: 'left' }}>ADDR：No ASDASDASDASDASDADASDADS100033</Box>
+                                    <Box sx={{ fontSize: '12px', textAlign: 'left' }}>ATTN：Mr. Wang Kai</Box>
+                                    <Box sx={{ fontSize: '12px', textAlign: 'left' }}>E-mail:PPPPPPP@gmail.com</Box>
+                                    <Box sx={{ fontSize: '12px', textAlign: 'left' }}>Tel.:+86-10-6625990</Box>
+                                </Box>
+                                <Box sx={{ m: 1, with: '50%' }}>
+                                    <Box sx={{ fontSize: '12px', textAlign: 'left' }}>Invoice No. TEWTWETWET</Box>
+                                    <Box sx={{ fontSize: '12px', textAlign: 'left' }}>(Please Refer To This Invoice No. On Remittance)</Box>
+                                    <Box sx={{ fontSize: '12px', textAlign: 'left' }}>Issue Date：</Box>
+                                    <Box sx={{ fontSize: '12px', textAlign: 'left' }}>Due Date：</Box>
+                                </Box>
+                            </Box>
+                            <Box sx={{ fontSize: '12px', m: 1, display: 'flex', justifyContent: 'space-between' }}>
+                                <Box>PO No 1234567890</Box>
+                                <Box>(Currencv:USD)</Box>
+                            </Box>
+                            <Box sx={{ fontSize: '20px' }}>&nbsp;&nbsp;</Box>
+                            <Box sx={{ fontSize: '20px' }}>&nbsp;&nbsp;</Box>
+                            <Box sx={{ m: 1, fontSize: '12px' }}>Certified by:</Box>
+                            <Box sx={{ fontSize: '12px', m: 1, display: 'flex', justifyContent: 'space-between' }}>
+                                <Box sx={{ width: '50%' }}>
+                                    <Box sx={{}}>&nbsp;&nbsp;</Box>
+                                    <Box sx={{}}>&nbsp;&nbsp;</Box>
+                                    <Box sx={{}}>———————————————</Box>
+                                    <Box sx={{}}>Hsuan-Lung Liu</Box>
+                                    <Box sx={{}}>Director, TPE Upgrade CBP</Box>
+                                    <Box sx={{}}>International Business Group,</Box>
+                                    <Box sx={{}}>Chunghwa Telecom Co., Ltd.</Box>
+                                    <Box sx={{}}>E-mail: lsl008@cht.com.tw</Box>
+                                    <Box sx={{}}>Tel.: +886-2-2344-3912</Box>
+                                    <Box sx={{}}>Fax: +886-2-2344-5940</Box>
+                                </Box>
+                                <Box sx={{ width: '50%' }}>
+                                    <Box>Payment by Telegraphic Transfer to</Box>
+                                    <Box>Bank Name: Mega International Commercial Bank Co., Ltd</Box>
+                                    <Box>Branch Address: 100 Chi Lin Rd., Taipei, Taiwan, 104</Box>
+                                    <Box>A/C Name:</Box>
+                                    <Box>International Business Group Chunghwa Telecom Co., Ltd.</Box>
+                                    <Box>Company Addr: 31 Aikuo E. Rd., Taipei, Taiwan, 106</Box>
+                                    <Box>AC No.: 00753-110022</Box>
+                                    <Box>IBAN:</Box>
+                                    <Box>Swift: ICBCTWTP007</Box>
+                                    <Box>ACH:</Box>
+                                    <Box>Wire/Routing:</Box>
+                                </Box>
+                            </Box>
                         </Typography>
                     </Grid>
                 </Grid>
@@ -515,7 +557,7 @@ const BillDraftMake = ({ isDialogOpen, handleDialogClose, listInfo }) => {
                         <Box sx={{ fontSize: '20px', textAlign: 'right' }}>地址：106&nbsp;台北市愛國東路31號</Box>
                         <Box sx={{ fontSize: '20px', textAlign: 'right' }}>{`聯絡方式：${contact}(${tel})`}</Box>
                         <Box sx={{ fontSize: '20px', textAlign: 'right' }}>{`e-mail：${email}`}</Box>
-                        <Box sx={{ fontSize: '22px' }}>{`受文者：${receipient}`}</Box>
+
                         <Box sx={{ fontSize: '20px' }}>發文日期：中華民國112年01月30日</Box>
                         <Box sx={{ fontSize: '20px' }}>{`發文字號：${number}`}</Box>
                         <Box sx={{ fontSize: '20px' }}>速別：最速件</Box>

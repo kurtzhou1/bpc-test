@@ -20,7 +20,7 @@ import { useDispatch } from 'react-redux';
 import { setMessageStateOpen } from 'store/reducers/dropdown';
 
 const GenerateFeeAmount = () => {
-    const [value, setValue] = useState(3);
+    const [value, setValue] = useState(2);
     const [listInfo, setListInfo] = useState([]);
     const [dataList, setDataList] = useState([]);
     const dispatch = useDispatch();
@@ -423,7 +423,7 @@ const GenerateFeeAmount = () => {
 
     const handleDialogOpen = () => {
         if (totalCombineAmount.current > 0) {
-            setIsDialogOpen(true);
+            setIsDialogOpen(true); //打開的時候才會觸發合併API
         } else {
             dispatch(setMessageStateOpen({ messageStateOpen: { isOpen: true, severity: 'error', message: '請至少勾選一筆發票項目' } }));
         }
@@ -471,7 +471,6 @@ const GenerateFeeAmount = () => {
                             <Tab label="待合併" {...a11yProps(0)} />
                             <Tab label="待抵扣" {...a11yProps(1)} />
                             <Tab label="已抵扣" {...a11yProps(2)} />
-                            {/* <Tab label="draft初稿" {...a11yProps(3)} /> */}
                             <Tab label="已簽核" {...a11yProps(3)} />
                             <Tab label="已作廢" {...a11yProps(4)} />
                         </Tabs>
@@ -520,9 +519,6 @@ const GenerateFeeAmount = () => {
                     <TabPanel value={value} index={2}>
                         <DeductedDataList dataList={dataList} />
                     </TabPanel>
-                    {/* <TabPanel value={value} index={3}>
-                        <DraftDataList dataList={dataList} />
-                    </TabPanel> */}
                     <TabPanel value={value} index={3}>
                         <SignedDataList />
                     </TabPanel>

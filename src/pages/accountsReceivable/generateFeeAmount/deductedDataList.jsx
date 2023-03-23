@@ -37,7 +37,7 @@ import dayjs from 'dayjs';
 import { toBillDataapi, sendJounary } from 'components/apis.jsx';
 
 const GeneratedDataList = ({ dataList }) => {
-    const deductInfo = useRef({});
+    const billInfo = useRef({});
     const actionName = useRef('');
     const [isDialogOpen, setIsDialogOpen] = useState(false); //檢視
     const [infoTerminal, setInfoTerminal] = useState(false); //作廢
@@ -62,13 +62,14 @@ const GeneratedDataList = ({ dataList }) => {
         setIsDialogOpen(false);
     };
 
-    const handleDialogOpen = (action, info) => {
-        deductInfo.current = info;
-        actionName.current = action;
+    const handleDialogOpen = (info) => {
+        billInfo.current = info;
+        // actionName.current = action;
         setIsDialogOpen(true);
     };
 
     const handleTerminalClose = () => {
+        billInfo.current = {};
         setInfoTerminal(false);
     };
 
@@ -81,12 +82,12 @@ const GeneratedDataList = ({ dataList }) => {
             {/* <DeductWork
                 isDialogOpen={isDialogOpen}
                 handleDialogClose={handleDialogClose}
-                deductInfo={deductInfo.current}
+                billInfo={billInfo.current}
                 actionName={actionName.current}
             />
             <GenerateFeeTerminate infoTerminal={infoTerminal} handleTerminalClose={handleTerminalClose} />
             <GenerateBack infoBack={infoBack} handleBackClose={handleBackClose} />  */}
-            <BillDraftMake isDialogOpen={isDialogOpen} handleDialogClose={handleDialogClose} />
+            <BillDraftMake isDialogOpen={isDialogOpen} handleDialogClose={handleDialogClose} billInfo={billInfo} />
             <TableContainer component={Paper} sx={{ maxHeight: 350 }}>
                 <Table sx={{ minWidth: 300 }} stickyHeader aria-label="sticky table">
                     <TableHead>
@@ -144,12 +145,7 @@ const GeneratedDataList = ({ dataList }) => {
                                                 size="small"
                                                 variant="outlined"
                                                 onClick={() => {
-                                                    handleDialogOpen('viewDeducted', {
-                                                        PartyName: row.PartyName,
-                                                        IssueDate: dayjs(row.IssueDate).format('YYYY/MM/DD'),
-                                                        SubmarineCable: row.SubmarineCable,
-                                                        WorkTitle: row.WorkTitle
-                                                    });
+                                                    handleDialogOpen({ BillDetail: row.BillDetail, BillMaster: row.BillMaster });
                                                 }}
                                             >
                                                 產製帳單
@@ -158,12 +154,12 @@ const GeneratedDataList = ({ dataList }) => {
                                                 color="info"
                                                 size="small"
                                                 variant="outlined"
-                                                onClick={() => {
-                                                    handleDialogOpen('deduct', {
-                                                        BillDetail: row.BillDetail,
-                                                        BillMaster: row.BillMaster
-                                                    });
-                                                }}
+                                                // onClick={() => {
+                                                //     handleDialogOpen('deduct', {
+                                                //         BillDetail: row.BillDetail,
+                                                //         BillMaster: row.BillMaster
+                                                //     });
+                                                // }}
                                             >
                                                 簽核
                                             </Button>
