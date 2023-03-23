@@ -224,7 +224,7 @@ const ToCombineDataList = ({ handleDialogClose, isDialogOpen, dataList, totalCom
                     setBillList(data);
                     billingNoOld.current = data.BillMaster.BillingNo;
                     data.BillDetail.forEach((i) => {
-                        tmpAmount = tmpAmount + i.FeeAmount;
+                        tmpAmount = tmpAmount + i.OrgFeeAmount;
                     });
                     totalAmount.current = tmpAmount;
                 })
@@ -322,7 +322,7 @@ const ToCombineDataList = ({ handleDialogClose, isDialogOpen, dataList, totalCom
                                                     <TableCell align="center">{row.SupplierName}</TableCell>
                                                     <TableCell align="center">{row.SubmarineCable}</TableCell>
                                                     <TableCell align="center">{dayjs(row.IssueDate).format('YYYY/MM/DD')}</TableCell>
-                                                    <TableCell align="center">{`$${handleNumber(row.FeeAmount)}`}</TableCell>
+                                                    <TableCell align="center">{`$${handleNumber(row.OrgFeeAmount)}`}</TableCell>
                                                 </TableRow>
                                             );
                                         })}
