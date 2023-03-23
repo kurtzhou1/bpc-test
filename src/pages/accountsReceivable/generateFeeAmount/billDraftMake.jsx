@@ -237,6 +237,7 @@ const BillDraftMake = ({ isDialogOpen, handleDialogClose, billInfo }) => {
                                                 value={subject1}
                                                 size="small"
                                                 label="自行填寫主旨"
+                                                inputProps={{ maxLength: 65 }}
                                                 onChange={(e) => setSubject1(e.target.value)}
                                             />
                                         </Grid>
@@ -247,6 +248,7 @@ const BillDraftMake = ({ isDialogOpen, handleDialogClose, billInfo }) => {
                                                 value={subject2}
                                                 size="small"
                                                 label="自行填寫主旨"
+                                                inputProps={{ maxLength: 65 }}
                                                 onChange={(e) => setSubject2(e.target.value)}
                                             />
                                         </Grid>
@@ -442,7 +444,7 @@ const BillDraftMake = ({ isDialogOpen, handleDialogClose, billInfo }) => {
                             </Box>
                             <Box
                                 sx={{
-                                    fontSize: '18px',
+                                    fontSize: subject1.length <= 50 ? '18px' : '15px',
                                     mt: 1,
                                     // display: 'flex',
                                     // flexWrap: 'nowrap',

@@ -53,6 +53,23 @@ const fakeData0 = [
                 BillMilestone: 'BM12',
                 FeeAmountPre: 1487661.54,
                 FeeAmountPost: 106261.54
+            },
+            {
+                WKDetailID: 2,
+                InvDetailID: 332,
+                PartyName: 'CHT',
+                SupplierName: 'NEC',
+                WorkTitle: 'Construction',
+                FeeItem: 'BM12 Branching Units (100%)-Service',
+                LBRatio: 7.1428571429,
+                Difference: 0,
+                InvMasterID: 9,
+                WKMasterID: 1,
+                InvoiceNo: 'DT0170168-1111111',
+                SubmarineCable: 'SJC2',
+                BillMilestone: 'BM12',
+                FeeAmountPre: 1487661.54,
+                FeeAmountPost: 1
             }
         ]
     },
@@ -88,6 +105,23 @@ const fakeData0 = [
                 BillMilestone: 'BM12',
                 FeeAmountPre: 1487661.54,
                 FeeAmountPost: 106261.54
+            },
+            {
+                WKDetailID: 2,
+                InvDetailID: 332,
+                PartyName: 'CHT',
+                SupplierName: 'NEC',
+                WorkTitle: 'Construction',
+                FeeItem: 'BM12 Branching Units (100%)-Service',
+                LBRatio: 7.1428571429,
+                Difference: 0,
+                InvMasterID: 9,
+                WKMasterID: 1,
+                InvoiceNo: 'DT0170168-1111111',
+                SubmarineCable: 'SJC2',
+                BillMilestone: 'BM12',
+                FeeAmountPre: 1487661.54,
+                FeeAmountPost: 2
             }
         ]
     }

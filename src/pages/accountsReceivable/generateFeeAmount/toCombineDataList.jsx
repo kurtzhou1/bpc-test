@@ -204,10 +204,12 @@ const ToCombineDataList = ({ handleDialogClose, isDialogOpen, dataList, totalCom
         let tmpArray = dataList.filter((i) => {
             return cbToCn[i.InvoiceMaster.InvoiceNo];
         });
+        console.log('tmpArray=>>', tmpArray);
         tmpArray.forEach((i) => {
             tmpAmount = tmpAmount + i.InvoiceDetail[0].FeeAmountPre;
             tmpSendArray.push(i.InvoiceMaster);
         });
+        console.log('tmpSendArray=>>', tmpSendArray);
         sendComBineData.current = { InvoiceMaster: tmpSendArray }; //按下合併帳單時，送出的資料
         totalCombineAmount.current = tmpAmount;
     }, [cbToCn]);
@@ -376,6 +378,12 @@ const ToCombineDataList = ({ handleDialogClose, isDialogOpen, dataList, totalCom
                     </TableHead>
                     <TableBody>
                         {dataList.map((row, id) => {
+                            let tmpAmount = 0;
+                            console.log('row=>>', row);
+                            // tmpAmount = row.InvoiceDetail.FeeAmountPost;
+                            row.InvoiceDetail.forEach((i) => {
+                                tmpAmount = tmpAmount + i.FeeAmountPost;
+                            });
                             return (
                                 <TableRow
                                     key={row.InvoiceMaster?.InvoiceNo + id}
@@ -399,7 +407,8 @@ const ToCombineDataList = ({ handleDialogClose, isDialogOpen, dataList, totalCom
                                     <TableCell align="center">{dayjs(row.InvoiceMaster?.IssueDate).format('YYYY/MM/DD')}</TableCell>
                                     <TableCell align="center">{row.InvoiceDetail ? row.InvoiceDetail.length : 0}</TableCell>
                                     <TableCell align="center">{`$${handleNumber(
-                                        row.InvoiceDetail ? row.InvoiceDetail[0].FeeAmountPre : 0
+                                        // row.InvoiceDetail ? row.InvoiceDetail[0].FeeAmountPre : 0
+                                        tmpAmount
                                     )}`}</TableCell>
                                     <TableCell align="center">{row.InvoiceMaster?.Status}</TableCell>
                                 </TableRow>
