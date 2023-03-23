@@ -63,7 +63,7 @@ const fakeData0 = [
                 FeeItem: 'BM12 Branching Units (100%)-Service',
                 LBRatio: 7.1428571429,
                 Difference: 0,
-                InvMasterID: 9,
+                InvMasterID: 10,
                 WKMasterID: 1,
                 InvoiceNo: 'DT0170168-1111111',
                 SubmarineCable: 'SJC2',

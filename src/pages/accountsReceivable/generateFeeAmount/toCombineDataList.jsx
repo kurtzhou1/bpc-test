@@ -202,7 +202,7 @@ const ToCombineDataList = ({ handleDialogClose, isDialogOpen, dataList, totalCom
         let tmpAmount = 0;
         let tmpSendArray = [];
         let tmpArray = dataList.filter((i) => {
-            return cbToCn[i.InvoiceMaster.InvoiceNo];
+            return cbToCn[i.InvoiceMaster.InvMasterID];
         });
         console.log('cbToCn=>>', cbToCn);
         console.log('tmpArray=>>', tmpArray);
