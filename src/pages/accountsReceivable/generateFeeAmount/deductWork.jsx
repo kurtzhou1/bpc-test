@@ -93,42 +93,42 @@ const ToGenerateDataList = ({ isDialogOpen, handleDialogClose, billDetailInfo, b
     const dispatch = useDispatch();
     const [isDeductWorkOpen, setIsDeductWorkOpen] = useState(false);
     const [cbDataList, setCbDataList] = useState(fakeData); //可折抵的Data List
-    const [tmpCBArray, setTmpCBArray] = useState([]); //折抵資料
+    const [tmpCBArray, setTmpCBArray] = useState([]); //折抵資料(畫面中顯示的)
     const tmpDeductArray = useRef([]); //總折抵資料
     const [feeAmountTotal, setFeeAmountTotal] = useState(0);
-    const editItem = useRef(-1);
+    const editItem = useRef(-1); //當前編輯明細項目
+    const deductItem = useRef(-1); //當前編輯抵扣項目
     let orgFeeAmount = useRef(0);
     let dedAmount = useRef(0);
     // let feeAmount = useRef(0);
 
     const initData = () => {
-        setTmpCBArray([]);
-        tmpDeductArray.current = [];
+        // setTmpCBArray([]);
+        // tmpDeductArray.current = [];
         editItem.current = -1;
-        orgFeeAmount.current = 0;
-        dedAmount.current = 0;
-        setFeeAmountTotal(0);
+        // orgFeeAmount.current = 0;
+        // dedAmount.current = 0;
+        // setFeeAmountTotal(0);
+        setTmpCBArray([]);
     };
 
     const deductWork = (data, id) => {
-        let tmpQuery =
-            queryCB +
-            '/SubmarineCable=' +
-            data.SubmarineCable +
-            '&WorkTitle=' +
-            data.WorkTitle +
-            // '&BillMilestone=' +
-            // data.BillMilestone +
-            '&PartyName=' +
-            data.PartyName;
-        fetch(tmpQuery, { method: 'GET' })
-            .then((res) => res.json())
-            .then((data) => {
-                if (Array.isArray(data)) {
-                    setCbDataList(data);
-                }
-            })
-            .catch((e) => console.log('e1=>>', e));
+        let tmpArrayFiliter = tmpDeductArray.current.filter((i) => i.BillDetailID === data.BillDetailID);
+        if (tmpArrayFiliter.length === 0) {
+            let tmpQuery =
+                queryCB + '/SubmarineCable=' + data.SubmarineCable + '&WorkTitle=' + data.WorkTitle + '&PartyName=' + data.PartyName;
+            fetch(tmpQuery, { method: 'GET' })
+                .then((res) => res.json())
+                .then((data) => {
+                    if (Array.isArray(data)) {
+                        setCbDataList(data);
+                    }
+                })
+                .catch((e) => console.log('e1=>>', e));
+        } else {
+            // let tmpArray = cbDataList.map((i) => i);
+            setTmpCBArray(tmpArrayFiliter[0].CB);
+        }
         editItem.current = id;
         setIsDeductWorkOpen(true);
     };
@@ -145,7 +145,7 @@ const ToGenerateDataList = ({ isDialogOpen, handleDialogClose, billDetailInfo, b
         } else {
             tmpArray.push({ CBID: cbid, TransAmount: Number(value) > maxValue ? maxValue : Number(value) < 0 ? 0 : Number(value) });
         }
-        setTmpCBArray(tmpArray);
+        setTmpCBArray(tmpArray); //秀於畫面中抵扣
     };
 
     const saveDeduct = () => {
@@ -160,6 +160,7 @@ const ToGenerateDataList = ({ isDialogOpen, handleDialogClose, billDetailInfo, b
         } else {
             tmpArray.push({ BillDetailID: billDetailInfo[editItem.current].BillDetailID, CB: tmpCBArray });
         }
+        console.log('儲存=>>', tmpArray);
         tmpDeductArray.current = tmpArray;
         setTmpCBArray([]);
         setIsDeductWorkOpen(false);
@@ -312,7 +313,7 @@ const ToGenerateDataList = ({ isDialogOpen, handleDialogClose, billDetailInfo, b
                                                                                   messageStateOpen: {
                                                                                       isOpen: true,
                                                                                       severity: 'warning',
-                                                                                      message: '請先儲存或取消目前折抵作業'
+                                                                                      message: '請先儲存目前折抵作業'
                                                                                   }
                                                                               })
                                                                           );
@@ -371,9 +372,24 @@ const ToGenerateDataList = ({ isDialogOpen, handleDialogClose, billDetailInfo, b
                                                 </TableHead>
                                                 <TableBody>
                                                     {cbDataList.map((row, id) => {
+                                                        //其他項目目前折抵金額-開始
+                                                        let tmpDeducted = 0;
+                                                        let deductArray = [];
+                                                        console.log('tmpDeductArray=>>', tmpDeductArray.current);
+                                                        tmpDeductArray.current.forEach((i) => {
+                                                            i.CB.forEach((j) => {
+                                                                deductArray.push(j);
+                                                            });
+                                                        });
+                                                        deductArray.forEach((i) => {
+                                                            if (i.CBID === row.CBID) {
+                                                                tmpDeducted = tmpDeducted + i.TransAmount;
+                                                            }
+                                                        });
+                                                        //其他項目目前折抵金額-結束
                                                         let tmpArray = tmpCBArray.filter((i) => i.CBID === row.CBID);
                                                         let deductNumber = tmpArray[0] ? tmpArray[0].TransAmount : 0;
-                                                        let afterDiff = row.CurrAmount - deductNumber;
+                                                        let afterDiff = row.CurrAmount - deductNumber - tmpDeducted;
                                                         return (
                                                             <TableRow
                                                                 key={row.CBID + row?.BLDetailID}
@@ -381,7 +397,9 @@ const ToGenerateDataList = ({ isDialogOpen, handleDialogClose, billDetailInfo, b
                                                             >
                                                                 <TableCell align="center">{id + 1}</TableCell>
                                                                 <TableCell align="center">{row.CBType}</TableCell>
-                                                                <TableCell align="center">{handleNumber(row.CurrAmount)}</TableCell>
+                                                                <TableCell align="center">
+                                                                    {handleNumber(row.CurrAmount - tmpDeducted)}
+                                                                </TableCell>
                                                                 <TableCell align="center">{row.Note}</TableCell>
                                                                 <TableCell align="center">
                                                                     <TextField
@@ -416,18 +434,6 @@ const ToGenerateDataList = ({ isDialogOpen, handleDialogClose, billDetailInfo, b
                                             }}
                                         >
                                             儲存
-                                        </Button>
-                                        <Button
-                                            color="primary"
-                                            variant="contained"
-                                            size="small"
-                                            sx={{ ml: '0.5rem', mt: '0.5rem' }}
-                                            onClick={() => {
-                                                setIsDeductWorkOpen(false);
-                                                initData();
-                                            }}
-                                        >
-                                            取消
                                         </Button>
                                     </Grid>
                                 </Grid>

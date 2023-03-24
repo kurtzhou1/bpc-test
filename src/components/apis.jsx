@@ -49,7 +49,6 @@ export const queryCB = 'http://10.193.130.7:8000/api/v1/CreditBalance';
 
 // 待合併
 export const queryToCombineInvo = 'http://10.193.130.7:8000/api/v1/getInvoiceMaster&InvoiceDetail';
-export const queryToCombineInvoWithCBPData = 'http://10.193.130.7:8000/api/v1/getInvoiceMaster&InvoiceDetailWithCBData';
 export const combineInvo = 'http://10.193.130.7:8000/api/v1/getBillMaster&BillDetailStream';
 export const isBillNoCheckOK = 'http://10.193.130.7:8000/api/v1/checkBillingNo';
 export const generateBillNoCovert = 'http://10.193.130.7:8000/api/v1/checkBillingNo/convert';
