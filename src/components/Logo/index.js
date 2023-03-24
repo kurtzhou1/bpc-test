@@ -5,7 +5,6 @@ import { Link } from 'react-router-dom';
 import { ButtonBase } from '@mui/material';
 
 // project import
-import Logo from './Logo';
 import config from 'config';
 
 // ==============================|| MAIN LOGO ||============================== //

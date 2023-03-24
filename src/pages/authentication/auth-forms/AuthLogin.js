@@ -23,7 +23,6 @@ import * as Yup from 'yup';
 import { Formik } from 'formik';
 
 // project import
-import FirebaseSocial from './FirebaseSocial';
 import AnimateButton from 'components/@extended/AnimateButton';
 
 // assets
@@ -124,8 +123,7 @@ const AuthLogin = () => {
                                     )}
                                 </Stack>
                             </Grid>
-
-                            <Grid item xs={12} sx={{ mt: -1 }}>
+                            {/* <Grid item xs={12} sx={{ mt: -1 }}>
                                 <Stack direction="row" justifyContent="space-between" alignItems="center" spacing={2}>
                                     <FormControlLabel
                                         control={
@@ -143,7 +141,7 @@ const AuthLogin = () => {
                                         Forgot Password?
                                     </Link>
                                 </Stack>
-                            </Grid>
+                            </Grid> */}
                             {errors.submit && (
                                 <Grid item xs={12}>
                                     <FormHelperText error>{errors.submit}</FormHelperText>
@@ -163,14 +161,6 @@ const AuthLogin = () => {
                                         Login
                                     </Button>
                                 </AnimateButton>
-                            </Grid>
-                            <Grid item xs={12}>
-                                <Divider>
-                                    <Typography variant="caption"> Login with</Typography>
-                                </Divider>
-                            </Grid>
-                            <Grid item xs={12}>
-                                <FirebaseSocial />
                             </Grid>
                         </Grid>
                     </form>

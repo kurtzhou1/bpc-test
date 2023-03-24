@@ -87,23 +87,30 @@ const ReceivableQuery = ({ value, setListInfo }) => {
             if (tmpQuery.includes('&')) {
                 tmpQuery = '/' + tmpQuery.slice(0, -1);
             } else {
-                tmpQuery = tmpQuery + '/all';
+                tmpQuery = tmpQuery + '/Status=INITIAL​';
             }
             tmpQuery = queryToDecutBill + tmpQuery;
         } else if (value === 2) {
             if (tmpQuery.includes('&')) {
                 tmpQuery = '/' + tmpQuery.slice(0, -1);
             } else {
-                tmpQuery = tmpQuery + '/all';
+                tmpQuery = tmpQuery + '/Status=RATED';
             }
             tmpQuery = quertDeductedData + tmpQuery;
         } else if (value === 3) {
             if (tmpQuery.includes('&')) {
                 tmpQuery = '/' + tmpQuery.slice(0, -1);
             } else {
-                tmpQuery = tmpQuery + '/all';
+                tmpQuery = tmpQuery + '/Status=SIGNED';
             }
-            tmpQuery = quertDeductedData + tmpQuery;
+            tmpQuery = queryToDecutBill + tmpQuery;
+        } else if (value === 4) {
+            if (tmpQuery.includes('&')) {
+                tmpQuery = '/' + tmpQuery.slice(0, -1);
+            } else {
+                tmpQuery = tmpQuery + '/Status=INVALID';
+            }
+            tmpQuery = queryToDecutBill + tmpQuery;
         }
         console.log('tmpQuery=>>', tmpQuery);
         fetch(tmpQuery, { method: 'GET' })
