@@ -389,7 +389,7 @@ const ToGenerateDataList = ({ isDialogOpen, handleDialogClose, billDetailInfo, b
                                                         //其他項目目前折抵金額-結束
                                                         let tmpArray = tmpCBArray.filter((i) => i.CBID === row.CBID);
                                                         let deductNumber = tmpArray[0] ? tmpArray[0].TransAmount : 0;
-                                                        let afterDiff = row.CurrAmount - deductNumber - tmpDeducted;
+                                                        let afterDiff = row.CurrAmount - tmpDeducted > 0 ? row.CurrAmount - tmpDeducted : 0;
                                                         return (
                                                             <TableRow
                                                                 key={row.CBID + row?.BLDetailID}
