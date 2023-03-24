@@ -151,6 +151,7 @@ const ToGenerateDataList = ({ isDialogOpen, handleDialogClose, billDetailInfo, b
     };
 
     const saveDeduct = () => {
+        let deductAmount = 0;
         let tmpArrayFiliter = tmpDeductArray.current.filter((i) => i.BillDetailID === billDetailInfo[editItem.current].BillDetailID);
         let tmpArray = tmpDeductArray.current.map((i) => i);
         if (tmpArrayFiliter.length > 0) {
@@ -162,7 +163,13 @@ const ToGenerateDataList = ({ isDialogOpen, handleDialogClose, billDetailInfo, b
         } else {
             tmpArray.push({ BillDetailID: billDetailInfo[editItem.current].BillDetailID, CB: tmpCBArray });
         }
-        console.log('儲存=>>', tmpArray);
+        tmpArray.forEach((i1) => {
+            i1.CB.forEach((i2) => {
+                deductAmount = deductAmount + i2.TransAmount;
+            });
+        });
+        console.log('儲存=>>>', tmpArray);
+        dedAmount.current = deductAmount;
         tmpDeductArray.current = tmpArray;
         setTmpCBArray([]);
         setIsDeductWorkOpen(false);
@@ -193,10 +200,10 @@ const ToGenerateDataList = ({ isDialogOpen, handleDialogClose, billDetailInfo, b
             let tmpFeeAmount = 0;
             billDetailInfo.forEach((row) => {
                 orgFeeAmount.current = orgFeeAmount.current + row.OrgFeeAmount;
-                dedAmount.current = dedAmount.current + row.DedAmount;
+                // dedAmount.current = dedAmount.current + row.DedAmount;
                 tmpFeeAmount = tmpFeeAmount + row.FeeAmount;
             });
-            setFeeAmountTotal(tmpFeeAmount);
+            setFeeAmountTotal(tmpFeeAmount - dedAmount.current);
         }
     }, [billDetailInfo, isDialogOpen]);
 
