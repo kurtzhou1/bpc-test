@@ -97,7 +97,6 @@ const ToGenerateDataList = ({ isDialogOpen, handleDialogClose, billDetailInfo, b
     const tmpDeductArray = useRef([]); //總折抵資料
     const [feeAmountTotal, setFeeAmountTotal] = useState(0);
     const editItem = useRef(-1); //當前編輯明細項目
-    const deductItem = useRef(-1); //當前編輯抵扣項目
     let orgFeeAmount = useRef(0);
     let dedAmount = useRef(0);
     // let feeAmount = useRef(0);
@@ -139,11 +138,14 @@ const ToGenerateDataList = ({ isDialogOpen, handleDialogClose, billDetailInfo, b
         if (tmpArrayFiliter.length > 0) {
             tmpArray.forEach((i) => {
                 if (i.CBID === cbid) {
-                    i.TransAmount = Number(value) > maxValue ? maxValue : Number(value) < 0 ? 0 : Number(value);
+                    i.TransAmount = Number(value) > Number(maxValue) ? Number(maxValue) : Number(value) < 0 ? 0 : Number(value);
                 }
             });
         } else {
-            tmpArray.push({ CBID: cbid, TransAmount: Number(value) > maxValue ? maxValue : Number(value) < 0 ? 0 : Number(value) });
+            tmpArray.push({
+                CBID: cbid,
+                TransAmount: Number(value) > Number(maxValue) ? Number(maxValue) : Number(value) < 0 ? 0 : Number(value)
+            });
         }
         setTmpCBArray(tmpArray); //秀於畫面中抵扣
     };
@@ -289,6 +291,16 @@ const ToGenerateDataList = ({ isDialogOpen, handleDialogClose, billDetailInfo, b
                                     </TableHead>
                                     <TableBody>
                                         {billDetailInfo.map((row, id) => {
+                                            console.log('tmpDeductArray.current=>>', tmpDeductArray.current);
+                                            let tmpFiliter = tmpDeductArray.current.filter((i) => i.BillDetailID === row.BillDetailID);
+                                            console.log('tmpFiliter=>>', tmpFiliter);
+                                            let dedAmountTmp = 0;
+                                            if (tmpFiliter.length > 0) {
+                                                tmpFiliter[0].CB.forEach((i) => {
+                                                    dedAmountTmp = dedAmountTmp + i.TransAmount;
+                                                });
+                                            }
+                                            console.log('dedAmountTmp=>>', dedAmountTmp);
                                             return (
                                                 <TableRow
                                                     key={row.BillDetailID + row?.BillMasterID}
@@ -297,8 +309,10 @@ const ToGenerateDataList = ({ isDialogOpen, handleDialogClose, billDetailInfo, b
                                                     <TableCell align="center">{id + 1}</TableCell>
                                                     <TableCell align="center">{row.FeeItem}</TableCell>
                                                     <TableCell align="center">{`$${handleNumber(row.OrgFeeAmount.toFixed(2))}`}</TableCell>
-                                                    <TableCell align="center">{`$${handleNumber(row.DedAmount.toFixed(2))}`}</TableCell>
-                                                    <TableCell align="center">{`$${handleNumber(row.FeeAmount.toFixed(2))}`}</TableCell>
+                                                    <TableCell align="center">{`$${handleNumber(dedAmountTmp.toFixed(2))}`}</TableCell>
+                                                    <TableCell align="center">{`$${handleNumber(
+                                                        (row.OrgFeeAmount - dedAmountTmp).toFixed(2)
+                                                    )}`}</TableCell>
                                                     {actionName === 'deduct' ? (
                                                         <TableCell align="center">
                                                             <Button
@@ -375,7 +389,6 @@ const ToGenerateDataList = ({ isDialogOpen, handleDialogClose, billDetailInfo, b
                                                         //其他項目目前折抵金額-開始
                                                         let tmpDeducted = 0;
                                                         let deductArray = [];
-                                                        console.log('tmpDeductArray=>>', tmpDeductArray.current);
                                                         tmpDeductArray.current.forEach((i) => {
                                                             i.CB.forEach((j) => {
                                                                 deductArray.push(j);
@@ -386,10 +399,11 @@ const ToGenerateDataList = ({ isDialogOpen, handleDialogClose, billDetailInfo, b
                                                                 tmpDeducted = tmpDeducted + i.TransAmount;
                                                             }
                                                         });
+                                                        let afterDiff = row.CurrAmount - tmpDeducted > 0 ? row.CurrAmount - tmpDeducted : 0;
                                                         //其他項目目前折抵金額-結束
+                                                        //當前項目目前折抵金額-開始
                                                         let tmpArray = tmpCBArray.filter((i) => i.CBID === row.CBID);
                                                         let deductNumber = tmpArray[0] ? tmpArray[0].TransAmount : 0;
-                                                        let afterDiff = row.CurrAmount - tmpDeducted > 0 ? row.CurrAmount - tmpDeducted : 0;
                                                         return (
                                                             <TableRow
                                                                 key={row.CBID + row?.BLDetailID}
@@ -409,7 +423,11 @@ const ToGenerateDataList = ({ isDialogOpen, handleDialogClose, billDetailInfo, b
                                                                         style={{ width: '50%' }}
                                                                         value={deductNumber}
                                                                         onChange={(e) => {
-                                                                            changeDiff(row.CurrAmount, e.target.value, row.CBID);
+                                                                            changeDiff(
+                                                                                (row.CurrAmount - tmpDeducted).toFixed(2),
+                                                                                e.target.value,
+                                                                                row.CBID
+                                                                            );
                                                                         }}
                                                                     />
                                                                 </TableCell>
