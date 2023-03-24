@@ -398,7 +398,7 @@ const ToGenerateDataList = ({ isDialogOpen, handleDialogClose, billDetailInfo, b
                                                                 <TableCell align="center">{id + 1}</TableCell>
                                                                 <TableCell align="center">{row.CBType}</TableCell>
                                                                 <TableCell align="center">
-                                                                    {handleNumber(row.CurrAmount - tmpDeducted)}
+                                                                    {handleNumber((row.CurrAmount - tmpDeducted).toFixed(2))}
                                                                 </TableCell>
                                                                 <TableCell align="center">{row.Note}</TableCell>
                                                                 <TableCell align="center">
