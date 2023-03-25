@@ -78,9 +78,8 @@ const DeductedDataList = ({ dataList }) => {
     };
 
     const handleDialogOpen = (action, info) => {
-        billDetailInfo.current = info.BillDetail;
-        billMasterInfo.current = info.BillMaster;
-        // actionName.current = action;
+        // billDetailInfo.current = info.BillDetail;
+        // billMasterInfo.current = info.BillMaster;
         setIsDialogOpen(true);
     };
 
@@ -98,11 +97,10 @@ const DeductedDataList = ({ dataList }) => {
                 isDeductedWorkOpen={isDeductedWorkOpen}
                 handleDeductedClose={handleDeductedClose}
                 billDetailInfo={billDetailInfo.current}
-                // actionName={actionName.current}
             />
             {/* <GenerateFeeTerminate infoTerminal={infoTerminal} handleTerminalClose={handleTerminalClose} />
             <GenerateBack infoBack={infoBack} handleBackClose={handleBackClose} />  */}
-            <BillDraftMake isDialogOpen={isDialogOpen} handleDialogClose={handleDialogClose} billInfo={billInfo} />
+            <BillDraftMake isDialogOpen={isDialogOpen} handleDialogClose={handleDialogClose} />
             <TableContainer component={Paper} sx={{ maxHeight: 350 }}>
                 <Table sx={{ minWidth: 300 }} stickyHeader aria-label="sticky table">
                     <TableHead>

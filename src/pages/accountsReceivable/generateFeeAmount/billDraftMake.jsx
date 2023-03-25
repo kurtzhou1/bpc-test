@@ -61,10 +61,10 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
     }
 }));
 
-const BillDraftMake = ({ isDialogOpen, handleDialogClose, billInfo }) => {
+const BillDraftMake = ({ isDialogOpen, handleDialogClose }) => {
     const [contact, setContact] = useState('');
 
-    const [cblistInfo, setCbListInfo] = useState(billInfo);
+    const [cblistInfo, setCbListInfo] = useState();
     const [isDefault, setIsDefault] = useState(true);
     const [isEdit, setIsEdit] = useState(false);
     const [subject1, setSubject1] = useState('TPE Cable Network Upgrade#12 Central Billing Party'); //主旨1

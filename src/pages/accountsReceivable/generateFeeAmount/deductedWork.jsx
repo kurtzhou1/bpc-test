@@ -90,7 +90,6 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
 const DeductedWork = ({ isDeductedWorkOpen, handleDeductedClose, billDetailInfo }) => {
     let feeAmount = useRef(0); // 總費用金額加總(上)
     let dedAmount = useRef(0); //總折抵資料加總(上)
-    // const [feeAmountTotal, setFeeAmountTotal] = useState(0); //總金額加總(上)
     const [dataList, setDataList] = useState([]);
 
     useEffect(() => {
@@ -107,12 +106,9 @@ const DeductedWork = ({ isDeductedWorkOpen, handleDeductedClose, billDetailInfo 
                 });
                 tmpData[id].CBTYPE = tmpCBArray.join('、');
             });
-            console.log('tmpData=>>', tmpData);
             setDataList(tmpData);
         }
     }, [billDetailInfo, isDeductedWorkOpen]);
-
-    console.log('dedAmount.current=>>', dedAmount.current);
 
     return (
         <Dialog onClose={handleDeductedClose} maxWidth="sm" open={isDeductedWorkOpen}>
