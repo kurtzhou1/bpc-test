@@ -89,7 +89,7 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
     }
 }));
 
-const ToGenerateDataList = ({ isDialogOpen, handleDialogClose, billDetailInfo, billMasterInfo, actionName }) => {
+const ToDeductWork = ({ isDialogOpen, handleDialogClose, billDetailInfo, billMasterInfo, actionName }) => {
     const dispatch = useDispatch();
     const [isDeductWorkOpen, setIsDeductWorkOpen] = useState(false);
     const [cbDataList, setCbDataList] = useState(fakeData); //可折抵的Data List
@@ -489,4 +489,4 @@ const ToGenerateDataList = ({ isDialogOpen, handleDialogClose, billDetailInfo, b
     );
 };
 
-export default ToGenerateDataList;
+export default ToDeductWork;

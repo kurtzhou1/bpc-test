@@ -1,7 +1,7 @@
 import { useState, useRef } from 'react';
 
 // project import
-import DeductWork from './deductWork';
+import DeductWork from './toDeductWork';
 import { handleNumber } from 'components/commonFunction';
 import MainCard from 'components/MainCard';
 import GenerateFeeTerminate from './generateFeeTerminate';
@@ -20,6 +20,15 @@ import dayjs from 'dayjs';
 
 import { toBillDataapi, sendJounary } from 'components/apis.jsx';
 
+const StyledTableCell = styled(TableCell)(({ theme }) => ({
+    [`&.${tableCellClasses.head}`]: {
+        // backgroundColor: theme.palette.common.gary,
+        color: theme.palette.common.black,
+        paddingTop: '0.2rem',
+        paddingBottom: '0.2rem'
+    }
+}));
+
 const ToGenerateDataList = ({ dataList, apiQuery }) => {
     const [isDialogOpen, setIsDialogOpen] = useState(false); //折抵作業
     const [isDeductWorkOpen, setIsDeductWorkOpen] = useState(false); //作廢
@@ -29,14 +38,6 @@ const ToGenerateDataList = ({ dataList, apiQuery }) => {
     const actionName = useRef('');
     const [editItem, setEditItem] = useState();
     const [infoTerminal, setInfoTerminal] = useState(false);
-    const StyledTableCell = styled(TableCell)(({ theme }) => ({
-        [`&.${tableCellClasses.head}`]: {
-            // backgroundColor: theme.palette.common.gary,
-            color: theme.palette.common.black,
-            paddingTop: '0.2rem',
-            paddingBottom: '0.2rem'
-        }
-    }));
 
     const handleDialogClose = () => {
         setIsDialogOpen(false);

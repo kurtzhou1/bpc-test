@@ -2,7 +2,7 @@ import { useState, useRef } from 'react';
 
 // project import
 import { handleNumber, BootstrapDialogTitle } from 'components/commonFunction';
-import DeductWork from './deductWork';
+import DeductedWork from './deductedWork';
 import GenerateFeeTerminate from './generateFeeTerminate';
 import GenerateBack from './generateBack';
 import SignAndUpload from './signAndUpload';
@@ -36,40 +36,55 @@ import dayjs from 'dayjs';
 
 import { toBillDataapi, sendJounary } from 'components/apis.jsx';
 
-const GeneratedDataList = ({ dataList }) => {
+const StyledTableCell = styled(TableCell)(({ theme }) => ({
+    [`&.${tableCellClasses.head}`]: {
+        // backgroundColor: theme.palette.common.gary,
+        color: theme.palette.common.black,
+        paddingTop: '0.2rem',
+        paddingBottom: '0.2rem'
+    },
+    [`&.${tableCellClasses.body}`]: {
+        fontSize: 14,
+        paddingTop: '0.2rem',
+        paddingBottom: '0.2rem'
+    }
+}));
+
+const DeductedDataList = ({ dataList }) => {
     const billInfo = useRef({});
-    const actionName = useRef('');
+    // const actionName = useRef('');
+    const [isDeductedWorkOpen, setIsDeductedWorkOpen] = useState(false); //檢視
     const [isDialogOpen, setIsDialogOpen] = useState(false); //檢視
     const [infoTerminal, setInfoTerminal] = useState(false); //作廢
     const [infoBack, setInfoBack] = useState(false); //退回
-    const [uploadOpen, setUploadOpen] = useState(false); //上傳
-    const [currentAmount, setCurrentAmount] = useState(''); //目前金額
-    const StyledTableCell = styled(TableCell)(({ theme }) => ({
-        [`&.${tableCellClasses.head}`]: {
-            // backgroundColor: theme.palette.common.gary,
-            color: theme.palette.common.black,
-            paddingTop: '0.2rem',
-            paddingBottom: '0.2rem'
-        },
-        [`&.${tableCellClasses.body}`]: {
-            fontSize: 14,
-            paddingTop: '0.2rem',
-            paddingBottom: '0.2rem'
-        }
-    }));
+    const billMasterInfo = useRef([]);
+    const billDetailInfo = useRef([]);
+    const [editItem, setEditItem] = useState();
+
+    const handleDeductedOpen = (data) => {
+        billDetailInfo.current = data;
+        // billMasterInfo.current = info.BillMaster;
+        setIsDeductedWorkOpen(true);
+    };
+
+    const handleDeductedClose = () => {
+        setIsDeductedWorkOpen(false);
+        setEditItem();
+    };
 
     const handleDialogClose = () => {
         setIsDialogOpen(false);
+        setEditItem();
     };
 
-    const handleDialogOpen = (info) => {
-        billInfo.current = info;
+    const handleDialogOpen = (action, info) => {
+        billDetailInfo.current = info.BillDetail;
+        billMasterInfo.current = info.BillMaster;
         // actionName.current = action;
         setIsDialogOpen(true);
     };
 
     const handleTerminalClose = () => {
-        billInfo.current = {};
         setInfoTerminal(false);
     };
 
@@ -79,13 +94,13 @@ const GeneratedDataList = ({ dataList }) => {
 
     return (
         <>
-            {/* <DeductWork
-                isDialogOpen={isDialogOpen}
-                handleDialogClose={handleDialogClose}
-                billInfo={billInfo.current}
-                actionName={actionName.current}
+            <DeductedWork
+                isDeductedWorkOpen={isDeductedWorkOpen}
+                handleDeductedClose={handleDeductedClose}
+                billDetailInfo={billDetailInfo.current}
+                // actionName={actionName.current}
             />
-            <GenerateFeeTerminate infoTerminal={infoTerminal} handleTerminalClose={handleTerminalClose} />
+            {/* <GenerateFeeTerminate infoTerminal={infoTerminal} handleTerminalClose={handleTerminalClose} />
             <GenerateBack infoBack={infoBack} handleBackClose={handleBackClose} />  */}
             <BillDraftMake isDialogOpen={isDialogOpen} handleDialogClose={handleDialogClose} billInfo={billInfo} />
             <TableContainer component={Paper} sx={{ maxHeight: 350 }}>
@@ -107,7 +122,6 @@ const GeneratedDataList = ({ dataList }) => {
                     </TableHead>
                     <TableBody>
                         {dataList?.map((row, id) => {
-                            console.log('row=>>', row);
                             return (
                                 <TableRow
                                     key={row.BillMaster.BillMasterID + row.BillMaster.BillMasterID}
@@ -130,12 +144,7 @@ const GeneratedDataList = ({ dataList }) => {
                                                 size="small"
                                                 variant="outlined"
                                                 onClick={() => {
-                                                    handleDialogOpen('view', {
-                                                        PartyName: row.PartyName,
-                                                        IssueDate: dayjs(row.IssueDate).format('YYYY/MM/DD'),
-                                                        SubmarineCable: row.SubmarineCable,
-                                                        WorkTitle: row.WorkTitle
-                                                    });
+                                                    handleDeductedOpen(row.data);
                                                 }}
                                             >
                                                 檢視
@@ -195,4 +204,4 @@ const GeneratedDataList = ({ dataList }) => {
     );
 };
 
-export default GeneratedDataList;
+export default DeductedDataList;

@@ -116,8 +116,6 @@ const BillDraftMake = ({ isDialogOpen, handleDialogClose, billInfo }) => {
         }
     };
 
-    console.log('subject1=>>', subject1.length);
-
     return (
         <Dialog onClose={handleDialogClose} maxWidth="lg" fullWidth open={isDialogOpen}>
             <BootstrapDialogTitle id="customized-dialog-title" onClose={handleDialogClose} className="no-print">
