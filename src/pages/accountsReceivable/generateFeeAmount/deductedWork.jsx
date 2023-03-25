@@ -92,6 +92,12 @@ const DeductedWork = ({ isDeductedWorkOpen, handleDeductedClose, billDetailInfo 
     let dedAmount = useRef(0); //總折抵資料加總(上)
     const [dataList, setDataList] = useState([]);
 
+    const initData = () => {
+        feeAmount.current = 0;
+        dedAmount.current = 0;
+        setDataList([]);
+    };
+
     useEffect(() => {
         let tmpCBArray = [];
         let tmpData = billDetailInfo.map((i) => i);
@@ -173,6 +179,7 @@ const DeductedWork = ({ isDeductedWorkOpen, handleDeductedClose, billDetailInfo 
                     sx={{ mr: '0.05rem' }}
                     variant="contained"
                     onClick={() => {
+                        initData();
                         handleDeductedClose();
                     }}
                 >

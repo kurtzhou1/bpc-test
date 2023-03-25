@@ -7,7 +7,6 @@ import { Box, Grid, Paper } from '@mui/material';
 import AuthCard from './AuthCard';
 import Logo from 'components/Logo';
 import AuthFooter from 'components/cards/AuthFooter';
-import test from './test.jpg';
 
 const styles = {
     paperContainer: {
