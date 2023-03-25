@@ -100,15 +100,13 @@ const ToGenerateDataList = ({ isDialogOpen, handleDialogClose, billDetailInfo, b
     const [feeAmountTotal, setFeeAmountTotal] = useState(0); //總金額加總(上)
     const editItem = useRef(-1); //當前編輯明細項目
 
-    // let feeAmount = useRef(0);
-
     const initData = () => {
-        // setTmpCBArray([]);
-        // tmpDeductArray.current = [];
+        setTmpCBArray([]);
+        tmpDeductArray.current = [];
         editItem.current = -1;
-        // orgFeeAmount.current = 0;
-        // dedAmount.current = 0;
-        // setFeeAmountTotal(0);
+        orgFeeAmount.current = 0;
+        dedAmount.current = 0;
+        setFeeAmountTotal(0);
         setTmpCBArray([]);
     };
 
@@ -148,7 +146,6 @@ const ToGenerateDataList = ({ isDialogOpen, handleDialogClose, billDetailInfo, b
                 TransAmount: Number(value) > Number(maxValue) ? Number(maxValue) : Number(value) < 0 ? 0 : Number(value)
             });
         }
-        console.log('目前折抵Array=>>>', tmpArray);
         setTmpCBArray(tmpArray); //秀於畫面中抵扣
     };
 
@@ -170,7 +167,6 @@ const ToGenerateDataList = ({ isDialogOpen, handleDialogClose, billDetailInfo, b
                 deductAmount = deductAmount + i2.TransAmount;
             });
         });
-        console.log('儲存=>>>', tmpArray);
         dedAmount.current = deductAmount;
         tmpDeductArray.current = tmpArray;
         setFeeAmountTotal(feeAmountTotal - deductAmount);
@@ -180,7 +176,7 @@ const ToGenerateDataList = ({ isDialogOpen, handleDialogClose, billDetailInfo, b
     };
 
     const handleReset = () => {
-        tmpDeductArray.current = [];
+        initData();
         handleDialogClose();
     };
 
@@ -203,7 +199,6 @@ const ToGenerateDataList = ({ isDialogOpen, handleDialogClose, billDetailInfo, b
             let tmpFeeAmount = 0;
             billDetailInfo.forEach((row) => {
                 orgFeeAmount.current = orgFeeAmount.current + row.OrgFeeAmount;
-                // dedAmount.current = dedAmount.current + row.DedAmount;
                 tmpFeeAmount = tmpFeeAmount + row.FeeAmount - dedAmount.current;
             });
             setFeeAmountTotal(tmpFeeAmount);
@@ -317,9 +312,10 @@ const ToGenerateDataList = ({ isDialogOpen, handleDialogClose, billDetailInfo, b
                                                     <TableCell align="center">{row.FeeItem}</TableCell>
                                                     <TableCell align="center">{`$${handleNumber(row.OrgFeeAmount.toFixed(2))}`}</TableCell>
                                                     <TableCell align="center">{`$${handleNumber(dedAmountTmp.toFixed(2))}`}</TableCell>
-                                                    <TableCell align="center">{`$${handleNumber(
-                                                        (row.OrgFeeAmount - dedAmountTmp).toFixed(2)
-                                                    )}`}</TableCell>
+                                                    <TableCell
+                                                        align="center"
+                                                        sx={{ color: row.OrgFeeAmount - dedAmountTmp >= 0 ? 'black' : 'red' }}
+                                                    >{`$${handleNumber((row.OrgFeeAmount - dedAmountTmp).toFixed(2))}`}</TableCell>
                                                     {actionName === 'deduct' ? (
                                                         <TableCell align="center">
                                                             <Button
@@ -394,26 +390,23 @@ const ToGenerateDataList = ({ isDialogOpen, handleDialogClose, billDetailInfo, b
                                                 <TableBody>
                                                     {cbDataList.map((row, id) => {
                                                         let tmpDeducted = 0; //已經於別的項目折抵的金額
-                                                        let deductFee = row.CurrAmount - tmpDeducted; //可折抵金額
-                                                        let afterDiff = row.CurrAmount - tmpDeducted > 0 ? row.CurrAmount - tmpDeducted : 0; //剩餘可折抵金額
+                                                        let deductFee = 0; //可折抵金額
+                                                        let afterDiff = 0; //剩餘可折抵金額
                                                         //其他項目目前折抵金額-開始
-                                                        let deductArray = [];
                                                         console.log('tmpDeductArray.current=>>>', tmpDeductArray.current);
                                                         tmpDeductArray.current.forEach((i1) => {
                                                             i1.CB.forEach((i2) => {
-                                                                console.log('i2=>>', i2);
-                                                                deductArray.push(i2);
+                                                                if (i2.CBID === row.CBID) {
+                                                                    tmpDeducted = tmpDeducted + i2.TransAmount;
+                                                                }
                                                             });
-                                                        });
-                                                        deductArray.forEach((i) => {
-                                                            if (i.CBID === row.CBID) {
-                                                                tmpDeducted = tmpDeducted + i.TransAmount;
-                                                            }
                                                         });
                                                         //其他項目目前折抵金額-結束
                                                         //當前項目目前折抵金額-開始
                                                         let tmpArray = tmpCBArray.filter((i) => i.CBID === row.CBID);
                                                         let deductNumber = tmpArray[0] ? tmpArray[0].TransAmount : 0;
+                                                        deductFee = row.CurrAmount - tmpDeducted;
+                                                        afterDiff = row.CurrAmount - tmpDeducted > 0 ? row.CurrAmount - tmpDeducted : 0;
                                                         return (
                                                             <TableRow
                                                                 key={row.CBID + row?.BLDetailID}
