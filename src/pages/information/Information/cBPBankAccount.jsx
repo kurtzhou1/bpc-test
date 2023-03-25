@@ -129,7 +129,7 @@ const Corporates = ({}) => {
                     setInfoList(data);
                 }
             })
-            .catch((e) => console.log('e1=>>', e));
+            .catch((e) => console.log('e1=>', e));
     };
 
     const addCorporatesInfo = () => {
@@ -156,7 +156,7 @@ const Corporates = ({}) => {
                 infoInit();
                 queryCorporatesInfo();
             })
-            .catch((e) => console.log('e1=>>', e));
+            .catch((e) => console.log('e1=>', e));
     };
 
     const deleteCorporatesInfo = (row) => {
@@ -168,7 +168,7 @@ const Corporates = ({}) => {
                 );
                 queryCorporatesInfo();
             })
-            .catch((e) => console.log('e1=>>', e));
+            .catch((e) => console.log('e1=>', e));
     };
 
     const editCorporatesInfo = (row) => {
@@ -212,7 +212,7 @@ const Corporates = ({}) => {
                 editInfoInit();
                 queryCorporatesInfo();
             })
-            .catch((e) => console.log('e1=>>', e));
+            .catch((e) => console.log('e1=>', e));
     };
 
     useEffect(() => {

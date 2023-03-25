@@ -35,7 +35,7 @@ const LiabilityTerminate = ({ dialogTerminate, handleDialogClose, terminateInfo,
                 apiQuery();
                 handleDialogClose();
             })
-            .catch((e) => console.log('e1=>>', e));
+            .catch((e) => console.log('e1=>', e));
     };
 
     return (

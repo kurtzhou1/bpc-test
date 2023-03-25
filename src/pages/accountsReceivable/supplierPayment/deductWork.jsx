@@ -135,7 +135,7 @@ const ToGenerateDataList = ({ isDialogOpen, handleDialogClose, deductInfo, actio
     //                 setCurrentAmount(tmpAmount.toFixed(2));
     //             }
     //         })
-    //         .catch((e) => console.log('e1=>>', e));
+    //         .catch((e) => console.log('e1=>', e));
     //     setIsDialogOpen(true);
     // };
 
@@ -168,7 +168,7 @@ const ToGenerateDataList = ({ isDialogOpen, handleDialogClose, deductInfo, actio
     //             apiQuery();
     //             handleDialogClose();
     //         })
-    //         .catch((e) => console.log('e1=>>', e));
+    //         .catch((e) => console.log('e1=>', e));
     // };
     console.log('dialogTitle=>>', deductInfo);
     console.log('actionName=>>', actionName, actionName !== 'view', actionName !== 'viewDeducted');

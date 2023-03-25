@@ -74,7 +74,7 @@ const JournalQuery = ({ setListInfo, queryApi, invoiceStatus }) => {
                 setListInfo(data);
                 initQuery();
             })
-            .catch((e) => console.log('e1=>>', e));
+            .catch((e) => console.log('e1=>', e));
     };
 
     return (

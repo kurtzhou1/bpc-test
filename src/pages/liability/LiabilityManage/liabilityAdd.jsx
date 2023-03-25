@@ -161,9 +161,9 @@ const LiabilityAdd = ({
                             setListInfo([]);
                             apiQuery();
                         })
-                        .catch((e) => console.log('e1=>>', e));
+                        .catch((e) => console.log('e1=>', e));
                 })
-                .catch((e) => console.log('e1=>>', e));
+                .catch((e) => console.log('e1=>', e));
         } else {
             dispatch(setMessageStateOpen({ messageStateOpen: { isOpen: true, severity: 'error', message: '請增加分段帳號' } }));
         }

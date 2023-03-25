@@ -140,7 +140,7 @@ const SignedDataList = ({ listInfo, apiQuery }) => {
     //                 setCurrentAmount(tmpAmount.toFixed(2));
     //             }
     //         })
-    //         .catch((e) => console.log('e1=>>', e));
+    //         .catch((e) => console.log('e1=>', e));
     //     setIsDialogOpen(true);
     // };
 
@@ -173,7 +173,7 @@ const SignedDataList = ({ listInfo, apiQuery }) => {
     //             apiQuery();
     //             handleDialogClose();
     //         })
-    //         .catch((e) => console.log('e1=>>', e));
+    //         .catch((e) => console.log('e1=>', e));
     // };
 
     return (

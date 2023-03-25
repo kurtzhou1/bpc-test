@@ -177,7 +177,7 @@ const PartyDataList = ({}) => {
                     dispatch(setPartiesList({ partiesList: data }));
                 }
             })
-            .catch((e) => console.log('e1=>>', e));
+            .catch((e) => console.log('e1=>', e));
     };
 
     const addPartyInfo = () => {
@@ -210,7 +210,7 @@ const PartyDataList = ({}) => {
                 infoInit();
                 queryPartiesInfo();
             })
-            .catch((e) => console.log('e1=>>', e));
+            .catch((e) => console.log('e1=>', e));
     };
 
     const deletePartyInfo = (row) => {
@@ -220,7 +220,7 @@ const PartyDataList = ({}) => {
                 dispatch(setMessageStateOpen({ messageStateOpen: { isOpen: true, severity: 'success', message: '刪除會員資料成功' } }));
                 queryPartiesInfo();
             })
-            .catch((e) => console.log('e1=>>', e));
+            .catch((e) => console.log('e1=>', e));
     };
 
     const editPartyInfo = (row) => {
@@ -279,7 +279,7 @@ const PartyDataList = ({}) => {
                 editInfoInit();
                 queryPartiesInfo();
             })
-            .catch((e) => console.log('e1=>>', e));
+            .catch((e) => console.log('e1=>', e));
     };
 
     useEffect(() => {

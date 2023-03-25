@@ -98,7 +98,7 @@ const SupplierDataList = ({}) => {
                     dispatch(setSupplierNameList({ supNmList: data }));
                 }
             })
-            .catch((e) => console.log('e1=>>', e));
+            .catch((e) => console.log('e1=>', e));
     };
 
     const addSupplierInfo = () => {
@@ -122,7 +122,7 @@ const SupplierDataList = ({}) => {
                 infoInit();
                 querySuppliersInfo();
             })
-            .catch((e) => console.log('e1=>>', e));
+            .catch((e) => console.log('e1=>', e));
     };
 
     const deleteSupplierInfo = (row) => {
@@ -132,7 +132,7 @@ const SupplierDataList = ({}) => {
                 dispatch(setMessageStateOpen({ messageStateOpen: { isOpen: true, severity: 'success', message: '刪除供應商資料成功' } }));
                 querySuppliersInfo();
             })
-            .catch((e) => console.log('e1=>>', e));
+            .catch((e) => console.log('e1=>', e));
     };
 
     const editSupplierInfo = (row) => {
@@ -172,7 +172,7 @@ const SupplierDataList = ({}) => {
                 editInfoInit();
                 querySuppliersInfo();
             })
-            .catch((e) => console.log('e1=>>', e));
+            .catch((e) => console.log('e1=>', e));
     };
 
     useEffect(() => {

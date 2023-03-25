@@ -39,13 +39,63 @@ const ReceivableQuery = ({ value, setListInfo }) => {
     const [submarineCable, setSubmarineCable] = useState(''); //海纜名稱
     const [invoiceNo, setInvoiceNo] = useState(''); //發票號碼
 
-    const initQuery = () => {
+    const initInfo = () => {
         setIssueDate([null, null]);
         setWorkTitle('');
         setPartyName('');
         setSupplierName('');
         setSubmarineCable('');
         setInvoiceNo('');
+    };
+
+    const initQuery = () => {
+        let tmpQuery = '';
+        if (value === 0) {
+            if (tmpQuery.includes('&')) {
+                tmpQuery = tmpQuery.slice(0, -1);
+                tmpQuery = '/Status=TO_MERGE&' + tmpQuery;
+            } else {
+                tmpQuery = tmpQuery + '/Status=TO_MERGE';
+            }
+            tmpQuery = queryToCombineInvo + tmpQuery;
+        } else if (value === 1) {
+            if (tmpQuery.includes('&')) {
+                tmpQuery = '/' + tmpQuery.slice(0, -1);
+            } else {
+                tmpQuery = tmpQuery + '/Status=INITIAL​';
+            }
+            tmpQuery = queryToDecutBill + tmpQuery;
+        } else if (value === 2) {
+            if (tmpQuery.includes('&')) {
+                tmpQuery = '/' + tmpQuery.slice(0, -1);
+            } else {
+                tmpQuery = tmpQuery + '/Status=RATED';
+            }
+            tmpQuery = quertDeductedData + tmpQuery;
+        } else if (value === 3) {
+            if (tmpQuery.includes('&')) {
+                tmpQuery = '/' + tmpQuery.slice(0, -1);
+            } else {
+                tmpQuery = tmpQuery + '/Status=SIGNED';
+            }
+            tmpQuery = queryToDecutBill + tmpQuery;
+        } else if (value === 4) {
+            if (tmpQuery.includes('&')) {
+                tmpQuery = '/' + tmpQuery.slice(0, -1);
+            } else {
+                tmpQuery = tmpQuery + '/Status=INVALID';
+            }
+            tmpQuery = queryToDecutBill + tmpQuery;
+        }
+        console.log('tmpQuery=>>', tmpQuery);
+        fetch(tmpQuery, { method: 'GET' })
+            .then((res) => res.json())
+            .then((data) => {
+                setListInfo(data);
+            })
+            .catch((e) => {
+                console.log('e1=>', e);
+            });
     };
 
     const receivableQuery = () => {
@@ -119,13 +169,13 @@ const ReceivableQuery = ({ value, setListInfo }) => {
                 setListInfo(data);
             })
             .catch((e) => {
-                console.log('e1=>>', e);
+                console.log('e1=>', e);
             });
     };
 
     useEffect(() => {
+        initInfo();
         initQuery();
-        receivableQuery();
     }, [value]);
 
     return (

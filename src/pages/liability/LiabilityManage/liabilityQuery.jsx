@@ -94,7 +94,7 @@ const LiabilityQuery = ({ setListInfo, bmStoneList, partyList, subCableList, wor
                 console.log('查詢成功=>>', data);
                 setListInfo(data);
             })
-            .catch((e) => console.log('e1=>>', e));
+            .catch((e) => console.log('e1=>', e));
     };
 
     const handleChange = (event) => {

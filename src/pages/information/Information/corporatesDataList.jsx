@@ -85,7 +85,7 @@ const GeneratedDataList = ({}) => {
                     setInfoList(data);
                 }
             })
-            .catch((e) => console.log('e1=>>', e));
+            .catch((e) => console.log('e1=>', e));
     };
 
     const addPartyInfo = () => {
@@ -102,7 +102,7 @@ const GeneratedDataList = ({}) => {
                 infoInit();
                 queryCorporatesInfo();
             })
-            .catch((e) => console.log('e1=>>', e));
+            .catch((e) => console.log('e1=>', e));
     };
 
     const deletePartyInfo = (row) => {
@@ -112,7 +112,7 @@ const GeneratedDataList = ({}) => {
                 dispatch(setMessageStateOpen({ messageStateOpen: { isOpen: true, severity: 'success', message: '刪除聯盟資料成功' } }));
                 queryCorporatesInfo();
             })
-            .catch((e) => console.log('e1=>>', e));
+            .catch((e) => console.log('e1=>', e));
     };
 
     const editPartyInfo = (row) => {
@@ -138,7 +138,7 @@ const GeneratedDataList = ({}) => {
                 editInfoInit();
                 queryCorporatesInfo();
             })
-            .catch((e) => console.log('e1=>>', e));
+            .catch((e) => console.log('e1=>', e));
     };
 
     useEffect(() => {

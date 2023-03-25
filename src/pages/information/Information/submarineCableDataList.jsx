@@ -82,7 +82,7 @@ const SubmarineCableDataList = ({}) => {
                     dispatch(setSubmarineCableList({ subCableList: data }));
                 }
             })
-            .catch((e) => console.log('e1=>>', e));
+            .catch((e) => console.log('e1=>', e));
     };
 
     const addPartyInfo = () => {
@@ -98,7 +98,7 @@ const SubmarineCableDataList = ({}) => {
                 infoInit();
                 querySubmarineCablesInfo();
             })
-            .catch((e) => console.log('e1=>>', e));
+            .catch((e) => console.log('e1=>', e));
     };
 
     const deletePartyInfo = (row) => {
@@ -108,7 +108,7 @@ const SubmarineCableDataList = ({}) => {
                 dispatch(setMessageStateOpen({ messageStateOpen: { isOpen: true, severity: 'success', message: '刪除海纜資料成功' } }));
                 querySubmarineCablesInfo();
             })
-            .catch((e) => console.log('e1=>>', e));
+            .catch((e) => console.log('e1=>', e));
     };
 
     const editPartyInfo = (row) => {
@@ -132,7 +132,7 @@ const SubmarineCableDataList = ({}) => {
                 editInfoInit();
                 querySubmarineCablesInfo();
             })
-            .catch((e) => console.log('e1=>>', e));
+            .catch((e) => console.log('e1=>', e));
     };
 
     useEffect(() => {

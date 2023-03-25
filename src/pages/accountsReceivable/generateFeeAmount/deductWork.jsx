@@ -94,11 +94,12 @@ const ToGenerateDataList = ({ isDialogOpen, handleDialogClose, billDetailInfo, b
     const [isDeductWorkOpen, setIsDeductWorkOpen] = useState(false);
     const [cbDataList, setCbDataList] = useState(fakeData); //可折抵的Data List
     const [tmpCBArray, setTmpCBArray] = useState([]); //折抵資料(畫面中顯示的)
-    const tmpDeductArray = useRef([]); //總折抵資料
-    const [feeAmountTotal, setFeeAmountTotal] = useState(0);
+    const tmpDeductArray = useRef([]);
+    let orgFeeAmount = useRef(0); // 總費用金額加總(上)
+    let dedAmount = useRef(0); //總折抵資料加總(上)
+    const [feeAmountTotal, setFeeAmountTotal] = useState(0); //總金額加總(上)
     const editItem = useRef(-1); //當前編輯明細項目
-    let orgFeeAmount = useRef(0);
-    let dedAmount = useRef(0);
+
     // let feeAmount = useRef(0);
 
     const initData = () => {
@@ -123,7 +124,7 @@ const ToGenerateDataList = ({ isDialogOpen, handleDialogClose, billDetailInfo, b
                         setCbDataList(data);
                     }
                 })
-                .catch((e) => console.log('e1=>>', e));
+                .catch((e) => console.log('e1=>', e));
         } else {
             // let tmpArray = cbDataList.map((i) => i);
             setTmpCBArray(tmpArrayFiliter[0].CB);
@@ -147,6 +148,7 @@ const ToGenerateDataList = ({ isDialogOpen, handleDialogClose, billDetailInfo, b
                 TransAmount: Number(value) > Number(maxValue) ? Number(maxValue) : Number(value) < 0 ? 0 : Number(value)
             });
         }
+        console.log('目前折抵Array=>>>', tmpArray);
         setTmpCBArray(tmpArray); //秀於畫面中抵扣
     };
 
@@ -192,7 +194,7 @@ const ToGenerateDataList = ({ isDialogOpen, handleDialogClose, billDetailInfo, b
             .then(() => {
                 dispatch(setMessageStateOpen({ messageStateOpen: { isOpen: true, severity: 'success', message: '送出成功' } }));
             })
-            .catch((e) => console.log('e1=>>', e));
+            .catch((e) => console.log('e1=>', e));
         handleDialogClose();
     };
 

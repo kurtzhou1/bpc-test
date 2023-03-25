@@ -105,7 +105,7 @@ const InvoiceWorkManage = () => {
                 console.log('查詢資料成功=>>', data);
                 setListInfo(data);
             })
-            .catch((e) => console.log('e1=>>', e));
+            .catch((e) => console.log('e1=>', e));
     };
 
     const firstQueryInit = () => {
@@ -116,7 +116,7 @@ const InvoiceWorkManage = () => {
                 data = data.slice(0, 5);
                 setListInfo(data);
             })
-            .catch((e) => console.log('e1=>>', e));
+            .catch((e) => console.log('e1=>', e));
     };
 
     const createData = (
@@ -191,7 +191,7 @@ const InvoiceWorkManage = () => {
                     dispatch(setMessageStateOpen({ messageStateOpen: { isOpen: true, severity: 'success', message: 'Validated成功' } }));
                     queryInit();
                 })
-                .catch((e) => console.log('e1=>>', e));
+                .catch((e) => console.log('e1=>', e));
         }
         if (action === '作廢') {
             let tmpArray = {
@@ -204,7 +204,7 @@ const InvoiceWorkManage = () => {
                     dispatch(setMessageStateOpen({ messageStateOpen: { isOpen: true, severity: 'success', message: '作廢成功' } }));
                     queryInit();
                 })
-                .catch((e) => console.log('e1=>>', e));
+                .catch((e) => console.log('e1=>', e));
         }
         if (action === 'Delete' && listInfo[modifyItem].InvoiceWKMaster.Status === 'TEMPORARY') {
             let tmpArray = {
@@ -221,9 +221,9 @@ const InvoiceWorkManage = () => {
                             dispatch(setMessageStateOpen({ messageStateOpen: { isOpen: true, severity: 'success', message: '刪除成功' } }));
                             queryInit();
                         })
-                        .catch((e) => console.log('e1=>>', e));
+                        .catch((e) => console.log('e1=>', e));
                 })
-                .catch((e) => console.log('e1=>>', e));
+                .catch((e) => console.log('e1=>', e));
         }
     }, [action]);
 
@@ -294,7 +294,7 @@ const InvoiceWorkManage = () => {
                         })
                         .catch((e) => console.log('e2=>>', e));
                 })
-                .catch((e) => console.log('e1=>>', e));
+                .catch((e) => console.log('e1=>', e));
         }
     };
 
@@ -312,7 +312,7 @@ const InvoiceWorkManage = () => {
                 .then((data) => {
                     setBmStoneList(data);
                 })
-                .catch((e) => console.log('e1=>>', e));
+                .catch((e) => console.log('e1=>', e));
         }
     }, [workTitle, submarineCable]);
 

@@ -157,7 +157,7 @@ const ToCombineDataList = ({ handleDialogClose, isDialogOpen, dataList, totalCom
                     setBillingNo(data.BillingNo);
                 }
             })
-            .catch((e) => console.log('e1=>>', e));
+            .catch((e) => console.log('e1=>', e));
     };
 
     //合併帳單
@@ -190,12 +190,12 @@ const ToCombineDataList = ({ handleDialogClose, isDialogOpen, dataList, totalCom
                             );
                             handleDialogClose();
                         })
-                        .catch((e) => console.log('e1=>>', e));
+                        .catch((e) => console.log('e1=>', e));
                 } else {
                     dispatch(setMessageStateOpen({ messageStateOpen: { isOpen: true, severity: 'error', message: '帳單號碼已重複' } }));
                 }
             })
-            .catch((e) => console.log('e1=>>', e));
+            .catch((e) => console.log('e1=>', e));
     };
 
     useEffect(() => {
@@ -232,7 +232,7 @@ const ToCombineDataList = ({ handleDialogClose, isDialogOpen, dataList, totalCom
                     });
                     totalAmount.current = tmpAmount;
                 })
-                .catch((e) => console.log('e1=>>', e));
+                .catch((e) => console.log('e1=>', e));
         }
     }, [isDialogOpen]);
 

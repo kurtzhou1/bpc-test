@@ -245,7 +245,7 @@ const InvoiceWorkManage = () => {
                 .then((data) => {
                     setBmStoneList(data);
                 })
-                .catch((e) => console.log('e1=>>', e));
+                .catch((e) => console.log('e1=>', e));
         }
     }, [workTitle, submarineCable]);
 
@@ -255,13 +255,13 @@ const InvoiceWorkManage = () => {
             .then((data) => {
                 setSupNmList(data);
             })
-            .catch((e) => console.log('e1=>>', e));
+            .catch((e) => console.log('e1=>', e));
         fetch(submarineCableList, { method: 'GET' })
             .then((res) => res.json())
             .then((data) => {
                 setSubCableList(data);
             })
-            .catch((e) => console.log('e1=>>', e));
+            .catch((e) => console.log('e1=>', e));
     }, []);
 
     useEffect(() => {

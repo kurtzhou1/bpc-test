@@ -90,7 +90,7 @@ const ContractDataList = ({}) => {
                     setInfoList(data);
                 }
             })
-            .catch((e) => console.log('e1=>>', e));
+            .catch((e) => console.log('e1=>', e));
     };
 
     const addContractsInfo = () => {
@@ -108,7 +108,7 @@ const ContractDataList = ({}) => {
                 infoInit();
                 queryContractsInfo();
             })
-            .catch((e) => console.log('e1=>>', e));
+            .catch((e) => console.log('e1=>', e));
     };
 
     const deleteContractsInfo = (row) => {
@@ -118,7 +118,7 @@ const ContractDataList = ({}) => {
                 dispatch(setMessageStateOpen({ messageStateOpen: { isOpen: true, severity: 'success', message: '刪除合約資料成功' } }));
                 queryContractsInfo();
             })
-            .catch((e) => console.log('e1=>>', e));
+            .catch((e) => console.log('e1=>', e));
     };
 
     const editContractsInfo = (row) => {
@@ -147,7 +147,7 @@ const ContractDataList = ({}) => {
                 editInfoInit();
                 queryContractsInfo();
             })
-            .catch((e) => console.log('e1=>>', e));
+            .catch((e) => console.log('e1=>', e));
     };
 
     useEffect(() => {

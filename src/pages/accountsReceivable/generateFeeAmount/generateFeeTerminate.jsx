@@ -49,7 +49,7 @@ const GenerateFeeTerminate = ({ infoTerminal, handleTerminalClose }) => {
         //         apiQuery();
         //         handleTerminalClose();
         //     })
-        //     .catch((e) => console.log('e1=>>', e));
+        //     .catch((e) => console.log('e1=>', e));
     };
 
     return (

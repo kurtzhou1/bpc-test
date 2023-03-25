@@ -144,7 +144,7 @@ const InvoiceQueryBlock = ({ setListInfo, queryApi, supNmList, subCableList, bil
             .then((data) => {
                 setListInfo(data);
             })
-            .catch((e) => console.log('e1=>>', e));
+            .catch((e) => console.log('e1=>', e));
     };
 
     return (

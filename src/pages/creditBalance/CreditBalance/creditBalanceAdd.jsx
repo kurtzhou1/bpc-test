@@ -83,7 +83,7 @@ const CreditBalanceAdd = ({ handleDialogClose, isDialogOpen, billMilestone, part
                 handleDialogClose();
                 infoInitial();
             })
-            .catch((e) => console.log('e1=>>', e));
+            .catch((e) => console.log('e1=>', e));
     };
 
     const StyledTableCell = styled(TableCell)(({ theme }) => ({

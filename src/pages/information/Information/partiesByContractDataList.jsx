@@ -69,7 +69,7 @@ const PartiesByContractDataList = ({}) => {
                     setInfoList(data);
                 }
             })
-            .catch((e) => console.log('e1=>>', e));
+            .catch((e) => console.log('e1=>', e));
     };
 
     const addPartyInfo = () => {
@@ -84,7 +84,7 @@ const PartiesByContractDataList = ({}) => {
                 infoInit();
                 queryPartiesByContractInfo();
             })
-            .catch((e) => console.log('e1=>>', e));
+            .catch((e) => console.log('e1=>', e));
     };
 
     const deletePartyInfo = (row) => {
@@ -94,7 +94,7 @@ const PartiesByContractDataList = ({}) => {
                 dispatch(setMessageStateOpen({ messageStateOpen: { isOpen: true, severity: 'success', message: '刪除海纜資料成功' } }));
                 queryPartiesByContractInfo();
             })
-            .catch((e) => console.log('e1=>>', e));
+            .catch((e) => console.log('e1=>', e));
     };
 
     const editPartyInfo = (row) => {
@@ -114,7 +114,7 @@ const PartiesByContractDataList = ({}) => {
                 dispatch(setMessageStateOpen({ messageStateOpen: { isOpen: true, severity: 'success', message: '更新海纜資料成功' } }));
                 queryPartiesByContractInfo();
             })
-            .catch((e) => console.log('e1=>>', e));
+            .catch((e) => console.log('e1=>', e));
     };
 
     useEffect(() => {

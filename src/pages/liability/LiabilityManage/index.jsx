@@ -93,7 +93,7 @@ const LiabilityManage = () => {
                 console.log('查詢成功=>>', data);
                 setListInfo(data);
             })
-            .catch((e) => console.log('e1=>>', e));
+            .catch((e) => console.log('e1=>', e));
     };
 
     //新增
@@ -124,10 +124,10 @@ const LiabilityManage = () => {
                                 );
                                 setAdd([]);
                             })
-                            .catch((e) => console.log('e1=>>', e));
+                            .catch((e) => console.log('e1=>', e));
                     }
                 })
-                .catch((e) => console.log('e1=>>', e));
+                .catch((e) => console.log('e1=>', e));
         }
     };
 
@@ -172,7 +172,7 @@ const LiabilityManage = () => {
                 setEditItem(NaN);
                 handleDialogClose();
             })
-            .catch((e) => console.log('e1=>>', e));
+            .catch((e) => console.log('e1=>', e));
     };
 
     // const cancelSearch = () => {
@@ -201,25 +201,25 @@ const LiabilityManage = () => {
             .then((data) => {
                 setBmStoneList(data);
             })
-            .catch((e) => console.log('e1=>>', e));
+            .catch((e) => console.log('e1=>', e));
         fetch(submarineCableLiabilityList, { method: 'GET' })
             .then((res) => res.json())
             .then((data) => {
                 setSubCableList(data);
             })
-            .catch((e) => console.log('e1=>>', e));
+            .catch((e) => console.log('e1=>', e));
         fetch(partiesLiabilityList, { method: 'GET' })
             .then((res) => res.json())
             .then((data) => {
                 setPartyList(data);
             })
-            .catch((e) => console.log('e1=>>', e));
+            .catch((e) => console.log('e1=>', e));
         fetch(workTitleLiabilityList, { method: 'GET' })
             .then((res) => res.json())
             .then((data) => {
                 setWorkTitleList(data);
             })
-            .catch((e) => console.log('e1=>>', e));
+            .catch((e) => console.log('e1=>', e));
     }, []);
 
     return (

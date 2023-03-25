@@ -90,9 +90,9 @@ const BilledDataList = ({ listInfo, apiQuery }) => {
                         setToBillDataInfo(data2);
                         setIsDialogOpen(true);
                     })
-                    .catch((e) => console.log('e1=>>', e));
+                    .catch((e) => console.log('e1=>', e));
             })
-            .catch((e) => console.log('e1=>>', e));
+            .catch((e) => console.log('e1=>', e));
     };
 
     return (

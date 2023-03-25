@@ -86,7 +86,7 @@ const CreditBalanceQuery = ({ setListInfo, partiesList, subCableList }) => {
                     setListInfo(data);
                 }
             })
-            .catch((e) => console.log('e1=>>', e));
+            .catch((e) => console.log('e1=>', e));
     };
 
     const handleChange = (event) => {

@@ -69,7 +69,7 @@ const SuppliersByContractDataList = ({}) => {
                     setInfoList(data);
                 }
             })
-            .catch((e) => console.log('e1=>>', e));
+            .catch((e) => console.log('e1=>', e));
     };
 
     const addSuppliersByContractInfo = () => {
@@ -84,7 +84,7 @@ const SuppliersByContractDataList = ({}) => {
                 infoInit();
                 queryPartiesByContractInfo();
             })
-            .catch((e) => console.log('e1=>>', e));
+            .catch((e) => console.log('e1=>', e));
     };
 
     const deleteSuppliersByContractInfo = (row) => {
@@ -94,7 +94,7 @@ const SuppliersByContractDataList = ({}) => {
                 dispatch(setMessageStateOpen({ messageStateOpen: { isOpen: true, severity: 'success', message: '刪除合約廠商資料成功' } }));
                 queryPartiesByContractInfo();
             })
-            .catch((e) => console.log('e1=>>', e));
+            .catch((e) => console.log('e1=>', e));
     };
 
     const editSuppliersByContractInfo = (row) => {
@@ -115,7 +115,7 @@ const SuppliersByContractDataList = ({}) => {
                 editInfoInit();
                 queryPartiesByContractInfo();
             })
-            .catch((e) => console.log('e1=>>', e));
+            .catch((e) => console.log('e1=>', e));
     };
 
     useEffect(() => {
