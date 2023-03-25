@@ -28,7 +28,7 @@ import SettingTab from './SettingTab';
 import { styled } from '@mui/material/styles';
 
 // assets
-import avatar1 from 'assets/images/users/avatar-1.png';
+import avatar4 from 'assets/images/users/avatar-4.png';
 import { LogoutOutlined, SettingOutlined, UserOutlined } from '@ant-design/icons';
 import Switch, { SwitchProps } from '@mui/material/Switch';
 
@@ -162,7 +162,7 @@ const Profile = () => {
                 onClick={handleToggle}
             >
                 <Stack direction="row" spacing={2} alignItems="center" sx={{ p: 0.5 }}>
-                    <Avatar alt="profile user" src={avatar1} sx={{ width: 32, height: 32 }} />
+                    <Avatar alt="profile user" src={avatar4} sx={{ width: 32, height: 32 }} />
                     {drawerOpen ? <Typography variant="subtitle1">張XX</Typography> : ''}
                 </Stack>
             </ButtonBase>
@@ -205,7 +205,7 @@ const Profile = () => {
                                             <Grid container justifyContent="space-between" alignItems="center">
                                                 <Grid item>
                                                     <Stack direction="row" spacing={1.25} alignItems="center">
-                                                        <Avatar alt="profile user" src={avatar1} sx={{ width: 32, height: 32 }} />
+                                                        <Avatar alt="profile user" src={avatar4} sx={{ width: 32, height: 32 }} />
                                                         <Stack>
                                                             <Typography variant="h6">張XX</Typography>
                                                             <Typography variant="body2" color="textSecondary">

@@ -1,17 +1,20 @@
 import PropTypes from 'prop-types';
 
 // material-ui
-import { Box, Grid, Paper } from '@mui/material';
+import { Box, Grid, Paper, Stack } from '@mui/material';
 
 // project import
 import AuthCard from './AuthCard';
+import AuthCardT from './AuthCardT';
 import Logo from 'components/Logo';
 import AuthFooter from 'components/cards/AuthFooter';
+
+import avatar4 from 'assets/images/loginBG.jpg';
 
 const styles = {
     paperContainer: {
         // backgroundImage: `url(${'https://itbrief.com.au/uploads/story/2021/08/19/GettyImages-1219077605.webp'})`,
-        backgroundImage: `url('./test.jpg')`,
+        backgroundImage: `url(${avatar4})`,
         backgroundSize: 'cover',
         // color: 'white',
         color: '#000079',
@@ -29,26 +32,14 @@ const styles = {
 const AuthWrapper = ({ children }) => (
     <Box sx={{ minHeight: '100vh' }}>
         <Paper style={styles.paperContainer}>
-            <Grid
-                container
-                direction="column"
-                justifyContent="flex-end"
-                // sx={{
-                //     minHeight: '100vh'
-                // }}
-            >
-                {/* <Grid item xs={12} sx={{ ml: 3, mt: 3 }}>
-                    <Logo />
-                </Grid> */}
-                <Grid item xs={12}>
-                    <Grid
-                        item
-                        xs={12}
-                        container
-                        justifyContent="center"
-                        alignItems="center"
-                        sx={{ minHeight: { xs: 'calc(100vh - 134px)', md: 'calc(100vh - 112px)' } }}
-                    >
+            <Grid container>
+                <Grid item xs={12} display="flex" justifyContent="center" alignItems="center">
+                    <Grid item xs={12} container sx={{ position: 'absolute', width: 'auto' }}>
+                        <Grid item>
+                            <AuthCardT>{children}</AuthCardT>
+                        </Grid>
+                    </Grid>
+                    <Grid item xs={12} container sx={{ position: 'absolute', width: 'auto' }}>
                         <Grid item>
                             <AuthCard>{children}</AuthCard>
                         </Grid>

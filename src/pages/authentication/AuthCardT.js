@@ -8,10 +8,10 @@ import MainCard from 'components/MainCard';
 
 // ==============================|| AUTHENTICATION - CARD WRAPPER ||============================== //
 
-const AuthCard = ({ children, ...other }) => (
+const AuthCardT = ({ children, ...other }) => (
     <MainCard
         sx={{
-            opacity: 0.8,
+            backgroundColor: 'transparent',
             maxWidth: { xs: 400, lg: 475 },
             margin: { xs: 2.5, md: 3 },
             '& > *': {
@@ -29,8 +29,8 @@ const AuthCard = ({ children, ...other }) => (
     </MainCard>
 );
 
-AuthCard.propTypes = {
+AuthCardT.propTypes = {
     children: PropTypes.node
 };
 
-export default AuthCard;
+export default AuthCardT;

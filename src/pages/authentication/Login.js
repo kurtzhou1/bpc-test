@@ -10,9 +10,9 @@ import AuthWrapper from './AuthWrapper';
 // ================================|| LOGIN ||================================ //
 
 const Login = () => (
-    <AuthWrapper>
-        <Grid container spacing={3}>
-            <Grid item xs={12}>
+    <AuthWrapper sx={{ backgroundColor: 'transparent' }}>
+        <Grid container spacing={3} sx={{ backgroundColor: 'transparent' }}>
+            <Grid item xs={12} sx={{ backgroundColor: 'transparent' }}>
                 <Stack direction="row" justifyContent="space-between" alignItems="baseline" sx={{ mb: { xs: -0.5, sm: 0.5 } }}>
                     <Typography variant="h3">Login</Typography>
                     {/* <Typography component={Link} to="/register" variant="body1" sx={{ textDecoration: 'none' }} color="primary">
