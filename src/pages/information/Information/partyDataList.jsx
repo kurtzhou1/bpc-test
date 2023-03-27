@@ -36,53 +36,53 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
 
 const PartyDataList = ({}) => {
     const dispatch = useDispatch();
-    const fakeData = [
-        {
-            PartyID: 1,
-            PartyCode: 'NEC',
-            SubmarineCable: 'NEC',
-            WorkTitle: '+886',
-            PartyName: 'Taiwan',
-            Address: 'google.com',
-            Contact: 'XXX',
-            Email: 'pppp@gmail.com',
-            Tel: '+886912123',
-            CompanyName: 'CompanyName',
-            BankAcctName: 'BankAcctName',
-            AccountNo: 'AccountNo',
-            SavingAccountNo: 'SavingAccountNo',
-            SWIFTCode: 'SWIFTCode',
-            IBAN: 'IBAN',
-            ACHNo: 'ACHNo',
-            WireRouting: 'WireRouting',
-            BankName: 'BankName',
-            Branch: 'Branch',
-            BankAddress: 'BankAddress'
-        },
-        {
-            PartyID: 2,
-            PartyCode: 'NEC',
-            SubmarineCable: 'NEC',
-            WorkTitle: '+886',
-            PartyName: 'Taiwan',
-            Address: 'google.com',
-            Contact: 'XXX',
-            Email: 'pppp@gmail.com',
-            Tel: '886912123',
-            CompanyName: 1,
-            BankAcctName: 2,
-            AccountNo: 3,
-            SavingAccountNo: 4,
-            SWIFTCode: 5,
-            IBAN: 6,
-            ACHNo: 7,
-            WireRouting: 8,
-            BankName: 9,
-            Branch: 0,
-            BankAddress: 1111
-        }
-    ];
-    const [infoList, setInfoList] = useState(fakeData);
+    // const fakeData = [
+    //     {
+    //         PartyID: 1,
+    //         PartyCode: 'NEC',
+    //         SubmarineCable: 'NEC',
+    //         WorkTitle: '+886',
+    //         PartyName: 'Taiwan',
+    //         Address: 'google.com',
+    //         Contact: 'XXX',
+    //         Email: 'pppp@gmail.com',
+    //         Tel: '+886912123',
+    //         CompanyName: 'CompanyName',
+    //         BankAcctName: 'BankAcctName',
+    //         AccountNo: 'AccountNo',
+    //         SavingAccountNo: 'SavingAccountNo',
+    //         SWIFTCode: 'SWIFTCode',
+    //         IBAN: 'IBAN',
+    //         ACHNo: 'ACHNo',
+    //         WireRouting: 'WireRouting',
+    //         BankName: 'BankName',
+    //         Branch: 'Branch',
+    //         BankAddress: 'BankAddress'
+    //     },
+    //     {
+    //         PartyID: 2,
+    //         PartyCode: 'NEC',
+    //         SubmarineCable: 'NEC',
+    //         WorkTitle: '+886',
+    //         PartyName: 'Taiwan',
+    //         Address: 'google.com',
+    //         Contact: 'XXX',
+    //         Email: 'pppp@gmail.com',
+    //         Tel: '886912123',
+    //         CompanyName: 1,
+    //         BankAcctName: 2,
+    //         AccountNo: 3,
+    //         SavingAccountNo: 4,
+    //         SWIFTCode: 5,
+    //         IBAN: 6,
+    //         ACHNo: 7,
+    //         WireRouting: 8,
+    //         BankName: 9,
+    //         Branch: 0,
+    //         BankAddress: 1111
+    //     }
+    // ];
+    const [infoList, setInfoList] = useState([]);
     const [submarineCable, setSubmarineCable] = useState(''); //海纜名稱
     const [workTitle, setWorkTitle] = useState(''); //海纜作業
     const [code, setCode] = useState(''); //代碼
@@ -288,29 +288,68 @@ const PartyDataList = ({}) => {
 
     return (
         <TableContainer component={Paper} sx={{ maxHeight: 700 }}>
-            <Table sx={{ minWidth: 300 }} stickyHeader aria-label="sticky table">
+            <Table sx={{ minWidth: 400, width: 'max-content' }} stickyHeader aria-label="sticky table">
                 <TableHead>
                     <TableRow>
                         <StyledTableCell align="center">NO</StyledTableCell>
-                        <StyledTableCell align="center">代碼</StyledTableCell>
-                        <StyledTableCell align="center">會員名稱</StyledTableCell>
-                        <StyledTableCell align="center">公司名稱</StyledTableCell>
-                        <StyledTableCell align="center">公司地址</StyledTableCell>
-                        <StyledTableCell align="center">聯絡窗口</StyledTableCell>
-                        <StyledTableCell align="center">電子郵件</StyledTableCell>
-                        <StyledTableCell align="center">電話</StyledTableCell>
-                        <StyledTableCell align="center">銀行帳號名稱</StyledTableCell>
-                        <StyledTableCell align="center">Account No.</StyledTableCell>
-                        <StyledTableCell align="center">Saving Account No.</StyledTableCell>
-                        <StyledTableCell align="center">SWIFT Code</StyledTableCell>
-                        <StyledTableCell align="center">ACH No</StyledTableCell>
-                        <StyledTableCell align="center">SWIFT Code</StyledTableCell>
-                        <StyledTableCell align="center">Wire/Routing</StyledTableCell>
-                        <StyledTableCell align="center">銀行名稱</StyledTableCell>
-                        <StyledTableCell align="center">分行名稱</StyledTableCell>
-                        <StyledTableCell align="center">銀行地址</StyledTableCell>
-                        <StyledTableCell align="center">海纜名稱</StyledTableCell>
-                        <StyledTableCell align="center">海纜作業</StyledTableCell>
+
+                        <StyledTableCell align="center" style={{ width: '4rem' }}>
+                            代碼
+                        </StyledTableCell>
+                        <StyledTableCell align="center" style={{ width: '6rem' }}>
+                            會員名稱
+                        </StyledTableCell>
+                        <StyledTableCell align="center" style={{ width: '6rem' }}>
+                            公司名稱
+                        </StyledTableCell>
+                        <StyledTableCell align="center" style={{ width: '8rem' }}>
+                            公司地址
+                        </StyledTableCell>
+                        <StyledTableCell align="center" style={{ width: '5rem' }}>
+                            聯絡窗口
+                        </StyledTableCell>
+                        <StyledTableCell align="center" style={{ width: '6rem' }}>
+                            電子郵件
+                        </StyledTableCell>
+                        <StyledTableCell align="center" style={{ width: '6rem' }}>
+                            電話
+                        </StyledTableCell>
+                        <StyledTableCell align="center" style={{ width: '6rem' }}>
+                            銀行帳號名稱
+                        </StyledTableCell>
+                        <StyledTableCell align="center" style={{ width: '6rem' }}>
+                            Account No.
+                        </StyledTableCell>
+                        <StyledTableCell align="center" style={{ width: '6rem' }}>
+                            Saving Account No.
+                        </StyledTableCell>
+                        <StyledTableCell align="center" style={{ width: '6rem' }}>
+                            SWIFT Code
+                        </StyledTableCell>
+                        <StyledTableCell align="center" style={{ width: '6rem' }}>
+                            ACH No
+                        </StyledTableCell>
+                        <StyledTableCell align="center" style={{ width: '6rem' }}>
+                            SWIFT Code
+                        </StyledTableCell>
+                        <StyledTableCell align="center" style={{ width: '6rem' }}>
+                            Wire/Routing
+                        </StyledTableCell>
+                        <StyledTableCell align="center" style={{ width: '6rem' }}>
+                            銀行名稱
+                        </StyledTableCell>
+                        <StyledTableCell align="center" style={{ width: '6rem' }}>
+                            分行名稱
+                        </StyledTableCell>
+                        <StyledTableCell align="center" style={{ width: '8rem' }}>
+                            銀行地址
+                        </StyledTableCell>
+                        <StyledTableCell align="center" style={{ width: '6rem' }}>
+                            海纜名稱
+                        </StyledTableCell>
+                        <StyledTableCell align="center" style={{ width: '6rem' }}>
+                            海纜作業
+                        </StyledTableCell>
                         <StyledTableCell align="center">Action</StyledTableCell>
                     </TableRow>
                 </TableHead>
@@ -573,7 +612,6 @@ const PartyDataList = ({}) => {
                         <TableCell align="center">
                             <TextField
                                 size="small"
-                                // style={{ width: '30%' }}
                                 value={code}
                                 onChange={(e) => {
                                     setCode(e.target.value);
@@ -727,7 +765,6 @@ const PartyDataList = ({}) => {
                         <TableCell align="center">
                             <TextField
                                 size="small"
-                                // style={{ width: '30%' }}
                                 value={submarineCable}
                                 onChange={(e) => {
                                     setSubmarineCable(e.target.value);
