@@ -52,13 +52,13 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
 
 const DeductedDataList = ({ dataList }) => {
     const billInfo = useRef({});
-    // const actionName = useRef('');
     const [isDeductedWorkOpen, setIsDeductedWorkOpen] = useState(false); //檢視
     const [isDialogOpen, setIsDialogOpen] = useState(false); //檢視
     const [infoTerminal, setInfoTerminal] = useState(false); //作廢
     const [infoBack, setInfoBack] = useState(false); //退回
-    const billMasterInfo = useRef([]);
+    const billMasterID = useRef('');
     const billDetailInfo = useRef([]);
+    const pONo = useRef('');
     const [editItem, setEditItem] = useState();
 
     const handleDeductedOpen = (data) => {
@@ -77,8 +77,9 @@ const DeductedDataList = ({ dataList }) => {
         setEditItem();
     };
 
-    const handleDialogOpen = (action, info) => {
-        // billDetailInfo.current = info.BillDetail;
+    const handleDialogOpen = (info) => {
+        billMasterID.current = info.BillMasterID;
+        pONo.current = info.PONo;
         // billMasterInfo.current = info.BillMaster;
         setIsDialogOpen(true);
     };
@@ -91,6 +92,8 @@ const DeductedDataList = ({ dataList }) => {
         setInfoBack(false);
     };
 
+    console.log('pONo=>>', pONo.current);
+
     return (
         <>
             <DeductedWork
@@ -100,7 +103,12 @@ const DeductedDataList = ({ dataList }) => {
             />
             {/* <GenerateFeeTerminate infoTerminal={infoTerminal} handleTerminalClose={handleTerminalClose} />
             <GenerateBack infoBack={infoBack} handleBackClose={handleBackClose} />  */}
-            <BillDraftMake isDialogOpen={isDialogOpen} handleDialogClose={handleDialogClose} />
+            <BillDraftMake
+                isDialogOpen={isDialogOpen}
+                handleDialogClose={handleDialogClose}
+                billMasterID={billMasterID.current}
+                pONo={pONo.current}
+            />
             <TableContainer component={Paper} sx={{ maxHeight: 350 }}>
                 <Table sx={{ minWidth: 300 }} stickyHeader aria-label="sticky table">
                     <TableHead>
@@ -120,6 +128,7 @@ const DeductedDataList = ({ dataList }) => {
                     </TableHead>
                     <TableBody>
                         {dataList?.map((row, id) => {
+                            console.log('row=>>', row);
                             return (
                                 <TableRow
                                     key={row.BillMaster.BillMasterID + row.BillMaster.BillMasterID}
@@ -152,7 +161,10 @@ const DeductedDataList = ({ dataList }) => {
                                                 size="small"
                                                 variant="outlined"
                                                 onClick={() => {
-                                                    handleDialogOpen({ BillDetail: row.BillDetail, BillMaster: row.BillMaster });
+                                                    handleDialogOpen({
+                                                        BillMasterID: row.BillMaster.BillMasterID,
+                                                        PONo: row.BillMaster.PONo
+                                                    });
                                                 }}
                                             >
                                                 產製帳單

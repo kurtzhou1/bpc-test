@@ -273,6 +273,7 @@ const fakeData2 = [
         BillMaster: {
             BillMasterID: 1,
             BillingNo: 'string',
+            PONo: '123',
             PartyName: 'string',
             SubmarineCable: 'string',
             WorkTitle: 'string',
