@@ -160,11 +160,11 @@ const fakeData2 = [
     {
         UserName: '李心儀',
         UserID: 'chang_ty33',
-        Company: 'CHT',
-        Address: 'test-address',
-        Tel: '123456789',
+        Company: 'CHT#2',
+        Address: 'test-address#2',
+        Tel: '123456789#2',
         Fax: '123456789',
-        DirectorName: '郭贊章',
+        DirectorName: '郭贊',
         DTel: '123456789',
         DFax: '123456789'
     }
@@ -177,43 +177,25 @@ const BillDraftMake = ({ isDialogOpen, handleDialogClose, billMasterID, pONo }) 
     const [contactInfo, setContactInfo] = useState({});
     const [partyInfo, setPartyInfo] = useState(fakeData.PartyInformation);
     const [submarineCableInfo, setSubmarineCableInfo] = useState(fakeData.CorporateInformation);
-    const [datailInfo, setDetailInfo] = useState(fakeData.DetailInformation);
+    // const [datailInfo, setDetailInfo] = useState(fakeData.DetailInformation);
     const totalAmount = useRef(0);
     const [issueDate, setIssueDate] = useState(new Date()); //發票日期
     const [dueDate, setDueDate] = useState(new Date()); //發票日期
 
-    const [isDefault, setIsDefault] = useState(true);
     const [isEdit, setIsEdit] = useState(false);
     const [subject1, setSubject1] = useState('TPE Cable Network Upgrade#12 Central Billing Party'); //主旨1
     const [subject2, setSubject2] = useState(''); //主旨2
     const [subject3, setSubject3] = useState('Invoice'); //主旨3
-    const [number, setNumber] = useState(''); //連絡電話
-    const [date, setDate] = useState(''); //發文日期
-    const [receipient, setRecipient] = useState(''); //受文者
-    const [tel, setTel] = useState(''); //連絡電話
-    const [email, setEmail] = useState(''); //聯絡信箱
-
-    const [acctNo, setAcctNo] = useState(''); //聯盟銀行帳號
-    const [iBAN, setIBAN] = useState(''); //受款者IBAN
-    const [supplierBank, setSupplierBank] = useState(''); //受款者銀行
-    const [branchNo, setBranchNo] = useState(''); //受款者分行
-    const [cableName, setCableName] = useState(''); //海纜資訊
-    const [wireRouting, setWireRouting] = useState(''); //Wire Routing
-    const [supplierAcctNumber, setSupplierAcctNumber] = useState(''); //受款者銀行帳號
-    const [supplierAcctName, setSupplierAcctName] = useState(''); //受款者銀行戶名
-    const [supplierSWIFTCode, setSupplierSWIFTCode] = useState(''); //受款者國際銀行代碼
-    const [supplierBankAddress, setSupplierBankAddress] = useState(''); //受款者銀行地址
-
-    const [isOne, setIsOne] = useState(false);
 
     const itemDetailInitial = () => {
-        setPartyName([]);
-        setLBRatio('');
-        setIsEdit(false);
+        setDataList([]);
+        setContact('');
+        setContactList([]);
+        setPartyInfo('');
+        setSubmarineCableInfo('');
     };
 
-    const handlePrint = (v) => {
-        setIsOne(v);
+    const handlePrint = () => {
         window.print();
     };
 
@@ -245,7 +227,7 @@ const BillDraftMake = ({ isDialogOpen, handleDialogClose, billMasterID, pONo }) 
                 setDataList(data);
                 setPartyInfo(data.PartyInformation);
                 setSubmarineCableInfo(data.CorporateInformation);
-                setDetailInfo(data.DetailInformation);
+                // setDetailInfo(data.DetailInformation);
                 data.DetailInformation.array.forEach((i) => {
                     tmpAmount = tmpAmount + i.YourShare;
                 });
@@ -263,7 +245,6 @@ const BillDraftMake = ({ isDialogOpen, handleDialogClose, billMasterID, pONo }) 
     }, [billMasterID]);
     useEffect(() => {
         let arrayFiliter = [];
-        console.log('UserID=>>', contact);
         if (contact.length > 0) {
             arrayFiliter = contactList.filter((i) => {
                 return i.UserID === contact;
@@ -275,8 +256,6 @@ const BillDraftMake = ({ isDialogOpen, handleDialogClose, billMasterID, pONo }) 
         }
         setContactInfo(arrayFiliter[0]);
     }, [contact]);
-
-    console.log('contactInfo=>>', contactInfo, contactInfo.Address);
 
     return (
         <Dialog onClose={handleDialogClose} maxWidth="xl" fullWidth open={isDialogOpen}>
@@ -293,7 +272,7 @@ const BillDraftMake = ({ isDialogOpen, handleDialogClose, billMasterID, pONo }) 
                                         窗口人員：
                                     </Typography>
                                 </Grid>
-                                <Grid item xs={2} sm={2} md={2} lg={2}>
+                                <Grid item xs={4} sm={4} md={4} lg={4}>
                                     <FormControl fullWidth size="small">
                                         <InputLabel id="demo-simple-select-label">選擇聯絡窗口</InputLabel>
                                         <Select value={contact} label="會員" onChange={(e) => setContact(e.target.value)}>
@@ -528,25 +507,17 @@ const BillDraftMake = ({ isDialogOpen, handleDialogClose, billMasterID, pONo }) 
                     sx={{ mr: '0.05rem' }}
                     variant="contained"
                     onClick={() => {
-                        handlePrint(true);
+                        handlePrint();
                     }}
                 >
-                    列印函稿
-                </Button>
-                <Button
-                    sx={{ mr: '0.05rem' }}
-                    variant="contained"
-                    onClick={() => {
-                        handlePrint(false);
-                    }}
-                >
-                    列印函
+                    列印
                 </Button>
                 <Button
                     sx={{ mr: '0.05rem' }}
                     variant="contained"
                     onClick={() => {
                         handleDialogClose();
+                        itemDetailInitial();
                     }}
                 >
                     取消
@@ -555,60 +526,127 @@ const BillDraftMake = ({ isDialogOpen, handleDialogClose, billMasterID, pONo }) 
             <Grid container spacing={1} className="no-show">
                 <Grid item xs={12} sm={12} md={12} lg={12}>
                     <Typography sx={{ fontFamily: 'DFKai-sb', fontWeight: 'bold' }}>
-                        <Box sx={{ fontSize: '32px', m: 2 }}>
-                            中華電信股份有限公司國際電信分公司&nbsp;&nbsp;&nbsp;函{isOne ? '' : '(稿)'}
-                        </Box>
-                        <Box sx={{ fontSize: '20px', textAlign: 'right' }}>地址：106&nbsp;台北市愛國東路31號</Box>
-                        <Box sx={{ fontSize: '20px', textAlign: 'right' }}>{`聯絡方式：${contact}(${tel})`}</Box>
-                        <Box sx={{ fontSize: '20px', textAlign: 'right' }}>{`e-mail：${email}`}</Box>
-
-                        <Box sx={{ fontSize: '20px' }}>發文日期：中華民國112年01月30日</Box>
-                        <Box sx={{ fontSize: '20px' }}>{`發文字號：${number}`}</Box>
-                        <Box sx={{ fontSize: '20px' }}>速別：最速件</Box>
-                        <Box sx={{ fontSize: '20px' }}>密等及解密條件或保密期限：</Box>
-                        <Box sx={{ fontSize: '20px' }}>附件： 如文</Box>
-                        <Box sx={{ fontSize: '22px' }}>
-                            主旨：
-                            {isDefault === 'true' || isDefault === true
-                                ? `請電匯CIENA JP以支付${subject1}，淨額為美金${subject2}元(US$48,576.00)，請查照。`
-                                : subject3}
-                        </Box>
-                        <Box sx={{ fontSize: '22px' }}>說明：</Box>
-                        <Box sx={{ fontSize: '20px' }}>一、請貴分行自本分公司之帳戶(帳號{acctNo})匯至以下帳戶</Box>
-                        <Box sx={{ fontSize: '20px' }}>&nbsp;&nbsp;&nbsp;&nbsp;Account Name: {supplierAcctName}.</Box>
-                        <Box sx={{ fontSize: '20px' }}>&nbsp;&nbsp;&nbsp;&nbsp;Bank: {supplierBank}</Box>
-                        <Box sx={{ fontSize: '20px' }}>&nbsp;&nbsp;&nbsp;&nbsp;Address：{supplierBankAddress}</Box>
-                        <Box sx={{ fontSize: '20px' }}>&nbsp;&nbsp;&nbsp;&nbsp;Account Number: {supplierAcctNumber}</Box>
-                        <Box sx={{ fontSize: '20px' }}>&nbsp;&nbsp;&nbsp;&nbsp;IBAN: {iBAN}</Box>
-                        <Box sx={{ fontSize: '20px' }}>&nbsp;&nbsp;&nbsp;&nbsp;SWIFT: {supplierSWIFTCode}</Box>
-                        <Box sx={{ fontSize: '20px' }}>二、本款項請即時匯出，匯款時請附加說明：</Box>
-                        <Box sx={{ fontSize: '20px' }}>&nbsp;&nbsp;&nbsp;&nbsp;Invoice No.15328/15428, {cableName}, US$48,576.00</Box>
-                        <Box sx={{ fontSize: '20px' }}>三、本款項為全額到行。</Box>
-                        <Box sx={{ fontSize: '20px' }}>四、檢附貴行外幣活期存款第007-53-110022號帳戶同額美金取款憑條乙紙。</Box>
-                        {isOne ? (
-                            ''
-                        ) : (
-                            <>
-                                <Box sx={{ fontSize: '20px' }}>&nbsp;&nbsp;</Box>
-                                <Box sx={{ fontSize: '20px' }}>分公司總經理&nbsp;&nbsp;&nbsp;吳&nbsp;O&nbsp;O</Box>
-                                <Box sx={{ fontSize: '20px' }}>主辦單位簽核：(簽核原則:由上而下，由左而右)：</Box>
-                                <Box sx={{ fontSize: '20px' }}>判後：</Box>
-                                <Box sx={{ fontSize: '20px' }}>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;國際電信分公司會計駐點</Box>
-                                <Box sx={{ fontSize: '20px' }}>&nbsp;&nbsp;</Box>
-                                <Box sx={{ fontSize: '20px' }}>&nbsp;&nbsp;</Box>
-                                <Box sx={{ fontSize: '20px' }}>&nbsp;&nbsp;</Box>
-                                <Box sx={{ fontSize: '20px' }}>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;國際電信分公司行政管理處(總務科)</Box>
-                                <Box sx={{ fontSize: '20px' }}>&nbsp;&nbsp;</Box>
-                                <Box sx={{ fontSize: '20px' }}>&nbsp;&nbsp;</Box>
-                                <Box sx={{ fontSize: '20px' }}>&nbsp;&nbsp;</Box>
-                                <Box sx={{ fontSize: '20px' }}>
-                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;決行：CBP Director((策略暨事業規劃處&nbsp;處長)
+                        <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
+                            <Box sx={{ m: 1 }}>
+                                <Box sx={{ fontSize: '12px', textAlign: 'left' }}>
+                                    <Paper style={styles.paperContainer} />
                                 </Box>
-                                <Box sx={{ fontSize: '20px' }}>&nbsp;&nbsp;</Box>
-                                <Box sx={{ fontSize: '20px' }}>&nbsp;&nbsp;</Box>
-                                <Box sx={{ fontSize: '20px' }}>&nbsp;&nbsp;</Box>
-                            </>
-                        )}
+                            </Box>
+                            <Box sx={{ m: 1 }}>
+                                <Box sx={{ fontSize: '12px', textAlign: 'right' }}>{contactInfo.Address}</Box>
+                                <Box sx={{ fontSize: '12px', textAlign: 'right' }}>Tel：${contactInfo.Tel}</Box>
+                                <Box sx={{ fontSize: '12px', textAlign: 'right' }}>Fax：${contactInfo.Fax}</Box>
+                            </Box>
+                        </Box>
+                        <Box
+                            sx={{
+                                fontSize: subject1.length <= 50 ? '18px' : '15px',
+                                mt: 1,
+                                textAlign: 'center',
+                                whiteSpace: 'nowrap'
+                            }}
+                        >
+                            {subject1}
+                        </Box>
+                        <Box
+                            sx={{
+                                fontSize: subject2.length <= 50 ? '18px' : '15px',
+                                mt: 1,
+                                textAlign: 'center',
+                                whiteSpace: 'nowrap'
+                            }}
+                        >
+                            {subject2}
+                        </Box>
+                        <Box sx={{ fontSize: '24px', m: 1, textAlign: 'center' }}>{subject3}</Box>
+                        <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
+                            <Box sx={{ m: 1, minWidth: '50%', with: '50%' }}>
+                                <Box sx={{ fontSize: '12px', textAlign: 'left' }}>BILL TO：</Box>
+                                <Box sx={{ fontSize: '12px', textAlign: 'left' }}>{partyInfo.Company}</Box>
+                                <Box sx={{ fontSize: '12px', textAlign: 'left' }}>ADDR：{partyInfo.Address}</Box>
+                                <Box sx={{ fontSize: '12px', textAlign: 'left' }}>ATTN：{partyInfo.Contact}</Box>
+                                <Box sx={{ fontSize: '12px', textAlign: 'left' }}>E-mail:{partyInfo.Email}</Box>
+                                <Box sx={{ fontSize: '12px', textAlign: 'left' }}>Tel.:{partyInfo.Tel}</Box>
+                            </Box>
+                            <Box sx={{ m: 1, minWidth: '50%', with: '50%' }}>
+                                <Box sx={{ fontSize: '12px', textAlign: 'left' }}>Invoice No. {dataList.InvoiceNo}</Box>
+                                <Box sx={{ fontSize: '12px', textAlign: 'left' }}>(Please Refer To This Invoice No. On Remittance)</Box>
+                                <Box sx={{ fontSize: '12px', textAlign: 'left' }}>Issue Date：{dayjs(issueDate).format('YYYY/MM/DD')}</Box>
+                                <Box sx={{ fontSize: '12px', textAlign: 'left' }}>Due Date：{dayjs(dueDate).format('YYYY/MM/DD')}</Box>
+                            </Box>
+                        </Box>
+                        <Box sx={{ fontSize: '12px', m: 1, display: 'flex', justifyContent: 'space-between' }}>
+                            <Box>PO No {pONo}</Box>
+                            <Box>(Currencv:USD)</Box>
+                        </Box>
+                        <Box>
+                            <TableContainer component={Paper} sx={{ maxHeight: 350 }}>
+                                <Table sx={{ minWidth: 300 }} stickyHeader aria-label="sticky table">
+                                    <TableHead>
+                                        <TableRow>
+                                            <StyledTableCell align="center">Supplier</StyledTableCell>
+                                            <StyledTableCell align="center">INV. No.</StyledTableCell>
+                                            <StyledTableCell align="center">Description</StyledTableCell>
+                                            <StyledTableCell align="center">Amount Billed</StyledTableCell>
+                                            <StyledTableCell align="center">Liability</StyledTableCell>
+                                            <StyledTableCell align="center">Your share</StyledTableCell>
+                                        </TableRow>
+                                    </TableHead>
+                                    <TableBody>
+                                        {dataList?.DetailInformation.map((row, id) => {
+                                            return (
+                                                <TableRow sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
+                                                    <StyledTableCell align="center">{row.Supplier}</StyledTableCell>
+                                                    <StyledTableCell align="center">{row.InvNumber}</StyledTableCell>
+                                                    <StyledTableCell align="center">{row.Description}</StyledTableCell>
+                                                    <StyledTableCell align="center">{row.AmountBilled}</StyledTableCell>
+                                                    <StyledTableCell align="center">{row.Liability}</StyledTableCell>
+                                                    <StyledTableCell align="center">{row.YourShare}</StyledTableCell>
+                                                </TableRow>
+                                            );
+                                        })}
+                                        <TableRow sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
+                                            <StyledTableCell align="center" className="totalAmountFirst">
+                                                Total
+                                            </StyledTableCell>
+                                            <StyledTableCell align="center" className="totalAmount"></StyledTableCell>
+                                            <StyledTableCell align="center" className="totalAmount"></StyledTableCell>
+                                            <StyledTableCell align="center" className="totalAmount"></StyledTableCell>
+                                            <StyledTableCell align="center" className="totalAmount"></StyledTableCell>
+                                            <StyledTableCell align="center" className="totalAmountFinal">
+                                                {handleNumber(totalAmount.current)}
+                                            </StyledTableCell>
+                                        </TableRow>
+                                    </TableBody>
+                                </Table>
+                            </TableContainer>
+                        </Box>
+                        <Box sx={{ m: 1, fontSize: '12px' }}>&nbsp;&nbsp;&nbsp;</Box>
+                        <Box sx={{ m: 1, fontSize: '12px' }}>&nbsp;&nbsp;&nbsp;</Box>
+                        <Box sx={{ m: 1, fontSize: '12px' }}>&nbsp;&nbsp;&nbsp;</Box>
+                        <Box sx={{ m: 1, fontSize: '12px' }}>Certified by:</Box>
+                        <Box sx={{ fontSize: '12px', m: 1, display: 'flex', justifyContent: 'space-between' }}>
+                            <Box sx={{ width: '50%', display: 'flex', flexDirection: 'column', justifyContent: 'end' }}>
+                                <Box sx={{}}>———————————————</Box>
+                                <Box sx={{}}>{contactInfo.DirectorName}</Box>
+                                <Box sx={{}}>{contactInfo.Company}</Box>
+                                <Box sx={{}}>Tel.: {contactInfo.DTel}</Box>
+                                <Box sx={{}}>Fax: {contactInfo.DFax}</Box>
+                            </Box>
+                            <Box sx={{ width: '50%' }}>
+                                <Box>Payment by Telegraphic Transfer to</Box>
+                                <Box>Bank Name: {submarineCableInfo.Name}</Box>
+                                <Box>Branch Name: {submarineCableInfo.Branch}</Box>
+                                <Box>Branch Address: {submarineCableInfo.BranchAddress}</Box>
+                                <Box>A/C Name:{submarineCableInfo.AcctName}</Box>
+                                <Box>Company Addr:{submarineCableInfo.Address}</Box>
+                                <Box>AC No.: {submarineCableInfo.AcctNo}</Box>
+                                <Box>IBAN: {submarineCableInfo.IBAN}</Box>
+                                <Box>Swift: {submarineCableInfo.SWIFTCode}</Box>
+                                <Box>ACH:{submarineCableInfo.ACHNo}</Box>
+                                <Box>Wire/Routing:{submarineCableInfo.WireRouting}</Box>
+                            </Box>
+                        </Box>
                     </Typography>
                 </Grid>
             </Grid>
