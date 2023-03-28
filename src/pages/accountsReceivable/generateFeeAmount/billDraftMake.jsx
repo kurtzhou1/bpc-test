@@ -188,11 +188,11 @@ const BillDraftMake = ({ isDialogOpen, handleDialogClose, billMasterID, pONo }) 
     const [subject3, setSubject3] = useState('Invoice'); //主旨3
 
     const itemDetailInitial = () => {
-        setDataList([]);
+        // setDataList([]);
         setContact('');
-        setContactList([]);
-        setPartyInfo('');
-        setSubmarineCableInfo('');
+        // setContactList([]);
+        // setPartyInfo('');
+        // setSubmarineCableInfo('');
     };
 
     const handlePrint = () => {
@@ -447,7 +447,7 @@ const BillDraftMake = ({ isDialogOpen, handleDialogClose, billMasterID, pONo }) 
                                             </TableRow>
                                         </TableHead>
                                         <TableBody>
-                                            {dataList?.DetailInformation.map((row, id) => {
+                                            {dataList?.DetailInformation?.map((row, id) => {
                                                 return (
                                                     <TableRow sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
                                                         <StyledTableCell align="center">{row.Supplier}</StyledTableCell>
