@@ -50,6 +50,7 @@ import { styled } from '@mui/material/styles';
 import './styles.css';
 
 import { generateBillData, contactUser } from 'components/apis.jsx';
+import Logo from 'assets/images/logo.png';
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
     [`&.${tableCellClasses.head}`]: {
@@ -202,7 +203,7 @@ const BillDraftMake = ({ isDialogOpen, handleDialogClose, billMasterID, pONo }) 
     const styles = {
         paperContainer: {
             // backgroundImage: `url(${'https://itbrief.com.au/uploads/story/2021/08/19/GettyImages-1219077605.webp'})`,
-            backgroundImage: `url(${'https://imarketing.iwant-in.net/wp-content/uploads/2020/10/2020_07_12_P1_123RF.jpg'})`,
+            backgroundImage: `url(${Logo})`,
             backgroundSize: 'cover',
             // color: 'white',
             color: '#000079',
@@ -381,7 +382,14 @@ const BillDraftMake = ({ isDialogOpen, handleDialogClose, billMasterID, pONo }) 
                             <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
                                 <Box sx={{ m: 1 }}>
                                     <Box sx={{ fontSize: '12px', textAlign: 'left' }}>
-                                        <Paper style={styles.paperContainer} />
+                                        <Box
+                                            component="img"
+                                            sx={{
+                                                width: '10rem',
+                                                height: 'auto'
+                                            }}
+                                            src={Logo}
+                                        />
                                     </Box>
                                 </Box>
                                 <Box sx={{ m: 1 }}>
@@ -529,7 +537,14 @@ const BillDraftMake = ({ isDialogOpen, handleDialogClose, billMasterID, pONo }) 
                         <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
                             <Box sx={{ m: 1 }}>
                                 <Box sx={{ fontSize: '12px', textAlign: 'left' }}>
-                                    <Paper style={styles.paperContainer} />
+                                    <Box
+                                        component="img"
+                                        sx={{
+                                            width: '10rem',
+                                            height: 'auto'
+                                        }}
+                                        src={Logo}
+                                    />
                                 </Box>
                             </Box>
                             <Box sx={{ m: 1 }}>
