@@ -98,18 +98,19 @@ const ToDeductWork = ({ isDialogOpen, handleDialogClose, billDetailInfo, billMas
     let orgFeeAmount = useRef(0); // 總費用金額加總(上)
     let dedAmount = useRef(0); //總折抵資料加總(上)
     const [feeAmountTotal, setFeeAmountTotal] = useState(0); //總金額加總(上)
-    const editItem = useRef(-1); //當前編輯明細項目
+    const editItem = useRef(''); //當前編輯明細項目
 
     const initData = () => {
         setTmpCBArray([]);
         tmpDeductArray.current = [];
-        editItem.current = -1;
+        editItem.current = '';
         orgFeeAmount.current = 0;
         dedAmount.current = 0;
         setFeeAmountTotal(0);
     };
 
-    const deductWork = (data, id) => {
+    const deductWork = (data) => {
+        console.log('data=>>', data);
         let tmpArrayFiliter = tmpDeductArray.current.filter((i) => i.BillDetailID === data.BillDetailID);
         if (tmpArrayFiliter.length === 0) {
             let tmpQuery =
@@ -126,7 +127,7 @@ const ToDeductWork = ({ isDialogOpen, handleDialogClose, billDetailInfo, billMas
             // let tmpArray = cbDataList.map((i) => i);
             setTmpCBArray(tmpArrayFiliter[0].CB);
         }
-        editItem.current = id;
+        editItem.current = data.BillDetailID;
         setIsDeductWorkOpen(true);
     };
 
@@ -185,16 +186,16 @@ const ToDeductWork = ({ isDialogOpen, handleDialogClose, billDetailInfo, billMas
 
     const saveDeduct = () => {
         let deductAmount = 0;
-        let tmpArrayFiliter = tmpDeductArray.current.filter((i) => i.BillDetailID === billDetailInfo[editItem.current].BillDetailID);
+        let tmpArrayFiliter = tmpDeductArray.current.filter((i) => i.BillDetailID === editItem.current);
         let tmpArray = tmpDeductArray.current.map((i) => i);
         if (tmpArrayFiliter.length > 0) {
             tmpArray.forEach((i) => {
-                if (i.BillDetailID === billDetailInfo[editItem.current].BillDetailID) {
+                if (i.BillDetailID === editItem.current) {
                     i.CB = tmpCBArray;
                 }
             });
         } else {
-            tmpArray.push({ BillDetailID: billDetailInfo[editItem.current].BillDetailID, CB: tmpCBArray });
+            tmpArray.push({ BillDetailID: editItem.current, CB: tmpCBArray });
         }
         tmpArray.forEach((i1) => {
             i1.CB.forEach((i2) => {
@@ -206,7 +207,7 @@ const ToDeductWork = ({ isDialogOpen, handleDialogClose, billDetailInfo, billMas
         setFeeAmountTotal(feeAmountTotal - deductAmount);
         setTmpCBArray([]);
         setIsDeductWorkOpen(false);
-        editItem.current = -1;
+        editItem.current = '';
     };
 
     const handleReset = () => {
@@ -354,11 +355,11 @@ const ToDeductWork = ({ isDialogOpen, handleDialogClose, billDetailInfo, billMas
                                                         <TableCell align="center">
                                                             <Button
                                                                 color="primary"
-                                                                variant={editItem.current === id ? 'contained' : 'outlined'}
+                                                                variant={editItem.current === row.BillDetailID ? 'contained' : 'outlined'}
                                                                 size="small"
                                                                 onClick={() => {
-                                                                    editItem.current === -1
-                                                                        ? deductWork(row, id)
+                                                                    editItem.current === ''
+                                                                        ? deductWork(row)
                                                                         : dispatch(
                                                                               setMessageStateOpen({
                                                                                   messageStateOpen: {
@@ -428,17 +429,20 @@ const ToDeductWork = ({ isDialogOpen, handleDialogClose, billDetailInfo, billMas
                                                         let afterDiff = 0; //剩餘可折抵金額
                                                         //其他項目目前折抵金額-開始
                                                         tmpDeductArray.current.forEach((i1) => {
-                                                            i1.CB.forEach((i2) => {
-                                                                if (i2.CBID === row.CBID) {
-                                                                    tmpDeducted = tmpDeducted + i2.TransAmount;
-                                                                }
-                                                            });
+                                                            if (i1.BillDetailID !== editItem.current) {
+                                                                i1.CB.forEach((i2) => {
+                                                                    if (i2.CBID === row.CBID) {
+                                                                        tmpDeducted = tmpDeducted + i2.TransAmount;
+                                                                    }
+                                                                });
+                                                            }
                                                         });
+                                                        tmpDeducted = tmpDeducted.toFixed(2);
                                                         //其他項目目前折抵金額-結束
                                                         //當前項目目前折抵金額-開始
                                                         let tmpArray = tmpCBArray.filter((i) => i.CBID === row.CBID);
                                                         let deductNumber = tmpArray[0] ? tmpArray[0].TransAmount : 0;
-                                                        console.log('deductFee=>>', tmpDeducted);
+                                                        console.log('已經於別的項目折抵的金額=>>', tmpDeducted);
                                                         deductFee = row.CurrAmount - tmpDeducted;
                                                         afterDiff = row.CurrAmount - tmpDeducted > 0 ? row.CurrAmount - tmpDeducted : 0;
                                                         return (
