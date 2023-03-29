@@ -443,7 +443,7 @@ const BillDraftMake = ({ isDialogOpen, handleDialogClose, billMasterID, pONo }) 
                                             </TableRow>
                                         </TableHead>
                                         <TableBody>
-                                            {dataList?.DetailInformation?.map((row, id) => {
+                                            {dataList.DetailInformation?.map((row, id) => {
                                                 return (
                                                     <TableRow sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
                                                         <StyledTableCell align="center">{row.Supplier}</StyledTableCell>
@@ -596,7 +596,7 @@ const BillDraftMake = ({ isDialogOpen, handleDialogClose, billMasterID, pONo }) 
                                         </TableRow>
                                     </TableHead>
                                     <TableBody>
-                                        {dataList?.DetailInformation.map((row, id) => {
+                                        {dataList.DetailInformation?.map((row) => {
                                             return (
                                                 <TableRow sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
                                                     <StyledTableCell align="center">{row.Supplier}</StyledTableCell>
