@@ -143,7 +143,6 @@ const Profile = () => {
         } else {
             i18n.changeLanguage('en');
         }
-        // console.log('useTranslation=>>', useTranslation);
     }, [isZh]);
 
     return (
@@ -163,7 +162,7 @@ const Profile = () => {
             >
                 <Stack direction="row" spacing={2} alignItems="center" sx={{ p: 0.5 }}>
                     <Avatar alt="profile user" src={avatar4} sx={{ width: 32, height: 32 }} />
-                    {drawerOpen ? <Typography variant="subtitle1">張XX</Typography> : ''}
+                    {drawerOpen ? <Typography variant="subtitle1">OOO</Typography> : ''}
                 </Stack>
             </ButtonBase>
             <Popper

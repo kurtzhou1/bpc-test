@@ -110,7 +110,6 @@ const ToDeductWork = ({ isDialogOpen, handleDialogClose, billDetailInfo, billMas
     };
 
     const deductWork = (data) => {
-        console.log('data=>>', data);
         let tmpArrayFiliter = tmpDeductArray.current.filter((i) => i.BillDetailID === data.BillDetailID);
         if (tmpArrayFiliter.length === 0) {
             let tmpQuery =
@@ -160,12 +159,6 @@ const ToDeductWork = ({ isDialogOpen, handleDialogClose, billDetailInfo, billMas
                     }
 
                     console.log('=>>>>>>>>>', resule);
-                    // i.TransAmount =
-                    //     Number(value) > Number(currAmount) //如果目前輸入數字大於原始金額，則帶原始金額
-                    //         ? Number(currAmount)
-                    //         : Number(value) > Number(maxValue) //如果輸入數字大於目前可折抵金額，則帶可折抵金額
-                    //         ? Number(maxValue)
-                    //         : Number(value);
                 }
             });
         } else {
@@ -234,11 +227,15 @@ const ToDeductWork = ({ isDialogOpen, handleDialogClose, billDetailInfo, billMas
             let tmpFeeAmount = 0;
             billDetailInfo.forEach((row) => {
                 orgFeeAmount.current = orgFeeAmount.current + row.OrgFeeAmount;
-                tmpFeeAmount = tmpFeeAmount + row.FeeAmount - dedAmount.current;
+                tmpFeeAmount = tmpFeeAmount + row.FeeAmount;
             });
             setFeeAmountTotal(tmpFeeAmount);
         }
     }, [billDetailInfo, isDialogOpen]);
+
+    useEffect(() => {
+        setFeeAmountTotal(orgFeeAmount.current - dedAmount.current);
+    }, [dedAmount.current]);
 
     return (
         <Dialog onClose={handleDialogClose} maxWidth="sm" open={isDialogOpen}>
@@ -442,7 +439,6 @@ const ToDeductWork = ({ isDialogOpen, handleDialogClose, billDetailInfo, billMas
                                                         //當前項目目前折抵金額-開始
                                                         let tmpArray = tmpCBArray.filter((i) => i.CBID === row.CBID);
                                                         let deductNumber = tmpArray[0] ? tmpArray[0].TransAmount : 0;
-                                                        console.log('已經於別的項目折抵的金額=>>', tmpDeducted);
                                                         deductFee = row.CurrAmount - tmpDeducted;
                                                         afterDiff = row.CurrAmount - tmpDeducted > 0 ? row.CurrAmount - tmpDeducted : 0;
                                                         return (
@@ -520,9 +516,9 @@ const ToDeductWork = ({ isDialogOpen, handleDialogClose, billDetailInfo, billMas
                     sx={{ mr: '0.05rem' }}
                     variant="contained"
                     onClick={() => {
+                        initData();
                         setIsDeductWorkOpen(false);
                         handleDialogClose();
-                        initData();
                     }}
                 >
                     取消
