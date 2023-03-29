@@ -172,7 +172,7 @@ const fakeData2 = [
 ];
 
 const BillDraftMake = ({ isDialogOpen, handleDialogClose, billMasterID, pONo }) => {
-    const [dataList, setDataList] = useState(fakeData);
+    const [dataList, setDataList] = useState([]);
     const [contact, setContact] = useState('chang_ty');
     const [contactList, setContactList] = useState(fakeData2);
     const [contactInfo, setContactInfo] = useState({});
@@ -183,7 +183,6 @@ const BillDraftMake = ({ isDialogOpen, handleDialogClose, billMasterID, pONo }) 
     const [issueDate, setIssueDate] = useState(new Date()); //發票日期
     const [dueDate, setDueDate] = useState(new Date()); //發票日期
 
-    const [isEdit, setIsEdit] = useState(false);
     const [subject1, setSubject1] = useState('TPE Cable Network Upgrade#12 Central Billing Party'); //主旨1
     const [subject2, setSubject2] = useState(''); //主旨2
     const [subject3, setSubject3] = useState('Invoice'); //主旨3
@@ -200,22 +199,6 @@ const BillDraftMake = ({ isDialogOpen, handleDialogClose, billMasterID, pONo }) 
         window.print();
     };
 
-    const styles = {
-        paperContainer: {
-            // backgroundImage: `url(${'https://itbrief.com.au/uploads/story/2021/08/19/GettyImages-1219077605.webp'})`,
-            backgroundImage: `url(${Logo})`,
-            backgroundSize: 'cover',
-            // color: 'white',
-            color: '#000079',
-            width: '10rem',
-            height: '5rem',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            fontSize: '3rem'
-        }
-    };
-
     useEffect(() => {
         let tmpAmount = 0;
         let tmpData = {
@@ -225,6 +208,7 @@ const BillDraftMake = ({ isDialogOpen, handleDialogClose, billMasterID, pONo }) 
         fetch(generateBillData, { method: 'POST', body: JSON.stringify(tmpData) })
             .then((res) => res.json())
             .then((data) => {
+                console.log('data抓取成功=>>', data);
                 setDataList(data);
                 setPartyInfo(data.PartyInformation);
                 setSubmarineCableInfo(data.CorporateInformation);
@@ -238,6 +222,7 @@ const BillDraftMake = ({ isDialogOpen, handleDialogClose, billMasterID, pONo }) 
         fetch(contactUser, { method: 'GET' })
             .then((res) => res.json())
             .then((data) => {
+                console.log('user data=>>', data);
                 if (Array.isArray(data)) {
                     setContactList(data);
                 }
@@ -257,6 +242,9 @@ const BillDraftMake = ({ isDialogOpen, handleDialogClose, billMasterID, pONo }) 
         }
         setContactInfo(arrayFiliter[0]);
     }, [contact]);
+
+    console.log('setDataList=>>', dataList);
+    console.log('contactList=>>', contactList);
 
     return (
         <Dialog onClose={handleDialogClose} maxWidth="xl" fullWidth open={isDialogOpen}>

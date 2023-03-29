@@ -92,8 +92,6 @@ const DeductedDataList = ({ dataList }) => {
         setInfoBack(false);
     };
 
-    console.log('pONo=>>', pONo.current);
-
     return (
         <>
             <DeductedWork
@@ -128,7 +126,6 @@ const DeductedDataList = ({ dataList }) => {
                     </TableHead>
                     <TableBody>
                         {dataList?.map((row, id) => {
-                            console.log('row=>>', row);
                             return (
                                 <TableRow
                                     key={row.BillMaster.BillMasterID + row.BillMaster.BillMasterID}

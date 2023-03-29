@@ -131,7 +131,7 @@ const ToDeductWork = ({ isDialogOpen, handleDialogClose, billDetailInfo, billMas
         setIsDeductWorkOpen(true);
     };
 
-    const changeDiff = (maxValue, value, cbid) => {
+    const changeDiff = (currAmount, maxValue, value, cbid) => {
         let tmpArrayFiliter = tmpCBArray.filter((i) => i.CBID === cbid);
         let tmpArray = tmpCBArray.map((i) => i);
         if (tmpArrayFiliter.length > 0) {
@@ -401,12 +401,15 @@ const ToDeductWork = ({ isDialogOpen, handleDialogClose, billDetailInfo, billMas
                                                                 }
                                                             });
                                                         });
+                                                        console.log('已經於別的項目折抵的金額=>>', tmpDeducted);
                                                         //其他項目目前折抵金額-結束
                                                         //當前項目目前折抵金額-開始
                                                         let tmpArray = tmpCBArray.filter((i) => i.CBID === row.CBID);
                                                         let deductNumber = tmpArray[0] ? tmpArray[0].TransAmount : 0;
                                                         deductFee = row.CurrAmount - tmpDeducted;
                                                         afterDiff = row.CurrAmount - tmpDeducted > 0 ? row.CurrAmount - tmpDeducted : 0;
+                                                        console.log('可折抵金額=>>', deductFee);
+                                                        console.log('折抵金額=>>', deductNumber);
                                                         return (
                                                             <TableRow
                                                                 key={row.CBID + row?.BLDetailID}
@@ -424,7 +427,12 @@ const ToDeductWork = ({ isDialogOpen, handleDialogClose, billDetailInfo, billMas
                                                                         style={{ width: '50%' }}
                                                                         value={deductNumber}
                                                                         onChange={(e) => {
-                                                                            changeDiff(deductFee.toFixed(2), e.target.value, row.CBID);
+                                                                            changeDiff(
+                                                                                row.CurrAmount,
+                                                                                deductFee.toFixed(2),
+                                                                                e.target.value,
+                                                                                row.CBID
+                                                                            );
                                                                         }}
                                                                     />
                                                                 </TableCell>

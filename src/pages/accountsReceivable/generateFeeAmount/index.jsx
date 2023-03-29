@@ -408,7 +408,7 @@ const fakeData2 = [
 ];
 
 const GenerateFeeAmount = () => {
-    const [value, setValue] = useState(2);
+    const [value, setValue] = useState(1);
     const [listInfo, setListInfo] = useState([]);
     const [dataList, setDataList] = useState([]);
     const dispatch = useDispatch();
