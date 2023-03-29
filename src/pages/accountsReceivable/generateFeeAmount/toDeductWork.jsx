@@ -114,14 +114,14 @@ const ToDeductWork = ({ isDialogOpen, handleDialogClose, billDetailInfo, billMas
         if (tmpArrayFiliter.length === 0) {
             let tmpQuery =
                 queryCB + '/SubmarineCable=' + data.SubmarineCable + '&WorkTitle=' + data.WorkTitle + '&PartyName=' + data.PartyName;
-            // fetch(tmpQuery, { method: 'GET' })
-            //     .then((res) => res.json())
-            //     .then((data) => {
-            //         if (Array.isArray(data)) {
-            //             setCbDataList(data);
-            //         }
-            //     })
-            //     .catch((e) => console.log('e1=>', e));
+            fetch(tmpQuery, { method: 'GET' })
+                .then((res) => res.json())
+                .then((data) => {
+                    if (Array.isArray(data)) {
+                        setCbDataList(data);
+                    }
+                })
+                .catch((e) => console.log('e1=>', e));
         } else {
             // let tmpArray = cbDataList.map((i) => i);
             setTmpCBArray(tmpArrayFiliter[0].CB);
@@ -219,12 +219,12 @@ const ToDeductWork = ({ isDialogOpen, handleDialogClose, billDetailInfo, billMas
             BillMaster: billMasterInfo,
             Deduct: tmpDeductArray.current
         };
-        // fetch(sendDuctInfo, { method: 'POST', body: JSON.stringify(tmpArray) })
-        //     .then((res) => res.json())
-        //     .then(() => {
-        //         dispatch(setMessageStateOpen({ messageStateOpen: { isOpen: true, severity: 'success', message: '送出成功' } }));
-        //     })
-        //     .catch((e) => console.log('e1=>', e));
+        fetch(sendDuctInfo, { method: 'POST', body: JSON.stringify(tmpArray) })
+            .then((res) => res.json())
+            .then(() => {
+                dispatch(setMessageStateOpen({ messageStateOpen: { isOpen: true, severity: 'success', message: '送出成功' } }));
+            })
+            .catch((e) => console.log('e1=>', e));
         handleDialogClose();
     };
 
