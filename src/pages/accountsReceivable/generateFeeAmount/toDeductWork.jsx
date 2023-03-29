@@ -139,16 +139,16 @@ const ToDeductWork = ({ isDialogOpen, handleDialogClose, billDetailInfo, billMas
         if (tmpArrayFiliter.length > 0) {
             tmpArray.forEach((i) => {
                 if (i.CBID === cbid) {
-                    if (Number(maxValue) === 0 || Number(value) < 0) {
+                    if (Number(maxValue) === 0 || Number(value) <= 0) {
                         //如果可折抵金額已經為0 或 輸入數字為負數，則回傳0
                         console.log('11=>>', Number(currAmount));
                         resule = Number(currAmount);
                         i.TransAmount = 0;
-                    } else if (Number(value) > Number(maxValue)) {
-                        console.log('12=>>', Number(maxValue));
-                        resule = Number(maxValue);
-                        i.TransAmount = Number(maxValue);
-                    } else if (Number(value) > Number(currAmount)) {
+                    } else if (Number(value) >= Number(maxValue)) {
+                        console.log('12=>>', Number(value) === Number(maxValue), Number(value), Number(maxValue));
+                        resule = Number(value) === Number(maxValue) ? Number(value) : Number(maxValue);
+                        i.TransAmount = Number(value) === Number(maxValue) ? Number(value) : Number(maxValue);
+                    } else if (Number(value) >= Number(currAmount)) {
                         console.log('13=>>');
                         resule = Number(currAmount);
                         i.TransAmount = Number(currAmount);

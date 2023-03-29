@@ -24,35 +24,41 @@ const Corporates = ({}) => {
     const fakeData = [
         {
             CorpID: 1,
-            CorpName: 'NEC',
-            AcctName: '+886',
-            AcctNo: 'Taiwan',
-            SavingAcctNo: '123',
-            ACHNo: 'ACHNo',
-            WireRouting: '123',
-            SWIFTCode: 'XXX',
-            Branch: 'branch',
-            IBAN: '123',
-            Name: '123',
-            Address: 'google.com'
+            // CorpName: 'NEC',
+            SubmarineCable: 'SJC2', //海纜名稱
+            WorkTitle: 'Construction', //海纜作業
+            Address: 'google.com', //聯盟地址
+            BankAcctName: '+886', //銀行帳號名稱
+            BankAcctNo: 'Taiwan', //銀行帳號1
+            SavingAcctNo: '123', //銀行帳號2
+            SWIFTCode: 'XXX', //國際銀行代碼
+            IBAN: '123', //國際銀行代碼
+            ACHNo: 'ACHNo', //ACH號碼
+            WireRouting: '123', //WireRouting
+            BankName: '123', //銀行名稱
+            Branch: 'branch', //分行名稱
+            BranchAddress: 'BranchAddress' //分行地址
         },
         {
             CorpID: 2,
-            CorpName: 'NEC',
-            AcctName: '+886',
-            AcctNo: 'Taiwan',
+            // CorpName: 'NEC',
+            BankAcctName: '+886',
+            BankAcctNo: 'Taiwan',
             SWIFTCode: 'XXX',
             SavingAcctNo: '123',
             ACHNo: 'ACHNo',
             WireRouting: '123',
             Branch: 'branch',
             IBAN: '123',
-            Name: '123',
-            Address: 'google.com'
+            BankName: '123',
+            Address: 'google.com',
+            WorkTitle: 'Construction',
+            SubmarineCable: 'SJC2',
+            BranchAddress: 'BranchAddress'
         }
     ];
     const [infoList, setInfoList] = useState(fakeData);
-    const [corpName, setCorpName] = useState(''); //聯盟代號
+    // const [corpName, setCorpName] = useState(''); //聯盟代號
     const [acctName, setAcctName] = useState(''); //海纜作業
     const [acctNo, setAcctNo] = useState(''); //會員名稱
     const [savingbankAcctNo, setSavingBankAcctNo] = useState(''); //銀行帳號2
@@ -67,8 +73,10 @@ const Corporates = ({}) => {
     const [workTitle, setWorkTitle] = useState(''); //海纜作業
     const [submarineCableEdit, setSubmarineCableEdit] = useState(''); //供應商編輯
     const [workTitleEdit, setWorkTitleEdit] = useState(''); //帳號名稱編輯
+    const [branchAddress, setBranchAddress] = useState('');
+    const [branchAddressEdit, setBranchAddressEdit] = useState('');
     const corpID = useRef(-1);
-    const [corpNameEdit, setCorpNameEdit] = useState(''); //供應商編輯
+    // const [corpNameEdit, setCorpNameEdit] = useState(''); //供應商編輯
     const [acctNameEdit, setAcctNameEdit] = useState(''); //帳號名稱編輯
     const [acctNoEdit, setAcctNoEdit] = useState(''); //銀行帳號編輯
     const [savingBankAcctNoEdit, setSavingBankAcctNoEdit] = useState(''); //銀行帳號2編輯
@@ -95,7 +103,7 @@ const Corporates = ({}) => {
     }));
 
     const infoInit = () => {
-        setCorpName('');
+        // setCorpName('');
         setAcctName('');
         setAcctNo('');
         setSWIFTCodeEdit('');
@@ -109,11 +117,12 @@ const Corporates = ({}) => {
         setBranch('');
         setSubmarineCable('');
         setWorkTitle('');
+        setBranchAddress('');
     };
 
     const editInfoInit = () => {
         corpID.current = -1;
-        setCorpNameEdit('');
+        // setCorpNameEdit('');
         setAcctNameEdit('');
         setAcctNoEdit('');
         setSWIFTCodeEdit('');
@@ -126,6 +135,7 @@ const Corporates = ({}) => {
         setBranchEdit('');
         setSubmarineCableEdit('');
         setWorkTitleEdit('');
+        setBranchAddressEdit('');
     };
 
     const queryCorporatesInfo = () => {
@@ -142,19 +152,20 @@ const Corporates = ({}) => {
 
     const addCorporatesInfo = () => {
         let tmpArray = {
-            CorpName: corpName,
-            AcctName: acctName,
-            AcctNo: acctNo,
+            // CorpName: corpName,
+            BankAcctName: acctName,
+            BankAcctNo: acctNo,
             SavingAcctNo: savingbankAcctNo,
             SWIFTCode: sWIFTCode,
             IBAN: iBAN,
             ACHNo: aCHNo,
             WireRouting: wireRouting,
-            Name: name,
+            BankName: name,
             Branch: branch,
             Address: address,
             SubmarineCable: submarineCable,
-            WorkTitle: workTitle
+            WorkTitle: workTitle,
+            BranchAddress: branchAddress
         };
         console.log('tmpArray=>>', tmpArray);
         fetch(addCorporates, { method: 'POST', body: JSON.stringify(tmpArray), headers: { 'Content-Type': 'application/json' } })
@@ -184,12 +195,12 @@ const Corporates = ({}) => {
     const editCorporatesInfo = (row) => {
         console.log(row, row.CorpID);
         corpID.current = row.CorpID;
-        setCorpNameEdit(row.CorpName);
-        setAcctNameEdit(row.AcctName);
-        setAcctNoEdit(row.AcctNo);
+        // setCorpNameEdit(row.CorpName);
+        setAcctNameEdit(row.BankAcctName);
+        setAcctNoEdit(row.BankAcctNo);
         setSWIFTCodeEdit(row.SWIFTCode);
         setIBANEdit(row.IBAN);
-        setNameEdit(row.Name);
+        setNameEdit(row.BankName);
         setAddressEdit(row.Address);
         setSavingBankAcctNoEdit(row.SavingAcctNo);
         setaCHnoEdit(row.ACHNo);
@@ -197,24 +208,26 @@ const Corporates = ({}) => {
         setBranchEdit(row.Branch);
         setSubmarineCableEdit(row.SubmarineCable);
         setWorkTitleEdit(row.WorkTitle);
+        setBranchAddressEdit(row.BranchAddress);
     };
 
     const saveEditCorporatesInfo = () => {
         let tmpArray = {
             PartyID: corpID.current,
-            CorpName: corpNameEdit,
-            AcctName: acctNameEdit,
-            AcctNo: acctNoEdit,
+            // CorpName: corpNameEdit,
+            BankAcctName: acctNameEdit,
+            BankAcctNo: acctNoEdit,
             SavingAcctNo: savingBankAcctNoEdit,
             SWIFTCode: sWIFTCodeEdit,
             IBAN: iBANEdit,
             ACHNo: aCHNoEdit,
             WireRouting: wireRoutingEdit,
-            Name: nameEdit,
+            BankName: nameEdit,
             Branch: branchEdit,
             Address: addressEdit,
             SubmarineCable: submarineCableEdit,
-            WorkTitle: workTitleEdit
+            WorkTitle: workTitleEdit,
+            BranchAddress: branchAddress
         };
         console.log('123=>>', tmpArray);
         fetch(editCorporates, { method: 'POST', body: JSON.stringify(tmpArray), headers: { 'Content-Type': 'application/json' } })
@@ -239,7 +252,10 @@ const Corporates = ({}) => {
                 <TableHead>
                     <TableRow>
                         <StyledTableCell align="center">NO</StyledTableCell>
-                        <StyledTableCell align="center">聯盟代號/名稱</StyledTableCell>
+                        {/* <StyledTableCell align="center">聯盟代號/名稱</StyledTableCell> */}
+                        <StyledTableCell align="center">海纜名稱</StyledTableCell>
+                        <StyledTableCell align="center">海纜作業</StyledTableCell>
+                        <StyledTableCell align="center">聯盟地址</StyledTableCell>
                         <StyledTableCell align="center">Account Name</StyledTableCell>
                         <StyledTableCell align="center">Account No.</StyledTableCell>
                         <StyledTableCell align="center">Saving Account No.</StyledTableCell>
@@ -250,8 +266,7 @@ const Corporates = ({}) => {
                         <StyledTableCell align="center">Bank Name</StyledTableCell>
                         <StyledTableCell align="center">Branch Name</StyledTableCell>
                         <StyledTableCell align="center">Bank Address</StyledTableCell>
-                        <StyledTableCell align="center">海纜名稱</StyledTableCell>
-                        <StyledTableCell align="center">海纜作業</StyledTableCell>
+
                         <StyledTableCell align="center">Action</StyledTableCell>
                     </TableRow>
                 </TableHead>
@@ -266,19 +281,20 @@ const Corporates = ({}) => {
                                 {row.CorpID !== corpID.current ? (
                                     <>
                                         <StyledTableCell align="center">{id + 1}</StyledTableCell>
-                                        <StyledTableCell align="center">{row.CorpName}</StyledTableCell>
-                                        <StyledTableCell align="center">{row.AcctName}</StyledTableCell>
-                                        <StyledTableCell align="center">{row.AcctNo}</StyledTableCell>
+                                        {/* <StyledTableCell align="center">{row.CorpName}</StyledTableCell> */}
+                                        <StyledTableCell align="center">{row.SubmarineCable}</StyledTableCell>
+                                        <StyledTableCell align="center">{row.WorkTitle}</StyledTableCell>
+                                        <StyledTableCell align="center">{row.BranchAddress}</StyledTableCell>
+                                        <StyledTableCell align="center">{row.BankAcctName}</StyledTableCell>
+                                        <StyledTableCell align="center">{row.BankAcctNo}</StyledTableCell>
                                         <StyledTableCell align="center">{row.SavingAcctNo}</StyledTableCell>
                                         <StyledTableCell align="center">{row.SWIFTCode}</StyledTableCell>
                                         <StyledTableCell align="center">{row.IBAN}</StyledTableCell>
                                         <StyledTableCell align="center">{row.ACHNo}</StyledTableCell>
                                         <StyledTableCell align="center">{row.WireRouting}</StyledTableCell>
-                                        <StyledTableCell align="center">{row.Name}</StyledTableCell>
+                                        <StyledTableCell align="center">{row.BankName}</StyledTableCell>
                                         <StyledTableCell align="center">{row.Branch}</StyledTableCell>
-                                        <StyledTableCell align="center">{row.Address}</StyledTableCell>
-                                        <StyledTableCell align="center">{row.SubmarineCable}</StyledTableCell>
-                                        <StyledTableCell align="center">{row.WorkTitle}</StyledTableCell>
+                                        <StyledTableCell align="center">{row.BranchAddress}</StyledTableCell>
                                         <StyledTableCell align="center">
                                             <Box
                                                 sx={{
@@ -311,13 +327,40 @@ const Corporates = ({}) => {
                                 ) : (
                                     <>
                                         <TableCell align="center">{id + 1}</TableCell>
-                                        <TableCell align="center">
+                                        {/* <TableCell align="center">
                                             <TextField
                                                 size="small"
                                                 // style={{ width: '30%' }}
                                                 value={corpNameEdit}
                                                 onChange={(e) => {
                                                     setCorpNameEdit(e.target.value);
+                                                }}
+                                            />
+                                        </TableCell> */}
+                                        <TableCell align="center">
+                                            <TextField
+                                                size="small"
+                                                value={submarineCableEdit}
+                                                onChange={(e) => {
+                                                    setSubmarineCableEdit(e.target.value);
+                                                }}
+                                            />
+                                        </TableCell>
+                                        <TableCell align="center">
+                                            <TextField
+                                                size="small"
+                                                value={workTitleEdit}
+                                                onChange={(e) => {
+                                                    setWorkTitleEdit(e.target.value);
+                                                }}
+                                            />
+                                        </TableCell>
+                                        <TableCell align="center">
+                                            <TextField
+                                                size="small"
+                                                value={branchAddressEdit}
+                                                onChange={(e) => {
+                                                    setBranchAddressEdit(e.target.value);
                                                 }}
                                             />
                                         </TableCell>
@@ -413,24 +456,7 @@ const Corporates = ({}) => {
                                                 }}
                                             />
                                         </TableCell>
-                                        <TableCell align="center">
-                                            <TextField
-                                                size="small"
-                                                value={submarineCableEdit}
-                                                onChange={(e) => {
-                                                    setSubmarineCableEdit(e.target.value);
-                                                }}
-                                            />
-                                        </TableCell>
-                                        <TableCell align="center">
-                                            <TextField
-                                                size="small"
-                                                value={workTitleEdit}
-                                                onChange={(e) => {
-                                                    setWorkTitleEdit(e.target.value);
-                                                }}
-                                            />
-                                        </TableCell>
+
                                         <StyledTableCell align="center">
                                             <Box
                                                 sx={{
@@ -466,12 +492,39 @@ const Corporates = ({}) => {
                     })}
                     <TableRow sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
                         <TableCell align="center"></TableCell>
-                        <TableCell align="center">
+                        {/* <TableCell align="center">
                             <TextField
                                 size="small"
                                 value={corpName}
                                 onChange={(e) => {
                                     setCorpName(e.target.value);
+                                }}
+                            />
+                        </TableCell> */}
+                        <TableCell align="center">
+                            <TextField
+                                size="small"
+                                value={submarineCable}
+                                onChange={(e) => {
+                                    setSubmarineCable(e.target.value);
+                                }}
+                            />
+                        </TableCell>
+                        <TableCell align="center">
+                            <TextField
+                                size="small"
+                                value={workTitle}
+                                onChange={(e) => {
+                                    setWorkTitle(e.target.value);
+                                }}
+                            />
+                        </TableCell>
+                        <TableCell align="center">
+                            <TextField
+                                size="small"
+                                value={branchAddress}
+                                onChange={(e) => {
+                                    setBranchAddress(e.target.value);
                                 }}
                             />
                         </TableCell>
@@ -567,24 +620,7 @@ const Corporates = ({}) => {
                                 }}
                             />
                         </TableCell>
-                        <TableCell align="center">
-                            <TextField
-                                size="small"
-                                value={submarineCable}
-                                onChange={(e) => {
-                                    setSubmarineCable(e.target.value);
-                                }}
-                            />
-                        </TableCell>
-                        <TableCell align="center">
-                            <TextField
-                                size="small"
-                                value={workTitle}
-                                onChange={(e) => {
-                                    setWorkTitle(e.target.value);
-                                }}
-                            />
-                        </TableCell>
+
                         <TableCell align="center">
                             <Box
                                 sx={{
