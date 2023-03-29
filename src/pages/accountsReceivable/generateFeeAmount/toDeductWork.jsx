@@ -107,7 +107,6 @@ const ToDeductWork = ({ isDialogOpen, handleDialogClose, billDetailInfo, billMas
         orgFeeAmount.current = 0;
         dedAmount.current = 0;
         setFeeAmountTotal(0);
-        setTmpCBArray([]);
     };
 
     const deductWork = (data, id) => {
@@ -115,14 +114,14 @@ const ToDeductWork = ({ isDialogOpen, handleDialogClose, billDetailInfo, billMas
         if (tmpArrayFiliter.length === 0) {
             let tmpQuery =
                 queryCB + '/SubmarineCable=' + data.SubmarineCable + '&WorkTitle=' + data.WorkTitle + '&PartyName=' + data.PartyName;
-            fetch(tmpQuery, { method: 'GET' })
-                .then((res) => res.json())
-                .then((data) => {
-                    if (Array.isArray(data)) {
-                        setCbDataList(data);
-                    }
-                })
-                .catch((e) => console.log('e1=>', e));
+            // fetch(tmpQuery, { method: 'GET' })
+            //     .then((res) => res.json())
+            //     .then((data) => {
+            //         if (Array.isArray(data)) {
+            //             setCbDataList(data);
+            //         }
+            //     })
+            //     .catch((e) => console.log('e1=>', e));
         } else {
             // let tmpArray = cbDataList.map((i) => i);
             setTmpCBArray(tmpArrayFiliter[0].CB);
@@ -132,18 +131,53 @@ const ToDeductWork = ({ isDialogOpen, handleDialogClose, billDetailInfo, billMas
     };
 
     const changeDiff = (currAmount, maxValue, value, cbid) => {
+        //原始可折抵金額,可折抵金額,目前輸入值
+        console.log('原始可折抵金額=>>', currAmount, '可折抵金額=>>', maxValue, '目前數值=>>', value, 'cbid=>>', cbid);
+        let resule = 0;
         let tmpArrayFiliter = tmpCBArray.filter((i) => i.CBID === cbid);
         let tmpArray = tmpCBArray.map((i) => i);
         if (tmpArrayFiliter.length > 0) {
             tmpArray.forEach((i) => {
                 if (i.CBID === cbid) {
-                    i.TransAmount = Number(value) > Number(maxValue) ? Number(maxValue) : Number(value) < 0 ? 0 : Number(value);
+                    if (Number(maxValue) === 0 || Number(value) < 0) {
+                        //如果可折抵金額已經為0 或 輸入數字為負數，則回傳0
+                        console.log('11=>>', Number(currAmount));
+                        resule = Number(currAmount);
+                        i.TransAmount = 0;
+                    } else if (Number(value) > Number(maxValue)) {
+                        console.log('12=>>', Number(maxValue));
+                        resule = Number(maxValue);
+                        i.TransAmount = Number(maxValue);
+                    } else if (Number(value) > Number(currAmount)) {
+                        console.log('13=>>');
+                        resule = Number(currAmount);
+                        i.TransAmount = Number(currAmount);
+                    } else {
+                        console.log('14=>>', Number(value));
+                        resule = Number(value);
+                        i.TransAmount = Number(value);
+                    }
+
+                    console.log('=>>>>>>>>>', resule);
+                    // i.TransAmount =
+                    //     Number(value) > Number(currAmount) //如果目前輸入數字大於原始金額，則帶原始金額
+                    //         ? Number(currAmount)
+                    //         : Number(value) > Number(maxValue) //如果輸入數字大於目前可折抵金額，則帶可折抵金額
+                    //         ? Number(maxValue)
+                    //         : Number(value);
                 }
             });
         } else {
             tmpArray.push({
                 CBID: cbid,
-                TransAmount: Number(value) > Number(maxValue) ? Number(maxValue) : Number(value) < 0 ? 0 : Number(value)
+                TransAmount:
+                    Number(maxValue) === 0 || Number(value) < 0
+                        ? 0
+                        : Number(value) > Number(maxValue)
+                        ? Number(maxValue)
+                        : Number(value) > Number(currAmount)
+                        ? Number(currAmount)
+                        : Number(value)
             });
         }
         setTmpCBArray(tmpArray); //秀於畫面中抵扣
@@ -185,12 +219,12 @@ const ToDeductWork = ({ isDialogOpen, handleDialogClose, billDetailInfo, billMas
             BillMaster: billMasterInfo,
             Deduct: tmpDeductArray.current
         };
-        fetch(sendDuctInfo, { method: 'POST', body: JSON.stringify(tmpArray) })
-            .then((res) => res.json())
-            .then(() => {
-                dispatch(setMessageStateOpen({ messageStateOpen: { isOpen: true, severity: 'success', message: '送出成功' } }));
-            })
-            .catch((e) => console.log('e1=>', e));
+        // fetch(sendDuctInfo, { method: 'POST', body: JSON.stringify(tmpArray) })
+        //     .then((res) => res.json())
+        //     .then(() => {
+        //         dispatch(setMessageStateOpen({ messageStateOpen: { isOpen: true, severity: 'success', message: '送出成功' } }));
+        //     })
+        //     .catch((e) => console.log('e1=>', e));
         handleDialogClose();
     };
 
@@ -393,7 +427,6 @@ const ToDeductWork = ({ isDialogOpen, handleDialogClose, billDetailInfo, billMas
                                                         let deductFee = 0; //可折抵金額
                                                         let afterDiff = 0; //剩餘可折抵金額
                                                         //其他項目目前折抵金額-開始
-                                                        console.log('tmpDeductArray.current=>>>', tmpDeductArray.current);
                                                         tmpDeductArray.current.forEach((i1) => {
                                                             i1.CB.forEach((i2) => {
                                                                 if (i2.CBID === row.CBID) {
@@ -401,15 +434,13 @@ const ToDeductWork = ({ isDialogOpen, handleDialogClose, billDetailInfo, billMas
                                                                 }
                                                             });
                                                         });
-                                                        console.log('已經於別的項目折抵的金額=>>', tmpDeducted);
                                                         //其他項目目前折抵金額-結束
                                                         //當前項目目前折抵金額-開始
                                                         let tmpArray = tmpCBArray.filter((i) => i.CBID === row.CBID);
                                                         let deductNumber = tmpArray[0] ? tmpArray[0].TransAmount : 0;
+                                                        console.log('deductFee=>>', tmpDeducted);
                                                         deductFee = row.CurrAmount - tmpDeducted;
                                                         afterDiff = row.CurrAmount - tmpDeducted > 0 ? row.CurrAmount - tmpDeducted : 0;
-                                                        console.log('可折抵金額=>>', deductFee);
-                                                        console.log('折抵金額=>>', deductNumber);
                                                         return (
                                                             <TableRow
                                                                 key={row.CBID + row?.BLDetailID}

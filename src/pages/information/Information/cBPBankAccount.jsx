@@ -63,6 +63,10 @@ const Corporates = ({}) => {
     const [iBAN, setIBAN] = useState(''); //電子郵件
     const [name, setName] = useState(''); //電話
     const [address, setAddress] = useState(''); //公司地址
+    const [submarineCable, setSubmarineCable] = useState(''); //海纜名稱
+    const [workTitle, setWorkTitle] = useState(''); //海纜作業
+    const [submarineCableEdit, setSubmarineCableEdit] = useState(''); //供應商編輯
+    const [workTitleEdit, setWorkTitleEdit] = useState(''); //帳號名稱編輯
     const corpID = useRef(-1);
     const [corpNameEdit, setCorpNameEdit] = useState(''); //供應商編輯
     const [acctNameEdit, setAcctNameEdit] = useState(''); //帳號名稱編輯
@@ -103,6 +107,8 @@ const Corporates = ({}) => {
         setaCHno('');
         setWireRouting('');
         setBranch('');
+        setSubmarineCable('');
+        setWorkTitle('');
     };
 
     const editInfoInit = () => {
@@ -118,6 +124,8 @@ const Corporates = ({}) => {
         setaCHnoEdit('');
         setWireRoutingEdit('');
         setBranchEdit('');
+        setSubmarineCableEdit('');
+        setWorkTitleEdit('');
     };
 
     const queryCorporatesInfo = () => {
@@ -144,7 +152,9 @@ const Corporates = ({}) => {
             WireRouting: wireRouting,
             Name: name,
             Branch: branch,
-            Address: address
+            Address: address,
+            SubmarineCable: submarineCable,
+            WorkTitle: workTitle
         };
         console.log('tmpArray=>>', tmpArray);
         fetch(addCorporates, { method: 'POST', body: JSON.stringify(tmpArray), headers: { 'Content-Type': 'application/json' } })
@@ -185,6 +195,8 @@ const Corporates = ({}) => {
         setaCHnoEdit(row.ACHNo);
         setWireRoutingEdit(row.WireRouting);
         setBranchEdit(row.Branch);
+        setSubmarineCableEdit(row.SubmarineCable);
+        setWorkTitleEdit(row.WorkTitle);
     };
 
     const saveEditCorporatesInfo = () => {
@@ -200,7 +212,9 @@ const Corporates = ({}) => {
             WireRouting: wireRoutingEdit,
             Name: nameEdit,
             Branch: branchEdit,
-            Address: addressEdit
+            Address: addressEdit,
+            SubmarineCable: submarineCableEdit,
+            WorkTitle: workTitleEdit
         };
         console.log('123=>>', tmpArray);
         fetch(editCorporates, { method: 'POST', body: JSON.stringify(tmpArray), headers: { 'Content-Type': 'application/json' } })
@@ -219,7 +233,6 @@ const Corporates = ({}) => {
         queryCorporatesInfo();
     }, []);
 
-    console.log('corpID.current=>>', corpID.current);
     return (
         <TableContainer component={Paper} sx={{ maxHeight: 700 }}>
             <Table sx={{ minWidth: 300 }} stickyHeader aria-label="sticky table">
@@ -237,6 +250,8 @@ const Corporates = ({}) => {
                         <StyledTableCell align="center">Bank Name</StyledTableCell>
                         <StyledTableCell align="center">Branch Name</StyledTableCell>
                         <StyledTableCell align="center">Bank Address</StyledTableCell>
+                        <StyledTableCell align="center">海纜名稱</StyledTableCell>
+                        <StyledTableCell align="center">海纜作業</StyledTableCell>
                         <StyledTableCell align="center">Action</StyledTableCell>
                     </TableRow>
                 </TableHead>
@@ -262,6 +277,8 @@ const Corporates = ({}) => {
                                         <StyledTableCell align="center">{row.Name}</StyledTableCell>
                                         <StyledTableCell align="center">{row.Branch}</StyledTableCell>
                                         <StyledTableCell align="center">{row.Address}</StyledTableCell>
+                                        <StyledTableCell align="center">{row.SubmarineCable}</StyledTableCell>
+                                        <StyledTableCell align="center">{row.WorkTitle}</StyledTableCell>
                                         <StyledTableCell align="center">
                                             <Box
                                                 sx={{
@@ -393,6 +410,24 @@ const Corporates = ({}) => {
                                                 value={addressEdit}
                                                 onChange={(e) => {
                                                     setAddressEdit(e.target.value);
+                                                }}
+                                            />
+                                        </TableCell>
+                                        <TableCell align="center">
+                                            <TextField
+                                                size="small"
+                                                value={submarineCableEdit}
+                                                onChange={(e) => {
+                                                    setSubmarineCableEdit(e.target.value);
+                                                }}
+                                            />
+                                        </TableCell>
+                                        <TableCell align="center">
+                                            <TextField
+                                                size="small"
+                                                value={workTitleEdit}
+                                                onChange={(e) => {
+                                                    setWorkTitleEdit(e.target.value);
                                                 }}
                                             />
                                         </TableCell>
@@ -529,6 +564,24 @@ const Corporates = ({}) => {
                                 value={address}
                                 onChange={(e) => {
                                     setAddress(e.target.value);
+                                }}
+                            />
+                        </TableCell>
+                        <TableCell align="center">
+                            <TextField
+                                size="small"
+                                value={submarineCable}
+                                onChange={(e) => {
+                                    setSubmarineCable(e.target.value);
+                                }}
+                            />
+                        </TableCell>
+                        <TableCell align="center">
+                            <TextField
+                                size="small"
+                                value={workTitle}
+                                onChange={(e) => {
+                                    setWorkTitle(e.target.value);
                                 }}
                             />
                         </TableCell>
