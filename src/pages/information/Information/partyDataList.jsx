@@ -15,6 +15,7 @@ import { alpha, styled } from '@mui/material/styles';
 import dayjs from 'dayjs';
 
 import { addParties, getPartiesInfoList, deleteParties, editParties } from 'components/apis.jsx';
+import { makeStyles } from '@material-ui/core/styles';
 
 // redux
 import { useDispatch } from 'react-redux';
@@ -25,64 +26,77 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
         // backgroundColor: theme.palette.common.gary,
         color: theme.palette.common.black,
         paddingTop: '0.2rem',
-        paddingBottom: '0.2rem'
+        paddingBottom: '0.2rem',
+        fontSize: '0.3rem'
     },
     [`&.${tableCellClasses.body}`]: {
         fontSize: 14,
         paddingTop: '0.2rem',
-        paddingBottom: '0.2rem'
+        paddingBottom: '0.2rem',
+        fontSize: '0.3rem'
     }
 }));
 
+const useStyles = makeStyles({
+    sticky: {
+        position: 'sticky',
+        left: 0,
+        background: 'white',
+        boxShadow: '5px 2px 5px grey',
+        zIndex: 100
+    }
+});
+
 const PartyDataList = ({}) => {
     const dispatch = useDispatch();
-    // const fakeData = [
-    //     {
-    //         PartyID: 1,
-    //         PartyCode: 'NEC',
-    //         SubmarineCable: 'NEC',
-    //         WorkTitle: '+886',
-    //         PartyName: 'Taiwan',
-    //         Address: 'google.com',
-    //         Contact: 'XXX',
-    //         Email: 'pppp@gmail.com',
-    //         Tel: '+886912123',
-    //         CompanyName: 'CompanyName',
-    //         BankAcctName: 'BankAcctName',
-    //         AccountNo: 'AccountNo',
-    //         SavingAccountNo: 'SavingAccountNo',
-    //         SWIFTCode: 'SWIFTCode',
-    //         IBAN: 'IBAN',
-    //         ACHNo: 'ACHNo',
-    //         WireRouting: 'WireRouting',
-    //         BankName: 'BankName',
-    //         Branch: 'Branch',
-    //         BankAddress: 'BankAddress'
-    //     },
-    //     {
-    //         PartyID: 2,
-    //         PartyCode: 'NEC',
-    //         SubmarineCable: 'NEC',
-    //         WorkTitle: '+886',
-    //         PartyName: 'Taiwan',
-    //         Address: 'google.com',
-    //         Contact: 'XXX',
-    //         Email: 'pppp@gmail.com',
-    //         Tel: '886912123',
-    //         CompanyName: 1,
-    //         BankAcctName: 2,
-    //         AccountNo: 3,
-    //         SavingAccountNo: 4,
-    //         SWIFTCode: 5,
-    //         IBAN: 6,
-    //         ACHNo: 7,
-    //         WireRouting: 8,
-    //         BankName: 9,
-    //         Branch: 0,
-    //         BankAddress: 1111
-    //     }
-    // ];
-    const [infoList, setInfoList] = useState([]);
+    const classes = useStyles();
+    const fakeData = [
+        {
+            PartyID: 1,
+            PartyCode: 'NEC',
+            SubmarineCable: 'NEC',
+            WorkTitle: '+886',
+            PartyName: 'Taiwan',
+            Address: 'google.com',
+            Contact: 'XXX',
+            Email: 'pppp@gmail.com',
+            Tel: '+886912123',
+            CompanyName: 'CompanyName',
+            BankAcctName: 'BankAcctName',
+            AccountNo: 'AccountNo',
+            SavingAccountNo: 'SavingAccountNo',
+            SWIFTCode: 'SWIFTCode',
+            IBAN: 'IBAN',
+            ACHNo: 'ACHNo',
+            WireRouting: 'WireRouting',
+            BankName: 'BankName',
+            Branch: 'Branch',
+            BankAddress: 'BankAddress'
+        },
+        {
+            PartyID: 2,
+            PartyCode: 'NEC',
+            SubmarineCable: 'NEC',
+            WorkTitle: '+886',
+            PartyName: 'Taiwan',
+            Address: 'google.com',
+            Contact: 'XXX',
+            Email: 'pppp@gmail.com',
+            Tel: '886912123',
+            CompanyName: 1,
+            BankAcctName: 2,
+            AccountNo: 3,
+            SavingAccountNo: 4,
+            SWIFTCode: 5,
+            IBAN: 6,
+            ACHNo: 7,
+            WireRouting: 8,
+            BankName: 9,
+            Branch: 0,
+            BankAddress: 1111
+        }
+    ];
+    const [infoList, setInfoList] = useState(fakeData);
     const [submarineCable, setSubmarineCable] = useState(''); //海纜名稱
     const [workTitle, setWorkTitle] = useState(''); //海纜作業
     const [code, setCode] = useState(''); //代碼
@@ -291,8 +305,16 @@ const PartyDataList = ({}) => {
             <Table sx={{ minWidth: 400, width: 'max-content' }} stickyHeader aria-label="sticky table">
                 <TableHead>
                     <TableRow>
+                        <StyledTableCell align="center" className={classes.sticky}>
+                            <TableCell>Action</TableCell>
+                        </StyledTableCell>
                         <StyledTableCell align="center">NO</StyledTableCell>
-
+                        <StyledTableCell align="center" style={{ width: '6rem' }}>
+                            海纜名稱
+                        </StyledTableCell>
+                        <StyledTableCell align="center" style={{ width: '6rem' }}>
+                            海纜作業
+                        </StyledTableCell>
                         <StyledTableCell align="center" style={{ width: '4rem' }}>
                             代碼
                         </StyledTableCell>
@@ -344,13 +366,6 @@ const PartyDataList = ({}) => {
                         <StyledTableCell align="center" style={{ width: '8rem' }}>
                             銀行地址
                         </StyledTableCell>
-                        <StyledTableCell align="center" style={{ width: '6rem' }}>
-                            海纜名稱
-                        </StyledTableCell>
-                        <StyledTableCell align="center" style={{ width: '6rem' }}>
-                            海纜作業
-                        </StyledTableCell>
-                        <StyledTableCell align="center">Action</StyledTableCell>
                     </TableRow>
                 </TableHead>
                 <TableBody>
@@ -362,6 +377,44 @@ const PartyDataList = ({}) => {
                             >
                                 {row.PartyID !== partyID.current ? (
                                     <>
+                                        <StyledTableCell align="center" className={classes.sticky}>
+                                            <TableCell>
+                                                <Box
+                                                    sx={{
+                                                        display: 'flex',
+                                                        justifyContent: 'center',
+                                                        '& button': { mx: { md: 0.6, lg: 1, xl: 1.8 }, p: 0, fontSize: 1 }
+                                                    }}
+                                                >
+                                                    <Button
+                                                        color="primary"
+                                                        variant="outlined"
+                                                        onClick={() => {
+                                                            editPartyInfo(row);
+                                                        }}
+                                                    >
+                                                        編輯
+                                                    </Button>
+                                                    <Button
+                                                        color="error"
+                                                        variant="outlined"
+                                                        onClick={() => {
+                                                            deletePartyInfo(row);
+                                                        }}
+                                                    >
+                                                        刪除
+                                                    </Button>
+                                                </Box>
+                                            </TableCell>
+                                            <TableCell>{row.SubmarineCable}</TableCell>
+                                            <TableCell>{row.WorkTitle}</TableCell>
+                                        </StyledTableCell>
+                                        {/* <StyledTableCell align="center" className={classes.sticky}>
+                                            {row.SubmarineCable}
+                                        </StyledTableCell>
+                                        <StyledTableCell align="center" className={classes.sticky}>
+                                            {row.WorkTitle}
+                                        </StyledTableCell> */}
                                         <StyledTableCell align="center">{id + 1}</StyledTableCell>
                                         <StyledTableCell align="center">{row.PartyCode}</StyledTableCell>
                                         <StyledTableCell align="center">{row.PartyName}</StyledTableCell>
@@ -380,9 +433,10 @@ const PartyDataList = ({}) => {
                                         <StyledTableCell align="center">{row.BankName}</StyledTableCell>
                                         <StyledTableCell align="center">{row.Branch}</StyledTableCell>
                                         <StyledTableCell align="center">{row.BankAddress}</StyledTableCell>
-                                        <StyledTableCell align="center">{row.SubmarineCable}</StyledTableCell>
-                                        <StyledTableCell align="center">{row.WorkTitle}</StyledTableCell>
-                                        <StyledTableCell align="center">
+                                    </>
+                                ) : (
+                                    <>
+                                        <StyledTableCell align="center" className={classes.sticky}>
                                             <Box
                                                 sx={{
                                                     display: 'flex',
@@ -390,30 +444,34 @@ const PartyDataList = ({}) => {
                                                     '& button': { mx: { md: 0.6, lg: 1, xl: 1.8 }, p: 0, fontSize: 1 }
                                                 }}
                                             >
-                                                <Button
-                                                    color="primary"
-                                                    variant="outlined"
-                                                    onClick={() => {
-                                                        editPartyInfo(row);
-                                                    }}
-                                                >
-                                                    編輯
+                                                <Button color="primary" variant="outlined" onClick={saveEditPartyInfo}>
+                                                    儲存
                                                 </Button>
-                                                <Button
-                                                    color="error"
-                                                    variant="outlined"
-                                                    onClick={() => {
-                                                        deletePartyInfo(row);
-                                                    }}
-                                                >
-                                                    刪除
+                                                <Button color="error" variant="outlined" onClick={editInfoInit}>
+                                                    取消
                                                 </Button>
                                             </Box>
                                         </StyledTableCell>
-                                    </>
-                                ) : (
-                                    <>
                                         <TableCell align="center">{id + 1}</TableCell>
+                                        <TableCell align="center">
+                                            <TextField
+                                                size="small"
+                                                // style={{ width: '30%' }}
+                                                value={submarineCableEdit}
+                                                onChange={(e) => {
+                                                    setSubmarineCableEdit(e.target.value);
+                                                }}
+                                            />
+                                        </TableCell>
+                                        <TableCell align="center">
+                                            <TextField
+                                                size="small"
+                                                value={workTitleEdit}
+                                                onChange={(e) => {
+                                                    setWorkTitleEdit(e.target.value);
+                                                }}
+                                            />
+                                        </TableCell>
                                         <TableCell align="center">
                                             <TextField
                                                 size="small"
@@ -567,48 +625,44 @@ const PartyDataList = ({}) => {
                                                 }}
                                             />
                                         </TableCell>
-                                        <TableCell align="center">
-                                            <TextField
-                                                size="small"
-                                                // style={{ width: '30%' }}
-                                                value={submarineCableEdit}
-                                                onChange={(e) => {
-                                                    setSubmarineCableEdit(e.target.value);
-                                                }}
-                                            />
-                                        </TableCell>
-                                        <TableCell align="center">
-                                            <TextField
-                                                size="small"
-                                                value={workTitleEdit}
-                                                onChange={(e) => {
-                                                    setWorkTitleEdit(e.target.value);
-                                                }}
-                                            />
-                                        </TableCell>
-                                        <StyledTableCell align="center">
-                                            <Box
-                                                sx={{
-                                                    display: 'flex',
-                                                    justifyContent: 'center',
-                                                    '& button': { mx: { md: 0.6, lg: 1, xl: 1.8 }, p: 0, fontSize: 1 }
-                                                }}
-                                            >
-                                                <Button color="primary" variant="outlined" onClick={saveEditPartyInfo}>
-                                                    儲存
-                                                </Button>
-                                                <Button color="error" variant="outlined" onClick={editInfoInit}>
-                                                    取消
-                                                </Button>
-                                            </Box>
-                                        </StyledTableCell>
                                     </>
                                 )}
                             </TableRow>
                         );
                     })}
                     <TableRow sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
+                        <TableCell align="center" className={classes.sticky}>
+                            <Box
+                                sx={{
+                                    display: 'flex',
+                                    justifyContent: 'center',
+                                    '& button': { mx: { md: 0.6, lg: 1, xl: 1.8 }, p: 0, fontSize: 1 }
+                                }}
+                            >
+                                <Button color="success" variant="outlined" onClick={addPartyInfo}>
+                                    新增
+                                </Button>
+                            </Box>
+                        </TableCell>
                         <TableCell align="center"></TableCell>
+                        <TableCell align="center">
+                            <TextField
+                                size="small"
+                                value={submarineCable}
+                                onChange={(e) => {
+                                    setSubmarineCable(e.target.value);
+                                }}
+                            />
+                        </TableCell>
+                        <TableCell align="center">
+                            <TextField
+                                size="small"
+                                value={workTitle}
+                                onChange={(e) => {
+                                    setWorkTitle(e.target.value);
+                                }}
+                            />
+                        </TableCell>
                         <TableCell align="center">
                             <TextField
                                 size="small"
@@ -761,37 +815,6 @@ const PartyDataList = ({}) => {
                                     setBankAddress(e.target.value);
                                 }}
                             />
-                        </TableCell>
-                        <TableCell align="center">
-                            <TextField
-                                size="small"
-                                value={submarineCable}
-                                onChange={(e) => {
-                                    setSubmarineCable(e.target.value);
-                                }}
-                            />
-                        </TableCell>
-                        <TableCell align="center">
-                            <TextField
-                                size="small"
-                                value={workTitle}
-                                onChange={(e) => {
-                                    setWorkTitle(e.target.value);
-                                }}
-                            />
-                        </TableCell>
-                        <TableCell align="center">
-                            <Box
-                                sx={{
-                                    display: 'flex',
-                                    justifyContent: 'center',
-                                    '& button': { mx: { md: 0.6, lg: 1, xl: 1.8 }, p: 0, fontSize: 1 }
-                                }}
-                            >
-                                <Button color="success" variant="outlined" onClick={addPartyInfo}>
-                                    新增
-                                </Button>
-                            </Box>
                         </TableCell>
                     </TableRow>
                 </TableBody>

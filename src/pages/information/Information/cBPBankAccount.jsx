@@ -3,7 +3,7 @@ import { useState, useRef, useEffect } from 'react';
 // project import
 import { handleNumber } from 'components/commonFunction';
 // material-ui
-import { Button, Table, TextField, Box } from '@mui/material';
+import { Button, Table, TextField, Box, Select, MenuItem } from '@mui/material';
 import TableBody from '@mui/material/TableBody';
 import TableCell, { tableCellClasses } from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
@@ -16,11 +16,12 @@ import dayjs from 'dayjs';
 
 import { addCorporates, getCorporatesInfo, deleteCorporates, editCorporates } from 'components/apis.jsx';
 // redux
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { setMessageStateOpen } from 'store/reducers/dropdown';
 
 const Corporates = ({}) => {
     const dispatch = useDispatch();
+    const { subCableList } = useSelector((state) => state.dropdown); //供應商下拉選單 + 海纜名稱下拉選單
     const fakeData = [
         {
             CorpID: 1,
@@ -93,12 +94,14 @@ const Corporates = ({}) => {
             // backgroundColor: theme.palette.common.gary,
             color: theme.palette.common.black,
             paddingTop: '0.2rem',
-            paddingBottom: '0.2rem'
+            paddingBottom: '0.2rem',
+            fontSize: '0.5rem'
         },
         [`&.${tableCellClasses.body}`]: {
             fontSize: 14,
             paddingTop: '0.2rem',
-            paddingBottom: '0.2rem'
+            paddingBottom: '0.2rem',
+            fontSize: '0.5rem'
         }
     }));
 
@@ -250,12 +253,12 @@ const Corporates = ({}) => {
         <TableContainer component={Paper} sx={{ maxHeight: 700 }}>
             <Table sx={{ minWidth: 300 }} stickyHeader aria-label="sticky table">
                 <TableHead>
-                    <TableRow>
+                    <TableRow sx={{ fontSize: '50px' }}>
                         <StyledTableCell align="center">NO</StyledTableCell>
                         {/* <StyledTableCell align="center">聯盟代號/名稱</StyledTableCell> */}
                         <StyledTableCell align="center">海纜名稱</StyledTableCell>
                         <StyledTableCell align="center">海纜作業</StyledTableCell>
-                        <StyledTableCell align="center">聯盟地址</StyledTableCell>
+                        <StyledTableCell align="center">地址</StyledTableCell>
                         <StyledTableCell align="center">Account Name</StyledTableCell>
                         <StyledTableCell align="center">Account No.</StyledTableCell>
                         <StyledTableCell align="center">Saving Account No.</StyledTableCell>
@@ -280,27 +283,13 @@ const Corporates = ({}) => {
                             >
                                 {row.CorpID !== corpID.current ? (
                                     <>
-                                        <StyledTableCell align="center">{id + 1}</StyledTableCell>
-                                        {/* <StyledTableCell align="center">{row.CorpName}</StyledTableCell> */}
-                                        <StyledTableCell align="center">{row.SubmarineCable}</StyledTableCell>
-                                        <StyledTableCell align="center">{row.WorkTitle}</StyledTableCell>
-                                        <StyledTableCell align="center">{row.BranchAddress}</StyledTableCell>
-                                        <StyledTableCell align="center">{row.BankAcctName}</StyledTableCell>
-                                        <StyledTableCell align="center">{row.BankAcctNo}</StyledTableCell>
-                                        <StyledTableCell align="center">{row.SavingAcctNo}</StyledTableCell>
-                                        <StyledTableCell align="center">{row.SWIFTCode}</StyledTableCell>
-                                        <StyledTableCell align="center">{row.IBAN}</StyledTableCell>
-                                        <StyledTableCell align="center">{row.ACHNo}</StyledTableCell>
-                                        <StyledTableCell align="center">{row.WireRouting}</StyledTableCell>
-                                        <StyledTableCell align="center">{row.BankName}</StyledTableCell>
-                                        <StyledTableCell align="center">{row.Branch}</StyledTableCell>
-                                        <StyledTableCell align="center">{row.BranchAddress}</StyledTableCell>
                                         <StyledTableCell align="center">
                                             <Box
                                                 sx={{
                                                     display: 'flex',
+                                                    flexFlow: 'column',
                                                     justifyContent: 'center',
-                                                    '& button': { mx: { md: 0.6, lg: 1, xl: 1.8 }, p: 0, fontSize: 1 }
+                                                    '& button': { mx: { md: 0.6, lg: 1, xl: 1.8 }, my: 0.2, p: 0, fontSize: 1 }
                                                 }}
                                             >
                                                 <Button
@@ -323,10 +312,55 @@ const Corporates = ({}) => {
                                                 </Button>
                                             </Box>
                                         </StyledTableCell>
+                                        <StyledTableCell align="center">{id + 1}</StyledTableCell>
+                                        {/* <StyledTableCell align="center">{row.CorpName}</StyledTableCell> */}
+                                        <StyledTableCell align="center">{row.SubmarineCable}</StyledTableCell>
+                                        <StyledTableCell align="center">{row.WorkTitle}</StyledTableCell>
+                                        <StyledTableCell align="center">{row.BranchAddress}</StyledTableCell>
+                                        <StyledTableCell align="center">{row.BankAcctName}</StyledTableCell>
+                                        <StyledTableCell align="center">{row.BankAcctNo}</StyledTableCell>
+                                        <StyledTableCell align="center">{row.SavingAcctNo}</StyledTableCell>
+                                        <StyledTableCell align="center">{row.SWIFTCode}</StyledTableCell>
+                                        <StyledTableCell align="center">{row.IBAN}</StyledTableCell>
+                                        <StyledTableCell align="center">{row.ACHNo}</StyledTableCell>
+                                        <StyledTableCell align="center">{row.WireRouting}</StyledTableCell>
+                                        <StyledTableCell align="center">{row.BankName}</StyledTableCell>
+                                        <StyledTableCell align="center">{row.Branch}</StyledTableCell>
+                                        <StyledTableCell align="center">{row.BranchAddress}</StyledTableCell>
                                     </>
                                 ) : (
                                     <>
-                                        <TableCell align="center">{id + 1}</TableCell>
+                                        <StyledTableCell align="center">
+                                            <Box
+                                                sx={{
+                                                    display: 'flex',
+                                                    justifyContent: 'center',
+                                                    '& button': { mx: { md: 0.6, lg: 1, xl: 1.8 }, p: 0, fontSize: 1 }
+                                                }}
+                                            >
+                                                <Button
+                                                    color="primary"
+                                                    variant="outlined"
+                                                    onClick={() => {
+                                                        saveEditCorporatesInfo();
+                                                    }}
+                                                >
+                                                    儲存
+                                                </Button>
+                                                <Button
+                                                    color="error"
+                                                    variant="outlined"
+                                                    onClick={() => {
+                                                        editInfoInit();
+                                                    }}
+                                                >
+                                                    取消
+                                                </Button>
+                                            </Box>
+                                        </StyledTableCell>
+                                        <TableCell sx={{ fontSize: '0.5rem' }} align="center">
+                                            {id + 1}
+                                        </TableCell>
                                         {/* <TableCell align="center">
                                             <TextField
                                                 size="small"
@@ -338,29 +372,36 @@ const Corporates = ({}) => {
                                             />
                                         </TableCell> */}
                                         <TableCell align="center">
-                                            <TextField
+                                            <Select
                                                 size="small"
                                                 value={submarineCableEdit}
-                                                onChange={(e) => {
-                                                    setSubmarineCableEdit(e.target.value);
-                                                }}
-                                            />
+                                                onChange={(e) => setSubmarineCableEdit(e.target.value)}
+                                            >
+                                                {subCableList.map((i) => (
+                                                    <MenuItem key={i.CableName} value={i.CableName}>
+                                                        {i.CableName}
+                                                    </MenuItem>
+                                                ))}
+                                            </Select>
                                         </TableCell>
                                         <TableCell align="center">
-                                            <TextField
+                                            <Select
                                                 size="small"
                                                 value={workTitleEdit}
-                                                onChange={(e) => {
-                                                    setWorkTitleEdit(e.target.value);
-                                                }}
-                                            />
+                                                label="填寫海纜作業"
+                                                onChange={(e) => setWorkTitleEdit(e.target.value)}
+                                            >
+                                                <MenuItem value={'Upgrade'}>Upgrade</MenuItem>
+                                                <MenuItem value={'Construction'}>Construction</MenuItem>
+                                                <MenuItem value={'O&M'}>O&M</MenuItem>
+                                            </Select>
                                         </TableCell>
                                         <TableCell align="center">
                                             <TextField
                                                 size="small"
-                                                value={branchAddressEdit}
+                                                value={addressEdit}
                                                 onChange={(e) => {
-                                                    setBranchAddressEdit(e.target.value);
+                                                    setAddressEdit(e.target.value);
                                                 }}
                                             />
                                         </TableCell>
@@ -450,47 +491,31 @@ const Corporates = ({}) => {
                                         <TableCell align="center">
                                             <TextField
                                                 size="small"
-                                                value={addressEdit}
+                                                value={branchAddressEdit}
                                                 onChange={(e) => {
-                                                    setAddressEdit(e.target.value);
+                                                    setBranchAddressEdit(e.target.value);
                                                 }}
                                             />
                                         </TableCell>
-
-                                        <StyledTableCell align="center">
-                                            <Box
-                                                sx={{
-                                                    display: 'flex',
-                                                    justifyContent: 'center',
-                                                    '& button': { mx: { md: 0.6, lg: 1, xl: 1.8 }, p: 0, fontSize: 1 }
-                                                }}
-                                            >
-                                                <Button
-                                                    color="primary"
-                                                    variant="outlined"
-                                                    onClick={() => {
-                                                        saveEditCorporatesInfo();
-                                                    }}
-                                                >
-                                                    儲存
-                                                </Button>
-                                                <Button
-                                                    color="error"
-                                                    variant="outlined"
-                                                    onClick={() => {
-                                                        editInfoInit();
-                                                    }}
-                                                >
-                                                    取消
-                                                </Button>
-                                            </Box>
-                                        </StyledTableCell>
                                     </>
                                 )}
                             </TableRow>
                         );
                     })}
                     <TableRow sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
+                        <TableCell align="center">
+                            <Box
+                                sx={{
+                                    display: 'flex',
+                                    justifyContent: 'center',
+                                    '& button': { mx: { md: 0.6, lg: 1, xl: 1.8 }, p: 0, fontSize: 1 }
+                                }}
+                            >
+                                <Button color="success" variant="outlined" onClick={addCorporatesInfo}>
+                                    新增
+                                </Button>
+                            </Box>
+                        </TableCell>
                         <TableCell align="center"></TableCell>
                         {/* <TableCell align="center">
                             <TextField
@@ -502,29 +527,27 @@ const Corporates = ({}) => {
                             />
                         </TableCell> */}
                         <TableCell align="center">
-                            <TextField
-                                size="small"
-                                value={submarineCable}
-                                onChange={(e) => {
-                                    setSubmarineCable(e.target.value);
-                                }}
-                            />
+                            <Select size="small" value={submarineCable} onChange={(e) => setSubmarineCable(e.target.value)}>
+                                {subCableList.map((i) => (
+                                    <MenuItem key={i.CableName} value={i.CableName}>
+                                        {i.CableName}
+                                    </MenuItem>
+                                ))}
+                            </Select>
+                        </TableCell>
+                        <TableCell align="center">
+                            <Select size="small" value={workTitle} label="填寫海纜作業" onChange={(e) => setWorkTitle(e.target.value)}>
+                                <MenuItem value={'Upgrade'}>Upgrade</MenuItem>
+                                <MenuItem value={'Construction'}>Construction</MenuItem>
+                                <MenuItem value={'O&M'}>O&M</MenuItem>
+                            </Select>
                         </TableCell>
                         <TableCell align="center">
                             <TextField
                                 size="small"
-                                value={workTitle}
+                                value={address}
                                 onChange={(e) => {
-                                    setWorkTitle(e.target.value);
-                                }}
-                            />
-                        </TableCell>
-                        <TableCell align="center">
-                            <TextField
-                                size="small"
-                                value={branchAddress}
-                                onChange={(e) => {
-                                    setBranchAddress(e.target.value);
+                                    setAddress(e.target.value);
                                 }}
                             />
                         </TableCell>
@@ -614,25 +637,11 @@ const Corporates = ({}) => {
                         <TableCell align="center">
                             <TextField
                                 size="small"
-                                value={address}
+                                value={branchAddress}
                                 onChange={(e) => {
-                                    setAddress(e.target.value);
+                                    setBranchAddress(e.target.value);
                                 }}
                             />
-                        </TableCell>
-
-                        <TableCell align="center">
-                            <Box
-                                sx={{
-                                    display: 'flex',
-                                    justifyContent: 'center',
-                                    '& button': { mx: { md: 0.6, lg: 1, xl: 1.8 }, p: 0, fontSize: 1 }
-                                }}
-                            >
-                                <Button color="success" variant="outlined" onClick={addCorporatesInfo}>
-                                    新增
-                                </Button>
-                            </Box>
                         </TableCell>
                     </TableRow>
                 </TableBody>

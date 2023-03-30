@@ -112,9 +112,7 @@ const LiabilityManage = () => {
                 .then((data) => {
                     console.log('compareLiability成功', data, data.compareResult);
                     if (data.compareResult.length > 0) {
-                        dispatch(
-                            setMessageStateOpen({ messageStateOpen: { isOpen: true, severity: 'error', message: '已經增加過此會員' } })
-                        );
+                        dispatch(setMessageStateOpen({ messageStateOpen: { isOpen: true, severity: 'error', message: '已增加此會員' } }));
                     } else {
                         fetch(addLiabilityapi, { method: 'POST', body: JSON.stringify(list) })
                             .then((res) => res.json())
@@ -130,13 +128,6 @@ const LiabilityManage = () => {
                 .catch((e) => console.log('e1=>', e));
         }
     };
-
-    //終止
-    // const updatelistInfoItem = (updateItem) => {
-    //     let tmpArray = listInfo.map((i) => i);
-    //     tmpArray[updateItem].CreateTime = dayjs(new Date()).format('YYYY-MM-DD hh:mm:ss');
-    //     setListInfo([...tmpArray]);
-    // };
 
     //編輯
     const editlistInfoItem = () => {
@@ -174,11 +165,6 @@ const LiabilityManage = () => {
             })
             .catch((e) => console.log('e1=>', e));
     };
-
-    // const cancelSearch = () => {
-    //     setSearched('');
-    //     requestSearch(searched);
-    // };
 
     const searchFunction = (searchedVal) => {
         const filteredRows = listInfo.filter((row) => {

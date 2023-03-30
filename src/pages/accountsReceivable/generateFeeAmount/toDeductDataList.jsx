@@ -82,7 +82,7 @@ const ToGenerateDataList = ({ dataList, apiQuery }) => {
                             <StyledTableCell align="center">帳單截止日</StyledTableCell>
                             <StyledTableCell align="center">明細數量</StyledTableCell>
                             <StyledTableCell align="center">是否為pro-forma</StyledTableCell>
-                            <StyledTableCell align="center">處理狀態</StyledTableCell>
+                            {/* <StyledTableCell align="center">處理狀態</StyledTableCell> */}
                             <StyledTableCell align="center">Action</StyledTableCell>
                         </TableRow>
                     </TableHead>
@@ -101,9 +101,9 @@ const ToGenerateDataList = ({ dataList, apiQuery }) => {
                                     <StyledTableCell align="center">{dayjs(row.BillMaster.DueDate).format('YYYY/MM/DD')}</StyledTableCell>
                                     <StyledTableCell align="center">{row.BillDetail ? row.BillDetail.length : 0}</StyledTableCell>
                                     <StyledTableCell align="center">{row.BillMaster.IsPro === 1 ? '是' : '否'}</StyledTableCell>
-                                    <StyledTableCell align="center">{row.BillMaster.Status}</StyledTableCell>
+                                    {/* <StyledTableCell align="center">{row.BillMaster.Status}</StyledTableCell> */}
                                     <StyledTableCell align="center">
-                                        <Box sx={{ display: 'flex', justifyContent: 'center', '& button': { mx: 1, p: 0, fontSize: 1 } }}>
+                                        <Box sx={{ display: 'flex', justifyContent: 'center', '& button': { mx: 0.2, p: 0, fontSize: 1 } }}>
                                             <Button
                                                 color="success"
                                                 size="small"

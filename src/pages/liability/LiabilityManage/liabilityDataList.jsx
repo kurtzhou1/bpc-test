@@ -45,10 +45,10 @@ const LiabilityDataList = ({ listInfo, setDialogAction, setIsDialogOpen, setEdit
                     <TableHead>
                         <TableRow>
                             <StyledTableCell align="center">NO</StyledTableCell>
-                            <StyledTableCell align="center">帳務計費段</StyledTableCell>
-                            <StyledTableCell align="center">會員名稱</StyledTableCell>
                             <StyledTableCell align="center">海纜名稱</StyledTableCell>
                             <StyledTableCell align="center">海纜作業</StyledTableCell>
+                            <StyledTableCell align="center">帳務計費段</StyledTableCell>
+                            <StyledTableCell align="center">會員名稱</StyledTableCell>
                             <StyledTableCell align="center">攤分比例</StyledTableCell>
                             <StyledTableCell align="center">異動原因</StyledTableCell>
                             <StyledTableCell align="center">終止日期</StyledTableCell>
@@ -63,10 +63,10 @@ const LiabilityDataList = ({ listInfo, setDialogAction, setIsDialogOpen, setEdit
                                     sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                                 >
                                     <StyledTableCell align="center">{id + 1}</StyledTableCell>
-                                    <StyledTableCell align="center">{row.BillMilestone}</StyledTableCell>
-                                    <StyledTableCell align="center">{row.PartyName}</StyledTableCell>
                                     <StyledTableCell align="center">{row.SubmarineCable}</StyledTableCell>
                                     <StyledTableCell align="center">{row.WorkTitle}</StyledTableCell>
+                                    <StyledTableCell align="center">{row.BillMilestone}</StyledTableCell>
+                                    <StyledTableCell align="center">{row.PartyName}</StyledTableCell>
                                     <StyledTableCell align="center">{`${row.LBRatio}%`}</StyledTableCell>
                                     <StyledTableCell align="center">{row.ModifyNote}</StyledTableCell>
                                     <StyledTableCell align="center">
@@ -95,7 +95,7 @@ const LiabilityDataList = ({ listInfo, setDialogAction, setIsDialogOpen, setEdit
                                                     編輯
                                                 </Button>
                                             )}
-                                            {row.EndDate ? (
+                                            {/* {row.EndDate ? (
                                                 ''
                                             ) : (
                                                 <Button
@@ -109,7 +109,7 @@ const LiabilityDataList = ({ listInfo, setDialogAction, setIsDialogOpen, setEdit
                                                 >
                                                     分段
                                                 </Button>
-                                            )}
+                                            )} //3/30 暫時註解分段 */}
                                             {row.EndDate ? (
                                                 ''
                                             ) : (

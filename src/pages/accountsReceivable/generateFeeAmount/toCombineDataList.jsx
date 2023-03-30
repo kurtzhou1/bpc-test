@@ -375,7 +375,7 @@ const ToCombineDataList = ({ handleDialogClose, isDialogOpen, dataList, totalCom
                             <StyledTableCell align="center">發票日期</StyledTableCell>
                             <StyledTableCell align="center">明細數量</StyledTableCell>
                             <StyledTableCell align="center">總價</StyledTableCell>
-                            <StyledTableCell align="center">處理狀態</StyledTableCell>
+                            {/* <StyledTableCell align="center">處理狀態</StyledTableCell> */}
                         </TableRow>
                     </TableHead>
                     <TableBody>
@@ -410,7 +410,9 @@ const ToCombineDataList = ({ handleDialogClose, isDialogOpen, dataList, totalCom
                                         // row.InvoiceDetail ? row.InvoiceDetail[0].FeeAmountPre : 0
                                         tmpAmount
                                     )}`}</TableCell>
-                                    <TableCell align="center">{row.InvoiceMaster?.Status}</TableCell>
+                                    {/* <TableCell align="center">
+                                        {row.InvoiceMaster?.Status === 'TO_MERGE' ? '待合併' : row.InvoiceMaster?.Status}
+                                    </TableCell> */}
                                 </TableRow>
                             );
                         })}

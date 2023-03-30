@@ -187,8 +187,6 @@ const LiabilityQuery = ({ setListInfo, bmStoneList, partyList, subCableList, wor
                             選擇海纜名稱
                         </InputLabel>
                         <Select
-                            // labelId="demo-simple-select-label"
-                            // id="demo-simple-select"
                             size="small"
                             value={submarineCableQuery}
                             label="填寫海纜名稱"

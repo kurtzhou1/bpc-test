@@ -215,8 +215,8 @@ const LiabilityAdd = ({
                                 disabled={dialogAction === 'Edit' || listInfo.length > 0}
                                 value={billMilestone}
                                 size="small"
-                                label="填寫記帳段號"
-                                inputProps={{ style: { textTransform: 'uppercase' } }}
+                                label="大小寫視為不同段號"
+                                // inputProps={{ style: { textTransform: 'uppercase' } }}
                                 onChange={(e) => setBillMilestone(e.target.value)}
                             />
                         </Grid>

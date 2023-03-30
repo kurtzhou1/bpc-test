@@ -260,7 +260,7 @@ const InvalidatedDataList = ({ listInfo, apiQuery }) => {
                             <StyledTableCell align="center">發票日期</StyledTableCell>
                             <StyledTableCell align="center">明細數量</StyledTableCell>
                             <StyledTableCell align="center">總價</StyledTableCell>
-                            <StyledTableCell align="center">處理狀態</StyledTableCell>
+                            {/* <StyledTableCell align="center">處理狀態</Styled。TableCell> */}
                             <StyledTableCell align="center">Action</StyledTableCell>
                         </TableRow>
                     </TableHead>
@@ -281,7 +281,7 @@ const InvalidatedDataList = ({ listInfo, apiQuery }) => {
                                     <StyledTableCell align="center">{dayjs(row.IssueDate).format('YYYY/MM/DD')}</StyledTableCell>
                                     <StyledTableCell align="center">{toBillDataInfo.length}</StyledTableCell>
                                     <StyledTableCell align="center">{row.TotalAmount}</StyledTableCell>
-                                    <StyledTableCell align="center">{row.Status}</StyledTableCell>
+                                    {/* <StyledTableCell align="center">{row.Status}</StyledTableCell> */}
                                     <StyledTableCell align="center">
                                         <Box
                                             sx={{

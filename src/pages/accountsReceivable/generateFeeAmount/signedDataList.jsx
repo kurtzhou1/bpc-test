@@ -260,7 +260,7 @@ const SignedDataList = ({ listInfo, apiQuery }) => {
                             <StyledTableCell align="center">發票日期</StyledTableCell>
                             <StyledTableCell align="center">明細數量</StyledTableCell>
                             <StyledTableCell align="center">總價</StyledTableCell>
-                            <StyledTableCell align="center">處理狀態</StyledTableCell>
+                            {/* <StyledTableCell align="center">處理狀態</StyledTableCell> */}
                             <StyledTableCell align="center">Action</StyledTableCell>
                         </TableRow>
                     </TableHead>
@@ -281,13 +281,13 @@ const SignedDataList = ({ listInfo, apiQuery }) => {
                                     <StyledTableCell align="center">{dayjs(row.IssueDate).format('YYYY/MM/DD')}</StyledTableCell>
                                     <StyledTableCell align="center">{toBillDataInfo.length}</StyledTableCell>
                                     <StyledTableCell align="center">{row.TotalAmount}</StyledTableCell>
-                                    <StyledTableCell align="center">{row.Status}</StyledTableCell>
+                                    {/* <StyledTableCell align="center">{row.Status}</StyledTableCell> */}
                                     <StyledTableCell align="center">
                                         <Box
                                             sx={{
                                                 display: 'flex',
                                                 justifyContent: 'center',
-                                                '& button': { mx: { sm: 0.3, md: 0.3, lg: 0.6, xl: 1.5 }, p: 0, fontSize: 1 }
+                                                '& button': { mx: { sm: 0.2, md: 0.2, lg: 0.2, xl: 1 }, p: 0, fontSize: 1 }
                                             }}
                                         >
                                             <Button

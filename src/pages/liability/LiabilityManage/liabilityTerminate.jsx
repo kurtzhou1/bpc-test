@@ -21,7 +21,6 @@ const LiabilityTerminate = ({ dialogTerminate, handleDialogClose, terminateInfo,
     const [endNote, setEndNote] = useState([]);
 
     const terminalLiability = () => {
-        console.log('terminateInfo=>>', terminateInfo);
         let tmpArray = {
             LBRawID: terminateInfo.LBRawID,
             EndDate: terminateInfo.EndDate,
