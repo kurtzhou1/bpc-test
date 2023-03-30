@@ -24,7 +24,7 @@ const LiabilityTerminate = ({ dialogTerminate, handleDialogClose, terminateInfo,
         let tmpArray = {
             LBRawID: terminateInfo.LBRawID,
             EndDate: terminateInfo.EndDate,
-            EndNote: endNote ? endNote : ''
+            ModifyNote: endNote ? endNote : ''
         };
         console.log('tmpArray=>>', tmpArray);
         fetch(updateLiability, { method: 'POST', body: JSON.stringify(tmpArray) })

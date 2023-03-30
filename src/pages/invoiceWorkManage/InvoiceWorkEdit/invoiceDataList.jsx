@@ -98,7 +98,7 @@ const InvoiceDataList = ({ listInfo, setAction, setModifyItem }) => {
                                             sx={{
                                                 display: 'flex',
                                                 justifyContent: 'center',
-                                                '& button': { mx: { md: 0.3, lg: 0.7, xl: 1.5 }, p: 0, fontSize: 1 }
+                                                '& button': { mx: { md: 0.2, lg: 0.2, xl: 1 }, p: 0, fontSize: 1 }
                                             }}
                                         >
                                             {options1.map((option) => {
@@ -132,7 +132,7 @@ const InvoiceDataList = ({ listInfo, setAction, setModifyItem }) => {
                                             sx={{
                                                 display: 'flex',
                                                 justifyContent: 'center',
-                                                '& button': { mx: { md: 0.6, lg: 1, xl: 1.8 }, p: 0, fontSize: 1 }
+                                                '& button': { mx: { md: 0.2, lg: 0.2, xl: 1 }, p: 0, fontSize: 1 }
                                             }}
                                         >
                                             {options2.map((option) => {
