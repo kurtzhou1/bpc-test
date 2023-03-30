@@ -192,7 +192,7 @@ const BillDraftMake = ({ isDialogOpen, handleDialogClose, billMasterID, pONo }) 
         setContact('');
         // setContactList([]);
         // setPartyInfo('');
-        // setSubmarineCableInfo('');
+        // setSubmarineCableInfo?('');
     };
 
     const handlePrint = () => {
@@ -410,11 +410,11 @@ const BillDraftMake = ({ isDialogOpen, handleDialogClose, billMasterID, pONo }) 
                             <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
                                 <Box sx={{ m: 1, minWidth: '50%', with: '50%' }}>
                                     <Box sx={{ fontSize: '12px', textAlign: 'left' }}>BILL TO：</Box>
-                                    <Box sx={{ fontSize: '12px', textAlign: 'left' }}>{partyInfo.Company}</Box>
-                                    <Box sx={{ fontSize: '12px', textAlign: 'left' }}>ADDR：{partyInfo.Address}</Box>
-                                    <Box sx={{ fontSize: '12px', textAlign: 'left' }}>ATTN：{partyInfo.Contact}</Box>
-                                    <Box sx={{ fontSize: '12px', textAlign: 'left' }}>E-mail:{partyInfo.Email}</Box>
-                                    <Box sx={{ fontSize: '12px', textAlign: 'left' }}>Tel.:{partyInfo.Tel}</Box>
+                                    <Box sx={{ fontSize: '12px', textAlign: 'left' }}>{partyInfo?.Company}</Box>
+                                    <Box sx={{ fontSize: '12px', textAlign: 'left' }}>ADDR：{partyInfo?.Address}</Box>
+                                    <Box sx={{ fontSize: '12px', textAlign: 'left' }}>ATTN：{partyInfo?.Contact}</Box>
+                                    <Box sx={{ fontSize: '12px', textAlign: 'left' }}>E-mail:{partyInfo?.Email}</Box>
+                                    <Box sx={{ fontSize: '12px', textAlign: 'left' }}>Tel.:{partyInfo?.Tel}</Box>
                                 </Box>
                                 <Box sx={{ m: 1, minWidth: '50%', with: '50%' }}>
                                     <Box sx={{ fontSize: '12px', textAlign: 'left' }}>Invoice No. {dataList.InvoiceNo}</Box>
@@ -482,16 +482,16 @@ const BillDraftMake = ({ isDialogOpen, handleDialogClose, billMasterID, pONo }) 
                                 </Box>
                                 <Box sx={{ width: '50%' }}>
                                     <Box>Payment by Telegraphic Transfer to</Box>
-                                    <Box>Bank Name: {submarineCableInfo.Name}</Box>
-                                    <Box>Branch Name: {submarineCableInfo.Branch}</Box>
-                                    <Box>Branch Address: {submarineCableInfo.BranchAddress}</Box>
-                                    <Box>A/C Name:{submarineCableInfo.AcctName}</Box>
-                                    <Box>Company Addr:{submarineCableInfo.Address}</Box>
-                                    <Box>AC No.: {submarineCableInfo.AcctNo}</Box>
-                                    <Box>IBAN: {submarineCableInfo.IBAN}</Box>
-                                    <Box>Swift: {submarineCableInfo.SWIFTCode}</Box>
-                                    <Box>ACH:{submarineCableInfo.ACHNo}</Box>
-                                    <Box>Wire/Routing:{submarineCableInfo.WireRouting}</Box>
+                                    <Box>Bank Name: {submarineCableInfo?.Name}</Box>
+                                    <Box>Branch Name: {submarineCableInfo?.Branch}</Box>
+                                    <Box>Branch Address: {submarineCableInfo?.BranchAddress}</Box>
+                                    <Box>A/C Name:{submarineCableInfo?.AcctName}</Box>
+                                    <Box>Company Addr:{submarineCableInfo?.Address}</Box>
+                                    <Box>AC No.: {submarineCableInfo?.AcctNo}</Box>
+                                    <Box>IBAN: {submarineCableInfo?.IBAN}</Box>
+                                    <Box>Swift: {submarineCableInfo?.SWIFTCode}</Box>
+                                    <Box>ACH:{submarineCableInfo?.ACHNo}</Box>
+                                    <Box>Wire/Routing:{submarineCableInfo?.WireRouting}</Box>
                                 </Box>
                             </Box>
                         </Typography>
@@ -565,11 +565,11 @@ const BillDraftMake = ({ isDialogOpen, handleDialogClose, billMasterID, pONo }) 
                         <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
                             <Box sx={{ m: 1, minWidth: '50%', with: '50%' }}>
                                 <Box sx={{ fontSize: '12px', textAlign: 'left' }}>BILL TO：</Box>
-                                <Box sx={{ fontSize: '12px', textAlign: 'left' }}>{partyInfo.Company}</Box>
-                                <Box sx={{ fontSize: '12px', textAlign: 'left' }}>ADDR：{partyInfo.Address}</Box>
-                                <Box sx={{ fontSize: '12px', textAlign: 'left' }}>ATTN：{partyInfo.Contact}</Box>
-                                <Box sx={{ fontSize: '12px', textAlign: 'left' }}>E-mail:{partyInfo.Email}</Box>
-                                <Box sx={{ fontSize: '12px', textAlign: 'left' }}>Tel.:{partyInfo.Tel}</Box>
+                                <Box sx={{ fontSize: '12px', textAlign: 'left' }}>{partyInfo?.Company}</Box>
+                                <Box sx={{ fontSize: '12px', textAlign: 'left' }}>ADDR：{partyInfo?.Address}</Box>
+                                <Box sx={{ fontSize: '12px', textAlign: 'left' }}>ATTN：{partyInfo?.Contact}</Box>
+                                <Box sx={{ fontSize: '12px', textAlign: 'left' }}>E-mail:{partyInfo?.Email}</Box>
+                                <Box sx={{ fontSize: '12px', textAlign: 'left' }}>Tel.:{partyInfo?.Tel}</Box>
                             </Box>
                             <Box sx={{ m: 1, minWidth: '50%', with: '50%' }}>
                                 <Box sx={{ fontSize: '12px', textAlign: 'left' }}>Invoice No. {dataList.InvoiceNo}</Box>
@@ -638,16 +638,16 @@ const BillDraftMake = ({ isDialogOpen, handleDialogClose, billMasterID, pONo }) 
                             </Box>
                             <Box sx={{ width: '50%' }}>
                                 <Box>Payment by Telegraphic Transfer to</Box>
-                                <Box>Bank Name: {submarineCableInfo.Name}</Box>
-                                <Box>Branch Name: {submarineCableInfo.Branch}</Box>
-                                <Box>Branch Address: {submarineCableInfo.BranchAddress}</Box>
-                                <Box>A/C Name:{submarineCableInfo.AcctName}</Box>
-                                <Box>Company Addr:{submarineCableInfo.Address}</Box>
-                                <Box>AC No.: {submarineCableInfo.AcctNo}</Box>
-                                <Box>IBAN: {submarineCableInfo.IBAN}</Box>
-                                <Box>Swift: {submarineCableInfo.SWIFTCode}</Box>
-                                <Box>ACH:{submarineCableInfo.ACHNo}</Box>
-                                <Box>Wire/Routing:{submarineCableInfo.WireRouting}</Box>
+                                <Box>Bank Name: {submarineCableInfo?.Name}</Box>
+                                <Box>Branch Name: {submarineCableInfo?.Branch}</Box>
+                                <Box>Branch Address: {submarineCableInfo?.BranchAddress}</Box>
+                                <Box>A/C Name:{submarineCableInfo?.AcctName}</Box>
+                                <Box>Company Addr:{submarineCableInfo?.Address}</Box>
+                                <Box>AC No.: {submarineCableInfo?.AcctNo}</Box>
+                                <Box>IBAN: {submarineCableInfo?.IBAN}</Box>
+                                <Box>Swift: {submarineCableInfo?.SWIFTCode}</Box>
+                                <Box>ACH:{submarineCableInfo?.ACHNo}</Box>
+                                <Box>Wire/Routing:{submarineCableInfo?.WireRouting}</Box>
                             </Box>
                         </Box>
                     </Typography>
