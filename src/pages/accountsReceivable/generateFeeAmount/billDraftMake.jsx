@@ -639,6 +639,7 @@ const BillDraftMake = ({ isDialogOpen, handleDialogClose, billMasterID, pONo }) 
                                 <Box sx={{}}>———————————————</Box>
                                 <Box sx={{}}>{contactInfo?.DirectorName}</Box>
                                 <Box sx={{}}>{contactInfo?.Company}</Box>
+                                <Box sx={{}}>Email.: {contactInfo?.DEmail}</Box>
                                 <Box sx={{}}>Tel.: {contactInfo?.DTel}</Box>
                                 <Box sx={{}}>Fax: {contactInfo?.DFax}</Box>
                             </Box>

@@ -160,7 +160,9 @@ const DeductedDataList = ({ dataList }) => {
                                                 onClick={() => {
                                                     handleDialogOpen({
                                                         BillMasterID: row.BillMaster.BillMasterID,
-                                                        PONo: row.BillMaster.PONo
+                                                        PONo: row.BillMaster.PONo,
+                                                        SubmarineCable: row.BillMaster.SubmarineCable, //haha
+                                                        WorkTitle: row.BillMaster.WorkTitle
                                                     });
                                                 }}
                                             >
