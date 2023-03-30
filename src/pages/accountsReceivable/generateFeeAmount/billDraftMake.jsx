@@ -105,16 +105,17 @@ const fakeData = {
         Tel: '123456789'
     },
     CorporateInformation: {
-        Name: 'test-name',
+        BranchName: 'test-name',
         Branch: 'test-branch',
-        Address: 'test-address',
-        AcctName: 'test-acctname',
-        AcctNo: 'test-acctno',
+        BranchAddress: 'test-address',
+        BankAcctName: 'test-acctname',
+        BankAcctNo: 'test-acctno',
         SavingAcctNo: 'test-savingaccntno',
         IBAN: 'test-iban',
         SWIFTCode: 'test-swiftcode',
         ACHNo: 'test-achno',
-        WireRouting: 'test-wirerouting'
+        WireRouting: 'test-wirerouting',
+        Address: 'Address'
     },
     DetailInformation: [
         {
@@ -203,7 +204,7 @@ const BillDraftMake = ({ isDialogOpen, handleDialogClose, billMasterID, pONo }) 
         let tmpAmount = 0;
         let tmpData = {
             BillMasterID: billMasterID,
-            UserName: 'chang_ty'
+            UserID: 'chang_ty'
         };
         fetch(generateBillData, { method: 'POST', body: JSON.stringify(tmpData) })
             .then((res) => res.json())
@@ -482,12 +483,17 @@ const BillDraftMake = ({ isDialogOpen, handleDialogClose, billMasterID, pONo }) 
                                 </Box>
                                 <Box sx={{ width: '50%' }}>
                                     <Box>Payment by Telegraphic Transfer to</Box>
-                                    <Box>Bank Name: {submarineCableInfo?.Name}</Box>
+                                    <Box>Bank Name: {submarineCableInfo?.BranchName}</Box>
                                     <Box>Branch Name: {submarineCableInfo?.Branch}</Box>
                                     <Box>Branch Address: {submarineCableInfo?.BranchAddress}</Box>
-                                    <Box>A/C Name:{submarineCableInfo?.AcctName}</Box>
+                                    <Box>A/C Name:{submarineCableInfo?.BankAcctName}</Box>
                                     <Box>Company Addr:{submarineCableInfo?.Address}</Box>
-                                    <Box>AC No.: {submarineCableInfo?.AcctNo}</Box>
+                                    <Box>
+                                        AC No.:{' '}
+                                        {submarineCableInfo?.BankAcctNo.length === 0
+                                            ? submarineCableInfo?.BankAcctNo
+                                            : submarineCableInfo?.SavingAcctNo}
+                                    </Box>
                                     <Box>IBAN: {submarineCableInfo?.IBAN}</Box>
                                     <Box>Swift: {submarineCableInfo?.SWIFTCode}</Box>
                                     <Box>ACH:{submarineCableInfo?.ACHNo}</Box>

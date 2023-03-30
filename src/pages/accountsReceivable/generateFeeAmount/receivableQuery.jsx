@@ -30,7 +30,7 @@ import { useSelector } from 'react-redux';
 
 // ==============================|| SAMPLE PAGE ||============================== //
 
-const ReceivableQuery = ({ value, setListInfo }) => {
+const ReceivableQuery = ({ value, setListInfo, queryApi }) => {
     const { partiesList, subCableList, supNmList } = useSelector((state) => state.dropdown); //供應商下拉選單 + 海纜名稱下拉選單
     const [issueDate, setIssueDate] = useState([null, null]); //發票日期
     const [workTitle, setWorkTitle] = useState(''); //海纜作業
@@ -88,6 +88,7 @@ const ReceivableQuery = ({ value, setListInfo }) => {
             tmpQuery = queryToDecutBill + tmpQuery;
         }
         console.log('tmpQuery=>>', tmpQuery);
+        queryApi.current = tmpQuery;
         fetch(tmpQuery, { method: 'GET' })
             .then((res) => res.json())
             .then((data) => {

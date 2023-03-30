@@ -29,7 +29,7 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
     }
 }));
 
-const ToGenerateDataList = ({ dataList, apiQuery }) => {
+const ToGenerateDataList = ({ dataList, receivableQuery }) => {
     const [isDialogOpen, setIsDialogOpen] = useState(false); //折抵作業
     const [isDeductWorkOpen, setIsDeductWorkOpen] = useState(false); //作廢
     const [infoBack, setInfoBack] = useState(false); //退回
@@ -67,6 +67,7 @@ const ToGenerateDataList = ({ dataList, apiQuery }) => {
                 billDetailInfo={billDetailInfo.current}
                 billMasterInfo={billMasterInfo.current}
                 actionName={actionName.current}
+                receivableQuery={receivableQuery}
             />
             <GenerateFeeTerminate infoTerminal={infoTerminal} handleTerminalClose={handleTerminalClose} />
             <GenerateBack infoBack={infoBack} handleBackClose={handleBackClose} />

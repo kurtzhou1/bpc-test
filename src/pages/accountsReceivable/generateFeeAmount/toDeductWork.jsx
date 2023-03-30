@@ -217,6 +217,7 @@ const ToDeductWork = ({ isDialogOpen, handleDialogClose, billDetailInfo, billMas
             .then((res) => res.json())
             .then(() => {
                 dispatch(setMessageStateOpen({ messageStateOpen: { isOpen: true, severity: 'success', message: '送出成功' } }));
+                receivableQuery();
             })
             .catch((e) => console.log('e1=>', e));
         handleDialogClose();

@@ -18,6 +18,7 @@ import ReceivableQuery from './receivableQuery';
 // redux
 import { useDispatch } from 'react-redux';
 import { setMessageStateOpen } from 'store/reducers/dropdown';
+import { queryToCombineInvo, queryToDecutBill, quertDeductedData } from 'components/apis';
 
 // 以下都無用的
 const fakeData0 = [
@@ -408,10 +409,11 @@ const fakeData2 = [
 ];
 
 const GenerateFeeAmount = () => {
-    const [value, setValue] = useState(1);
+    const [value, setValue] = useState(0);
     const [listInfo, setListInfo] = useState([]);
     const [dataList, setDataList] = useState([]);
     const dispatch = useDispatch();
+    const queryApi = useRef('');
     const handleChange = (event, newValue) => {
         setListInfo([]);
         setDataList([]);
@@ -438,12 +440,23 @@ const GenerateFeeAmount = () => {
         }
     };
 
+    //初始化查詢
+    const receivableQuery = () => {
+        let tmpQuery = queryApi.current;
+        fetch(tmpQuery, { method: 'GET' })
+            .then((res) => res.json())
+            .then((data) => {
+                setListInfo(data);
+            })
+            .catch((e) => {
+                console.log('e1=>', e);
+            });
+    };
+
     useEffect(() => {
         if (listInfo && listInfo.length) {
-            console.log('listInfo~~Yes=>>', listInfo);
             setDataList(listInfo);
         } else {
-            console.log('listInfo~~No=>>', value);
             if (value === 1) {
                 setDataList(fakeData1);
             } else if (value === 2 || value === 3) {
@@ -459,7 +472,7 @@ const GenerateFeeAmount = () => {
     return (
         <Grid container spacing={1}>
             <Grid item xs={12}>
-                <ReceivableQuery value={value} setListInfo={setListInfo} />
+                <ReceivableQuery value={value} setListInfo={setListInfo} queryApi={queryApi} />
             </Grid>
             <Grid item xs={12}>
                 <MainCard
@@ -512,10 +525,11 @@ const GenerateFeeAmount = () => {
                             isDialogOpen={isDialogOpen}
                             dataList={dataList}
                             totalCombineAmount={totalCombineAmount}
+                            receivableQuery={receivableQuery}
                         />
                     </TabPanel>
                     <TabPanel value={value} index={1}>
-                        <ToDeductDataList dataList={dataList} />
+                        <ToDeductDataList dataList={dataList} receivableQuery={receivableQuery} />
                     </TabPanel>
                     <TabPanel value={value} index={2}>
                         <DeductedDataList dataList={dataList} />

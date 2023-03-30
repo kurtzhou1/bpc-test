@@ -118,7 +118,7 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
     }
 }));
 
-const ToCombineDataList = ({ handleDialogClose, isDialogOpen, dataList, totalCombineAmount }) => {
+const ToCombineDataList = ({ handleDialogClose, isDialogOpen, dataList, totalCombineAmount, receivableQuery }) => {
     const dispatch = useDispatch();
     const [issueDate, setIssueDate] = useState(new Date()); //發票日期
     const [poNo, setPoNo] = useState(''); //PO號碼
@@ -189,6 +189,8 @@ const ToCombineDataList = ({ handleDialogClose, isDialogOpen, dataList, totalCom
                                 })
                             );
                             handleDialogClose();
+                            setCbToCn({});
+                            receivableQuery();
                         })
                         .catch((e) => console.log('e1=>', e));
                 } else {
@@ -204,9 +206,6 @@ const ToCombineDataList = ({ handleDialogClose, isDialogOpen, dataList, totalCom
         let tmpArray = dataList.filter((i) => {
             return cbToCn[i.InvoiceMaster.InvMasterID];
         });
-        console.log('dataList=>>', dataList);
-        console.log('cbToCn=>>', cbToCn);
-        console.log('tmpArray=>>', tmpArray);
         tmpArray.forEach((i) => {
             tmpAmount = tmpAmount + i.InvoiceDetail[0].FeeAmountPre;
             tmpSendArray.push(i.InvoiceMaster);
