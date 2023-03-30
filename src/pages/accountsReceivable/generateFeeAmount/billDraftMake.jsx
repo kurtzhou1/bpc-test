@@ -253,7 +253,7 @@ const BillDraftMake = ({ isDialogOpen, handleDialogClose, billMasterID, pONo }) 
             </BootstrapDialogTitle>
             <DialogContent dividers className="no-print">
                 <Grid container spacing={1} className="no-print">
-                    <Grid item xs={5} sm={5} md={5} lg={5}>
+                    <Grid item xs={6} sm={6} md={6} lg={6}>
                         <MainCard title="聯絡窗口及主管資訊" sx={{ width: '100%' }}>
                             <Grid container spacing={1}>
                                 <Grid item xs={2} sm={2} md={2} lg={2} display="flex" justifyContent="center" alignItems="center">
@@ -365,7 +365,7 @@ const BillDraftMake = ({ isDialogOpen, handleDialogClose, billMasterID, pONo }) 
                         </MainCard>
                     </Grid>
                     {/* 表單開始 */}
-                    <Grid item xs={7} sm={7} md={7} lg={7}>
+                    <Grid item xs={6} sm={6} md={6} lg={6}>
                         <Typography sx={{ fontFamily: 'DFKai-sb', fontWeight: 'bold' }}>
                             <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
                                 <Box sx={{ m: 1 }}>
@@ -381,9 +381,9 @@ const BillDraftMake = ({ isDialogOpen, handleDialogClose, billMasterID, pONo }) 
                                     </Box>
                                 </Box>
                                 <Box sx={{ m: 1 }}>
-                                    <Box sx={{ fontSize: '12px', textAlign: 'right' }}>{contactInfo.Address}</Box>
-                                    <Box sx={{ fontSize: '12px', textAlign: 'right' }}>Tel：${contactInfo.Tel}</Box>
-                                    <Box sx={{ fontSize: '12px', textAlign: 'right' }}>Fax：${contactInfo.Fax}</Box>
+                                    <Box sx={{ fontSize: '12px', textAlign: 'right' }}>{contactInfo?.Address}</Box>
+                                    <Box sx={{ fontSize: '12px', textAlign: 'right' }}>Tel：${contactInfo?.Tel}</Box>
+                                    <Box sx={{ fontSize: '12px', textAlign: 'right' }}>Fax：${contactInfo?.Fax}</Box>
                                 </Box>
                             </Box>
                             <Box
@@ -475,10 +475,10 @@ const BillDraftMake = ({ isDialogOpen, handleDialogClose, billMasterID, pONo }) 
                             <Box sx={{ fontSize: '12px', m: 1, display: 'flex', justifyContent: 'space-between' }}>
                                 <Box sx={{ width: '50%', display: 'flex', flexDirection: 'column', justifyContent: 'end' }}>
                                     <Box sx={{}}>———————————————</Box>
-                                    <Box sx={{}}>{contactInfo.DirectorName}</Box>
-                                    <Box sx={{}}>{contactInfo.Company}</Box>
-                                    <Box sx={{}}>Tel.: {contactInfo.DTel}</Box>
-                                    <Box sx={{}}>Fax: {contactInfo.DFax}</Box>
+                                    <Box sx={{}}>{contactInfo?.DirectorName}</Box>
+                                    <Box sx={{}}>{contactInfo?.Company}</Box>
+                                    <Box sx={{}}>Tel.: {contactInfo?.DTel}</Box>
+                                    <Box sx={{}}>Fax: {contactInfo?.DFax}</Box>
                                 </Box>
                                 <Box sx={{ width: '50%' }}>
                                     <Box>Payment by Telegraphic Transfer to</Box>
@@ -536,9 +536,9 @@ const BillDraftMake = ({ isDialogOpen, handleDialogClose, billMasterID, pONo }) 
                                 </Box>
                             </Box>
                             <Box sx={{ m: 1 }}>
-                                <Box sx={{ fontSize: '12px', textAlign: 'right' }}>{contactInfo.Address}</Box>
-                                <Box sx={{ fontSize: '12px', textAlign: 'right' }}>Tel：${contactInfo.Tel}</Box>
-                                <Box sx={{ fontSize: '12px', textAlign: 'right' }}>Fax：${contactInfo.Fax}</Box>
+                                <Box sx={{ fontSize: '12px', textAlign: 'right' }}>{contactInfo?.Address}</Box>
+                                <Box sx={{ fontSize: '12px', textAlign: 'right' }}>Tel：${contactInfo?.Tel}</Box>
+                                <Box sx={{ fontSize: '12px', textAlign: 'right' }}>Fax：${contactInfo?.Fax}</Box>
                             </Box>
                         </Box>
                         <Box
@@ -631,10 +631,10 @@ const BillDraftMake = ({ isDialogOpen, handleDialogClose, billMasterID, pONo }) 
                         <Box sx={{ fontSize: '12px', m: 1, display: 'flex', justifyContent: 'space-between' }}>
                             <Box sx={{ width: '50%', display: 'flex', flexDirection: 'column', justifyContent: 'end' }}>
                                 <Box sx={{}}>———————————————</Box>
-                                <Box sx={{}}>{contactInfo.DirectorName}</Box>
-                                <Box sx={{}}>{contactInfo.Company}</Box>
-                                <Box sx={{}}>Tel.: {contactInfo.DTel}</Box>
-                                <Box sx={{}}>Fax: {contactInfo.DFax}</Box>
+                                <Box sx={{}}>{contactInfo?.DirectorName}</Box>
+                                <Box sx={{}}>{contactInfo?.Company}</Box>
+                                <Box sx={{}}>Tel.: {contactInfo?.DTel}</Box>
+                                <Box sx={{}}>Fax: {contactInfo?.DFax}</Box>
                             </Box>
                             <Box sx={{ width: '50%' }}>
                                 <Box>Payment by Telegraphic Transfer to</Box>

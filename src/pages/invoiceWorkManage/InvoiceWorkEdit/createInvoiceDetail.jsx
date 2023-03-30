@@ -57,7 +57,7 @@ const CreateInvoiceDetail = ({
     const itemDetailAdd = () => {
         let tmpArray = invoiceDetailInfo;
         tmpArray.push(createData(feeItem, billMilestone, Number(feeAmount.replaceAll(',', ''))));
-        tmpArray.reverse();
+        // tmpArray.reverse();
         setInvoiceDetailInfo([...tmpArray]);
         itemDetailInitial();
     };
