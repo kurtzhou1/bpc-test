@@ -158,7 +158,9 @@ const CreditBalanceQuery = ({ setListInfo, partiesList, subCableList }) => {
                             onChange={(e) => setSubmarineCable(e.target.value)}
                         >
                             {subCableList.map((i) => (
-                                <MenuItem value={i.CableName}>{i.CableName}</MenuItem>
+                                <MenuItem key={i.CableName} value={i.CableName}>
+                                    {i.CableName}
+                                </MenuItem>
                             ))}
                         </Select>
                     </FormControl>

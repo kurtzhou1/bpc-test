@@ -207,8 +207,8 @@ const ReceivableQuery = ({ value, setListInfo }) => {
                         <InputLabel id="demo-simple-select-label">選擇海纜名稱</InputLabel>
                         <Select value={submarineCable} label="海纜名稱" size="small" onChange={(e) => setSubmarineCable(e.target.value)}>
                             {subCableList.map((i) => (
-                                <MenuItem key={i} value={i}>
-                                    {i}
+                                <MenuItem key={i.CableName} value={i.CableName}>
+                                    {i.CableName}
                                 </MenuItem>
                             ))}
                         </Select>
