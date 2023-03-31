@@ -71,19 +71,22 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
     [`&.${tableCellClasses.body}.totalAmountFirst`]: {
         paddingTop: '0.2rem',
         paddingBottom: '0.2rem',
-        borderRight: 'initial !important'
+        borderRight: 'initial !important',
+        fontWeight: 'bold'
     },
     [`&.${tableCellClasses.body}.totalAmount`]: {
         paddingTop: '0.2rem',
         paddingBottom: '0.2rem',
         borderRight: 'initial !important',
-        borderLeft: 'initial !important'
+        borderLeft: 'initial !important',
+        fontWeight: 'bold'
     },
     [`&.${tableCellClasses.body}.totalAmountFinal`]: {
         paddingTop: '0.2rem',
         paddingBottom: '0.2rem',
         border: 'black 1px solid !important',
-        borderLeft: 'black 2px solid !important'
+        borderLeft: 'black 2px solid !important',
+        fontWeight: 'bold'
     }
 }));
 
@@ -268,13 +271,13 @@ const BillDraftMake = ({ isDialogOpen, handleDialogClose, billMasterID, pONo }) 
         setContactInfo(arrayFiliter[0]);
     }, [contact]);
 
-    // useEffect(() => {
-    //     let tmpAmount = 0;
-    //     datailInfo.forEach((i) => {
-    //         tmpAmount = tmpAmount + i.YourShare;
-    //     });
-    //     totalAmount.current = tmpAmount;
-    // }, [datailInfo]);
+    useEffect(() => {
+        let tmpAmount = 0;
+        datailInfo.forEach((i) => {
+            tmpAmount = tmpAmount + i.YourShare;
+        });
+        totalAmount.current = tmpAmount;
+    }, [datailInfo]);
 
     console.log('setDataList=>>', dataList);
     console.log('contactList=>>', contactList);
@@ -415,8 +418,8 @@ const BillDraftMake = ({ isDialogOpen, handleDialogClose, billMasterID, pONo }) 
                                 </Box>
                                 <Box sx={{ m: 1 }}>
                                     <Box sx={{ fontSize: '12px', textAlign: 'right' }}>{contactInfo?.Address}</Box>
-                                    <Box sx={{ fontSize: '12px', textAlign: 'right' }}>Tel：${contactInfo?.Tel}</Box>
-                                    <Box sx={{ fontSize: '12px', textAlign: 'right' }}>Fax：${contactInfo?.Fax}</Box>
+                                    <Box sx={{ fontSize: '12px', textAlign: 'right' }}>Tel：{contactInfo?.Tel}</Box>
+                                    <Box sx={{ fontSize: '12px', textAlign: 'right' }}>Fax：{contactInfo?.Fax}</Box>
                                 </Box>
                             </Box>
                             <Box
@@ -460,10 +463,10 @@ const BillDraftMake = ({ isDialogOpen, handleDialogClose, billMasterID, pONo }) 
                             </Box>
                             <Box sx={{ fontSize: '12px', m: 1, display: 'flex', justifyContent: 'space-between' }}>
                                 <Box>PO No {pONo}</Box>
-                                <Box>(Currencv:USD)</Box>
+                                {/* <Box>(Currencv:USD)</Box> */}
                             </Box>
                             <Box>
-                                <TableContainer component={Paper} sx={{ maxHeight: 350 }}>
+                                <TableContainer component={Paper}>
                                     <Table sx={{ minWidth: 300 }} stickyHeader aria-label="sticky table">
                                         <TableHead>
                                             <TableRow>
@@ -472,7 +475,7 @@ const BillDraftMake = ({ isDialogOpen, handleDialogClose, billMasterID, pONo }) 
                                                 <StyledTableCell align="center">Description</StyledTableCell>
                                                 <StyledTableCell align="center">Amount Billed</StyledTableCell>
                                                 <StyledTableCell align="center">Liability</StyledTableCell>
-                                                <StyledTableCell align="center">Your share</StyledTableCell>
+                                                <StyledTableCell align="center">Your share(USD)</StyledTableCell>
                                             </TableRow>
                                         </TableHead>
                                         <TableBody>
@@ -480,24 +483,24 @@ const BillDraftMake = ({ isDialogOpen, handleDialogClose, billMasterID, pONo }) 
                                                 return (
                                                     <TableRow sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
                                                         <StyledTableCell align="center">{row.Supplier}</StyledTableCell>
-                                                        <StyledTableCell align="center">{row.InvNumber}</StyledTableCell>
-                                                        <StyledTableCell align="center">{row.Description}</StyledTableCell>
-                                                        <StyledTableCell align="center">{row.AmountBilled}</StyledTableCell>
-                                                        <StyledTableCell align="center">{row.Liability}</StyledTableCell>
-                                                        <StyledTableCell align="center">{row.YourShare}</StyledTableCell>
+                                                        <StyledTableCell align="left">{row.InvNumber}</StyledTableCell>
+                                                        <StyledTableCell align="left">{row.Description}</StyledTableCell>
+                                                        <StyledTableCell align="right">{row.AmountBilled.toFixed(2)}</StyledTableCell>
+                                                        <StyledTableCell align="right">{row.Liability.toFixed(10)}%</StyledTableCell>
+                                                        <StyledTableCell align="right">{row.YourShare.toFixed(2)}</StyledTableCell>
                                                     </TableRow>
                                                 );
                                             })}
                                             <TableRow sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
-                                                <StyledTableCell align="center" className="totalAmountFirst">
+                                                <StyledTableCell align="center" className="totalAmountFirst"></StyledTableCell>
+                                                <StyledTableCell align="center" className="totalAmount"></StyledTableCell>
+                                                <StyledTableCell align="center" className="totalAmount"></StyledTableCell>
+                                                <StyledTableCell align="center" className="totalAmount"></StyledTableCell>
+                                                <StyledTableCell align="right" className="totalAmount">
                                                     Total
                                                 </StyledTableCell>
-                                                <StyledTableCell align="center" className="totalAmount"></StyledTableCell>
-                                                <StyledTableCell align="center" className="totalAmount"></StyledTableCell>
-                                                <StyledTableCell align="center" className="totalAmount"></StyledTableCell>
-                                                <StyledTableCell align="center" className="totalAmount"></StyledTableCell>
-                                                <StyledTableCell align="center" className="totalAmountFinal">
-                                                    {handleNumber(totalAmount.current)}
+                                                <StyledTableCell align="right" className="totalAmountFinal">
+                                                    {handleNumber(totalAmount.current.toFixed(2))}
                                                 </StyledTableCell>
                                             </TableRow>
                                         </TableBody>
@@ -557,12 +560,14 @@ const BillDraftMake = ({ isDialogOpen, handleDialogClose, billMasterID, pONo }) 
                     取消
                 </Button>
             </DialogActions>
+            {/* 列印開始 */}
             <Grid container spacing={1} className="no-show">
+                {/* <Grid container spacing={1}> */}
                 <Grid item xs={12} sm={12} md={12} lg={12}>
                     <Typography sx={{ fontFamily: 'DFKai-sb', fontWeight: 'bold' }}>
                         <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
                             <Box sx={{ m: 1 }}>
-                                <Box sx={{ fontSize: '12px', textAlign: 'left' }}>
+                                <Box sx={{ fontSize: '18px', textAlign: 'left' }}>
                                     <Box
                                         component="img"
                                         sx={{
@@ -574,14 +579,14 @@ const BillDraftMake = ({ isDialogOpen, handleDialogClose, billMasterID, pONo }) 
                                 </Box>
                             </Box>
                             <Box sx={{ m: 1 }}>
-                                <Box sx={{ fontSize: '12px', textAlign: 'right' }}>{contactInfo?.Address}</Box>
-                                <Box sx={{ fontSize: '12px', textAlign: 'right' }}>Tel：${contactInfo?.Tel}</Box>
-                                <Box sx={{ fontSize: '12px', textAlign: 'right' }}>Fax：${contactInfo?.Fax}</Box>
+                                <Box sx={{ fontSize: '18px', textAlign: 'right' }}>{contactInfo?.Address}</Box>
+                                <Box sx={{ fontSize: '18px', textAlign: 'right' }}>Tel：{contactInfo?.Tel}</Box>
+                                <Box sx={{ fontSize: '18px', textAlign: 'right' }}>Fax：{contactInfo?.Fax}</Box>
                             </Box>
                         </Box>
                         <Box
                             sx={{
-                                fontSize: subject1.length <= 50 ? '18px' : '15px',
+                                fontSize: subject1.length <= 50 ? '26px' : '23px',
                                 mt: 1,
                                 textAlign: 'center',
                                 whiteSpace: 'nowrap'
@@ -591,7 +596,7 @@ const BillDraftMake = ({ isDialogOpen, handleDialogClose, billMasterID, pONo }) 
                         </Box>
                         <Box
                             sx={{
-                                fontSize: subject2.length <= 50 ? '18px' : '15px',
+                                fontSize: subject2.length <= 50 ? '26px' : '23px',
                                 mt: 1,
                                 textAlign: 'center',
                                 whiteSpace: 'nowrap'
@@ -599,29 +604,28 @@ const BillDraftMake = ({ isDialogOpen, handleDialogClose, billMasterID, pONo }) 
                         >
                             {subject2}
                         </Box>
-                        <Box sx={{ fontSize: '24px', m: 1, textAlign: 'center' }}>{subject3}</Box>
+                        <Box sx={{ fontSize: '30px', m: 1, textAlign: 'center' }}>{subject3}</Box>
                         <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
                             <Box sx={{ m: 1, minWidth: '50%', with: '50%' }}>
-                                <Box sx={{ fontSize: '12px', textAlign: 'left' }}>BILL TO：</Box>
-                                <Box sx={{ fontSize: '12px', textAlign: 'left' }}>{partyInfo?.Company}</Box>
-                                <Box sx={{ fontSize: '12px', textAlign: 'left' }}>ADDR：{partyInfo?.Address}</Box>
-                                <Box sx={{ fontSize: '12px', textAlign: 'left' }}>ATTN：{partyInfo?.Contact}</Box>
-                                <Box sx={{ fontSize: '12px', textAlign: 'left' }}>E-mail:{partyInfo?.Email}</Box>
-                                <Box sx={{ fontSize: '12px', textAlign: 'left' }}>Tel.:{partyInfo?.Tel}</Box>
+                                <Box sx={{ fontSize: '18px', textAlign: 'left' }}>BILL TO：</Box>
+                                <Box sx={{ fontSize: '18px', textAlign: 'left' }}>{partyInfo?.Company}</Box>
+                                <Box sx={{ fontSize: '18px', textAlign: 'left' }}>ADDR：{partyInfo?.Address}</Box>
+                                <Box sx={{ fontSize: '18px', textAlign: 'left' }}>ATTN：{partyInfo?.Contact}</Box>
+                                <Box sx={{ fontSize: '18px', textAlign: 'left' }}>E-mail:{partyInfo?.Email}</Box>
+                                <Box sx={{ fontSize: '18px', textAlign: 'left' }}>Tel.:{partyInfo?.Tel}</Box>
                             </Box>
                             <Box sx={{ m: 1, minWidth: '50%', with: '50%' }}>
-                                <Box sx={{ fontSize: '12px', textAlign: 'left' }}>Invoice No. {dataList.InvoiceNo}</Box>
-                                <Box sx={{ fontSize: '12px', textAlign: 'left' }}>(Please Refer To This Invoice No. On Remittance)</Box>
-                                <Box sx={{ fontSize: '12px', textAlign: 'left' }}>Issue Date：{dayjs(issueDate).format('YYYY/MM/DD')}</Box>
-                                <Box sx={{ fontSize: '12px', textAlign: 'left' }}>Due Date：{dayjs(dueDate).format('YYYY/MM/DD')}</Box>
+                                <Box sx={{ fontSize: '18px', textAlign: 'left' }}>Invoice No. {dataList.InvoiceNo}</Box>
+                                <Box sx={{ fontSize: '18px', textAlign: 'left' }}>(Please Refer To This Invoice No. On Remittance)</Box>
+                                <Box sx={{ fontSize: '18px', textAlign: 'left' }}>Issue Date：{dayjs(issueDate).format('YYYY/MM/DD')}</Box>
+                                <Box sx={{ fontSize: '18px', textAlign: 'left' }}>Due Date：{dayjs(dueDate).format('YYYY/MM/DD')}</Box>
                             </Box>
                         </Box>
-                        <Box sx={{ fontSize: '12px', m: 1, display: 'flex', justifyContent: 'space-between' }}>
+                        <Box sx={{ fontSize: '18px', m: 1, display: 'flex', justifyContent: 'space-between' }}>
                             <Box>PO No {pONo}</Box>
-                            <Box>(Currencv:USD)</Box>
                         </Box>
                         <Box>
-                            <TableContainer component={Paper} sx={{ maxHeight: 350 }}>
+                            <TableContainer component={Paper}>
                                 <Table sx={{ minWidth: 300 }} stickyHeader aria-label="sticky table">
                                     <TableHead>
                                         <TableRow>
@@ -630,43 +634,43 @@ const BillDraftMake = ({ isDialogOpen, handleDialogClose, billMasterID, pONo }) 
                                             <StyledTableCell align="center">Description</StyledTableCell>
                                             <StyledTableCell align="center">Amount Billed</StyledTableCell>
                                             <StyledTableCell align="center">Liability</StyledTableCell>
-                                            <StyledTableCell align="center">Your share</StyledTableCell>
+                                            <StyledTableCell align="center">Your share(USD)</StyledTableCell>
                                         </TableRow>
                                     </TableHead>
                                     <TableBody>
-                                        {dataList.DetailInformation?.map((row) => {
+                                        {datailInfo?.map((row) => {
                                             return (
                                                 <TableRow sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
                                                     <StyledTableCell align="center">{row.Supplier}</StyledTableCell>
-                                                    <StyledTableCell align="center">{row.InvNumber}</StyledTableCell>
-                                                    <StyledTableCell align="center">{row.Description}</StyledTableCell>
-                                                    <StyledTableCell align="center">{row.AmountBilled}</StyledTableCell>
-                                                    <StyledTableCell align="center">{row.Liability}</StyledTableCell>
-                                                    <StyledTableCell align="center">{row.YourShare}</StyledTableCell>
+                                                    <StyledTableCell align="left">{row.InvNumber}</StyledTableCell>
+                                                    <StyledTableCell align="left">{row.Description}</StyledTableCell>
+                                                    <StyledTableCell align="right">{row.AmountBilled.toFixed(2)}</StyledTableCell>
+                                                    <StyledTableCell align="right">{row.Liability.toFixed(10)}%</StyledTableCell>
+                                                    <StyledTableCell align="right">{row.YourShare.toFixed(2)}</StyledTableCell>
                                                 </TableRow>
                                             );
                                         })}
                                         <TableRow sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
-                                            <StyledTableCell align="center" className="totalAmountFirst">
+                                            <StyledTableCell align="center" className="totalAmountFirst"></StyledTableCell>
+                                            <StyledTableCell align="center" className="totalAmount"></StyledTableCell>
+                                            <StyledTableCell align="center" className="totalAmount"></StyledTableCell>
+                                            <StyledTableCell align="center" className="totalAmount"></StyledTableCell>
+                                            <StyledTableCell align="right" className="totalAmount">
                                                 Total
                                             </StyledTableCell>
-                                            <StyledTableCell align="center" className="totalAmount"></StyledTableCell>
-                                            <StyledTableCell align="center" className="totalAmount"></StyledTableCell>
-                                            <StyledTableCell align="center" className="totalAmount"></StyledTableCell>
-                                            <StyledTableCell align="center" className="totalAmount"></StyledTableCell>
-                                            <StyledTableCell align="center" className="totalAmountFinal">
-                                                {handleNumber(totalAmount.current)}
+                                            <StyledTableCell align="right" className="totalAmountFinal">
+                                                {handleNumber(totalAmount.current.toFixed(2))}
                                             </StyledTableCell>
                                         </TableRow>
                                     </TableBody>
                                 </Table>
                             </TableContainer>
                         </Box>
-                        <Box sx={{ m: 1, fontSize: '12px' }}>&nbsp;&nbsp;&nbsp;</Box>
-                        <Box sx={{ m: 1, fontSize: '12px' }}>&nbsp;&nbsp;&nbsp;</Box>
-                        <Box sx={{ m: 1, fontSize: '12px' }}>&nbsp;&nbsp;&nbsp;</Box>
-                        <Box sx={{ m: 1, fontSize: '12px' }}>Certified by:</Box>
-                        <Box sx={{ fontSize: '12px', m: 1, display: 'flex', justifyContent: 'space-between' }}>
+                        <Box sx={{ m: 1, fontSize: '18px' }}>&nbsp;&nbsp;&nbsp;</Box>
+                        <Box sx={{ m: 1, fontSize: '18px' }}>&nbsp;&nbsp;&nbsp;</Box>
+                        <Box sx={{ m: 1, fontSize: '18px' }}>&nbsp;&nbsp;&nbsp;</Box>
+                        <Box sx={{ m: 1, fontSize: '18px' }}>Certified by:</Box>
+                        <Box sx={{ fontSize: '18px', m: 1, display: 'flex', justifyContent: 'space-between' }}>
                             <Box sx={{ width: '50%', display: 'flex', flexDirection: 'column', justifyContent: 'end' }}>
                                 <Box sx={{}}>———————————————</Box>
                                 <Box sx={{}}>{contactInfo?.DirectorName}</Box>
