@@ -463,7 +463,7 @@ const BillDraftMake = ({ isDialogOpen, handleDialogClose, billMasterID, pONo }) 
                             </Box>
                             <Box sx={{ fontSize: '12px', m: 1, display: 'flex', justifyContent: 'space-between' }}>
                                 <Box>PO No {pONo}</Box>
-                                {/* <Box>(Currencv:USD)</Box> */}
+                                <Box>(Currencv:USD)</Box>
                             </Box>
                             <Box>
                                 <TableContainer component={Paper}>
@@ -475,7 +475,7 @@ const BillDraftMake = ({ isDialogOpen, handleDialogClose, billMasterID, pONo }) 
                                                 <StyledTableCell align="center">Description</StyledTableCell>
                                                 <StyledTableCell align="center">Amount Billed</StyledTableCell>
                                                 <StyledTableCell align="center">Liability</StyledTableCell>
-                                                <StyledTableCell align="center">Your share(USD)</StyledTableCell>
+                                                <StyledTableCell align="center">Your share</StyledTableCell>
                                             </TableRow>
                                         </TableHead>
                                         <TableBody>
@@ -624,6 +624,7 @@ const BillDraftMake = ({ isDialogOpen, handleDialogClose, billMasterID, pONo }) 
                         </Box>
                         <Box sx={{ fontSize: '18px', m: 1, display: 'flex', justifyContent: 'space-between' }}>
                             <Box>PO No {pONo}</Box>
+                            <Box>(Currencv:USD)</Box>
                         </Box>
                         <Box>
                             <TableContainer component={Paper}>
@@ -635,7 +636,7 @@ const BillDraftMake = ({ isDialogOpen, handleDialogClose, billMasterID, pONo }) 
                                             <StyledTableCell align="center">Description</StyledTableCell>
                                             <StyledTableCell align="center">Amount Billed</StyledTableCell>
                                             <StyledTableCell align="center">Liability</StyledTableCell>
-                                            <StyledTableCell align="center">Your share(USD)</StyledTableCell>
+                                            <StyledTableCell align="center">Your share</StyledTableCell>
                                         </TableRow>
                                     </TableHead>
                                     <TableBody>
