@@ -61,6 +61,16 @@ const SupplierDataList = ({}) => {
         }
     }));
 
+    // const useStyles = makeStyles({
+    //     tableContainer: {
+    //         overflowY: 'auto'
+    //     },
+    //     table: {
+    //         height: '100%',
+    //         overflowY: 'scroll'
+    //     }
+    // });
+
     const infoInit = () => {
         setSupplierName('');
         setBankAcctName('');
@@ -180,21 +190,52 @@ const SupplierDataList = ({}) => {
     }, []);
 
     return (
-        <TableContainer component={Paper} sx={{ maxHeight: 700 }}>
+        <TableContainer component={Paper} sx={{ minHeight: 0 }}>
             <Table sx={{ minWidth: 300 }} stickyHeader aria-label="sticky table">
                 <TableHead>
                     <TableRow>
                         <StyledTableCell align="center">No.</StyledTableCell>
-                        <StyledTableCell align="center">供應商名稱</StyledTableCell>
-                        <StyledTableCell align="center">Bank Name</StyledTableCell>
+                        <StyledTableCell align="center">
+                            供應商
+                            <br />
+                            名稱
+                        </StyledTableCell>
+                        <StyledTableCell align="center">
+                            Bank <br />
+                            Name
+                        </StyledTableCell>
                         <StyledTableCell align="center">Branch Name</StyledTableCell>
-                        <StyledTableCell align="center">Bank Address</StyledTableCell>
-                        <StyledTableCell align="center">Account Name</StyledTableCell>
-                        <StyledTableCell align="center">Account No.</StyledTableCell>
-                        <StyledTableCell align="center">Saving Account No.</StyledTableCell>
-                        <StyledTableCell align="center">ACH No</StyledTableCell>
+                        <StyledTableCell align="center">
+                            Bank
+                            <br />
+                            Address
+                        </StyledTableCell>
+                        <StyledTableCell align="center">
+                            Account
+                            <br />
+                            Name
+                        </StyledTableCell>
+                        <StyledTableCell align="center">
+                            Account
+                            <br />
+                            No.
+                        </StyledTableCell>
+                        <StyledTableCell align="center">
+                            Saving
+                            <br />
+                            Account No.
+                        </StyledTableCell>
+                        <StyledTableCell align="center">
+                            ACH
+                            <br />
+                            No
+                        </StyledTableCell>
                         <StyledTableCell align="center">Wire/Routing</StyledTableCell>
-                        <StyledTableCell align="center">SWIFT Code</StyledTableCell>
+                        <StyledTableCell align="center">
+                            SWIFT
+                            <br />
+                            Code
+                        </StyledTableCell>
                         <StyledTableCell align="center">IBAN</StyledTableCell>
                         <StyledTableCell align="center">Action</StyledTableCell>
                     </TableRow>

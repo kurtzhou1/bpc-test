@@ -42,7 +42,7 @@ const useStyles = makeStyles({
         position: 'sticky',
         left: 0,
         background: 'white',
-        boxShadow: '5px 2px 5px grey',
+        boxShadow: '0.5px 2px 5px grey',
         zIndex: 100
     }
 });
@@ -301,8 +301,8 @@ const PartyDataList = ({}) => {
     }, []);
 
     return (
-        <TableContainer component={Paper} sx={{ maxHeight: 700 }}>
-            <Table sx={{ minWidth: 400, width: 'max-content' }} stickyHeader aria-label="sticky table">
+        <TableContainer className="test-table" component={Paper} sx={{ maxHeight: 700 }}>
+            <Table stickyHeader aria-label="sticky table">
                 <TableHead>
                     <TableRow>
                         <StyledTableCell align="center" className={classes.sticky}>

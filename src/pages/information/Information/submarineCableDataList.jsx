@@ -140,7 +140,7 @@ const SubmarineCableDataList = ({}) => {
     }, []);
 
     return (
-        <TableContainer component={Paper} sx={{ maxHeight: 700 }}>
+        <TableContainer component={Paper} sx={{ maxHeight: '100%' }}>
             <Table sx={{ minWidth: 300 }} stickyHeader aria-label="sticky table">
                 <TableHead>
                     <TableRow>

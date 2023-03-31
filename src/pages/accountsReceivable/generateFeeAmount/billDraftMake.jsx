@@ -451,7 +451,7 @@ const BillDraftMake = ({ isDialogOpen, handleDialogClose, billMasterID, pONo }) 
                                     <Box sx={{ fontSize: '12px', textAlign: 'left' }}>ADDR：{partyInfo?.Address}</Box>
                                     <Box sx={{ fontSize: '12px', textAlign: 'left' }}>ATTN：{partyInfo?.Contact}</Box>
                                     <Box sx={{ fontSize: '12px', textAlign: 'left' }}>E-mail:{partyInfo?.Email}</Box>
-                                    <Box sx={{ fontSize: '12px', textAlign: 'left' }}>Tel.:{partyInfo?.Tel}</Box>
+                                    <Box sx={{ fontSize: '12px', textAlign: 'left' }}>Tel:{partyInfo?.Tel}</Box>
                                 </Box>
                                 <Box sx={{ m: 1, minWidth: '50%', with: '50%' }}>
                                     <Box sx={{ fontSize: '12px', textAlign: 'left' }}>Invoice No. {dataList.InvoiceNo}</Box>
@@ -515,7 +515,7 @@ const BillDraftMake = ({ isDialogOpen, handleDialogClose, billMasterID, pONo }) 
                                     <Box sx={{}}>{contactInfo?.DirectorName}</Box>
                                     <Box sx={{}}>Director, CBP</Box>
                                     <Box sx={{}}>{contactInfo?.Company}</Box>
-                                    <Box sx={{}}>Tel.: {contactInfo?.DTel}</Box>
+                                    <Box sx={{}}>Tel: {contactInfo?.DTel}</Box>
                                     <Box sx={{}}>Fax: {contactInfo?.DFax}</Box>
                                 </Box>
                                 <Box sx={{ width: '50%' }}>
@@ -614,7 +614,7 @@ const BillDraftMake = ({ isDialogOpen, handleDialogClose, billMasterID, pONo }) 
                                 <Box sx={{ fontSize: '18px', textAlign: 'left' }}>ADDR：{partyInfo?.Address}</Box>
                                 <Box sx={{ fontSize: '18px', textAlign: 'left' }}>ATTN：{partyInfo?.Contact}</Box>
                                 <Box sx={{ fontSize: '18px', textAlign: 'left' }}>E-mail:{partyInfo?.Email}</Box>
-                                <Box sx={{ fontSize: '18px', textAlign: 'left' }}>Tel.:{partyInfo?.Tel}</Box>
+                                <Box sx={{ fontSize: '18px', textAlign: 'left' }}>Tel:{partyInfo?.Tel}</Box>
                             </Box>
                             <Box sx={{ m: 1, minWidth: '50%', with: '50%' }}>
                                 <Box sx={{ fontSize: '18px', textAlign: 'left' }}>Invoice No. {dataList.InvoiceNo}</Box>
@@ -679,8 +679,8 @@ const BillDraftMake = ({ isDialogOpen, handleDialogClose, billMasterID, pONo }) 
                                 <Box sx={{}}>{contactInfo?.DirectorName}</Box>
                                 <Box sx={{}}>Director, CBP</Box>
                                 <Box sx={{}}>{contactInfo?.Company}</Box>
-                                <Box sx={{}}>Email.: {contactInfo?.DEmail}</Box>
-                                <Box sx={{}}>Tel.: {contactInfo?.DTel}</Box>
+                                <Box sx={{}}>Email: {contactInfo?.DEmail}</Box>
+                                <Box sx={{}}>Tel: {contactInfo?.DTel}</Box>
                                 <Box sx={{}}>Fax: {contactInfo?.DFax}</Box>
                             </Box>
                             <Box sx={{ width: '50%' }}>

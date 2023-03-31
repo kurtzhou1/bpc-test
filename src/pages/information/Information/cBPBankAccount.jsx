@@ -254,6 +254,7 @@ const Corporates = ({}) => {
             <Table sx={{ minWidth: 300 }} stickyHeader aria-label="sticky table">
                 <TableHead>
                     <TableRow sx={{ fontSize: '50px' }}>
+                        <StyledTableCell align="center">Action</StyledTableCell>
                         <StyledTableCell align="center">NO</StyledTableCell>
                         {/* <StyledTableCell align="center">聯盟代號/名稱</StyledTableCell> */}
                         <StyledTableCell align="center">海纜名稱</StyledTableCell>
@@ -269,8 +270,6 @@ const Corporates = ({}) => {
                         <StyledTableCell align="center">Bank Name</StyledTableCell>
                         <StyledTableCell align="center">Branch Name</StyledTableCell>
                         <StyledTableCell align="center">Bank Address</StyledTableCell>
-
-                        <StyledTableCell align="center">Action</StyledTableCell>
                     </TableRow>
                 </TableHead>
                 <TableBody>
