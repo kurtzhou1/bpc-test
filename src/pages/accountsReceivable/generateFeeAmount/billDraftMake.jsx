@@ -463,7 +463,7 @@ const BillDraftMake = ({ isDialogOpen, handleDialogClose, billMasterID, pONo }) 
                                 </Box>
                             </Box>
                             <Box sx={{ fontSize: '12px', m: 1, display: 'flex', justifyContent: 'space-between' }}>
-                                <Box>PO No {pONo}</Box>
+                                <Box>{pONo.length > 0 ? `PO No ${pONo}` : 0}</Box>
                                 <Box>(Currencv:USD)</Box>
                             </Box>
                             <Box>
@@ -527,7 +527,7 @@ const BillDraftMake = ({ isDialogOpen, handleDialogClose, billMasterID, pONo }) 
                                     <Box>Company Addr:{submarineCableInfo?.Address}</Box>
                                     <Box>
                                         A/C No.:
-                                        {submarineCableInfo?.BankAcctNo.length === 0
+                                        {submarineCableInfo?.BankAcctNo.length !== 0
                                             ? submarineCableInfo?.BankAcctNo
                                             : submarineCableInfo?.SavingAcctNo}
                                     </Box>
@@ -624,7 +624,7 @@ const BillDraftMake = ({ isDialogOpen, handleDialogClose, billMasterID, pONo }) 
                             </Box>
                         </Box>
                         <Box sx={{ fontSize: '18px', m: 1, display: 'flex', justifyContent: 'space-between' }}>
-                            <Box>PO No {pONo}</Box>
+                            <Box>{pONo.length > 0 ? `PO No ${pONo}` : 0}</Box>
                             <Box>(Currencv:USD)</Box>
                         </Box>
                         <Box>
@@ -690,7 +690,12 @@ const BillDraftMake = ({ isDialogOpen, handleDialogClose, billMasterID, pONo }) 
                                 <Box>Branch Address: {submarineCableInfo?.BranchAddress}</Box>
                                 <Box>A/C Name:{submarineCableInfo?.AcctName}</Box>
                                 <Box>Company Addr:{submarineCableInfo?.Address}</Box>
-                                <Box>A/C No.: {submarineCableInfo?.AcctNo}</Box>
+                                <Box>
+                                    A/C No.:
+                                    {submarineCableInfo?.BankAcctNo.length !== 0
+                                        ? submarineCableInfo?.BankAcctNo
+                                        : submarineCableInfo?.SavingAcctNo}
+                                </Box>
                                 <Box>IBAN: {submarineCableInfo?.IBAN}</Box>
                                 <Box>Swift: {submarineCableInfo?.SWIFTCode}</Box>
                                 <Box>ACH:{submarineCableInfo?.ACHNo}</Box>
