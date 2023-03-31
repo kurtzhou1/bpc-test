@@ -240,6 +240,7 @@ const BillDraftMake = ({ isDialogOpen, handleDialogClose, billMasterID, pONo }) 
                 setDataList(data);
                 setPartyInfo(data.PartyInformation);
                 setSubmarineCableInfo(data.CorporateInformation);
+                setContactInfo(data.ContactWindowAndSupervisorInformation);
                 setDetailInfo(data.DetailInformation);
                 data.DetailInformation.forEach((i) => {
                     tmpAmount = tmpAmount + i.YourShare;
@@ -525,7 +526,7 @@ const BillDraftMake = ({ isDialogOpen, handleDialogClose, billMasterID, pONo }) 
                                     <Box>A/C Name:{submarineCableInfo?.BankAcctName}</Box>
                                     <Box>Company Addr:{submarineCableInfo?.Address}</Box>
                                     <Box>
-                                        A/C No.:{' '}
+                                        A/C No.:
                                         {submarineCableInfo?.BankAcctNo.length === 0
                                             ? submarineCableInfo?.BankAcctNo
                                             : submarineCableInfo?.SavingAcctNo}
