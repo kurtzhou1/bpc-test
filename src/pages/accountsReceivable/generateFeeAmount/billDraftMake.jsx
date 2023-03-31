@@ -119,28 +119,52 @@ const fakeData = {
     },
     DetailInformation: [
         {
-            Supplier: 'NEC',
-            InvNumber: '02CO-EG2303251517',
+            Supplier: 'NEC Corporation, Submarine Network Division',
+            InvNumber: '02CO-CI2303301838',
             Description: 'BM9a Sea cable manufactured (except 8.5km spare cable))- Equipment',
             AmountBilled: 1288822.32,
-            Liability: 28.5714285714,
-            YourShare: 368234.95
+            Liability: 7.1428571429,
+            YourShare: 92058.74
         },
         {
-            Supplier: 'NEC',
-            InvNumber: '02CO-EG2303251518',
+            Supplier: 'NEC Corporation, Submarine Network Division',
+            InvNumber: '02CO-CI2303301838',
             Description: 'BM9a Sea cable manufactured (except 8.5km spare cable))- Service',
             AmountBilled: 1178227.94,
-            Liability: 28.571428884,
-            YourShare: 336636.55
+            Liability: 7.1428571429,
+            YourShare: 84159.14
         },
         {
-            Supplier: 'NEC',
-            InvNumber: '02CO-EG2303251519',
+            Supplier: 'NEC Corporation, Submarine Network Division',
+            InvNumber: '02CO-CI2303301838',
+            Description: 'BM12 Branching Units (100%)-Equipment',
+            AmountBilled: 1627300.92,
+            Liability: 7.1428571429,
+            YourShare: 116235.78
+        },
+        {
+            Supplier: 'NEC Corporation, Submarine Network Division',
+            InvNumber: '02CO-CI2303301838',
+            Description: 'BM12 Branching Units (100%)-Service',
+            AmountBilled: 1487661.54,
+            Liability: 7.1428571429,
+            YourShare: 106261.54
+        },
+        {
+            Supplier: 'NEC Corporation, Submarine Network Division',
+            InvNumber: 'test',
+            Description: 'BM9a Sea cable manufactured (except 8.5km spare cable))- Equipment',
+            AmountBilled: -10,
+            Liability: 100,
+            YourShare: -10
+        },
+        {
+            Supplier: 'NEC Corporation, Submarine Network Division',
+            InvNumber: 'test',
             Description: 'BM9a Sea cable manufactured (except 8.5km spare cable))- Service',
-            AmountBilled: 1178227.0,
-            Liability: 28.571428555,
-            YourShare: 336636.55
+            AmountBilled: -10,
+            Liability: 100,
+            YourShare: -10
         }
     ],
     InvoiceNo: '02CO-EG2303251517'
@@ -179,7 +203,7 @@ const BillDraftMake = ({ isDialogOpen, handleDialogClose, billMasterID, pONo }) 
     const [contactInfo, setContactInfo] = useState({});
     const [partyInfo, setPartyInfo] = useState(fakeData.PartyInformation);
     const [submarineCableInfo, setSubmarineCableInfo] = useState(fakeData.CorporateInformation);
-    // const [datailInfo, setDetailInfo] = useState(fakeData.DetailInformation);
+    const [datailInfo, setDetailInfo] = useState(fakeData.DetailInformation);
     const totalAmount = useRef(0);
     const [issueDate, setIssueDate] = useState(new Date()); //發票日期
     const [dueDate, setDueDate] = useState(new Date()); //發票日期
@@ -213,8 +237,8 @@ const BillDraftMake = ({ isDialogOpen, handleDialogClose, billMasterID, pONo }) 
                 setDataList(data);
                 setPartyInfo(data.PartyInformation);
                 setSubmarineCableInfo(data.CorporateInformation);
-                // setDetailInfo(data.DetailInformation);
-                data.DetailInformation.array.forEach((i) => {
+                setDetailInfo(data.DetailInformation);
+                data.DetailInformation.forEach((i) => {
                     tmpAmount = tmpAmount + i.YourShare;
                 });
                 totalAmount.current = tmpAmount;
@@ -243,6 +267,14 @@ const BillDraftMake = ({ isDialogOpen, handleDialogClose, billMasterID, pONo }) 
         }
         setContactInfo(arrayFiliter[0]);
     }, [contact]);
+
+    // useEffect(() => {
+    //     let tmpAmount = 0;
+    //     datailInfo.forEach((i) => {
+    //         tmpAmount = tmpAmount + i.YourShare;
+    //     });
+    //     totalAmount.current = tmpAmount;
+    // }, [datailInfo]);
 
     console.log('setDataList=>>', dataList);
     console.log('contactList=>>', contactList);
@@ -444,7 +476,7 @@ const BillDraftMake = ({ isDialogOpen, handleDialogClose, billMasterID, pONo }) 
                                             </TableRow>
                                         </TableHead>
                                         <TableBody>
-                                            {dataList.DetailInformation?.map((row, id) => {
+                                            {datailInfo?.map((row) => {
                                                 return (
                                                     <TableRow sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
                                                         <StyledTableCell align="center">{row.Supplier}</StyledTableCell>
@@ -489,7 +521,7 @@ const BillDraftMake = ({ isDialogOpen, handleDialogClose, billMasterID, pONo }) 
                                     <Box>A/C Name:{submarineCableInfo?.BankAcctName}</Box>
                                     <Box>Company Addr:{submarineCableInfo?.Address}</Box>
                                     <Box>
-                                        AC No.:{' '}
+                                        A/C No.:{' '}
                                         {submarineCableInfo?.BankAcctNo.length === 0
                                             ? submarineCableInfo?.BankAcctNo
                                             : submarineCableInfo?.SavingAcctNo}
@@ -650,7 +682,7 @@ const BillDraftMake = ({ isDialogOpen, handleDialogClose, billMasterID, pONo }) 
                                 <Box>Branch Address: {submarineCableInfo?.BranchAddress}</Box>
                                 <Box>A/C Name:{submarineCableInfo?.AcctName}</Box>
                                 <Box>Company Addr:{submarineCableInfo?.Address}</Box>
-                                <Box>AC No.: {submarineCableInfo?.AcctNo}</Box>
+                                <Box>A/C No.: {submarineCableInfo?.AcctNo}</Box>
                                 <Box>IBAN: {submarineCableInfo?.IBAN}</Box>
                                 <Box>Swift: {submarineCableInfo?.SWIFTCode}</Box>
                                 <Box>ACH:{submarineCableInfo?.ACHNo}</Box>
