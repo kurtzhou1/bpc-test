@@ -405,7 +405,7 @@ const BillDraftMake = ({ isDialogOpen, handleDialogClose, billMasterID, pONo }) 
                     <Grid item xs={6} sm={6} md={6} lg={6}>
                         <Typography sx={{ fontFamily: 'DFKai-sb', fontWeight: 'bold' }}>
                             <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
-                                <Box sx={{ m: 1 }}>
+                                <Box sx={{ m: 1, width: '50%' }}>
                                     <Box sx={{ fontSize: '12px', textAlign: 'left' }}>
                                         <Box
                                             component="img"
@@ -417,7 +417,8 @@ const BillDraftMake = ({ isDialogOpen, handleDialogClose, billMasterID, pONo }) 
                                         />
                                     </Box>
                                 </Box>
-                                <Box sx={{ m: 1 }}>
+                                <Box sx={{ m: 1, width: '20%' }} />
+                                <Box sx={{ m: 1, width: '30%' }}>
                                     <Box sx={{ fontSize: '12px', textAlign: 'right' }}>{contactInfo?.Address}</Box>
                                     <Box sx={{ fontSize: '12px', textAlign: 'right' }}>Tel：{contactInfo?.Tel}</Box>
                                     <Box sx={{ fontSize: '12px', textAlign: 'right' }}>Fax：{contactInfo?.Fax}</Box>
@@ -428,7 +429,8 @@ const BillDraftMake = ({ isDialogOpen, handleDialogClose, billMasterID, pONo }) 
                                     fontSize: subject1.length <= 50 ? '18px' : '15px',
                                     mt: 1,
                                     textAlign: 'center',
-                                    whiteSpace: 'nowrap'
+                                    whiteSpace: 'nowrap',
+                                    fontWeight: 'bold'
                                 }}
                             >
                                 {subject1}
@@ -438,12 +440,13 @@ const BillDraftMake = ({ isDialogOpen, handleDialogClose, billMasterID, pONo }) 
                                     fontSize: subject2.length <= 50 ? '18px' : '15px',
                                     mt: 1,
                                     textAlign: 'center',
-                                    whiteSpace: 'nowrap'
+                                    whiteSpace: 'nowrap',
+                                    fontWeight: 'bold'
                                 }}
                             >
                                 {subject2}
                             </Box>
-                            <Box sx={{ fontSize: '24px', m: 1, textAlign: 'center' }}>{subject3}</Box>
+                            <Box sx={{ fontSize: '24px', m: 1, textAlign: 'center', fontWeight: 'bold' }}>{subject3}</Box>
                             <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
                                 <Box sx={{ m: 1, minWidth: '50%', with: '50%' }}>
                                     <Box sx={{ fontSize: '12px', textAlign: 'left' }}>BILL TO：</Box>
@@ -453,9 +456,10 @@ const BillDraftMake = ({ isDialogOpen, handleDialogClose, billMasterID, pONo }) 
                                     <Box sx={{ fontSize: '12px', textAlign: 'left' }}>E-mail:{partyInfo?.Email}</Box>
                                     <Box sx={{ fontSize: '12px', textAlign: 'left' }}>Tel:{partyInfo?.Tel}</Box>
                                 </Box>
-                                <Box sx={{ m: 1, minWidth: '50%', with: '50%' }}>
+                                <Box sx={{ m: 1, minWidth: '20%', with: '20%' }} />
+                                <Box sx={{ m: 1, minWidth: '30%', with: '30%' }}>
                                     <Box sx={{ fontSize: '12px', textAlign: 'left' }}>Invoice No. {dataList.InvoiceNo}</Box>
-                                    <Box sx={{ fontSize: '12px', textAlign: 'left' }}>(Please Refer To This Invoice No. On Remittance)</Box>
+                                    <Box sx={{ fontSize: '8px', textAlign: 'left' }}>(Please Refer To This Invoice No. On Remittance)</Box>
                                     <Box sx={{ fontSize: '12px', textAlign: 'left' }}>
                                         Issue Date：{dayjs(issueDate).format('YYYY/MM/DD')}
                                     </Box>
@@ -580,7 +584,8 @@ const BillDraftMake = ({ isDialogOpen, handleDialogClose, billMasterID, pONo }) 
                                     />
                                 </Box>
                             </Box>
-                            <Box sx={{ m: 1 }}>
+                            <Box sx={{ m: 1, width: '20%' }} />
+                            <Box sx={{ m: 1, width: '30%' }}>
                                 <Box sx={{ fontSize: '18px', textAlign: 'right' }}>{contactInfo?.Address}</Box>
                                 <Box sx={{ fontSize: '18px', textAlign: 'right' }}>Tel：{contactInfo?.Tel}</Box>
                                 <Box sx={{ fontSize: '18px', textAlign: 'right' }}>Fax：{contactInfo?.Fax}</Box>
@@ -616,9 +621,10 @@ const BillDraftMake = ({ isDialogOpen, handleDialogClose, billMasterID, pONo }) 
                                 <Box sx={{ fontSize: '18px', textAlign: 'left' }}>E-mail:{partyInfo?.Email}</Box>
                                 <Box sx={{ fontSize: '18px', textAlign: 'left' }}>Tel:{partyInfo?.Tel}</Box>
                             </Box>
-                            <Box sx={{ m: 1, minWidth: '50%', with: '50%' }}>
+                            <Box sx={{ m: 1, minWidth: '20%', with: '20%' }} />
+                            <Box sx={{ m: 1, minWidth: '30%', with: '30%' }}>
                                 <Box sx={{ fontSize: '18px', textAlign: 'left' }}>Invoice No. {dataList.InvoiceNo}</Box>
-                                <Box sx={{ fontSize: '18px', textAlign: 'left' }}>(Please Refer To This Invoice No. On Remittance)</Box>
+                                <Box sx={{ fontSize: '14px', textAlign: 'left' }}>(Please Refer To This Invoice No. On Remittance)</Box>
                                 <Box sx={{ fontSize: '18px', textAlign: 'left' }}>Issue Date：{dayjs(issueDate).format('YYYY/MM/DD')}</Box>
                                 <Box sx={{ fontSize: '18px', textAlign: 'left' }}>Due Date：{dayjs(dueDate).format('YYYY/MM/DD')}</Box>
                             </Box>
