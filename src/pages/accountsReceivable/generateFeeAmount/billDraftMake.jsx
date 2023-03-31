@@ -108,7 +108,7 @@ const fakeData = {
         Tel: '123456789'
     },
     CorporateInformation: {
-        BranchName: 'test-name',
+        BankName: 'test-name',
         Branch: 'test-branch',
         BranchAddress: 'test-address',
         BankAcctName: 'test-acctname',
@@ -520,7 +520,7 @@ const BillDraftMake = ({ isDialogOpen, handleDialogClose, billMasterID, pONo }) 
                                 </Box>
                                 <Box sx={{ width: '50%' }}>
                                     <Box>Payment by Telegraphic Transfer to</Box>
-                                    <Box>Bank Name: {submarineCableInfo?.BranchName}</Box>
+                                    <Box>Bank Name: {submarineCableInfo?.BankName}</Box>
                                     <Box>Branch Name: {submarineCableInfo?.Branch}</Box>
                                     <Box>Branch Address: {submarineCableInfo?.BranchAddress}</Box>
                                     <Box>A/C Name:{submarineCableInfo?.BankAcctName}</Box>
@@ -685,7 +685,7 @@ const BillDraftMake = ({ isDialogOpen, handleDialogClose, billMasterID, pONo }) 
                             </Box>
                             <Box sx={{ width: '50%' }}>
                                 <Box>Payment by Telegraphic Transfer to</Box>
-                                <Box>Bank Name: {submarineCableInfo?.Name}</Box>
+                                <Box>Bank Name: {submarineCableInfo?.BankName}</Box>
                                 <Box>Branch Name: {submarineCableInfo?.Branch}</Box>
                                 <Box>Branch Address: {submarineCableInfo?.BranchAddress}</Box>
                                 <Box>A/C Name:{submarineCableInfo?.AcctName}</Box>
