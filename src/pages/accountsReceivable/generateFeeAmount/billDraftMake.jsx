@@ -607,7 +607,8 @@ const BillDraftMake = ({ isDialogOpen, handleDialogClose, billMasterID, pONo }) 
                     sx={{ mr: '0.05rem' }}
                     variant="contained"
                     onClick={() => {
-                        handlePrint();
+                        window.print();
+                        return false;
                     }}
                 >
                     列印

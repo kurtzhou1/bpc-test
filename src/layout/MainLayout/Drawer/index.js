@@ -27,7 +27,7 @@ const MainDrawer = ({ open, handleDrawerToggle, window }) => {
     const drawerFooter = useMemo(() => <DrawerFooter />, []);
 
     return (
-        <Box component="nav" sx={{ flexShrink: { md: 0 }, zIndex: 1300 }} aria-label="mailbox folders">
+        <Box component="nav" className="no-print" sx={{ flexShrink: { md: 0 }, zIndex: 1300 }} aria-label="mailbox folders">
             {!matchDownMD ? (
                 <MiniDrawerStyled variant="permanent" open={open}>
                     {drawerHeader}
