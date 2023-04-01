@@ -54,12 +54,50 @@ import Logo from 'assets/images/logo.png';
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
     [`&.${tableCellClasses.head}`]: {
-        // color: theme.palette.common.black,
         padding: '0.1rem',
         fontFamily: 'Microsoft JhengHei,Arial',
         fontSize: '8px',
         background: '#fff',
-        border: 'black 1px solid'
+        border: 'black 1px solid',
+        textAlign: 'center'
+    },
+    [`&.${tableCellClasses.head}.theTopFirst`]: {
+        paddingTop: '0.2rem',
+        paddingBottom: '0.2rem',
+        borderTop: 'black 2px solid',
+        borderLeft: 'black 2px solid'
+    },
+    [`&.${tableCellClasses.head}.top`]: {
+        paddingTop: '0.2rem',
+        paddingBottom: '0.2rem',
+        borderLeft: 'initial !important',
+        borderTop: 'black 2px solid'
+    },
+    [`&.${tableCellClasses.head}.theTopFinal`]: {
+        paddingTop: '0.2rem',
+        paddingBottom: '0.2rem',
+        borderLeft: 'initial !important',
+        borderTop: 'black 2px solid',
+        borderRight: 'black 2px solid'
+    },
+    [`&.${tableCellClasses.body}.theSecondFirst`]: {
+        paddingTop: '0.2rem',
+        paddingBottom: '0.2rem',
+        borderTop: 'initial !important',
+        borderLeft: 'black 2px solid !important'
+    },
+    [`&.${tableCellClasses.body}.theSecond`]: {
+        paddingTop: '0.2rem',
+        paddingBottom: '0.2rem',
+        borderTop: 'initial !important',
+        borderLeft: 'initial !important'
+    },
+    [`&.${tableCellClasses.body}.theSecondFinal`]: {
+        paddingTop: '0.2rem',
+        paddingBottom: '0.2rem',
+        borderTop: 'initial !important',
+        borderLeft: 'initial !important',
+        borderRight: 'black 2px solid !important'
     },
     [`&.${tableCellClasses.body}`]: {
         padding: '0.1rem',
@@ -71,21 +109,27 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
     [`&.${tableCellClasses.body}.totalAmountFirst`]: {
         paddingTop: '0.2rem',
         paddingBottom: '0.2rem',
+        fontWeight: 'bold',
+        borderTop: 'initial !important',
         borderRight: 'initial !important',
-        fontWeight: 'bold'
+        borderLeft: 'black 2px solid !important',
+        borderBottom: 'black 2px solid !important'
     },
     [`&.${tableCellClasses.body}.totalAmount`]: {
         paddingTop: '0.2rem',
         paddingBottom: '0.2rem',
+        borderTop: 'initial !important',
         borderRight: 'initial !important',
         borderLeft: 'initial !important',
+        borderBottom: 'black 2px solid !important',
         fontWeight: 'bold'
     },
     [`&.${tableCellClasses.body}.totalAmountFinal`]: {
         paddingTop: '0.2rem',
         paddingBottom: '0.2rem',
-        border: 'black 1px solid !important',
-        borderLeft: 'black 2px solid !important',
+        borderTop: 'initial !important',
+        borderRight: 'black 2px solid !important',
+        borderBottom: 'black 2px solid !important',
         fontWeight: 'bold'
     }
 }));
@@ -476,32 +520,40 @@ const BillDraftMake = ({ isDialogOpen, handleDialogClose, billMasterID, pONo }) 
                                     <Table sx={{ minWidth: 300 }} stickyHeader aria-label="sticky table">
                                         <TableHead>
                                             <TableRow>
-                                                <StyledTableCell align="center">Supplier</StyledTableCell>
-                                                <StyledTableCell align="center">INV. No.</StyledTableCell>
-                                                <StyledTableCell align="center">Description</StyledTableCell>
-                                                <StyledTableCell align="center">Amount Billed</StyledTableCell>
-                                                <StyledTableCell align="center">Liability</StyledTableCell>
-                                                <StyledTableCell align="center">Your share</StyledTableCell>
+                                                <StyledTableCell className="theTopFirst">Supplier</StyledTableCell>
+                                                <StyledTableCell className="top">INV. No.</StyledTableCell>
+                                                <StyledTableCell className="top">Description</StyledTableCell>
+                                                <StyledTableCell className="top">Amount Billed</StyledTableCell>
+                                                <StyledTableCell className="top">Liability</StyledTableCell>
+                                                <StyledTableCell className="theTopFinal">Your share</StyledTableCell>
                                             </TableRow>
                                         </TableHead>
                                         <TableBody>
                                             {datailInfo?.map((row) => {
                                                 return (
-                                                    <TableRow sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
-                                                        <StyledTableCell align="center">{row.Supplier}</StyledTableCell>
-                                                        <StyledTableCell align="left">{row.InvNumber}</StyledTableCell>
-                                                        <StyledTableCell align="left">{row.Description}</StyledTableCell>
-                                                        <StyledTableCell align="right">
+                                                    <TableRow>
+                                                        <StyledTableCell align="center" className="theSecondFirst">
+                                                            {row.Supplier}
+                                                        </StyledTableCell>
+                                                        <StyledTableCell align="left" className="theSecond">
+                                                            {row.InvNumber}
+                                                        </StyledTableCell>
+                                                        <StyledTableCell align="left" className="theSecond">
+                                                            {row.Description}
+                                                        </StyledTableCell>
+                                                        <StyledTableCell align="right" className="theSecond">
                                                             {handleNumber(row.AmountBilled.toFixed(2))}
                                                         </StyledTableCell>
-                                                        <StyledTableCell align="right">{row.Liability.toFixed(10)}%</StyledTableCell>
-                                                        <StyledTableCell align="right">
+                                                        <StyledTableCell align="right" className="theSecond">
+                                                            {row.Liability.toFixed(10)}%
+                                                        </StyledTableCell>
+                                                        <StyledTableCell align="right" className="theSecondFinal">
                                                             {handleNumber(row.YourShare.toFixed(2))}
                                                         </StyledTableCell>
                                                     </TableRow>
                                                 );
                                             })}
-                                            <TableRow sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
+                                            <TableRow>
                                                 <StyledTableCell align="center" className="totalAmountFirst"></StyledTableCell>
                                                 <StyledTableCell align="center" className="totalAmount"></StyledTableCell>
                                                 <StyledTableCell align="center" className="totalAmount"></StyledTableCell>
@@ -645,32 +697,40 @@ const BillDraftMake = ({ isDialogOpen, handleDialogClose, billMasterID, pONo }) 
                                 <Table sx={{ minWidth: 300 }} stickyHeader aria-label="sticky table">
                                     <TableHead>
                                         <TableRow>
-                                            <StyledTableCell align="center">Supplier</StyledTableCell>
-                                            <StyledTableCell align="center">INV. No.</StyledTableCell>
-                                            <StyledTableCell align="center">Description</StyledTableCell>
-                                            <StyledTableCell align="center">Amount Billed</StyledTableCell>
-                                            <StyledTableCell align="center">Liability</StyledTableCell>
-                                            <StyledTableCell align="center">Your share</StyledTableCell>
+                                            <StyledTableCell className="theTopFirst">Supplier</StyledTableCell>
+                                            <StyledTableCell className="top">INV. No.</StyledTableCell>
+                                            <StyledTableCell className="top">Description</StyledTableCell>
+                                            <StyledTableCell className="top">Amount Billed</StyledTableCell>
+                                            <StyledTableCell className="top">Liability</StyledTableCell>
+                                            <StyledTableCell className="theTopFinal">Your share</StyledTableCell>
                                         </TableRow>
                                     </TableHead>
                                     <TableBody>
                                         {datailInfo?.map((row) => {
                                             return (
-                                                <TableRow sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
-                                                    <StyledTableCell align="center">{row.Supplier}</StyledTableCell>
-                                                    <StyledTableCell align="left">{row.InvNumber}</StyledTableCell>
-                                                    <StyledTableCell align="left">{row.Description}</StyledTableCell>
-                                                    <StyledTableCell align="right">
+                                                <TableRow>
+                                                    <StyledTableCell align="center" className="theSecondFirst">
+                                                        {row.Supplier}
+                                                    </StyledTableCell>
+                                                    <StyledTableCell align="left" className="theSecond">
+                                                        {row.InvNumber}
+                                                    </StyledTableCell>
+                                                    <StyledTableCell align="left" className="theSecond">
+                                                        {row.Description}
+                                                    </StyledTableCell>
+                                                    <StyledTableCell align="right" className="theSecond">
                                                         {handleNumber(row.AmountBilled.toFixed(2))}
                                                     </StyledTableCell>
-                                                    <StyledTableCell align="right">{row.Liability.toFixed(10)}%</StyledTableCell>
-                                                    <StyledTableCell align="right">
+                                                    <StyledTableCell align="right" className="theSecond">
+                                                        {row.Liability.toFixed(10)}%
+                                                    </StyledTableCell>
+                                                    <StyledTableCell align="right" className="theSecondFinal">
                                                         {handleNumber(row.YourShare.toFixed(2))}
                                                     </StyledTableCell>
                                                 </TableRow>
                                             );
                                         })}
-                                        <TableRow sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
+                                        <TableRow>
                                             <StyledTableCell align="center" className="totalAmountFirst"></StyledTableCell>
                                             <StyledTableCell align="center" className="totalAmount"></StyledTableCell>
                                             <StyledTableCell align="center" className="totalAmount"></StyledTableCell>
