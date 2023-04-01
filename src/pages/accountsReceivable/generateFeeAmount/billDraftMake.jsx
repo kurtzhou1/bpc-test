@@ -56,14 +56,14 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
     [`&.${tableCellClasses.head}`]: {
         // color: theme.palette.common.black,
         padding: '0.1rem',
-        fontFamily: 'DFKai-sb',
+        fontFamily: 'Microsoft JhengHei,Arial',
         fontSize: '8px',
         background: '#fff',
         border: 'black 1px solid'
     },
     [`&.${tableCellClasses.body}`]: {
         padding: '0.1rem',
-        fontFamily: 'DFKai-sb',
+        fontFamily: 'Microsoft JhengHei,Arial',
         fontSize: '8px',
         background: '#fff',
         border: 'black 1px solid !important'
@@ -92,33 +92,34 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
 
 const fakeData = {
     ContactWindowAndSupervisorInformation: {
-        Company: 'CHT',
-        Address: 'test-address',
-        Tel: '123456789',
-        Fax: '123456789',
+        Company: '中華電信',
+        Address: 'testaddr',
+        Tel: '02-23443897',
+        Fax: '02-23443897',
         DirectorName: '郭贊章',
-        DTel: '123456789',
-        DFax: '123456789'
+        DTel: 'testtel',
+        DFax: 'testfax',
+        DEmail: 'testemail'
     },
     PartyInformation: {
-        Company: 'Edge Company',
-        Address: 'test address',
-        Contact: 'test contact name',
-        Email: 'test@testmail.com',
-        Tel: '123456789'
+        Company: 'Chunghwa Telecom Co., Ltd. Network Technology Group',
+        Address: '31, Aikuo East Road, Taipei, Taiwan 106',
+        Contact: '黃宏杰',
+        Email: 'hj-hwang@cht.com.tw',
+        Tel: '03-9772252'
     },
     CorporateInformation: {
-        BankName: 'test-name',
-        Branch: 'test-branch',
-        BranchAddress: 'test-address',
-        BankAcctName: 'test-acctname',
-        BankAcctNo: 'test-acctno',
-        SavingAcctNo: 'test-savingaccntno',
-        IBAN: 'test-iban',
-        SWIFTCode: 'test-swiftcode',
-        ACHNo: 'test-achno',
-        WireRouting: 'test-wirerouting',
-        Address: 'Address'
+        BankName: 'Bank of Taiwan, Hsinyi Branch',
+        Branch: '',
+        BranchAddress: '31 Aikuo E. Rd., Taipei, Taiwan, 106',
+        BankAcctName: 'SJC2 Central Billing Party of Chunghwa Telecom (International Business Group)',
+        BankAcctNo: '054007501968',
+        SavingAcctNo: '',
+        IBAN: '',
+        SWIFTCode: 'BKTWTWTP054',
+        ACHNo: '',
+        WireRouting: '',
+        Address: '88, Sec. 2, Sinyi Road, Taipei'
     },
     DetailInformation: [
         {
@@ -170,7 +171,7 @@ const fakeData = {
             YourShare: -10
         }
     ],
-    InvoiceNo: '02CO-EG2303251517'
+    InvoiceNo: '02CO-CI2303301838'
 };
 
 //
@@ -290,7 +291,7 @@ const BillDraftMake = ({ isDialogOpen, handleDialogClose, billMasterID, pONo }) 
             </BootstrapDialogTitle>
             <DialogContent dividers className="no-print">
                 <Grid container spacing={1} className="no-print">
-                    <Grid item xs={6} sm={6} md={6} lg={6}>
+                    <Grid item xs={5} sm={5} md={5} lg={5}>
                         <MainCard title="聯絡窗口及主管資訊" sx={{ width: '100%' }}>
                             <Grid container spacing={1}>
                                 <Grid item xs={2} sm={2} md={2} lg={2} display="flex" justifyContent="center" alignItems="center">
@@ -402,8 +403,8 @@ const BillDraftMake = ({ isDialogOpen, handleDialogClose, billMasterID, pONo }) 
                         </MainCard>
                     </Grid>
                     {/* 表單開始 */}
-                    <Grid item xs={6} sm={6} md={6} lg={6}>
-                        <Typography sx={{ fontFamily: 'DFKai-sb', fontWeight: 'bold' }}>
+                    <Grid item xs={7} sm={7} md={7} lg={7}>
+                        <Typography sx={{ fontFamily: 'Microsoft JhengHei,Arial' }}>
                             <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
                                 <Box sx={{ m: 1, width: '50%' }}>
                                     <Box sx={{ fontSize: '12px', textAlign: 'left' }}>
@@ -448,17 +449,17 @@ const BillDraftMake = ({ isDialogOpen, handleDialogClose, billMasterID, pONo }) 
                             </Box>
                             <Box sx={{ fontSize: '24px', m: 1, textAlign: 'center', fontWeight: 'bold' }}>{subject3}</Box>
                             <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
-                                <Box sx={{ m: 1, minWidth: '50%', with: '50%' }}>
+                                <Box sx={{ m: 1, minWidth: '40%', with: '40%' }}>
                                     <Box sx={{ fontSize: '12px', textAlign: 'left' }}>BILL TO：</Box>
                                     <Box sx={{ fontSize: '12px', textAlign: 'left' }}>{partyInfo?.Company}</Box>
                                     <Box sx={{ fontSize: '12px', textAlign: 'left' }}>ADDR：{partyInfo?.Address}</Box>
                                     <Box sx={{ fontSize: '12px', textAlign: 'left' }}>ATTN：{partyInfo?.Contact}</Box>
-                                    <Box sx={{ fontSize: '12px', textAlign: 'left' }}>E-mail:{partyInfo?.Email}</Box>
-                                    <Box sx={{ fontSize: '12px', textAlign: 'left' }}>Tel:{partyInfo?.Tel}</Box>
+                                    <Box sx={{ fontSize: '12px', textAlign: 'left' }}>E-mail：{partyInfo?.Email}</Box>
+                                    <Box sx={{ fontSize: '12px', textAlign: 'left' }}>Tel：{partyInfo?.Tel}</Box>
                                 </Box>
-                                <Box sx={{ m: 1, minWidth: '20%', with: '20%' }} />
+                                <Box sx={{ m: 1, minWidth: '30%', with: '30%' }} />
                                 <Box sx={{ m: 1, minWidth: '30%', with: '30%' }}>
-                                    <Box sx={{ fontSize: '12px', textAlign: 'left' }}>Invoice No. {dataList.InvoiceNo}</Box>
+                                    <Box sx={{ fontSize: '12px', textAlign: 'left' }}>Invoice No.： {dataList.InvoiceNo}</Box>
                                     <Box sx={{ fontSize: '8px', textAlign: 'left' }}>(Please Refer To This Invoice No. On Remittance)</Box>
                                     <Box sx={{ fontSize: '12px', textAlign: 'left' }}>
                                         Issue Date：{dayjs(issueDate).format('YYYY/MM/DD')}
@@ -467,8 +468,8 @@ const BillDraftMake = ({ isDialogOpen, handleDialogClose, billMasterID, pONo }) 
                                 </Box>
                             </Box>
                             <Box sx={{ fontSize: '12px', m: 1, display: 'flex', justifyContent: 'space-between' }}>
-                                <Box>{pONo.length > 0 ? `PO No ${pONo}` : 0}</Box>
-                                <Box>(Currencv:USD)</Box>
+                                <Box>{pONo.length > 0 ? `PO No. ${pONo}` : 0}</Box>
+                                <Box>(Currency：USD)</Box>
                             </Box>
                             <Box>
                                 <TableContainer component={Paper}>
@@ -490,9 +491,13 @@ const BillDraftMake = ({ isDialogOpen, handleDialogClose, billMasterID, pONo }) 
                                                         <StyledTableCell align="center">{row.Supplier}</StyledTableCell>
                                                         <StyledTableCell align="left">{row.InvNumber}</StyledTableCell>
                                                         <StyledTableCell align="left">{row.Description}</StyledTableCell>
-                                                        <StyledTableCell align="right">{row.AmountBilled.toFixed(2)}</StyledTableCell>
+                                                        <StyledTableCell align="right">
+                                                            {handleNumber(row.AmountBilled.toFixed(2))}
+                                                        </StyledTableCell>
                                                         <StyledTableCell align="right">{row.Liability.toFixed(10)}%</StyledTableCell>
-                                                        <StyledTableCell align="right">{row.YourShare.toFixed(2)}</StyledTableCell>
+                                                        <StyledTableCell align="right">
+                                                            {handleNumber(row.YourShare.toFixed(2))}
+                                                        </StyledTableCell>
                                                     </TableRow>
                                                 );
                                             })}
@@ -512,33 +517,33 @@ const BillDraftMake = ({ isDialogOpen, handleDialogClose, billMasterID, pONo }) 
                                     </Table>
                                 </TableContainer>
                             </Box>
-                            <Box sx={{ m: 1, fontSize: '12px' }}>Certified by:</Box>
+                            <Box sx={{ m: 1, fontSize: '12px' }}>Certified by：</Box>
                             <Box sx={{ fontSize: '12px', m: 1, display: 'flex', justifyContent: 'space-between' }}>
                                 <Box sx={{ width: '50%', display: 'flex', flexDirection: 'column', justifyContent: 'end' }}>
                                     <Box sx={{}}>———————————————</Box>
                                     <Box sx={{}}>{contactInfo?.DirectorName}</Box>
                                     <Box sx={{}}>Director, CBP</Box>
                                     <Box sx={{}}>{contactInfo?.Company}</Box>
-                                    <Box sx={{}}>Tel: {contactInfo?.DTel}</Box>
-                                    <Box sx={{}}>Fax: {contactInfo?.DFax}</Box>
+                                    <Box sx={{}}>Tel： {contactInfo?.DTel}</Box>
+                                    <Box sx={{}}>Fax： {contactInfo?.DFax}</Box>
                                 </Box>
                                 <Box sx={{ width: '50%' }}>
-                                    <Box>Payment by Telegraphic Transfer to</Box>
-                                    <Box>Bank Name: {submarineCableInfo?.BankName}</Box>
-                                    <Box>Branch Name: {submarineCableInfo?.Branch}</Box>
-                                    <Box>Branch Address: {submarineCableInfo?.BranchAddress}</Box>
-                                    <Box>A/C Name:{submarineCableInfo?.BankAcctName}</Box>
-                                    <Box>Company Addr:{submarineCableInfo?.Address}</Box>
+                                    <Box>Payment by Telegraphic Transfer to：</Box>
+                                    <Box>Bank Name： {submarineCableInfo?.BankName}</Box>
+                                    <Box>Branch Name： {submarineCableInfo?.Branch}</Box>
+                                    <Box>Branch Address： {submarineCableInfo?.BranchAddress}</Box>
+                                    <Box>A/C Name：{submarineCableInfo?.BankAcctName}</Box>
+                                    <Box>Company Addr：{submarineCableInfo?.Address}</Box>
                                     <Box>
                                         A/C No.:
                                         {submarineCableInfo?.BankAcctNo.length !== 0
                                             ? submarineCableInfo?.BankAcctNo
                                             : submarineCableInfo?.SavingAcctNo}
                                     </Box>
-                                    <Box>IBAN: {submarineCableInfo?.IBAN}</Box>
-                                    <Box>Swift: {submarineCableInfo?.SWIFTCode}</Box>
-                                    <Box>ACH:{submarineCableInfo?.ACHNo}</Box>
-                                    <Box>Wire/Routing:{submarineCableInfo?.WireRouting}</Box>
+                                    <Box>IBAN： {submarineCableInfo?.IBAN}</Box>
+                                    <Box>Swift： {submarineCableInfo?.SWIFTCode}</Box>
+                                    <Box>ACH：{submarineCableInfo?.ACHNo}</Box>
+                                    <Box>Wire/Routing：{submarineCableInfo?.WireRouting}</Box>
                                 </Box>
                             </Box>
                         </Typography>
@@ -570,7 +575,7 @@ const BillDraftMake = ({ isDialogOpen, handleDialogClose, billMasterID, pONo }) 
             <Grid container spacing={1} className="no-show">
                 {/* <Grid container spacing={1}> */}
                 <Grid item xs={12} sm={12} md={12} lg={12}>
-                    <Typography sx={{ fontFamily: 'DFKai-sb', fontWeight: 'bold' }}>
+                    <Typography sx={{ fontFamily: 'Microsoft JhengHei,Arial' }}>
                         <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
                             <Box sx={{ m: 1 }}>
                                 <Box sx={{ fontSize: '18px', textAlign: 'left' }}>
@@ -585,10 +590,10 @@ const BillDraftMake = ({ isDialogOpen, handleDialogClose, billMasterID, pONo }) 
                                 </Box>
                             </Box>
                             <Box sx={{ m: 1, width: '20%' }} />
-                            <Box sx={{ m: 1, width: '30%' }}>
-                                <Box sx={{ fontSize: '18px', textAlign: 'right' }}>{contactInfo?.Address}</Box>
-                                <Box sx={{ fontSize: '18px', textAlign: 'right' }}>Tel：{contactInfo?.Tel}</Box>
-                                <Box sx={{ fontSize: '18px', textAlign: 'right' }}>Fax：{contactInfo?.Fax}</Box>
+                            <Box sx={{ fontSize: '14px', m: 1, width: '30%' }}>
+                                <Box sx={{ textAlign: 'right' }}>{contactInfo?.Address}</Box>
+                                <Box sx={{ textAlign: 'right' }}>Tel：{contactInfo?.Tel}</Box>
+                                <Box sx={{ textAlign: 'right' }}>Fax：{contactInfo?.Fax}</Box>
                             </Box>
                         </Box>
                         <Box
@@ -596,7 +601,8 @@ const BillDraftMake = ({ isDialogOpen, handleDialogClose, billMasterID, pONo }) 
                                 fontSize: subject1.length <= 50 ? '26px' : '23px',
                                 mt: 1,
                                 textAlign: 'center',
-                                whiteSpace: 'nowrap'
+                                whiteSpace: 'nowrap',
+                                fontWeight: 'bold'
                             }}
                         >
                             {subject1}
@@ -606,32 +612,33 @@ const BillDraftMake = ({ isDialogOpen, handleDialogClose, billMasterID, pONo }) 
                                 fontSize: subject2.length <= 50 ? '26px' : '23px',
                                 mt: 1,
                                 textAlign: 'center',
-                                whiteSpace: 'nowrap'
+                                whiteSpace: 'nowrap',
+                                fontWeight: 'bold'
                             }}
                         >
                             {subject2}
                         </Box>
-                        <Box sx={{ fontSize: '30px', m: 1, textAlign: 'center' }}>{subject3}</Box>
+                        <Box sx={{ fontSize: '30px', m: 1, textAlign: 'center', fontWeight: 'bold' }}>{subject3}</Box>
                         <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
-                            <Box sx={{ m: 1, minWidth: '50%', with: '50%' }}>
-                                <Box sx={{ fontSize: '18px', textAlign: 'left' }}>BILL TO：</Box>
-                                <Box sx={{ fontSize: '18px', textAlign: 'left' }}>{partyInfo?.Company}</Box>
-                                <Box sx={{ fontSize: '18px', textAlign: 'left' }}>ADDR：{partyInfo?.Address}</Box>
-                                <Box sx={{ fontSize: '18px', textAlign: 'left' }}>ATTN：{partyInfo?.Contact}</Box>
-                                <Box sx={{ fontSize: '18px', textAlign: 'left' }}>E-mail:{partyInfo?.Email}</Box>
-                                <Box sx={{ fontSize: '18px', textAlign: 'left' }}>Tel:{partyInfo?.Tel}</Box>
+                            <Box sx={{ m: 1, minWidth: '40%', with: '40%', fontSize: '14px' }}>
+                                <Box sx={{ textAlign: 'left' }}>BILL TO：</Box>
+                                <Box sx={{ textAlign: 'left' }}>{partyInfo?.Company}</Box>
+                                <Box sx={{ textAlign: 'left' }}>ADDR：{partyInfo?.Address}</Box>
+                                <Box sx={{ textAlign: 'left' }}>ATTN：{partyInfo?.Contact}</Box>
+                                <Box sx={{ textAlign: 'left' }}>E-mail：{partyInfo?.Email}</Box>
+                                <Box sx={{ textAlign: 'left' }}>Tel：{partyInfo?.Tel}</Box>
                             </Box>
-                            <Box sx={{ m: 1, minWidth: '20%', with: '20%' }} />
+                            <Box sx={{ m: 1, minWidth: '30%', with: '30%' }} />
                             <Box sx={{ m: 1, minWidth: '30%', with: '30%' }}>
-                                <Box sx={{ fontSize: '18px', textAlign: 'left' }}>Invoice No. {dataList.InvoiceNo}</Box>
-                                <Box sx={{ fontSize: '14px', textAlign: 'left' }}>(Please Refer To This Invoice No. On Remittance)</Box>
-                                <Box sx={{ fontSize: '18px', textAlign: 'left' }}>Issue Date：{dayjs(issueDate).format('YYYY/MM/DD')}</Box>
-                                <Box sx={{ fontSize: '18px', textAlign: 'left' }}>Due Date：{dayjs(dueDate).format('YYYY/MM/DD')}</Box>
+                                <Box sx={{ fontSize: '14px', textAlign: 'left' }}>Invoice No.： {dataList.InvoiceNo}</Box>
+                                <Box sx={{ fontSize: '10px', textAlign: 'left' }}>(Please Refer To This Invoice No. On Remittance)</Box>
+                                <Box sx={{ fontSize: '14px', textAlign: 'left' }}>Issue Date：{dayjs(issueDate).format('YYYY/MM/DD')}</Box>
+                                <Box sx={{ fontSize: '14px', textAlign: 'left' }}>Due Date：{dayjs(dueDate).format('YYYY/MM/DD')}</Box>
                             </Box>
                         </Box>
-                        <Box sx={{ fontSize: '18px', m: 1, display: 'flex', justifyContent: 'space-between' }}>
-                            <Box>{pONo.length > 0 ? `PO No ${pONo}` : 0}</Box>
-                            <Box>(Currencv:USD)</Box>
+                        <Box sx={{ fontSize: '14px', m: 1, display: 'flex', justifyContent: 'space-between' }}>
+                            <Box>{pONo.length > 0 ? `PO No. ${pONo}` : 0}</Box>
+                            <Box>(Currency：USD)</Box>
                         </Box>
                         <Box>
                             <TableContainer component={Paper}>
@@ -653,9 +660,13 @@ const BillDraftMake = ({ isDialogOpen, handleDialogClose, billMasterID, pONo }) 
                                                     <StyledTableCell align="center">{row.Supplier}</StyledTableCell>
                                                     <StyledTableCell align="left">{row.InvNumber}</StyledTableCell>
                                                     <StyledTableCell align="left">{row.Description}</StyledTableCell>
-                                                    <StyledTableCell align="right">{row.AmountBilled.toFixed(2)}</StyledTableCell>
+                                                    <StyledTableCell align="right">
+                                                        {handleNumber(row.AmountBilled.toFixed(2))}
+                                                    </StyledTableCell>
                                                     <StyledTableCell align="right">{row.Liability.toFixed(10)}%</StyledTableCell>
-                                                    <StyledTableCell align="right">{row.YourShare.toFixed(2)}</StyledTableCell>
+                                                    <StyledTableCell align="right">
+                                                        {handleNumber(row.YourShare.toFixed(2))}
+                                                    </StyledTableCell>
                                                 </TableRow>
                                             );
                                         })}
@@ -675,37 +686,36 @@ const BillDraftMake = ({ isDialogOpen, handleDialogClose, billMasterID, pONo }) 
                                 </Table>
                             </TableContainer>
                         </Box>
-                        <Box sx={{ m: 1, fontSize: '18px' }}>&nbsp;&nbsp;&nbsp;</Box>
-                        <Box sx={{ m: 1, fontSize: '18px' }}>&nbsp;&nbsp;&nbsp;</Box>
-                        <Box sx={{ m: 1, fontSize: '18px' }}>&nbsp;&nbsp;&nbsp;</Box>
-                        <Box sx={{ m: 1, fontSize: '18px' }}>Certified by:</Box>
-                        <Box sx={{ fontSize: '18px', m: 1, display: 'flex', justifyContent: 'space-between' }}>
+                        <Box sx={{ m: 1, fontSize: '14px' }}>&nbsp;&nbsp;&nbsp;</Box>
+                        <Box sx={{ m: 1, fontSize: '14px' }}>&nbsp;&nbsp;&nbsp;</Box>
+                        <Box sx={{ m: 1, fontSize: '14px' }}>Certified by：</Box>
+                        <Box sx={{ fontSize: '14px', m: 1, display: 'flex', justifyContent: 'space-between' }}>
                             <Box sx={{ width: '50%', display: 'flex', flexDirection: 'column', justifyContent: 'end' }}>
                                 <Box sx={{}}>———————————————</Box>
                                 <Box sx={{}}>{contactInfo?.DirectorName}</Box>
                                 <Box sx={{}}>Director, CBP</Box>
                                 <Box sx={{}}>{contactInfo?.Company}</Box>
-                                <Box sx={{}}>Email: {contactInfo?.DEmail}</Box>
-                                <Box sx={{}}>Tel: {contactInfo?.DTel}</Box>
-                                <Box sx={{}}>Fax: {contactInfo?.DFax}</Box>
+                                <Box sx={{}}>Email： {contactInfo?.DEmail}</Box>
+                                <Box sx={{}}>Tel： {contactInfo?.DTel}</Box>
+                                <Box sx={{}}>Fax： {contactInfo?.DFax}</Box>
                             </Box>
                             <Box sx={{ width: '50%' }}>
-                                <Box>Payment by Telegraphic Transfer to</Box>
-                                <Box>Bank Name: {submarineCableInfo?.BankName}</Box>
-                                <Box>Branch Name: {submarineCableInfo?.Branch}</Box>
-                                <Box>Branch Address: {submarineCableInfo?.BranchAddress}</Box>
-                                <Box>A/C Name:{submarineCableInfo?.AcctName}</Box>
-                                <Box>Company Addr:{submarineCableInfo?.Address}</Box>
+                                <Box>Payment by Telegraphic Transfer to：</Box>
+                                <Box>Bank Name： {submarineCableInfo?.BankName}</Box>
+                                <Box>Branch Name： {submarineCableInfo?.Branch}</Box>
+                                <Box>Branch Address： {submarineCableInfo?.BranchAddress}</Box>
+                                <Box>A/C Name：{submarineCableInfo?.AcctName}</Box>
+                                <Box>Company Addr：{submarineCableInfo?.Address}</Box>
                                 <Box>
-                                    A/C No.:
+                                    A/C No.：
                                     {submarineCableInfo?.BankAcctNo.length !== 0
                                         ? submarineCableInfo?.BankAcctNo
                                         : submarineCableInfo?.SavingAcctNo}
                                 </Box>
-                                <Box>IBAN: {submarineCableInfo?.IBAN}</Box>
-                                <Box>Swift: {submarineCableInfo?.SWIFTCode}</Box>
-                                <Box>ACH:{submarineCableInfo?.ACHNo}</Box>
-                                <Box>Wire/Routing:{submarineCableInfo?.WireRouting}</Box>
+                                <Box>IBAN： {submarineCableInfo?.IBAN}</Box>
+                                <Box>Swift： {submarineCableInfo?.SWIFTCode}</Box>
+                                <Box>ACH：{submarineCableInfo?.ACHNo}</Box>
+                                <Box>Wire/Routing：{submarineCableInfo?.WireRouting}</Box>
                             </Box>
                         </Box>
                     </Typography>
