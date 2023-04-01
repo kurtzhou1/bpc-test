@@ -575,7 +575,7 @@ const BillDraftMake = ({ isDialogOpen, handleDialogClose, billMasterID, pONo }) 
             <Grid container spacing={1} className="no-show">
                 {/* <Grid container spacing={1}> */}
                 <Grid item xs={12} sm={12} md={12} lg={12}>
-                    <Typography sx={{ fontFamily: 'Microsoft JhengHei,Arial' }}>
+                    <Typography sx={{ fontFamily: 'Microsoft JhengHei,Arial', lineHeight: '1.2' }}>
                         <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
                             <Box sx={{ m: 1 }}>
                                 <Box sx={{ fontSize: '18px', textAlign: 'left' }}>
