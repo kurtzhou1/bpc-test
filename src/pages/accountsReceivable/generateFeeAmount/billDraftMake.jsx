@@ -58,33 +58,33 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
         fontFamily: 'Microsoft JhengHei,Arial',
         fontSize: '8px',
         background: '#fff',
-        border: 'black 1px solid',
+        border: 'black 1.5px solid',
         textAlign: 'center'
     },
     [`&.${tableCellClasses.head}.theTopFirst`]: {
         paddingTop: '0.2rem',
         paddingBottom: '0.2rem',
-        borderTop: 'black 2px solid',
-        borderLeft: 'black 2px solid'
+        borderTop: 'black 3px solid',
+        borderLeft: 'black 3px solid'
     },
     [`&.${tableCellClasses.head}.top`]: {
         paddingTop: '0.2rem',
         paddingBottom: '0.2rem',
         borderLeft: 'initial !important',
-        borderTop: 'black 2px solid'
+        borderTop: 'black 3px solid'
     },
     [`&.${tableCellClasses.head}.theTopFinal`]: {
         paddingTop: '0.2rem',
         paddingBottom: '0.2rem',
         borderLeft: 'initial !important',
-        borderTop: 'black 2px solid',
-        borderRight: 'black 2px solid'
+        borderTop: 'black 3px solid',
+        borderRight: 'black 3px solid'
     },
     [`&.${tableCellClasses.body}.theSecondFirst`]: {
         paddingTop: '0.2rem',
         paddingBottom: '0.2rem',
         borderTop: 'initial !important',
-        borderLeft: 'black 2px solid !important'
+        borderLeft: 'black 3px solid !important'
     },
     [`&.${tableCellClasses.body}.theSecond`]: {
         paddingTop: '0.2rem',
@@ -97,14 +97,14 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
         paddingBottom: '0.2rem',
         borderTop: 'initial !important',
         borderLeft: 'initial !important',
-        borderRight: 'black 2px solid !important'
+        borderRight: 'black 3px solid !important'
     },
     [`&.${tableCellClasses.body}`]: {
         padding: '0.1rem',
         fontFamily: 'Microsoft JhengHei,Arial',
         fontSize: '8px',
         background: '#fff',
-        border: 'black 1px solid !important'
+        border: 'black 1.5px solid !important'
     },
     [`&.${tableCellClasses.body}.totalAmountFirst`]: {
         paddingTop: '0.2rem',
@@ -112,8 +112,8 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
         fontWeight: 'bold',
         borderTop: 'initial !important',
         borderRight: 'initial !important',
-        borderLeft: 'black 2px solid !important',
-        borderBottom: 'black 2px solid !important'
+        borderLeft: 'black 3px solid !important',
+        borderBottom: 'black 3px solid !important'
     },
     [`&.${tableCellClasses.body}.totalAmount`]: {
         paddingTop: '0.2rem',
@@ -121,15 +121,15 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
         borderTop: 'initial !important',
         borderRight: 'initial !important',
         borderLeft: 'initial !important',
-        borderBottom: 'black 2px solid !important',
+        borderBottom: 'black 3px solid !important',
         fontWeight: 'bold'
     },
     [`&.${tableCellClasses.body}.totalAmountFinal`]: {
         paddingTop: '0.2rem',
         paddingBottom: '0.2rem',
         borderTop: 'initial !important',
-        borderRight: 'black 2px solid !important',
-        borderBottom: 'black 2px solid !important',
+        borderRight: 'black 3px solid !important',
+        borderBottom: 'black 3px solid !important',
         fontWeight: 'bold'
     }
 }));
