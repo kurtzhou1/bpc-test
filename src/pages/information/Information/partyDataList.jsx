@@ -406,15 +406,11 @@ const PartyDataList = ({}) => {
                                                     </Button>
                                                 </Box>
                                             </TableCell>
-                                            <TableCell>{row.SubmarineCable}</TableCell>
-                                            <TableCell>{row.WorkTitle}</TableCell>
+                                            {/* <TableCell>{row.SubmarineCable}</TableCell>
+                                            <TableCell>{row.WorkTitle}</TableCell> */}
                                         </StyledTableCell>
-                                        {/* <StyledTableCell align="center" className={classes.sticky}>
-                                            {row.SubmarineCable}
-                                        </StyledTableCell>
-                                        <StyledTableCell align="center" className={classes.sticky}>
-                                            {row.WorkTitle}
-                                        </StyledTableCell> */}
+                                        <StyledTableCell align="center">{row.SubmarineCable}</StyledTableCell>
+                                        <StyledTableCell align="center">{row.WorkTitle}</StyledTableCell>
                                         <StyledTableCell align="center">{id + 1}</StyledTableCell>
                                         <StyledTableCell align="center">{row.PartyCode}</StyledTableCell>
                                         <StyledTableCell align="center">{row.PartyName}</StyledTableCell>

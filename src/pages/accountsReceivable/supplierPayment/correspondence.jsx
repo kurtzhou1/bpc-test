@@ -128,8 +128,6 @@ const Correspondence = ({ listInfo, apiQuery }) => {
         setUploadOpen(false);
     };
 
-    console.log('infoTerminal=>>', infoTerminal);
-
     return (
         <>
             <DeductWork

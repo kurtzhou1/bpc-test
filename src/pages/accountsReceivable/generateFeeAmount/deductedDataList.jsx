@@ -52,8 +52,9 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
 
 const DeductedDataList = ({ dataList }) => {
     const billInfo = useRef({});
-    const [isDeductedWorkOpen, setIsDeductedWorkOpen] = useState(false); //檢視
     const [isDialogOpen, setIsDialogOpen] = useState(false); //檢視
+    const [isDeductedWorkOpen, setIsDeductedWorkOpen] = useState(false); //產製帳單
+    const [isUploadOpen, setIsUploadOpen] = useState(false); //簽核
     const [infoTerminal, setInfoTerminal] = useState(false); //作廢
     const [infoBack, setInfoBack] = useState(false); //退回
     const billMasterID = useRef('');
@@ -75,6 +76,10 @@ const DeductedDataList = ({ dataList }) => {
     const handleDialogClose = () => {
         setIsDialogOpen(false);
         setEditItem();
+    };
+
+    const handleUploadClose = () => {
+        setIsUploadOpen(false);
     };
 
     const handleDialogOpen = (info) => {
@@ -107,6 +112,7 @@ const DeductedDataList = ({ dataList }) => {
                 billMasterID={billMasterID.current}
                 pONo={pONo.current}
             />
+            <SignAndUpload isUploadOpen={isUploadOpen} handleUploadClose={handleUploadClose} />
             <TableContainer component={Paper} sx={{ maxHeight: 350 }}>
                 <Table sx={{ minWidth: 300 }} stickyHeader aria-label="sticky table">
                     <TableHead>
@@ -172,14 +178,11 @@ const DeductedDataList = ({ dataList }) => {
                                                 color="info"
                                                 size="small"
                                                 variant="outlined"
-                                                // onClick={() => {
-                                                //     handleDialogOpen('deduct', {
-                                                //         BillDetail: row.BillDetail,
-                                                //         BillMaster: row.BillMaster
-                                                //     });
-                                                // }}
+                                                onClick={() => {
+                                                    setIsUploadOpen(true);
+                                                }}
                                             >
-                                                簽核
+                                                簽核上傳
                                             </Button>
                                             <Button
                                                 color="warning"

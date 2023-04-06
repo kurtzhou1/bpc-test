@@ -136,14 +136,14 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
 
 const fakeData = {
     ContactWindowAndSupervisorInformation: {
-        Company: '中華電信',
-        Address: 'testaddr',
+        Company: 'International Business Group,\r\nChunghwa Telecom Co., Ltd.',
+        Address: 'No. 31 Aikuo E. Rd., Taipei, Taiwan, 106',
         Tel: '02-23443897',
         Fax: '02-23443897',
-        DirectorName: '郭贊章',
-        DTel: 'testtel',
-        DFax: 'testfax',
-        DEmail: 'testemail'
+        DirectorName: 'Hsuan-Lung Liu',
+        DTel: '+886-2-2344-3912',
+        DFax: '+886-2-2322-5940',
+        DEmail: 'lsl008@cht.com.tw'
     },
     PartyInformation: {
         Company: 'Chunghwa Telecom Co., Ltd. Network Technology Group',
@@ -168,51 +168,51 @@ const fakeData = {
     DetailInformation: [
         {
             Supplier: 'NEC Corporation, Submarine Network Division',
-            InvNumber: '02CO-CI2303301838',
+            InvNumber: 'DT0170168-1',
             Description: 'BM9a Sea cable manufactured (except 8.5km spare cable))- Equipment',
-            AmountBilled: 1288822.32,
+            BilledAmount: 1288822.32,
             Liability: 7.1428571429,
-            YourShare: 92058.74
+            ShareAmount: 92058.74
         },
         {
             Supplier: 'NEC Corporation, Submarine Network Division',
-            InvNumber: '02CO-CI2303301838',
+            InvNumber: 'DT0170168-1',
             Description: 'BM9a Sea cable manufactured (except 8.5km spare cable))- Service',
-            AmountBilled: 1178227.94,
+            BilledAmount: 1178227.94,
             Liability: 7.1428571429,
-            YourShare: 84159.14
+            ShareAmount: 84159.14
         },
         {
             Supplier: 'NEC Corporation, Submarine Network Division',
-            InvNumber: '02CO-CI2303301838',
+            InvNumber: 'DT0170168-1',
             Description: 'BM12 Branching Units (100%)-Equipment',
-            AmountBilled: 1627300.92,
+            BilledAmount: 1627300.92,
             Liability: 7.1428571429,
-            YourShare: 116235.78
+            ShareAmount: 116235.78
         },
         {
             Supplier: 'NEC Corporation, Submarine Network Division',
-            InvNumber: '02CO-CI2303301838',
+            InvNumber: 'DT0170168-1',
             Description: 'BM12 Branching Units (100%)-Service',
-            AmountBilled: 1487661.54,
+            BilledAmount: 1487661.54,
             Liability: 7.1428571429,
-            YourShare: 106261.54
+            ShareAmount: 106261.54
         },
         {
             Supplier: 'NEC Corporation, Submarine Network Division',
             InvNumber: 'test',
             Description: 'BM9a Sea cable manufactured (except 8.5km spare cable))- Equipment',
-            AmountBilled: -10,
+            BilledAmount: -10,
             Liability: 100,
-            YourShare: -10
+            ShareAmount: -10
         },
         {
             Supplier: 'NEC Corporation, Submarine Network Division',
             InvNumber: 'test',
             Description: 'BM9a Sea cable manufactured (except 8.5km spare cable))- Service',
-            AmountBilled: -10,
+            BilledAmount: -10,
             Liability: 100,
-            YourShare: -10
+            ShareAmount: -10
         }
     ],
     InvoiceNo: '02CO-CI2303301838'
@@ -248,16 +248,17 @@ const BillDraftMake = ({ isDialogOpen, handleDialogClose, billMasterID, pONo }) 
     const [dataList, setDataList] = useState([]);
     const [contact, setContact] = useState('chang_ty');
     const [contactList, setContactList] = useState(fakeData2);
-    const [contactInfo, setContactInfo] = useState({});
+    const [contactInfo, setContactInfo] = useState(fakeData.ContactWindowAndSupervisorInformation);
     const [partyInfo, setPartyInfo] = useState(fakeData.PartyInformation);
     const [submarineCableInfo, setSubmarineCableInfo] = useState(fakeData.CorporateInformation);
     const [datailInfo, setDetailInfo] = useState(fakeData.DetailInformation);
     const totalAmount = useRef(0);
     const [issueDate, setIssueDate] = useState(new Date()); //發票日期
     const [dueDate, setDueDate] = useState(new Date()); //發票日期
+    const [logo, setLogo] = useState(1);
 
-    const [subject1, setSubject1] = useState('TPE Cable Network Upgrade#12 Central Billing Party'); //主旨1
-    const [subject2, setSubject2] = useState(''); //主旨2
+    const [subject1, setSubject1] = useState(''); //主旨1
+    // const [subject2, setSubject2] = useState(''); //主旨2
     const [subject3, setSubject3] = useState('Invoice'); //主旨3
 
     const itemDetailInitial = () => {
@@ -268,41 +269,75 @@ const BillDraftMake = ({ isDialogOpen, handleDialogClose, billMasterID, pONo }) 
         // setSubmarineCableInfo?('');
     };
 
-    const handlePrint = () => {
-        window.print();
+    const handleDownload = () => {
+        let tmpData = {
+            BillMasterID: billMasterID,
+            UserID: 'chang_ty',
+            IssueDate: dayjs(issueDate).format('YYYY/MM/DD'),
+            DueDate: dayjs(dueDate).format('YYYY/MM/DD'),
+            WorkTitle: subject1,
+            InvoiceName: subject3,
+            logo: logo,
+            GetTemplate: false
+        };
+        console.log('tmpData=>>', tmpData);
+        fetch(generateBillData, {
+            method: 'POST',
+            headers: {
+                Accept: 'application/json'
+            },
+            body: JSON.stringify(tmpData)
+        })
+            .then((res) => {
+                console.log('res=>>', res);
+                return res.blob();
+            })
+            .then((blob) => {
+                const link = document.createElement('a');
+                link.href = window.URL.createObjectURL(blob);
+                link.download = `TPE Cable Network ${subject1} Central Billing Party.docx`;
+                link.click();
+            })
+            .catch((e) => console.log('e1=>', e));
     };
 
-    // useEffect(() => {
-    //     let tmpAmount = 0;
-    //     let tmpData = {
-    //         BillMasterID: billMasterID,
-    //         UserID: 'chang_ty'
-    //     };
-    //     fetch(generateBillData, { method: 'POST', body: JSON.stringify(tmpData) })
-    //         .then((res) => res.json())
-    //         .then((data) => {
-    //             console.log('data抓取成功=>>', data);
-    //             setDataList(data);
-    //             setPartyInfo(data.PartyInformation);
-    //             setSubmarineCableInfo(data.CorporateInformation);
-    //             setContactInfo(data.ContactWindowAndSupervisorInformation);
-    //             setDetailInfo(data.DetailInformation);
-    //             data.DetailInformation.forEach((i) => {
-    //                 tmpAmount = tmpAmount + i.YourShare;
-    //             });
-    //             totalAmount.current = tmpAmount;
-    //         })
-    //         .catch((e) => console.log('e1=>', e));
-    //     fetch(contactUser, { method: 'GET' })
-    //         .then((res) => res.json())
-    //         .then((data) => {
-    //             console.log('user data=>>', data);
-    //             if (Array.isArray(data)) {
-    //                 setContactList(data);
-    //             }
-    //         })
-    //         .catch((e) => console.log('e1=>', e));
-    // }, [billMasterID]);
+    useEffect(() => {
+        if (isDialogOpen) {
+            let tmpAmount = 0;
+            console.log('billMasterID=>>', billMasterID);
+            let tmpData = {
+                BillMasterID: billMasterID,
+                UserID: 'chang_ty',
+                GetTemplate: true
+            };
+            fetch(generateBillData, { method: 'POST', body: JSON.stringify(tmpData) })
+                .then((res) => res.json())
+                .then((data) => {
+                    console.log('data抓取成功=>>', data);
+                    setDataList(data);
+                    setContactInfo(data.ContactWindowAndSupervisorInformation);
+                    setPartyInfo(data.PartyInformation);
+                    setSubmarineCableInfo(data.CorporateInformation);
+                    setDetailInfo(data.DetailInformation);
+                    data.DetailInformation.forEach((i) => {
+                        console.log('i.ShareAmount=>>', i.ShareAmount);
+                        tmpAmount = tmpAmount + i.ShareAmount;
+                    });
+                    console.log('tmpAmount=>>', tmpAmount);
+                    totalAmount.current = tmpAmount;
+                })
+                .catch((e) => console.log('e1=>', e));
+            fetch(contactUser, { method: 'GET' })
+                .then((res) => res.json())
+                .then((data) => {
+                    console.log('user data=>>', data);
+                    if (Array.isArray(data)) {
+                        setContactList(data);
+                    }
+                })
+                .catch((e) => console.log('e1=>', e));
+        }
+    }, [billMasterID, isDialogOpen]);
     useEffect(() => {
         let arrayFiliter = [];
         if (contact.length > 0) {
@@ -320,13 +355,10 @@ const BillDraftMake = ({ isDialogOpen, handleDialogClose, billMasterID, pONo }) 
     useEffect(() => {
         let tmpAmount = 0;
         datailInfo.forEach((i) => {
-            tmpAmount = tmpAmount + i.YourShare;
+            tmpAmount = tmpAmount + i.ShareAmount;
         });
         totalAmount.current = tmpAmount;
     }, [datailInfo]);
-
-    console.log('setDataList=>>', dataList);
-    console.log('contactList=>>', contactList);
 
     return (
         <Dialog onClose={handleDialogClose} maxWidth="xl" fullWidth open={isDialogOpen}>
@@ -338,6 +370,20 @@ const BillDraftMake = ({ isDialogOpen, handleDialogClose, billMasterID, pONo }) 
                     <Grid item xs={5} sm={5} md={5} lg={5}>
                         <MainCard title="聯絡窗口及主管資訊" sx={{ width: '100%' }}>
                             <Grid container spacing={1}>
+                                <Grid item xs={2} sm={2} md={2} lg={2} display="flex" justifyContent="center" alignItems="center">
+                                    <Typography variant="h5" sx={{ fontSize: { lg: '0.5rem', xl: '0.88rem' } }}>
+                                        標示：
+                                    </Typography>
+                                </Grid>
+                                <Grid item xs={4} sm={4} md={4} lg={4}>
+                                    <FormControl fullWidth size="small">
+                                        <InputLabel id="demo-simple-select-label">選擇標示</InputLabel>
+                                        <Select value={logo} label="Logo" onChange={(e) => setLogo(e.target.value)}>
+                                            <MenuItem value={1}>新Logo</MenuItem>
+                                            <MenuItem value={2}>舊Logo</MenuItem>
+                                        </Select>
+                                    </FormControl>
+                                </Grid>
                                 <Grid item xs={2} sm={2} md={2} lg={2} display="flex" justifyContent="center" alignItems="center">
                                     <Typography variant="h5" sx={{ fontSize: { lg: '0.5rem', xl: '0.88rem' } }}>
                                         窗口人員：
@@ -376,7 +422,7 @@ const BillDraftMake = ({ isDialogOpen, handleDialogClose, billMasterID, pONo }) 
                                             onChange={(e) => setSubject1(e.target.value)}
                                         />
                                     </Grid>
-                                    <Grid item xs={12} sm={12} md={12} lg={12} display="flex">
+                                    {/* <Grid item xs={12} sm={12} md={12} lg={12} display="flex">
                                         <TextField
                                             fullWidth
                                             variant="outlined"
@@ -386,7 +432,7 @@ const BillDraftMake = ({ isDialogOpen, handleDialogClose, billMasterID, pONo }) 
                                             inputProps={{ maxLength: 65 }}
                                             onChange={(e) => setSubject2(e.target.value)}
                                         />
-                                    </Grid>
+                                    </Grid> */}
                                 </Grid>
                                 <Grid item xs={12} sm={12} md={12} lg={12} display="flex" justifyContent="start">
                                     <Typography variant="h5" sx={{ fontSize: { lg: '0.5rem', xl: '0.88rem' } }}>
@@ -478,9 +524,9 @@ const BillDraftMake = ({ isDialogOpen, handleDialogClose, billMasterID, pONo }) 
                                     fontWeight: 'bold'
                                 }}
                             >
-                                {subject1}
+                                TPE Cable Network {subject1} Central Billing Party
                             </Box>
-                            <Box
+                            {/* <Box
                                 sx={{
                                     fontSize: subject2.length <= 50 ? '18px' : '15px',
                                     mt: 1,
@@ -490,7 +536,7 @@ const BillDraftMake = ({ isDialogOpen, handleDialogClose, billMasterID, pONo }) 
                                 }}
                             >
                                 {subject2}
-                            </Box>
+                            </Box> */}
                             <Box sx={{ fontSize: '24px', m: 1, textAlign: 'center', fontWeight: 'bold' }}>{subject3}</Box>
                             <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
                                 <Box sx={{ m: 1, minWidth: '40%', with: '40%' }}>
@@ -512,7 +558,7 @@ const BillDraftMake = ({ isDialogOpen, handleDialogClose, billMasterID, pONo }) 
                                 </Box>
                             </Box>
                             <Box sx={{ fontSize: '12px', m: 1, display: 'flex', justifyContent: 'space-between' }}>
-                                <Box>{pONo.length > 0 ? `PO No. ${pONo}` : 0}</Box>
+                                <Box>{pONo?.length > 0 ? `PO No. ${pONo}` : 0}</Box>
                                 <Box>(Currency：USD)</Box>
                             </Box>
                             <Box>
@@ -523,9 +569,9 @@ const BillDraftMake = ({ isDialogOpen, handleDialogClose, billMasterID, pONo }) 
                                                 <StyledTableCell className="theTopFirst">Supplier</StyledTableCell>
                                                 <StyledTableCell className="top">INV. No.</StyledTableCell>
                                                 <StyledTableCell className="top">Description</StyledTableCell>
-                                                <StyledTableCell className="top">Amount Billed</StyledTableCell>
+                                                <StyledTableCell className="top">Billed Amount</StyledTableCell>
                                                 <StyledTableCell className="top">Liability</StyledTableCell>
-                                                <StyledTableCell className="theTopFinal">Your share</StyledTableCell>
+                                                <StyledTableCell className="theTopFinal">Share Amount</StyledTableCell>
                                             </TableRow>
                                         </TableHead>
                                         <TableBody>
@@ -542,13 +588,13 @@ const BillDraftMake = ({ isDialogOpen, handleDialogClose, billMasterID, pONo }) 
                                                             {row.Description}
                                                         </StyledTableCell>
                                                         <StyledTableCell align="right" className="theSecond">
-                                                            {handleNumber(row.AmountBilled.toFixed(2))}
+                                                            {handleNumber(row.BilledAmount.toFixed(2))}
                                                         </StyledTableCell>
                                                         <StyledTableCell align="right" className="theSecond">
                                                             {row.Liability.toFixed(10)}%
                                                         </StyledTableCell>
                                                         <StyledTableCell align="right" className="theSecondFinal">
-                                                            {handleNumber(row.YourShare.toFixed(2))}
+                                                            {handleNumber(row.ShareAmount.toFixed(2))}
                                                         </StyledTableCell>
                                                     </TableRow>
                                                 );
@@ -607,11 +653,11 @@ const BillDraftMake = ({ isDialogOpen, handleDialogClose, billMasterID, pONo }) 
                     sx={{ mr: '0.05rem' }}
                     variant="contained"
                     onClick={() => {
-                        window.print();
-                        return false;
+                        // window.print();
+                        handleDownload();
                     }}
                 >
-                    列印
+                    下載
                 </Button>
                 <Button
                     sx={{ mr: '0.05rem' }}
@@ -660,7 +706,7 @@ const BillDraftMake = ({ isDialogOpen, handleDialogClose, billMasterID, pONo }) 
                         >
                             {subject1}
                         </Box>
-                        <Box
+                        {/* <Box
                             sx={{
                                 fontSize: subject2.length <= 50 ? '26px' : '23px',
                                 mt: 1,
@@ -670,7 +716,7 @@ const BillDraftMake = ({ isDialogOpen, handleDialogClose, billMasterID, pONo }) 
                             }}
                         >
                             {subject2}
-                        </Box>
+                        </Box> */}
                         <Box sx={{ fontSize: '30px', m: 1, textAlign: 'center', fontWeight: 'bold' }}>{subject3}</Box>
                         <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
                             <Box sx={{ m: 1, minWidth: '40%', with: '40%', fontSize: '14px' }}>
@@ -701,9 +747,9 @@ const BillDraftMake = ({ isDialogOpen, handleDialogClose, billMasterID, pONo }) 
                                             <StyledTableCell className="theTopFirst">Supplier</StyledTableCell>
                                             <StyledTableCell className="top">INV. No.</StyledTableCell>
                                             <StyledTableCell className="top">Description</StyledTableCell>
-                                            <StyledTableCell className="top">Amount Billed</StyledTableCell>
+                                            <StyledTableCell className="top">Billed Amount</StyledTableCell>
                                             <StyledTableCell className="top">Liability</StyledTableCell>
-                                            <StyledTableCell className="theTopFinal">Your share</StyledTableCell>
+                                            <StyledTableCell className="theTopFinal">Share Amount</StyledTableCell>
                                         </TableRow>
                                     </TableHead>
                                     <TableBody>
@@ -720,13 +766,13 @@ const BillDraftMake = ({ isDialogOpen, handleDialogClose, billMasterID, pONo }) 
                                                         {row.Description}
                                                     </StyledTableCell>
                                                     <StyledTableCell align="right" className="theSecond">
-                                                        {handleNumber(row.AmountBilled.toFixed(2))}
+                                                        {handleNumber(row.BilledAmount.toFixed(2))}
                                                     </StyledTableCell>
                                                     <StyledTableCell align="right" className="theSecond">
                                                         {row.Liability.toFixed(10)}%
                                                     </StyledTableCell>
                                                     <StyledTableCell align="right" className="theSecondFinal">
-                                                        {handleNumber(row.YourShare.toFixed(2))}
+                                                        {handleNumber(row.ShareAmount.toFixed(2))}
                                                     </StyledTableCell>
                                                 </TableRow>
                                             );

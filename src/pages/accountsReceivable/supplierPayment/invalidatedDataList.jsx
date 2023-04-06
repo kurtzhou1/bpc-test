@@ -89,7 +89,6 @@ const InvalidatedDataList = ({ listInfo, apiQuery }) => {
     const actionName = useRef('');
     const [isDialogOpen, setIsDialogOpen] = useState(false); //檢視
     const [infoTerminal, setInfoTerminal] = useState(false); //作廢
-    const [uploadOpen, setUploadOpen] = useState(false); //上傳
     const [toBillDataMain, setToBillDataMain] = useState(fakeData.InvoiceMaster); //發票主檔
     const [toBillDataInfo, setToBillDataInfo] = useState(fakeData.InvoiceDetail); //發票明細檔
     const [totalAmount, setTotalAmount] = useState(fakeData.TotalAmount); //發票總金額

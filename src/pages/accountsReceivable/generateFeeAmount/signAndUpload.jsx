@@ -39,7 +39,7 @@ import MainCard from 'components/MainCard';
 import { useDispatch } from 'react-redux';
 import { setMessageStateOpen } from 'store/reducers/dropdown';
 
-const SignAndUpload = ({ uploadOpen, handUploadClose }) => {
+const SignAndUpload = ({ isUploadOpen, handUploadClose }) => {
     const dispatch = useDispatch();
     const [uploadFile, setUploadFile] = useState(null);
     const [isUpload, setIsUpload] = useState(false); //是否需攤分
@@ -73,7 +73,7 @@ const SignAndUpload = ({ uploadOpen, handUploadClose }) => {
     };
 
     return (
-        <Dialog onClose={handUploadClose} maxWidth="xs" fullWidth open={uploadOpen}>
+        <Dialog onClose={handUploadClose} maxWidth="xs" fullWidth open={isUploadOpen}>
             <BootstrapDialogTitle id="customized-dialog-title" onClose={handUploadClose}>
                 簽核作業
             </BootstrapDialogTitle>
