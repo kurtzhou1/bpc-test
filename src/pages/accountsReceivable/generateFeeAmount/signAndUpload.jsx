@@ -39,7 +39,7 @@ import MainCard from 'components/MainCard';
 import { useDispatch } from 'react-redux';
 import { setMessageStateOpen } from 'store/reducers/dropdown';
 
-const SignAndUpload = ({ isUploadOpen, handUploadClose }) => {
+const SignAndUpload = ({ isUploadOpen, handleUploadClose }) => {
     const dispatch = useDispatch();
     const [uploadFile, setUploadFile] = useState(null);
     const [isUpload, setIsUpload] = useState(false); //是否需攤分
@@ -67,14 +67,14 @@ const SignAndUpload = ({ isUploadOpen, handUploadClose }) => {
                 console.log('上傳成功=>>', data);
                 dispatch(setMessageStateOpen({ messageStateOpen: { isOpen: true, severity: 'success', message: '上傳成功' } }));
                 setUploadFile(null);
-                handUploadClose();
+                handleUploadClose();
             })
             .catch((e) => console.log('e1=>', e));
     };
 
     return (
-        <Dialog onClose={handUploadClose} maxWidth="xs" fullWidth open={isUploadOpen}>
-            <BootstrapDialogTitle id="customized-dialog-title" onClose={handUploadClose}>
+        <Dialog onClose={handleUploadClose} maxWidth="xs" fullWidth open={isUploadOpen}>
+            <BootstrapDialogTitle id="customized-dialog-title" onClose={handleUploadClose}>
                 簽核作業
             </BootstrapDialogTitle>
             <DialogContent dividers>
@@ -133,7 +133,7 @@ const SignAndUpload = ({ isUploadOpen, handUploadClose }) => {
                 >
                     確定
                 </Button>
-                <Button sx={{ mr: '0.05rem' }} variant="contained" onClick={handUploadClose}>
+                <Button sx={{ mr: '0.05rem' }} variant="contained" onClick={handleUploadClose}>
                     取消
                 </Button>
             </DialogActions>
