@@ -416,21 +416,13 @@ const PartyDataList = ({}) => {
             <Table stickyHeader aria-label="sticky table">
                 <TableHead>
                     <TableRow>
-                        <StyledTableCell align="center" colSpan={2}></StyledTableCell>
-                        <StyledTableCell align="center" colSpan={isColumn1Open ? 2 : 1}>
-                            <Button
-                                sx={{ width: '100%', p: 0 }}
-                                onClick={() => {
-                                    setIsColumn1Open(!isColumn1Open);
-                                }}
-                            >
-                                {isColumn1Open ? <DoNotDisturbOnIcon /> : <AddCircleIcon />}
-                            </Button>
+                        {/* <StyledTableCell align="center" colSpan={2}></StyledTableCell> */}
+                        {/* <StyledTableCell align="center" colSpan={isColumn1Open ? 2 : 1}>
                             {isColumn1Open ? '海纜資訊' : '海纜資訊'}
-                        </StyledTableCell>
-                        <StyledTableCell display="" align="center" colSpan={isColumn2Open ? 7 : 1}>
+                        </StyledTableCell> */}
+                        {/* <StyledTableCell display="" align="center" colSpan={isColumn2Open ? 7 : 1}>
                             <Button
-                                sx={{ width: '100%', p: 0 }}
+                                sx={{ p: 0 }}
                                 onClick={() => {
                                     setIsColumn2Open(!isColumn2Open);
                                 }}
@@ -438,10 +430,10 @@ const PartyDataList = ({}) => {
                                 {isColumn2Open ? <DoNotDisturbOnIcon /> : <AddCircleIcon />}
                             </Button>
                             {isColumn2Open ? '帳戶資訊' : '帳戶資訊'}
-                        </StyledTableCell>
-                        <StyledTableCell align="center" colSpan={isColumn3Open ? 10 : 1}>
+                        </StyledTableCell> */}
+                        {/* <StyledTableCell align="center" colSpan={isColumn3Open ? 10 : 1}>
                             <Button
-                                sx={{ width: '100%', p: 0 }}
+                                sx={{ p: 0 }}
                                 onClick={() => {
                                     setIsColumn3Open(!isColumn3Open);
                                 }}
@@ -449,47 +441,107 @@ const PartyDataList = ({}) => {
                                 {isColumn3Open ? <DoNotDisturbOnIcon /> : <AddCircleIcon />}
                             </Button>
                             {isColumn3Open ? '會員資訊' : '會員資訊'}
-                        </StyledTableCell>
+                        </StyledTableCell> */}
                     </TableRow>
                     <TableRow>
                         <StyledTableCell align="center">Action</StyledTableCell>
                         <StyledTableCell align="center">NO</StyledTableCell>
                         {isColumn1Open ? (
-                            columns1.map((column) => {
+                            columns1.map((column, id) => {
                                 return (
                                     <StyledTableCell key={column.id} align={column.align}>
+                                        {id === 0 ? (
+                                            <Button
+                                                sx={{ p: 0 }}
+                                                onClick={() => {
+                                                    setIsColumn1Open(!isColumn1Open);
+                                                }}
+                                            >
+                                                {isColumn1Open ? <DoNotDisturbOnIcon /> : <AddCircleIcon />}
+                                            </Button>
+                                        ) : (
+                                            ''
+                                        )}
                                         {column.label}
                                     </StyledTableCell>
                                 );
                             })
                         ) : (
                             <StyledTableCell key={columns1[0].id} align={columns1[0].align}>
+                                <Button
+                                    sx={{ p: 0 }}
+                                    onClick={() => {
+                                        setIsColumn1Open(!isColumn1Open);
+                                    }}
+                                >
+                                    {isColumn1Open ? <DoNotDisturbOnIcon /> : <AddCircleIcon />}
+                                </Button>
                                 {columns1[0].label}
                             </StyledTableCell>
                         )}
                         {isColumn2Open ? (
-                            columns2.map((column) => {
+                            columns2.map((column, id) => {
                                 return (
                                     <StyledTableCell key={column.id} align={column.align}>
+                                        {id === 0 ? (
+                                            <Button
+                                                sx={{ p: 0 }}
+                                                onClick={() => {
+                                                    setIsColumn2Open(!isColumn2Open);
+                                                }}
+                                            >
+                                                {isColumn2Open ? <DoNotDisturbOnIcon /> : <AddCircleIcon />}
+                                            </Button>
+                                        ) : (
+                                            ''
+                                        )}
                                         {column.label}
                                     </StyledTableCell>
                                 );
                             })
                         ) : (
                             <StyledTableCell key={columns2[0].id} align={columns2[0].align}>
+                                <Button
+                                    sx={{ p: 0 }}
+                                    onClick={() => {
+                                        setIsColumn2Open(!isColumn2Open);
+                                    }}
+                                >
+                                    {isColumn2Open ? <DoNotDisturbOnIcon /> : <AddCircleIcon />}
+                                </Button>
                                 {columns2[0].label}
                             </StyledTableCell>
                         )}
                         {isColumn3Open ? (
-                            columns3.map((column) => {
+                            columns3.map((column, id) => {
                                 return (
                                     <StyledTableCell key={column.id} align={column.align}>
+                                        {id === 0 ? (
+                                            <Button
+                                                sx={{ p: 0 }}
+                                                onClick={() => {
+                                                    setIsColumn3Open(!isColumn3Open);
+                                                }}
+                                            >
+                                                {isColumn3Open ? <DoNotDisturbOnIcon /> : <AddCircleIcon />}
+                                            </Button>
+                                        ) : (
+                                            ''
+                                        )}
                                         {column.label}
                                     </StyledTableCell>
                                 );
                             })
                         ) : (
                             <StyledTableCell key={columns3[0].id} align={columns3[0].align}>
+                                <Button
+                                    sx={{ p: 0 }}
+                                    onClick={() => {
+                                        setIsColumn3Open(!isColumn3Open);
+                                    }}
+                                >
+                                    {isColumn3Open ? <DoNotDisturbOnIcon /> : <AddCircleIcon />}
+                                </Button>
                                 {columns3[0].label}
                             </StyledTableCell>
                         )}
