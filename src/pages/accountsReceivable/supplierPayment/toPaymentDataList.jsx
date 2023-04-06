@@ -300,7 +300,6 @@ const ToWriteOffDataList = ({ listInfo, apiQuery }) => {
     //         .catch((e) => console.log('e1=>', e));
     // };
 
-    console.log('isColumn2Open=>>', isColumn2Open);
     return (
         <>
             <DeductWork
@@ -310,7 +309,6 @@ const ToWriteOffDataList = ({ listInfo, apiQuery }) => {
                 actionName={actionName.current}
             />
             <GenerateFeeTerminate infoTerminal={infoTerminal} handleTerminalClose={handleTerminalClose} />
-            {/* <Paper sx={{ width: '100%' }}> */}
             <TableContainer component={Paper} sx={{ maxHeight: 400 }}>
                 <Table sx={{ minWidth: 300 }} stickyHeader aria-label="sticky table">
                     {/* <Table sx={{ minWidth: 200 }} aria-label="sticky table"> */}

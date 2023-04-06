@@ -244,7 +244,7 @@ const fakeData2 = [
     }
 ];
 
-const BillDraftMake = ({ isDialogOpen, handleDialogClose, billMasterID, pONo }) => {
+const BillDraftMake = ({ isDialogOpen, handleDialogClose, billMasterID, pONo, submarineCable }) => {
     const [dataList, setDataList] = useState([]);
     const [contact, setContact] = useState('chang_ty');
     const [contactList, setContactList] = useState(fakeData2);
@@ -295,7 +295,7 @@ const BillDraftMake = ({ isDialogOpen, handleDialogClose, billMasterID, pONo }) 
             .then((blob) => {
                 const link = document.createElement('a');
                 link.href = window.URL.createObjectURL(blob);
-                link.download = `TPE Cable Network ${subject1} Central Billing Party.docx`;
+                link.download = `${{ submarineCable }} Cable Network ${subject1} Central Billing Party.docx`;
                 link.click();
             })
             .catch((e) => console.log('e1=>', e));
@@ -524,7 +524,7 @@ const BillDraftMake = ({ isDialogOpen, handleDialogClose, billMasterID, pONo }) 
                                     fontWeight: 'bold'
                                 }}
                             >
-                                TPE Cable Network {subject1} Central Billing Party
+                                {submarineCable} Cable Network {subject1} Central Billing Party
                             </Box>
                             {/* <Box
                                 sx={{

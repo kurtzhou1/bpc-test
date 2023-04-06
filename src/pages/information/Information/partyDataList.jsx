@@ -21,18 +21,22 @@ import { makeStyles } from '@material-ui/core/styles';
 import { useDispatch } from 'react-redux';
 import { setMessageStateOpen, setPartiesList } from 'store/reducers/dropdown';
 
+// icon
+import DoNotDisturbOnIcon from '@mui/icons-material/DoNotDisturbOn';
+import AddCircleIcon from '@mui/icons-material/AddCircle';
+
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
     [`&.${tableCellClasses.head}`]: {
         // backgroundColor: theme.palette.common.gary,
         color: theme.palette.common.black,
-        paddingTop: '0.2rem',
-        paddingBottom: '0.2rem',
+        paddingTop: '0rem',
+        paddingBottom: '0rem',
         fontSize: '0.3rem'
     },
     [`&.${tableCellClasses.body}`]: {
         fontSize: 14,
-        paddingTop: '0.2rem',
-        paddingBottom: '0.2rem',
+        paddingTop: '0.1rem',
+        paddingBottom: '0.1rem',
         fontSize: '0.3rem'
     }
 }));
@@ -47,55 +51,159 @@ const useStyles = makeStyles({
     }
 });
 
+const columns1 = [
+    { id: '海纜名稱', label: '海纜名稱', align: 'center', className: '' },
+    { id: '海纜作業', label: '海纜作業', align: 'center' }
+];
+
+const columns2 = [
+    { id: '會員代碼', label: '會員代碼', align: 'center', className: '' },
+    {
+        id: '會員名稱',
+        label: '會員名稱',
+
+        align: 'center'
+    },
+    {
+        id: '公司名稱',
+        label: '公司名稱',
+
+        align: 'center'
+    },
+    {
+        id: '公司地址',
+        label: '公司地址',
+
+        align: 'center'
+    },
+    {
+        id: '聯絡窗口',
+        label: '聯絡窗口',
+
+        align: 'center'
+    },
+    {
+        id: '電子郵件',
+        label: '電子郵件',
+
+        align: 'center'
+    },
+    {
+        id: '電話',
+        label: '電話',
+
+        align: 'center'
+    }
+];
+
+const columns3 = [
+    { id: 'Bank A/C Name', label: 'Bank A/C Name', align: 'center', className: '' },
+    {
+        id: 'A/C No.',
+        label: 'A/C No.',
+
+        align: 'center'
+    },
+    {
+        id: 'Saving A/C No.',
+        label: 'Saving A/C No.',
+
+        align: 'center'
+    },
+    {
+        id: 'SWIFT Code',
+        label: 'SWIFT Code',
+
+        align: 'center'
+    },
+    {
+        id: 'ACH No',
+        label: 'ACH No',
+
+        align: 'center'
+    },
+    {
+        id: 'SWIFT Code',
+        label: 'SWIFT Code',
+
+        align: 'center'
+    },
+    {
+        id: 'Wire/Routing',
+        label: 'Wire/Routing',
+
+        align: 'center'
+    },
+    {
+        id: 'Bank Name',
+        label: 'Bank Name',
+
+        align: 'center'
+    },
+    {
+        id: 'Branch',
+        label: 'Branch',
+
+        align: 'center'
+    },
+    {
+        id: 'Bank Address',
+        label: 'Bank Address',
+
+        align: 'center'
+    }
+];
+
+const fakeData = [
+    {
+        PartyID: 1,
+        PartyCode: 'NEC',
+        SubmarineCable: 'NEC',
+        WorkTitle: '+886',
+        PartyName: 'Taiwan',
+        Address: 'google.com',
+        Contact: 'XXX',
+        Email: 'pppp@gmail.com',
+        Tel: '+886912123',
+        CompanyName: 'CompanyName',
+        BankAcctName: 'BankAcctName',
+        AccountNo: 'AccountNo',
+        SavingAccountNo: 'SavingAccountNo',
+        SWIFTCode: 'SWIFTCode',
+        IBAN: 'IBAN',
+        ACHNo: 'ACHNo',
+        WireRouting: 'WireRouting',
+        BankName: 'BankName',
+        Branch: 'Branch',
+        BankAddress: 'BankAddress'
+    },
+    {
+        PartyID: 2,
+        PartyCode: 'NEC',
+        SubmarineCable: 'NEC',
+        WorkTitle: '+886',
+        PartyName: 'Taiwan',
+        Address: 'google.com',
+        Contact: 'XXX',
+        Email: 'pppp@gmail.com',
+        Tel: '886912123',
+        CompanyName: 1,
+        BankAcctName: 2,
+        AccountNo: 3,
+        SavingAccountNo: 4,
+        SWIFTCode: 5,
+        IBAN: 6,
+        ACHNo: 7,
+        WireRouting: 8,
+        BankName: 9,
+        Branch: 0,
+        BankAddress: 1111
+    }
+];
+
 const PartyDataList = ({}) => {
     const dispatch = useDispatch();
     const classes = useStyles();
-    const fakeData = [
-        {
-            PartyID: 1,
-            PartyCode: 'NEC',
-            SubmarineCable: 'NEC',
-            WorkTitle: '+886',
-            PartyName: 'Taiwan',
-            Address: 'google.com',
-            Contact: 'XXX',
-            Email: 'pppp@gmail.com',
-            Tel: '+886912123',
-            CompanyName: 'CompanyName',
-            BankAcctName: 'BankAcctName',
-            AccountNo: 'AccountNo',
-            SavingAccountNo: 'SavingAccountNo',
-            SWIFTCode: 'SWIFTCode',
-            IBAN: 'IBAN',
-            ACHNo: 'ACHNo',
-            WireRouting: 'WireRouting',
-            BankName: 'BankName',
-            Branch: 'Branch',
-            BankAddress: 'BankAddress'
-        },
-        {
-            PartyID: 2,
-            PartyCode: 'NEC',
-            SubmarineCable: 'NEC',
-            WorkTitle: '+886',
-            PartyName: 'Taiwan',
-            Address: 'google.com',
-            Contact: 'XXX',
-            Email: 'pppp@gmail.com',
-            Tel: '886912123',
-            CompanyName: 1,
-            BankAcctName: 2,
-            AccountNo: 3,
-            SavingAccountNo: 4,
-            SWIFTCode: 5,
-            IBAN: 6,
-            ACHNo: 7,
-            WireRouting: 8,
-            BankName: 9,
-            Branch: 0,
-            BankAddress: 1111
-        }
-    ];
     const [infoList, setInfoList] = useState(fakeData);
     const [submarineCable, setSubmarineCable] = useState(''); //海纜名稱
     const [workTitle, setWorkTitle] = useState(''); //海纜作業
@@ -136,6 +244,10 @@ const PartyDataList = ({}) => {
     const [bankNameEdit, setBankNameEdit] = useState('');
     const [branchEdit, setBranchEdit] = useState('');
     const [bankAddressEdit, setBankAddressEdit] = useState('');
+
+    const [isColumn1Open, setIsColumn1Open] = useState(false);
+    const [isColumn2Open, setIsColumn2Open] = useState(false);
+    const [isColumn3Open, setIsColumn3Open] = useState(false);
 
     const infoInit = () => {
         setSubmarineCable('');
@@ -239,7 +351,6 @@ const PartyDataList = ({}) => {
 
     const editPartyInfo = (row) => {
         // setEditItem(id);
-        console.log('row=>>', row);
         partyID.current = row.PartyID;
         setCodeEdit(row.PartyCode);
         setSubmarineCableEdit(row.SubmarineCable);
@@ -305,18 +416,91 @@ const PartyDataList = ({}) => {
             <Table stickyHeader aria-label="sticky table">
                 <TableHead>
                     <TableRow>
-                        <StyledTableCell align="center" className={classes.sticky}>
-                            <TableCell>Action</TableCell>
+                        <StyledTableCell align="center" colSpan={2}></StyledTableCell>
+                        <StyledTableCell align="center" colSpan={isColumn1Open ? 2 : 1}>
+                            <Button
+                                sx={{ width: '100%', p: 0 }}
+                                onClick={() => {
+                                    setIsColumn1Open(!isColumn1Open);
+                                }}
+                            >
+                                {isColumn1Open ? <DoNotDisturbOnIcon /> : <AddCircleIcon />}
+                            </Button>
+                            {isColumn1Open ? '海纜資訊' : '海纜資訊'}
                         </StyledTableCell>
+                        <StyledTableCell display="" align="center" colSpan={isColumn2Open ? 7 : 1}>
+                            <Button
+                                sx={{ width: '100%', p: 0 }}
+                                onClick={() => {
+                                    setIsColumn2Open(!isColumn2Open);
+                                }}
+                            >
+                                {isColumn2Open ? <DoNotDisturbOnIcon /> : <AddCircleIcon />}
+                            </Button>
+                            {isColumn2Open ? '帳戶資訊' : '帳戶資訊'}
+                        </StyledTableCell>
+                        <StyledTableCell align="center" colSpan={isColumn3Open ? 10 : 1}>
+                            <Button
+                                sx={{ width: '100%', p: 0 }}
+                                onClick={() => {
+                                    setIsColumn3Open(!isColumn3Open);
+                                }}
+                            >
+                                {isColumn3Open ? <DoNotDisturbOnIcon /> : <AddCircleIcon />}
+                            </Button>
+                            {isColumn3Open ? '會員資訊' : '會員資訊'}
+                        </StyledTableCell>
+                    </TableRow>
+                    <TableRow>
+                        <StyledTableCell align="center">Action</StyledTableCell>
                         <StyledTableCell align="center">NO</StyledTableCell>
-                        <StyledTableCell align="center" style={{ width: '6rem' }}>
+                        {isColumn1Open ? (
+                            columns1.map((column) => {
+                                return (
+                                    <StyledTableCell key={column.id} align={column.align}>
+                                        {column.label}
+                                    </StyledTableCell>
+                                );
+                            })
+                        ) : (
+                            <StyledTableCell key={columns1[0].id} align={columns1[0].align}>
+                                {columns1[0].label}
+                            </StyledTableCell>
+                        )}
+                        {isColumn2Open ? (
+                            columns2.map((column) => {
+                                return (
+                                    <StyledTableCell key={column.id} align={column.align}>
+                                        {column.label}
+                                    </StyledTableCell>
+                                );
+                            })
+                        ) : (
+                            <StyledTableCell key={columns2[0].id} align={columns2[0].align}>
+                                {columns2[0].label}
+                            </StyledTableCell>
+                        )}
+                        {isColumn3Open ? (
+                            columns3.map((column) => {
+                                return (
+                                    <StyledTableCell key={column.id} align={column.align}>
+                                        {column.label}
+                                    </StyledTableCell>
+                                );
+                            })
+                        ) : (
+                            <StyledTableCell key={columns3[0].id} align={columns3[0].align}>
+                                {columns3[0].label}
+                            </StyledTableCell>
+                        )}
+                        {/* <StyledTableCell align="center" style={{ width: '6rem' }}>
                             海纜名稱
                         </StyledTableCell>
                         <StyledTableCell align="center" style={{ width: '6rem' }}>
                             海纜作業
-                        </StyledTableCell>
-                        <StyledTableCell align="center" style={{ width: '4rem' }}>
-                            代碼
+                        </StyledTableCell> */}
+                        {/* <StyledTableCell align="center" style={{ width: '4rem' }}>
+                            會員代碼
                         </StyledTableCell>
                         <StyledTableCell align="center" style={{ width: '6rem' }}>
                             會員名稱
@@ -335,15 +519,15 @@ const PartyDataList = ({}) => {
                         </StyledTableCell>
                         <StyledTableCell align="center" style={{ width: '6rem' }}>
                             電話
+                        </StyledTableCell> */}
+                        {/* <StyledTableCell align="center" style={{ width: '6rem' }}>
+                            Bank A/C Name
                         </StyledTableCell>
                         <StyledTableCell align="center" style={{ width: '6rem' }}>
-                            銀行帳號名稱
+                             A/C No.
                         </StyledTableCell>
                         <StyledTableCell align="center" style={{ width: '6rem' }}>
-                            Account No.
-                        </StyledTableCell>
-                        <StyledTableCell align="center" style={{ width: '6rem' }}>
-                            Saving Account No.
+                            Saving A/C No.
                         </StyledTableCell>
                         <StyledTableCell align="center" style={{ width: '6rem' }}>
                             SWIFT Code
@@ -358,14 +542,14 @@ const PartyDataList = ({}) => {
                             Wire/Routing
                         </StyledTableCell>
                         <StyledTableCell align="center" style={{ width: '6rem' }}>
-                            銀行名稱
+                            Bank Name
                         </StyledTableCell>
                         <StyledTableCell align="center" style={{ width: '6rem' }}>
-                            分行名稱
+                            Branch
                         </StyledTableCell>
                         <StyledTableCell align="center" style={{ width: '8rem' }}>
-                            銀行地址
-                        </StyledTableCell>
+                            Bank Address
+                        </StyledTableCell> */}
                     </TableRow>
                 </TableHead>
                 <TableBody>
@@ -377,7 +561,7 @@ const PartyDataList = ({}) => {
                             >
                                 {row.PartyID !== partyID.current ? (
                                     <>
-                                        <StyledTableCell align="center" className={classes.sticky}>
+                                        {/* <StyledTableCell align="center" className={classes.sticky}>
                                             <TableCell>
                                                 <Box
                                                     sx={{
@@ -406,33 +590,77 @@ const PartyDataList = ({}) => {
                                                     </Button>
                                                 </Box>
                                             </TableCell>
-                                            {/* <TableCell>{row.SubmarineCable}</TableCell>
-                                            <TableCell>{row.WorkTitle}</TableCell> */}
+                                        </StyledTableCell> */}
+                                        <StyledTableCell align="center">
+                                            <Box
+                                                sx={{
+                                                    display: 'flex',
+                                                    justifyContent: 'center',
+                                                    '& button': { mx: { md: 0.6, lg: 1, xl: 1.8 }, p: 0, fontSize: 1 }
+                                                }}
+                                            >
+                                                <Button
+                                                    color="primary"
+                                                    variant="outlined"
+                                                    onClick={() => {
+                                                        editPartyInfo(row);
+                                                    }}
+                                                >
+                                                    編輯
+                                                </Button>
+                                                <Button
+                                                    color="error"
+                                                    variant="outlined"
+                                                    onClick={() => {
+                                                        deletePartyInfo(row);
+                                                    }}
+                                                >
+                                                    刪除
+                                                </Button>
+                                            </Box>
                                         </StyledTableCell>
-                                        <StyledTableCell align="center">{row.SubmarineCable}</StyledTableCell>
-                                        <StyledTableCell align="center">{row.WorkTitle}</StyledTableCell>
                                         <StyledTableCell align="center">{id + 1}</StyledTableCell>
-                                        <StyledTableCell align="center">{row.PartyCode}</StyledTableCell>
-                                        <StyledTableCell align="center">{row.PartyName}</StyledTableCell>
-                                        <StyledTableCell align="center">{row.CompanyName}</StyledTableCell>
-                                        <StyledTableCell align="center">{row.Address}</StyledTableCell>
-                                        <StyledTableCell align="center">{row.Contact}</StyledTableCell>
-                                        <StyledTableCell align="center">{row.Email}</StyledTableCell>
-                                        <StyledTableCell align="center">{row.Tel}</StyledTableCell>
-                                        <StyledTableCell align="center">{row.BankAcctName}</StyledTableCell>
-                                        <StyledTableCell align="center">{row.AccountNo}</StyledTableCell>
-                                        <StyledTableCell align="center">{row.SavingAccountNo}</StyledTableCell>
-                                        <StyledTableCell align="center">{row.SWIFTCode}</StyledTableCell>
-                                        <StyledTableCell align="center">{row.IBAN}</StyledTableCell>
-                                        <StyledTableCell align="center">{row.ACHNo}</StyledTableCell>
-                                        <StyledTableCell align="center">{row.WireRouting}</StyledTableCell>
-                                        <StyledTableCell align="center">{row.BankName}</StyledTableCell>
-                                        <StyledTableCell align="center">{row.Branch}</StyledTableCell>
-                                        <StyledTableCell align="center">{row.BankAddress}</StyledTableCell>
+                                        {isColumn1Open ? (
+                                            <>
+                                                <StyledTableCell align="center">{row.SubmarineCable}</StyledTableCell>
+                                                <StyledTableCell align="center">{row.WorkTitle}</StyledTableCell>
+                                            </>
+                                        ) : (
+                                            <StyledTableCell align="center">{row.SubmarineCable}</StyledTableCell>
+                                        )}
+                                        {isColumn2Open ? (
+                                            <>
+                                                <StyledTableCell align="center">{row.PartyCode}</StyledTableCell>
+                                                <StyledTableCell align="center">{row.PartyName}</StyledTableCell>
+                                                <StyledTableCell align="center">{row.CompanyName}</StyledTableCell>
+                                                <StyledTableCell align="center">{row.Address}</StyledTableCell>
+                                                <StyledTableCell align="center">{row.Contact}</StyledTableCell>
+                                                <StyledTableCell align="center">{row.Email}</StyledTableCell>
+                                                <StyledTableCell align="center">{row.Tel}</StyledTableCell>
+                                            </>
+                                        ) : (
+                                            <StyledTableCell align="center">{row.PartyCode}</StyledTableCell>
+                                        )}
+                                        {isColumn3Open ? (
+                                            <>
+                                                <StyledTableCell align="center">{row.BankAcctName}</StyledTableCell>
+                                                <StyledTableCell align="center">{row.AccountNo}</StyledTableCell>
+                                                <StyledTableCell align="center">{row.SavingAccountNo}</StyledTableCell>
+                                                <StyledTableCell align="center">{row.SWIFTCode}</StyledTableCell>
+                                                <StyledTableCell align="center">{row.IBAN}</StyledTableCell>
+                                                <StyledTableCell align="center">{row.ACHNo}</StyledTableCell>
+                                                <StyledTableCell align="center">{row.WireRouting}</StyledTableCell>
+                                                <StyledTableCell align="center">{row.BankName}</StyledTableCell>
+                                                <StyledTableCell align="center">{row.Branch}</StyledTableCell>
+                                                <StyledTableCell align="center">{row.BankAddress}</StyledTableCell>
+                                            </>
+                                        ) : (
+                                            <StyledTableCell align="center">{row.BankAcctName}</StyledTableCell>
+                                        )}
                                     </>
                                 ) : (
                                     <>
-                                        <StyledTableCell align="center" className={classes.sticky}>
+                                        <StyledTableCell align="center">
                                             <Box
                                                 sx={{
                                                     display: 'flex',
@@ -449,185 +677,228 @@ const PartyDataList = ({}) => {
                                             </Box>
                                         </StyledTableCell>
                                         <TableCell align="center">{id + 1}</TableCell>
-                                        <TableCell align="center">
-                                            <TextField
-                                                size="small"
-                                                // style={{ width: '30%' }}
-                                                value={submarineCableEdit}
-                                                onChange={(e) => {
-                                                    setSubmarineCableEdit(e.target.value);
-                                                }}
-                                            />
-                                        </TableCell>
-                                        <TableCell align="center">
-                                            <TextField
-                                                size="small"
-                                                value={workTitleEdit}
-                                                onChange={(e) => {
-                                                    setWorkTitleEdit(e.target.value);
-                                                }}
-                                            />
-                                        </TableCell>
-                                        <TableCell align="center">
-                                            <TextField
-                                                size="small"
-                                                value={codeEdit}
-                                                onChange={(e) => {
-                                                    setCodeEdit(e.target.value);
-                                                }}
-                                            />
-                                        </TableCell>
-                                        <TableCell align="center">
-                                            <TextField
-                                                size="small"
-                                                value={partyNameEdit}
-                                                onChange={(e) => {
-                                                    setPartyNameEdit(e.target.value);
-                                                }}
-                                            />
-                                        </TableCell>
-                                        <TableCell align="center">
-                                            <TextField
-                                                size="small"
-                                                value={companyNameEdit}
-                                                onChange={(e) => {
-                                                    setCompanyNameEdit(e.target.value);
-                                                }}
-                                            />
-                                        </TableCell>
-                                        <TableCell align="center">
-                                            <TextField
-                                                size="small"
-                                                value={addressEdit}
-                                                onChange={(e) => {
-                                                    setAddressEdit(e.target.value);
-                                                }}
-                                            />
-                                        </TableCell>
-                                        <TableCell align="center">
-                                            <TextField
-                                                size="small"
-                                                value={contactEdit}
-                                                onChange={(e) => {
-                                                    setContactEdit(e.target.value);
-                                                }}
-                                            />
-                                        </TableCell>
-                                        <TableCell align="center">
-                                            <TextField
-                                                size="small"
-                                                value={emailEdit}
-                                                onChange={(e) => {
-                                                    setEmailEdit(e.target.value);
-                                                }}
-                                            />
-                                        </TableCell>
-                                        <TableCell align="center">
-                                            <TextField
-                                                size="small"
-                                                value={telEdit}
-                                                onChange={(e) => {
-                                                    setTelEdit(e.target.value);
-                                                }}
-                                            />
-                                        </TableCell>
-                                        <TableCell align="center">
-                                            <TextField
-                                                size="small"
-                                                value={bankAcctNameEdit}
-                                                onChange={(e) => {
-                                                    setBankAcctNameEdit(e.target.value);
-                                                }}
-                                            />
-                                        </TableCell>
-                                        <TableCell align="center">
-                                            <TextField
-                                                size="small"
-                                                value={accountNoEdit}
-                                                onChange={(e) => {
-                                                    setAccountNoEdit(e.target.value);
-                                                }}
-                                            />
-                                        </TableCell>
-                                        <TableCell align="center">
-                                            <TextField
-                                                size="small"
-                                                value={savingAccountNoEdit}
-                                                onChange={(e) => {
-                                                    setSavingAccountNoEdit(e.target.value);
-                                                }}
-                                            />
-                                        </TableCell>
-                                        <TableCell align="center">
-                                            <TextField
-                                                size="small"
-                                                value={sWIFTCodeEdit}
-                                                onChange={(e) => {
-                                                    setSWIFTCodeEdit(e.target.value);
-                                                }}
-                                            />
-                                        </TableCell>
-                                        <TableCell align="center">
-                                            <TextField
-                                                size="small"
-                                                value={iBANEdit}
-                                                onChange={(e) => {
-                                                    setIBANEdit(e.target.value);
-                                                }}
-                                            />
-                                        </TableCell>
-                                        <TableCell align="center">
-                                            <TextField
-                                                size="small"
-                                                value={aCHNoEdit}
-                                                onChange={(e) => {
-                                                    setACHNoEdit(e.target.value);
-                                                }}
-                                            />
-                                        </TableCell>
-                                        <TableCell align="center">
-                                            <TextField
-                                                size="small"
-                                                value={wireRoutingEdit}
-                                                onChange={(e) => {
-                                                    setWireRoutingEdit(e.target.value);
-                                                }}
-                                            />
-                                        </TableCell>
-                                        <TableCell align="center">
-                                            <TextField
-                                                size="small"
-                                                value={bankNameEdit}
-                                                onChange={(e) => {
-                                                    setBankNameEdit(e.target.value);
-                                                }}
-                                            />
-                                        </TableCell>
-                                        <TableCell align="center">
-                                            <TextField
-                                                size="small"
-                                                value={branchEdit}
-                                                onChange={(e) => {
-                                                    setBranchEdit(e.target.value);
-                                                }}
-                                            />
-                                        </TableCell>
-                                        <TableCell align="center">
-                                            <TextField
-                                                size="small"
-                                                value={bankAddressEdit}
-                                                onChange={(e) => {
-                                                    setBankAddressEdit(e.target.value);
-                                                }}
-                                            />
-                                        </TableCell>
+                                        {isColumn1Open ? (
+                                            <>
+                                                <TableCell align="center">
+                                                    <TextField
+                                                        size="small"
+                                                        // style={{ width: '30%' }}
+                                                        value={submarineCableEdit}
+                                                        onChange={(e) => {
+                                                            setSubmarineCableEdit(e.target.value);
+                                                        }}
+                                                    />
+                                                </TableCell>
+                                                <TableCell align="center">
+                                                    <TextField
+                                                        size="small"
+                                                        value={workTitleEdit}
+                                                        onChange={(e) => {
+                                                            setWorkTitleEdit(e.target.value);
+                                                        }}
+                                                    />
+                                                </TableCell>
+                                            </>
+                                        ) : (
+                                            <TableCell align="center">
+                                                <TextField
+                                                    size="small"
+                                                    // style={{ width: '30%' }}
+                                                    value={submarineCableEdit}
+                                                    onChange={(e) => {
+                                                        setSubmarineCableEdit(e.target.value);
+                                                    }}
+                                                />
+                                            </TableCell>
+                                        )}
+                                        {isColumn2Open ? (
+                                            <>
+                                                <TableCell align="center">
+                                                    <TextField
+                                                        size="small"
+                                                        value={codeEdit}
+                                                        onChange={(e) => {
+                                                            setCodeEdit(e.target.value);
+                                                        }}
+                                                    />
+                                                </TableCell>
+                                                <TableCell align="center">
+                                                    <TextField
+                                                        size="small"
+                                                        value={partyNameEdit}
+                                                        onChange={(e) => {
+                                                            setPartyNameEdit(e.target.value);
+                                                        }}
+                                                    />
+                                                </TableCell>
+                                                <TableCell align="center">
+                                                    <TextField
+                                                        size="small"
+                                                        value={companyNameEdit}
+                                                        onChange={(e) => {
+                                                            setCompanyNameEdit(e.target.value);
+                                                        }}
+                                                    />
+                                                </TableCell>
+                                                <TableCell align="center">
+                                                    <TextField
+                                                        size="small"
+                                                        value={addressEdit}
+                                                        onChange={(e) => {
+                                                            setAddressEdit(e.target.value);
+                                                        }}
+                                                    />
+                                                </TableCell>
+                                                <TableCell align="center">
+                                                    <TextField
+                                                        size="small"
+                                                        value={contactEdit}
+                                                        onChange={(e) => {
+                                                            setContactEdit(e.target.value);
+                                                        }}
+                                                    />
+                                                </TableCell>
+                                                <TableCell align="center">
+                                                    <TextField
+                                                        size="small"
+                                                        value={emailEdit}
+                                                        onChange={(e) => {
+                                                            setEmailEdit(e.target.value);
+                                                        }}
+                                                    />
+                                                </TableCell>
+                                                <TableCell align="center">
+                                                    <TextField
+                                                        size="small"
+                                                        value={telEdit}
+                                                        onChange={(e) => {
+                                                            setTelEdit(e.target.value);
+                                                        }}
+                                                    />
+                                                </TableCell>
+                                            </>
+                                        ) : (
+                                            <TableCell align="center">
+                                                <TextField
+                                                    size="small"
+                                                    value={codeEdit}
+                                                    onChange={(e) => {
+                                                        setCodeEdit(e.target.value);
+                                                    }}
+                                                />
+                                            </TableCell>
+                                        )}
+                                        {isColumn3Open ? (
+                                            <>
+                                                <TableCell align="center">
+                                                    <TextField
+                                                        size="small"
+                                                        value={bankAcctNameEdit}
+                                                        onChange={(e) => {
+                                                            setBankAcctNameEdit(e.target.value);
+                                                        }}
+                                                    />
+                                                </TableCell>
+                                                <TableCell align="center">
+                                                    <TextField
+                                                        size="small"
+                                                        value={accountNoEdit}
+                                                        onChange={(e) => {
+                                                            setAccountNoEdit(e.target.value);
+                                                        }}
+                                                    />
+                                                </TableCell>
+                                                <TableCell align="center">
+                                                    <TextField
+                                                        size="small"
+                                                        value={savingAccountNoEdit}
+                                                        onChange={(e) => {
+                                                            setSavingAccountNoEdit(e.target.value);
+                                                        }}
+                                                    />
+                                                </TableCell>
+                                                <TableCell align="center">
+                                                    <TextField
+                                                        size="small"
+                                                        value={sWIFTCodeEdit}
+                                                        onChange={(e) => {
+                                                            setSWIFTCodeEdit(e.target.value);
+                                                        }}
+                                                    />
+                                                </TableCell>
+                                                <TableCell align="center">
+                                                    <TextField
+                                                        size="small"
+                                                        value={iBANEdit}
+                                                        onChange={(e) => {
+                                                            setIBANEdit(e.target.value);
+                                                        }}
+                                                    />
+                                                </TableCell>
+                                                <TableCell align="center">
+                                                    <TextField
+                                                        size="small"
+                                                        value={aCHNoEdit}
+                                                        onChange={(e) => {
+                                                            setACHNoEdit(e.target.value);
+                                                        }}
+                                                    />
+                                                </TableCell>
+                                                <TableCell align="center">
+                                                    <TextField
+                                                        size="small"
+                                                        value={wireRoutingEdit}
+                                                        onChange={(e) => {
+                                                            setWireRoutingEdit(e.target.value);
+                                                        }}
+                                                    />
+                                                </TableCell>
+                                                <TableCell align="center">
+                                                    <TextField
+                                                        size="small"
+                                                        value={bankNameEdit}
+                                                        onChange={(e) => {
+                                                            setBankNameEdit(e.target.value);
+                                                        }}
+                                                    />
+                                                </TableCell>
+                                                <TableCell align="center">
+                                                    <TextField
+                                                        size="small"
+                                                        value={branchEdit}
+                                                        onChange={(e) => {
+                                                            setBranchEdit(e.target.value);
+                                                        }}
+                                                    />
+                                                </TableCell>
+                                                <TableCell align="center">
+                                                    <TextField
+                                                        size="small"
+                                                        value={bankAddressEdit}
+                                                        onChange={(e) => {
+                                                            setBankAddressEdit(e.target.value);
+                                                        }}
+                                                    />
+                                                </TableCell>
+                                            </>
+                                        ) : (
+                                            <TableCell align="center">
+                                                <TextField
+                                                    size="small"
+                                                    value={bankAcctNameEdit}
+                                                    onChange={(e) => {
+                                                        setBankAcctNameEdit(e.target.value);
+                                                    }}
+                                                />
+                                            </TableCell>
+                                        )}
                                     </>
                                 )}
                             </TableRow>
                         );
                     })}
                     <TableRow sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
-                        <TableCell align="center" className={classes.sticky}>
+                        <TableCell align="center">
                             <Box
                                 sx={{
                                     display: 'flex',
@@ -641,177 +912,219 @@ const PartyDataList = ({}) => {
                             </Box>
                         </TableCell>
                         <TableCell align="center"></TableCell>
-                        <TableCell align="center">
-                            <TextField
-                                size="small"
-                                value={submarineCable}
-                                onChange={(e) => {
-                                    setSubmarineCable(e.target.value);
-                                }}
-                            />
-                        </TableCell>
-                        <TableCell align="center">
-                            <TextField
-                                size="small"
-                                value={workTitle}
-                                onChange={(e) => {
-                                    setWorkTitle(e.target.value);
-                                }}
-                            />
-                        </TableCell>
-                        <TableCell align="center">
-                            <TextField
-                                size="small"
-                                value={code}
-                                onChange={(e) => {
-                                    setCode(e.target.value);
-                                }}
-                            />
-                        </TableCell>
-                        <TableCell align="center">
-                            <TextField
-                                size="small"
-                                value={partyName}
-                                onChange={(e) => {
-                                    setPartyName(e.target.value);
-                                }}
-                            />
-                        </TableCell>
-                        <TableCell align="center">
-                            <TextField
-                                size="small"
-                                value={companyName}
-                                onChange={(e) => {
-                                    setCompanyName(e.target.value);
-                                }}
-                            />
-                        </TableCell>
-                        <TableCell align="center">
-                            <TextField
-                                size="small"
-                                value={address}
-                                onChange={(e) => {
-                                    setAddress(e.target.value);
-                                }}
-                            />
-                        </TableCell>
-                        <TableCell align="center">
-                            <TextField
-                                size="small"
-                                value={contact}
-                                onChange={(e) => {
-                                    setContact(e.target.value);
-                                }}
-                            />
-                        </TableCell>
-                        <TableCell align="center">
-                            <TextField
-                                size="small"
-                                value={email}
-                                onChange={(e) => {
-                                    setEmail(e.target.value);
-                                }}
-                            />
-                        </TableCell>
-                        <TableCell align="center">
-                            <TextField
-                                size="small"
-                                value={tel}
-                                onChange={(e) => {
-                                    setTel(e.target.value);
-                                }}
-                            />
-                        </TableCell>
-                        <TableCell align="center">
-                            <TextField
-                                size="small"
-                                value={bankAcctName}
-                                onChange={(e) => {
-                                    setBankAcctName(e.target.value);
-                                }}
-                            />
-                        </TableCell>
-                        <TableCell align="center">
-                            <TextField
-                                size="small"
-                                value={accountNo}
-                                onChange={(e) => {
-                                    setAccountNo(e.target.value);
-                                }}
-                            />
-                        </TableCell>
-                        <TableCell align="center">
-                            <TextField
-                                size="small"
-                                value={savingAccountNo}
-                                onChange={(e) => {
-                                    setSavingAccountNo(e.target.value);
-                                }}
-                            />
-                        </TableCell>
-                        <TableCell align="center">
-                            <TextField
-                                size="small"
-                                value={sWIFTCode}
-                                onChange={(e) => {
-                                    setSWIFTCode(e.target.value);
-                                }}
-                            />
-                        </TableCell>
-                        <TableCell align="center">
-                            <TextField
-                                size="small"
-                                value={iBAN}
-                                onChange={(e) => {
-                                    setIBAN(e.target.value);
-                                }}
-                            />
-                        </TableCell>
-                        <TableCell align="center">
-                            <TextField
-                                size="small"
-                                value={aCHNo}
-                                onChange={(e) => {
-                                    setACHNo(e.target.value);
-                                }}
-                            />
-                        </TableCell>
-                        <TableCell align="center">
-                            <TextField
-                                size="small"
-                                value={wireRouting}
-                                onChange={(e) => {
-                                    setWireRouting(e.target.value);
-                                }}
-                            />
-                        </TableCell>
-                        <TableCell align="center">
-                            <TextField
-                                size="small"
-                                value={bankName}
-                                onChange={(e) => {
-                                    setBankName(e.target.value);
-                                }}
-                            />
-                        </TableCell>
-                        <TableCell align="center">
-                            <TextField
-                                size="small"
-                                value={branch}
-                                onChange={(e) => {
-                                    setBranch(e.target.value);
-                                }}
-                            />
-                        </TableCell>
-                        <TableCell align="center">
-                            <TextField
-                                size="small"
-                                value={bankAddress}
-                                onChange={(e) => {
-                                    setBankAddress(e.target.value);
-                                }}
-                            />
-                        </TableCell>
+                        {isColumn1Open ? (
+                            <>
+                                <TableCell align="center">
+                                    <TextField
+                                        size="small"
+                                        value={submarineCable}
+                                        onChange={(e) => {
+                                            setSubmarineCable(e.target.value);
+                                        }}
+                                    />
+                                </TableCell>
+                                <TableCell align="center">
+                                    <TextField
+                                        size="small"
+                                        value={workTitle}
+                                        onChange={(e) => {
+                                            setWorkTitle(e.target.value);
+                                        }}
+                                    />
+                                </TableCell>
+                            </>
+                        ) : (
+                            <TableCell align="center">
+                                <TextField
+                                    size="small"
+                                    value={submarineCable}
+                                    onChange={(e) => {
+                                        setSubmarineCable(e.target.value);
+                                    }}
+                                />
+                            </TableCell>
+                        )}
+                        {isColumn2Open ? (
+                            <>
+                                <TableCell align="center">
+                                    <TextField
+                                        size="small"
+                                        value={code}
+                                        onChange={(e) => {
+                                            setCode(e.target.value);
+                                        }}
+                                    />
+                                </TableCell>
+                                <TableCell align="center">
+                                    <TextField
+                                        size="small"
+                                        value={partyName}
+                                        onChange={(e) => {
+                                            setPartyName(e.target.value);
+                                        }}
+                                    />
+                                </TableCell>
+                                <TableCell align="center">
+                                    <TextField
+                                        size="small"
+                                        value={companyName}
+                                        onChange={(e) => {
+                                            setCompanyName(e.target.value);
+                                        }}
+                                    />
+                                </TableCell>
+                                <TableCell align="center">
+                                    <TextField
+                                        size="small"
+                                        value={address}
+                                        onChange={(e) => {
+                                            setAddress(e.target.value);
+                                        }}
+                                    />
+                                </TableCell>
+                                <TableCell align="center">
+                                    <TextField
+                                        size="small"
+                                        value={contact}
+                                        onChange={(e) => {
+                                            setContact(e.target.value);
+                                        }}
+                                    />
+                                </TableCell>
+                                <TableCell align="center">
+                                    <TextField
+                                        size="small"
+                                        value={email}
+                                        onChange={(e) => {
+                                            setEmail(e.target.value);
+                                        }}
+                                    />
+                                </TableCell>
+                                <TableCell align="center">
+                                    <TextField
+                                        size="small"
+                                        value={tel}
+                                        onChange={(e) => {
+                                            setTel(e.target.value);
+                                        }}
+                                    />
+                                </TableCell>
+                            </>
+                        ) : (
+                            <TableCell align="center">
+                                <TextField
+                                    size="small"
+                                    value={code}
+                                    onChange={(e) => {
+                                        setCode(e.target.value);
+                                    }}
+                                />
+                            </TableCell>
+                        )}
+                        {isColumn3Open ? (
+                            <>
+                                <TableCell align="center">
+                                    <TextField
+                                        size="small"
+                                        value={bankAcctName}
+                                        onChange={(e) => {
+                                            setBankAcctName(e.target.value);
+                                        }}
+                                    />
+                                </TableCell>
+                                <TableCell align="center">
+                                    <TextField
+                                        size="small"
+                                        value={accountNo}
+                                        onChange={(e) => {
+                                            setAccountNo(e.target.value);
+                                        }}
+                                    />
+                                </TableCell>
+                                <TableCell align="center">
+                                    <TextField
+                                        size="small"
+                                        value={savingAccountNo}
+                                        onChange={(e) => {
+                                            setSavingAccountNo(e.target.value);
+                                        }}
+                                    />
+                                </TableCell>
+                                <TableCell align="center">
+                                    <TextField
+                                        size="small"
+                                        value={sWIFTCode}
+                                        onChange={(e) => {
+                                            setSWIFTCode(e.target.value);
+                                        }}
+                                    />
+                                </TableCell>
+                                <TableCell align="center">
+                                    <TextField
+                                        size="small"
+                                        value={iBAN}
+                                        onChange={(e) => {
+                                            setIBAN(e.target.value);
+                                        }}
+                                    />
+                                </TableCell>
+                                <TableCell align="center">
+                                    <TextField
+                                        size="small"
+                                        value={aCHNo}
+                                        onChange={(e) => {
+                                            setACHNo(e.target.value);
+                                        }}
+                                    />
+                                </TableCell>
+                                <TableCell align="center">
+                                    <TextField
+                                        size="small"
+                                        value={wireRouting}
+                                        onChange={(e) => {
+                                            setWireRouting(e.target.value);
+                                        }}
+                                    />
+                                </TableCell>
+                                <TableCell align="center">
+                                    <TextField
+                                        size="small"
+                                        value={bankName}
+                                        onChange={(e) => {
+                                            setBankName(e.target.value);
+                                        }}
+                                    />
+                                </TableCell>
+                                <TableCell align="center">
+                                    <TextField
+                                        size="small"
+                                        value={branch}
+                                        onChange={(e) => {
+                                            setBranch(e.target.value);
+                                        }}
+                                    />
+                                </TableCell>
+                                <TableCell align="center">
+                                    <TextField
+                                        size="small"
+                                        value={bankAddress}
+                                        onChange={(e) => {
+                                            setBankAddress(e.target.value);
+                                        }}
+                                    />
+                                </TableCell>
+                            </>
+                        ) : (
+                            <TableCell align="center">
+                                <TextField
+                                    size="small"
+                                    value={bankAcctName}
+                                    onChange={(e) => {
+                                        setBankAcctName(e.target.value);
+                                    }}
+                                />
+                            </TableCell>
+                        )}
                     </TableRow>
                 </TableBody>
             </Table>

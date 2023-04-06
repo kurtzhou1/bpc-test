@@ -58,6 +58,7 @@ const DeductedDataList = ({ dataList }) => {
     const [infoTerminal, setInfoTerminal] = useState(false); //作廢
     const [infoBack, setInfoBack] = useState(false); //退回
     const billMasterID = useRef(-1);
+    const submarineCable = useRef('');
     const billDetailInfo = useRef([]);
     const pONo = useRef('');
     const [editItem, setEditItem] = useState();
@@ -76,6 +77,7 @@ const DeductedDataList = ({ dataList }) => {
     const handleDialogOpen = (info) => {
         billMasterID.current = info.BillMasterID;
         pONo.current = info.PONo;
+        submarineCable.current = info.SubmarineCable;
         // billMasterInfo.current = info.BillMaster;
         setIsDialogOpen(true);
     };
@@ -118,6 +120,7 @@ const DeductedDataList = ({ dataList }) => {
                 handleDialogClose={handleDialogClose}
                 billMasterID={billMasterID.current}
                 pONo={pONo.current}
+                submarineCable={submarineCable.current}
             />
             <SignAndUpload isUploadOpen={isUploadOpen} handleUploadClose={handleUploadClose} billMasterID={billMasterID.current} />
             <TableContainer component={Paper} sx={{ maxHeight: 350 }}>
