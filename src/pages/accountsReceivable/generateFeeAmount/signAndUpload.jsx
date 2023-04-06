@@ -39,11 +39,11 @@ import MainCard from 'components/MainCard';
 import { useDispatch } from 'react-redux';
 import { setMessageStateOpen } from 'store/reducers/dropdown';
 
-const SignAndUpload = ({ isUploadOpen, handleUploadClose }) => {
+const SignAndUpload = ({ isUploadOpen, handleUploadClose, billMasterID }) => {
     const dispatch = useDispatch();
     const [uploadFile, setUploadFile] = useState(null);
     const [isUpload, setIsUpload] = useState(false); //是否需攤分
-    const fileTypes = ['PDF', 'WORD', 'PNG'];
+    const fileTypes = ['PDF', 'PNG'];
     const handleUploadChange = (file) => {
         setUploadFile(file);
         if (file.length > 0) {
@@ -52,10 +52,12 @@ const SignAndUpload = ({ isUploadOpen, handleUploadClose }) => {
     };
 
     const handleUploadFile = () => {
+        let tmpApi = uploadFileApi + '/' + billMasterID;
         const pdfData = new FormData();
         pdfData.append('file', uploadFile[0]);
+        console.log('tmpApi=>>', tmpApi);
         // data
-        fetch(uploadFileApi, {
+        fetch(tmpApi, {
             method: 'POST',
             body: pdfData,
             headers: {

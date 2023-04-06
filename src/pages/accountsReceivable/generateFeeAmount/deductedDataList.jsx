@@ -57,7 +57,7 @@ const DeductedDataList = ({ dataList }) => {
     const [isUploadOpen, setIsUploadOpen] = useState(false); //簽核
     const [infoTerminal, setInfoTerminal] = useState(false); //作廢
     const [infoBack, setInfoBack] = useState(false); //退回
-    const billMasterID = useRef('');
+    const billMasterID = useRef(-1);
     const billDetailInfo = useRef([]);
     const pONo = useRef('');
     const [editItem, setEditItem] = useState();
@@ -70,16 +70,7 @@ const DeductedDataList = ({ dataList }) => {
 
     const handleDeductedClose = () => {
         setIsDeductedWorkOpen(false);
-        setEditItem();
-    };
-
-    const handleDialogClose = () => {
-        setIsDialogOpen(false);
-        setEditItem();
-    };
-
-    const handleUploadClose = () => {
-        setIsUploadOpen(false);
+        // setEditItem();
     };
 
     const handleDialogOpen = (info) => {
@@ -87,6 +78,22 @@ const DeductedDataList = ({ dataList }) => {
         pONo.current = info.PONo;
         // billMasterInfo.current = info.BillMaster;
         setIsDialogOpen(true);
+    };
+
+    const handleDialogClose = () => {
+        setIsDialogOpen(false);
+        billMasterID.current = -1;
+        // setEditItem();
+    };
+
+    const handleUploadOpen = (info) => {
+        billMasterID.current = info.BillMasterID;
+        setIsUploadOpen(true);
+    };
+
+    const handleUploadClose = () => {
+        setIsUploadOpen(false);
+        billMasterID.current = -1;
     };
 
     const handleTerminalClose = () => {
@@ -112,7 +119,7 @@ const DeductedDataList = ({ dataList }) => {
                 billMasterID={billMasterID.current}
                 pONo={pONo.current}
             />
-            <SignAndUpload isUploadOpen={isUploadOpen} handleUploadClose={handleUploadClose} />
+            <SignAndUpload isUploadOpen={isUploadOpen} handleUploadClose={handleUploadClose} billMasterID={billMasterID.current} />
             <TableContainer component={Paper} sx={{ maxHeight: 350 }}>
                 <Table sx={{ minWidth: 300 }} stickyHeader aria-label="sticky table">
                     <TableHead>
@@ -179,7 +186,9 @@ const DeductedDataList = ({ dataList }) => {
                                                 size="small"
                                                 variant="outlined"
                                                 onClick={() => {
-                                                    setIsUploadOpen(true);
+                                                    handleUploadOpen({
+                                                        BillMasterID: row.BillMaster.BillMasterID
+                                                    });
                                                 }}
                                             >
                                                 簽核上傳
