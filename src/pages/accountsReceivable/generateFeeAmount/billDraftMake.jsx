@@ -364,8 +364,16 @@ const BillDraftMake = ({ isDialogOpen, handleDialogClose, billMasterID, pONo, su
     console.log('submarineCableName=>>', submarineCableName);
 
     return (
-        <Dialog onClose={handleDialogClose} maxWidth="xl" fullWidth open={isDialogOpen}>
-            <BootstrapDialogTitle id="customized-dialog-title" onClose={handleDialogClose} className="no-print">
+        <Dialog
+            onClose={() => {
+                itemDetailInitial();
+                handleDialogClose();
+            }}
+            maxWidth="xl"
+            fullWidth
+            open={isDialogOpen}
+        >
+            <BootstrapDialogTitle id="customized-dialog-title" className="no-print">
                 產製帳單
             </BootstrapDialogTitle>
             <DialogContent dividers className="no-print">
