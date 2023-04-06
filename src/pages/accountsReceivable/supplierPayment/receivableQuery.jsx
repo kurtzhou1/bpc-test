@@ -42,8 +42,6 @@ const ReceivableQuery = ({ creditBalanceQuery }) => {
                     <FormControl fullWidth size="small">
                         <InputLabel id="demo-simple-select-label">選擇會員</InputLabel>
                         <Select
-                            // labelId="demo-simple-select-label"
-                            // id="demo-simple-select"
                             // value={supplierName}
                             label="會員"
                             onChange={(e) => setSupplierName(e.target.value)}
@@ -63,8 +61,6 @@ const ReceivableQuery = ({ creditBalanceQuery }) => {
                     <FormControl fullWidth size="small">
                         <InputLabel id="demo-simple-select-label">選擇記帳段號</InputLabel>
                         <Select
-                            // labelId="demo-simple-select-label"
-                            // id="demo-simple-select"
                             // value={submarineCable}
                             label="記帳段號"
                             onChange={(e) => setSubmarineCable(e.target.value)}
@@ -84,8 +80,6 @@ const ReceivableQuery = ({ creditBalanceQuery }) => {
                     <FormControl fullWidth size="small">
                         <InputLabel id="demo-simple-select-label">選擇海纜作業</InputLabel>
                         <Select
-                            // labelId="demo-simple-select-label"
-                            // id="demo-simple-select"
                             // value={submarineCable}
                             label="海纜作業"
                             onChange={(e) => setSubmarineCable(e.target.value)}

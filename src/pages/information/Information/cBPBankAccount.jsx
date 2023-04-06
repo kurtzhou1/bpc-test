@@ -315,7 +315,7 @@ const Corporates = ({}) => {
                                         {/* <StyledTableCell align="center">{row.CorpName}</StyledTableCell> */}
                                         <StyledTableCell align="center">{row.SubmarineCable}</StyledTableCell>
                                         <StyledTableCell align="center">{row.WorkTitle}</StyledTableCell>
-                                        <StyledTableCell align="center">{row.BranchAddress}</StyledTableCell>
+                                        <StyledTableCell align="center">{row.Address}</StyledTableCell>
                                         <StyledTableCell align="center">{row.BankAcctName}</StyledTableCell>
                                         <StyledTableCell align="center">{row.BankAcctNo}</StyledTableCell>
                                         <StyledTableCell align="center">{row.SavingAcctNo}</StyledTableCell>

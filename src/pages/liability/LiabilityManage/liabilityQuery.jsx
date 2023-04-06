@@ -113,13 +113,7 @@ const LiabilityQuery = ({ setListInfo, bmStoneList, partyList, subCableList, wor
                 <Grid item xs={4} sm={4} md={2} lg={2} xl={2}>
                     <FormControl fullWidth size="small">
                         <InputLabel id="demo-simple-select-label">選擇記帳段號</InputLabel>
-                        <Select
-                            // labelId="demo-simple-select-label"
-                            // id="demo-simple-select"
-                            value={billMilestoneQuery}
-                            label="記帳段號"
-                            onChange={(e) => setBillMilestoneQuery(e.target.value)}
-                        >
+                        <Select value={billMilestoneQuery} label="記帳段號" onChange={(e) => setBillMilestoneQuery(e.target.value)}>
                             {bmStoneList?.map((i) => (
                                 <MenuItem key={i} value={i}>
                                     {i}
@@ -136,13 +130,7 @@ const LiabilityQuery = ({ setListInfo, bmStoneList, partyList, subCableList, wor
                 <Grid item xs={4} sm={4} md={2} lg={2} xl={2}>
                     <FormControl fullWidth size="small">
                         <InputLabel id="demo-simple-select-label">選擇會員</InputLabel>
-                        <Select
-                            // labelId="demo-simple-select-label"
-                            // id="demo-simple-select"
-                            value={partyNameQuery}
-                            label="會員代號"
-                            onChange={(e) => setPartyNameQuery(e.target.value)}
-                        >
+                        <Select value={partyNameQuery} label="會員代號" onChange={(e) => setPartyNameQuery(e.target.value)}>
                             {partyList.map((i) => (
                                 <MenuItem key={i} value={i}>
                                     {i}
@@ -210,14 +198,7 @@ const LiabilityQuery = ({ setListInfo, bmStoneList, partyList, subCableList, wor
                         <InputLabel size="small" id="billMilestone">
                             選擇海纜作業
                         </InputLabel>
-                        <Select
-                            // labelId="demo-simple-select-label"
-                            // id="demo-simple-select"
-                            size="small"
-                            value={workTitle}
-                            label="填寫海纜作業"
-                            onChange={(e) => setWorkTitle(e.target.value)}
-                        >
+                        <Select size="small" value={workTitle} label="填寫海纜作業" onChange={(e) => setWorkTitle(e.target.value)}>
                             {workTitleList.map((i) => (
                                 <MenuItem key={i} value={i}>
                                     {i}

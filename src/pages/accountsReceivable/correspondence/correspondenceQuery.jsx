@@ -41,8 +41,6 @@ const CorrespondenceQuery = ({ correspondenceQuery }) => {
                     <FormControl fullWidth size="small">
                         <InputLabel id="demo-simple-select-label">選擇會員</InputLabel>
                         <Select
-                            // labelId="demo-simple-select-label"
-                            // id="demo-simple-select"
                             // value={supplierName}
                             label="會員"
                             onChange={(e) => setSupplierName(e.target.value)}
@@ -62,8 +60,6 @@ const CorrespondenceQuery = ({ correspondenceQuery }) => {
                     <FormControl fullWidth size="small">
                         <InputLabel id="demo-simple-select-label">選擇CB種類</InputLabel>
                         <Select
-                            // labelId="demo-simple-select-label"
-                            // id="demo-simple-select"
                             // value={submarineCable}
                             label="發票供應商"
                             onChange={(e) => setSubmarineCable(e.target.value)}
@@ -83,8 +79,6 @@ const CorrespondenceQuery = ({ correspondenceQuery }) => {
                     <FormControl fullWidth size="small">
                         <InputLabel id="demo-simple-select-label">選擇海纜名稱</InputLabel>
                         <Select
-                            // labelId="demo-simple-select-label"
-                            // id="demo-simple-select"
                             // value={submarineCable}
                             label="海纜名稱"
                             onChange={(e) => setSubmarineCable(e.target.value)}
@@ -104,8 +98,6 @@ const CorrespondenceQuery = ({ correspondenceQuery }) => {
                     <FormControl fullWidth size="small">
                         <InputLabel id="demo-simple-select-label">選擇海纜作業</InputLabel>
                         <Select
-                            // labelId="demo-simple-select-label"
-                            // id="demo-simple-select"
                             // value={submarineCable}
                             label="海纜作業"
                             onChange={(e) => setSubmarineCable(e.target.value)}

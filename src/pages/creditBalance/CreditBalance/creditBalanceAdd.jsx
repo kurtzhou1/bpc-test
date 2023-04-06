@@ -115,13 +115,7 @@ const CreditBalanceAdd = ({ handleDialogClose, isDialogOpen, billMilestone, part
                     <Grid item xs={3} sm={3} md={3} lg={3}>
                         <FormControl fullWidth size="small">
                             <InputLabel id="demo-simple-select-label">選擇CB種類</InputLabel>
-                            <Select
-                                // labelId="demo-simple-select-label"
-                                // id="demo-simple-select"
-                                value={cBType}
-                                label="填寫海纜作業"
-                                onChange={(e) => setCBType(e.target.value)}
-                            >
+                            <Select value={cBType} label="填寫海纜作業" onChange={(e) => setCBType(e.target.value)}>
                                 {/* <MenuItem value={'一般'}>一般</MenuItem> */}
                                 <MenuItem value={'MWG'}>MWG</MenuItem>
                                 <MenuItem value={'重溢繳'}>重溢繳</MenuItem>
@@ -154,13 +148,7 @@ const CreditBalanceAdd = ({ handleDialogClose, isDialogOpen, billMilestone, part
                     <Grid item xs={3} sm={3} md={3} lg={3}>
                         <FormControl fullWidth size="small">
                             <InputLabel id="demo-simple-select-label">選擇會員</InputLabel>
-                            <Select
-                                // labelId="demo-simple-select-label"
-                                // id="demo-simple-select"
-                                value={partyName}
-                                label="會員"
-                                onChange={(e) => setPartyName(e.target.value)}
-                            >
+                            <Select value={partyName} label="會員" onChange={(e) => setPartyName(e.target.value)}>
                                 {partiesList.map((i) => (
                                     <MenuItem value={i.PartyName}>{i.PartyName}</MenuItem>
                                 ))}
@@ -224,13 +212,7 @@ const CreditBalanceAdd = ({ handleDialogClose, isDialogOpen, billMilestone, part
                     <Grid item xs={3} sm={3} md={3} lg={3}>
                         <FormControl fullWidth size="small">
                             <InputLabel id="demo-simple-select-label">選擇海纜名稱</InputLabel>
-                            <Select
-                                // labelId="demo-simple-select-label"
-                                // id="demo-simple-select"
-                                value={submarineCable}
-                                label="海纜名稱"
-                                onChange={(e) => setSubmarineCable(e.target.value)}
-                            >
+                            <Select value={submarineCable} label="海纜名稱" onChange={(e) => setSubmarineCable(e.target.value)}>
                                 {subCableList.map((i) => (
                                     <MenuItem key={i.CableName} value={i.CableName}>
                                         {i.CableName}

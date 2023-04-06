@@ -53,6 +53,39 @@ const InvoiceWorkManage = ({
                 {/* row1 */}
                 <Grid item xs={12} sm={6} md={3} lg={2}>
                     <Typography variant="h5" sx={{ fontSize: { lg: '0.5rem', xl: '0.88rem' }, ml: { lg: '0.5rem', xl: '1.5rem' } }}>
+                        {t('Submarine Cable')}：
+                    </Typography>
+                </Grid>
+                <Grid item xs={12} sm={6} md={3} lg={4}>
+                    <FormControl fullWidth size="small">
+                        <InputLabel id="demo-simple-select-label">選擇海纜</InputLabel>
+                        <Select value={submarineCable} label="發票供應商" onChange={(e) => setSubmarineCable(e.target.value)}>
+                            {subCableList.map((i) => (
+                                <MenuItem key={i.CableName} value={i.CableName}>
+                                    {i.CableName}
+                                </MenuItem>
+                            ))}
+                        </Select>
+                    </FormControl>
+                </Grid>
+                <Grid item xs={12} sm={6} md={3} lg={2}>
+                    <Typography variant="h5" sx={{ fontSize: { lg: '0.5rem', xl: '0.88rem' }, ml: { lg: '0.5rem', xl: '1.5rem' } }}>
+                        {t('Work Title')}：
+                    </Typography>
+                </Grid>
+                <Grid item xs={12} sm={6} md={3} lg={4}>
+                    <FormControl fullWidth size="small">
+                        <InputLabel id="demo-simple-select-label">選擇海纜作業</InputLabel>
+                        <Select value={workTitle} label="填寫海纜作業" onChange={(e) => setWorkTitle(e.target.value)}>
+                            <MenuItem value={'Construction'}>Construction</MenuItem>
+                            <MenuItem value={'Upgrade'}>Upgrade</MenuItem>
+                            <MenuItem value={'O&M'}>O&M</MenuItem>
+                        </Select>
+                    </FormControl>
+                </Grid>
+                {/* row2 */}
+                <Grid item xs={12} sm={6} md={3} lg={2}>
+                    <Typography variant="h5" sx={{ fontSize: { lg: '0.5rem', xl: '0.88rem' }, ml: { lg: '0.5rem', xl: '1.5rem' } }}>
                         {/* 供應商： */}
                         {t('Supplier Name')}：
                     </Typography>
@@ -60,13 +93,7 @@ const InvoiceWorkManage = ({
                 <Grid item xs={12} sm={6} md={3} lg={4}>
                     <FormControl fullWidth size="small">
                         <InputLabel id="demo-simple-select-label">選擇供應商</InputLabel>
-                        <Select
-                            // labelId="demo-simple-select-label"
-                            // id="demo-simple-select"
-                            value={supplierName}
-                            label="發票供應商"
-                            onChange={(e) => setSupplierName(e.target.value)}
-                        >
+                        <Select value={supplierName} label="發票供應商" onChange={(e) => setSupplierName(e.target.value)}>
                             {supNmList.map((i) => (
                                 <MenuItem key={i.SupplierName} value={i.SupplierName}>
                                     {i.SupplierName}
@@ -90,51 +117,6 @@ const InvoiceWorkManage = ({
                         onChange={(e) => setInvoiceNo(e.target.value)}
                     />
                 </Grid>
-                {/* row2 */}
-                <Grid item xs={12} sm={6} md={3} lg={2}>
-                    <Typography variant="h5" sx={{ fontSize: { lg: '0.5rem', xl: '0.88rem' }, ml: { lg: '0.5rem', xl: '1.5rem' } }}>
-                        {t('Submarine Cable')}：
-                    </Typography>
-                </Grid>
-                <Grid item xs={12} sm={6} md={3} lg={4}>
-                    <FormControl fullWidth size="small">
-                        <InputLabel id="demo-simple-select-label">選擇海纜</InputLabel>
-                        <Select
-                            // labelId="demo-simple-select-label"
-                            // id="demo-simple-select"
-                            value={submarineCable}
-                            label="發票供應商"
-                            onChange={(e) => setSubmarineCable(e.target.value)}
-                        >
-                            {subCableList.map((i) => (
-                                <MenuItem key={i.CableName} value={i.CableName}>
-                                    {i.CableName}
-                                </MenuItem>
-                            ))}
-                        </Select>
-                    </FormControl>
-                </Grid>
-                <Grid item xs={12} sm={6} md={3} lg={2}>
-                    <Typography variant="h5" sx={{ fontSize: { lg: '0.5rem', xl: '0.88rem' }, ml: { lg: '0.5rem', xl: '1.5rem' } }}>
-                        {t('Work Title')}：
-                    </Typography>
-                </Grid>
-                <Grid item xs={12} sm={6} md={3} lg={4}>
-                    <FormControl fullWidth size="small">
-                        <InputLabel id="demo-simple-select-label">選擇海纜作業</InputLabel>
-                        <Select
-                            // labelId="demo-simple-select-label"
-                            // id="demo-simple-select"
-                            value={workTitle}
-                            label="填寫海纜作業"
-                            onChange={(e) => setWorkTitle(e.target.value)}
-                        >
-                            <MenuItem value={'Construction'}>Construction</MenuItem>
-                            <MenuItem value={'Upgrade'}>Upgrade</MenuItem>
-                            <MenuItem value={'O&M'}>O&M</MenuItem>
-                        </Select>
-                    </FormControl>
-                </Grid>
                 {/* row3 */}
                 <Grid item xs={12} sm={6} md={3} lg={2}>
                     <Typography variant="h5" sx={{ fontSize: { lg: '0.5rem', xl: '0.88rem' }, ml: { lg: '0.5rem', xl: '1.5rem' } }}>
@@ -144,13 +126,7 @@ const InvoiceWorkManage = ({
                 <Grid item xs={12} sm={6} md={3} lg={4}>
                     <FormControl fullWidth size="small">
                         <InputLabel id="demo-simple-select-label">選擇合約種類</InputLabel>
-                        <Select
-                            // labelId="demo-simple-select-label"
-                            // id="demo-simple-select"
-                            value={contractType}
-                            label="發票供應商"
-                            onChange={(e) => setContractType(e.target.value)}
-                        >
+                        <Select value={contractType} label="發票供應商" onChange={(e) => setContractType(e.target.value)}>
                             <MenuItem value={'SC'}>SC</MenuItem>
                             <MenuItem value={'NSC'}>NSC</MenuItem>
                         </Select>

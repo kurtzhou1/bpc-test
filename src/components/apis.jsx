@@ -1,6 +1,7 @@
 // 共通的下拉選單
 export const submarineCableList = 'http://10.193.130.7:8000/api/v1/SubmarineCables/all'; // 海纜名稱
-export const supplierNameList = 'http://10.193.130.7:8000/api/v1/Suppliers/all';
+export const supplierNameListForInvoice = 'http://10.193.130.7:8000/api/v1/Suppliers/'; //供應商
+export const supplierNameList = 'http://10.193.130.7:8000/api/v1/Suppliers/all'; //供應商
 export const getPartiesInfoList = 'http://10.193.130.7:8000/api/v1/Parties/all'; // 會員名稱
 export const billMilestoneLiabilityList = 'http://10.193.130.7:8000/api/v1/dropdownmenuBillMilestone'; //記帳段號
 

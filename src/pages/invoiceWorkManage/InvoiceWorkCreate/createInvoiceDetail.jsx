@@ -114,14 +114,7 @@ const CreateInvoiceDetail = ({
                         <InputLabel size="small" id="billMilestone">
                             選擇記帳段號
                         </InputLabel>
-                        <Select
-                            // labelId="demo-simple-select-label"
-                            // id="demo-simple-select"
-                            value={billMilestone}
-                            label="記帳段號"
-                            size="small"
-                            onChange={(e) => setBillMilestone(e.target.value)}
-                        >
+                        <Select value={billMilestone} label="記帳段號" size="small" onChange={(e) => setBillMilestone(e.target.value)}>
                             {bmStoneList.map((i) => (
                                 <MenuItem key={i} value={i}>
                                     {i}

@@ -376,7 +376,6 @@ const InvoiceWorkManage = () => {
                                     setIsRecharge={setIsRecharge}
                                     partyName={partyName}
                                     setPartyName={setPartyName}
-                                    supNmList={supNmList}
                                     subCableList={subCableList}
                                     action={action}
                                 />

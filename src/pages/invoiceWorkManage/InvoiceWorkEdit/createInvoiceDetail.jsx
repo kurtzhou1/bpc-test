@@ -112,8 +112,6 @@ const CreateInvoiceDetail = ({
                             選擇記帳段號
                         </InputLabel>
                         <Select
-                            // labelId="demo-simple-select-label"
-                            // id="demo-simple-select"
                             value={billMilestone}
                             disabled={action === 'View'}
                             label="發票供應商"

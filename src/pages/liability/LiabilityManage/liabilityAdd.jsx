@@ -233,8 +233,6 @@ const LiabilityAdd = ({
                                 選擇海纜名稱
                             </InputLabel>
                             <Select
-                                // labelId="demo-simple-select-label"
-                                // id="demo-simple-select"
                                 disabled={dialogAction === 'Edit' || dialogAction === 'Split'}
                                 size="small"
                                 value={submarineCable}
@@ -260,8 +258,6 @@ const LiabilityAdd = ({
                                 選擇海纜作業
                             </InputLabel>
                             <Select
-                                // labelId="demo-simple-select-label"
-                                // id="demo-simple-select"
                                 disabled={dialogAction === 'Edit' || dialogAction === 'Split'}
                                 size="small"
                                 value={workTitle}

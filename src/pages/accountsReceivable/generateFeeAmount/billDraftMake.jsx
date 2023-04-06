@@ -272,37 +272,37 @@ const BillDraftMake = ({ isDialogOpen, handleDialogClose, billMasterID, pONo }) 
         window.print();
     };
 
-    useEffect(() => {
-        let tmpAmount = 0;
-        let tmpData = {
-            BillMasterID: billMasterID,
-            UserID: 'chang_ty'
-        };
-        fetch(generateBillData, { method: 'POST', body: JSON.stringify(tmpData) })
-            .then((res) => res.json())
-            .then((data) => {
-                console.log('data抓取成功=>>', data);
-                setDataList(data);
-                setPartyInfo(data.PartyInformation);
-                setSubmarineCableInfo(data.CorporateInformation);
-                setContactInfo(data.ContactWindowAndSupervisorInformation);
-                setDetailInfo(data.DetailInformation);
-                data.DetailInformation.forEach((i) => {
-                    tmpAmount = tmpAmount + i.YourShare;
-                });
-                totalAmount.current = tmpAmount;
-            })
-            .catch((e) => console.log('e1=>', e));
-        fetch(contactUser, { method: 'GET' })
-            .then((res) => res.json())
-            .then((data) => {
-                console.log('user data=>>', data);
-                if (Array.isArray(data)) {
-                    setContactList(data);
-                }
-            })
-            .catch((e) => console.log('e1=>', e));
-    }, [billMasterID]);
+    // useEffect(() => {
+    //     let tmpAmount = 0;
+    //     let tmpData = {
+    //         BillMasterID: billMasterID,
+    //         UserID: 'chang_ty'
+    //     };
+    //     fetch(generateBillData, { method: 'POST', body: JSON.stringify(tmpData) })
+    //         .then((res) => res.json())
+    //         .then((data) => {
+    //             console.log('data抓取成功=>>', data);
+    //             setDataList(data);
+    //             setPartyInfo(data.PartyInformation);
+    //             setSubmarineCableInfo(data.CorporateInformation);
+    //             setContactInfo(data.ContactWindowAndSupervisorInformation);
+    //             setDetailInfo(data.DetailInformation);
+    //             data.DetailInformation.forEach((i) => {
+    //                 tmpAmount = tmpAmount + i.YourShare;
+    //             });
+    //             totalAmount.current = tmpAmount;
+    //         })
+    //         .catch((e) => console.log('e1=>', e));
+    //     fetch(contactUser, { method: 'GET' })
+    //         .then((res) => res.json())
+    //         .then((data) => {
+    //             console.log('user data=>>', data);
+    //             if (Array.isArray(data)) {
+    //                 setContactList(data);
+    //             }
+    //         })
+    //         .catch((e) => console.log('e1=>', e));
+    // }, [billMasterID]);
     useEffect(() => {
         let arrayFiliter = [];
         if (contact.length > 0) {

@@ -15,7 +15,7 @@ import InvoiceDataList from './invoiceDataList';
 import { TextField } from '@mui/material/index';
 
 // api
-import { supplierNameList, submarineCableList, billMilestoneList, generateInvoice } from 'components/apis.jsx';
+import { supplierNameListForInvoice, submarineCableList, billMilestoneList, generateInvoice } from 'components/apis.jsx';
 import { handleNumber } from 'components/commonFunction';
 
 // redux
@@ -240,22 +240,30 @@ const InvoiceWorkManage = () => {
     useEffect(() => {
         if (workTitle && submarineCable) {
             let bmApi = billMilestoneList + 'SubmarineCable=' + submarineCable + '&WorkTitle=' + workTitle;
+            let snApi = supplierNameListForInvoice + 'SubmarineCable=' + submarineCable + '&WorkTitle=' + workTitle;
             fetch(bmApi, { method: 'GET' })
                 .then((res) => res.json())
                 .then((data) => {
                     setBmStoneList(data);
                 })
                 .catch((e) => console.log('e1=>', e));
+            fetch(snApi, { method: 'GET' })
+                .then((res) => res.json())
+                .then((data) => {
+                    setSupNmList(data);
+                })
+                .catch((e) => console.log('e1=>', e));
         }
     }, [workTitle, submarineCable]);
 
     useEffect(() => {
-        fetch(supplierNameList, { method: 'GET' })
-            .then((res) => res.json())
-            .then((data) => {
-                setSupNmList(data);
-            })
-            .catch((e) => console.log('e1=>', e));
+        // 供應商
+        // fetch(supplierNameList, { method: 'GET' })
+        //     .then((res) => res.json())
+        //     .then((data) => {
+        //         setSupNmList(data);
+        //     })
+        //     .catch((e) => console.log('e1=>', e));
         fetch(submarineCableList, { method: 'GET' })
             .then((res) => res.json())
             .then((data) => {
