@@ -120,7 +120,7 @@ const DeductedDataList = ({ dataList }) => {
                 handleDialogClose={handleDialogClose}
                 billMasterID={billMasterID.current}
                 pONo={pONo.current}
-                submarineCable={submarineCable.current}
+                submarineCableName={submarineCable.current}
             />
             <SignAndUpload isUploadOpen={isUploadOpen} handleUploadClose={handleUploadClose} billMasterID={billMasterID.current} />
             <TableContainer component={Paper} sx={{ maxHeight: 350 }}>

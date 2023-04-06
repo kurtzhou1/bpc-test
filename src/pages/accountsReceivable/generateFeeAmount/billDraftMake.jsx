@@ -244,7 +244,7 @@ const fakeData2 = [
     }
 ];
 
-const BillDraftMake = ({ isDialogOpen, handleDialogClose, billMasterID, pONo, submarineCable }) => {
+const BillDraftMake = ({ isDialogOpen, handleDialogClose, billMasterID, pONo, submarineCableName }) => {
     const [dataList, setDataList] = useState([]);
     const [contact, setContact] = useState('chang_ty');
     const [contactList, setContactList] = useState(fakeData2);
@@ -295,7 +295,7 @@ const BillDraftMake = ({ isDialogOpen, handleDialogClose, billMasterID, pONo, su
             .then((blob) => {
                 const link = document.createElement('a');
                 link.href = window.URL.createObjectURL(blob);
-                link.download = `${{ submarineCable }} Cable Network ${subject1} Central Billing Party.docx`;
+                link.download = `${submarineCableName} Cable Network ${subject1} Central Billing Party.docx`;
                 link.click();
             })
             .catch((e) => console.log('e1=>', e));
@@ -359,6 +359,8 @@ const BillDraftMake = ({ isDialogOpen, handleDialogClose, billMasterID, pONo, su
         });
         totalAmount.current = tmpAmount;
     }, [datailInfo]);
+
+    console.log('submarineCableName=>>', submarineCableName);
 
     return (
         <Dialog onClose={handleDialogClose} maxWidth="xl" fullWidth open={isDialogOpen}>
@@ -524,7 +526,7 @@ const BillDraftMake = ({ isDialogOpen, handleDialogClose, billMasterID, pONo, su
                                     fontWeight: 'bold'
                                 }}
                             >
-                                {submarineCable} Cable Network {subject1} Central Billing Party
+                                {submarineCableName} Cable Network {subject1} Central Billing Party
                             </Box>
                             {/* <Box
                                 sx={{
@@ -558,7 +560,7 @@ const BillDraftMake = ({ isDialogOpen, handleDialogClose, billMasterID, pONo, su
                                 </Box>
                             </Box>
                             <Box sx={{ fontSize: '12px', m: 1, display: 'flex', justifyContent: 'space-between' }}>
-                                <Box>{pONo?.length > 0 ? `PO No. ${pONo}` : 0}</Box>
+                                <Box>{pONo?.length > 0 ? `PO No. ${pONo}` : ''}</Box>
                                 <Box>(Currency：USD)</Box>
                             </Box>
                             <Box>
