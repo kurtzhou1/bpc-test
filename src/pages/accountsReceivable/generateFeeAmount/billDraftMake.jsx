@@ -50,7 +50,8 @@ import { styled } from '@mui/material/styles';
 import './styles.css';
 
 import { generateBillData, contactUser } from 'components/apis.jsx';
-import Logo from 'assets/images/logo.png';
+import Logo1 from 'assets/images/logo1.png';
+import Logo2 from 'assets/images/logo2.gif';
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
     [`&.${tableCellClasses.head}`]: {
@@ -369,7 +370,7 @@ const BillDraftMake = ({ isDialogOpen, handleDialogClose, billMasterID, pONo, su
             </BootstrapDialogTitle>
             <DialogContent dividers className="no-print">
                 <Grid container spacing={1} className="no-print">
-                    <Grid item xs={5} sm={5} md={5} lg={5}>
+                    <Grid item xs={6} sm={6} md={6} lg={6}>
                         <MainCard title="聯絡窗口及主管資訊" sx={{ width: '100%' }}>
                             <Grid container spacing={1}>
                                 <Grid item xs={2} sm={2} md={2} lg={2} display="flex" justifyContent="center" alignItems="center">
@@ -495,7 +496,7 @@ const BillDraftMake = ({ isDialogOpen, handleDialogClose, billMasterID, pONo, su
                         </MainCard>
                     </Grid>
                     {/* 表單開始 */}
-                    <Grid item xs={7} sm={7} md={7} lg={7}>
+                    <Grid item xs={6} sm={6} md={6} lg={6}>
                         <Typography sx={{ fontFamily: 'Microsoft JhengHei,Arial' }}>
                             <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
                                 <Box sx={{ m: 1, width: '50%' }}>
@@ -503,10 +504,10 @@ const BillDraftMake = ({ isDialogOpen, handleDialogClose, billMasterID, pONo, su
                                         <Box
                                             component="img"
                                             sx={{
-                                                width: '10rem',
+                                                width: '15rem',
                                                 height: 'auto'
                                             }}
-                                            src={Logo}
+                                            src={logo === 1 ? Logo1 : Logo2}
                                         />
                                     </Box>
                                 </Box>
@@ -673,8 +674,7 @@ const BillDraftMake = ({ isDialogOpen, handleDialogClose, billMasterID, pONo, su
                 </Button>
             </DialogActions>
             {/* 列印開始 */}
-            <Grid container spacing={1} className="no-show">
-                {/* <Grid container spacing={1}> */}
+            {/* <Grid container spacing={1} className="no-show">
                 <Grid item xs={12} sm={12} md={12} lg={12}>
                     <Typography sx={{ fontFamily: 'Microsoft JhengHei,Arial', lineHeight: '1.2' }}>
                         <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
@@ -708,7 +708,7 @@ const BillDraftMake = ({ isDialogOpen, handleDialogClose, billMasterID, pONo, su
                         >
                             {subject1}
                         </Box>
-                        {/* <Box
+                        <Box
                             sx={{
                                 fontSize: subject2.length <= 50 ? '26px' : '23px',
                                 mt: 1,
@@ -718,7 +718,7 @@ const BillDraftMake = ({ isDialogOpen, handleDialogClose, billMasterID, pONo, su
                             }}
                         >
                             {subject2}
-                        </Box> */}
+                        </Box>
                         <Box sx={{ fontSize: '30px', m: 1, textAlign: 'center', fontWeight: 'bold' }}>{subject3}</Box>
                         <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
                             <Box sx={{ m: 1, minWidth: '40%', with: '40%', fontSize: '14px' }}>
@@ -829,7 +829,7 @@ const BillDraftMake = ({ isDialogOpen, handleDialogClose, billMasterID, pONo, su
                         </Box>
                     </Typography>
                 </Grid>
-            </Grid>
+            </Grid> */}
         </Dialog>
     );
 };
