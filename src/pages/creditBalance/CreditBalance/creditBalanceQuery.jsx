@@ -29,7 +29,7 @@ import { queryCB } from 'components/apis.jsx';
 
 // ==============================|| SAMPLE PAGE ||============================== //
 
-const CreditBalanceQuery = ({ setListInfo, partiesList, subCableList }) => {
+const CreditBalanceQuery = ({ setListInfo, partiesList, subCableList, queryApi }) => {
     const [partyName, setPartyName] = useState(''); //會員代號
     const [cBType, setCBType] = useState(''); //CB種類
     const [submarineCable, setSubmarineCable] = useState(''); //海纜名稱
@@ -76,8 +76,8 @@ const CreditBalanceQuery = ({ setListInfo, partiesList, subCableList }) => {
         }
 
         tmpQuery = queryCB + tmpQuery;
-        // queryApi.current = tmpQuery;
         console.log('tmpQuery=>>', tmpQuery);
+        queryApi.current = tmpQuery;
         fetch(tmpQuery, { method: 'GET' })
             .then((res) => res.json())
             .then((data) => {

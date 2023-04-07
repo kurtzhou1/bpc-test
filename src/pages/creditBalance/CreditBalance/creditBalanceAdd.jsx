@@ -39,8 +39,7 @@ import { styled } from '@mui/material/styles';
 // api
 import { queryCB } from 'components/apis.jsx';
 
-const CreditBalanceAdd = ({ handleDialogClose, isDialogOpen, billMilestone, partiesList, subCableList }) => {
-    const [listInfo, setListInfo] = useState([]);
+const CreditBalanceAdd = ({ handleDialogClose, isDialogOpen, billMilestone, partiesList, subCableList, queryApi, setListInfo }) => {
     const [cBType, setCBType] = useState(''); // CB種類
     const [partyName, setPartyName] = useState(''); //會員代號
     const [currAmount, setCurrAmount] = useState(0); // 剩餘金額
@@ -49,9 +48,6 @@ const CreditBalanceAdd = ({ handleDialogClose, isDialogOpen, billMilestone, part
     const [billingNo, setBillingNo] = useState(''); // 帳單號碼
     const [submarineCable, setSubmarineCable] = useState(''); // 海纜名稱
     const [workTitle, setWorkTitle] = useState(''); // 海纜作業
-
-    // const icon = <CheckBoxOutlineBlankIcon fontSize="small" />;
-    // const checkedIcon = <CheckBoxIcon fontSize="small" />;
 
     const infoInitial = () => {
         setCBType('');
@@ -62,6 +58,17 @@ const CreditBalanceAdd = ({ handleDialogClose, isDialogOpen, billMilestone, part
         setBillingNo('');
         setSubmarineCable('');
         setWorkTitle('');
+    };
+
+    const creditBalanceQuery = () => {
+        fetch(queryApi, { method: 'GET' })
+            .then((res) => res.json())
+            .then((data) => {
+                if (Array.isArray(data)) {
+                    setListInfo(data);
+                }
+            })
+            .catch((e) => console.log('e1=>', e));
     };
 
     const addCB = () => {
@@ -82,6 +89,7 @@ const CreditBalanceAdd = ({ handleDialogClose, isDialogOpen, billMilestone, part
                 alert('送出Credit Balance成功');
                 handleDialogClose();
                 infoInitial();
+                creditBalanceQuery();
             })
             .catch((e) => console.log('e1=>', e));
     };
@@ -122,7 +130,6 @@ const CreditBalanceAdd = ({ handleDialogClose, isDialogOpen, billMilestone, part
                         <FormControl fullWidth size="small">
                             <InputLabel id="demo-simple-select-label">選擇CB種類</InputLabel>
                             <Select value={cBType} label="填寫海纜作業" onChange={(e) => setCBType(e.target.value)}>
-                                {/* <MenuItem value={'一般'}>一般</MenuItem> */}
                                 <MenuItem value={'MWG'}>MWG</MenuItem>
                                 <MenuItem value={'重溢繳'}>重溢繳</MenuItem>
                                 <MenuItem value={'賠償'}>賠償</MenuItem>
@@ -217,7 +224,7 @@ const CreditBalanceAdd = ({ handleDialogClose, isDialogOpen, billMilestone, part
                     </Grid>
                     <Grid item xs={3} sm={3} md={3} lg={3}>
                         <FormControl fullWidth size="small">
-                            <InputLabel id="demo-simple-select-label">選擇海纜名稱</InputLabel>
+                            <InputLabel>選擇海纜名稱</InputLabel>
                             <Select value={submarineCable} label="海纜名稱" onChange={(e) => setSubmarineCable(e.target.value)}>
                                 {subCableList.map((i) => (
                                     <MenuItem key={i.CableName} value={i.CableName}>
@@ -233,14 +240,14 @@ const CreditBalanceAdd = ({ handleDialogClose, isDialogOpen, billMilestone, part
                         </Typography>
                     </Grid>
                     <Grid item xs={3} sm={3} md={3} lg={3}>
-                        <TextField
-                            fullWidth
-                            variant="outlined"
-                            value={workTitle}
-                            size="small"
-                            label="填寫海纜作業"
-                            onChange={(e) => setWorkTitle(e.target.value)}
-                        />
+                        <FormControl fullWidth size="small">
+                            <InputLabel id="billMilestone">選擇海纜作業</InputLabel>
+                            <Select value={workTitle} label="海纜作業" onChange={(e) => setWorkTitle(e.target.value)}>
+                                <MenuItem value={'Construction'}>Construction</MenuItem>
+                                <MenuItem value={'Upgrade'}>Upgrade</MenuItem>
+                                <MenuItem value={'O&M'}>O&M</MenuItem>
+                            </Select>
+                        </FormControl>
                     </Grid>
                 </Grid>
             </DialogContent>

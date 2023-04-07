@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { Grid, Button, IconButton } from '@mui/material';
 // import { styled } from '@mui/material/styles';
 
@@ -31,7 +31,7 @@ const CreditBalance = () => {
     ];
 
     const { partiesList, subCableList } = useSelector((state) => state.dropdown); //供應商下拉選單 + 海纜名稱下拉選單
-
+    const queryApi = useRef('');
     const [listInfo, setListInfo] = useState(fakeData);
     const [isDialogOpen, setIsDialogOpen] = useState(false);
     const [dialogAction, setDialogAction] = useState('');
@@ -126,10 +126,12 @@ const CreditBalance = () => {
                     billMilestone={billMilestone}
                     partiesList={partiesList}
                     subCableList={subCableList}
+                    queryApi={queryApi.current}
+                    setListInfo={setListInfo}
                 />
             </Grid>
             <Grid item xs={12}>
-                <CreditBalanceQuery setListInfo={setListInfo} partiesList={partiesList} subCableList={subCableList} />
+                <CreditBalanceQuery setListInfo={setListInfo} partiesList={partiesList} subCableList={subCableList} queryApi={queryApi} />
             </Grid>
             <Grid item xs={12}>
                 <MainCard title="Credit Balance資料列表">
