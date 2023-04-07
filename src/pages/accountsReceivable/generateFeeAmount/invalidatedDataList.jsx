@@ -90,7 +90,7 @@ const InvalidatedDataList = ({ dataList }) => {
                                     <StyledTableCell align="center">處理狀態</StyledTableCell>
                                 </TableRow>
                             </TableHead>
-                            <TableBody>
+                            {/* <TableBody>
                                 {toBillDataInfo.map((row, id) => {
                                     let afterDiff = row.FeeAmountPost + row.Difference;
                                     return (
@@ -119,18 +119,15 @@ const InvalidatedDataList = ({ dataList }) => {
                                         </TableRow>
                                     );
                                 })}
-                            </TableBody>
+                            </TableBody> */}
                         </Table>
                     </TableContainer>
-                    <DialogContentText sx={{ fontSize: '20px', mt: '0.5rem' }}>發票總金額：${handleNumber(totalAmount)}</DialogContentText>
+                    {/* <DialogContentText sx={{ fontSize: '20px', mt: '0.5rem' }}>發票總金額：${handleNumber(totalAmount)}</DialogContentText>
                     <DialogContentText sx={{ fontSize: '20px', color: '#CC0000' }}>
                         目前金額：${handleNumber(currentAmount)}
-                    </DialogContentText>
+                    </DialogContentText> */}
                 </DialogContent>
                 <DialogActions>
-                    {/* <Button sx={{ mr: '0.05rem' }} variant="contained" onClick={sendJounaryInfo}>
-                        新增
-                    </Button> */}
                     <Button sx={{ mr: '0.05rem' }} variant="contained" onClick={handleDialogClose}>
                         取消
                     </Button>
@@ -142,35 +139,32 @@ const InvalidatedDataList = ({ dataList }) => {
                         <TableRow>
                             <StyledTableCell align="center">NO</StyledTableCell>
                             <StyledTableCell align="center">會員</StyledTableCell>
+                            <StyledTableCell align="center">海纜名稱</StyledTableCell>
+                            <StyledTableCell align="center">海纜作業</StyledTableCell>
                             <StyledTableCell align="center">發票代碼</StyledTableCell>
                             <StyledTableCell align="center">供應商</StyledTableCell>
-                            <StyledTableCell align="center">海纜名稱</StyledTableCell>
-                            <StyledTableCell align="center">合約種類</StyledTableCell>
                             <StyledTableCell align="center">發票日期</StyledTableCell>
                             <StyledTableCell align="center">明細數量</StyledTableCell>
                             <StyledTableCell align="center">總價</StyledTableCell>
-                            {/* <StyledTableCell align="center">處理狀態</Styled。TableCell> */}
                             <StyledTableCell align="center">Action</StyledTableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>
                         {toBillDataInfo?.map((row, id) => {
-                            console.log('row=>>', row);
                             return (
                                 <TableRow
                                     key={row.InvoiceWKMaster?.WKMasterID + row.InvoiceWKMaster?.InvoiceNo}
                                     sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                                 >
                                     <StyledTableCell align="center">{id + 1}</StyledTableCell>
-                                    <StyledTableCell align="center">{row.PartyName}</StyledTableCell>
-                                    <StyledTableCell align="center">{row.SubmarineCable}</StyledTableCell>
-                                    <StyledTableCell align="center">{row.WorkTitle}</StyledTableCell>
-                                    <StyledTableCell align="center">{row.InvoiceNo}</StyledTableCell>
-                                    <StyledTableCell align="center">{row.SupplierName}</StyledTableCell>
-                                    <StyledTableCell align="center">{dayjs(row.IssueDate).format('YYYY/MM/DD')}</StyledTableCell>
-                                    <StyledTableCell align="center">{toBillDataInfo.length}</StyledTableCell>
-                                    <StyledTableCell align="center">{row.TotalAmount}</StyledTableCell>
-                                    {/* <StyledTableCell align="center">{row.Status}</StyledTableCell> */}
+                                    <StyledTableCell align="center">{row.BillMaster.PartyName}</StyledTableCell>
+                                    <StyledTableCell align="center">{row.BillMaster.SubmarineCable}</StyledTableCell>
+                                    <StyledTableCell align="center">{row.BillMaster.WorkTitle}</StyledTableCell>
+                                    <StyledTableCell align="center">{row.BillMaster.BillingNo}</StyledTableCell>
+                                    <StyledTableCell align="center">{row.BillMaster.SupplierName}</StyledTableCell>
+                                    <StyledTableCell align="center">{dayjs(row.BillMaster.IssueDate).format('YYYY/MM/DD')}</StyledTableCell>
+                                    <StyledTableCell align="center">{row.data ? row.data.length : 0}</StyledTableCell>
+                                    <StyledTableCell align="center">{row.BillMaster.FeeAmountSum}</StyledTableCell>
                                     <StyledTableCell align="center">
                                         <Box
                                             sx={{

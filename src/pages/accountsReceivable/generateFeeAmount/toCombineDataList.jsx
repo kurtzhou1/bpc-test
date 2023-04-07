@@ -210,7 +210,6 @@ const ToCombineDataList = ({ handleDialogClose, isDialogOpen, dataList, totalCom
             tmpAmount = tmpAmount + i.InvoiceDetail[0].FeeAmountPre;
             tmpSendArray.push(i.InvoiceMaster);
         });
-        console.log('tmpSendArray=>>', tmpSendArray);
         sendComBineData.current = { InvoiceMaster: tmpSendArray }; //按下合併帳單時，送出的資料
         totalCombineAmount.current = tmpAmount;
     }, [cbToCn]);

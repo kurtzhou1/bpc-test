@@ -63,7 +63,7 @@ export const contactUser = 'http://10.193.130.7:8000/api/v1/User/all';
 
 // 產製應收帳款-已簽核
 export const updateBM = 'http://10.193.130.7:8000/api/v1/updateBillMaster';
-export const downBM = 'http://10.193.130.7:8000/api/v1/BillMaster/signedDraft/';
+export const downBM = 'http://10.193.130.7:8000/api/v1/BillMaster/signedDraft';
 
 // 基本資料-Suppliers
 export const addSuppliers = 'http://10.193.130.7:8000/api/v1/Suppliers';
