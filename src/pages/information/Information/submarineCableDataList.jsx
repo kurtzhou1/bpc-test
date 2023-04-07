@@ -20,7 +20,7 @@ import { addSubmarineCables, submarineCableList, deleteSubmarineCables, editSubm
 import { useDispatch } from 'react-redux';
 import { setMessageStateOpen, setSubmarineCableList } from 'store/reducers/dropdown';
 
-const SubmarineCableDataList = ({}) => {
+const SubmarineCableDataList = ({ maxHei }) => {
     const dispatch = useDispatch();
     const fakeData = [
         {
@@ -140,15 +140,15 @@ const SubmarineCableDataList = ({}) => {
     }, []);
 
     return (
-        <TableContainer component={Paper} sx={{ maxHeight: '100%' }}>
+        <TableContainer component={Paper} sx={{ maxHeight: maxHei }}>
             <Table sx={{ minWidth: 300 }} stickyHeader aria-label="sticky table">
                 <TableHead>
                     <TableRow>
+                        <StyledTableCell align="center">Action</StyledTableCell>
                         <StyledTableCell align="center">NO</StyledTableCell>
                         <StyledTableCell align="center">代碼</StyledTableCell>
                         <StyledTableCell align="center">海纜名稱</StyledTableCell>
                         <StyledTableCell align="center">摘要</StyledTableCell>
-                        <StyledTableCell align="center">Action</StyledTableCell>
                     </TableRow>
                 </TableHead>
                 <TableBody>
@@ -160,10 +160,6 @@ const SubmarineCableDataList = ({}) => {
                             >
                                 {row.CableID !== cableIDEdit.current ? (
                                     <>
-                                        <StyledTableCell align="center">{id + 1}</StyledTableCell>
-                                        <StyledTableCell align="center">{row.CableCode}</StyledTableCell>
-                                        <StyledTableCell align="center">{row.CableName}</StyledTableCell>
-                                        <StyledTableCell align="center">{row.Note}</StyledTableCell>
                                         <StyledTableCell align="center">
                                             <Box
                                                 sx={{
@@ -192,9 +188,41 @@ const SubmarineCableDataList = ({}) => {
                                                 </Button>
                                             </Box>
                                         </StyledTableCell>
+                                        <StyledTableCell align="center">{id + 1}</StyledTableCell>
+                                        <StyledTableCell align="center">{row.CableCode}</StyledTableCell>
+                                        <StyledTableCell align="center">{row.CableName}</StyledTableCell>
+                                        <StyledTableCell align="center">{row.Note}</StyledTableCell>
                                     </>
                                 ) : (
                                     <>
+                                        <StyledTableCell align="center">
+                                            <Box
+                                                sx={{
+                                                    display: 'flex',
+                                                    justifyContent: 'center',
+                                                    '& button': { mx: { md: 0.6, lg: 1, xl: 1.8 }, p: 0, fontSize: 1 }
+                                                }}
+                                            >
+                                                <Button
+                                                    color="primary"
+                                                    variant="outlined"
+                                                    onClick={() => {
+                                                        saveEditPartyInfo();
+                                                    }}
+                                                >
+                                                    儲存
+                                                </Button>
+                                                <Button
+                                                    color="error"
+                                                    variant="outlined"
+                                                    onClick={() => {
+                                                        editInfoInit();
+                                                    }}
+                                                >
+                                                    取消
+                                                </Button>
+                                            </Box>
+                                        </StyledTableCell>
                                         <TableCell align="center">{id + 1}</TableCell>
                                         <TableCell align="center">
                                             <TextField
@@ -225,40 +253,25 @@ const SubmarineCableDataList = ({}) => {
                                                 }}
                                             />
                                         </TableCell>
-                                        <StyledTableCell align="center">
-                                            <Box
-                                                sx={{
-                                                    display: 'flex',
-                                                    justifyContent: 'center',
-                                                    '& button': { mx: { md: 0.6, lg: 1, xl: 1.8 }, p: 0, fontSize: 1 }
-                                                }}
-                                            >
-                                                <Button
-                                                    color="primary"
-                                                    variant="outlined"
-                                                    onClick={() => {
-                                                        saveEditPartyInfo();
-                                                    }}
-                                                >
-                                                    儲存
-                                                </Button>
-                                                <Button
-                                                    color="error"
-                                                    variant="outlined"
-                                                    onClick={() => {
-                                                        editInfoInit();
-                                                    }}
-                                                >
-                                                    取消
-                                                </Button>
-                                            </Box>
-                                        </StyledTableCell>
                                     </>
                                 )}
                             </TableRow>
                         );
                     })}
                     <TableRow sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
+                        <TableCell align="center">
+                            <Box
+                                sx={{
+                                    display: 'flex',
+                                    justifyContent: 'center',
+                                    '& button': { mx: { md: 0.6, lg: 1, xl: 1.8 }, p: 0, fontSize: 1 }
+                                }}
+                            >
+                                <Button color="success" variant="outlined" onClick={addPartyInfo}>
+                                    新增
+                                </Button>
+                            </Box>
+                        </TableCell>
                         <TableCell align="center"></TableCell>
                         <TableCell align="center">
                             <TextField
@@ -288,19 +301,6 @@ const SubmarineCableDataList = ({}) => {
                                     setNote(e.target.value);
                                 }}
                             />
-                        </TableCell>
-                        <TableCell align="center">
-                            <Box
-                                sx={{
-                                    display: 'flex',
-                                    justifyContent: 'center',
-                                    '& button': { mx: { md: 0.6, lg: 1, xl: 1.8 }, p: 0, fontSize: 1 }
-                                }}
-                            >
-                                <Button color="success" variant="outlined" onClick={addPartyInfo}>
-                                    新增
-                                </Button>
-                            </Box>
                         </TableCell>
                     </TableRow>
                 </TableBody>

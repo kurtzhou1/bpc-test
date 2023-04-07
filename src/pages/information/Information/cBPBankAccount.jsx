@@ -19,7 +19,7 @@ import { addCorporates, getCorporatesInfo, deleteCorporates, editCorporates } fr
 import { useDispatch, useSelector } from 'react-redux';
 import { setMessageStateOpen } from 'store/reducers/dropdown';
 
-const Corporates = ({}) => {
+const Corporates = ({ maxHei }) => {
     const dispatch = useDispatch();
     const { subCableList } = useSelector((state) => state.dropdown); //供應商下拉選單 + 海纜名稱下拉選單
     const fakeData = [
@@ -250,7 +250,7 @@ const Corporates = ({}) => {
     }, []);
 
     return (
-        <TableContainer component={Paper} sx={{ maxHeight: 700 }}>
+        <TableContainer component={Paper} sx={{ maxHeight: maxHei }}>
             <Table sx={{ minWidth: 300 }} stickyHeader aria-label="sticky table">
                 <TableHead>
                     <TableRow sx={{ fontSize: '50px' }}>

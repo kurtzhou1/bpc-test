@@ -20,7 +20,7 @@ import { addSuppliers, supplierNameList, deleteSuppliers, editSuppliers } from '
 import { useDispatch } from 'react-redux';
 import { setMessageStateOpen, setSupplierNameList } from 'store/reducers/dropdown';
 
-const SupplierDataList = ({}) => {
+const SupplierDataList = ({ maxHei }) => {
     const dispatch = useDispatch();
     const [infoList, setInfoList] = useState([]);
     const [supplierName, setSupplierName] = useState(''); //供應商
@@ -51,25 +51,14 @@ const SupplierDataList = ({}) => {
         [`&.${tableCellClasses.head}`]: {
             // backgroundColor: theme.palette.common.gary,
             color: theme.palette.common.black,
-            paddingTop: '0.2rem',
-            paddingBottom: '0.2rem'
+            padding: '0rem',
+            fontSize: '0.2rem'
         },
         [`&.${tableCellClasses.body}`]: {
-            fontSize: 14,
-            paddingTop: '0.2rem',
-            paddingBottom: '0.2rem'
+            padding: '0.5rem',
+            fontSize: '0.2rem'
         }
     }));
-
-    // const useStyles = makeStyles({
-    //     tableContainer: {
-    //         overflowY: 'auto'
-    //     },
-    //     table: {
-    //         height: '100%',
-    //         overflowY: 'scroll'
-    //     }
-    // });
 
     const infoInit = () => {
         setSupplierName('');
@@ -190,54 +179,23 @@ const SupplierDataList = ({}) => {
     }, []);
 
     return (
-        <TableContainer component={Paper} sx={{ minHeight: 0 }}>
+        <TableContainer component={Paper} sx={{ maxHeight: maxHei }}>
             <Table sx={{ minWidth: 300 }} stickyHeader aria-label="sticky table">
                 <TableHead>
                     <TableRow>
-                        <StyledTableCell align="center">No.</StyledTableCell>
-                        <StyledTableCell align="center">
-                            供應商
-                            <br />
-                            名稱
-                        </StyledTableCell>
-                        <StyledTableCell align="center">
-                            Bank <br />
-                            Name
-                        </StyledTableCell>
-                        <StyledTableCell align="center">Branch Name</StyledTableCell>
-                        <StyledTableCell align="center">
-                            Bank
-                            <br />
-                            Address
-                        </StyledTableCell>
-                        <StyledTableCell align="center">
-                            Account
-                            <br />
-                            Name
-                        </StyledTableCell>
-                        <StyledTableCell align="center">
-                            Account
-                            <br />
-                            No.
-                        </StyledTableCell>
-                        <StyledTableCell align="center">
-                            Saving
-                            <br />
-                            Account No.
-                        </StyledTableCell>
-                        <StyledTableCell align="center">
-                            ACH
-                            <br />
-                            No
-                        </StyledTableCell>
-                        <StyledTableCell align="center">Wire/Routing</StyledTableCell>
-                        <StyledTableCell align="center">
-                            SWIFT
-                            <br />
-                            Code
-                        </StyledTableCell>
-                        <StyledTableCell align="center">IBAN</StyledTableCell>
                         <StyledTableCell align="center">Action</StyledTableCell>
+                        <StyledTableCell align="center">No.</StyledTableCell>
+                        <StyledTableCell align="center">供應商名稱</StyledTableCell>
+                        <StyledTableCell align="center">Bank Name</StyledTableCell>
+                        <StyledTableCell align="center">Branch Name</StyledTableCell>
+                        <StyledTableCell align="center">Bank Address</StyledTableCell>
+                        <StyledTableCell align="center">Account Name</StyledTableCell>
+                        <StyledTableCell align="center">Account No.</StyledTableCell>
+                        <StyledTableCell align="center">Saving Account No.</StyledTableCell>
+                        <StyledTableCell align="center">ACH No</StyledTableCell>
+                        <StyledTableCell align="center">Wire/Routing</StyledTableCell>
+                        <StyledTableCell align="center">SWIFT Code</StyledTableCell>
+                        <StyledTableCell align="center">IBAN</StyledTableCell>
                     </TableRow>
                 </TableHead>
                 <TableBody>
@@ -249,24 +207,12 @@ const SupplierDataList = ({}) => {
                             >
                                 {row.SupplierID !== supplierID.current ? (
                                     <>
-                                        <StyledTableCell align="center">{id + 1}</StyledTableCell>
-                                        <StyledTableCell align="center">{row.SupplierName}</StyledTableCell>
-                                        <StyledTableCell align="center">{row.BankName}</StyledTableCell>
-                                        <StyledTableCell align="center">{row.Branch}</StyledTableCell>
-                                        <StyledTableCell align="center">{row.BankAddress}</StyledTableCell>
-                                        <StyledTableCell align="center">{row.BankAcctName}</StyledTableCell>
-                                        <StyledTableCell align="center">{row.BankAcctNo}</StyledTableCell>
-                                        <StyledTableCell align="center">{row.SavingAcctNo}</StyledTableCell>
-                                        <StyledTableCell align="center">{row.ACHNo}</StyledTableCell>
-                                        <StyledTableCell align="center">{row.WireRouting}</StyledTableCell>
-                                        <StyledTableCell align="center">{row.SWIFTCode}</StyledTableCell>
-                                        <StyledTableCell align="center">{row.IBAN}</StyledTableCell>
                                         <StyledTableCell align="center">
                                             <Box
                                                 sx={{
                                                     display: 'flex',
                                                     justifyContent: 'center',
-                                                    '& button': { mx: { md: 0.6, lg: 1, xl: 1.8 }, p: 0, fontSize: 1 }
+                                                    '& button': { mx: { md: 0.1, lg: 0.1, xl: 1 }, p: 0, fontSize: 1 }
                                                 }}
                                             >
                                                 <Button
@@ -289,9 +235,49 @@ const SupplierDataList = ({}) => {
                                                 </Button>
                                             </Box>
                                         </StyledTableCell>
+                                        <StyledTableCell align="center">{id + 1}</StyledTableCell>
+                                        <StyledTableCell align="center">{row.SupplierName}</StyledTableCell>
+                                        <StyledTableCell align="center">{row.BankName}</StyledTableCell>
+                                        <StyledTableCell align="center">{row.Branch}</StyledTableCell>
+                                        <StyledTableCell align="center">{row.BankAddress}</StyledTableCell>
+                                        <StyledTableCell align="center">{row.BankAcctName}</StyledTableCell>
+                                        <StyledTableCell align="center">{row.BankAcctNo}</StyledTableCell>
+                                        <StyledTableCell align="center">{row.SavingAcctNo}</StyledTableCell>
+                                        <StyledTableCell align="center">{row.ACHNo}</StyledTableCell>
+                                        <StyledTableCell align="center">{row.WireRouting}</StyledTableCell>
+                                        <StyledTableCell align="center">{row.SWIFTCode}</StyledTableCell>
+                                        <StyledTableCell align="center">{row.IBAN}</StyledTableCell>
                                     </>
                                 ) : (
                                     <>
+                                        <StyledTableCell align="center">
+                                            <Box
+                                                sx={{
+                                                    display: 'flex',
+                                                    justifyContent: 'center',
+                                                    '& button': { mx: { md: 0.1, lg: 0.1, xl: 1 }, p: 0, fontSize: 1 }
+                                                }}
+                                            >
+                                                <Button
+                                                    color="primary"
+                                                    variant="outlined"
+                                                    onClick={() => {
+                                                        saveEditSupplierInfo();
+                                                    }}
+                                                >
+                                                    儲存
+                                                </Button>
+                                                <Button
+                                                    color="error"
+                                                    variant="outlined"
+                                                    onClick={() => {
+                                                        editInfoInit();
+                                                    }}
+                                                >
+                                                    取消
+                                                </Button>
+                                            </Box>
+                                        </StyledTableCell>
                                         <TableCell align="center"></TableCell>
                                         <TableCell align="center">
                                             <TextField
@@ -395,40 +381,25 @@ const SupplierDataList = ({}) => {
                                                 }}
                                             />
                                         </TableCell>
-                                        <StyledTableCell align="center">
-                                            <Box
-                                                sx={{
-                                                    display: 'flex',
-                                                    justifyContent: 'center',
-                                                    '& button': { mx: { md: 0.6, lg: 1, xl: 1.8 }, p: 0, fontSize: 1 }
-                                                }}
-                                            >
-                                                <Button
-                                                    color="primary"
-                                                    variant="outlined"
-                                                    onClick={() => {
-                                                        saveEditSupplierInfo();
-                                                    }}
-                                                >
-                                                    儲存
-                                                </Button>
-                                                <Button
-                                                    color="error"
-                                                    variant="outlined"
-                                                    onClick={() => {
-                                                        editInfoInit();
-                                                    }}
-                                                >
-                                                    取消
-                                                </Button>
-                                            </Box>
-                                        </StyledTableCell>
                                     </>
                                 )}
                             </TableRow>
                         );
                     })}
                     <TableRow sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
+                        <TableCell align="center">
+                            <Box
+                                sx={{
+                                    display: 'flex',
+                                    justifyContent: 'center',
+                                    '& button': { mx: { md: 0.6, lg: 1, xl: 1.8 }, p: 0, fontSize: 1 }
+                                }}
+                            >
+                                <Button color="success" variant="outlined" onClick={addSupplierInfo}>
+                                    新增
+                                </Button>
+                            </Box>
+                        </TableCell>
                         <TableCell align="center"></TableCell>
                         <TableCell align="center">
                             <TextField
@@ -531,20 +502,6 @@ const SupplierDataList = ({}) => {
                                     setIBAN(e.target.value);
                                 }}
                             />
-                        </TableCell>
-
-                        <TableCell align="center">
-                            <Box
-                                sx={{
-                                    display: 'flex',
-                                    justifyContent: 'center',
-                                    '& button': { mx: { md: 0.6, lg: 1, xl: 1.8 }, p: 0, fontSize: 1 }
-                                }}
-                            >
-                                <Button color="success" variant="outlined" onClick={addSupplierInfo}>
-                                    新增
-                                </Button>
-                            </Box>
                         </TableCell>
                     </TableRow>
                 </TableBody>

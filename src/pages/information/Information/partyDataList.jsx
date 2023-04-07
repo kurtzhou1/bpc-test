@@ -34,7 +34,6 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
         fontSize: '0.3rem'
     },
     [`&.${tableCellClasses.body}`]: {
-        fontSize: 14,
         paddingTop: '0.1rem',
         paddingBottom: '0.1rem',
         fontSize: '0.3rem'
@@ -201,7 +200,7 @@ const fakeData = [
     }
 ];
 
-const PartyDataList = ({}) => {
+const PartyDataList = ({ maxHei }) => {
     const dispatch = useDispatch();
     const classes = useStyles();
     const [infoList, setInfoList] = useState(fakeData);
@@ -433,7 +432,7 @@ const PartyDataList = ({}) => {
     }, []);
 
     return (
-        <TableContainer className="test-table" component={Paper} sx={{ maxHeight: 700 }}>
+        <TableContainer id="tableContainer" component={Paper} sx={{ maxHeight: maxHei }}>
             <Table stickyHeader aria-label="sticky table">
                 <TableHead>
                     <TableRow>
@@ -566,63 +565,6 @@ const PartyDataList = ({}) => {
                                 {columns3[0].label}
                             </StyledTableCell>
                         )}
-                        {/* <StyledTableCell align="center" style={{ width: '6rem' }}>
-                            海纜名稱
-                        </StyledTableCell>
-                        <StyledTableCell align="center" style={{ width: '6rem' }}>
-                            海纜作業
-                        </StyledTableCell> */}
-                        {/* <StyledTableCell align="center" style={{ width: '4rem' }}>
-                            會員代碼
-                        </StyledTableCell>
-                        <StyledTableCell align="center" style={{ width: '6rem' }}>
-                            會員名稱
-                        </StyledTableCell>
-                        <StyledTableCell align="center" style={{ width: '6rem' }}>
-                            公司名稱
-                        </StyledTableCell>
-                        <StyledTableCell align="center" style={{ width: '8rem' }}>
-                            公司地址
-                        </StyledTableCell>
-                        <StyledTableCell align="center" style={{ width: '5rem' }}>
-                            聯絡窗口
-                        </StyledTableCell>
-                        <StyledTableCell align="center" style={{ width: '6rem' }}>
-                            電子郵件
-                        </StyledTableCell>
-                        <StyledTableCell align="center" style={{ width: '6rem' }}>
-                            電話
-                        </StyledTableCell> */}
-                        {/* <StyledTableCell align="center" style={{ width: '6rem' }}>
-                            Bank A/C Name
-                        </StyledTableCell>
-                        <StyledTableCell align="center" style={{ width: '6rem' }}>
-                             A/C No.
-                        </StyledTableCell>
-                        <StyledTableCell align="center" style={{ width: '6rem' }}>
-                            Saving A/C No.
-                        </StyledTableCell>
-                        <StyledTableCell align="center" style={{ width: '6rem' }}>
-                            SWIFT Code
-                        </StyledTableCell>
-                        <StyledTableCell align="center" style={{ width: '6rem' }}>
-                            ACH No
-                        </StyledTableCell>
-                        <StyledTableCell align="center" style={{ width: '6rem' }}>
-                            SWIFT Code
-                        </StyledTableCell>
-                        <StyledTableCell align="center" style={{ width: '6rem' }}>
-                            Wire/Routing
-                        </StyledTableCell>
-                        <StyledTableCell align="center" style={{ width: '6rem' }}>
-                            Bank Name
-                        </StyledTableCell>
-                        <StyledTableCell align="center" style={{ width: '6rem' }}>
-                            Branch
-                        </StyledTableCell>
-                        <StyledTableCell align="center" style={{ width: '8rem' }}>
-                            Bank Address
-                        </StyledTableCell> */}
                     </TableRow>
                 </TableHead>
                 <TableBody>
@@ -634,42 +576,12 @@ const PartyDataList = ({}) => {
                             >
                                 {row.PartyID !== partyID.current ? (
                                     <>
-                                        {/* <StyledTableCell align="center" className={classes.sticky}>
-                                            <TableCell>
-                                                <Box
-                                                    sx={{
-                                                        display: 'flex',
-                                                        justifyContent: 'center',
-                                                        '& button': { mx: { md: 0.6, lg: 1, xl: 1.8 }, p: 0, fontSize: 1 }
-                                                    }}
-                                                >
-                                                    <Button
-                                                        color="primary"
-                                                        variant="outlined"
-                                                        onClick={() => {
-                                                            editPartyInfo(row);
-                                                        }}
-                                                    >
-                                                        編輯
-                                                    </Button>
-                                                    <Button
-                                                        color="error"
-                                                        variant="outlined"
-                                                        onClick={() => {
-                                                            deletePartyInfo(row);
-                                                        }}
-                                                    >
-                                                        刪除
-                                                    </Button>
-                                                </Box>
-                                            </TableCell>
-                                        </StyledTableCell> */}
                                         <StyledTableCell align="center">
                                             <Box
                                                 sx={{
                                                     display: 'flex',
                                                     justifyContent: 'center',
-                                                    '& button': { mx: { md: 0.6, lg: 1, xl: 1.8 }, p: 0, fontSize: 1 }
+                                                    '& button': { mx: { md: 0.1, lg: 0.1, xl: 1 }, p: 0, fontSize: 1 }
                                                 }}
                                             >
                                                 <Button

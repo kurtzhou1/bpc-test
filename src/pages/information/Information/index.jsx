@@ -20,6 +20,8 @@ import CBPBankAccount from './cBPBankAccount';
 
 const Information = () => {
     const [value, setValue] = useState(2);
+    const tableH = document.getElementById('tableContainer')?.offsetTop;
+    const maxHei = screen.height - tableH - 400;
 
     const handleChange = (event, newValue) => {
         setValue(newValue);
@@ -130,7 +132,7 @@ const Information = () => {
     }, [editItem]);
 
     return (
-        <Grid container spacing={1}>
+        <Grid container spacing={1} id="tableContainer">
             {/* <Grid item xs={12} display="flex" justifyContent="right">
                 <Button sx={{ mr: '0.25rem' }} variant="contained" onClick={handleDialogOpen}>
                     + 新增Credit Balance
@@ -190,13 +192,13 @@ const Information = () => {
                         </Tabs>
                     </Box>
                     <TabPanel value={value} index={0}>
-                        <SubmarineCableDataList />
+                        <SubmarineCableDataList maxHei={maxHei} />
                     </TabPanel>
                     <TabPanel value={value} index={1}>
-                        <SupplierDataList />
+                        <SupplierDataList maxHei={maxHei} />
                     </TabPanel>
                     <TabPanel value={value} index={2}>
-                        <PartyDataList />
+                        <PartyDataList maxHei={maxHei} />
                     </TabPanel>
                     {/* <TabPanel value={value} index={3}>
                         <CorporatesDataList />
@@ -205,7 +207,7 @@ const Information = () => {
                         <ContractDataList />
                     </TabPanel> */}
                     <TabPanel value={value} index={3}>
-                        <CableWorkDataList />
+                        <CableWorkDataList maxHei={maxHei} />
                     </TabPanel>
                     {/* <TabPanel value={value} index={5}>
                         <ContractTypeDataList />
@@ -217,7 +219,7 @@ const Information = () => {
                         <SuppliersByContractDataList />
                     </TabPanel> */}
                     <TabPanel value={value} index={4}>
-                        <CBPBankAccount />
+                        <CBPBankAccount maxHei={maxHei} />
                     </TabPanel>
                 </MainCard>
             </Grid>
