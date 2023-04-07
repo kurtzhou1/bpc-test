@@ -46,6 +46,8 @@ const SupplierDataList = ({ maxHei }) => {
     const [bankAddressEdit, setBankAddressEdit] = useState(''); //銀行地址編輯
     const [aCHNoEdit, setaCHnoEdit] = useState(''); //ACH NO編輯
     const [wireRoutingEdit, setWireRoutingEdit] = useState(''); //Wire/Routing編輯
+    const [companyName, setCompanyName] = useState('');
+    const [companyNameEdit, setCompanyNameEdit] = useState('');
 
     const StyledTableCell = styled(TableCell)(({ theme }) => ({
         [`&.${tableCellClasses.head}`]: {
@@ -71,6 +73,7 @@ const SupplierDataList = ({ maxHei }) => {
         setSavingBankAcctNo('');
         setaCHno('');
         setWireRouting('');
+        setCompanyName('');
     };
 
     const editInfoInit = () => {
@@ -85,6 +88,7 @@ const SupplierDataList = ({ maxHei }) => {
         setSavingBankAcctNoEdit('');
         setWireRoutingEdit('');
         setaCHnoEdit('');
+        setCompanyNameEdit('');
     };
 
     const querySuppliersInfo = () => {
@@ -103,6 +107,7 @@ const SupplierDataList = ({ maxHei }) => {
     const addSupplierInfo = () => {
         let tmpArray = {
             SupplierName: supplierName,
+            CompanyName: companyName,
             BankAcctName: bankAcctName,
             Branch: branch,
             BankAcctNo: bankAcctNo,
@@ -147,12 +152,14 @@ const SupplierDataList = ({ maxHei }) => {
         setBankAddressEdit(row.BankAddress);
         setaCHnoEdit(row.ACHNo);
         setWireRoutingEdit(row.WireRouting);
+        setCompanyNameEdit(row.CompanyName);
     };
 
     const saveEditSupplierInfo = () => {
         let tmpArray = {
             SupplierID: supplierID.current,
             SupplierName: supplierNameEdit,
+            CompanyName: companyNameEdit,
             BankAcctName: bankAcctNameEdit,
             Branch: branchEdit,
             BankAcctNo1: bankAcctNoEdit,
@@ -185,7 +192,8 @@ const SupplierDataList = ({ maxHei }) => {
                     <TableRow>
                         <StyledTableCell align="center">Action</StyledTableCell>
                         <StyledTableCell align="center">No.</StyledTableCell>
-                        <StyledTableCell align="center">供應商名稱</StyledTableCell>
+                        <StyledTableCell align="center">供應商簡稱</StyledTableCell>
+                        <StyledTableCell align="center">供應商全名</StyledTableCell>
                         <StyledTableCell align="center">Bank Name</StyledTableCell>
                         <StyledTableCell align="center">Branch Name</StyledTableCell>
                         <StyledTableCell align="center">Bank Address</StyledTableCell>
@@ -237,6 +245,7 @@ const SupplierDataList = ({ maxHei }) => {
                                         </StyledTableCell>
                                         <StyledTableCell align="center">{id + 1}</StyledTableCell>
                                         <StyledTableCell align="center">{row.SupplierName}</StyledTableCell>
+                                        <StyledTableCell align="center">{row.CompanyName}</StyledTableCell>
                                         <StyledTableCell align="center">{row.BankName}</StyledTableCell>
                                         <StyledTableCell align="center">{row.Branch}</StyledTableCell>
                                         <StyledTableCell align="center">{row.BankAddress}</StyledTableCell>
@@ -286,6 +295,16 @@ const SupplierDataList = ({ maxHei }) => {
                                                 value={supplierNameEdit}
                                                 onChange={(e) => {
                                                     setSupplierNameEdit(e.target.value);
+                                                }}
+                                            />
+                                        </TableCell>
+                                        <TableCell align="center">
+                                            <TextField
+                                                size="small"
+                                                // style={{ width: '30%' }}
+                                                value={companyNameEdit}
+                                                onChange={(e) => {
+                                                    setCompanyNameEdit(e.target.value);
                                                 }}
                                             />
                                         </TableCell>
@@ -408,6 +427,16 @@ const SupplierDataList = ({ maxHei }) => {
                                 value={supplierName}
                                 onChange={(e) => {
                                     setSupplierName(e.target.value);
+                                }}
+                            />
+                        </TableCell>
+                        <TableCell align="center">
+                            <TextField
+                                size="small"
+                                // style={{ width: '30%' }}
+                                value={companyName}
+                                onChange={(e) => {
+                                    setCompanyName(e.target.value);
                                 }}
                             />
                         </TableCell>
