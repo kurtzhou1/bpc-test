@@ -260,7 +260,7 @@ const BillDraftMake = ({ isDialogOpen, handleDialogClose, billMasterID, pONo, su
 
     const [subject1, setSubject1] = useState(''); //主旨1
     // const [subject2, setSubject2] = useState(''); //主旨2
-    const [subject3, setSubject3] = useState('Invoice'); //主旨3
+    const [subject3, setSubject3] = useState(''); //主旨3
 
     const itemDetailInitial = () => {
         // setDataList([]);
@@ -289,7 +289,6 @@ const BillDraftMake = ({ isDialogOpen, handleDialogClose, billMasterID, pONo, su
             body: JSON.stringify(tmpData)
         })
             .then((res) => {
-                console.log('res=>>', res);
                 return res.blob();
             })
             .then((blob) => {
@@ -304,7 +303,6 @@ const BillDraftMake = ({ isDialogOpen, handleDialogClose, billMasterID, pONo, su
     useEffect(() => {
         if (isDialogOpen) {
             let tmpAmount = 0;
-            console.log('billMasterID=>>', billMasterID);
             let tmpData = {
                 BillMasterID: billMasterID,
                 UserID: 'chang_ty',
@@ -545,7 +543,7 @@ const BillDraftMake = ({ isDialogOpen, handleDialogClose, billMasterID, pONo, su
                             >
                                 {subject2}
                             </Box> */}
-                            <Box sx={{ fontSize: '24px', m: 1, textAlign: 'center', fontWeight: 'bold' }}>{subject3}</Box>
+                            <Box sx={{ fontSize: '24px', m: 1, textAlign: 'center', fontWeight: 'bold' }}>{subject3} Invoice</Box>
                             <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
                                 <Box sx={{ m: 1, minWidth: '40%', with: '40%' }}>
                                     <Box sx={{ fontSize: '12px', textAlign: 'left' }}>BILL TO：</Box>

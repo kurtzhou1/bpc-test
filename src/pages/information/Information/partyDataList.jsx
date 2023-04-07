@@ -56,13 +56,13 @@ const columns1 = [
 ];
 
 const columns2 = [
-    { id: '會員代碼', label: '會員代碼', align: 'center', className: '' },
     {
         id: '會員名稱',
         label: '會員名稱',
 
         align: 'center'
     },
+    { id: '會員代碼', label: '會員代碼', align: 'center', className: '' },
     {
         id: '公司名稱',
         label: '公司名稱',
@@ -100,55 +100,46 @@ const columns3 = [
     {
         id: 'A/C No.',
         label: 'A/C No.',
-
         align: 'center'
     },
     {
         id: 'Saving A/C No.',
         label: 'Saving A/C No.',
-
         align: 'center'
     },
     {
         id: 'SWIFT Code',
         label: 'SWIFT Code',
-
         align: 'center'
     },
     {
         id: 'ACH No',
         label: 'ACH No',
-
         align: 'center'
     },
     {
         id: 'SWIFT Code',
         label: 'SWIFT Code',
-
         align: 'center'
     },
     {
         id: 'Wire/Routing',
         label: 'Wire/Routing',
-
         align: 'center'
     },
     {
         id: 'Bank Name',
         label: 'Bank Name',
-
         align: 'center'
     },
     {
         id: 'Branch',
         label: 'Branch',
-
         align: 'center'
     },
     {
         id: 'Bank Address',
         label: 'Bank Address',
-
         align: 'center'
     }
 ];
@@ -597,8 +588,8 @@ const PartyDataList = ({ maxHei }) => {
                                         )}
                                         {isColumn2Open ? (
                                             <>
-                                                <StyledTableCell align="center">{row.PartyCode}</StyledTableCell>
                                                 <StyledTableCell align="center">{row.PartyName}</StyledTableCell>
+                                                <StyledTableCell align="center">{row.PartyCode}</StyledTableCell>
                                                 <StyledTableCell align="center">{row.CompanyName}</StyledTableCell>
                                                 <StyledTableCell align="center">{row.Address}</StyledTableCell>
                                                 <StyledTableCell align="center">{row.Contact}</StyledTableCell>
@@ -683,18 +674,18 @@ const PartyDataList = ({ maxHei }) => {
                                                 <TableCell align="center">
                                                     <TextField
                                                         size="small"
-                                                        value={codeEdit}
+                                                        value={partyNameEdit}
                                                         onChange={(e) => {
-                                                            setCodeEdit(e.target.value);
+                                                            setPartyNameEdit(e.target.value);
                                                         }}
                                                     />
                                                 </TableCell>
                                                 <TableCell align="center">
                                                     <TextField
                                                         size="small"
-                                                        value={partyNameEdit}
+                                                        value={codeEdit}
                                                         onChange={(e) => {
-                                                            setPartyNameEdit(e.target.value);
+                                                            setCodeEdit(e.target.value);
                                                         }}
                                                     />
                                                 </TableCell>
@@ -919,18 +910,18 @@ const PartyDataList = ({ maxHei }) => {
                                 <TableCell align="center">
                                     <TextField
                                         size="small"
-                                        value={code}
+                                        value={partyName}
                                         onChange={(e) => {
-                                            setCode(e.target.value);
+                                            setPartyName(e.target.value);
                                         }}
                                     />
                                 </TableCell>
                                 <TableCell align="center">
                                     <TextField
                                         size="small"
-                                        value={partyName}
+                                        value={code}
                                         onChange={(e) => {
-                                            setPartyName(e.target.value);
+                                            setCode(e.target.value);
                                         }}
                                     />
                                 </TableCell>

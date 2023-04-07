@@ -20,6 +20,10 @@ import { addSuppliers, supplierNameList, deleteSuppliers, editSuppliers } from '
 import { useDispatch } from 'react-redux';
 import { setMessageStateOpen, setSupplierNameList } from 'store/reducers/dropdown';
 
+// icon
+import DoNotDisturbOnIcon from '@mui/icons-material/DoNotDisturbOn';
+import AddCircleIcon from '@mui/icons-material/AddCircle';
+
 const SupplierDataList = ({ maxHei }) => {
     const dispatch = useDispatch();
     const [infoList, setInfoList] = useState([]);
@@ -48,6 +52,10 @@ const SupplierDataList = ({ maxHei }) => {
     const [wireRoutingEdit, setWireRoutingEdit] = useState(''); //Wire/Routing編輯
     const [companyName, setCompanyName] = useState('');
     const [companyNameEdit, setCompanyNameEdit] = useState('');
+    const [submarineCable, setSubmarineCable] = useState(''); //海纜名稱
+    const [workTitle, setWorkTitle] = useState(''); //海纜作業
+    const [submarineCableEdit, setSubmarineCableEdit] = useState(''); //海纜名稱
+    const [workTitleEdit, setWorkTitleEdit] = useState(''); //海纜作業
 
     const StyledTableCell = styled(TableCell)(({ theme }) => ({
         [`&.${tableCellClasses.head}`]: {
@@ -61,6 +69,13 @@ const SupplierDataList = ({ maxHei }) => {
             fontSize: '0.2rem'
         }
     }));
+
+    const columns1 = [
+        { id: '海纜名稱', label: '海纜名稱', align: 'center', className: '' },
+        { id: '海纜作業', label: '海纜作業', align: 'center' }
+    ];
+
+    const [isColumn1Open, setIsColumn1Open] = useState(false);
 
     const infoInit = () => {
         setSupplierName('');
@@ -192,14 +207,47 @@ const SupplierDataList = ({ maxHei }) => {
                     <TableRow>
                         <StyledTableCell align="center">Action</StyledTableCell>
                         <StyledTableCell align="center">No.</StyledTableCell>
+                        {isColumn1Open ? (
+                            columns1.map((column, id) => {
+                                return (
+                                    <StyledTableCell key={column.id} align={column.align}>
+                                        {id === 0 ? (
+                                            <Button
+                                                sx={{ p: 0 }}
+                                                onClick={() => {
+                                                    setIsColumn1Open(!isColumn1Open);
+                                                }}
+                                            >
+                                                {isColumn1Open ? <DoNotDisturbOnIcon /> : <AddCircleIcon />}
+                                            </Button>
+                                        ) : (
+                                            ''
+                                        )}
+                                        {column.label}
+                                    </StyledTableCell>
+                                );
+                            })
+                        ) : (
+                            <StyledTableCell key={columns1[0].id} align={columns1[0].align}>
+                                <Button
+                                    sx={{ p: 0 }}
+                                    onClick={() => {
+                                        setIsColumn1Open(!isColumn1Open);
+                                    }}
+                                >
+                                    {isColumn1Open ? <DoNotDisturbOnIcon /> : <AddCircleIcon />}
+                                </Button>
+                                {columns1[0].label}
+                            </StyledTableCell>
+                        )}
                         <StyledTableCell align="center">供應商簡稱</StyledTableCell>
                         <StyledTableCell align="center">供應商全名</StyledTableCell>
                         <StyledTableCell align="center">Bank Name</StyledTableCell>
                         <StyledTableCell align="center">Branch Name</StyledTableCell>
                         <StyledTableCell align="center">Bank Address</StyledTableCell>
-                        <StyledTableCell align="center">Account Name</StyledTableCell>
-                        <StyledTableCell align="center">Account No.</StyledTableCell>
-                        <StyledTableCell align="center">Saving Account No.</StyledTableCell>
+                        <StyledTableCell align="center">A/C Name</StyledTableCell>
+                        <StyledTableCell align="center">A/C No.</StyledTableCell>
+                        <StyledTableCell align="center">Saving A/C No.</StyledTableCell>
                         <StyledTableCell align="center">ACH No</StyledTableCell>
                         <StyledTableCell align="center">Wire/Routing</StyledTableCell>
                         <StyledTableCell align="center">SWIFT Code</StyledTableCell>
@@ -244,6 +292,14 @@ const SupplierDataList = ({ maxHei }) => {
                                             </Box>
                                         </StyledTableCell>
                                         <StyledTableCell align="center">{id + 1}</StyledTableCell>
+                                        {isColumn1Open ? (
+                                            <>
+                                                <StyledTableCell align="center">{row.SubmarineCable}</StyledTableCell>
+                                                <StyledTableCell align="center">{row.WorkTitle}</StyledTableCell>
+                                            </>
+                                        ) : (
+                                            <StyledTableCell align="center">{row.SubmarineCable}</StyledTableCell>
+                                        )}
                                         <StyledTableCell align="center">{row.SupplierName}</StyledTableCell>
                                         <StyledTableCell align="center">{row.CompanyName}</StyledTableCell>
                                         <StyledTableCell align="center">{row.BankName}</StyledTableCell>
@@ -287,7 +343,41 @@ const SupplierDataList = ({ maxHei }) => {
                                                 </Button>
                                             </Box>
                                         </StyledTableCell>
-                                        <TableCell align="center"></TableCell>
+                                        <TableCell align="center">{id + 1}</TableCell>
+                                        {isColumn1Open ? (
+                                            <>
+                                                <TableCell align="center">
+                                                    <TextField
+                                                        size="small"
+                                                        // style={{ width: '30%' }}
+                                                        value={submarineCableEdit}
+                                                        onChange={(e) => {
+                                                            setSubmarineCableEdit(e.target.value);
+                                                        }}
+                                                    />
+                                                </TableCell>
+                                                <TableCell align="center">
+                                                    <TextField
+                                                        size="small"
+                                                        value={workTitleEdit}
+                                                        onChange={(e) => {
+                                                            setWorkTitleEdit(e.target.value);
+                                                        }}
+                                                    />
+                                                </TableCell>
+                                            </>
+                                        ) : (
+                                            <TableCell align="center">
+                                                <TextField
+                                                    size="small"
+                                                    // style={{ width: '30%' }}
+                                                    value={submarineCableEdit}
+                                                    onChange={(e) => {
+                                                        setSubmarineCableEdit(e.target.value);
+                                                    }}
+                                                />
+                                            </TableCell>
+                                        )}
                                         <TableCell align="center">
                                             <TextField
                                                 size="small"
@@ -420,6 +510,38 @@ const SupplierDataList = ({ maxHei }) => {
                             </Box>
                         </TableCell>
                         <TableCell align="center"></TableCell>
+                        {isColumn1Open ? (
+                            <>
+                                <TableCell align="center">
+                                    <TextField
+                                        size="small"
+                                        value={submarineCable}
+                                        onChange={(e) => {
+                                            setSubmarineCable(e.target.value);
+                                        }}
+                                    />
+                                </TableCell>
+                                <TableCell align="center">
+                                    <TextField
+                                        size="small"
+                                        value={workTitle}
+                                        onChange={(e) => {
+                                            setWorkTitle(e.target.value);
+                                        }}
+                                    />
+                                </TableCell>
+                            </>
+                        ) : (
+                            <TableCell align="center">
+                                <TextField
+                                    size="small"
+                                    value={submarineCable}
+                                    onChange={(e) => {
+                                        setSubmarineCable(e.target.value);
+                                    }}
+                                />
+                            </TableCell>
+                        )}
                         <TableCell align="center">
                             <TextField
                                 size="small"
