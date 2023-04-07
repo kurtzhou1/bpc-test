@@ -373,6 +373,28 @@ const PartyDataList = ({}) => {
         setBankAddressEdit(row.BankAddress);
     };
 
+    const copyPartyInfo = (row) => {
+        setCode(row.PartyCode);
+        setSubmarineCable(row.SubmarineCable);
+        setWorkTitle(row.WorkTitle);
+        setPartyName(row.PartyName);
+        setAddress(row.Address);
+        setContact(row.Contact);
+        setEmail(row.Email);
+        setTel(row.Tel);
+        setCompanyName(row.CompanyName);
+        setBankAcctName(row.BankAcctName);
+        setAccountNo(row.AccountNo);
+        setSavingAccountNo(row.SavingAccountNo);
+        setSWIFTCode(row.SWIFTCode);
+        setIBAN(row.IBAN);
+        setACHNo(row.ACHNo);
+        setWireRouting(row.WireRouting);
+        setBankName(row.BankName);
+        setBranch(row.Branch);
+        setBankAddress(row.BankAddress);
+    };
+
     const saveEditPartyInfo = () => {
         let tmpArray = {
             PartyID: partyID.current,
@@ -396,7 +418,6 @@ const PartyDataList = ({}) => {
             Branch: branchEdit,
             BankAddress: bankAddressEdit
         };
-        console.log('tmpArray=>>', tmpArray);
         fetch(editParties, { method: 'POST', body: JSON.stringify(tmpArray), headers: { 'Content-Type': 'application/json' } })
             .then((res) => res.json())
             .then((data) => {
@@ -659,6 +680,15 @@ const PartyDataList = ({}) => {
                                                     }}
                                                 >
                                                     編輯
+                                                </Button>
+                                                <Button
+                                                    color="success"
+                                                    variant="outlined"
+                                                    onClick={() => {
+                                                        copyPartyInfo(row);
+                                                    }}
+                                                >
+                                                    複製
                                                 </Button>
                                                 <Button
                                                     color="error"
@@ -958,8 +988,11 @@ const PartyDataList = ({}) => {
                                     '& button': { mx: { md: 0.6, lg: 1, xl: 1.8 }, p: 0, fontSize: 1 }
                                 }}
                             >
-                                <Button color="success" variant="outlined" onClick={addPartyInfo}>
+                                <Button color="primary" variant="outlined" onClick={addPartyInfo}>
                                     新增
+                                </Button>
+                                <Button color="success" variant="outlined" onClick={infoInit}>
+                                    清除
                                 </Button>
                             </Box>
                         </TableCell>
