@@ -58,7 +58,7 @@ const MainLayout = () => {
         return <MuiAlert elevation={6} ref={ref} {...props} sx={{ fontSize: 16 }} />;
     });
     const handleClose = (event, reason) => {
-        console.log('handleClose=>>', reason);
+        console.log('handleClose=>', reason);
         if (reason === 'clickaway') {
             return;
         }

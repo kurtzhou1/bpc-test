@@ -136,7 +136,6 @@ const DeductedDataList = ({ dataList }) => {
                             <StyledTableCell align="center">發票日期</StyledTableCell>
                             <StyledTableCell align="center">明細數量</StyledTableCell>
                             <StyledTableCell align="center">總價</StyledTableCell>
-                            {/* <StyledTableCell align="center">處理狀態</StyledTableCell> */}
                             <StyledTableCell align="center">Action</StyledTableCell>
                         </TableRow>
                     </TableHead>
@@ -144,7 +143,7 @@ const DeductedDataList = ({ dataList }) => {
                         {dataList?.map((row, id) => {
                             return (
                                 <TableRow
-                                    key={row.BillMaster.BillMasterID + row.BillMaster.BillMasterID}
+                                    key={row.BillMaster.BillMasterID + row.BillMaster.BillingNo}
                                     sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                                 >
                                     <StyledTableCell align="center">{id + 1}</StyledTableCell>

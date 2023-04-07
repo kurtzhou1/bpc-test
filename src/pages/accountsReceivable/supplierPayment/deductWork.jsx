@@ -170,8 +170,8 @@ const ToGenerateDataList = ({ isDialogOpen, handleDialogClose, deductInfo, actio
     //         })
     //         .catch((e) => console.log('e1=>', e));
     // };
-    console.log('dialogTitle=>>', deductInfo);
-    console.log('actionName=>>', actionName, actionName !== 'view', actionName !== 'viewDeducted');
+    console.log('dialogTitle=>', deductInfo);
+    console.log('actionName=>', actionName, actionName !== 'view', actionName !== 'viewDeducted');
 
     return (
         <Dialog onClose={handleDialogClose} maxWidth="xl" open={isDialogOpen}>

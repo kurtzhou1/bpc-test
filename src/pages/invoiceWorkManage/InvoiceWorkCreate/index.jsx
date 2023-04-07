@@ -233,7 +233,7 @@ const InvoiceWorkManage = () => {
                     dispatch(setMessageStateOpen({ messageStateOpen: { isOpen: true, severity: 'success', message: '送出發票成功' } }));
                     setListInfo([]);
                 })
-                .catch((e) => console.log('e=>>', e));
+                .catch((e) => console.log('e=>', e));
         });
     };
 
@@ -257,13 +257,6 @@ const InvoiceWorkManage = () => {
     }, [workTitle, submarineCable]);
 
     useEffect(() => {
-        // 供應商
-        // fetch(supplierNameList, { method: 'GET' })
-        //     .then((res) => res.json())
-        //     .then((data) => {
-        //         setSupNmList(data);
-        //     })
-        //     .catch((e) => console.log('e1=>', e));
         fetch(submarineCableList, { method: 'GET' })
             .then((res) => res.json())
             .then((data) => {

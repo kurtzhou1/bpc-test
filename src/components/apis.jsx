@@ -53,7 +53,6 @@ export const queryToCombineInvo = 'http://10.193.130.7:8000/api/v1/getInvoiceMas
 export const combineInvo = 'http://10.193.130.7:8000/api/v1/getBillMaster&BillDetailStream';
 export const isBillNoCheckOK = 'http://10.193.130.7:8000/api/v1/checkBillingNo';
 export const generateBillNoCovert = 'http://10.193.130.7:8000/api/v1/checkBillingNo/convert';
-// export const generateBillNo = 'http://10.193.130.7:8000/api/v1/checkBillingNo';
 export const invoCombine = 'http://10.193.130.7:8000/api/v1/initBillMaster&BillDetail';
 export const queryToDecutBill = 'http://10.193.130.7:8000/api/v1/getBillMaster&BillDetail';
 export const sendDuctInfo = 'http://10.193.130.7:8000/api/v1/generateBillMaster&BillDetail';
@@ -62,6 +61,9 @@ export const quertDeductedData = 'http://10.193.130.7:8000/api/v1/getBillMaster&
 // 產製應收帳款-已抵扣
 export const generateBillData = 'http://10.193.130.7:8000/api/v1/getBillMasterDraftStream';
 export const contactUser = 'http://10.193.130.7:8000/api/v1/User/all';
+
+// 產製應收帳款-已簽核
+export const updateBM = 'http://10.193.130.7:8000/api/v1/updateBillMaster';
 
 // 基本資料-Suppliers
 export const addSuppliers = 'http://10.193.130.7:8000/api/v1/Suppliers';

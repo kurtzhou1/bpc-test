@@ -361,7 +361,7 @@ const BillDraftMake = ({ isDialogOpen, handleDialogClose, billMasterID, pONo, su
         totalAmount.current = tmpAmount;
     }, [datailInfo]);
 
-    console.log('submarineCableName=>>', submarineCableName);
+    console.log('submarineCableName=>', submarineCableName);
 
     return (
         <Dialog

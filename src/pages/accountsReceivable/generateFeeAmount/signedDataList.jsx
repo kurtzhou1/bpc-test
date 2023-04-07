@@ -28,10 +28,15 @@ import { alpha, styled } from '@mui/material/styles';
 
 import dayjs from 'dayjs';
 
-import { toBillDataapi, sendJounary } from 'components/apis.jsx';
+import { updateBM } from 'components/apis.jsx';
+
+// redux
+import { useDispatch } from 'react-redux';
+import { setMessageStateOpen } from 'store/reducers/dropdown';
 
 const SignedDataList = ({ dataList }) => {
     const deductInfo = useRef({});
+    const dispatch = useDispatch();
     const actionName = useRef('');
     const [isDialogOpen, setIsDialogOpen] = useState(false); //檢視
     const [infoTerminal, setInfoTerminal] = useState(false); //作廢
@@ -55,6 +60,20 @@ const SignedDataList = ({ dataList }) => {
         }
     }));
 
+    const toWriteOff = (billMasterID) => {
+        let tmpData = {
+            BillMasterID: billMasterID,
+            Ststus: 'TO_WRITEOFF'
+        };
+        fetch(sendJounary, { method: 'POST', body: JSON.stringify(tmpData) })
+            .then((res) => res.json())
+            .then((data) => {
+                console.log('立帳成功=>>', data);
+                dispatch(setMessageStateOpen({ messageStateOpen: { isOpen: true, severity: 'success', message: '進待銷帳成功' } }));
+            })
+            .catch((e) => console.log('e1=>', e));
+    };
+
     const handleDialogClose = () => {
         setIsDialogOpen(false);
     };
@@ -65,62 +84,7 @@ const SignedDataList = ({ dataList }) => {
         setIsDialogOpen(true);
     };
 
-    // //立帳作業
-    // const toBillData = (wKMasterID) => {
-    //     console.log('立帳作業wKMasterID=>>', wKMasterID);
-    //     let tmpQuery = '/' + 'WKMasterID=' + wKMasterID;
-    //     tmpQuery = toBillDataapi + tmpQuery;
-    //     console.log('tmpQuery=>>', tmpQuery);
-    //     fetch(tmpQuery, { method: 'GET' })
-    //         .then((res) => res.json())
-    //         .then((data) => {
-    //             console.log('立帳成功=>>', data);
-    //             let tmpAmount = 0;
-    //             if (Array.isArray(data)) {
-    //                 toBillDataMain.current = data ? data.InvoiceMaster : [];
-    //                 setToBillDataInfo(data ? data.InvoiceDetail : []);
-    //                 setTotalAmount(data ? data.TotalAmount : 0);
-    //                 data.InvoiceDetail.forEach((i) => {
-    //                     tmpAmount = tmpAmount + i.FeeAmountPost + i.Difference;
-    //                 });
-    //                 setCurrentAmount(tmpAmount.toFixed(2));
-    //             }
-    //         })
-    //         .catch((e) => console.log('e1=>', e));
-    //     setIsDialogOpen(true);
-    // };
-
-    // const changeDiff = (diff, id) => {
-    //     let tmpArray = toBillDataInfo.map((i) => i);
-    //     let tmpAmount = 0;
-    //     tmpArray[id].Difference = Number(diff);
-    //     tmpArray.forEach((i) => {
-    //         tmpAmount = tmpAmount + i.FeeAmountPost + i.Difference;
-    //     });
-    //     setToBillDataInfo(tmpArray);
-    //     setCurrentAmount(tmpAmount.toFixed(2));
-    // };
-
-    // // 送出立帳(新增)
-    // const sendJounaryInfo = () => {
-    //     let tmpArray = toBillDataMain.current.map((i) => i);
-    //     tmpArray.forEach((i) => {
-    //         delete i.InvMasterID;
-    //     });
-    //     let tmpData = {
-    //         TotalAmount: totalAmount,
-    //         InvoiceMaster: tmpArray,
-    //         InvoiceDetail: toBillDataInfo
-    //     };
-    //     fetch(sendJounary, { method: 'POST', body: JSON.stringify(tmpData) })
-    //         .then((res) => res.json())
-    //         .then((data) => {
-    //             console.log('立帳成功=>>', data);
-    //             apiQuery();
-    //             handleDialogClose();
-    //         })
-    //         .catch((e) => console.log('e1=>', e));
-    // };
+    console.log('dataList=>>', dataList);
 
     return (
         <>
@@ -128,7 +92,7 @@ const SignedDataList = ({ dataList }) => {
                 <BootstrapDialogTitle id="customized-dialog-title" onClose={handleDialogClose}>
                     立帳作業
                 </BootstrapDialogTitle>
-                <DialogContent>
+                {/* <DialogContent>
                     <TableContainer component={Paper} sx={{ maxHeight: 350 }}>
                         <Table sx={{ minWidth: 300 }} stickyHeader aria-label="sticky table">
                             <TableHead>
@@ -148,7 +112,6 @@ const SignedDataList = ({ dataList }) => {
                             </TableHead>
                             <TableBody>
                                 {dataList.map((row, id) => {
-                                    let afterDiff = row.FeeAmountPost + row.Difference;
                                     return (
                                         <TableRow
                                             key={row.FeeAmountPre + row?.PartyName + row?.LBRatio}
@@ -165,19 +128,6 @@ const SignedDataList = ({ dataList }) => {
                                             </StyledTableCell>
                                             <StyledTableCell align="center">{row.data ? row.data.length : 0}</StyledTableCell>
                                             <StyledTableCell align="center">{row.BillMaster.FeeAmountSum}</StyledTableCell>
-                                            <TableCell align="center">
-                                                <TextField
-                                                    label="$"
-                                                    size="small"
-                                                    type="number"
-                                                    style={{ width: '30%' }}
-                                                    // value={diffNumber}
-                                                    onChange={(e) => {
-                                                        changeDiff(e.target.value, id);
-                                                    }}
-                                                />
-                                            </TableCell>
-                                            <TableCell align="center">{`$${handleNumber(afterDiff.toFixed(2))}`}</TableCell>
                                         </TableRow>
                                     );
                                 })}
@@ -188,7 +138,7 @@ const SignedDataList = ({ dataList }) => {
                     <DialogContentText sx={{ fontSize: '20px', color: '#CC0000' }}>
                         目前金額：${handleNumber(currentAmount)}
                     </DialogContentText>
-                </DialogContent>
+                </DialogContent> */}
                 <DialogActions>
                     {/* <Button sx={{ mr: '0.05rem' }} variant="contained" onClick={sendJounaryInfo}>
                         新增
@@ -204,35 +154,32 @@ const SignedDataList = ({ dataList }) => {
                         <TableRow>
                             <StyledTableCell align="center">NO</StyledTableCell>
                             <StyledTableCell align="center">會員</StyledTableCell>
+                            <StyledTableCell align="center">海纜名稱</StyledTableCell>
+                            <StyledTableCell align="center">海纜作業</StyledTableCell>
                             <StyledTableCell align="center">發票代碼</StyledTableCell>
                             <StyledTableCell align="center">供應商</StyledTableCell>
-                            <StyledTableCell align="center">海纜名稱</StyledTableCell>
-                            <StyledTableCell align="center">合約種類</StyledTableCell>
                             <StyledTableCell align="center">發票日期</StyledTableCell>
                             <StyledTableCell align="center">明細數量</StyledTableCell>
                             <StyledTableCell align="center">總價</StyledTableCell>
-                            {/* <StyledTableCell align="center">處理狀態</StyledTableCell> */}
                             <StyledTableCell align="center">Action</StyledTableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {toBillDataInfo?.map((row, id) => {
-                            console.log('row=>>', row);
+                        {dataList?.map((row, id) => {
                             return (
                                 <TableRow
-                                    key={row.InvoiceWKMaster?.WKMasterID + row.InvoiceWKMaster?.InvoiceNo}
+                                    key={row.InvoiceWKMaster?.BillMasterID + row.InvoiceWKMaster?.InvoiceNo}
                                     sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                                 >
                                     <StyledTableCell align="center">{id + 1}</StyledTableCell>
-                                    <StyledTableCell align="center">{row.PartyName}</StyledTableCell>
-                                    <StyledTableCell align="center">{row.SubmarineCable}</StyledTableCell>
-                                    <StyledTableCell align="center">{row.WorkTitle}</StyledTableCell>
-                                    <StyledTableCell align="center">{row.InvoiceNo}</StyledTableCell>
-                                    <StyledTableCell align="center">{row.SupplierName}</StyledTableCell>
-                                    <StyledTableCell align="center">{dayjs(row.IssueDate).format('YYYY/MM/DD')}</StyledTableCell>
-                                    <StyledTableCell align="center">{toBillDataInfo.length}</StyledTableCell>
-                                    <StyledTableCell align="center">{row.TotalAmount}</StyledTableCell>
-                                    {/* <StyledTableCell align="center">{row.Status}</StyledTableCell> */}
+                                    <StyledTableCell align="center">{row.BillMaster.PartyName}</StyledTableCell>
+                                    <StyledTableCell align="center">{row.BillMaster.SubmarineCable}</StyledTableCell>
+                                    <StyledTableCell align="center">{row.BillMaster.WorkTitle}</StyledTableCell>
+                                    <StyledTableCell align="center">{row.BillMaster.BillingNo}</StyledTableCell>
+                                    <StyledTableCell align="center">{row.BillMaster.SupplierName}</StyledTableCell>
+                                    <StyledTableCell align="center">{dayjs(row.BillMaster.IssueDate).format('YYYY/MM/DD')}</StyledTableCell>
+                                    <StyledTableCell align="center">{row.data ? row.data.length : 0}</StyledTableCell>
+                                    <StyledTableCell align="center">{row.BillMaster.FeeAmountSum}</StyledTableCell>
                                     <StyledTableCell align="center">
                                         <Box
                                             sx={{
@@ -241,6 +188,23 @@ const SignedDataList = ({ dataList }) => {
                                                 '& button': { mx: { sm: 0.2, md: 0.2, lg: 0.2, xl: 1 }, p: 0, fontSize: 1 }
                                             }}
                                         >
+                                            {row.BillMaster.Status === 'TO_WRITEOFF' ? (
+                                                <Button color="secondary" size="small" variant="outlined">
+                                                    已進待銷
+                                                </Button>
+                                            ) : (
+                                                <Button
+                                                    color="primary"
+                                                    size="small"
+                                                    variant="outlined"
+                                                    onClick={() => {
+                                                        toWriteOff(row.BillMaster.BillMasterID);
+                                                    }}
+                                                >
+                                                    進待銷帳
+                                                </Button>
+                                            )}
+
                                             <Button
                                                 color="success"
                                                 size="small"
@@ -255,21 +219,6 @@ const SignedDataList = ({ dataList }) => {
                                                 }}
                                             >
                                                 檢視帳單
-                                            </Button>
-                                            <Button
-                                                color="primary"
-                                                size="small"
-                                                variant="outlined"
-                                                // onClick={() => {
-                                                //     handleDialogOpen('viewDeducted', {
-                                                //         PartyName: row.PartyName,
-                                                //         IssueDate: dayjs(row.IssueDate).format('YYYY/MM/DD'),
-                                                //         SubmarineCable: row.SubmarineCable,
-                                                //         WorkTitle: row.WorkTitle
-                                                //     });
-                                                // }}
-                                            >
-                                                進待銷帳
                                             </Button>
                                             <Button
                                                 color="error"
