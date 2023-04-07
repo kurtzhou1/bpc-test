@@ -67,8 +67,10 @@ const SignedDataList = ({ dataList }) => {
             .catch((e) => console.log('e1=>', e));
     };
 
-    const handleDownload = (billMasterID, BillingNo) => {
+    const handleDownload = (billMasterID, url) => {
         let tmpApi = downBM + '/' + billMasterID;
+        const tmpArray = url.split('/');
+        console.log('hello???', tmpArray, tmpArray.length, tmpArray[tmpArray.length - 1]);
         fetch(tmpApi, {
             method: 'GET'
             // headers: {
@@ -77,12 +79,13 @@ const SignedDataList = ({ dataList }) => {
             // body: JSON.stringify(tmpData)
         })
             .then((res) => {
+                console.log('res=>>', res);
                 return res.blob();
             })
             .then((blob) => {
                 const link = document.createElement('a');
                 link.href = window.URL.createObjectURL(blob);
-                link.download = `${BillingNo}.pdf`;
+                link.download = `${tmpArray[tmpArray.length - 1]}`;
                 link.click();
             })
             .catch((e) => console.log('e1=>', e));
@@ -151,7 +154,7 @@ const SignedDataList = ({ dataList }) => {
                                             size="small"
                                             variant="outlined"
                                             onClick={() => {
-                                                handleDownload(row.BillMaster.BillMasterID, row.BillMaster.BillingNo);
+                                                handleDownload(row.BillMaster.BillMasterID, row.BillMaster.URI);
                                             }}
                                         >
                                             下載帳單
