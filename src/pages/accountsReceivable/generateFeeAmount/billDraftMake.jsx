@@ -281,7 +281,6 @@ const BillDraftMake = ({ isDialogOpen, handleDialogClose, billMasterID, pONo, su
             logo: logo,
             GetTemplate: false
         };
-        console.log('tmpData=>>', tmpData);
         fetch(generateBillData, {
             method: 'POST',
             headers: {
@@ -360,8 +359,6 @@ const BillDraftMake = ({ isDialogOpen, handleDialogClose, billMasterID, pONo, su
         });
         totalAmount.current = tmpAmount;
     }, [datailInfo]);
-
-    console.log('submarineCableName=>', submarineCableName);
 
     return (
         <Dialog

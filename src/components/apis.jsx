@@ -6,7 +6,6 @@ export const getPartiesInfoList = 'http://10.193.130.7:8000/api/v1/Parties/all';
 export const billMilestoneLiabilityList = 'http://10.193.130.7:8000/api/v1/dropdownmenuBillMilestone'; //記帳段號
 
 //發票管理下拉選單
-
 export const billMilestoneList = 'http://10.193.130.7:8000/api/v1/BillMilestone/';
 
 // 產生發票工作檔
@@ -64,6 +63,7 @@ export const contactUser = 'http://10.193.130.7:8000/api/v1/User/all';
 
 // 產製應收帳款-已簽核
 export const updateBM = 'http://10.193.130.7:8000/api/v1/updateBillMaster';
+export const downBM = 'http://10.193.130.7:8000/api/v1/BillMaster/signedDraft/';
 
 // 基本資料-Suppliers
 export const addSuppliers = 'http://10.193.130.7:8000/api/v1/Suppliers';

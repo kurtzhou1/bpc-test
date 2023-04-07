@@ -55,7 +55,6 @@ const SignAndUpload = ({ isUploadOpen, handleUploadClose, billMasterID }) => {
         let tmpApi = uploadFileApi + '/' + billMasterID;
         const pdfData = new FormData();
         pdfData.append('file', uploadFile[0]);
-        console.log('tmpApi=>>', tmpApi);
         // data
         fetch(tmpApi, {
             method: 'POST',
@@ -66,7 +65,6 @@ const SignAndUpload = ({ isUploadOpen, handleUploadClose, billMasterID }) => {
         })
             .then((res) => res.json())
             .then((data) => {
-                console.log('上傳成功=>>', data);
                 dispatch(setMessageStateOpen({ messageStateOpen: { isOpen: true, severity: 'success', message: '上傳成功' } }));
                 setUploadFile(null);
                 handleUploadClose();
