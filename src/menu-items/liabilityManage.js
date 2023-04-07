@@ -1,9 +1,9 @@
 // assets
-import { BarChartOutlined, TagOutlined } from '@ant-design/icons';
+import { PercentageOutlined, TagOutlined } from '@ant-design/icons';
 
 // constant
 const icons = {
-    BarChartOutlined,
+    PercentageOutlined,
     TagOutlined
 };
 
@@ -20,7 +20,7 @@ const liabilityManage = {
             title: 'Liability',
             type: 'collapse',
             url: '/Liability/LiabilityManage',
-            icon: icons.BarChartOutlined,
+            icon: icons.PercentageOutlined,
             breadcrumbs: true,
             children: [
                 {

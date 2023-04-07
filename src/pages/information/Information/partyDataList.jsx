@@ -98,6 +98,24 @@ const columns2 = [
 const columns3 = [
     { id: 'Bank A/C Name', label: 'Bank A/C Name', align: 'center', className: '' },
     {
+        id: 'Bank Name',
+        label: 'Bank Name',
+        align: 'center'
+    },
+    {
+        id: 'Branch',
+        label: 'Branch',
+        align: 'center'
+    },
+    {
+        id: 'Bank Address',
+        label: 'Bank Address',
+        align: 'center'
+    }
+];
+
+const columns4 = [
+    {
         id: 'A/C No.',
         label: 'A/C No.',
         align: 'center'
@@ -125,21 +143,6 @@ const columns3 = [
     {
         id: 'Wire/Routing',
         label: 'Wire/Routing',
-        align: 'center'
-    },
-    {
-        id: 'Bank Name',
-        label: 'Bank Name',
-        align: 'center'
-    },
-    {
-        id: 'Branch',
-        label: 'Branch',
-        align: 'center'
-    },
-    {
-        id: 'Bank Address',
-        label: 'Bank Address',
         align: 'center'
     }
 ];
@@ -238,6 +241,7 @@ const PartyDataList = ({ maxHei }) => {
     const [isColumn1Open, setIsColumn1Open] = useState(false);
     const [isColumn2Open, setIsColumn2Open] = useState(false);
     const [isColumn3Open, setIsColumn3Open] = useState(false);
+    const [isColumn4Open, setIsColumn4Open] = useState(false);
 
     const infoInit = () => {
         setSubmarineCable('');
@@ -529,6 +533,39 @@ const PartyDataList = ({ maxHei }) => {
                                 {columns3[0].label}
                             </StyledTableCell>
                         )}
+                        {isColumn4Open ? (
+                            columns4.map((column, id) => {
+                                return (
+                                    <StyledTableCell key={column.id} align={column.align}>
+                                        {id === 0 ? (
+                                            <Button
+                                                sx={{ p: 0 }}
+                                                onClick={() => {
+                                                    setIsColumn4Open(!isColumn4Open);
+                                                }}
+                                            >
+                                                {isColumn4Open ? <DoNotDisturbOnIcon /> : <AddCircleIcon />}
+                                            </Button>
+                                        ) : (
+                                            ''
+                                        )}
+                                        {column.label}
+                                    </StyledTableCell>
+                                );
+                            })
+                        ) : (
+                            <StyledTableCell key={columns4[0].id} align={columns4[0].align}>
+                                <Button
+                                    sx={{ p: 0 }}
+                                    onClick={() => {
+                                        setIsColumn4Open(!isColumn4Open);
+                                    }}
+                                >
+                                    {isColumn4Open ? <DoNotDisturbOnIcon /> : <AddCircleIcon />}
+                                </Button>
+                                {columns4[0].label}
+                            </StyledTableCell>
+                        )}
                     </TableRow>
                 </TableHead>
                 <TableBody>
@@ -602,18 +639,24 @@ const PartyDataList = ({ maxHei }) => {
                                         {isColumn3Open ? (
                                             <>
                                                 <StyledTableCell align="center">{row.BankAcctName}</StyledTableCell>
-                                                <StyledTableCell align="center">{row.BankAcctNo}</StyledTableCell>
-                                                <StyledTableCell align="center">{row.SavingAcctNo}</StyledTableCell>
-                                                <StyledTableCell align="center">{row.SWIFTCode}</StyledTableCell>
-                                                <StyledTableCell align="center">{row.IBAN}</StyledTableCell>
-                                                <StyledTableCell align="center">{row.ACHNo}</StyledTableCell>
-                                                <StyledTableCell align="center">{row.WireRouting}</StyledTableCell>
                                                 <StyledTableCell align="center">{row.BankName}</StyledTableCell>
                                                 <StyledTableCell align="center">{row.Branch}</StyledTableCell>
                                                 <StyledTableCell align="center">{row.BankAddress}</StyledTableCell>
                                             </>
                                         ) : (
                                             <StyledTableCell align="center">{row.BankAcctName}</StyledTableCell>
+                                        )}
+                                        {isColumn4Open ? (
+                                            <>
+                                                <StyledTableCell align="center">{row.BankAcctNo}</StyledTableCell>
+                                                <StyledTableCell align="center">{row.SavingAcctNo}</StyledTableCell>
+                                                <StyledTableCell align="center">{row.SWIFTCode}</StyledTableCell>
+                                                <StyledTableCell align="center">{row.IBAN}</StyledTableCell>
+                                                <StyledTableCell align="center">{row.ACHNo}</StyledTableCell>
+                                                <StyledTableCell align="center">{row.WireRouting}</StyledTableCell>
+                                            </>
+                                        ) : (
+                                            <StyledTableCell align="center">{row.BankAcctNo}</StyledTableCell>
                                         )}
                                     </>
                                 ) : (
@@ -760,6 +803,47 @@ const PartyDataList = ({ maxHei }) => {
                                                 <TableCell align="center">
                                                     <TextField
                                                         size="small"
+                                                        value={bankNameEdit}
+                                                        onChange={(e) => {
+                                                            setBankNameEdit(e.target.value);
+                                                        }}
+                                                    />
+                                                </TableCell>
+                                                <TableCell align="center">
+                                                    <TextField
+                                                        size="small"
+                                                        value={branchEdit}
+                                                        onChange={(e) => {
+                                                            setBranchEdit(e.target.value);
+                                                        }}
+                                                    />
+                                                </TableCell>
+                                                <TableCell align="center">
+                                                    <TextField
+                                                        size="small"
+                                                        value={bankAddressEdit}
+                                                        onChange={(e) => {
+                                                            setBankAddressEdit(e.target.value);
+                                                        }}
+                                                    />
+                                                </TableCell>
+                                            </>
+                                        ) : (
+                                            <TableCell align="center">
+                                                <TextField
+                                                    size="small"
+                                                    value={bankAcctNameEdit}
+                                                    onChange={(e) => {
+                                                        setBankAcctNameEdit(e.target.value);
+                                                    }}
+                                                />
+                                            </TableCell>
+                                        )}
+                                        {isColumn4Open ? (
+                                            <>
+                                                <TableCell align="center">
+                                                    <TextField
+                                                        size="small"
                                                         value={accountNoEdit}
                                                         onChange={(e) => {
                                                             setAccountNoEdit(e.target.value);
@@ -811,41 +895,14 @@ const PartyDataList = ({ maxHei }) => {
                                                         }}
                                                     />
                                                 </TableCell>
-                                                <TableCell align="center">
-                                                    <TextField
-                                                        size="small"
-                                                        value={bankNameEdit}
-                                                        onChange={(e) => {
-                                                            setBankNameEdit(e.target.value);
-                                                        }}
-                                                    />
-                                                </TableCell>
-                                                <TableCell align="center">
-                                                    <TextField
-                                                        size="small"
-                                                        value={branchEdit}
-                                                        onChange={(e) => {
-                                                            setBranchEdit(e.target.value);
-                                                        }}
-                                                    />
-                                                </TableCell>
-                                                <TableCell align="center">
-                                                    <TextField
-                                                        size="small"
-                                                        value={bankAddressEdit}
-                                                        onChange={(e) => {
-                                                            setBankAddressEdit(e.target.value);
-                                                        }}
-                                                    />
-                                                </TableCell>
                                             </>
                                         ) : (
                                             <TableCell align="center">
                                                 <TextField
                                                     size="small"
-                                                    value={bankAcctNameEdit}
+                                                    value={accountNoEdit}
                                                     onChange={(e) => {
-                                                        setBankAcctNameEdit(e.target.value);
+                                                        setAccountNoEdit(e.target.value);
                                                     }}
                                                 />
                                             </TableCell>
@@ -996,6 +1053,47 @@ const PartyDataList = ({ maxHei }) => {
                                 <TableCell align="center">
                                     <TextField
                                         size="small"
+                                        value={bankName}
+                                        onChange={(e) => {
+                                            setBankName(e.target.value);
+                                        }}
+                                    />
+                                </TableCell>
+                                <TableCell align="center">
+                                    <TextField
+                                        size="small"
+                                        value={branch}
+                                        onChange={(e) => {
+                                            setBranch(e.target.value);
+                                        }}
+                                    />
+                                </TableCell>
+                                <TableCell align="center">
+                                    <TextField
+                                        size="small"
+                                        value={bankAddress}
+                                        onChange={(e) => {
+                                            setBankAddress(e.target.value);
+                                        }}
+                                    />
+                                </TableCell>
+                            </>
+                        ) : (
+                            <TableCell align="center">
+                                <TextField
+                                    size="small"
+                                    value={bankAcctName}
+                                    onChange={(e) => {
+                                        setBankAcctName(e.target.value);
+                                    }}
+                                />
+                            </TableCell>
+                        )}
+                        {isColumn4Open ? (
+                            <>
+                                <TableCell align="center">
+                                    <TextField
+                                        size="small"
                                         value={accountNo}
                                         onChange={(e) => {
                                             setAccountNo(e.target.value);
@@ -1047,41 +1145,14 @@ const PartyDataList = ({ maxHei }) => {
                                         }}
                                     />
                                 </TableCell>
-                                <TableCell align="center">
-                                    <TextField
-                                        size="small"
-                                        value={bankName}
-                                        onChange={(e) => {
-                                            setBankName(e.target.value);
-                                        }}
-                                    />
-                                </TableCell>
-                                <TableCell align="center">
-                                    <TextField
-                                        size="small"
-                                        value={branch}
-                                        onChange={(e) => {
-                                            setBranch(e.target.value);
-                                        }}
-                                    />
-                                </TableCell>
-                                <TableCell align="center">
-                                    <TextField
-                                        size="small"
-                                        value={bankAddress}
-                                        onChange={(e) => {
-                                            setBankAddress(e.target.value);
-                                        }}
-                                    />
-                                </TableCell>
                             </>
                         ) : (
                             <TableCell align="center">
                                 <TextField
                                     size="small"
-                                    value={bankAcctName}
+                                    value={accountNo}
                                     onChange={(e) => {
-                                        setBankAcctName(e.target.value);
+                                        setAccountNo(e.target.value);
                                     }}
                                 />
                             </TableCell>

@@ -1,9 +1,9 @@
 // assets
-import { SnippetsOutlined, TagOutlined } from '@ant-design/icons';
+import { CreditCardOutlined, TagOutlined } from '@ant-design/icons';
 
 // constant
 const icons = {
-    SnippetsOutlined,
+    CreditCardOutlined,
     TagOutlined
 };
 
@@ -20,7 +20,7 @@ const CreditBalanceManage = {
             title: 'CreditBalance',
             type: 'collapse',
             url: '/CreditBalance/CreditBalanceManage',
-            icon: icons.SnippetsOutlined,
+            icon: icons.CreditCardOutlined,
             breadcrumbs: true,
             children: [
                 {
