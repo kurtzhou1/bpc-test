@@ -30,69 +30,15 @@ import dayjs from 'dayjs';
 
 import { toBillDataapi, sendJounary } from 'components/apis.jsx';
 
-const SignedDataList = ({ listInfo, apiQuery }) => {
-    const fakeData = {
-        TotalAmount: 5582012.72,
-        InvoiceMaster: [
-            {
-                InvMasterID: 1,
-                WKMasterID: 1,
-                InvoiceNo: 'DT0170168-1',
-                PartyName: 'Edge',
-                SupplierName: 'NEC',
-                SubmarineCable: 'SJC2',
-                WorkTitle: 'Construction',
-                IssueDate: '2022-09-09T00:00:00',
-                DueDate: '2022-11-08T00:00:00',
-                IsPro: false,
-                ContractType: 'SC',
-                Status: ''
-            }
-        ],
-        InvoiceDetail: [
-            {
-                WKMasterID: 1,
-                WKDetailID: 1,
-                InvMasterID: 1,
-                InvoiceNo: 'DT0170168-1',
-                PartyName: 'Edge',
-                SupplierName: 'NEC',
-                SubmarineCable: 'SJC2',
-                WorkTitle: 'Construction',
-                BillMilestone: 'BM9a',
-                FeeItem: 'BM9a Sea...',
-                LBRatio: 28.5714285714,
-                FeeAmountPre: 1288822.32,
-                FeeAmountPost: 369234.95,
-                Difference: 0
-            },
-            {
-                WKMasterID: 2,
-                WKDetailID: 2,
-                InvMasterID: 2,
-                InvoiceNo: 'DT0170168-2',
-                PartyName: 'Edge',
-                SupplierName: 'NEC',
-                SubmarineCable: 'SJC2',
-                WorkTitle: 'Construction',
-                BillMilestone: 'BM9a',
-                FeeItem: 'BM12a Under the Sea',
-                LBRatio: 28.5714285714,
-                FeeAmountPre: 1288844.44,
-                FeeAmountPost: 368244.44,
-                Difference: 0
-            }
-        ]
-    };
-
+const SignedDataList = ({ dataList }) => {
     const deductInfo = useRef({});
     const actionName = useRef('');
     const [isDialogOpen, setIsDialogOpen] = useState(false); //檢視
     const [infoTerminal, setInfoTerminal] = useState(false); //作廢
     const [uploadOpen, setUploadOpen] = useState(false); //上傳
-    const [toBillDataMain, setToBillDataMain] = useState(fakeData.InvoiceMaster); //發票主檔
-    const [toBillDataInfo, setToBillDataInfo] = useState(fakeData.InvoiceDetail); //發票明細檔
-    const [totalAmount, setTotalAmount] = useState(fakeData.TotalAmount); //發票總金額
+    const [toBillDataMain, setToBillDataMain] = useState(); //發票主檔
+    const [toBillDataInfo, setToBillDataInfo] = useState(); //發票明細檔
+    const [totalAmount, setTotalAmount] = useState(); //發票總金額
     const [currentAmount, setCurrentAmount] = useState(''); //目前金額
     const StyledTableCell = styled(TableCell)(({ theme }) => ({
         [`&.${tableCellClasses.head}`]: {
@@ -187,7 +133,6 @@ const SignedDataList = ({ listInfo, apiQuery }) => {
                         <Table sx={{ minWidth: 300 }} stickyHeader aria-label="sticky table">
                             <TableHead>
                                 <TableRow>
-                                    <StyledTableCell align="center"></StyledTableCell>
                                     <StyledTableCell align="center">NO</StyledTableCell>
                                     <StyledTableCell align="center">會員</StyledTableCell>
                                     <StyledTableCell align="center">海纜名稱</StyledTableCell>
@@ -202,18 +147,24 @@ const SignedDataList = ({ listInfo, apiQuery }) => {
                                 </TableRow>
                             </TableHead>
                             <TableBody>
-                                {toBillDataInfo.map((row, id) => {
+                                {dataList.map((row, id) => {
                                     let afterDiff = row.FeeAmountPost + row.Difference;
                                     return (
                                         <TableRow
                                             key={row.FeeAmountPre + row?.PartyName + row?.LBRatio}
                                             sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                                         >
-                                            <TableCell align="center">{row.FeeItem}</TableCell>
-                                            <TableCell align="center">{`$${handleNumber(row.FeeAmountPre)}`}</TableCell>
-                                            <TableCell align="center">{row.PartyName}</TableCell>
-                                            <TableCell align="center">{`${row.LBRatio}%`}</TableCell>
-                                            <TableCell align="center">{`$${handleNumber(row.FeeAmountPost)}`}</TableCell>
+                                            <StyledTableCell align="center">{id + 1}</StyledTableCell>
+                                            <StyledTableCell align="center">{row.BillMaster.PartyName}</StyledTableCell>
+                                            <StyledTableCell align="center">{row.BillMaster.SubmarineCable}</StyledTableCell>
+                                            <StyledTableCell align="center">{row.BillMaster.WorkTitle}</StyledTableCell>
+                                            <StyledTableCell align="center">{row.BillMaster.BillingNo}</StyledTableCell>
+                                            <StyledTableCell align="center">{row.BillMaster.SupplierName}</StyledTableCell>
+                                            <StyledTableCell align="center">
+                                                {dayjs(row.BillMaster.IssueDate).format('YYYY/MM/DD')}
+                                            </StyledTableCell>
+                                            <StyledTableCell align="center">{row.data ? row.data.length : 0}</StyledTableCell>
+                                            <StyledTableCell align="center">{row.BillMaster.FeeAmountSum}</StyledTableCell>
                                             <TableCell align="center">
                                                 <TextField
                                                     label="$"

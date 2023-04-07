@@ -408,12 +408,63 @@ const fakeData2 = [
     }
 ];
 
+const fakeData3 = [
+    {
+        BillMaster: {
+            SubmarineCable: 'TPE',
+            BillingNo: '03UP-KT2303300924',
+            PONo: '',
+            PartyName: 'KT',
+            DueDate: '2023-03-30T05:24:49',
+            ReceivedAmountSum: 0,
+            IsPro: false,
+            URI: 's3://cht-deploy-bucket-1/TPE Cable Network Upgrade #11 Central Billing Party Signed.pdf',
+            BillMasterID: 3,
+            SupplierName: 'Ciena-US',
+            WorkTitle: 'Upgrade',
+            IssueDate: '2023-03-30T09:25:00',
+            FeeAmountSum: 0,
+            BankFees: null,
+            Status: 'SIGNED'
+        },
+        BillDetail: [
+            {
+                PartyName: 'KT',
+                FeeAmount: 0,
+                ToCBAmount: null,
+                SupplierName: 'Ciena-US',
+                ReceivedAmount: 0,
+                Status: 'INCOMPLETE',
+                SubmarineCable: 'TPE',
+                OverAmount: 0,
+                BillMasterID: 3,
+                WorkTitle: 'Upgrade',
+                ShortAmount: 0,
+                BillDetailID: 9,
+                BillMilestone: '11_BM1',
+                ShortOverReason: null,
+                WKMasterID: 1,
+                FeeItem: 'BM1: Contract Agreement \n',
+                WriteOffDate: null,
+                InvoiceNo: '503041',
+                OrgFeeAmount: 31699,
+                ReceiveDate: null,
+                InvDetailID: 1,
+                DedAmount: 31699,
+                Note: null
+            }
+        ]
+    }
+];
+
 const GenerateFeeAmount = () => {
     const [value, setValue] = useState(0);
     const [listInfo, setListInfo] = useState([]);
     const [dataList, setDataList] = useState([]);
     const dispatch = useDispatch();
     const queryApi = useRef('');
+    const [isDialogOpen, setIsDialogOpen] = useState(false);
+    const totalCombineAmount = useRef(0); //勾選合併帳單總金額
     const handleChange = (event, newValue) => {
         setListInfo([]);
         setDataList([]);
@@ -427,8 +478,6 @@ const GenerateFeeAmount = () => {
         };
     };
 
-    const [isDialogOpen, setIsDialogOpen] = useState(false);
-    const totalCombineAmount = useRef(0); //勾選合併帳單總金額
     const handleDialogClose = () => {
         setIsDialogOpen(false);
     };
@@ -459,10 +508,12 @@ const GenerateFeeAmount = () => {
         } else {
             if (value === 1) {
                 setDataList(fakeData1);
-            } else if (value === 2 || value === 3) {
+            } else if (value === 2) {
                 setDataList(fakeData2);
             } else if (value === 0) {
                 setDataList(fakeData0);
+            } else if (value === 3) {
+                setDataList(fakeData3);
             } else {
                 setDataList([]);
             }
@@ -535,10 +586,10 @@ const GenerateFeeAmount = () => {
                         <DeductedDataList dataList={dataList} />
                     </TabPanel>
                     <TabPanel value={value} index={3}>
-                        <SignedDataList />
+                        <SignedDataList dataList={dataList} />
                     </TabPanel>
                     <TabPanel value={value} index={4}>
-                        <InvalidatedDataList />
+                        <InvalidatedDataList dataList={dataList} />
                     </TabPanel>
                 </MainCard>
             </Grid>

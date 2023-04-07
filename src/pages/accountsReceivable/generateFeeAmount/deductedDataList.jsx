@@ -156,7 +156,6 @@ const DeductedDataList = ({ dataList }) => {
                                     <StyledTableCell align="center">{dayjs(row.BillMaster.IssueDate).format('YYYY/MM/DD')}</StyledTableCell>
                                     <StyledTableCell align="center">{row.data ? row.data.length : 0}</StyledTableCell>
                                     <StyledTableCell align="center">{row.BillMaster.FeeAmountSum}</StyledTableCell>
-                                    {/* <StyledTableCell align="center">{row.BillMaster.Status}</StyledTableCell> */}
                                     <StyledTableCell align="center">
                                         <Box sx={{ display: 'flex', justifyContent: 'center', '& button': { mx: 0.2, p: 0, fontSize: 1 } }}>
                                             <Button

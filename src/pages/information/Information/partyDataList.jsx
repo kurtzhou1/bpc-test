@@ -166,8 +166,8 @@ const fakeData = [
         Tel: '+886912123',
         CompanyName: 'CompanyName',
         BankAcctName: 'BankAcctName',
-        AccountNo: 'AccountNo',
-        SavingAccountNo: 'SavingAccountNo',
+        BankAcctNo: 'BankAcctNo',
+        SavingAcctNo: 'SavingAcctNo',
         SWIFTCode: 'SWIFTCode',
         IBAN: 'IBAN',
         ACHNo: 'ACHNo',
@@ -188,8 +188,8 @@ const fakeData = [
         Tel: '886912123',
         CompanyName: 1,
         BankAcctName: 2,
-        AccountNo: 3,
-        SavingAccountNo: 4,
+        BankAcctNo: 3,
+        SavingAcctNo: 4,
         SWIFTCode: 5,
         IBAN: 6,
         ACHNo: 7,
@@ -317,8 +317,8 @@ const PartyDataList = ({ maxHei }) => {
             Tel: tel,
             CompanyName: companyName,
             BankAcctName: bankAcctName,
-            AccountNo: accountNo,
-            SavingAccountNo: savingAccountNo,
+            BankAcctNo: accountNo,
+            SavingAcctNo: savingAccountNo,
             SWIFTCode: sWIFTCode,
             IBAN: iBAN,
             ACHNo: aCHNo,
@@ -361,8 +361,8 @@ const PartyDataList = ({ maxHei }) => {
         setTelEdit(row.Tel);
         setCompanyNameEdit(row.CompanyName);
         setBankAcctNameEdit(row.BankAcctName);
-        setAccountNoEdit(row.AccountNo);
-        setSavingAccountNoEdit(row.SavingAccountNo);
+        setAccountNoEdit(row.BankAcctNo);
+        setSavingAccountNoEdit(row.SavingAcctNo);
         setSWIFTCodeEdit(row.SWIFTCode);
         setIBANEdit(row.IBAN);
         setACHNoEdit(row.ACHNo);
@@ -383,8 +383,8 @@ const PartyDataList = ({ maxHei }) => {
         setTel(row.Tel);
         setCompanyName(row.CompanyName);
         setBankAcctName(row.BankAcctName);
-        setAccountNo(row.AccountNo);
-        setSavingAccountNo(row.SavingAccountNo);
+        setAccountNo(row.BankAcctNo);
+        setSavingAccountNo(row.SavingAcctNo);
         setSWIFTCode(row.SWIFTCode);
         setIBAN(row.IBAN);
         setACHNo(row.ACHNo);
@@ -407,8 +407,8 @@ const PartyDataList = ({ maxHei }) => {
             Tel: telEdit,
             CompanyName: companyNameEdit,
             BankAcctName: bankAcctNameEdit,
-            AccountNo: accountNoEdit,
-            SavingAccountNo: savingAccountNoEdit,
+            BankAcctNo: accountNoEdit,
+            SavingAcctNo: savingAccountNoEdit,
             SWIFTCode: sWIFTCodeEdit,
             IBAN: iBANEdit,
             ACHNo: aCHNoEdit,
@@ -435,34 +435,7 @@ const PartyDataList = ({ maxHei }) => {
         <TableContainer id="tableContainer" component={Paper} sx={{ maxHeight: maxHei }}>
             <Table stickyHeader aria-label="sticky table">
                 <TableHead>
-                    <TableRow>
-                        {/* <StyledTableCell align="center" colSpan={2}></StyledTableCell> */}
-                        {/* <StyledTableCell align="center" colSpan={isColumn1Open ? 2 : 1}>
-                            {isColumn1Open ? '海纜資訊' : '海纜資訊'}
-                        </StyledTableCell> */}
-                        {/* <StyledTableCell display="" align="center" colSpan={isColumn2Open ? 7 : 1}>
-                            <Button
-                                sx={{ p: 0 }}
-                                onClick={() => {
-                                    setIsColumn2Open(!isColumn2Open);
-                                }}
-                            >
-                                {isColumn2Open ? <DoNotDisturbOnIcon /> : <AddCircleIcon />}
-                            </Button>
-                            {isColumn2Open ? '帳戶資訊' : '帳戶資訊'}
-                        </StyledTableCell> */}
-                        {/* <StyledTableCell align="center" colSpan={isColumn3Open ? 10 : 1}>
-                            <Button
-                                sx={{ p: 0 }}
-                                onClick={() => {
-                                    setIsColumn3Open(!isColumn3Open);
-                                }}
-                            >
-                                {isColumn3Open ? <DoNotDisturbOnIcon /> : <AddCircleIcon />}
-                            </Button>
-                            {isColumn3Open ? '會員資訊' : '會員資訊'}
-                        </StyledTableCell> */}
-                    </TableRow>
+                    <TableRow></TableRow>
                     <TableRow>
                         <StyledTableCell align="center">Action</StyledTableCell>
                         <StyledTableCell align="center">NO</StyledTableCell>
@@ -638,8 +611,8 @@ const PartyDataList = ({ maxHei }) => {
                                         {isColumn3Open ? (
                                             <>
                                                 <StyledTableCell align="center">{row.BankAcctName}</StyledTableCell>
-                                                <StyledTableCell align="center">{row.AccountNo}</StyledTableCell>
-                                                <StyledTableCell align="center">{row.SavingAccountNo}</StyledTableCell>
+                                                <StyledTableCell align="center">{row.BankAcctNo}</StyledTableCell>
+                                                <StyledTableCell align="center">{row.SavingAcctNo}</StyledTableCell>
                                                 <StyledTableCell align="center">{row.SWIFTCode}</StyledTableCell>
                                                 <StyledTableCell align="center">{row.IBAN}</StyledTableCell>
                                                 <StyledTableCell align="center">{row.ACHNo}</StyledTableCell>
