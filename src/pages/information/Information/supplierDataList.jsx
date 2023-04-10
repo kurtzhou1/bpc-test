@@ -271,6 +271,17 @@ const SupplierDataList = ({ maxHei }) => {
         querySuppliersInfo();
     }, []);
 
+    console.log(
+        'savingBankAcctNoEdit=>>',
+        !!savingBankAcctNoEdit,
+        bankAcctNoEdit,
+        bankAcctNoEdit?.length > 0,
+        'bankAcctNoEdit=>>',
+        bankAcctNoEdit,
+        !!savingBankAcctNoEdit,
+        savingBankAcctNoEdit?.length > 0
+    );
+
     return (
         <TableContainer component={Paper} sx={{ maxHeight: maxHei }}>
             <Table sx={{ minWidth: 300 }} stickyHeader aria-label="sticky table">
@@ -591,7 +602,7 @@ const SupplierDataList = ({ maxHei }) => {
                                                     <TextField
                                                         size="small"
                                                         value={bankAcctNoEdit}
-                                                        disabled={savingBankAcctNoEdit.length > 0}
+                                                        disabled={savingBankAcctNoEdit?.length > 0 || !!savingBankAcctNoEdit}
                                                         onChange={(e) => {
                                                             setBankAcctNoEdit(e.target.value);
                                                         }}
@@ -601,7 +612,7 @@ const SupplierDataList = ({ maxHei }) => {
                                                     <TextField
                                                         size="small"
                                                         value={savingBankAcctNoEdit}
-                                                        disabled={bankAcctNoEdit.length > 0}
+                                                        disabled={bankAcctNoEdit?.length > 0 || !!bankAcctNoEdit}
                                                         onChange={(e) => {
                                                             setSavingBankAcctNoEdit(e.target.value);
                                                         }}
