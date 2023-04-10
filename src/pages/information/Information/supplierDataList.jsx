@@ -71,11 +71,30 @@ const SupplierDataList = ({ maxHei }) => {
     }));
 
     const columns1 = [
-        { id: '海纜名稱', label: '海纜名稱', align: 'center', className: '' },
-        { id: '海纜作業', label: '海纜作業', align: 'center' }
+        { id: '海纜名稱', label: '海纜名稱', align: 'center' },
+        { id: '海纜作業', label: '海纜作業', align: 'center' },
+        { id: '供應商簡稱', label: '供應商簡稱', align: 'center' },
+        { id: '供應商全名', label: '供應商全名', align: 'center' }
+    ];
+
+    const columns2 = [
+        {
+            id: 'Bank Name',
+            label: 'Bank Name',
+
+            align: 'center'
+        },
+        { id: 'Branch Name', label: 'Branch Name', align: 'center' },
+        {
+            id: 'Bank Address',
+            label: 'Bank Address',
+
+            align: 'center'
+        }
     ];
 
     const [isColumn1Open, setIsColumn1Open] = useState(false);
+    const [isColumn2Open, setIsColumn2Open] = useState(false);
 
     const infoInit = () => {
         setSupplierName('');
@@ -89,6 +108,8 @@ const SupplierDataList = ({ maxHei }) => {
         setaCHno('');
         setWireRouting('');
         setCompanyName('');
+        setSubmarineCable('');
+        setWorkTitle('');
     };
 
     const editInfoInit = () => {
@@ -104,6 +125,8 @@ const SupplierDataList = ({ maxHei }) => {
         setWireRoutingEdit('');
         setaCHnoEdit('');
         setCompanyNameEdit('');
+        setSubmarineCableEdit('');
+        setWorkTitleEdit('');
     };
 
     const querySuppliersInfo = () => {
@@ -131,9 +154,10 @@ const SupplierDataList = ({ maxHei }) => {
             BankName: bankName,
             BankAddress: bankAddress,
             ACHNo: aCHNo,
-            WireRouting: wireRouting
+            WireRouting: wireRouting,
+            SubmarineCable: submarineCable,
+            WorkTitle: workTitle
         };
-        console.log('addSupplierInfo=>>', tmpArray);
         fetch(addSuppliers, { method: 'POST', body: JSON.stringify(tmpArray), headers: { 'Content-Type': 'application/json' } })
             .then((res) => res.json())
             .then(() => {
@@ -168,6 +192,8 @@ const SupplierDataList = ({ maxHei }) => {
         setaCHnoEdit(row.ACHNo);
         setWireRoutingEdit(row.WireRouting);
         setCompanyNameEdit(row.CompanyName);
+        setSubmarineCableEdit(row.SubmarineCable);
+        setWorkTitleEdit(row.WorkTitle);
     };
 
     const saveEditSupplierInfo = () => {
@@ -184,7 +210,9 @@ const SupplierDataList = ({ maxHei }) => {
             BankName: bankNameEdit,
             BankAddress: bankAddressEdit,
             ACHNo: aCHNoEdit,
-            WireRouting: wireRoutingEdit
+            WireRouting: wireRoutingEdit,
+            SubmarineCable: submarineCableEdit,
+            WorkTitle: workTitleEdit
         };
         fetch(editSuppliers, { method: 'POST', body: JSON.stringify(tmpArray), headers: { 'Content-Type': 'application/json' } })
             .then((res) => res.json())
@@ -240,11 +268,39 @@ const SupplierDataList = ({ maxHei }) => {
                                 {columns1[0].label}
                             </StyledTableCell>
                         )}
-                        <StyledTableCell align="center">供應商簡稱</StyledTableCell>
-                        <StyledTableCell align="center">供應商全名</StyledTableCell>
-                        <StyledTableCell align="center">Bank Name</StyledTableCell>
-                        <StyledTableCell align="center">Branch Name</StyledTableCell>
-                        <StyledTableCell align="center">Bank Address</StyledTableCell>
+                        {isColumn2Open ? (
+                            columns2.map((column, id) => {
+                                return (
+                                    <StyledTableCell key={column.id} align={column.align}>
+                                        {id === 0 ? (
+                                            <Button
+                                                sx={{ p: 0 }}
+                                                onClick={() => {
+                                                    setIsColumn2Open(!isColumn2Open);
+                                                }}
+                                            >
+                                                {isColumn2Open ? <DoNotDisturbOnIcon /> : <AddCircleIcon />}
+                                            </Button>
+                                        ) : (
+                                            ''
+                                        )}
+                                        {column.label}
+                                    </StyledTableCell>
+                                );
+                            })
+                        ) : (
+                            <StyledTableCell key={columns2[0].id} align={columns2[0].align}>
+                                <Button
+                                    sx={{ p: 0 }}
+                                    onClick={() => {
+                                        setIsColumn2Open(!isColumn2Open);
+                                    }}
+                                >
+                                    {isColumn2Open ? <DoNotDisturbOnIcon /> : <AddCircleIcon />}
+                                </Button>
+                                {columns2[0].label}
+                            </StyledTableCell>
+                        )}
                         <StyledTableCell align="center">A/C Name</StyledTableCell>
                         <StyledTableCell align="center">A/C No.</StyledTableCell>
                         <StyledTableCell align="center">Saving A/C No.</StyledTableCell>
@@ -296,15 +352,21 @@ const SupplierDataList = ({ maxHei }) => {
                                             <>
                                                 <StyledTableCell align="center">{row.SubmarineCable}</StyledTableCell>
                                                 <StyledTableCell align="center">{row.WorkTitle}</StyledTableCell>
+                                                <StyledTableCell align="center">{row.SupplierName}</StyledTableCell>
+                                                <StyledTableCell align="center">{row.CompanyName}</StyledTableCell>
                                             </>
                                         ) : (
                                             <StyledTableCell align="center">{row.SubmarineCable}</StyledTableCell>
                                         )}
-                                        <StyledTableCell align="center">{row.SupplierName}</StyledTableCell>
-                                        <StyledTableCell align="center">{row.CompanyName}</StyledTableCell>
-                                        <StyledTableCell align="center">{row.BankName}</StyledTableCell>
-                                        <StyledTableCell align="center">{row.Branch}</StyledTableCell>
-                                        <StyledTableCell align="center">{row.BankAddress}</StyledTableCell>
+                                        {isColumn2Open ? (
+                                            <>
+                                                <StyledTableCell align="center">{row.BankName}</StyledTableCell>
+                                                <StyledTableCell align="center">{row.Branch}</StyledTableCell>
+                                                <StyledTableCell align="center">{row.BankAddress}</StyledTableCell>
+                                            </>
+                                        ) : (
+                                            <StyledTableCell align="center">{row.BankName}</StyledTableCell>
+                                        )}
                                         <StyledTableCell align="center">{row.BankAcctName}</StyledTableCell>
                                         <StyledTableCell align="center">{row.BankAcctNo}</StyledTableCell>
                                         <StyledTableCell align="center">{row.SavingAcctNo}</StyledTableCell>
@@ -365,6 +427,26 @@ const SupplierDataList = ({ maxHei }) => {
                                                         }}
                                                     />
                                                 </TableCell>
+                                                <TableCell align="center">
+                                                    <TextField
+                                                        size="small"
+                                                        // style={{ width: '30%' }}
+                                                        value={supplierNameEdit}
+                                                        onChange={(e) => {
+                                                            setSupplierNameEdit(e.target.value);
+                                                        }}
+                                                    />
+                                                </TableCell>
+                                                <TableCell align="center">
+                                                    <TextField
+                                                        size="small"
+                                                        // style={{ width: '30%' }}
+                                                        value={companyNameEdit}
+                                                        onChange={(e) => {
+                                                            setCompanyNameEdit(e.target.value);
+                                                        }}
+                                                    />
+                                                </TableCell>
                                             </>
                                         ) : (
                                             <TableCell align="center">
@@ -378,53 +460,47 @@ const SupplierDataList = ({ maxHei }) => {
                                                 />
                                             </TableCell>
                                         )}
-                                        <TableCell align="center">
-                                            <TextField
-                                                size="small"
-                                                // style={{ width: '30%' }}
-                                                value={supplierNameEdit}
-                                                onChange={(e) => {
-                                                    setSupplierNameEdit(e.target.value);
-                                                }}
-                                            />
-                                        </TableCell>
-                                        <TableCell align="center">
-                                            <TextField
-                                                size="small"
-                                                // style={{ width: '30%' }}
-                                                value={companyNameEdit}
-                                                onChange={(e) => {
-                                                    setCompanyNameEdit(e.target.value);
-                                                }}
-                                            />
-                                        </TableCell>
-                                        <TableCell align="center">
-                                            <TextField
-                                                size="small"
-                                                value={bankNameEdit}
-                                                onChange={(e) => {
-                                                    setBankNameEdit(e.target.value);
-                                                }}
-                                            />
-                                        </TableCell>
-                                        <TableCell align="center">
-                                            <TextField
-                                                size="small"
-                                                value={branchEdit}
-                                                onChange={(e) => {
-                                                    setBranchEdit(e.target.value);
-                                                }}
-                                            />
-                                        </TableCell>
-                                        <TableCell align="center">
-                                            <TextField
-                                                size="small"
-                                                value={bankAddressEdit}
-                                                onChange={(e) => {
-                                                    setBankAddressEdit(e.target.value);
-                                                }}
-                                            />
-                                        </TableCell>
+                                        {isColumn2Open ? (
+                                            <>
+                                                <TableCell align="center">
+                                                    <TextField
+                                                        size="small"
+                                                        value={bankNameEdit}
+                                                        onChange={(e) => {
+                                                            setBankNameEdit(e.target.value);
+                                                        }}
+                                                    />
+                                                </TableCell>
+                                                <TableCell align="center">
+                                                    <TextField
+                                                        size="small"
+                                                        value={branchEdit}
+                                                        onChange={(e) => {
+                                                            setBranchEdit(e.target.value);
+                                                        }}
+                                                    />
+                                                </TableCell>
+                                                <TableCell align="center">
+                                                    <TextField
+                                                        size="small"
+                                                        value={bankAddressEdit}
+                                                        onChange={(e) => {
+                                                            setBankAddressEdit(e.target.value);
+                                                        }}
+                                                    />
+                                                </TableCell>
+                                            </>
+                                        ) : (
+                                            <TableCell align="center">
+                                                <TextField
+                                                    size="small"
+                                                    value={bankNameEdit}
+                                                    onChange={(e) => {
+                                                        setBankNameEdit(e.target.value);
+                                                    }}
+                                                />
+                                            </TableCell>
+                                        )}
                                         <TableCell align="center">
                                             <TextField
                                                 size="small"
@@ -530,6 +606,26 @@ const SupplierDataList = ({ maxHei }) => {
                                         }}
                                     />
                                 </TableCell>
+                                <TableCell align="center">
+                                    <TextField
+                                        size="small"
+                                        // style={{ width: '30%' }}
+                                        value={supplierName}
+                                        onChange={(e) => {
+                                            setSupplierName(e.target.value);
+                                        }}
+                                    />
+                                </TableCell>
+                                <TableCell align="center">
+                                    <TextField
+                                        size="small"
+                                        // style={{ width: '30%' }}
+                                        value={companyName}
+                                        onChange={(e) => {
+                                            setCompanyName(e.target.value);
+                                        }}
+                                    />
+                                </TableCell>
                             </>
                         ) : (
                             <TableCell align="center">
@@ -542,53 +638,47 @@ const SupplierDataList = ({ maxHei }) => {
                                 />
                             </TableCell>
                         )}
-                        <TableCell align="center">
-                            <TextField
-                                size="small"
-                                // style={{ width: '30%' }}
-                                value={supplierName}
-                                onChange={(e) => {
-                                    setSupplierName(e.target.value);
-                                }}
-                            />
-                        </TableCell>
-                        <TableCell align="center">
-                            <TextField
-                                size="small"
-                                // style={{ width: '30%' }}
-                                value={companyName}
-                                onChange={(e) => {
-                                    setCompanyName(e.target.value);
-                                }}
-                            />
-                        </TableCell>
-                        <TableCell align="center">
-                            <TextField
-                                size="small"
-                                value={bankName}
-                                onChange={(e) => {
-                                    setBankName(e.target.value);
-                                }}
-                            />
-                        </TableCell>
-                        <TableCell align="center">
-                            <TextField
-                                size="small"
-                                value={branch}
-                                onChange={(e) => {
-                                    setBranch(e.target.value);
-                                }}
-                            />
-                        </TableCell>
-                        <TableCell align="center">
-                            <TextField
-                                size="small"
-                                value={bankAddress}
-                                onChange={(e) => {
-                                    setBankAddress(e.target.value);
-                                }}
-                            />
-                        </TableCell>
+                        {isColumn2Open ? (
+                            <>
+                                <TableCell align="center">
+                                    <TextField
+                                        size="small"
+                                        value={bankName}
+                                        onChange={(e) => {
+                                            setBankName(e.target.value);
+                                        }}
+                                    />
+                                </TableCell>
+                                <TableCell align="center">
+                                    <TextField
+                                        size="small"
+                                        value={branch}
+                                        onChange={(e) => {
+                                            setBranch(e.target.value);
+                                        }}
+                                    />
+                                </TableCell>
+                                <TableCell align="center">
+                                    <TextField
+                                        size="small"
+                                        value={bankAddress}
+                                        onChange={(e) => {
+                                            setBankAddress(e.target.value);
+                                        }}
+                                    />
+                                </TableCell>
+                            </>
+                        ) : (
+                            <TableCell align="center">
+                                <TextField
+                                    size="small"
+                                    value={bankName}
+                                    onChange={(e) => {
+                                        setBankName(e.target.value);
+                                    }}
+                                />
+                            </TableCell>
+                        )}
                         <TableCell align="center">
                             <TextField
                                 size="small"

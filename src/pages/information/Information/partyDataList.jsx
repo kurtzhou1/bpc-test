@@ -51,7 +51,7 @@ const useStyles = makeStyles({
 });
 
 const columns1 = [
-    { id: '海纜名稱', label: '海纜名稱', align: 'center', className: '' },
+    { id: '海纜名稱', label: '海纜名稱', align: 'center' },
     { id: '海纜作業', label: '海纜作業', align: 'center' }
 ];
 
@@ -62,7 +62,7 @@ const columns2 = [
 
         align: 'center'
     },
-    { id: '會員代碼', label: '會員代碼', align: 'center', className: '' },
+    { id: '會員代碼', label: '會員代碼', align: 'center' },
     {
         id: '公司名稱',
         label: '公司名稱',
@@ -96,7 +96,7 @@ const columns2 = [
 ];
 
 const columns3 = [
-    { id: 'Bank A/C Name', label: 'Bank A/C Name', align: 'center', className: '' },
+    { id: 'Bank A/C Name', label: 'Bank A/C Name', align: 'center' },
     {
         id: 'Bank Name',
         label: 'Bank Name',
@@ -582,7 +582,7 @@ const PartyDataList = ({ maxHei }) => {
                                                 sx={{
                                                     display: 'flex',
                                                     justifyContent: 'center',
-                                                    '& button': { mx: { md: 0.1, lg: 0.1, xl: 1 }, p: 0, fontSize: 1 }
+                                                    '& button': { mx: { md: 0.1, lg: 0.1, xl: 0.3 }, p: 0, fontSize: 1 }
                                                 }}
                                             >
                                                 <Button
@@ -725,7 +725,7 @@ const PartyDataList = ({ maxHei }) => {
                                                 </TableCell>
                                                 <TableCell align="center">
                                                     <TextField
-                                                        size="small"
+                                                        style={{ width: '30%' }}
                                                         value={codeEdit}
                                                         onChange={(e) => {
                                                             setCodeEdit(e.target.value);
