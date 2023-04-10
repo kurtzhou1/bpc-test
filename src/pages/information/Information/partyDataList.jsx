@@ -845,6 +845,7 @@ const PartyDataList = ({ maxHei }) => {
                                                     <TextField
                                                         size="small"
                                                         value={accountNoEdit}
+                                                        disabled={savingAccountNoEdit?.length > 0 || !!savingAccountNoEdit}
                                                         onChange={(e) => {
                                                             setAccountNoEdit(e.target.value);
                                                         }}
@@ -854,6 +855,7 @@ const PartyDataList = ({ maxHei }) => {
                                                     <TextField
                                                         size="small"
                                                         value={savingAccountNoEdit}
+                                                        disabled={accountNoEdit?.length > 0 || !!accountNoEdit}
                                                         onChange={(e) => {
                                                             setSavingAccountNoEdit(e.target.value);
                                                         }}
@@ -1095,6 +1097,7 @@ const PartyDataList = ({ maxHei }) => {
                                     <TextField
                                         size="small"
                                         value={accountNo}
+                                        disabled={savingAccountNo?.length > 0 || !!savingAccountNo}
                                         onChange={(e) => {
                                             setAccountNo(e.target.value);
                                         }}
@@ -1104,6 +1107,7 @@ const PartyDataList = ({ maxHei }) => {
                                     <TextField
                                         size="small"
                                         value={savingAccountNo}
+                                        disabled={accountNo?.length > 0 || !!accountNo}
                                         onChange={(e) => {
                                             setSavingAccountNo(e.target.value);
                                         }}

@@ -794,7 +794,7 @@ const SupplierDataList = ({ maxHei }) => {
                                     <TextField
                                         size="small"
                                         value={bankAcctNo}
-                                        disabled={savingbankAcctNo.length > 0}
+                                        disabled={savingbankAcctNo?.length > 0 || !!savingbankAcctNo}
                                         onChange={(e) => {
                                             setBankAcctNo(e.target.value);
                                         }}
@@ -803,8 +803,8 @@ const SupplierDataList = ({ maxHei }) => {
                                 <TableCell align="center">
                                     <TextField
                                         size="small"
-                                        disabled={bankAcctNo.length > 0}
                                         value={savingbankAcctNo}
+                                        disabled={bankAcctNo?.length > 0 || !!bankAcctNo}
                                         onChange={(e) => {
                                             setSavingBankAcctNo(e.target.value);
                                         }}

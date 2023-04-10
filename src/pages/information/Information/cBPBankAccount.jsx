@@ -416,7 +416,7 @@ const Corporates = ({ maxHei }) => {
                                         <TableCell align="center">
                                             <TextField
                                                 size="small"
-                                                disabled={savingBankAcctNoEdit.length > 0}
+                                                disabled={savingBankAcctNoEdit?.length > 0 || !!savingBankAcctNoEdit}
                                                 value={acctNoEdit}
                                                 onChange={(e) => {
                                                     setAcctNoEdit(e.target.value);
@@ -426,7 +426,7 @@ const Corporates = ({ maxHei }) => {
                                         <TableCell align="center">
                                             <TextField
                                                 size="small"
-                                                disabled={acctNoEdit.length > 0}
+                                                disabled={acctNoEdit?.length > 0 || !!acctNoEdit}
                                                 value={savingBankAcctNoEdit}
                                                 onChange={(e) => {
                                                     setSavingBankAcctNoEdit(e.target.value);
@@ -563,7 +563,7 @@ const Corporates = ({ maxHei }) => {
                             <TextField
                                 size="small"
                                 value={acctNo}
-                                disabled={savingbankAcctNo.length > 0}
+                                disabled={savingbankAcctNo.length > 0 || !!savingbankAcctNo}
                                 onChange={(e) => {
                                     setAcctNo(e.target.value);
                                 }}
@@ -573,7 +573,7 @@ const Corporates = ({ maxHei }) => {
                             <TextField
                                 size="small"
                                 value={savingbankAcctNo}
-                                disabled={acctNo.length > 0}
+                                disabled={acctNo.length > 0 || !!acctNo}
                                 onChange={(e) => {
                                     setSavingBankAcctNo(e.target.value);
                                 }}
