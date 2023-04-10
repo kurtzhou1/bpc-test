@@ -160,16 +160,6 @@ const SignedDataList = ({ dataList }) => {
                                             下載帳單
                                         </Button>
                                         <Button
-                                            color="error"
-                                            size="small"
-                                            variant="outlined"
-                                            onClick={() => {
-                                                setInfoTerminal(true);
-                                            }}
-                                        >
-                                            作廢
-                                        </Button>
-                                        <Button
                                             color="warning"
                                             size="small"
                                             variant="outlined"
@@ -178,6 +168,16 @@ const SignedDataList = ({ dataList }) => {
                                             }}
                                         >
                                             退回
+                                        </Button>
+                                        <Button
+                                            color="error"
+                                            size="small"
+                                            variant="outlined"
+                                            onClick={() => {
+                                                setInfoTerminal(true);
+                                            }}
+                                        >
+                                            作廢
                                         </Button>
                                     </Box>
                                 </StyledTableCell>

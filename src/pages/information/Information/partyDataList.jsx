@@ -704,7 +704,6 @@ const PartyDataList = ({ maxHei }) => {
                                             <TableCell align="center">
                                                 <TextField
                                                     size="small"
-                                                    // style={{ width: '30%' }}
                                                     value={submarineCableEdit}
                                                     onChange={(e) => {
                                                         setSubmarineCableEdit(e.target.value);
@@ -725,7 +724,7 @@ const PartyDataList = ({ maxHei }) => {
                                                 </TableCell>
                                                 <TableCell align="center">
                                                     <TextField
-                                                        style={{ width: '30%' }}
+                                                        sx={{ width: '3rem' }}
                                                         value={codeEdit}
                                                         onChange={(e) => {
                                                             setCodeEdit(e.target.value);
@@ -978,6 +977,7 @@ const PartyDataList = ({ maxHei }) => {
                                 <TableCell align="center">
                                     <TextField
                                         size="small"
+                                        sx={{ width: '3rem' }}
                                         value={code}
                                         onChange={(e) => {
                                             setCode(e.target.value);

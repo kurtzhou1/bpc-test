@@ -245,7 +245,7 @@ const fakeData2 = [
     }
 ];
 
-const BillDraftMake = ({ isDialogOpen, handleDialogClose, billMasterID, pONo, submarineCableName }) => {
+const BillDraftMake = ({ isDialogOpen, handleDialogClose, billMasterID, pONo, submarineCableName, action }) => {
     const [dataList, setDataList] = useState([]);
     const [contact, setContact] = useState('chang_ty');
     const [contactList, setContactList] = useState(fakeData2);
@@ -428,17 +428,6 @@ const BillDraftMake = ({ isDialogOpen, handleDialogClose, billMasterID, pONo, su
                                             onChange={(e) => setSubject1(e.target.value)}
                                         />
                                     </Grid>
-                                    {/* <Grid item xs={12} sm={12} md={12} lg={12} display="flex">
-                                        <TextField
-                                            fullWidth
-                                            variant="outlined"
-                                            value={subject2}
-                                            size="small"
-                                            label="第二行主旨"
-                                            inputProps={{ maxLength: 65 }}
-                                            onChange={(e) => setSubject2(e.target.value)}
-                                        />
-                                    </Grid> */}
                                 </Grid>
                                 <Grid item xs={12} sm={12} md={12} lg={12} display="flex" justifyContent="start">
                                     <Typography variant="h5" sx={{ fontSize: { lg: '0.5rem', xl: '0.88rem' } }}>
@@ -516,9 +505,9 @@ const BillDraftMake = ({ isDialogOpen, handleDialogClose, billMasterID, pONo, su
                                 </Box>
                                 <Box sx={{ m: 1, width: '20%' }} />
                                 <Box sx={{ m: 1, width: '30%' }}>
-                                    <Box sx={{ fontSize: '12px', textAlign: 'right' }}>{contactInfo?.Address}</Box>
-                                    <Box sx={{ fontSize: '12px', textAlign: 'right' }}>Tel：{contactInfo?.Tel}</Box>
-                                    <Box sx={{ fontSize: '12px', textAlign: 'right' }}>Fax：{contactInfo?.Fax}</Box>
+                                    <Box sx={{ fontSize: '12px', textAlign: 'left' }}>{contactInfo?.Address}</Box>
+                                    <Box sx={{ fontSize: '12px', textAlign: 'left' }}>Tel：{contactInfo?.Tel}</Box>
+                                    <Box sx={{ fontSize: '12px', textAlign: 'left' }}>Fax：{contactInfo?.Fax}</Box>
                                 </Box>
                             </Box>
                             <Box
@@ -532,17 +521,6 @@ const BillDraftMake = ({ isDialogOpen, handleDialogClose, billMasterID, pONo, su
                             >
                                 {submarineCableName} Cable Network {subject1} Central Billing Party
                             </Box>
-                            {/* <Box
-                                sx={{
-                                    fontSize: subject2.length <= 50 ? '18px' : '15px',
-                                    mt: 1,
-                                    textAlign: 'center',
-                                    whiteSpace: 'nowrap',
-                                    fontWeight: 'bold'
-                                }}
-                            >
-                                {subject2}
-                            </Box> */}
                             <Box sx={{ fontSize: '24px', m: 1, textAlign: 'center', fontWeight: 'bold' }}>{subject3} Invoice</Box>
                             <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
                                 <Box sx={{ m: 1, minWidth: '40%', with: '40%' }}>
@@ -658,6 +636,7 @@ const BillDraftMake = ({ isDialogOpen, handleDialogClose, billMasterID, pONo, su
                 <Button
                     sx={{ mr: '0.05rem' }}
                     variant="contained"
+                    disabled={action === 'toDeduct'}
                     onClick={() => {
                         // window.print();
                         handleDownload();

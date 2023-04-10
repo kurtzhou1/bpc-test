@@ -16,6 +16,7 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import { styled } from '@mui/material/styles';
+import BillDraftMake from './billDraftMake';
 import dayjs from 'dayjs';
 
 import { toBillDataapi, sendJounary } from 'components/apis.jsx';
@@ -30,7 +31,8 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
 }));
 
 const ToGenerateDataList = ({ dataList, receivableQuery }) => {
-    const [isDialogOpen, setIsDialogOpen] = useState(false); //折抵作業
+    const [isDeductOpen, setIsDeductOpen] = useState(false); //檢視、折抵作業
+    const [isDialogOpen, setIsDialogOpen] = useState(false); //檢視帳單
     const [isDeductWorkOpen, setIsDeductWorkOpen] = useState(false); //作廢
     const [infoBack, setInfoBack] = useState(false); //退回
     const billMasterInfo = useRef([]);
@@ -38,17 +40,32 @@ const ToGenerateDataList = ({ dataList, receivableQuery }) => {
     const actionName = useRef('');
     const [editItem, setEditItem] = useState();
     const [infoTerminal, setInfoTerminal] = useState(false);
+    const billMasterID = useRef(-1);
+    const submarineCable = useRef('');
+    const pONo = useRef('');
 
-    const handleDialogClose = () => {
-        setIsDialogOpen(false);
+    const handleDeductClose = () => {
+        setIsDeductOpen(false);
         setEditItem();
     };
 
-    const handleDialogOpen = (action, info) => {
+    const handleDeductOpen = (action, info) => {
         billDetailInfo.current = info.BillDetail;
         billMasterInfo.current = info.BillMaster;
         actionName.current = action;
+        setIsDeductOpen(true);
+    };
+
+    const handleDialogOpen = (info) => {
+        billMasterID.current = info.BillMasterID;
+        pONo.current = info.PONo;
+        submarineCable.current = info.SubmarineCable;
         setIsDialogOpen(true);
+    };
+
+    const handleDialogClose = () => {
+        setIsDialogOpen(false);
+        billMasterID.current = -1;
     };
 
     const handleTerminalClose = () => {
@@ -62,8 +79,8 @@ const ToGenerateDataList = ({ dataList, receivableQuery }) => {
     return (
         <>
             <DeductWork
-                isDialogOpen={isDialogOpen}
-                handleDialogClose={handleDialogClose}
+                isDeductOpen={isDeductOpen}
+                handleDeductClose={handleDeductClose}
                 billDetailInfo={billDetailInfo.current}
                 billMasterInfo={billMasterInfo.current}
                 actionName={actionName.current}
@@ -71,6 +88,14 @@ const ToGenerateDataList = ({ dataList, receivableQuery }) => {
             />
             <GenerateFeeTerminate infoTerminal={infoTerminal} handleTerminalClose={handleTerminalClose} />
             <GenerateBack infoBack={infoBack} handleBackClose={handleBackClose} />
+            <BillDraftMake
+                isDialogOpen={isDialogOpen}
+                handleDialogClose={handleDialogClose}
+                billMasterID={billMasterID.current}
+                pONo={pONo.current}
+                submarineCableName={submarineCable.current}
+                action={'toDeduct'}
+            />
             <TableContainer component={Paper} sx={{ maxHeight: 350 }}>
                 <Table sx={{ minWidth: 300 }} stickyHeader aria-label="sticky table">
                     <TableHead>
@@ -83,7 +108,6 @@ const ToGenerateDataList = ({ dataList, receivableQuery }) => {
                             <StyledTableCell align="center">帳單截止日</StyledTableCell>
                             <StyledTableCell align="center">明細數量</StyledTableCell>
                             <StyledTableCell align="center">是否為pro-forma</StyledTableCell>
-                            {/* <StyledTableCell align="center">處理狀態</StyledTableCell> */}
                             <StyledTableCell align="center">Action</StyledTableCell>
                         </TableRow>
                     </TableHead>
@@ -102,7 +126,6 @@ const ToGenerateDataList = ({ dataList, receivableQuery }) => {
                                     <StyledTableCell align="center">{dayjs(row.BillMaster.DueDate).format('YYYY/MM/DD')}</StyledTableCell>
                                     <StyledTableCell align="center">{row.BillDetail ? row.BillDetail.length : 0}</StyledTableCell>
                                     <StyledTableCell align="center">{row.BillMaster.IsPro === 1 ? '是' : '否'}</StyledTableCell>
-                                    {/* <StyledTableCell align="center">{row.BillMaster.Status}</StyledTableCell> */}
                                     <StyledTableCell align="center">
                                         <Box sx={{ display: 'flex', justifyContent: 'center', '& button': { mx: 0.2, p: 0, fontSize: 1 } }}>
                                             <Button
@@ -110,7 +133,7 @@ const ToGenerateDataList = ({ dataList, receivableQuery }) => {
                                                 size="small"
                                                 variant="outlined"
                                                 onClick={() => {
-                                                    handleDialogOpen('view', {
+                                                    handleDeductOpen('view', {
                                                         BillDetail: row.BillDetail,
                                                         BillMaster: row.BillMaster,
                                                         PartyName: row.BillMaster.PartyName
@@ -124,7 +147,7 @@ const ToGenerateDataList = ({ dataList, receivableQuery }) => {
                                                 size="small"
                                                 variant="outlined"
                                                 onClick={() => {
-                                                    handleDialogOpen('deduct', {
+                                                    handleDeductOpen('deduct', {
                                                         BillDetail: row.BillDetail,
                                                         BillMaster: row.BillMaster,
                                                         PartyName: row.BillMaster.PartyName
@@ -132,6 +155,21 @@ const ToGenerateDataList = ({ dataList, receivableQuery }) => {
                                                 }}
                                             >
                                                 折抵作業
+                                            </Button>
+                                            <Button
+                                                color="info"
+                                                size="small"
+                                                variant="outlined"
+                                                onClick={() => {
+                                                    handleDialogOpen({
+                                                        BillMasterID: row.BillMaster.BillMasterID,
+                                                        PONo: row.BillMaster.PONo,
+                                                        SubmarineCable: row.BillMaster.SubmarineCable, //haha
+                                                        WorkTitle: row.BillMaster.WorkTitle
+                                                    });
+                                                }}
+                                            >
+                                                預覽帳單
                                             </Button>
                                             <Button
                                                 color="warning"
