@@ -18,7 +18,7 @@ import { setMessageStateOpen } from 'store/reducers/dropdown';
 
 const LiabilityTerminate = ({ dialogTerminate, handleDialogClose, terminateInfo, apiQuery }) => {
     const dispatch = useDispatch();
-    const [endNote, setEndNote] = useState([]);
+    const [endNote, setEndNote] = useState('');
 
     const terminalLiability = () => {
         let tmpArray = {
