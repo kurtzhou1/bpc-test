@@ -634,7 +634,7 @@ const PartyDataList = ({ maxHei }) => {
                                                 <StyledTableCell align="center">{row.Tel}</StyledTableCell>
                                             </>
                                         ) : (
-                                            <StyledTableCell align="center">{row.PartyCode}</StyledTableCell>
+                                            <StyledTableCell align="center">{row.PartyName}</StyledTableCell>
                                         )}
                                         {isColumn3Open ? (
                                             <>
@@ -782,9 +782,9 @@ const PartyDataList = ({ maxHei }) => {
                                             <TableCell align="center">
                                                 <TextField
                                                     size="small"
-                                                    value={codeEdit}
+                                                    value={partyNameEdit}
                                                     onChange={(e) => {
-                                                        setCodeEdit(e.target.value);
+                                                        setPartyNameEdit(e.target.value);
                                                     }}
                                                 />
                                             </TableCell>
@@ -1034,9 +1034,9 @@ const PartyDataList = ({ maxHei }) => {
                             <TableCell align="center">
                                 <TextField
                                     size="small"
-                                    value={code}
+                                    value={partyName}
                                     onChange={(e) => {
-                                        setCode(e.target.value);
+                                        setPartyName(e.target.value);
                                     }}
                                 />
                             </TableCell>
