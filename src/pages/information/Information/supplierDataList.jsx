@@ -190,6 +190,7 @@ const SupplierDataList = ({ maxHei }) => {
             BankAcctName: bankAcctName,
             Branch: branch,
             BankAcctNo: bankAcctNo,
+            SavingAcctNo: savingbankAcctNo,
             SWIFTCode: sWIFTCode,
             IBAN: iBAN,
             BankName: bankName,
@@ -235,6 +236,7 @@ const SupplierDataList = ({ maxHei }) => {
         setCompanyNameEdit(row.CompanyName);
         setSubmarineCableEdit(row.SubmarineCable);
         setWorkTitleEdit(row.WorkTitle);
+        setSavingBankAcctNoEdit(row.SavingAcctNo);
     };
 
     const saveEditSupplierInfo = () => {
@@ -244,8 +246,8 @@ const SupplierDataList = ({ maxHei }) => {
             CompanyName: companyNameEdit,
             BankAcctName: bankAcctNameEdit,
             Branch: branchEdit,
-            BankAcctNo1: bankAcctNoEdit,
-            BankAcctNo2: savingBankAcctNoEdit,
+            BankAcctNo: bankAcctNoEdit,
+            SavingAcctNo: savingBankAcctNoEdit,
             SWIFTCode: sWIFTCodeEdit,
             IBAN: iBANEdit,
             BankName: bankNameEdit,
