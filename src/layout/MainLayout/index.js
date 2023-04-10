@@ -1,10 +1,10 @@
-import { useEffect, useState, forwardRef } from 'react';
+import { useEffect, useState, forwardRef, useRef } from 'react';
 import { Outlet } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 
 // material-ui
 import { useTheme } from '@mui/material/styles';
-import { Box, Toolbar, useMediaQuery, Snackbar } from '@mui/material';
+import { Box, Toolbar, useMediaQuery, Snackbar, CircularProgress } from '@mui/material';
 import MuiAlert from '@mui/material/Alert';
 
 // project import
@@ -53,16 +53,30 @@ const MainLayout = () => {
     };
 
     //messageInfo
+    const [isLoading, setIsLoading] = useState(false);
+    const [isOpenNow, setIsOpenNow] = useState(false);
+    const timer = useRef();
     const { messageStateOpen } = useSelector((state) => state.dropdown); //message狀態
     const Alert = forwardRef(function Alert(props, ref) {
         return <MuiAlert elevation={6} ref={ref} {...props} sx={{ fontSize: 16 }} />;
     });
+    const handleLoading = () => {
+        if (!isLoading) {
+            setIsOpenNow(false);
+            setIsLoading(true);
+            timer.current = window.setTimeout(() => {
+                setIsOpenNow(true);
+                setIsLoading(false);
+            }, 3000);
+        }
+    };
     const handleClose = (event, reason) => {
         console.log('handleClose=>', reason);
         if (reason === 'clickaway') {
             return;
         }
         dispatch(setMessageStateOpen({ messageStateOpen: { isOpen: false, severity: '', message: '' } }));
+        setIsOpenNow(false);
     };
 
     // set media wise responsive drawer
@@ -110,6 +124,12 @@ const MainLayout = () => {
             .catch((e) => console.log('e1=>', e));
     }, []);
 
+    useEffect(() => {
+        if (messageStateOpen.isOpen) {
+            handleLoading();
+        }
+    }, [messageStateOpen.isOpen]);
+
     return (
         <Box sx={{ display: 'flex', width: '100%' }}>
             {/* <Header open={open} handleDrawerToggle={handleDrawerToggle} /> */}
@@ -123,10 +143,30 @@ const MainLayout = () => {
                 <Outlet sx={{ width: '100%' }} />
             </Box>
             {/* 警示按鈕 */}
+            {isLoading && (
+                <Box
+                    sx={{
+                        position: 'absolute',
+                        width: '95vw',
+                        height: '100%',
+                        zIndex: 10000
+                    }}
+                >
+                    <CircularProgress
+                        sx={{
+                            position: 'absolute',
+                            top: '50%',
+                            left: '50%'
+                        }}
+                        size={68}
+                    />
+                </Box>
+            )}
             <Snackbar
                 anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
-                open={messageStateOpen.isOpen}
-                autoHideDuration={3000}
+                // open={messageStateOpen.isOpen}
+                open={isOpenNow}
+                autoHideDuration={2000}
                 onClose={handleClose}
             >
                 <Alert onClose={handleClose} severity={messageStateOpen.severity} sx={{ width: '100%' }}>

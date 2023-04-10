@@ -185,7 +185,6 @@ const InvoiceWorkManage = () => {
                 WKMasterID: listInfo[modifyItem].InvoiceWKMaster.WKMasterID,
                 Status: 'VALIDATED'
             };
-            console.log('=>>', action, tmpArray);
             fetch(updateInvoice, { method: 'POST', body: JSON.stringify(tmpArray) })
                 .then((res) => res.json())
                 .then(() => {
