@@ -1,4 +1,4 @@
-import { useEffect, useState, useRef } from 'react';
+import { useEffect, useState, useRef, useCallback } from 'react';
 import { Grid, Button, FormControl, InputLabel, Select, MenuItem, Box, TextField, Checkbox, Tabs, Tab } from '@mui/material';
 import { styled } from '@mui/material/styles';
 
@@ -104,8 +104,29 @@ const CreateJournal = () => {
         setValue(newValue);
     };
 
+    const [state, setState] = useState('');
+    const [debouncedState, setDebouncedState] = useState('');
+    const handleChangee = (event) => {
+        setState(event.target.value);
+        debounce(event.target.value);
+    };
+    const debounce = useCallback(
+        _.debounce((_searchVal) => {
+            setDebouncedState(_searchVal);
+        }, 500),
+        []
+    );
+
     return (
         <Grid container spacing={1}>
+            <form>
+                <label>
+                    type
+                    <input type="text" onChange={handleChangee} />
+                </label>
+            </form>
+            <p>without Debounced {state}</p>
+            <p>Debounced Value: {debouncedState}</p>
             <Grid item xs={12}>
                 <JournalQuery setListInfo={setListInfo} queryApi={queryApi} invoiceStatus={value} />
             </Grid>

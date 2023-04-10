@@ -132,6 +132,16 @@ const SignedDataList = ({ dataList }) => {
                                             '& button': { mx: { sm: 0.2, md: 0.2, lg: 0.2, xl: 1 }, p: 0, fontSize: 1 }
                                         }}
                                     >
+                                        <Button
+                                            color="success"
+                                            size="small"
+                                            variant="outlined"
+                                            onClick={() => {
+                                                handleDownload(row.BillMaster.BillMasterID, row.BillMaster.URI);
+                                            }}
+                                        >
+                                            下載帳單
+                                        </Button>
                                         {row.BillMaster.Status === 'TO_WRITEOFF' ? (
                                             <Button color="secondary" size="small" variant="outlined">
                                                 已進待銷
@@ -148,17 +158,6 @@ const SignedDataList = ({ dataList }) => {
                                                 進待銷帳
                                             </Button>
                                         )}
-
-                                        <Button
-                                            color="success"
-                                            size="small"
-                                            variant="outlined"
-                                            onClick={() => {
-                                                handleDownload(row.BillMaster.BillMasterID, row.BillMaster.URI);
-                                            }}
-                                        >
-                                            下載帳單
-                                        </Button>
                                         <Button
                                             color="warning"
                                             size="small"

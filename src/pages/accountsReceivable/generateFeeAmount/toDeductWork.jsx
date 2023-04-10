@@ -89,7 +89,7 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
     }
 }));
 
-const ToDeductWork = ({ isDialogOpen, handleDialogClose, billDetailInfo, billMasterInfo, actionName }) => {
+const ToDeductWork = ({ isDeductOpen, handleDeductClose, billDetailInfo, billMasterInfo, actionName }) => {
     const dispatch = useDispatch();
     const [isDeductWorkOpen, setIsDeductWorkOpen] = useState(false);
     const [cbDataList, setCbDataList] = useState(fakeData); //可折抵的Data List
@@ -205,7 +205,7 @@ const ToDeductWork = ({ isDialogOpen, handleDialogClose, billDetailInfo, billMas
 
     const handleReset = () => {
         initData();
-        handleDialogClose();
+        handleDeductClose();
     };
 
     const sendDuctWork = () => {
@@ -220,11 +220,11 @@ const ToDeductWork = ({ isDialogOpen, handleDialogClose, billDetailInfo, billMas
                 receivableQuery();
             })
             .catch((e) => console.log('e1=>', e));
-        handleDialogClose();
+        handleDeductClose();
     };
 
     useEffect(() => {
-        if (isDialogOpen) {
+        if (isDeductOpen) {
             let tmpFeeAmount = 0;
             billDetailInfo.forEach((row) => {
                 orgFeeAmount.current = orgFeeAmount.current + row.OrgFeeAmount;
@@ -232,7 +232,7 @@ const ToDeductWork = ({ isDialogOpen, handleDialogClose, billDetailInfo, billMas
             });
             setFeeAmountTotal(tmpFeeAmount);
         }
-    }, [billDetailInfo, isDialogOpen]);
+    }, [billDetailInfo, isDeductOpen]);
 
     useEffect(() => {
         setFeeAmountTotal(orgFeeAmount.current - dedAmount.current);
@@ -243,10 +243,10 @@ const ToDeductWork = ({ isDialogOpen, handleDialogClose, billDetailInfo, billMas
             onClose={() => {
                 initData();
                 setIsDeductWorkOpen(false);
-                handleDialogClose();
+                handleDeductClose();
             }}
             maxWidth="sm"
-            open={isDialogOpen}
+            open={isDeductOpen}
         >
             <BootstrapDialogTitle id="customized-dialog-title">折抵作業</BootstrapDialogTitle>
             <DialogContent>
@@ -525,7 +525,7 @@ const ToDeductWork = ({ isDialogOpen, handleDialogClose, billDetailInfo, billMas
                     onClick={() => {
                         initData();
                         setIsDeductWorkOpen(false);
-                        handleDialogClose();
+                        handleDeductClose();
                     }}
                 >
                     取消
