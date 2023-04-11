@@ -67,7 +67,7 @@ const MainLayout = () => {
             timer.current = window.setTimeout(() => {
                 setIsOpenNow(true);
                 setIsLoading(false);
-            }, 3000);
+            }, 500);
         }
     };
     const handleClose = (event, reason) => {
