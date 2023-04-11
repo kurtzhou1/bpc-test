@@ -80,7 +80,7 @@ const CreditBalanceAdd = ({ handleDialogClose, isDialogOpen, billMilestone, part
             CBType: cBType ? cBType : null,
             BillingNo: billingNo ? billingNo : null,
             BillMilestone: billMilestone ? billMilestone : null,
-            CurrAmount: currAmount ? currAmount : null,
+            CurrAmount: currAmount ? Number(currAmount.replaceAll(',', '')) : null,
             Note: note ? note : null
         };
         fetch(queryCB, { method: 'POST', body: JSON.stringify(tmpArray) })
