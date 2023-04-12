@@ -102,18 +102,18 @@ const InvoiceWorkManage = () => {
         fetch(queryApi.current, { method: 'GET' })
             .then((res) => res.json())
             .then((data) => {
-                console.log('查詢資料成功=>>', data);
                 setListInfo(data);
             })
             .catch((e) => console.log('e1=>', e));
     };
 
     const firstQueryInit = () => {
-        fetch(queryApi.current, { method: 'GET' })
+        let tmpQuery = queryInvoice + '/Status=TEMPORARY';
+        fetch(tmpQuery, { method: 'GET' })
             .then((res) => res.json())
             .then((data) => {
                 orderDate(data);
-                data = data.slice(0, 5);
+                // data = data.slice(0, 5);
                 setListInfo(data);
             })
             .catch((e) => console.log('e1=>', e));

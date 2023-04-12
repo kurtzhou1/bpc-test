@@ -6,12 +6,8 @@ import { handleNumber } from 'components/commonFunction';
 
 // material-ui
 import { Typography, Button, Table, IconButton, Menu, MenuItem, ListItemText, ListItemIcon, Box } from '@mui/material';
-import TableBody from '@mui/material/TableBody';
 import TableCell, { tableCellClasses } from '@mui/material/TableCell';
-import TableContainer from '@mui/material/TableContainer';
-import TableHead from '@mui/material/TableHead';
-import TableRow from '@mui/material/TableRow';
-import Paper from '@mui/material/Paper';
+import { TableContainer, TableHead, TableBody, TableFooter, TableRow, Paper, TablePagination } from '@mui/material';
 import { styled } from '@mui/material/styles';
 
 //<InfoCircleOutlined />
@@ -32,7 +28,18 @@ const InvoiceDataList = ({ listInfo, setAction, setModifyItem }) => {
             paddingBottom: '0.2rem'
         }
     }));
+    const [page, setPage] = useState(0);
+    const [rowsPerPage, setRowsPerPage] = useState(10);
+    const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0;
 
+    const handleChangePage = (event, newPage) => {
+        setPage(newPage);
+    };
+
+    const handleChangeRowsPerPage = (event) => {
+        setRowsPerPage(parseInt(event.target.value, 10));
+        setPage(0);
+    };
     // const [anchorEl, setAnchorEl] = useState(null);
     // const open = Boolean(anchorEl);
     // const handleClick = (event) => {
@@ -63,103 +70,124 @@ const InvoiceDataList = ({ listInfo, setAction, setModifyItem }) => {
                     </TableRow>
                 </TableHead>
                 <TableBody>
-                    {listInfo?.map((row, itemID) => {
-                        return (
-                            <TableRow
-                                key={row.InvoiceWKMaster?.WKMasterID + row.InvoiceWKMaster?.InvoiceNo}
-                                sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-                            >
-                                <StyledTableCell align="center">{itemID + 1}</StyledTableCell>
-                                <StyledTableCell align="center">{row.InvoiceWKMaster?.InvoiceNo}</StyledTableCell>
-                                <StyledTableCell align="center">{row.InvoiceWKMaster?.SupplierName}</StyledTableCell>
-                                <StyledTableCell align="center">{row.InvoiceWKMaster?.SubmarineCable}</StyledTableCell>
-                                <StyledTableCell align="center">{row.InvoiceWKMaster?.ContractType}</StyledTableCell>
-                                <StyledTableCell align="center">
-                                    {dayjs(row.InvoiceWKMaster?.IssueDate).format('YYYY/MM/DD')}
-                                </StyledTableCell>
-                                <StyledTableCell align="center">{row.InvoiceWKDetail.length}</StyledTableCell>
-                                <StyledTableCell align="center">{handleNumber(row.InvoiceWKMaster.TotalAmount)}</StyledTableCell>
-                                <StyledTableCell align="center">
-                                    {row.InvoiceWKMaster.Status === 'TEMPORARY'
-                                        ? '暫存'
-                                        : row.InvoiceWKMaster.Status === 'VALIDATED'
-                                        ? '已確認'
-                                        : row.InvoiceWKMaster.Status === 'BILLED'
-                                        ? '已立帳'
-                                        : row.InvoiceWKMaster.Status === 'PAYING'
-                                        ? '付款中'
-                                        : row.InvoiceWKMaster.Status === 'COMPLETE'
-                                        ? '完成付款'
-                                        : '作廢'}
-                                </StyledTableCell>
-                                <TableCell align="center">
-                                    {row.InvoiceWKMaster.Status === 'TEMPORARY' ? (
-                                        <Box
-                                            sx={{
-                                                display: 'flex',
-                                                justifyContent: 'center',
-                                                '& button': { mx: { md: 0.2, lg: 0.2, xl: 1 }, p: 0, fontSize: 1 }
-                                            }}
-                                        >
-                                            {options1.map((option) => {
-                                                return (
-                                                    <Button
-                                                        color={
-                                                            option === 'View'
-                                                                ? 'primary'
-                                                                : option === 'Validate'
-                                                                ? 'success'
-                                                                : option === 'Edit'
-                                                                ? 'warning'
-                                                                : 'error'
-                                                        }
-                                                        // variant="outlined"
-                                                        key={option}
-                                                        variant="outlined"
-                                                        size="small"
-                                                        onClick={() => {
-                                                            setModifyItem(itemID);
-                                                            setAction(option);
-                                                        }}
-                                                    >
-                                                        {option}
-                                                    </Button>
-                                                );
-                                            })}
-                                        </Box>
-                                    ) : row.InvoiceWKMaster.Status === 'VALIDATED' ? (
-                                        <Box
-                                            sx={{
-                                                display: 'flex',
-                                                justifyContent: 'center',
-                                                '& button': { mx: { md: 0.2, lg: 0.2, xl: 1 }, p: 0, fontSize: 1 }
-                                            }}
-                                        >
-                                            {options2.map((option) => {
-                                                return (
-                                                    <Button
-                                                        color={option === 'View' ? 'primary' : 'error'}
-                                                        key={option}
-                                                        variant="outlined"
-                                                        size="small"
-                                                        onClick={() => {
-                                                            setModifyItem(itemID);
-                                                            setAction(option);
-                                                        }}
-                                                    >
-                                                        {option}
-                                                    </Button>
-                                                );
-                                            })}
-                                        </Box>
-                                    ) : (
-                                        ''
-                                    )}
-                                </TableCell>
-                            </TableRow>
-                        );
-                    })}
+                    {(rowsPerPage > 0 ? listInfo.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage) : listInfo)?.map(
+                        (row, itemID) => {
+                            return (
+                                <TableRow
+                                    key={row.InvoiceWKMaster?.WKMasterID + row.InvoiceWKMaster?.InvoiceNo}
+                                    sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                                >
+                                    <StyledTableCell align="center">{itemID + 1}</StyledTableCell>
+                                    <StyledTableCell align="center">{row.InvoiceWKMaster?.InvoiceNo}</StyledTableCell>
+                                    <StyledTableCell align="center">{row.InvoiceWKMaster?.SupplierName}</StyledTableCell>
+                                    <StyledTableCell align="center">{row.InvoiceWKMaster?.SubmarineCable}</StyledTableCell>
+                                    <StyledTableCell align="center">{row.InvoiceWKMaster?.ContractType}</StyledTableCell>
+                                    <StyledTableCell align="center">
+                                        {dayjs(row.InvoiceWKMaster?.IssueDate).format('YYYY/MM/DD')}
+                                    </StyledTableCell>
+                                    <StyledTableCell align="center">{row.InvoiceWKDetail.length}</StyledTableCell>
+                                    <StyledTableCell align="center">{handleNumber(row.InvoiceWKMaster.TotalAmount)}</StyledTableCell>
+                                    <StyledTableCell align="center">
+                                        {row.InvoiceWKMaster.Status === 'TEMPORARY'
+                                            ? '暫存'
+                                            : row.InvoiceWKMaster.Status === 'VALIDATED'
+                                            ? '已確認'
+                                            : row.InvoiceWKMaster.Status === 'BILLED'
+                                            ? '已立帳'
+                                            : row.InvoiceWKMaster.Status === 'PAYING'
+                                            ? '付款中'
+                                            : row.InvoiceWKMaster.Status === 'COMPLETE'
+                                            ? '完成付款'
+                                            : '作廢'}
+                                    </StyledTableCell>
+                                    <TableCell align="center">
+                                        {row.InvoiceWKMaster.Status === 'TEMPORARY' ? (
+                                            <Box
+                                                sx={{
+                                                    display: 'flex',
+                                                    justifyContent: 'center',
+                                                    '& button': { mx: { md: 0.2, lg: 0.2, xl: 1 }, p: 0, fontSize: 1 }
+                                                }}
+                                            >
+                                                {options1.map((option) => {
+                                                    return (
+                                                        <Button
+                                                            color={
+                                                                option === 'View'
+                                                                    ? 'primary'
+                                                                    : option === 'Validate'
+                                                                    ? 'success'
+                                                                    : option === 'Edit'
+                                                                    ? 'warning'
+                                                                    : 'error'
+                                                            }
+                                                            // variant="outlined"
+                                                            key={option}
+                                                            variant="outlined"
+                                                            size="small"
+                                                            onClick={() => {
+                                                                setModifyItem(itemID);
+                                                                setAction(option);
+                                                            }}
+                                                        >
+                                                            {option}
+                                                        </Button>
+                                                    );
+                                                })}
+                                            </Box>
+                                        ) : row.InvoiceWKMaster.Status === 'VALIDATED' ? (
+                                            <Box
+                                                sx={{
+                                                    display: 'flex',
+                                                    justifyContent: 'center',
+                                                    '& button': { mx: { md: 0.2, lg: 0.2, xl: 1 }, p: 0, fontSize: 1 }
+                                                }}
+                                            >
+                                                {options2.map((option) => {
+                                                    return (
+                                                        <Button
+                                                            color={option === 'View' ? 'primary' : 'error'}
+                                                            key={option}
+                                                            variant="outlined"
+                                                            size="small"
+                                                            onClick={() => {
+                                                                setModifyItem(itemID);
+                                                                setAction(option);
+                                                            }}
+                                                        >
+                                                            {option}
+                                                        </Button>
+                                                    );
+                                                })}
+                                            </Box>
+                                        ) : (
+                                            ''
+                                        )}
+                                    </TableCell>
+                                </TableRow>
+                            );
+                        }
+                    )}
+                    {emptyRows > 0 && (
+                        <TableRow style={{ height: 53 * emptyRows }}>
+                            <StyledTableCell colSpan={6} />
+                        </TableRow>
+                    )}
                 </TableBody>
+                <TableFooter>
+                    <TableRow>
+                        <TablePagination
+                            rowsPerPageOptions={[5, 10, 25, { label: 'All', value: -1 }]}
+                            colSpan={10}
+                            count={listInfo.length}
+                            rowsPerPage={rowsPerPage}
+                            page={page}
+                            onPageChange={handleChangePage}
+                            onRowsPerPageChange={handleChangeRowsPerPage}
+                            // ActionsComponent={TablePaginationActions}
+                        />
+                    </TableRow>
+                </TableFooter>
             </Table>
         </TableContainer>
     );

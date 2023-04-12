@@ -24,10 +24,7 @@ import CheckBoxOutlineBlankIcon from '@mui/icons-material/CheckBoxOutlineBlank';
 import CheckBoxIcon from '@mui/icons-material/CheckBox';
 
 // table
-import TableBody from '@mui/material/TableBody';
-import TableContainer from '@mui/material/TableContainer';
-import TableHead from '@mui/material/TableHead';
-import TableRow from '@mui/material/TableRow';
+import { TableBody, TableHead, TableContainer, TableFooter, TableRow } from '@mui/material';
 import TableCell, { tableCellClasses } from '@mui/material/TableCell';
 import Paper from '@mui/material/Paper';
 import { styled } from '@mui/material/styles';
@@ -146,7 +143,6 @@ const LiabilityAdd = ({
     const excuteSplit = () => {
         console.log(listInfo);
         if (listInfo.length > 0) {
-            console.log('lBRawID=>>', lBRawID.current);
             fetch(deleteLiability, { method: 'POST', body: JSON.stringify({ LBRawID: lBRawID.current }) })
                 .then((res) => res.json())
                 .then(() => {
