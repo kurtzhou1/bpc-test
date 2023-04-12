@@ -243,7 +243,7 @@ const LiabilityAdd = ({
                                 選擇海纜名稱
                             </InputLabel>
                             <Select
-                                disabled={dialogAction === 'Edit' || dialogAction === 'Split'}
+                                disabled={dialogAction === 'Edit' || listInfo.length > 0 || dialogAction === 'Split'}
                                 size="small"
                                 value={submarineCable}
                                 label="填寫海纜名稱"
@@ -268,7 +268,7 @@ const LiabilityAdd = ({
                                 選擇海纜作業
                             </InputLabel>
                             <Select
-                                disabled={dialogAction === 'Edit' || dialogAction === 'Split'}
+                                disabled={dialogAction === 'Edit' || listInfo.length > 0 || dialogAction === 'Split'}
                                 size="small"
                                 value={workTitle}
                                 label="填寫海纜作業"
@@ -280,7 +280,6 @@ const LiabilityAdd = ({
                             </Select>
                         </FormControl>
                     </Grid>
-                    {/* <Grid item xs={2} sm={2} md={2} lg={1} /> */}
                     <Grid item xs={2} sm={2} md={2} lg={2} display="flex" justifyContent="center">
                         <Typography variant="h5" sx={{ fontSize: { lg: '0.5rem', xl: '0.88rem' }, ml: { lg: '0.5rem', xl: '1.5rem' } }}>
                             攤分比例：
@@ -297,7 +296,6 @@ const LiabilityAdd = ({
                             onChange={(e) => setLBRatio(e.target.value)}
                         />
                     </Grid>
-                    {/* <Grid item xs={6} sm={6} md={6} lg={6} /> */}
                     <Grid item xs={2} sm={2} md={2} lg={2} display="flex" justifyContent="center">
                         <Typography variant="h5" sx={{ fontSize: { lg: '0.5rem', xl: '0.88rem' }, ml: { lg: '0.5rem', xl: '1.5rem' } }}>
                             會員名稱：
