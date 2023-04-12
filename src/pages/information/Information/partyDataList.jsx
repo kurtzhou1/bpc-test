@@ -440,7 +440,7 @@ const PartyDataList = ({ maxHei }) => {
                                     <StyledTableCell key={column.id} align={column.align}>
                                         {id === 0 ? (
                                             <Button
-                                                sx={{ p: 0 }}
+                                                sx={{ p: 0, minWidth: '30px' }}
                                                 onClick={() => {
                                                     setIsColumn1Open(!isColumn1Open);
                                                 }}
@@ -457,7 +457,7 @@ const PartyDataList = ({ maxHei }) => {
                         ) : (
                             <StyledTableCell key={columns1[0].id} align={columns1[0].align}>
                                 <Button
-                                    sx={{ p: 0 }}
+                                    sx={{ p: 0, minWidth: '30px' }}
                                     onClick={() => {
                                         setIsColumn1Open(!isColumn1Open);
                                     }}
@@ -473,7 +473,7 @@ const PartyDataList = ({ maxHei }) => {
                                     <StyledTableCell key={column.id} align={column.align}>
                                         {id === 0 ? (
                                             <Button
-                                                sx={{ p: 0 }}
+                                                sx={{ p: 0, minWidth: '30px' }}
                                                 onClick={() => {
                                                     setIsColumn2Open(!isColumn2Open);
                                                 }}
@@ -490,7 +490,7 @@ const PartyDataList = ({ maxHei }) => {
                         ) : (
                             <StyledTableCell key={columns2[0].id} align={columns2[0].align}>
                                 <Button
-                                    sx={{ p: 0 }}
+                                    sx={{ p: 0, minWidth: '30px' }}
                                     onClick={() => {
                                         setIsColumn2Open(!isColumn2Open);
                                     }}
@@ -506,7 +506,7 @@ const PartyDataList = ({ maxHei }) => {
                                     <StyledTableCell key={column.id} align={column.align}>
                                         {id === 0 ? (
                                             <Button
-                                                sx={{ p: 0 }}
+                                                sx={{ p: 0, minWidth: '30px' }}
                                                 onClick={() => {
                                                     setIsColumn3Open(!isColumn3Open);
                                                 }}
@@ -523,7 +523,7 @@ const PartyDataList = ({ maxHei }) => {
                         ) : (
                             <StyledTableCell key={columns3[0].id} align={columns3[0].align}>
                                 <Button
-                                    sx={{ p: 0 }}
+                                    sx={{ p: 0, minWidth: '30px' }}
                                     onClick={() => {
                                         setIsColumn3Open(!isColumn3Open);
                                     }}
@@ -539,7 +539,7 @@ const PartyDataList = ({ maxHei }) => {
                                     <StyledTableCell key={column.id} align={column.align}>
                                         {id === 0 ? (
                                             <Button
-                                                sx={{ p: 0 }}
+                                                sx={{ p: 0, minWidth: '30px' }}
                                                 onClick={() => {
                                                     setIsColumn4Open(!isColumn4Open);
                                                 }}
@@ -556,7 +556,7 @@ const PartyDataList = ({ maxHei }) => {
                         ) : (
                             <StyledTableCell key={columns4[0].id} align={columns4[0].align}>
                                 <Button
-                                    sx={{ p: 0 }}
+                                    sx={{ p: 0, minWidth: '30px' }}
                                     onClick={() => {
                                         setIsColumn4Open(!isColumn4Open);
                                     }}
