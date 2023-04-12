@@ -58,10 +58,10 @@ const SignedDataList = ({ dataList }) => {
             BillMasterID: billMasterID,
             Ststus: 'TO_WRITEOFF'
         };
-        fetch(sendJounary, { method: 'POST', body: JSON.stringify(tmpData) })
+        fetch(updateBM, { method: 'POST', body: JSON.stringify(tmpData) })
             .then((res) => res.json())
             .then((data) => {
-                console.log('立帳成功=>>', data);
+                console.log('進待銷帳成功=>>', data);
                 dispatch(setMessageStateOpen({ messageStateOpen: { isOpen: true, severity: 'success', message: '進待銷帳成功' } }));
             })
             .catch((e) => console.log('e1=>', e));
@@ -70,7 +70,6 @@ const SignedDataList = ({ dataList }) => {
     const handleDownload = (billMasterID, url) => {
         let tmpApi = downBM + '/' + billMasterID;
         const tmpArray = url.split('/');
-        console.log('hello???', tmpArray, tmpArray.length, tmpArray[tmpArray.length - 1]);
         fetch(tmpApi, {
             method: 'GET'
             // headers: {

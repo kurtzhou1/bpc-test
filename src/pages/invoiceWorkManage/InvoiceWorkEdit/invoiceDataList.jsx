@@ -177,7 +177,7 @@ const InvoiceDataList = ({ listInfo, setAction, setModifyItem }) => {
                 <TableFooter>
                     <TableRow>
                         <TablePagination
-                            rowsPerPageOptions={[5, 10, 25, { label: 'All', value: -1 }]}
+                            rowsPerPageOptions={[10, 15, 20, 25, { label: 'All', value: -1 }]}
                             colSpan={10}
                             count={listInfo.length}
                             rowsPerPage={rowsPerPage}
