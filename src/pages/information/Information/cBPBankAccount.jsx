@@ -356,7 +356,6 @@ const Corporates = ({ maxHei }) => {
                 </TableHead>
                 <TableBody>
                     {infoList?.map((row, id) => {
-                        console.log('infoList=>>', infoList);
                         return (
                             <TableRow
                                 // key={row.InvoiceWKMaster?.WKMasterID + row.InvoiceWKMaster?.InvoiceNo}

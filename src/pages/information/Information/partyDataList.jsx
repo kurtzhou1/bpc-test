@@ -534,9 +534,9 @@ const PartyDataList = ({ maxHei }) => {
                                             <Box
                                                 sx={{
                                                     display: 'flex',
-                                                    flexDirection: isColumn2Open ? 'column' : 'row',
+                                                    flexFlow: isColumn2Open ? 'column' : 'row',
                                                     justifyContent: 'center',
-                                                    '& button': { mx: { md: 0.1, lg: 0.1, xl: 0.3 }, p: 0, fontSize: 1 }
+                                                    '& button': { mx: { md: 0.1, lg: 0.1, xl: 0.3 }, my: 0.2, p: 0, fontSize: 1 }
                                                 }}
                                             >
                                                 <Button
@@ -619,8 +619,9 @@ const PartyDataList = ({ maxHei }) => {
                                             <Box
                                                 sx={{
                                                     display: 'flex',
+                                                    flexFlow: isColumn2Open ? 'column' : 'row',
                                                     justifyContent: 'center',
-                                                    '& button': { mx: { md: 0.6, lg: 1, xl: 1.8 }, p: 0, fontSize: 1 }
+                                                    '& button': { mx: { md: 0.6, lg: 1, xl: 1.8 }, my: 0.2, p: 0, fontSize: 1 }
                                                 }}
                                             >
                                                 <Button color="primary" variant="outlined" onClick={saveEditPartyInfo}>
@@ -882,8 +883,9 @@ const PartyDataList = ({ maxHei }) => {
                             <Box
                                 sx={{
                                     display: 'flex',
+                                    flexFlow: isColumn2Open ? 'column' : 'row',
                                     justifyContent: 'center',
-                                    '& button': { mx: { md: 0.6, lg: 1, xl: 1.8 }, p: 0, fontSize: 1 }
+                                    '& button': { mx: { md: 0.6, lg: 1, xl: 1.8 }, my: 0.2, p: 0, fontSize: 1 }
                                 }}
                             >
                                 <Button color="primary" variant="outlined" onClick={addPartyInfo}>

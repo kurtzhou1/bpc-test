@@ -56,7 +56,7 @@ const SignedDataList = ({ dataList }) => {
     const toWriteOff = (billMasterID) => {
         let tmpData = {
             BillMasterID: billMasterID,
-            Ststus: 'TO_WRITEOFF'
+            Status: 'TO_WRITEOFF'
         };
         fetch(updateBM, { method: 'POST', body: JSON.stringify(tmpData) })
             .then((res) => res.json())
