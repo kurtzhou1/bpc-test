@@ -47,9 +47,9 @@ const InvoiceWorkManage = () => {
     const [issueDate, setIssueDate] = useState(new Date()); //發票日期
     const [dueDate, setDueDate] = useState(new Date()); //發票到期日
     const [totalAmount, setTotalAmount] = useState(''); //總金額
-    const [isPro, setIsPro] = useState(true); //是否為Pro-forma
+    const [isPro, setIsPro] = useState(false); //是否為Pro-forma
     const [isLiability, setIsLiability] = useState(true); //是否需攤分
-    const [isRecharge, setIsRecharge] = useState(true); //是否為短腳補收
+    const [isRecharge, setIsRecharge] = useState(false); //是否為短腳補收
     const [partyName, setPartyName] = useState(''); //會員代號
     const wKMasterID = useRef(); //工作檔ID
 
@@ -79,9 +79,9 @@ const InvoiceWorkManage = () => {
         setIssueDate(new Date());
         setDueDate(new Date());
         setTotalAmount('');
-        setIsPro(true);
+        setIsPro(false);
         setIsLiability(true);
-        setIsRecharge(true);
+        setIsRecharge(false);
         setPartyName('');
         setInvoiceDetailInfo([]);
     };

@@ -62,9 +62,9 @@ const InvoiceWorkManage = () => {
         setIssueDate(new Date());
         setDueDate(new Date());
         setTotalAmount('');
-        setIsPro(true);
+        setIsPro(false);
         setIsLiability(true);
-        setIsRecharge(true);
+        setIsRecharge(false);
         setPartyName('');
         setInvoiceDetailInfo([]);
         itemDetailInitial();
@@ -272,10 +272,6 @@ const InvoiceWorkManage = () => {
             setIsListEdit(true);
         }
     }, [editItem]);
-
-    useEffect(() => {
-        itemInfoInitial();
-    }, []);
 
     return (
         <Grid container spacing={1}>
