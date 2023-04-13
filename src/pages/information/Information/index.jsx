@@ -21,7 +21,7 @@ import CBPBankAccount from './cBPBankAccount';
 const Information = () => {
     const [value, setValue] = useState(2);
     const tableH = document.getElementById('tableContainer')?.offsetTop;
-    const maxHei = screen.height - tableH - 410;
+    const maxHei = screen.height - tableH - 400;
 
     const handleChange = (event, newValue) => {
         setValue(newValue);
@@ -39,6 +39,7 @@ const Information = () => {
             <h2>基本資料管理</h2>
             <Grid item xs={12}>
                 <MainCard
+                    contentSX={{ py: 1, px: 0 }}
                     // title={`${
                     //     value == 0
                     //         ? '海纜代號'

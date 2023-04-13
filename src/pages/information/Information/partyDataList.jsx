@@ -367,7 +367,7 @@ const PartyDataList = ({ maxHei }) => {
         };
         fetch(editParties, { method: 'POST', body: JSON.stringify(tmpArray), headers: { 'Content-Type': 'application/json' } })
             .then((res) => res.json())
-            .then((data) => {
+            .then(() => {
                 dispatch(setMessageStateOpen({ messageStateOpen: { isOpen: true, severity: 'success', message: '更新會員資料成功' } }));
                 editInfoInit();
                 queryPartiesInfo();
@@ -534,6 +534,7 @@ const PartyDataList = ({ maxHei }) => {
                                             <Box
                                                 sx={{
                                                     display: 'flex',
+                                                    flexDirection: isColumn2Open ? 'column' : 'row',
                                                     justifyContent: 'center',
                                                     '& button': { mx: { md: 0.1, lg: 0.1, xl: 0.3 }, p: 0, fontSize: 1 }
                                                 }}
