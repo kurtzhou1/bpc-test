@@ -233,7 +233,6 @@ const InvoiceWorkManage = () => {
         invoiceDetailInfo.forEach((i) => {
             detailAmount = detailAmount + i.FeeAmount;
         });
-
         if (Number(totalAmount.toString().replaceAll(',', '')).toFixed(2) !== Number(detailAmount).toFixed(2)) {
             dispatch(
                 setMessageStateOpen({ messageStateOpen: { isOpen: true, severity: 'error', message: '總金額不等於費用項目金額加總' } })
