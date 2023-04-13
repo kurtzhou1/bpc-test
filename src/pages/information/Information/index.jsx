@@ -21,7 +21,7 @@ import CBPBankAccount from './cBPBankAccount';
 const Information = () => {
     const [value, setValue] = useState(2);
     const tableH = document.getElementById('tableContainer')?.offsetTop;
-    const maxHei = screen.height - tableH - 400;
+    const maxHei = screen.height - tableH - 410;
 
     const handleChange = (event, newValue) => {
         setValue(newValue);
@@ -60,18 +60,18 @@ const Information = () => {
                     // }資料列表`}
                     title={`${value == 0 ? '海纜代號' : value == 1 ? '供應商' : value == 2 ? '會員' : '聯盟金融帳戶'}資料列表`}
                 >
-                    <Box sx={{ borderBottom: 1, borderColor: 'divider', position: 'relative' }}>
-                        <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
-                            <Tab label="海纜代號" {...a11yProps(0)} />
-                            <Tab label="供應商" {...a11yProps(1)} />
-                            <Tab label="會員" {...a11yProps(2)} />
+                    <Box sx={{ p: 0, borderBottom: 1, borderColor: 'divider', position: 'relative' }}>
+                        <Tabs value={value} onChange={handleChange}>
+                            <Tab sx={{ p: 0 }} label="海纜代號" {...a11yProps(0)} />
+                            <Tab sx={{ p: 0 }} label="供應商" {...a11yProps(1)} />
+                            <Tab sx={{ p: 0 }} label="會員" {...a11yProps(2)} />
+                            <Tab sx={{ p: 0 }} label="聯盟金融帳戶" {...a11yProps(3)} />
                             {/* <Tab label="聯盟" {...a11yProps(3)} /> */}
                             {/* <Tab label="合約" {...a11yProps(3)} /> */}
                             {/* <Tab label="海纜作業" {...a11yProps(3)} /> */}
                             {/* <Tab label="合約種類" {...a11yProps(5)} /> */}
                             {/* <Tab label="合約會員" {...a11yProps(6)} /> */}
                             {/* <Tab label="合約廠商" {...a11yProps(7)} /> */}
-                            <Tab label="聯盟金融帳戶" {...a11yProps(3)} />
                         </Tabs>
                     </Box>
                     <TabPanel value={value} index={0}>

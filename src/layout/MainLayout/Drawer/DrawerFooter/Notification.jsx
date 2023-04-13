@@ -149,11 +149,12 @@ const Notification = () => {
                                                 <ListItemAvatar>
                                                     <Avatar
                                                         sx={{
-                                                            color: 'success.main',
-                                                            bgcolor: 'success.lighter'
+                                                            color: 'error.main',
+                                                            bgcolor: 'error.lighter'
                                                         }}
                                                     >
-                                                        <GiftOutlined />
+                                                        {/* <GiftOutlined /> */}
+                                                        <SettingOutlined />
                                                     </Avatar>
                                                 </ListItemAvatar>
                                                 <ListItemText
@@ -202,69 +203,6 @@ const Notification = () => {
                                                 <ListItemSecondaryAction>
                                                     <Typography variant="caption" noWrap>
                                                         6:00 PM
-                                                    </Typography>
-                                                </ListItemSecondaryAction>
-                                            </ListItemButton>
-                                            <Divider />
-                                            <ListItemButton>
-                                                <ListItemAvatar>
-                                                    <Avatar
-                                                        sx={{
-                                                            color: 'error.main',
-                                                            bgcolor: 'error.lighter'
-                                                        }}
-                                                    >
-                                                        <SettingOutlined />
-                                                    </Avatar>
-                                                </ListItemAvatar>
-                                                <ListItemText
-                                                    primary={
-                                                        // <Typography variant="h6">
-                                                        //     Your Profile is Complete &nbsp;
-                                                        //     <Typography component="span" variant="subtitle1">
-                                                        //         60%
-                                                        //     </Typography>
-                                                        // </Typography>
-                                                        <Typography variant="h6">立帳管理有一筆資料即將到期</Typography>
-                                                    }
-                                                    secondary="7 hours ago"
-                                                />
-                                                <ListItemSecondaryAction>
-                                                    <Typography variant="caption" noWrap>
-                                                        2:45 PM
-                                                    </Typography>
-                                                </ListItemSecondaryAction>
-                                            </ListItemButton>
-                                            <Divider />
-                                            <ListItemButton>
-                                                <ListItemAvatar>
-                                                    <Avatar
-                                                        sx={{
-                                                            color: 'primary.main',
-                                                            bgcolor: 'primary.lighter'
-                                                        }}
-                                                    >
-                                                        C
-                                                    </Avatar>
-                                                </ListItemAvatar>
-                                                <ListItemText
-                                                    primary={
-                                                        // <Typography variant="h6">
-                                                        //     <Typography component="span" variant="subtitle1">
-                                                        //         Cristina Danny
-                                                        //     </Typography>
-                                                        //     invited to join
-                                                        //     <Typography component="span" variant="subtitle1">
-                                                        //         Meeting.
-                                                        //     </Typography>
-                                                        // </Typography>
-                                                        <Typography variant="h6">立帳管理有一筆資料即將到期</Typography>
-                                                    }
-                                                    secondary="Daily scrum meeting time"
-                                                />
-                                                <ListItemSecondaryAction>
-                                                    <Typography variant="caption" noWrap>
-                                                        9:10 PM
                                                     </Typography>
                                                 </ListItemSecondaryAction>
                                             </ListItemButton>

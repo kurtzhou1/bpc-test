@@ -105,7 +105,7 @@ const CreateInvoiceDetail = ({
             <Grid container display="flex" justifyContent="center" alignItems="center" spacing={1}>
                 {/* row1 */}
                 <Grid item xs={12} sm={6} md={2} lg={2}>
-                    <Typography variant="h5" sx={{ fontSize: { lg: '0.5rem', xl: '0.88rem' }, ml: { lg: '0.5rem', xl: '1.5rem' } }}>
+                    <Typography variant="h5" sx={{ fontSize: { lg: '0.5rem', xl: '0.88rem' }, ml: { lg: '0rem', xl: '1.5rem' } }}>
                         記帳段號：
                     </Typography>
                 </Grid>
@@ -124,8 +124,8 @@ const CreateInvoiceDetail = ({
                     </FormControl>
                 </Grid>
                 <Grid item xs={12} sm={6} md={2} lg={2}>
-                    <Typography variant="h5" sx={{ fontSize: { lg: '0.5rem', xl: '0.88rem' }, ml: { lg: '0.5rem', xl: '1.5rem' } }}>
-                        {'費用金額$：'}
+                    <Typography variant="h5" sx={{ fontSize: { lg: '0.5rem', xl: '0.88rem' }, ml: { lg: '0rem', xl: '1.5rem' } }}>
+                        費用金額：
                     </Typography>
                 </Grid>
                 <Grid item xs={12} sm={6} md={4} lg={4}>
@@ -135,7 +135,7 @@ const CreateInvoiceDetail = ({
                         value={feeAmount}
                         // type="number"
                         size="small"
-                        label="填寫費用金額"
+                        label="($)填寫金額"
                         onChange={(e) => setFeeAmount(handleNumber(e.target.value))}
                     />
                 </Grid>
@@ -144,7 +144,7 @@ const CreateInvoiceDetail = ({
                     <Typography
                         variant="h5"
                         size="small"
-                        sx={{ fontSize: { lg: '0.5rem', xl: '0.88rem' }, ml: { lg: '0.5rem', xl: '1.5rem' } }}
+                        sx={{ fontSize: { lg: '0.5rem', xl: '0.88rem' }, ml: { lg: '0rem', xl: '1.5rem' } }}
                     >
                         費用項目：
                     </Typography>

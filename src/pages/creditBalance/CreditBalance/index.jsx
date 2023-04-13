@@ -12,27 +12,27 @@ import CreditBalanceAdd from './creditBalanceAdd';
 import { useSelector } from 'react-redux';
 
 const CreditBalance = () => {
-    const fakeData = [
-        {
-            CBID: 1,
-            CBType: '重溢繳',
-            BillingNo: null,
-            BLDetailID: null,
-            SubmarineCable: 'SJC2',
-            WorkTitle: 'Construction',
-            BillMilestone: 'BM9a',
-            PartyName: 'CHT',
-            InvoiceNo: null,
-            CurrAmount: 1000.0,
-            CreateDate: '2023-03-01T00:00:00',
-            LastUpdDate: null,
-            Note: null
-        }
-    ];
+    // const fakeData = [
+    //     {
+    //         CBID: 1,
+    //         CBType: '重溢繳',
+    //         BillingNo: null,
+    //         BLDetailID: null,
+    //         SubmarineCable: 'SJC2',
+    //         WorkTitle: 'Construction',
+    //         BillMilestone: 'BM9a',
+    //         PartyName: 'CHT',
+    //         InvoiceNo: null,
+    //         CurrAmount: 1000.0,
+    //         CreateDate: '2023-03-01T00:00:00',
+    //         LastUpdDate: null,
+    //         Note: null
+    //     }
+    // ];
 
     const { partiesList, subCableList } = useSelector((state) => state.dropdown); //供應商下拉選單 + 海纜名稱下拉選單
     const queryApi = useRef('');
-    const [listInfo, setListInfo] = useState(fakeData);
+    const [listInfo, setListInfo] = useState([]);
     const [isDialogOpen, setIsDialogOpen] = useState(false);
     const [dialogAction, setDialogAction] = useState('');
 

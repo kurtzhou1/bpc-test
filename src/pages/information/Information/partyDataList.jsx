@@ -3,7 +3,7 @@ import { useState, useRef, useEffect } from 'react';
 // project import
 import { handleNumber } from 'components/commonFunction';
 // material-ui
-import { Button, Table, TextField, Box } from '@mui/material';
+import { Button, Table, TextField, Box, Select, MenuItem } from '@mui/material';
 import TableBody from '@mui/material/TableBody';
 import TableCell, { tableCellClasses } from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
@@ -18,7 +18,7 @@ import { addParties, getPartiesInfoList, deleteParties, editParties } from 'comp
 import { makeStyles } from '@material-ui/core/styles';
 
 // redux
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { setMessageStateOpen, setPartiesList } from 'store/reducers/dropdown';
 
 // icon
@@ -147,57 +147,10 @@ const columns4 = [
     }
 ];
 
-const fakeData = [
-    {
-        PartyID: 1,
-        PartyCode: 'NEC',
-        SubmarineCable: 'NEC',
-        WorkTitle: '+886',
-        PartyName: 'Taiwan',
-        Address: 'google.com',
-        Contact: 'XXX',
-        Email: 'pppp@gmail.com',
-        Tel: '+886912123',
-        CompanyName: 'CompanyName',
-        BankAcctName: 'BankAcctName',
-        BankAcctNo: 'BankAcctNo',
-        SavingAcctNo: 'SavingAcctNo',
-        SWIFTCode: 'SWIFTCode',
-        IBAN: 'IBAN',
-        ACHNo: 'ACHNo',
-        WireRouting: 'WireRouting',
-        BankName: 'BankName',
-        Branch: 'Branch',
-        BankAddress: 'BankAddress'
-    },
-    {
-        PartyID: 2,
-        PartyCode: 'NEC',
-        SubmarineCable: 'NEC',
-        WorkTitle: '+886',
-        PartyName: 'Taiwan',
-        Address: 'google.com',
-        Contact: 'XXX',
-        Email: 'pppp@gmail.com',
-        Tel: '886912123',
-        CompanyName: 1,
-        BankAcctName: 2,
-        BankAcctNo: 3,
-        SavingAcctNo: 4,
-        SWIFTCode: 5,
-        IBAN: 6,
-        ACHNo: 7,
-        WireRouting: 8,
-        BankName: 9,
-        Branch: 0,
-        BankAddress: 1111
-    }
-];
-
 const PartyDataList = ({ maxHei }) => {
     const dispatch = useDispatch();
-    const classes = useStyles();
-    const [infoList, setInfoList] = useState(fakeData);
+    const { subCableList } = useSelector((state) => state.dropdown); //海纜名稱下拉選單
+    const [infoList, setInfoList] = useState([]);
     const [submarineCable, setSubmarineCable] = useState(''); //海纜名稱
     const [workTitle, setWorkTitle] = useState(''); //海纜作業
     const [code, setCode] = useState(''); //代碼
@@ -681,34 +634,44 @@ const PartyDataList = ({ maxHei }) => {
                                         {isColumn1Open ? (
                                             <>
                                                 <TableCell align="center">
-                                                    <TextField
+                                                    <Select
                                                         size="small"
-                                                        // style={{ width: '30%' }}
                                                         value={submarineCableEdit}
-                                                        onChange={(e) => {
-                                                            setSubmarineCableEdit(e.target.value);
-                                                        }}
-                                                    />
+                                                        onChange={(e) => setSubmarineCableEdit(e.target.value)}
+                                                    >
+                                                        {subCableList.map((i) => (
+                                                            <MenuItem key={i.CableName} value={i.CableName}>
+                                                                {i.CableName}
+                                                            </MenuItem>
+                                                        ))}
+                                                    </Select>
                                                 </TableCell>
                                                 <TableCell align="center">
-                                                    <TextField
+                                                    <Select
                                                         size="small"
                                                         value={workTitleEdit}
-                                                        onChange={(e) => {
-                                                            setWorkTitleEdit(e.target.value);
-                                                        }}
-                                                    />
+                                                        label="填寫海纜作業"
+                                                        onChange={(e) => setWorkTitleEdit(e.target.value)}
+                                                    >
+                                                        <MenuItem value={'Upgrade'}>Upgrade</MenuItem>
+                                                        <MenuItem value={'Construction'}>Construction</MenuItem>
+                                                        <MenuItem value={'O&M'}>O&M</MenuItem>
+                                                    </Select>
                                                 </TableCell>
                                             </>
                                         ) : (
                                             <TableCell align="center">
-                                                <TextField
+                                                <Select
                                                     size="small"
                                                     value={submarineCableEdit}
-                                                    onChange={(e) => {
-                                                        setSubmarineCableEdit(e.target.value);
-                                                    }}
-                                                />
+                                                    onChange={(e) => setSubmarineCableEdit(e.target.value)}
+                                                >
+                                                    {subCableList.map((i) => (
+                                                        <MenuItem key={i.CableName} value={i.CableName}>
+                                                            {i.CableName}
+                                                        </MenuItem>
+                                                    ))}
+                                                </Select>
                                             </TableCell>
                                         )}
                                         {isColumn2Open ? (
@@ -934,33 +897,36 @@ const PartyDataList = ({ maxHei }) => {
                         {isColumn1Open ? (
                             <>
                                 <TableCell align="center">
-                                    <TextField
-                                        size="small"
-                                        value={submarineCable}
-                                        onChange={(e) => {
-                                            setSubmarineCable(e.target.value);
-                                        }}
-                                    />
+                                    <Select size="small" value={submarineCable} onChange={(e) => setSubmarineCable(e.target.value)}>
+                                        {subCableList.map((i) => (
+                                            <MenuItem key={i.CableName} value={i.CableName}>
+                                                {i.CableName}
+                                            </MenuItem>
+                                        ))}
+                                    </Select>
                                 </TableCell>
                                 <TableCell align="center">
-                                    <TextField
+                                    <Select
                                         size="small"
                                         value={workTitle}
-                                        onChange={(e) => {
-                                            setWorkTitle(e.target.value);
-                                        }}
-                                    />
+                                        label="填寫海纜作業"
+                                        onChange={(e) => setWorkTitle(e.target.value)}
+                                    >
+                                        <MenuItem value={'Upgrade'}>Upgrade</MenuItem>
+                                        <MenuItem value={'Construction'}>Construction</MenuItem>
+                                        <MenuItem value={'O&M'}>O&M</MenuItem>
+                                    </Select>
                                 </TableCell>
                             </>
                         ) : (
                             <TableCell align="center">
-                                <TextField
-                                    size="small"
-                                    value={submarineCable}
-                                    onChange={(e) => {
-                                        setSubmarineCable(e.target.value);
-                                    }}
-                                />
+                                <Select size="small" value={submarineCable} onChange={(e) => setSubmarineCable(e.target.value)}>
+                                    {subCableList.map((i) => (
+                                        <MenuItem key={i.CableName} value={i.CableName}>
+                                            {i.CableName}
+                                        </MenuItem>
+                                    ))}
+                                </Select>
                             </TableCell>
                         )}
                         {isColumn2Open ? (

@@ -8,7 +8,7 @@ import { TabPanel } from 'components/commonFunction';
 import MainCard from 'components/MainCard';
 import ToWriteOffDataList from './toWriteOffDataList';
 import WriteOffedDataList from './writeOffedDataList';
-import InvalidatedDataList from './invalidatedDataList';
+// import InvalidatedDataList from './invalidatedDataList';
 import ReceivableQuery from './receivableQuery';
 
 const WriteOffInvoice = () => {
@@ -25,22 +25,7 @@ const WriteOffInvoice = () => {
         };
     };
 
-    // 以下都無用的
-    const fakeData = [
-        {
-            CBType: 'MWG',
-            PartyName: 'CHT',
-            InvoiceNo: '234567',
-            BillingNo: '12345',
-            SubmarineCable: 'SJC',
-            WorkTitle: 'Upgrade',
-            CurrAmount: 1234,
-            CreateDate: '2023-01-01 12:12:!2',
-            Note: '測試'
-        }
-    ];
-
-    const [listInfo, setListInfo] = useState(fakeData);
+    const [listInfo, setListInfo] = useState([]);
     const [isDialogOpen, setIsDialogOpen] = useState(false);
     const [dialogAction, setDialogAction] = useState('');
 
@@ -72,7 +57,6 @@ const WriteOffInvoice = () => {
 
     //新增
     const addLiability = (list) => {
-        console.log('list=>>', list);
         if (list.length > 0) {
             let tmpArray = listInfo.map((i) => i);
             list.forEach((i) => {
@@ -150,12 +134,13 @@ const WriteOffInvoice = () => {
                 <ReceivableQuery receivableQuery={receivableQuery} />
             </Grid>
             <Grid item xs={12}>
-                <MainCard title={`${value == 0 ? '待銷帳' : value == 1 ? '已銷帳' : '已作廢'}帳單資料列表`}>
+                {/* <MainCard title={`${value == 0 ? '待銷帳' : value == 1 ? '已銷帳' : '已作廢'}帳單資料列表`}> */}
+                <MainCard title={`${value == 0 ? '待銷帳' : '已銷帳'}帳單資料列表`}>
                     <Box sx={{ borderBottom: 1, borderColor: 'divider', position: 'relative' }}>
                         <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
                             <Tab label="待銷帳" {...a11yProps(0)} />
                             <Tab label="已銷帳" {...a11yProps(1)} />
-                            <Tab label="已作廢" {...a11yProps(2)} />
+                            {/* <Tab label="已作廢" {...a11yProps(2)} /> */}
                         </Tabs>
                     </Box>
                     <TabPanel value={value} index={0}>
@@ -164,9 +149,9 @@ const WriteOffInvoice = () => {
                     <TabPanel value={value} index={1}>
                         <WriteOffedDataList />
                     </TabPanel>
-                    <TabPanel value={value} index={2}>
+                    {/* <TabPanel value={value} index={2}>
                         <InvalidatedDataList />
-                    </TabPanel>
+                    </TabPanel> */}
                 </MainCard>
             </Grid>
         </Grid>

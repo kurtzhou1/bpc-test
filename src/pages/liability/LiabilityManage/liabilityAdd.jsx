@@ -96,6 +96,13 @@ const LiabilityAdd = ({
         setNote('');
     };
 
+    const itemDetailPartInitial = () => {
+        setPartyName([]);
+        setLBRatio('');
+        setSplitNumber('');
+        setNote('');
+    };
+
     //新增
     const addList = () => {
         let tmpArray = listInfo.map((i) => i);
@@ -111,8 +118,7 @@ const LiabilityAdd = ({
             });
         });
         setListInfo([...tmpArray]);
-        itemDetailInitial();
-        setBillMilestone(billMilestone);
+        itemDetailPartInitial();
     };
 
     //分段+

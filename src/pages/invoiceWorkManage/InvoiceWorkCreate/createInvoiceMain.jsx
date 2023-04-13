@@ -52,7 +52,7 @@ const InvoiceWorkManage = ({
             <Grid container display="flex" justifyContent="center" alignItems="center" spacing={1}>
                 {/* row1 */}
                 <Grid item xs={12} sm={6} md={3} lg={2}>
-                    <Typography variant="h5" sx={{ fontSize: { lg: '0.5rem', xl: '0.88rem' }, ml: { lg: '0.5rem', xl: '1.5rem' } }}>
+                    <Typography variant="h5" sx={{ fontSize: { lg: '0.5rem', xl: '0.88rem' }, ml: { lg: '0rem', xl: '1.5rem' } }}>
                         {t('Submarine Cable')}：
                     </Typography>
                 </Grid>
@@ -69,7 +69,7 @@ const InvoiceWorkManage = ({
                     </FormControl>
                 </Grid>
                 <Grid item xs={12} sm={6} md={3} lg={2}>
-                    <Typography variant="h5" sx={{ fontSize: { lg: '0.5rem', xl: '0.88rem' }, ml: { lg: '0.5rem', xl: '1.5rem' } }}>
+                    <Typography variant="h5" sx={{ fontSize: { lg: '0.5rem', xl: '0.88rem' }, ml: { lg: '0rem', xl: '1.5rem' } }}>
                         {t('Work Title')}：
                     </Typography>
                 </Grid>
@@ -85,7 +85,7 @@ const InvoiceWorkManage = ({
                 </Grid>
                 {/* row2 */}
                 <Grid item xs={12} sm={6} md={3} lg={2}>
-                    <Typography variant="h5" sx={{ fontSize: { lg: '0.5rem', xl: '0.88rem' }, ml: { lg: '0.5rem', xl: '1.5rem' } }}>
+                    <Typography variant="h5" sx={{ fontSize: { lg: '0.5rem', xl: '0.88rem' }, ml: { lg: '0rem', xl: '1.5rem' } }}>
                         {/* 供應商： */}
                         {t('Supplier Name')}：
                     </Typography>
@@ -103,7 +103,7 @@ const InvoiceWorkManage = ({
                     </FormControl>
                 </Grid>
                 <Grid item xs={12} sm={6} md={3} lg={2}>
-                    <Typography variant="h5" sx={{ fontSize: { lg: '0.5rem', xl: '0.88rem' }, ml: { lg: '0.5rem', xl: '1.5rem' } }}>
+                    <Typography variant="h5" sx={{ fontSize: { lg: '0.5rem', xl: '0.88rem' }, ml: { lg: '0rem', xl: '1.5rem' } }}>
                         {t('Invoice No')}：
                     </Typography>
                 </Grid>
@@ -119,7 +119,7 @@ const InvoiceWorkManage = ({
                 </Grid>
                 {/* row3 */}
                 <Grid item xs={12} sm={6} md={3} lg={2}>
-                    <Typography variant="h5" sx={{ fontSize: { lg: '0.5rem', xl: '0.88rem' }, ml: { lg: '0.5rem', xl: '1.5rem' } }}>
+                    <Typography variant="h5" sx={{ fontSize: { lg: '0.5rem', xl: '0.88rem' }, ml: { lg: '0rem', xl: '1.5rem' } }}>
                         {t('Contract Type')}：
                     </Typography>
                 </Grid>
@@ -133,7 +133,7 @@ const InvoiceWorkManage = ({
                     </FormControl>
                 </Grid>
                 <Grid item xs={12} sm={6} md={3} lg={2}>
-                    <Typography variant="h5" sx={{ fontSize: { lg: '0.5rem', xl: '0.88rem' }, ml: { lg: '0.5rem', xl: '1.5rem' } }}>
+                    <Typography variant="h5" sx={{ fontSize: { lg: '0.5rem', xl: '0.88rem' }, ml: { lg: '0rem', xl: '1.5rem' } }}>
                         {t('Issue Date')}：
                     </Typography>
                 </Grid>
@@ -153,7 +153,7 @@ const InvoiceWorkManage = ({
                 </Grid>
                 {/* row4 */}
                 <Grid item xs={12} sm={6} md={3} lg={2}>
-                    <Typography variant="h5" sx={{ fontSize: { lg: '0.5rem', xl: '0.88rem' }, ml: { lg: '0.5rem', xl: '1.5rem' } }}>
+                    <Typography variant="h5" sx={{ fontSize: { lg: '0.5rem', xl: '0.88rem' }, ml: { lg: '0rem', xl: '1.5rem' } }}>
                         {t('Total Amount')}：
                     </Typography>
                 </Grid>
@@ -171,7 +171,7 @@ const InvoiceWorkManage = ({
                     />
                 </Grid>
                 <Grid item xs={12} sm={6} md={3} lg={2}>
-                    <Typography variant="h5" sx={{ fontSize: { lg: '0.5rem', xl: '0.88rem' }, ml: { lg: '0.5rem', xl: '1.5rem' } }}>
+                    <Typography variant="h5" sx={{ fontSize: { lg: '0.5rem', xl: '0.88rem' }, ml: { lg: '0rem', xl: '1.5rem' } }}>
                         {t('Due Date')}：
                     </Typography>
                 </Grid>
@@ -189,7 +189,7 @@ const InvoiceWorkManage = ({
                 </Grid>
                 {/* row5 */}
                 <Grid item xs={12} sm={6} md={3} lg={3}>
-                    <Typography variant="h5" sx={{ fontSize: { lg: '0.5rem', xl: '0.88rem' }, ml: { lg: '0.5rem', xl: '1.5rem' } }}>
+                    <Typography variant="h5" sx={{ fontSize: { lg: '0.5rem', xl: '0.88rem' }, ml: { lg: '0rem', xl: '1.5rem' } }}>
                         {t('Is Pro Forma')}：
                     </Typography>
                 </Grid>
@@ -216,7 +216,7 @@ const InvoiceWorkManage = ({
                     </FormControl>
                 </Grid>
                 <Grid item xs={12} sm={6} md={3} lg={3}>
-                    <Typography variant="h5" sx={{ fontSize: { lg: '0.5rem', xl: '0.88rem' }, ml: { lg: '0.5rem', xl: '1.5rem' } }}>
+                    <Typography variant="h5" sx={{ fontSize: { lg: '0.5rem', xl: '0.88rem' }, ml: { lg: '0rem', xl: '1.5rem' } }}>
                         {t('Is Liability')}：
                     </Typography>
                 </Grid>
@@ -245,7 +245,7 @@ const InvoiceWorkManage = ({
                 </Grid>
                 {/* row6 */}
                 <Grid item xs={12} sm={6} md={3} lg={3}>
-                    <Typography variant="h5" sx={{ fontSize: { lg: '0.5rem', xl: '0.88rem' }, ml: { lg: '0.5rem', xl: '1.5rem' } }}>
+                    <Typography variant="h5" sx={{ fontSize: { lg: '0.5rem', xl: '0.88rem' }, ml: { lg: '0rem', xl: '1.5rem' } }}>
                         {t('Is Recharge')}：
                     </Typography>
                 </Grid>
@@ -273,7 +273,7 @@ const InvoiceWorkManage = ({
                     </FormControl>
                 </Grid>
                 <Grid item xs={12} sm={6} md={3} lg={2}>
-                    <Typography variant="h5" sx={{ fontSize: { lg: '0.5rem', xl: '0.88rem' }, ml: { lg: '0.5rem', xl: '1.5rem' } }}>
+                    <Typography variant="h5" sx={{ fontSize: { lg: '0.5rem', xl: '0.88rem' }, ml: { lg: '0rem', xl: '1.5rem' } }}>
                         {isLiability === false || isLiability === 'false' ? '會員名稱：' : ''}
                     </Typography>
                 </Grid>

@@ -35,73 +35,73 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { useDispatch } from 'react-redux';
 import { setMessageStateOpen } from 'store/reducers/dropdown';
 
-const fakeData = {
-    message: 'success',
-    BillMaster: {
-        BillingNo: '3345678',
-        PartyName: 'str',
-        SubmarineCable: 'str',
-        WorkTitle: 'str',
-        IssueDate: '2022-09-09T12:00:00',
-        DueDate: '2022-09-09T12:00:00',
-        FeeAmountSum: 19870131.8888,
-        ReceivedAmountSum: 19870131.8888,
-        IsPro: true,
-        Status: 'str'
-    },
-    BillDetail: [
-        {
-            WKMasterID: 131,
-            InvDetailID: 131,
-            PartyName: 'str',
-            SupplierName: 'str',
-            SubmarineC: 'str',
-            WorkTitle: 'O&M',
-            BillMilestone: 'str',
-            SubmarineCable: 'str',
-            FeeItem: 'str',
-            FeeAmount: 999,
-            OrgFeeAmount: 19870131.8888,
-            DedAmount: 19870131.8888,
-            FeeAmount: 19870131.8888,
-            ReceivedAmount: 19870131.8888,
-            OverAmount: 19870131.8888,
-            ShortAmount: 19870131.8888,
-            BankFees: 19870131.8888,
-            ShortOverReason: 'str',
-            WriteOffDate: '2022-09-09T12:00:00',
-            ReceiveDate: '2022-09-09T12:00:00',
-            Note: 'str',
-            ToCBAmount: 'str',
-            Status: 'str'
-        },
-        {
-            WKMasterID: 131,
-            InvDetailID: 131,
-            PartyName: 'str',
-            SupplierName: 'str',
-            SubmarineC: 'str',
-            WorkTitle: 'O&M',
-            SubmarineCable: 'str',
-            BillMilestone: 'str',
-            FeeItem: 'str',
-            OrgFeeAmount: 19870131.8888,
-            DedAmount: 19870131.8888,
-            FeeAmount: 19870131.8888,
-            ReceivedAmount: 19870131.8888,
-            OverAmount: 19870131.8888,
-            ShortAmount: 19870131.8888,
-            BankFees: 19870131.8888,
-            ShortOverReason: 'str',
-            FeeAmount: 999,
-            WriteOffDate: '2022-09-09T12:00:00',
-            ReceiveDate: '2022-09-09T12:00:00',
-            Note: 'str',
-            ToCBAmount: 'str',
-            Status: 'str'
-        }
-    ]
-};
+// const fakeData = {
+//     message: 'success',
+//     BillMaster: {
+//         BillingNo: '3345678',
+//         PartyName: 'str',
+//         SubmarineCable: 'str',
+//         WorkTitle: 'str',
+//         IssueDate: '2022-09-09T12:00:00',
+//         DueDate: '2022-09-09T12:00:00',
+//         FeeAmountSum: 19870131.8888,
+//         ReceivedAmountSum: 19870131.8888,
+//         IsPro: true,
+//         Status: 'str'
+//     },
+//     BillDetail: [
+//         {
+//             WKMasterID: 131,
+//             InvDetailID: 131,
+//             PartyName: 'str',
+//             SupplierName: 'str',
+//             SubmarineC: 'str',
+//             WorkTitle: 'O&M',
+//             BillMilestone: 'str',
+//             SubmarineCable: 'str',
+//             FeeItem: 'str',
+//             FeeAmount: 999,
+//             OrgFeeAmount: 19870131.8888,
+//             DedAmount: 19870131.8888,
+//             FeeAmount: 19870131.8888,
+//             ReceivedAmount: 19870131.8888,
+//             OverAmount: 19870131.8888,
+//             ShortAmount: 19870131.8888,
+//             BankFees: 19870131.8888,
+//             ShortOverReason: 'str',
+//             WriteOffDate: '2022-09-09T12:00:00',
+//             ReceiveDate: '2022-09-09T12:00:00',
+//             Note: 'str',
+//             ToCBAmount: 'str',
+//             Status: 'str'
+//         },
+//         {
+//             WKMasterID: 131,
+//             InvDetailID: 131,
+//             PartyName: 'str',
+//             SupplierName: 'str',
+//             SubmarineC: 'str',
+//             WorkTitle: 'O&M',
+//             SubmarineCable: 'str',
+//             BillMilestone: 'str',
+//             FeeItem: 'str',
+//             OrgFeeAmount: 19870131.8888,
+//             DedAmount: 19870131.8888,
+//             FeeAmount: 19870131.8888,
+//             ReceivedAmount: 19870131.8888,
+//             OverAmount: 19870131.8888,
+//             ShortAmount: 19870131.8888,
+//             BankFees: 19870131.8888,
+//             ShortOverReason: 'str',
+//             FeeAmount: 999,
+//             WriteOffDate: '2022-09-09T12:00:00',
+//             ReceiveDate: '2022-09-09T12:00:00',
+//             Note: 'str',
+//             ToCBAmount: 'str',
+//             Status: 'str'
+//         }
+//     ]
+// };
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
     [`&.${tableCellClasses.head}`]: {
@@ -122,7 +122,7 @@ const ToCombineDataList = ({ handleDialogClose, isDialogOpen, dataList, totalCom
     const dispatch = useDispatch();
     const [issueDate, setIssueDate] = useState(new Date()); //發票日期
     const [poNo, setPoNo] = useState(''); //PO號碼
-    const [billList, setBillList] = useState(fakeData);
+    const [billList, setBillList] = useState({});
     const [billingNo, setBillingNo] = useState('');
     const billingNoOld = useRef('');
     const [cbToCn, setCbToCn] = useState({}); //處理狀態
@@ -316,7 +316,7 @@ const ToCombineDataList = ({ handleDialogClose, isDialogOpen, dataList, totalCom
                                         </TableRow>
                                     </TableHead>
                                     <TableBody>
-                                        {billList.BillDetail.map((row, id) => {
+                                        {billList?.BillDetail?.map((row, id) => {
                                             return (
                                                 <TableRow sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
                                                     <TableCell align="center">{row.PartyName}</TableCell>

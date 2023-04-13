@@ -3,7 +3,7 @@ import { useState, useRef, useEffect } from 'react';
 // project import
 import { handleNumber } from 'components/commonFunction';
 // material-ui
-import { Button, Table, TextField, Box } from '@mui/material';
+import { Button, Table, TextField, Box, Select, MenuItem } from '@mui/material';
 import TableBody from '@mui/material/TableBody';
 import TableCell, { tableCellClasses } from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
@@ -17,7 +17,7 @@ import dayjs from 'dayjs';
 import { addSuppliers, supplierNameList, deleteSuppliers, editSuppliers } from 'components/apis.jsx';
 
 // redux
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { setMessageStateOpen, setSupplierNameList } from 'store/reducers/dropdown';
 
 // icon
@@ -26,6 +26,7 @@ import AddCircleIcon from '@mui/icons-material/AddCircle';
 
 const SupplierDataList = ({ maxHei }) => {
     const dispatch = useDispatch();
+    const { subCableList } = useSelector((state) => state.dropdown); //海纜名稱下拉選單
     const [infoList, setInfoList] = useState([]);
     const [supplierName, setSupplierName] = useState(''); //供應商
     const [bankAcctName, setBankAcctName] = useState(''); //帳號名稱
@@ -271,17 +272,6 @@ const SupplierDataList = ({ maxHei }) => {
         querySuppliersInfo();
     }, []);
 
-    console.log(
-        'savingBankAcctNoEdit=>>',
-        !!savingBankAcctNoEdit,
-        bankAcctNoEdit,
-        bankAcctNoEdit?.length > 0,
-        'bankAcctNoEdit=>>',
-        bankAcctNoEdit,
-        !!savingBankAcctNoEdit,
-        savingBankAcctNoEdit?.length > 0
-    );
-
     return (
         <TableContainer component={Paper} sx={{ maxHeight: maxHei }}>
             <Table sx={{ minWidth: 300 }} stickyHeader aria-label="sticky table">
@@ -495,23 +485,29 @@ const SupplierDataList = ({ maxHei }) => {
                                         {isColumn1Open ? (
                                             <>
                                                 <TableCell align="center">
-                                                    <TextField
+                                                    <Select
                                                         size="small"
-                                                        // style={{ width: '30%' }}
                                                         value={submarineCableEdit}
-                                                        onChange={(e) => {
-                                                            setSubmarineCableEdit(e.target.value);
-                                                        }}
-                                                    />
+                                                        onChange={(e) => setSubmarineCableEdit(e.target.value)}
+                                                    >
+                                                        {subCableList.map((i) => (
+                                                            <MenuItem key={i.CableName} value={i.CableName}>
+                                                                {i.CableName}
+                                                            </MenuItem>
+                                                        ))}
+                                                    </Select>
                                                 </TableCell>
                                                 <TableCell align="center">
-                                                    <TextField
+                                                    <Select
                                                         size="small"
                                                         value={workTitleEdit}
-                                                        onChange={(e) => {
-                                                            setWorkTitleEdit(e.target.value);
-                                                        }}
-                                                    />
+                                                        label="填寫海纜作業"
+                                                        onChange={(e) => setWorkTitleEdit(e.target.value)}
+                                                    >
+                                                        <MenuItem value={'Upgrade'}>Upgrade</MenuItem>
+                                                        <MenuItem value={'Construction'}>Construction</MenuItem>
+                                                        <MenuItem value={'O&M'}>O&M</MenuItem>
+                                                    </Select>
                                                 </TableCell>
                                                 <TableCell align="center">
                                                     <TextField
@@ -536,14 +532,17 @@ const SupplierDataList = ({ maxHei }) => {
                                             </>
                                         ) : (
                                             <TableCell align="center">
-                                                <TextField
+                                                <Select
                                                     size="small"
-                                                    // style={{ width: '30%' }}
                                                     value={submarineCableEdit}
-                                                    onChange={(e) => {
-                                                        setSubmarineCableEdit(e.target.value);
-                                                    }}
-                                                />
+                                                    onChange={(e) => setSubmarineCableEdit(e.target.value)}
+                                                >
+                                                    {subCableList.map((i) => (
+                                                        <MenuItem key={i.CableName} value={i.CableName}>
+                                                            {i.CableName}
+                                                        </MenuItem>
+                                                    ))}
+                                                </Select>
                                             </TableCell>
                                         )}
                                         {isColumn2Open ? (
@@ -689,22 +688,25 @@ const SupplierDataList = ({ maxHei }) => {
                         {isColumn1Open ? (
                             <>
                                 <TableCell align="center">
-                                    <TextField
-                                        size="small"
-                                        value={submarineCable}
-                                        onChange={(e) => {
-                                            setSubmarineCable(e.target.value);
-                                        }}
-                                    />
+                                    <Select size="small" value={submarineCable} onChange={(e) => setSubmarineCable(e.target.value)}>
+                                        {subCableList.map((i) => (
+                                            <MenuItem key={i.CableName} value={i.CableName}>
+                                                {i.CableName}
+                                            </MenuItem>
+                                        ))}
+                                    </Select>
                                 </TableCell>
                                 <TableCell align="center">
-                                    <TextField
+                                    <Select
                                         size="small"
                                         value={workTitle}
-                                        onChange={(e) => {
-                                            setWorkTitle(e.target.value);
-                                        }}
-                                    />
+                                        label="填寫海纜作業"
+                                        onChange={(e) => setWorkTitle(e.target.value)}
+                                    >
+                                        <MenuItem value={'Upgrade'}>Upgrade</MenuItem>
+                                        <MenuItem value={'Construction'}>Construction</MenuItem>
+                                        <MenuItem value={'O&M'}>O&M</MenuItem>
+                                    </Select>
                                 </TableCell>
                                 <TableCell align="center">
                                     <TextField
@@ -729,13 +731,13 @@ const SupplierDataList = ({ maxHei }) => {
                             </>
                         ) : (
                             <TableCell align="center">
-                                <TextField
-                                    size="small"
-                                    value={submarineCable}
-                                    onChange={(e) => {
-                                        setSubmarineCable(e.target.value);
-                                    }}
-                                />
+                                <Select size="small" value={submarineCable} onChange={(e) => setSubmarineCable(e.target.value)}>
+                                    {subCableList.map((i) => (
+                                        <MenuItem key={i.CableName} value={i.CableName}>
+                                            {i.CableName}
+                                        </MenuItem>
+                                    ))}
+                                </Select>
                             </TableCell>
                         )}
                         {isColumn2Open ? (
