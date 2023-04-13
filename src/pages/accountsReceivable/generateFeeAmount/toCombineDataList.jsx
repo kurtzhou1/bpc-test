@@ -169,6 +169,7 @@ const ToCombineDataList = ({ handleDialogClose, isDialogOpen, dataList, totalCom
         // billList.BillMaster.DueDate = dayjs(issueDate).format('YYYY-MM-DD hh:mm:ss');
         billList.DueDate = dayjs(issueDate).format('YYYY-MM-DD hh:mm:ss');
         billList.PONo = poNo;
+        delete billList.BillMaster.SupplierName;
         console.log('billList=>>', billList);
         fetch(isBillNoCheckOK, {
             method: 'POST',
