@@ -229,7 +229,6 @@ const InvoiceWorkManage = () => {
             fetch(generateInvoice, { method: 'POST', body: JSON.stringify(dataInfo) })
                 .then((res) => res.json())
                 .then((data) => {
-                    console.log('data=>>', data);
                     dispatch(setMessageStateOpen({ messageStateOpen: { isOpen: true, severity: 'success', message: '送出發票成功' } }));
                     setListInfo([]);
                 })

@@ -108,7 +108,6 @@ const DraftDataList = ({ dataList }) => {
                     </TableHead>
                     <TableBody>
                         {dataList?.map((row, id) => {
-                            console.log('row=>>', row);
                             return (
                                 <TableRow
                                     key={row.InvoiceWKMaster?.WKMasterID + row.InvoiceWKMaster?.InvoiceNo}

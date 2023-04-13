@@ -328,7 +328,6 @@ const BillDraftMake = ({ isDialogOpen, handleDialogClose, billMasterID, pONo, su
             fetch(contactUser, { method: 'GET' })
                 .then((res) => res.json())
                 .then((data) => {
-                    console.log('user data=>>', data);
                     if (Array.isArray(data)) {
                         setContactList(data);
                     }

@@ -122,9 +122,6 @@ const ToGenerateDataList = ({ isDialogOpen, handleDialogClose, deductInfo, actio
         setIsDeductWorkOpen(true);
     };
 
-    console.log('dialogTitle=>', deductInfo);
-    console.log('actionName=>', actionName, actionName !== 'view', actionName !== 'viewDeducted');
-
     return (
         <Dialog onClose={handleDialogClose} maxWidth="xl" open={isDialogOpen}>
             <BootstrapDialogTitle id="customized-dialog-title" onClose={handleDialogClose}>

@@ -23,11 +23,29 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import dayjs from 'dayjs';
 import { DateRangePicker } from '@mui/x-date-pickers-pro/DateRangePicker';
 import { TextField } from '@mui/material/index';
+import { queryToDecutBill } from 'components/apis';
 
 // ==============================|| SAMPLE PAGE ||============================== //
 
-const ReceivableQuery = ({ creditBalanceQuery }) => {
+const ReceivableQuery = ({ setListInfo }) => {
     // const [issueDate, setIssueDate] = useState([null, null]); //發票日期
+    const initQuery = () => {
+        let tmpQuery = queryToDecutBill + '/Status=TO_WRITEOFF';
+        console.log('tmpQuery=>>', tmpQuery);
+        // queryApi.current = tmpQuery;
+        fetch(tmpQuery, { method: 'GET' })
+            .then((res) => res.json())
+            .then((data) => {
+                setListInfo(data);
+            })
+            .catch((e) => {
+                console.log('e1=>', e);
+            });
+    };
+
+    useEffect(() => {
+        initQuery();
+    }, []);
 
     return (
         <MainCard title="發票查詢" sx={{ width: '100%' }}>

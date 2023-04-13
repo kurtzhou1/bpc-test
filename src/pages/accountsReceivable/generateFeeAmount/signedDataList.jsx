@@ -61,7 +61,6 @@ const SignedDataList = ({ dataList }) => {
         fetch(updateBM, { method: 'POST', body: JSON.stringify(tmpData) })
             .then((res) => res.json())
             .then((data) => {
-                console.log('進待銷帳成功=>>', data);
                 dispatch(setMessageStateOpen({ messageStateOpen: { isOpen: true, severity: 'success', message: '進待銷帳成功' } }));
             })
             .catch((e) => console.log('e1=>', e));

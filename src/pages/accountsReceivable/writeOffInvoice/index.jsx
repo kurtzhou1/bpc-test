@@ -11,6 +11,130 @@ import WriteOffedDataList from './writeOffedDataList';
 // import InvalidatedDataList from './invalidatedDataList';
 import ReceivableQuery from './receivableQuery';
 
+const fakeData = [
+    {
+        BillMaster: {
+            SupplierName: 'NEC',
+            BillMasterID: 1,
+            WorkTitle: 'Construction',
+            IssueDate: '2023-04-13T00:00:00',
+            DueDate: '2023-04-30T00:00:00',
+            ReceivedAmountSum: 0,
+            IsPro: false,
+            URI: 's3://cht-deploy-bucket-1/SJC2 Cable Network  Central Billing Party.pdf',
+            BillingNo: '02CO-TC2304131513',
+            PONo: '',
+            SubmarineCable: 'SJC2',
+            PartyName: 'TICC',
+            FeeAmountSum: 398695.2,
+            BankFees: null,
+            Status: 'TO_WRITEOFF'
+        },
+        BillDetail: [
+            {
+                BillDetailID: 1,
+                BillMilestone: 'BM9a',
+                ShortOverReason: null,
+                WKMasterID: 1,
+                FeeItem: 'BM9a Sea cable manufactured (except 8.5km spare cable))- Equipment',
+                WriteOffDate: null,
+                InvoiceNo: 'DT0170168-1',
+                OrgFeeAmount: 92058.74,
+                ReceiveDate: null,
+                InvDetailID: 5,
+                DedAmount: 0,
+                Note: null,
+                PartyName: 'TICC',
+                FeeAmount: 92058.74,
+                ToCBAmount: null,
+                SupplierName: 'NEC',
+                ReceivedAmount: 0,
+                Status: 'INCOMPLETE',
+                SubmarineCable: 'SJC2',
+                OverAmount: 0,
+                BillMasterID: 1,
+                WorkTitle: 'Construction',
+                ShortAmount: 0
+            },
+            {
+                BillDetailID: 2,
+                BillMilestone: 'BM9a',
+                ShortOverReason: null,
+                WKMasterID: 1,
+                FeeItem: 'BM9a Sea cable manufactured (except 8.5km spare cable))- Service',
+                WriteOffDate: null,
+                InvoiceNo: 'DT0170168-1',
+                OrgFeeAmount: 84159.14,
+                ReceiveDate: null,
+                InvDetailID: 6,
+                DedAmount: 0,
+                Note: null,
+                PartyName: 'TICC',
+                FeeAmount: 84159.14,
+                ToCBAmount: null,
+                SupplierName: 'NEC',
+                ReceivedAmount: 0,
+                Status: 'INCOMPLETE',
+                SubmarineCable: 'SJC2',
+                OverAmount: 0,
+                BillMasterID: 1,
+                WorkTitle: 'Construction',
+                ShortAmount: 0
+            },
+            {
+                BillDetailID: 3,
+                BillMilestone: 'BM12',
+                ShortOverReason: null,
+                WKMasterID: 2,
+                FeeItem: 'BM12 Branching Units (100%)-Equipment',
+                WriteOffDate: null,
+                InvoiceNo: 'DT0170168-2',
+                OrgFeeAmount: 116235.78,
+                ReceiveDate: null,
+                InvDetailID: 25,
+                DedAmount: 10,
+                Note: null,
+                PartyName: 'TICC',
+                FeeAmount: 116225.78,
+                ToCBAmount: null,
+                SupplierName: 'NEC',
+                ReceivedAmount: 0,
+                Status: 'INCOMPLETE',
+                SubmarineCable: 'SJC2',
+                OverAmount: 0,
+                BillMasterID: 1,
+                WorkTitle: 'Construction',
+                ShortAmount: 0
+            },
+            {
+                BillDetailID: 4,
+                BillMilestone: 'BM12',
+                ShortOverReason: null,
+                WKMasterID: 2,
+                FeeItem: 'BM12 Branching Units (100%)-Service',
+                WriteOffDate: null,
+                InvoiceNo: 'DT0170168-2',
+                OrgFeeAmount: 106261.54,
+                ReceiveDate: null,
+                InvDetailID: 26,
+                DedAmount: 10,
+                Note: null,
+                PartyName: 'TICC',
+                FeeAmount: 106251.54,
+                ToCBAmount: null,
+                SupplierName: 'NEC',
+                ReceivedAmount: 0,
+                Status: 'INCOMPLETE',
+                SubmarineCable: 'SJC2',
+                OverAmount: 0,
+                BillMasterID: 1,
+                WorkTitle: 'Construction',
+                ShortAmount: 0
+            }
+        ]
+    }
+];
+
 const WriteOffInvoice = () => {
     const [value, setValue] = useState(0);
 
@@ -35,10 +159,6 @@ const WriteOffInvoice = () => {
     const [editItem, setEditItem] = useState(NaN);
     const [modifyNote, setModifyNote] = useState('');
 
-    const receivableQuery = () => {
-        console.log('ReceivableQueryFunction');
-    };
-
     const handleDialogOpen = () => {
         setIsDialogOpen(true);
         setDialogAction('add');
@@ -55,33 +175,6 @@ const WriteOffInvoice = () => {
         setModifyNote('');
     };
 
-    //新增
-    const addLiability = (list) => {
-        if (list.length > 0) {
-            let tmpArray = listInfo.map((i) => i);
-            list.forEach((i) => {
-                tmpArray.push({
-                    BillMilestone: i.BillMilestone,
-                    PartyName: i.PartyName,
-                    LBRatio: i.LbRatio,
-                    createTime: new Date(),
-                    modifyNote: modifyNote.trim() === '' ? '' : modifyNote
-                });
-            });
-
-            setListInfo([...tmpArray]);
-            handleDialogClose();
-            itemDetailInitial();
-        }
-    };
-
-    //刪除
-    const deletelistInfoItem = (deleteItem) => {
-        let tmpArray = listInfo.map((i) => i);
-        tmpArray.splice(deleteItem, 1);
-        setListInfo([...tmpArray]);
-    };
-
     //編輯
     const editlistInfoItem = () => {
         let tmpArray = listInfo[editItem];
@@ -91,15 +184,6 @@ const WriteOffInvoice = () => {
             setLBRatio(tmpArray?.lBRatio);
             setModifyNote(tmpArray?.modifyNote);
         }
-    };
-
-    //儲存編輯
-    const saveEdit = () => {
-        setEditItem(NaN);
-        deletelistInfoItem(editItem);
-        addLiability();
-        setIsListEdit(false);
-        itemDetailInitial();
     };
 
     useEffect(() => {
@@ -112,26 +196,8 @@ const WriteOffInvoice = () => {
 
     return (
         <Grid container spacing={1}>
-            {/* <Grid item xs={12} display="flex" justifyContent="right">
-                <Button sx={{ mr: '0.25rem' }} variant="contained" onClick={handleDialogOpen}>
-                    + 新增Credit Balance
-                </Button>
-                <CreditBalanceAdd
-                    handleDialogClose={handleDialogClose}
-                    addLiability={addLiability}
-                    saveEdit={saveEdit}
-                    partyName={partyName}
-                    setPartyName={setPartyName}
-                    isDialogOpen={isDialogOpen}
-                    billMilestone={billMilestone}
-                    setBillMilestone={setBillMilestone}
-                    dialogAction={dialogAction}
-                    lBRatio={lBRatio}
-                    setLBRatio={setLBRatio}
-                />
-            </Grid> */}
             <Grid item xs={12}>
-                <ReceivableQuery receivableQuery={receivableQuery} />
+                <ReceivableQuery setListInfo={setListInfo} />
             </Grid>
             <Grid item xs={12}>
                 {/* <MainCard title={`${value == 0 ? '待銷帳' : value == 1 ? '已銷帳' : '已作廢'}帳單資料列表`}> */}
@@ -144,7 +210,7 @@ const WriteOffInvoice = () => {
                         </Tabs>
                     </Box>
                     <TabPanel value={value} index={0}>
-                        <ToWriteOffDataList />
+                        <ToWriteOffDataList listInfo={listInfo} />
                     </TabPanel>
                     <TabPanel value={value} index={1}>
                         <WriteOffedDataList />
