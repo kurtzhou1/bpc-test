@@ -61,6 +61,7 @@ const InvoiceDataList = ({ listInfo, setAction, setModifyItem }) => {
                         <StyledTableCell align="center">發票號碼</StyledTableCell>
                         <StyledTableCell align="center">供應商</StyledTableCell>
                         <StyledTableCell align="center">海纜名稱</StyledTableCell>
+                        <StyledTableCell align="center">記帳段號</StyledTableCell>
                         <StyledTableCell align="center">合約種類</StyledTableCell>
                         <StyledTableCell align="center">發票日期</StyledTableCell>
                         <StyledTableCell align="center">明細數量</StyledTableCell>
@@ -72,6 +73,13 @@ const InvoiceDataList = ({ listInfo, setAction, setModifyItem }) => {
                 <TableBody>
                     {(rowsPerPage > 0 ? listInfo.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage) : listInfo)?.map(
                         (row, itemID) => {
+                            let tmpArray = [];
+                            row.InvoiceWKDetail.forEach((i) => {
+                                if (!tmpArray.includes(i.BillMilestone)) {
+                                    tmpArray.push(i.BillMilestone);
+                                }
+                            });
+                            console.log('tmpArray=>>', tmpArray);
                             return (
                                 <TableRow
                                     key={row.InvoiceWKMaster?.WKMasterID + row.InvoiceWKMaster?.InvoiceNo}
@@ -81,6 +89,7 @@ const InvoiceDataList = ({ listInfo, setAction, setModifyItem }) => {
                                     <StyledTableCell align="center">{row.InvoiceWKMaster?.InvoiceNo}</StyledTableCell>
                                     <StyledTableCell align="center">{row.InvoiceWKMaster?.SupplierName}</StyledTableCell>
                                     <StyledTableCell align="center">{row.InvoiceWKMaster?.SubmarineCable}</StyledTableCell>
+                                    <StyledTableCell align="center">{tmpArray.join(',')}</StyledTableCell>
                                     <StyledTableCell align="center">{row.InvoiceWKMaster?.ContractType}</StyledTableCell>
                                     <StyledTableCell align="center">
                                         {dayjs(row.InvoiceWKMaster?.IssueDate).format('YYYY/MM/DD')}
@@ -106,7 +115,7 @@ const InvoiceDataList = ({ listInfo, setAction, setModifyItem }) => {
                                                 sx={{
                                                     display: 'flex',
                                                     justifyContent: 'center',
-                                                    '& button': { mx: { md: 0.2, lg: 0.2, xl: 1 }, p: 0, fontSize: 1 }
+                                                    '& button': { mx: { md: 0.1, lg: 0.1, xl: 1 }, p: 0, fontSize: 1 }
                                                 }}
                                             >
                                                 {options1.map((option) => {
@@ -178,7 +187,7 @@ const InvoiceDataList = ({ listInfo, setAction, setModifyItem }) => {
                     <TableRow>
                         <TablePagination
                             rowsPerPageOptions={[10, 15, 20, 25, { label: 'All', value: -1 }]}
-                            colSpan={10}
+                            colSpan={12}
                             count={listInfo.length}
                             rowsPerPage={rowsPerPage}
                             page={page}
