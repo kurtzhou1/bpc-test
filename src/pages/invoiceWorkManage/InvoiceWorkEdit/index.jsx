@@ -327,6 +327,7 @@ const InvoiceWorkManage = () => {
                                 supNmList={supNmList}
                                 subCableList={subCableList}
                                 billmileStoneList={bmsList}
+                                setAction={setAction}
                             />
                         </Grid>
                     </Grid>

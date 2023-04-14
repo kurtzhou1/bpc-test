@@ -31,6 +31,7 @@ const InvoiceDataList = ({ listInfo, setAction, setModifyItem }) => {
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(10);
     const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - listInfo.length) : 0;
+    let tmpArray = [];
 
     const handleChangePage = (event, newPage) => {
         setPage(newPage);
@@ -73,7 +74,7 @@ const InvoiceDataList = ({ listInfo, setAction, setModifyItem }) => {
                 <TableBody>
                     {(rowsPerPage > 0 ? listInfo.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage) : listInfo)?.map(
                         (row, itemID) => {
-                            let tmpArray = [];
+                            tmpArray = [];
                             row.InvoiceWKDetail.forEach((i) => {
                                 if (!tmpArray.includes(i.BillMilestone)) {
                                     tmpArray.push(i.BillMilestone);
