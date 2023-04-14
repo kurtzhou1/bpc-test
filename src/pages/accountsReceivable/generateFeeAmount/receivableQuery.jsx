@@ -167,6 +167,7 @@ const ReceivableQuery = ({ value, setListInfo, queryApi }) => {
         fetch(tmpQuery, { method: 'GET' })
             .then((res) => res.json())
             .then((data) => {
+                console.log('data=>>', data);
                 setListInfo(data);
             })
             .catch((e) => {

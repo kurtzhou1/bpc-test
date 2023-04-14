@@ -459,14 +459,14 @@ import { setMessageStateOpen } from 'store/reducers/dropdown';
 const GenerateFeeAmount = () => {
     const [value, setValue] = useState(0);
     const [listInfo, setListInfo] = useState([]);
-    const [dataList, setDataList] = useState([]);
+    // const [dataList, setDataList] = useState([]);
     const dispatch = useDispatch();
     const queryApi = useRef('');
     const [isDialogOpen, setIsDialogOpen] = useState(false);
     const totalCombineAmount = useRef(0); //勾選合併帳單總金額
     const handleChange = (event, newValue) => {
         setListInfo([]);
-        setDataList([]);
+        // setDataList([]);
         setValue(newValue);
     };
 
@@ -491,6 +491,7 @@ const GenerateFeeAmount = () => {
     //初始化查詢
     const receivableQuery = () => {
         let tmpQuery = queryApi.current;
+        console.log('我有重新查詢=>>', queryApi.current);
         fetch(tmpQuery, { method: 'GET' })
             .then((res) => res.json())
             .then((data) => {
@@ -501,24 +502,11 @@ const GenerateFeeAmount = () => {
             });
     };
 
-    useEffect(() => {
-        if (listInfo && listInfo.length) {
-            setDataList(listInfo);
-        }
-        // else {
-        //     if (value === 1) {
-        //         setDataList(fakeData1);
-        //     } else if (value === 2) {
-        //         setDataList(fakeData2);
-        //     } else if (value === 0) {
-        //         setDataList(fakeData0);
-        //     } else if (value === 3) {
-        //         setDataList(fakeData3);
-        //     } else {
-        //         setDataList([]);
-        //     }
-        // }
-    }, [listInfo]);
+    // useEffect(() => {
+    //     if (listInfo && listInfo.length) {
+    //         setDataList(listInfo);
+    //     }
+    // }, [listInfo]);
 
     return (
         <Grid container spacing={1}>
@@ -574,22 +562,22 @@ const GenerateFeeAmount = () => {
                         <ToCombineDataList
                             handleDialogClose={handleDialogClose}
                             isDialogOpen={isDialogOpen}
-                            dataList={dataList}
+                            dataList={listInfo}
                             totalCombineAmount={totalCombineAmount}
                             receivableQuery={receivableQuery}
                         />
                     </TabPanel>
                     <TabPanel value={value} index={1}>
-                        <ToDeductDataList dataList={dataList} receivableQuery={receivableQuery} />
+                        <ToDeductDataList dataList={listInfo} receivableQuery={receivableQuery} />
                     </TabPanel>
                     <TabPanel value={value} index={2}>
-                        <DeductedDataList dataList={dataList} receivableQuery={receivableQuery} />
+                        <DeductedDataList dataList={listInfo} receivableQuery={receivableQuery} />
                     </TabPanel>
                     <TabPanel value={value} index={3}>
-                        <SignedDataList dataList={dataList} receivableQuery={receivableQuery} />
+                        <SignedDataList dataList={listInfo} receivableQuery={receivableQuery} />
                     </TabPanel>
                     <TabPanel value={value} index={4}>
-                        <InvalidatedDataList dataList={dataList} />
+                        <InvalidatedDataList dataList={listInfo} />
                     </TabPanel>
                 </MainCard>
             </Grid>

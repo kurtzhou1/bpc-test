@@ -134,6 +134,7 @@ const DeductedWork = ({ isDeductedWorkOpen, handleDeductedClose, billDetailInfo 
                                     <TableRow>
                                         <StyledTableCell align="center">NO</StyledTableCell>
                                         <StyledTableCell align="center">費用項目</StyledTableCell>
+                                        <StyledTableCell align="center">記帳段號</StyledTableCell>
                                         <StyledTableCell align="center">折抵CB</StyledTableCell>
                                         <StyledTableCell align="center">折抵金額</StyledTableCell>
                                         <StyledTableCell align="center">總金額</StyledTableCell>
@@ -141,13 +142,15 @@ const DeductedWork = ({ isDeductedWorkOpen, handleDeductedClose, billDetailInfo 
                                 </TableHead>
                                 <TableBody>
                                     {dataList.map((row, id) => {
+                                        console.log('rowrowrowrow=>>', row);
                                         return (
                                             <TableRow
-                                                // key={row.BillDetailID + row?.BillMasterID}
+                                                key={row.BillDetail.BillMasterID + row?.BillDetail.BillDetailID}
                                                 sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                                             >
                                                 <TableCell align="center">{id + 1}</TableCell>
                                                 <TableCell align="center">{row.BillDetail.FeeItem}</TableCell>
+                                                <TableCell align="center">{row.BillDetail.BillMilestone}</TableCell>
                                                 <TableCell align="center">{row.CBTYPE}</TableCell>
                                                 <TableCell align="center">{`$${handleNumber(
                                                     row.BillDetail.DedAmount.toFixed(2)
@@ -162,6 +165,7 @@ const DeductedWork = ({ isDeductedWorkOpen, handleDeductedClose, billDetailInfo 
                                         <StyledTableCell className="totalAmount" align="center">
                                             Total
                                         </StyledTableCell>
+                                        <StyledTableCell className="totalAmount" align="center"></StyledTableCell>
                                         <StyledTableCell className="totalAmount" align="center"></StyledTableCell>
                                         <StyledTableCell className="totalAmount" align="center"></StyledTableCell>
                                         <StyledTableCell className="totalAmount" align="center">{`$${handleNumber(

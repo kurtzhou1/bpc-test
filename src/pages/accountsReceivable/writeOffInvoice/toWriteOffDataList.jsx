@@ -149,6 +149,7 @@ const ToWriteOffDataList = ({ listInfo }) => {
                             <StyledTableCell align="center">NO</StyledTableCell>
                             <StyledTableCell align="center">海纜名稱</StyledTableCell>
                             <StyledTableCell align="center">海纜作業</StyledTableCell>
+                            <StyledTableCell align="center">記帳段號</StyledTableCell>
                             <StyledTableCell align="center">會員</StyledTableCell>
                             <StyledTableCell align="center">帳單號碼</StyledTableCell>
                             <StyledTableCell align="center">帳單日期</StyledTableCell>
@@ -164,6 +165,7 @@ const ToWriteOffDataList = ({ listInfo }) => {
                                 <TableRow key={row.WKMasterID + row.InvoiceNo} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
                                     <StyledTableCell align="center">{id + 1}</StyledTableCell>
                                     <StyledTableCell align="center">{row.BillMaster.SubmarineCable}</StyledTableCell>
+                                    <StyledTableCell align="center">{row.BillMaster.WorkTitle}</StyledTableCell>
                                     <StyledTableCell align="center">{row.BillMaster.WorkTitle}</StyledTableCell>
                                     <StyledTableCell align="center">{row.BillMaster.PartyName}</StyledTableCell>
                                     <StyledTableCell align="center">{row.BillMaster.BillingNo}</StyledTableCell>
