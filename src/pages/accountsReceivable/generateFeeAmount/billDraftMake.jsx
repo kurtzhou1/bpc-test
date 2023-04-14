@@ -533,7 +533,7 @@ const BillDraftMake = ({ isDialogOpen, handleDialogClose, billMasterID, pONo, su
                                 <Box sx={{ m: 1, minWidth: '30%', with: '30%' }} />
                                 <Box sx={{ m: 1, minWidth: '30%', with: '30%' }}>
                                     <Box sx={{ fontSize: '12px', textAlign: 'left' }}>Invoice No.： {dataList.InvoiceNo}</Box>
-                                    <Box sx={{ fontSize: '8px', textAlign: 'left' }}>(Please Refer To This Invoice No. On Remittance)</Box>
+                                    {/* <Box sx={{ fontSize: '8px', textAlign: 'left' }}>(Please Refer To This Invoice No. On Remittance)</Box> */}
                                     <Box sx={{ fontSize: '12px', textAlign: 'left' }}>
                                         Issue Date：{dayjs(issueDate).format('YYYY/MM/DD')}
                                     </Box>

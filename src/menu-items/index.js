@@ -2,7 +2,7 @@
 import invoiceWorkManagePage from './invoiceWorkManagePage';
 import dashboard from './dashboard';
 import createJournal from './createJournal';
-import liabilityManage from './liabilityManage';
+// import liabilityManage from './liabilityManage';
 import creditBalanceManage from './creditBalanceManage';
 import creditNoteManage from './creditNoteManage';
 import accountsReceivable from './accountsReceivable';
@@ -11,7 +11,7 @@ import accountsReceivable from './accountsReceivable';
 
 const menuItems = {
     // items: [dashboard, pages, utilities, support]
-    items: [dashboard, invoiceWorkManagePage, createJournal, liabilityManage, creditBalanceManage, creditNoteManage, accountsReceivable]
+    items: [dashboard, invoiceWorkManagePage, createJournal, accountsReceivable, creditBalanceManage, creditNoteManage]
 };
 
 export default menuItems;

@@ -95,15 +95,6 @@ const MainRoutes = {
             ]
         },
         {
-            path: 'Liability',
-            children: [
-                {
-                    path: 'LiabilityManage',
-                    element: <LiabilityManage />
-                }
-            ]
-        },
-        {
             path: 'CreditBalance',
             children: [
                 {
@@ -154,6 +145,10 @@ const MainRoutes = {
         {
             path: 'Information',
             element: <Information />
+        },
+        {
+            path: 'Liability',
+            element: <LiabilityManage />
         }
         // {
         //     path: 'CreateJournal',
