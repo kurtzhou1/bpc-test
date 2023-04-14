@@ -308,7 +308,9 @@ const ReceivableQuery = ({ value, setListInfo, queryApi }) => {
                     <Button sx={{ mr: '0.5rem' }} variant="contained" onClick={receivableQuery}>
                         查詢
                     </Button>
-                    <Button variant="contained">清除</Button>
+                    <Button variant="contained" onClick={initInfo}>
+                        清除
+                    </Button>
                 </Grid>
             </Grid>
         </MainCard>
