@@ -52,7 +52,6 @@ const SignAndUpload = ({ isUploadOpen, handleUploadClose, billMasterID, receivab
     };
 
     const handleUploadFile = () => {
-        console.log('uploadFile=>>', uploadFile.length);
         if (uploadFile.length > 0) {
             let tmpApi = uploadFileApi + '/' + billMasterID;
             const pdfData = new FormData();
@@ -77,8 +76,6 @@ const SignAndUpload = ({ isUploadOpen, handleUploadClose, billMasterID, receivab
             dispatch(setMessageStateOpen({ messageStateOpen: { isOpen: true, severity: 'error', message: '請上傳檔案' } }));
         }
     };
-
-    console.log('uploadFile=>>', uploadFile);
 
     return (
         <Dialog onClose={handleUploadClose} maxWidth="xs" fullWidth open={isUploadOpen}>
