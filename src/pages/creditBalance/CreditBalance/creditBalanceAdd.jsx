@@ -38,8 +38,12 @@ import { styled } from '@mui/material/styles';
 
 // api
 import { queryCB } from 'components/apis.jsx';
+// redux
+import { useDispatch } from 'react-redux';
+import { setMessageStateOpen } from 'store/reducers/dropdown';
 
 const CreditBalanceAdd = ({ handleDialogClose, isDialogOpen, billMilestone, partiesList, subCableList, queryApi, setListInfo }) => {
+    const dispatch = useDispatch();
     const [cBType, setCBType] = useState(''); // CB種類
     const [partyName, setPartyName] = useState(''); //會員代號
     const [currAmount, setCurrAmount] = useState(0); // 剩餘金額
@@ -71,27 +75,49 @@ const CreditBalanceAdd = ({ handleDialogClose, isDialogOpen, billMilestone, part
             .catch((e) => console.log('e1=>', e));
     };
 
+    const infoCheck = () => {
+        if (cBType === '') {
+            dispatch(setMessageStateOpen({ messageStateOpen: { isOpen: true, severity: 'error', message: '請選擇CB種類' } }));
+            return false;
+        }
+        if (partyName === '') {
+            dispatch(setMessageStateOpen({ messageStateOpen: { isOpen: true, severity: 'error', message: '請選擇會員代號' } }));
+            return false;
+        }
+        if (submarineCable === '') {
+            dispatch(setMessageStateOpen({ messageStateOpen: { isOpen: true, severity: 'error', message: '請輸入海纜名稱' } }));
+            return false;
+        }
+        if (workTitle === '') {
+            dispatch(setMessageStateOpen({ messageStateOpen: { isOpen: true, severity: 'error', message: '請輸入海纜作業' } }));
+            return false;
+        }
+        return true;
+    };
+
     const addCB = () => {
-        let tmpArray = {
-            WorkTitle: workTitle ? workTitle : null,
-            InvoiceNo: invoiceNo ? invoiceNo : null,
-            PartyName: partyName ? partyName : null,
-            SubmarineCable: submarineCable ? submarineCable : null,
-            CBType: cBType ? cBType : null,
-            BillingNo: billingNo ? billingNo : null,
-            BillMilestone: billMilestone ? billMilestone : null,
-            CurrAmount: currAmount ? Number(currAmount.replaceAll(',', '')) : null,
-            Note: note ? note : null
-        };
-        fetch(queryCB, { method: 'POST', body: JSON.stringify(tmpArray) })
-            .then((res) => res.json())
-            .then(() => {
-                alert('送出Credit Balance成功');
-                handleDialogClose();
-                infoInitial();
-                creditBalanceQuery();
-            })
-            .catch((e) => console.log('e1=>', e));
+        if (infoCheck()) {
+            let tmpArray = {
+                WorkTitle: workTitle ? workTitle : null,
+                InvoiceNo: invoiceNo ? invoiceNo : null,
+                PartyName: partyName ? partyName : null,
+                SubmarineCable: submarineCable ? submarineCable : null,
+                CBType: cBType ? cBType : null,
+                BillingNo: billingNo ? billingNo : null,
+                BillMilestone: billMilestone ? billMilestone : null,
+                CurrAmount: currAmount ? Number(currAmount.replaceAll(',', '')) : null,
+                Note: note ? note : null
+            };
+            fetch(queryCB, { method: 'POST', body: JSON.stringify(tmpArray) })
+                .then((res) => res.json())
+                .then(() => {
+                    alert('送出Credit Balance成功');
+                    handleDialogClose();
+                    infoInitial();
+                    creditBalanceQuery();
+                })
+                .catch((e) => console.log('e1=>', e));
+        }
     };
 
     const StyledTableCell = styled(TableCell)(({ theme }) => ({

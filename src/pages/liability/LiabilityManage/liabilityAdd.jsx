@@ -103,22 +103,50 @@ const LiabilityAdd = ({
         setNote('');
     };
 
+    const infoCheck = () => {
+        if (partyName.length === 0) {
+            dispatch(setMessageStateOpen({ messageStateOpen: { isOpen: true, severity: 'error', message: '請輸入會員名稱' } }));
+            return false;
+        }
+        if (billMilestone === '') {
+            dispatch(setMessageStateOpen({ messageStateOpen: { isOpen: true, severity: 'error', message: '請輸入記帳段號' } }));
+            return false;
+        }
+        if (submarineCable === '') {
+            dispatch(setMessageStateOpen({ messageStateOpen: { isOpen: true, severity: 'error', message: '請輸入海纜名稱' } }));
+            return false;
+        }
+        if (workTitle === '') {
+            dispatch(setMessageStateOpen({ messageStateOpen: { isOpen: true, severity: 'error', message: '請輸入海纜作業' } }));
+            return false;
+        }
+        if (lBRatio === 0 || lBRatio === '') {
+            dispatch(setMessageStateOpen({ messageStateOpen: { isOpen: true, severity: 'error', message: '請輸入攤分比例' } }));
+            return false;
+        }
+        return true;
+    };
+
     //新增
     const addList = () => {
-        let tmpArray = listInfo.map((i) => i);
-        let partyArray = partyName;
-        partyArray.forEach((e) => {
-            tmpArray.push({
-                BillMilestone: billMilestone,
-                PartyName: e.PartyName,
-                LBRatio: lBRatio,
-                SubmarineCable: submarineCable,
-                WorkTitle: workTitle,
-                Note: note
+        if (infoCheck()) {
+            let tmpArray = listInfo.map((i) => i);
+            console.log('tmpArray=>>', tmpArray);
+            let partyArray = partyName;
+            partyArray.forEach((e) => {
+                tmpArray.push({
+                    BillMilestone: billMilestone,
+                    PartyName: e.PartyName,
+                    LBRatio: lBRatio,
+                    SubmarineCable: submarineCable,
+                    WorkTitle: workTitle,
+                    Note: note
+                });
             });
-        });
-        setListInfo([...tmpArray]);
-        itemDetailPartInitial();
+            console.log('partyArray=>>', partyArray);
+            setListInfo([...tmpArray]);
+            itemDetailPartInitial();
+        }
     };
 
     //分段+
