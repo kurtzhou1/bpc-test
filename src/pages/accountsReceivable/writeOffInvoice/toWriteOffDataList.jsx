@@ -153,6 +153,7 @@ const ToWriteOffDataList = ({ listInfo }) => {
                             <StyledTableCell align="center">會員</StyledTableCell>
                             <StyledTableCell align="center">帳單號碼</StyledTableCell>
                             <StyledTableCell align="center">帳單日期</StyledTableCell>
+                            <StyledTableCell align="center">到期日期</StyledTableCell>
                             <StyledTableCell align="center">明細數量</StyledTableCell>
                             <StyledTableCell align="center">總金額</StyledTableCell>
                             <StyledTableCell align="center">Action</StyledTableCell>
@@ -166,10 +167,11 @@ const ToWriteOffDataList = ({ listInfo }) => {
                                     <StyledTableCell align="center">{id + 1}</StyledTableCell>
                                     <StyledTableCell align="center">{row.BillMaster.SubmarineCable}</StyledTableCell>
                                     <StyledTableCell align="center">{row.BillMaster.WorkTitle}</StyledTableCell>
-                                    <StyledTableCell align="center">{row.BillMaster.WorkTitle}</StyledTableCell>
+                                    <StyledTableCell align="center">{row.BillMaster.BillMilestone}</StyledTableCell>
                                     <StyledTableCell align="center">{row.BillMaster.PartyName}</StyledTableCell>
                                     <StyledTableCell align="center">{row.BillMaster.BillingNo}</StyledTableCell>
                                     <StyledTableCell align="center">{dayjs(row.BillMaster.IssueDate).format('YYYY/MM/DD')}</StyledTableCell>
+                                    <StyledTableCell align="center">{dayjs(row.BillMaster.DueDate).format('YYYY/MM/DD')}</StyledTableCell>
                                     <StyledTableCell align="center">{row.BillDetail?.length}</StyledTableCell>
                                     <StyledTableCell align="center">{row.BillMaster.FeeAmountSum}</StyledTableCell>
                                     <StyledTableCell align="center">
