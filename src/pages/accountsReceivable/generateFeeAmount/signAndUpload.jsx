@@ -52,26 +52,33 @@ const SignAndUpload = ({ isUploadOpen, handleUploadClose, billMasterID, receivab
     };
 
     const handleUploadFile = () => {
-        let tmpApi = uploadFileApi + '/' + billMasterID;
-        const pdfData = new FormData();
-        pdfData.append('file', uploadFile[0]);
-        // data
-        fetch(tmpApi, {
-            method: 'POST',
-            body: pdfData,
-            headers: {
-                Accept: 'application/json'
-            }
-        })
-            .then((res) => res.json())
-            .then((data) => {
-                dispatch(setMessageStateOpen({ messageStateOpen: { isOpen: true, severity: 'success', message: '上傳成功' } }));
-                setUploadFile(null);
-                handleUploadClose();
-                receivableQuery();
+        console.log('uploadFile=>>', uploadFile.length);
+        if (uploadFile.length > 0) {
+            let tmpApi = uploadFileApi + '/' + billMasterID;
+            const pdfData = new FormData();
+            pdfData.append('file', uploadFile[0]);
+            // data
+            fetch(tmpApi, {
+                method: 'POST',
+                body: pdfData,
+                headers: {
+                    Accept: 'application/json'
+                }
             })
-            .catch((e) => console.log('e1=>', e));
+                .then((res) => res.json())
+                .then((data) => {
+                    dispatch(setMessageStateOpen({ messageStateOpen: { isOpen: true, severity: 'success', message: '上傳成功' } }));
+                    setUploadFile(null);
+                    handleUploadClose();
+                    receivableQuery();
+                })
+                .catch((e) => console.log('e1=>', e));
+        } else {
+            dispatch(setMessageStateOpen({ messageStateOpen: { isOpen: true, severity: 'error', message: '請上傳檔案' } }));
+        }
     };
+
+    console.log('uploadFile=>>', uploadFile);
 
     return (
         <Dialog onClose={handleUploadClose} maxWidth="xs" fullWidth open={isUploadOpen}>
