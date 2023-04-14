@@ -89,7 +89,7 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
     }
 }));
 
-const ToDeductWork = ({ isDeductOpen, handleDeductClose, billDetailInfo, billMasterInfo, actionName }) => {
+const ToDeductWork = ({ isDeductOpen, handleDeductClose, billDetailInfo, billMasterInfo, actionName, receivableQuery }) => {
     const dispatch = useDispatch();
     const [isDeductWorkOpen, setIsDeductWorkOpen] = useState(false);
     const [cbDataList, setCbDataList] = useState([]); //可折抵的Data List
@@ -157,7 +157,6 @@ const ToDeductWork = ({ isDeductOpen, handleDeductClose, billDetailInfo, billMas
                         resule = Number(value);
                         i.TransAmount = Number(value);
                     }
-
                     console.log('=>>>>>>>>>', resule);
                 }
             });

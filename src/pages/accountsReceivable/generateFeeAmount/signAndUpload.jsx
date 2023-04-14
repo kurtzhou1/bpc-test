@@ -39,7 +39,7 @@ import MainCard from 'components/MainCard';
 import { useDispatch } from 'react-redux';
 import { setMessageStateOpen } from 'store/reducers/dropdown';
 
-const SignAndUpload = ({ isUploadOpen, handleUploadClose, billMasterID }) => {
+const SignAndUpload = ({ isUploadOpen, handleUploadClose, billMasterID, receivableQuery }) => {
     const dispatch = useDispatch();
     const [uploadFile, setUploadFile] = useState(null);
     const [isUpload, setIsUpload] = useState(false); //是否需攤分
@@ -68,6 +68,7 @@ const SignAndUpload = ({ isUploadOpen, handleUploadClose, billMasterID }) => {
                 dispatch(setMessageStateOpen({ messageStateOpen: { isOpen: true, severity: 'success', message: '上傳成功' } }));
                 setUploadFile(null);
                 handleUploadClose();
+                receivableQuery();
             })
             .catch((e) => console.log('e1=>', e));
     };

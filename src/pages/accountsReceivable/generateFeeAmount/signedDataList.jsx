@@ -49,7 +49,7 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
     }
 }));
 
-const SignedDataList = ({ dataList }) => {
+const SignedDataList = ({ dataList, receivableQuery }) => {
     const dispatch = useDispatch();
     const [infoTerminal, setInfoTerminal] = useState(false); //作廢
 
@@ -62,6 +62,7 @@ const SignedDataList = ({ dataList }) => {
             .then((res) => res.json())
             .then((data) => {
                 dispatch(setMessageStateOpen({ messageStateOpen: { isOpen: true, severity: 'success', message: '進待銷帳成功' } }));
+                receivableQuery();
             })
             .catch((e) => console.log('e1=>', e));
     };
@@ -77,7 +78,6 @@ const SignedDataList = ({ dataList }) => {
             // body: JSON.stringify(tmpData)
         })
             .then((res) => {
-                console.log('res=>>', res);
                 return res.blob();
             })
             .then((blob) => {

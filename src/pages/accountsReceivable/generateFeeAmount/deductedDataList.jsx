@@ -50,7 +50,7 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
     }
 }));
 
-const DeductedDataList = ({ dataList }) => {
+const DeductedDataList = ({ dataList, receivableQuery }) => {
     const billInfo = useRef({});
     const [isDialogOpen, setIsDialogOpen] = useState(false); //檢視
     const [isDeductedWorkOpen, setIsDeductedWorkOpen] = useState(false); //產製帳單
@@ -122,7 +122,12 @@ const DeductedDataList = ({ dataList }) => {
                 submarineCableName={submarineCable.current}
                 action={'deducted'}
             />
-            <SignAndUpload isUploadOpen={isUploadOpen} handleUploadClose={handleUploadClose} billMasterID={billMasterID.current} />
+            <SignAndUpload
+                isUploadOpen={isUploadOpen}
+                handleUploadClose={handleUploadClose}
+                billMasterID={billMasterID.current}
+                receivableQuery={receivableQuery}
+            />
             <TableContainer component={Paper} sx={{ maxHeight: 350 }}>
                 <Table sx={{ minWidth: 300 }} stickyHeader aria-label="sticky table">
                     <TableHead>
@@ -131,9 +136,9 @@ const DeductedDataList = ({ dataList }) => {
                             <StyledTableCell align="center">會員</StyledTableCell>
                             <StyledTableCell align="center">海纜名稱</StyledTableCell>
                             <StyledTableCell align="center">海纜作業</StyledTableCell>
-                            <StyledTableCell align="center">發票代碼</StyledTableCell>
-                            <StyledTableCell align="center">供應商</StyledTableCell>
-                            <StyledTableCell align="center">發票日期</StyledTableCell>
+                            <StyledTableCell align="center">帳單號碼</StyledTableCell>
+                            {/* <StyledTableCell align="center">供應商</StyledTableCell> */}
+                            <StyledTableCell align="center">帳單日期</StyledTableCell>
                             <StyledTableCell align="center">明細數量</StyledTableCell>
                             <StyledTableCell align="center">總價</StyledTableCell>
                             <StyledTableCell align="center">Action</StyledTableCell>
@@ -151,7 +156,7 @@ const DeductedDataList = ({ dataList }) => {
                                     <StyledTableCell align="center">{row.BillMaster.SubmarineCable}</StyledTableCell>
                                     <StyledTableCell align="center">{row.BillMaster.WorkTitle}</StyledTableCell>
                                     <StyledTableCell align="center">{row.BillMaster.BillingNo}</StyledTableCell>
-                                    <StyledTableCell align="center">{row.BillMaster.SupplierName}</StyledTableCell>
+                                    {/* <StyledTableCell align="center">{row.BillMaster.SupplierName}</StyledTableCell> */}
                                     <StyledTableCell align="center">{dayjs(row.BillMaster.IssueDate).format('YYYY/MM/DD')}</StyledTableCell>
                                     <StyledTableCell align="center">{row.data ? row.data.length : 0}</StyledTableCell>
                                     <StyledTableCell align="center">{row.BillMaster.FeeAmountSum}</StyledTableCell>

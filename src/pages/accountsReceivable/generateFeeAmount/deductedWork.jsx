@@ -103,7 +103,6 @@ const DeductedWork = ({ isDeductedWorkOpen, handleDeductedClose, billDetailInfo 
         let tmpData = billDetailInfo.map((i) => i);
         if (isDeductedWorkOpen) {
             tmpData.forEach((row1, id) => {
-                console.log('row1=>>', row1);
                 tmpCBArray = [];
                 feeAmount.current = feeAmount.current + row1.BillDetail.FeeAmount;
                 dedAmount.current = dedAmount.current + row1.BillDetail.DedAmount;

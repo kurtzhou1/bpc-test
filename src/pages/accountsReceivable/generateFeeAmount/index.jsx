@@ -583,10 +583,10 @@ const GenerateFeeAmount = () => {
                         <ToDeductDataList dataList={dataList} receivableQuery={receivableQuery} />
                     </TabPanel>
                     <TabPanel value={value} index={2}>
-                        <DeductedDataList dataList={dataList} />
+                        <DeductedDataList dataList={dataList} receivableQuery={receivableQuery} />
                     </TabPanel>
                     <TabPanel value={value} index={3}>
-                        <SignedDataList dataList={dataList} />
+                        <SignedDataList dataList={dataList} receivableQuery={receivableQuery} />
                     </TabPanel>
                     <TabPanel value={value} index={4}>
                         <InvalidatedDataList dataList={dataList} />
