@@ -239,6 +239,30 @@ const InvoiceWorkManage = () => {
             );
             return false;
         }
+        if (submarineCable === '') {
+            dispatch(setMessageStateOpen({ messageStateOpen: { isOpen: true, severity: 'error', message: '請輸入海纜名稱' } }));
+            return false;
+        }
+        if (workTitle === '') {
+            dispatch(setMessageStateOpen({ messageStateOpen: { isOpen: true, severity: 'error', message: '請輸入海纜作業' } }));
+            return false;
+        }
+        if (supplierName === '') {
+            dispatch(setMessageStateOpen({ messageStateOpen: { isOpen: true, severity: 'error', message: '請輸入供應商' } }));
+            return false;
+        }
+        if (invoiceNo === '') {
+            dispatch(setMessageStateOpen({ messageStateOpen: { isOpen: true, severity: 'error', message: '請輸入發票號碼' } }));
+            return false;
+        }
+        if (contractType === '') {
+            dispatch(setMessageStateOpen({ messageStateOpen: { isOpen: true, severity: 'error', message: '請輸入合約種類' } }));
+            return false;
+        }
+        if (isLiability && partyName === '') {
+            dispatch(setMessageStateOpen({ messageStateOpen: { isOpen: true, severity: 'error', message: '請輸入會員名稱' } }));
+            return false;
+        }
         return true;
     };
 

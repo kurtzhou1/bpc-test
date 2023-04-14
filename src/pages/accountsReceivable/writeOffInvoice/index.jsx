@@ -9,7 +9,7 @@ import MainCard from 'components/MainCard';
 import ToWriteOffDataList from './toWriteOffDataList';
 import WriteOffedDataList from './writeOffedDataList';
 // import InvalidatedDataList from './invalidatedDataList';
-import ReceivableQuery from './receivableQuery';
+import WriteOffQuery from './writeOffQuery';
 
 const fakeData = [
     {
@@ -197,7 +197,7 @@ const WriteOffInvoice = () => {
     return (
         <Grid container spacing={1}>
             <Grid item xs={12}>
-                <ReceivableQuery setListInfo={setListInfo} />
+                <WriteOffQuery setListInfo={setListInfo} />
             </Grid>
             <Grid item xs={12}>
                 {/* <MainCard title={`${value == 0 ? '待銷帳' : value == 1 ? '已銷帳' : '已作廢'}帳單資料列表`}> */}

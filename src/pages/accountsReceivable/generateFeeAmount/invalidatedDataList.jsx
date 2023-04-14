@@ -86,7 +86,7 @@ const InvalidatedDataList = ({ dataList }) => {
                                     <StyledTableCell align="center">合約種類</StyledTableCell>
                                     <StyledTableCell align="center">發票日期</StyledTableCell>
                                     <StyledTableCell align="center">明細數量</StyledTableCell>
-                                    <StyledTableCell align="center">總價</StyledTableCell>
+                                    <StyledTableCell align="center">總金額</StyledTableCell>
                                     <StyledTableCell align="center">處理狀態</StyledTableCell>
                                 </TableRow>
                             </TableHead>
@@ -145,7 +145,7 @@ const InvalidatedDataList = ({ dataList }) => {
                             <StyledTableCell align="center">供應商</StyledTableCell>
                             <StyledTableCell align="center">發票日期</StyledTableCell>
                             <StyledTableCell align="center">明細數量</StyledTableCell>
-                            <StyledTableCell align="center">總價</StyledTableCell>
+                            <StyledTableCell align="center">總金額</StyledTableCell>
                             <StyledTableCell align="center">Action</StyledTableCell>
                         </TableRow>
                     </TableHead>
