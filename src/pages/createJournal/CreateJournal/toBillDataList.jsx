@@ -20,8 +20,8 @@ const ToBillDataList = ({ listInfo, apiQuery }) => {
     const [isDialogOpen, setIsDialogOpen] = useState(false);
     const toBillDataMain = useRef();
     const [toBillDataInfo, setToBillDataInfo] = useState([]); //發票明細檔
-    const [totalAmount, setTotalAmount] = useState([]); //發票總金額
-    const [currentAmount, setCurrentAmount] = useState(''); //目前金額
+    const [totalAmount, setTotalAmount] = useState(0); //發票總金額
+    const [currentAmount, setCurrentAmount] = useState(0); //目前金額
     const StyledTableCell = styled(TableCell)(({ theme }) => ({
         [`&.${tableCellClasses.head}`]: {
             // backgroundColor: theme.palette.common.gary,
@@ -42,34 +42,30 @@ const ToBillDataList = ({ listInfo, apiQuery }) => {
 
     //立帳作業
     const toBillData = (wKMasterID) => {
-        if (totalAmount === currentAmount) {
-            let tmpQuery = '/' + 'WKMasterID=' + wKMasterID;
-            tmpQuery = toBillDataapi + tmpQuery;
-            console.log('tmpQuery=>>', tmpQuery);
-            fetch(tmpQuery, { method: 'GET' })
-                .then((res) => res.json())
-                .then((data) => {
-                    let tmpAmount = 0;
-                    if (Array.isArray(data.InvoiceDetail) && Array.isArray(data.InvoiceMaster)) {
-                        toBillDataMain.current = data.InvoiceMaster;
-                        setToBillDataInfo(data.InvoiceDetail);
-                        setTotalAmount(data.TotalAmount);
-                        data.InvoiceDetail.forEach((i) => {
-                            tmpAmount = tmpAmount + i.FeeAmountPost + i.Difference;
-                        });
-                        setCurrentAmount(tmpAmount.toFixed(2));
-                        setIsDialogOpen(true);
-                    } else {
-                        toBillDataMain.current = [];
-                        setToBillDataInfo([]);
-                        setTotalAmount(0);
-                        setCurrentAmount(0);
-                    }
-                })
-                .catch((e) => console.log('e1=>', e));
-        } else {
-            dispatch(setMessageStateOpen({ messageStateOpen: { isOpen: true, severity: 'error', message: '目前金額不等於發票總金額' } }));
-        }
+        let tmpQuery = '/' + 'WKMasterID=' + wKMasterID;
+        tmpQuery = toBillDataapi + tmpQuery;
+        console.log('tmpQuery=>>', tmpQuery);
+        fetch(tmpQuery, { method: 'GET' })
+            .then((res) => res.json())
+            .then((data) => {
+                let tmpAmount = 0;
+                if (Array.isArray(data.InvoiceDetail) && Array.isArray(data.InvoiceMaster)) {
+                    toBillDataMain.current = data.InvoiceMaster;
+                    setToBillDataInfo(data.InvoiceDetail);
+                    setTotalAmount(data.TotalAmount);
+                    data.InvoiceDetail.forEach((i) => {
+                        tmpAmount = tmpAmount + i.FeeAmountPost + i.Difference;
+                    });
+                    setCurrentAmount(tmpAmount.toFixed(2));
+                    setIsDialogOpen(true);
+                } else {
+                    toBillDataMain.current = [];
+                    setToBillDataInfo([]);
+                    setTotalAmount(0);
+                    setCurrentAmount(0);
+                }
+            })
+            .catch((e) => console.log('e1=>', e));
     };
 
     const changeDiff = (diff, id) => {
@@ -85,23 +81,27 @@ const ToBillDataList = ({ listInfo, apiQuery }) => {
 
     // 送出立帳(新增)
     const sendJounaryInfo = () => {
-        let tmpArray = toBillDataMain.current.map((i) => i);
-        tmpArray.forEach((i) => {
-            delete i.InvMasterID;
-        });
-        let tmpData = {
-            TotalAmount: totalAmount,
-            InvoiceMaster: tmpArray,
-            InvoiceDetail: toBillDataInfo
-        };
-        fetch(sendJounary, { method: 'POST', body: JSON.stringify(tmpData) })
-            .then((res) => res.json())
-            .then((data) => {
-                alert('送出立帳成功');
-                apiQuery();
-                handleDialogClose();
-            })
-            .catch((e) => console.log('e1=>', e));
+        if (totalAmount === currentAmount) {
+            let tmpArray = toBillDataMain.current.map((i) => i);
+            tmpArray.forEach((i) => {
+                delete i.InvMasterID;
+            });
+            let tmpData = {
+                TotalAmount: totalAmount,
+                InvoiceMaster: tmpArray,
+                InvoiceDetail: toBillDataInfo
+            };
+            fetch(sendJounary, { method: 'POST', body: JSON.stringify(tmpData) })
+                .then((res) => res.json())
+                .then((data) => {
+                    alert('送出立帳成功');
+                    apiQuery();
+                    handleDialogClose();
+                })
+                .catch((e) => console.log('e1=>', e));
+        } else {
+            dispatch(setMessageStateOpen({ messageStateOpen: { isOpen: true, severity: 'error', message: '目前金額不等於發票總金額' } }));
+        }
     };
 
     return (

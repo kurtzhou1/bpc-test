@@ -326,6 +326,7 @@ const ToDeductWork = ({ isDeductOpen, handleDeductClose, billDetailInfo, billMas
                                     <TableHead>
                                         <TableRow>
                                             <StyledTableCell align="center">NO</StyledTableCell>
+                                            <StyledTableCell align="center">記帳段號</StyledTableCell>
                                             <StyledTableCell align="center">費用項目</StyledTableCell>
                                             <StyledTableCell align="center">費用金額</StyledTableCell>
                                             <StyledTableCell align="center">折抵金額</StyledTableCell>
@@ -342,12 +343,14 @@ const ToDeductWork = ({ isDeductOpen, handleDeductClose, billDetailInfo, billMas
                                                     dedAmountTmp = dedAmountTmp + i.TransAmount;
                                                 });
                                             }
+                                            console.log('rowssss=>>', row);
                                             return (
                                                 <TableRow
                                                     key={row.BillDetailID + row?.BillMasterID}
                                                     sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                                                 >
                                                     <TableCell align="center">{id + 1}</TableCell>
+                                                    <TableCell align="center">{row.BillMilestone}</TableCell>
                                                     <TableCell align="center">{row.FeeItem}</TableCell>
                                                     <TableCell align="center">{`$${handleNumber(row.OrgFeeAmount.toFixed(2))}`}</TableCell>
                                                     <TableCell align="center">{`$${handleNumber(dedAmountTmp.toFixed(2))}`}</TableCell>
@@ -388,6 +391,7 @@ const ToDeductWork = ({ isDeductOpen, handleDeductClose, billDetailInfo, billMas
                                             <StyledTableCell className="totalAmount" align="center">
                                                 Total
                                             </StyledTableCell>
+                                            <StyledTableCell className="totalAmount" align="center"></StyledTableCell>
                                             <StyledTableCell className="totalAmount" align="center"></StyledTableCell>
                                             <StyledTableCell className="totalAmount" align="center">{`$${handleNumber(
                                                 orgFeeAmount.current.toFixed(2)

@@ -104,6 +104,7 @@ const ToGenerateDataList = ({ dataList, receivableQuery }) => {
                             <StyledTableCell align="center">會員</StyledTableCell>
                             <StyledTableCell align="center">海纜名稱</StyledTableCell>
                             <StyledTableCell align="center">海纜作業</StyledTableCell>
+                            <StyledTableCell align="center">帳單號碼</StyledTableCell>
                             <StyledTableCell align="center">帳單日期</StyledTableCell>
                             <StyledTableCell align="center">帳單截止日</StyledTableCell>
                             <StyledTableCell align="center">明細數量</StyledTableCell>
@@ -115,13 +116,14 @@ const ToGenerateDataList = ({ dataList, receivableQuery }) => {
                         {dataList?.map((row, id) => {
                             return (
                                 <TableRow
-                                    key={row.BillMaster.BillMasterID + row.BillMaster.BillMasterID}
+                                    key={row.BillMaster.BillMasterID + row.BillMaster.BillingNo}
                                     sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                                 >
                                     <StyledTableCell align="center">{id + 1}</StyledTableCell>
                                     <StyledTableCell align="center">{row.BillMaster.PartyName}</StyledTableCell>
                                     <StyledTableCell align="center">{row.BillMaster.SubmarineCable}</StyledTableCell>
                                     <StyledTableCell align="center">{row.BillMaster.WorkTitle}</StyledTableCell>
+                                    <StyledTableCell align="center">{row.BillMaster.BillingNo}</StyledTableCell>
                                     <StyledTableCell align="center">{dayjs(row.BillMaster.IssueDate).format('YYYY/MM/DD')}</StyledTableCell>
                                     <StyledTableCell align="center">{dayjs(row.BillMaster.DueDate).format('YYYY/MM/DD')}</StyledTableCell>
                                     <StyledTableCell align="center">{row.BillDetail ? row.BillDetail.length : 0}</StyledTableCell>
