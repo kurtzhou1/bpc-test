@@ -52,13 +52,31 @@ const CreateInvoiceDetail = ({
         }
     }));
 
+    const infoCheck = () => {
+        if (billMilestone === '') {
+            dispatch(setMessageStateOpen({ messageStateOpen: { isOpen: true, severity: 'error', message: '請輸入記帳段號' } }));
+            return false;
+        }
+        if (feeItem === '') {
+            dispatch(setMessageStateOpen({ messageStateOpen: { isOpen: true, severity: 'error', message: '請輸入費用項目' } }));
+            return false;
+        }
+        if (feeAmount === '') {
+            dispatch(setMessageStateOpen({ messageStateOpen: { isOpen: true, severity: 'error', message: '請輸入費用金額' } }));
+            return false;
+        }
+        return true;
+    };
+
     // 新增
     const itemDetailAdd = () => {
-        let tmpArray = invoiceDetailInfo.map((i) => i);
-        tmpArray.push(createData(feeItem, billMilestone, Number(feeAmount.replaceAll(',', ''))));
-        // tmpArray.reverse();
-        setInvoiceDetailInfo([...tmpArray]);
-        itemDetailInitial();
+        if (infoCheck()) {
+            let tmpArray = invoiceDetailInfo.map((i) => i);
+            tmpArray.push(createData(feeItem, billMilestone, Number(feeAmount.replaceAll(',', ''))));
+            // tmpArray.reverse();
+            setInvoiceDetailInfo([...tmpArray]);
+            itemDetailInitial();
+        }
     };
 
     //刪除

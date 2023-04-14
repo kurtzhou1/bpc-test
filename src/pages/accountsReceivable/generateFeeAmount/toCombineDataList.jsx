@@ -404,10 +404,7 @@ const ToCombineDataList = ({ handleDialogClose, isDialogOpen, dataList, totalCom
                                     <TableCell align="center">{row.InvoiceMaster?.ContractType}</TableCell>
                                     <TableCell align="center">{dayjs(row.InvoiceMaster?.IssueDate).format('YYYY/MM/DD')}</TableCell>
                                     <TableCell align="center">{row.InvoiceDetail ? row.InvoiceDetail.length : 0}</TableCell>
-                                    <TableCell align="center">{`$${handleNumber(
-                                        // row.InvoiceDetail ? row.InvoiceDetail[0].FeeAmountPre : 0
-                                        tmpAmount
-                                    )}`}</TableCell>
+                                    <TableCell align="center">{`$${handleNumber(tmpAmount.toFixed(2))}`}</TableCell>
                                     {/* <TableCell align="center">
                                         {row.InvoiceMaster?.Status === 'TO_MERGE' ? '待合併' : row.InvoiceMaster?.Status}
                                     </TableCell> */}

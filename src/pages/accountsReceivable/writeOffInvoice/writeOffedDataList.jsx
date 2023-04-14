@@ -204,11 +204,11 @@ const WriteOffedDataList = ({ listInfo, apiQuery }) => {
                             <StyledTableCell align="center">海纜名稱</StyledTableCell>
                             <StyledTableCell align="center">海纜作業</StyledTableCell>
                             <StyledTableCell align="center">發票代碼</StyledTableCell>
-                            <StyledTableCell align="center">供應商</StyledTableCell>
+                            {/* <StyledTableCell align="center">供應商</StyledTableCell> */}
                             {/* <StyledTableCell align="center">合約種類</StyledTableCell> */}
                             <StyledTableCell align="center">發票日期</StyledTableCell>
                             <StyledTableCell align="center">明細數量</StyledTableCell>
-                            <StyledTableCell align="center">總價</StyledTableCell>
+                            <StyledTableCell align="center">總金額</StyledTableCell>
                             <StyledTableCell align="center">處理狀態</StyledTableCell>
                             <StyledTableCell align="center">Action</StyledTableCell>
                         </TableRow>
@@ -226,7 +226,7 @@ const WriteOffedDataList = ({ listInfo, apiQuery }) => {
                                     <StyledTableCell align="center">{row.SubmarineCable}</StyledTableCell>
                                     <StyledTableCell align="center">{row.WorkTitle}</StyledTableCell>
                                     <StyledTableCell align="center">{row.InvoiceNo}</StyledTableCell>
-                                    <StyledTableCell align="center">{row.SupplierName}</StyledTableCell>
+                                    {/* <StyledTableCell align="center">{row.SupplierName}</StyledTableCell> */}
                                     <StyledTableCell align="center">{dayjs(row.IssueDate).format('YYYY/MM/DD')}</StyledTableCell>
                                     <StyledTableCell align="center">{toBillDataInfo.length}</StyledTableCell>
                                     <StyledTableCell align="center">{row.TotalAmount}</StyledTableCell>
