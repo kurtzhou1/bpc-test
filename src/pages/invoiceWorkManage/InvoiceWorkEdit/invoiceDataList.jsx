@@ -30,7 +30,7 @@ const InvoiceDataList = ({ listInfo, setAction, setModifyItem }) => {
     }));
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(10);
-    const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0;
+    const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - listInfo.length) : 0;
 
     const handleChangePage = (event, newPage) => {
         setPage(newPage);
@@ -53,7 +53,7 @@ const InvoiceDataList = ({ listInfo, setAction, setModifyItem }) => {
     const options2 = ['View', '作廢'];
 
     return (
-        <TableContainer component={Paper} sx={{ maxHeight: 350 }}>
+        <TableContainer component={Paper} sx={{ maxHeight: 640 }}>
             <Table sx={{ minWidth: 300 }} stickyHeader aria-label="sticky table">
                 <TableHead>
                     <TableRow>
@@ -169,7 +169,7 @@ const InvoiceDataList = ({ listInfo, setAction, setModifyItem }) => {
                         }
                     )}
                     {emptyRows > 0 && (
-                        <TableRow style={{ height: 53 * emptyRows }}>
+                        <TableRow style={{ height: 48 * emptyRows }}>
                             <StyledTableCell colSpan={6} />
                         </TableRow>
                     )}
