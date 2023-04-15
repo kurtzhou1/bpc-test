@@ -140,7 +140,7 @@ const InvoiceWorkManage = () => {
             dispatch(setMessageStateOpen({ messageStateOpen: { isOpen: true, severity: 'error', message: '請輸入合約種類' } }));
             return false;
         }
-        if (isLiability && partyName === '') {
+        if (!isLiability && partyName === '') {
             dispatch(setMessageStateOpen({ messageStateOpen: { isOpen: true, severity: 'error', message: '請輸入會員名稱' } }));
             return false;
         }
