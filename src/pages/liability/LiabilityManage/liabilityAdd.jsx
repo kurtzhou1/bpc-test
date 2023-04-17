@@ -136,7 +136,7 @@ const LiabilityAdd = ({
             partyArray.forEach((e) => {
                 tmpArray.push({
                     BillMilestone: billMilestone,
-                    PartyName: e.PartyName,
+                    PartyName: e,
                     LBRatio: lBRatio,
                     SubmarineCable: submarineCable,
                     WorkTitle: workTitle,
