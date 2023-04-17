@@ -14,7 +14,7 @@ import { alpha, styled } from '@mui/material/styles';
 
 import dayjs from 'dayjs';
 
-import { addParties, getPartiesInfoList, deleteParties, editParties } from 'components/apis.jsx';
+import { addParties, getPartiesAllInfo, deleteParties, editParties } from 'components/apis.jsx';
 import { makeStyles } from '@material-ui/core/styles';
 
 // redux
@@ -242,7 +242,7 @@ const PartyDataList = ({ maxHei }) => {
     };
 
     const queryPartiesInfo = () => {
-        fetch(addParties, { method: 'GET' })
+        fetch(getPartiesAllInfo, { method: 'GET' })
             .then((res) => res.json())
             .then((data) => {
                 if (Array.isArray(data)) {

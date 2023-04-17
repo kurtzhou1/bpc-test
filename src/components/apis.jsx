@@ -73,6 +73,7 @@ export const editSuppliers = 'http://10.193.130.7:8000/api/v1/updateSuppliers';
 
 // 基本資料-Parties
 export const addParties = 'http://10.193.130.7:8000/api/v1/Parties';
+export const getPartiesAllInfo = 'http://10.193.130.7:8000/api/v1/Parties/all'; // 會員名稱
 export const deleteParties = 'http://10.193.130.7:8000/api/v1/deleteParties';
 export const editParties = 'http://10.193.130.7:8000/api/v1/updateParties';
 
