@@ -342,12 +342,12 @@ const LiabilityAdd = ({
                             onChange={(event, newValue) => {
                                 setPartyName(newValue);
                             }}
-                            getOptionLabel={(option) => option.PartyName}
+                            getOptionLabel={(option) => option}
                             renderOption={(props, option, { selected }) => {
                                 return (
                                     <li {...props}>
                                         <Checkbox icon={icon} checkedIcon={checkedIcon} style={{ marginRight: 8 }} checked={selected} />
-                                        {option.PartyName}
+                                        {option}
                                     </li>
                                 );
                             }}
