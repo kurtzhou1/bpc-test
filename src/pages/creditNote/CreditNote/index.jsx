@@ -185,7 +185,7 @@ const CreditNote = () => {
                 <CreditNoteQuery creditNoteQuery={creditNoteQuery} />
             </Grid>
             <Grid item xs={12}>
-                <MainCard title="Credit Balance資料列表">
+                <MainCard title="Credit Note資料列表">
                     <Box sx={{ borderBottom: 1, borderColor: 'divider', position: 'relative' }}>
                         <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
                             <Tab label="CB轉CN" {...a11yProps(0)} />

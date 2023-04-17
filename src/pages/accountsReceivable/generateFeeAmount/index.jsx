@@ -502,12 +502,6 @@ const GenerateFeeAmount = () => {
             });
     };
 
-    // useEffect(() => {
-    //     if (listInfo && listInfo.length) {
-    //         setDataList(listInfo);
-    //     }
-    // }, [listInfo]);
-
     return (
         <Grid container spacing={1}>
             <Grid item xs={12}>

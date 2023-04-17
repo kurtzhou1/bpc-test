@@ -130,12 +130,13 @@ const ToCombineDataList = ({ handleDialogClose, isDialogOpen, dataList, totalCom
     const totalAmount = useRef(0);
 
     const handleChange = (event) => {
-        setCbToCn({ ...cbToCn, [event.target.name]: event.target.checked });
+        setCbToCn({ ...cbToCn, [event.target.value]: event.target.checked });
     };
 
     const handleCancel = () => {
         handleDialogClose();
         setIssueDate(new Date());
+        setPoNo('');
         setBillingNo('');
         billingNoOld.current = '';
         totalAmount.current = 0;
@@ -188,8 +189,12 @@ const ToCombineDataList = ({ handleDialogClose, isDialogOpen, dataList, totalCom
                                     messageStateOpen: { isOpen: true, severity: 'success', message: '合併帳單成功' }
                                 })
                             );
+                            //資料初始化
+                            setIssueDate(new Date());
+                            setPoNo('');
+                            setBillingNo('');
+                            // setCbToCn({});
                             handleDialogClose();
-                            setCbToCn({});
                             receivableQuery();
                         })
                         .catch((e) => console.log('e1=>', e));
@@ -201,18 +206,27 @@ const ToCombineDataList = ({ handleDialogClose, isDialogOpen, dataList, totalCom
     };
 
     useEffect(() => {
-        let tmpAmount = 0;
-        let tmpSendArray = [];
-        let tmpArray = dataList.filter((i) => {
-            return cbToCn[i.InvoiceMaster.InvMasterID];
-        });
-        tmpArray.forEach((i) => {
-            tmpAmount = tmpAmount + i.InvoiceDetail[0].FeeAmountPre;
-            tmpSendArray.push(i.InvoiceMaster);
-        });
-        sendComBineData.current = { InvoiceMaster: tmpSendArray }; //按下合併帳單時，送出的資料
-        totalCombineAmount.current = tmpAmount;
-    }, [cbToCn]);
+        if (Object.keys(cbToCn).length === 0) {
+            let tmpObj = {};
+            dataList.forEach((i) => {
+                tmpObj[i.InvoiceMaster?.InvMasterID] = false;
+            });
+            console.log('tmpObj=>>', tmpObj);
+            setCbToCn(tmpObj);
+        } else {
+            let tmpAmount = 0;
+            let tmpSendArray = [];
+            let tmpArray = dataList.filter((i) => {
+                return cbToCn[i.InvoiceMaster.InvMasterID];
+            });
+            tmpArray.forEach((i) => {
+                tmpAmount = tmpAmount + i.InvoiceDetail[0].FeeAmountPre;
+                tmpSendArray.push(i.InvoiceMaster);
+            });
+            sendComBineData.current = { InvoiceMaster: tmpSendArray }; //按下合併帳單時，送出的資料
+            totalCombineAmount.current = tmpAmount;
+        }
+    }, [dataList, cbToCn]);
 
     useEffect(() => {
         if (isDialogOpen) {
@@ -234,6 +248,8 @@ const ToCombineDataList = ({ handleDialogClose, isDialogOpen, dataList, totalCom
         }
     }, [isDialogOpen]);
 
+    console.log('cbToCn=>>', cbToCn);
+
     return (
         <>
             <Dialog onClose={handleDialogClose} maxWidth="md" fullWidth open={isDialogOpen}>
@@ -241,7 +257,7 @@ const ToCombineDataList = ({ handleDialogClose, isDialogOpen, dataList, totalCom
                     合併帳單作業
                 </BootstrapDialogTitle>
                 <DialogContent>
-                    <Grid container spacing={1} display="flex">
+                    <Grid container spacing={1} display="flex" justifyContent="center" alignItems="center">
                         <Grid item xs={6} sm={3} md={2} lg={2} display="flex" justifyContent="center" alignItems="center">
                             <Typography variant="h5" sx={{ fontSize: { lg: '0.5rem', xl: '0.88rem' } }}>
                                 帳單到期日期：
@@ -279,7 +295,7 @@ const ToCombineDataList = ({ handleDialogClose, isDialogOpen, dataList, totalCom
                                 }}
                             />
                         </Grid>
-                        <Grid item xs={6} sm={3} md={1} lg={1} display="flex" justifyContent="center" alignItems="center">
+                        <Grid item xs={6} sm={3} md={2} lg={2} display="flex" justifyContent="center" alignItems="center">
                             <Typography variant="h5" sx={{ fontSize: { lg: '0.5rem', xl: '0.88rem' } }}>
                                 帳單號碼：
                             </Typography>
@@ -297,9 +313,9 @@ const ToCombineDataList = ({ handleDialogClose, isDialogOpen, dataList, totalCom
                                 }}
                             />
                         </Grid>
-                        <Grid item xs={0} sm={0} md={2} lg={2} display="flex" justifyContent="start" alignItems="center">
+                        <Grid item xs={0} sm={0} md={1} lg={1} display="flex" justifyContent="start" alignItems="center">
                             <Button sx={{ ml: '0.rem' }} variant="contained" size="small" onClick={billNoGenerate}>
-                                自動產生號碼
+                                自動產生
                             </Button>
                         </Grid>
                         <Grid item xs={12} sm={12} md={12} lg={12}>
@@ -318,7 +334,10 @@ const ToCombineDataList = ({ handleDialogClose, isDialogOpen, dataList, totalCom
                                     <TableBody>
                                         {billList?.BillDetail?.map((row, id) => {
                                             return (
-                                                <TableRow sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
+                                                <TableRow
+                                                    key={row.PartyName + id}
+                                                    sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                                                >
                                                     <TableCell align="center">{row.PartyName}</TableCell>
                                                     <TableCell align="center">{row.InvoiceNo}</TableCell>
                                                     <TableCell align="center">{row.SupplierName}</TableCell>
@@ -382,6 +401,7 @@ const ToCombineDataList = ({ handleDialogClose, isDialogOpen, dataList, totalCom
                             row.InvoiceDetail.forEach((i) => {
                                 tmpAmount = tmpAmount + i.FeeAmountPost;
                             });
+                            console.log('=>>', cbToCn[row.InvoiceMaster?.InvMasterID]);
                             return (
                                 <TableRow
                                     key={row.InvoiceMaster?.InvoiceNo + id}
@@ -389,9 +409,10 @@ const ToCombineDataList = ({ handleDialogClose, isDialogOpen, dataList, totalCom
                                 >
                                     <TableCell align="center">
                                         <Checkbox
-                                            name={row.InvoiceMaster?.InvMasterID}
+                                            value={row.InvoiceMaster?.InvMasterID}
                                             onChange={handleChange}
-                                            checked={cbToCn.id}
+                                            checked={cbToCn[row.InvoiceMaster?.InvMasterID] || false}
+                                            // defaultChecked={cbToCn[row.InvoiceMaster?.InvMasterID]}
                                             // sx={{ '& .MuiSvgIcon-root': { fontSize: { lg: 14, xl: 20 } } }}
                                         />
                                     </TableCell>

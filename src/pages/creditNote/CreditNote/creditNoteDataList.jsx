@@ -67,7 +67,6 @@ const CreditBalanceDataList = ({ listInfo, setIsDialogOpen, deletelistInfoItem }
                                 <StyledTableCell align="center">帳單號碼</StyledTableCell>
                                 <StyledTableCell align="center">剩餘金額</StyledTableCell>
                                 <StyledTableCell align="center">摘要說明</StyledTableCell>
-                                {/* <StyledTableCell align="center">Action</StyledTableCell> */}
                             </TableRow>
                         </TableHead>
                         <TableBody>
@@ -81,7 +80,7 @@ const CreditBalanceDataList = ({ listInfo, setIsDialogOpen, deletelistInfoItem }
                                             <Checkbox
                                                 name={id}
                                                 onChange={handleChange}
-                                                checked={cbToCn.id}
+                                                checked={cbToCn.id || false}
                                                 // sx={{ '& .MuiSvgIcon-root': { fontSize: { lg: 14, xl: 20 } } }}
                                             />
                                         </TableCell>
