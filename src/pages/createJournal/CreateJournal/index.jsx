@@ -17,11 +17,10 @@ import DialogActions from '@mui/material/DialogActions';
 
 //icon
 import Autocomplete from '@mui/material/Autocomplete';
-// import CheckBoxOutlineBlankIcon from '@mui/icons-material/CheckBoxOutlineBlank';
-// import CheckBoxIcon from '@mui/icons-material/CheckBox';
 
 // api
 import { queryInvoice } from 'components/apis.jsx';
+import dayjs from 'dayjs';
 
 const CreateJournal = () => {
     const [listInfo, setListInfo] = useState([]);
