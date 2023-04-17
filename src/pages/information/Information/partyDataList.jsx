@@ -247,7 +247,7 @@ const PartyDataList = ({ maxHei }) => {
             .then((data) => {
                 if (Array.isArray(data)) {
                     setInfoList(data);
-                    // dispatch(setPartiesList({ partiesList: data }));
+                    dispatch(setPartiesList({ partiesList: data }));
                 }
             })
             .catch((e) => console.log('e1=>', e));
