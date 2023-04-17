@@ -189,7 +189,7 @@ const CreditBalanceAdd = ({ handleDialogClose, isDialogOpen, billMilestone, part
                             <InputLabel id="demo-simple-select-label">選擇會員</InputLabel>
                             <Select value={partyName} label="會員" onChange={(e) => setPartyName(e.target.value)}>
                                 {partiesList.map((i) => (
-                                    <MenuItem value={i.PartyName}>{i.PartyName}</MenuItem>
+                                    <MenuItem value={i}>{i}</MenuItem>
                                 ))}
                             </Select>
                         </FormControl>
