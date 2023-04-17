@@ -54,7 +54,6 @@ const WriteOffQuery = ({ setListInfo }) => {
         if (submarineCable && submarineCable !== '') {
             tmpQuery = tmpQuery + 'SubmarineCable=' + submarineCable + '&';
         }
-        console.log('tmpQuery.includes("&")=>>', tmpQuery.includes('&'), tmpQuery);
         if (tmpQuery.includes('&')) {
             tmpQuery = tmpQuery.slice(0, -1);
         }
