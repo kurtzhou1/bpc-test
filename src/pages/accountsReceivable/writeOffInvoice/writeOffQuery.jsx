@@ -44,7 +44,7 @@ const WriteOffQuery = ({ setListInfo }) => {
     };
 
     const writeOffQuery = () => {
-        let tmpQuery = queryToDecutBill + '/Status=TO_WRITEOFF';
+        let tmpQuery = '/Status=TO_WRITEOFF';
         if (workTitle && workTitle !== '') {
             tmpQuery = tmpQuery + 'WorkTitle=' + workTitle + '&';
         }
@@ -54,10 +54,12 @@ const WriteOffQuery = ({ setListInfo }) => {
         if (submarineCable && submarineCable !== '') {
             tmpQuery = tmpQuery + 'SubmarineCable=' + submarineCable + '&';
         }
+        console.log('tmpQuery.includes("&")=>>', tmpQuery.includes('&'), tmpQuery);
         if (tmpQuery.includes('&')) {
             tmpQuery = tmpQuery.slice(0, -1);
         }
-        // queryApi.current = tmpQuery;
+        tmpQuery = queryToDecutBill + tmpQuery;
+        console.log('tmpQuery=>>', tmpQuery);
         fetch(tmpQuery, { method: 'GET' })
             .then((res) => res.json())
             .then((data) => {
