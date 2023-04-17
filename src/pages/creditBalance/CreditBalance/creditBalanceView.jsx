@@ -134,7 +134,7 @@ const CreditBalanceView = ({ cbView, handleViewClose, listInfo }) => {
             <BootstrapDialogTitle id="customized-dialog-title">檢視Credit Balance明細</BootstrapDialogTitle>
             <DialogContent dividers>
                 <Grid container spacing={1}>
-                    <Grid item xs={12} sm={12} md={12} lg={12}>
+                    {/* <Grid item xs={12} sm={12} md={12} lg={12}>
                         <MainCard title="Credit Balance" sx={{ width: '100%' }}>
                             <Grid container spacing={1}>
                                 <Grid item xs={3} sm={3} md={3} lg={3} display="flex" justifyContent="center">
@@ -176,7 +176,6 @@ const CreditBalanceView = ({ cbView, handleViewClose, listInfo }) => {
                                         // onChange={(e) => setLBRatio(e.target.value)}
                                     />
                                 </Grid>
-                                {/* <Grid item xs={3} sm={3} md={3} lg={3} xl={6} /> */}
                                 <Grid item xs={3} sm={3} md={3} lg={3} display="flex" justifyContent="center">
                                     <Typography
                                         variant="h5"
@@ -215,7 +214,7 @@ const CreditBalanceView = ({ cbView, handleViewClose, listInfo }) => {
                                 </Grid>
                             </Grid>
                         </MainCard>
-                    </Grid>
+                    </Grid> */}
                     <Grid item xs={12} sm={12} md={12} lg={12}>
                         <MainCard title="Credit Balance" sx={{ width: '100%' }}>
                             <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>

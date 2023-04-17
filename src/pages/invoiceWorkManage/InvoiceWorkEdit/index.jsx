@@ -225,6 +225,7 @@ const InvoiceWorkManage = () => {
                 })
                 .catch((e) => console.log('e1=>', e));
         }
+        setAction('');
     }, [action]);
 
     const infoCheck = () => {

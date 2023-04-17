@@ -81,7 +81,7 @@ const ToBillDataList = ({ listInfo, apiQuery }) => {
 
     // 送出立帳(新增)
     const sendJounaryInfo = () => {
-        if (totalAmount === currentAmount) {
+        if (Number(totalAmount).toFixed(2) === Number(currentAmount).toFixed(2)) {
             let tmpArray = toBillDataMain.current.map((i) => i);
             tmpArray.forEach((i) => {
                 delete i.InvMasterID;
