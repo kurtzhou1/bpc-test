@@ -25,11 +25,6 @@ import {
 
 // api
 import {
-    queryInvoice,
-    generateInvoice,
-    updateInvoice,
-    deleteInvoiceWKMaster,
-    deleteInvoiceWKDetail,
     supplierNameList,
     submarineCableList,
     billMilestoneList,
