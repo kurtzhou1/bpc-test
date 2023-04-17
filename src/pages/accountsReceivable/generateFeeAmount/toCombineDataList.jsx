@@ -324,7 +324,7 @@ const ToCombineDataList = ({ handleDialogClose, isDialogOpen, dataList, totalCom
                                     <TableHead>
                                         <TableRow>
                                             <StyledTableCell align="center">會員</StyledTableCell>
-                                            <StyledTableCell align="center">發票代碼</StyledTableCell>
+                                            <StyledTableCell align="center">發票號碼</StyledTableCell>
                                             <StyledTableCell align="center">供應商</StyledTableCell>
                                             <StyledTableCell align="center">海纜名稱</StyledTableCell>
                                             <StyledTableCell align="center">發票日期</StyledTableCell>
@@ -386,7 +386,7 @@ const ToCombineDataList = ({ handleDialogClose, isDialogOpen, dataList, totalCom
                             <StyledTableCell align="center">會員</StyledTableCell>
                             <StyledTableCell align="center">海纜名稱</StyledTableCell>
                             <StyledTableCell align="center">海纜作業</StyledTableCell>
-                            <StyledTableCell align="center">發票代碼</StyledTableCell>
+                            <StyledTableCell align="center">發票號碼</StyledTableCell>
                             <StyledTableCell align="center">供應商</StyledTableCell>
                             <StyledTableCell align="center">合約種類</StyledTableCell>
                             <StyledTableCell align="center">發票日期</StyledTableCell>
