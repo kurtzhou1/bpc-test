@@ -15,11 +15,12 @@ import { styled } from '@mui/material/styles';
 import CreditBalanceView from './creditBalanceView';
 import CreditBalanceTerminate from './creditBalanceTerminate';
 import dayjs from 'dayjs';
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 
 const CreditBalanceDataList = ({ listInfo, setIsDialogOpen, deletelistInfoItem }) => {
     const [cbView, setCbview] = useState(false);
     const [cbTerminal, setCbTerminal] = useState(false);
+    const viewId = useRef(-1);
     const StyledTableCell = styled(TableCell)(({ theme }) => ({
         [`&.${tableCellClasses.head}`]: {
             // backgroundColor: theme.palette.common.gary,
@@ -36,6 +37,7 @@ const CreditBalanceDataList = ({ listInfo, setIsDialogOpen, deletelistInfoItem }
 
     const handleViewClose = () => {
         setCbview(false);
+        viewId.current = -1;
     };
 
     const handleTerminalClose = () => {
@@ -63,6 +65,7 @@ const CreditBalanceDataList = ({ listInfo, setIsDialogOpen, deletelistInfoItem }
                     </TableHead>
                     <TableBody>
                         {listInfo?.map((row, id) => {
+                            console.log('row=>>', row);
                             return (
                                 <TableRow
                                     // key={row.InvoiceWKMaster?.invoiceNo + row.InvoiceWKMaster?.supplierName + id}
@@ -91,6 +94,7 @@ const CreditBalanceDataList = ({ listInfo, setIsDialogOpen, deletelistInfoItem }
                                                 variant="outlined"
                                                 onClick={() => {
                                                     setCbview(true);
+                                                    viewId.current = row.CBID;
                                                 }}
                                             >
                                                 檢視
@@ -112,7 +116,7 @@ const CreditBalanceDataList = ({ listInfo, setIsDialogOpen, deletelistInfoItem }
                     </TableBody>
                 </Table>
             </TableContainer>
-            <CreditBalanceView cbView={cbView} handleViewClose={handleViewClose} listInfo={listInfo} />
+            <CreditBalanceView cbView={cbView} handleViewClose={handleViewClose} listInfo={listInfo} viewId={viewId.current} />
             <CreditBalanceTerminate cbTerminal={cbTerminal} handleTerminalClose={handleTerminalClose} />
         </>
     );

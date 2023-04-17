@@ -47,6 +47,7 @@ export const uploadFileApi = 'http://10.193.130.7:8000/api/v1/uploadSignedBillMa
 
 // CB
 export const queryCB = 'http://10.193.130.7:8000/api/v1/CreditBalance';
+export const generateReport = 'http://10.193.130.7:8000/api/v1/CreditBalanceStatement/generateReport';
 
 // 待合併
 export const queryToCombineInvo = 'http://10.193.130.7:8000/api/v1/getInvoiceMaster&InvoiceDetail';

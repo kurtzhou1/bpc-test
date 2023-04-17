@@ -40,61 +40,17 @@ import TableCell, { tableCellClasses } from '@mui/material/TableCell';
 import Paper from '@mui/material/Paper';
 import { styled } from '@mui/material/styles';
 
-const CreditBalanceView = ({ cbView, handleViewClose, listInfo }) => {
-    const [cblistInfo, setCbListInfo] = useState(listInfo);
-    // const [editItem, setEditItem] = useState(NaN);
-    const [isEdit, setIsEdit] = useState(false);
-    const [value, setValue] = useState(0);
+// api
+import { generateReport } from 'components/apis.jsx';
 
-    // const icon = <CheckBoxOutlineBlankIcon fontSize="small" />;
-    // const checkedIcon = <CheckBoxIcon fontSize="small" />;
+const CreditBalanceView = ({ cbView, handleViewClose, listInfo, viewId }) => {
+    const [cblistInfo, setCbListInfo] = useState(listInfo);
+    const [value, setValue] = useState(0);
 
     const itemDetailInitial = () => {
         setPartyName([]);
         setLBRatio('');
-        setIsEdit(false);
     };
-
-    // //編輯
-    // const editlistInfoItem = () => {
-    //     let tmpArray = listInfo[editItem];
-
-    //     if (tmpArray) {
-    //         setPartyName([tmpArray?.PartyName]);
-    //         setLBRatio(tmpArray?.LbRatio);
-    //     }
-    //     setIsEdit(true);
-    // };
-
-    //新增
-    // const addList = () => {
-    //     let tmpArray = listInfo.map((i) => i);
-    //     console.log('=>>', partyName);
-    //     let partyArray = partyName;
-    //     partyArray.forEach((e) => {
-    //         tmpArray.push({
-    //             BillMilestone: billMilestone,
-    //             PartyName: e,
-    //             LBRatio: lBRatio
-    //         });
-    //     });
-    //     setListInfo([...tmpArray]);
-    //     itemDetailInitial();
-    // };
-
-    // //刪除
-    // const deletelistInfoItem = (deleteItem) => {
-    //     let tmpArray = listInfo.map((i) => i);
-    //     tmpArray.splice(deleteItem, 1);
-    //     setListInfo([...tmpArray]);
-    // };
-
-    // useEffect(() => {
-    //     if (editItem >= 0) {
-    //         editlistInfoItem();
-    //         // setIsListEdit(true);
-    //     }
-    // }, [editItem]);
 
     const StyledTableCell = styled(TableCell)(({ theme }) => ({
         [`&.${tableCellClasses.head}`]: {
@@ -119,6 +75,30 @@ const CreditBalanceView = ({ cbView, handleViewClose, listInfo }) => {
 
     const handleChange = (event, newValue) => {
         setValue(newValue);
+    };
+
+    const handleDownload = () => {
+        let tmpData = {
+            CBID: viewId,
+            Download: true
+        };
+        fetch(generateReport, {
+            method: 'POST',
+            headers: {
+                Accept: 'application/json'
+            },
+            body: JSON.stringify(tmpData)
+        })
+            .then((res) => {
+                return res.blob();
+            })
+            .then((blob) => {
+                const link = document.createElement('a');
+                link.href = window.URL.createObjectURL(blob);
+                link.download = `CB報表.pdf`;
+                link.click();
+            })
+            .catch((e) => console.log('e1=>', e));
     };
 
     return (
@@ -234,6 +214,15 @@ const CreditBalanceView = ({ cbView, handleViewClose, listInfo }) => {
                 </Grid>
             </DialogContent>
             <DialogActions>
+                <Button
+                    sx={{ mr: '0.05rem' }}
+                    variant="contained"
+                    onClick={() => {
+                        handleDownload();
+                    }}
+                >
+                    產生CB報表
+                </Button>
                 <Button
                     sx={{ mr: '0.05rem' }}
                     variant="contained"
