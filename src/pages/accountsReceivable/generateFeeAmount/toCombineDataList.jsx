@@ -211,7 +211,6 @@ const ToCombineDataList = ({ handleDialogClose, isDialogOpen, dataList, totalCom
             dataList.forEach((i) => {
                 tmpObj[i.InvoiceMaster?.InvMasterID] = false;
             });
-            console.log('tmpObj=>>', tmpObj);
             setCbToCn(tmpObj);
         } else {
             let tmpAmount = 0;
@@ -247,8 +246,6 @@ const ToCombineDataList = ({ handleDialogClose, isDialogOpen, dataList, totalCom
                 .catch((e) => console.log('e1=>', e));
         }
     }, [isDialogOpen]);
-
-    console.log('cbToCn=>>', cbToCn);
 
     return (
         <>
@@ -401,7 +398,6 @@ const ToCombineDataList = ({ handleDialogClose, isDialogOpen, dataList, totalCom
                             row.InvoiceDetail.forEach((i) => {
                                 tmpAmount = tmpAmount + i.FeeAmountPost;
                             });
-                            console.log('=>>', cbToCn[row.InvoiceMaster?.InvMasterID]);
                             return (
                                 <TableRow
                                     key={row.InvoiceMaster?.InvoiceNo + id}
@@ -424,7 +420,7 @@ const ToCombineDataList = ({ handleDialogClose, isDialogOpen, dataList, totalCom
                                     <TableCell align="center">{row.InvoiceMaster?.SupplierName}</TableCell>
                                     <TableCell align="center">{row.InvoiceMaster?.ContractType}</TableCell>
                                     <TableCell align="center">{dayjs(row.InvoiceMaster?.IssueDate).format('YYYY/MM/DD')}</TableCell>
-                                    <TableCell align="center">{row.InvoiceDetail ? row.InvoiceDetail.length : 0}</TableCell>
+                                    <TableCell align="center">{row.InvoiceDetail?.length}</TableCell>
                                     <TableCell align="center">{`$${handleNumber(tmpAmount.toFixed(2))}`}</TableCell>
                                     {/* <TableCell align="center">
                                         {row.InvoiceMaster?.Status === 'TO_MERGE' ? '待合併' : row.InvoiceMaster?.Status}
