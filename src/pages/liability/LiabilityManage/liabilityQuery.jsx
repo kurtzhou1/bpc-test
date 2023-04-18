@@ -122,8 +122,8 @@ const LiabilityQuery = ({ setListInfo, bmStoneList, partyList, subCableList, wor
                             onChange={(e) => setSubmarineCableQuery(e.target.value)}
                         >
                             {subCableList.map((i) => (
-                                <MenuItem key={i.CableName} value={i.CableName}>
-                                    {i.CableName}
+                                <MenuItem key={i} value={i}>
+                                    {i}
                                 </MenuItem>
                             ))}
                         </Select>
