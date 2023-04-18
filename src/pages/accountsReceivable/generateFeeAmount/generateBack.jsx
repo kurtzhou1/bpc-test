@@ -61,8 +61,13 @@ const GenerateBack = ({ infoBack, handleBackClose }) => {
     };
 
     return (
-        <Dialog onClose={handleBackClose} maxWidth="xs" fullWidth open={infoBack}>
-            <BootstrapDialogTitle id="customized-dialog-title">選擇退回階段</BootstrapDialogTitle>
+        <Dialog
+            // onClose={handleBackClose}
+            maxWidth="xs"
+            fullWidth
+            open={infoBack}
+        >
+            <BootstrapDialogTitle>選擇退回階段</BootstrapDialogTitle>
             <DialogContent dividers>
                 <TableContainer component={Paper} sx={{ maxHeight: 350 }}>
                     <Table sx={{ minWidth: 300 }} stickyHeader aria-label="sticky table">

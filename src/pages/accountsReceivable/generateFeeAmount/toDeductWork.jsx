@@ -239,15 +239,15 @@ const ToDeductWork = ({ isDeductOpen, handleDeductClose, billDetailInfo, billMas
 
     return (
         <Dialog
-            onClose={() => {
-                initData();
-                setIsDeductWorkOpen(false);
-                handleDeductClose();
-            }}
+            // onClose={() => {
+            //     initData();
+            //     setIsDeductWorkOpen(false);
+            //     handleDeductClose();
+            // }}
             maxWidth="sm"
             open={isDeductOpen}
         >
-            <BootstrapDialogTitle id="customized-dialog-title">折抵作業</BootstrapDialogTitle>
+            <BootstrapDialogTitle>折抵作業</BootstrapDialogTitle>
             <DialogContent>
                 <Grid container spacing={1} display="flex" justifyContent="center" alignItems="center" sx={{ fontSize: 10 }}>
                     {actionName === 'view' ? (

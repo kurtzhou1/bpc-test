@@ -201,17 +201,17 @@ const LiabilityAdd = ({
 
     return (
         <Dialog
-            onClose={() => {
-                handleDialogClose();
-                itemDetailInitial();
-                setEditItem(NaN);
-                setListInfo([]);
-            }}
+            // onClose={() => {
+            //     handleDialogClose();
+            //     itemDetailInitial();
+            //     setEditItem(NaN);
+            //     setListInfo([]);
+            // }}
             maxWidth="md"
             fullWidth
             open={isDialogOpen}
         >
-            <BootstrapDialogTitle id="customized-dialog-title">
+            <BootstrapDialogTitle>
                 {dialogAction === 'Split'
                     ? `切割計費段${billMilestone}的Liabilty`
                     : dialogAction === 'Edit'

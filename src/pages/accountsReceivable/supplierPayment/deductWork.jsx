@@ -115,8 +115,14 @@ const ToGenerateDataList = ({ isDialogOpen, handleDialogClose, deductInfo, actio
     };
 
     return (
-        <Dialog onClose={handleDialogClose} maxWidth="xl" open={isDialogOpen}>
-            <BootstrapDialogTitle id="customized-dialog-title" onClose={handleDialogClose}>
+        <Dialog
+            // onClose={handleDialogClose}
+            maxWidth="xl"
+            open={isDialogOpen}
+        >
+            <BootstrapDialogTitle
+            // onClose={handleDialogClose}
+            >
                 折抵作業
             </BootstrapDialogTitle>
             <DialogContent>

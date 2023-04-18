@@ -123,15 +123,15 @@ const CreditBalanceManage = ({
 
     return (
         <Dialog
-            onClose={() => {
-                handleDialogClose();
-                itemDetailInitial();
-            }}
+            // onClose={() => {
+            //     handleDialogClose();
+            //     itemDetailInitial();
+            // }}
             maxWidth="sm"
             fullWidth
             open={isDialogOpen}
         >
-            <BootstrapDialogTitle id="customized-dialog-title">新增Credit Balance</BootstrapDialogTitle>
+            <BootstrapDialogTitle>新增Credit Balance</BootstrapDialogTitle>
             <DialogContent dividers>
                 <Grid container spacing={1} display="flex" justifyContent="center" alignItems="center">
                     <Grid item xs={3} sm={3} md={3} lg={3} display="flex" justifyContent="center">

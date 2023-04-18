@@ -38,8 +38,15 @@ const LiabilityTerminate = ({ dialogTerminate, handleDialogClose, terminateInfo,
     };
 
     return (
-        <Dialog onClose={handleDialogClose} maxWidth="xs" fullWidth open={dialogTerminate}>
-            <BootstrapDialogTitle id="customized-dialog-title" onClose={handleDialogClose}>
+        <Dialog
+            // onClose={handleDialogClose}
+            maxWidth="xs"
+            fullWidth
+            open={dialogTerminate}
+        >
+            <BootstrapDialogTitle
+            //  onClose={handleDialogClose}
+            >
                 確認終止訊息
             </BootstrapDialogTitle>
             <DialogContent dividers>

@@ -196,34 +196,6 @@ const CreditBalanceQuery = ({ setListInfo, partiesList, subCableList, queryApi }
                         </FormGroup>
                     </FormControl>
                 </Grid>
-                {/* <Grid item xs={1} sm={1} md={1} lg={1} display="flex" alignItems="center">
-                    <Typography variant="h5" sx={{ fontSize: { lg: '0.5rem', xl: '0.88rem' }, ml: { lg: '0rem', xl: '0rem' } }}>
-                        退費紀錄：
-                    </Typography>
-                </Grid>
-                <Grid item xs={2} sm={2} md={1} lg={1} display="flex" justifyContent="space-between">
-                    <FormControl row>
-                        <FormGroup
-                            row
-                            // value={isLiability}
-                            aria-labelledby="demo-radio-buttons-group-label"
-                            // defaultValue="female"
-                            name="radio-buttons-group"
-                            // onChange={(e) => setIsLiability(e.target.value)}
-                        >
-                            <FormControlLabel
-                                value={true}
-                                control={<Checkbox sx={{ '& .MuiSvgIcon-root': { fontSize: { lg: 14, xl: 20 } } }} />}
-                                label="有"
-                            />
-                            <FormControlLabel
-                                value={false}
-                                control={<Checkbox sx={{ '& .MuiSvgIcon-root': { fontSize: { lg: 14, xl: 20 } } }} />}
-                                label="無"
-                            />
-                        </FormGroup>
-                    </FormControl>
-                </Grid> */}
                 <Grid item xs={2} sm={2} md={1} lg={1}>
                     <Typography variant="h5" sx={{ fontSize: { lg: '0.5rem', xl: '0.88rem' } }}>
                         建立日期：

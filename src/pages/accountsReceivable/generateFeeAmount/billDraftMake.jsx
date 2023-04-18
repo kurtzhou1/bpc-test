@@ -359,17 +359,15 @@ const BillDraftMake = ({ isDialogOpen, handleDialogClose, billMasterID, pONo, su
 
     return (
         <Dialog
-            onClose={() => {
-                itemDetailInitial();
-                handleDialogClose();
-            }}
+            // onClose={() => {
+            //     itemDetailInitial();
+            //     handleDialogClose();
+            // }}
             maxWidth="xl"
             fullWidth
             open={isDialogOpen}
         >
-            <BootstrapDialogTitle id="customized-dialog-title" className="no-print">
-                產製帳單
-            </BootstrapDialogTitle>
+            <BootstrapDialogTitle className="no-print">產製帳單</BootstrapDialogTitle>
             <DialogContent dividers className="no-print">
                 <Grid container spacing={1} className="no-print">
                     <Grid item xs={6} sm={6} md={6} lg={6}>

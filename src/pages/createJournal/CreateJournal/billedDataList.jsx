@@ -119,8 +119,15 @@ const BilledDataList = ({ listInfo, apiQuery }) => {
 
     return (
         <>
-            <Dialog onClose={handleDialogClose} maxWidth="lg" fullWidth open={isDialogOpen}>
-                <BootstrapDialogTitle id="customized-dialog-title" onClose={handleDialogClose}>
+            <Dialog
+                // onClose={handleDialogClose}
+                maxWidth="lg"
+                fullWidth
+                open={isDialogOpen}
+            >
+                <BootstrapDialogTitle
+                //  onClose={handleDialogClose}
+                >
                     立帳作業
                 </BootstrapDialogTitle>
                 <DialogContent>

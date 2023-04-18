@@ -249,8 +249,15 @@ const ToCombineDataList = ({ handleDialogClose, isDialogOpen, dataList, totalCom
 
     return (
         <>
-            <Dialog onClose={handleDialogClose} maxWidth="md" fullWidth open={isDialogOpen}>
-                <BootstrapDialogTitle id="customized-dialog-title" onClose={handleDialogClose}>
+            <Dialog
+                // onClose={handleDialogClose}
+                maxWidth="md"
+                fullWidth
+                open={isDialogOpen}
+            >
+                <BootstrapDialogTitle
+                // onClose={handleDialogClose}
+                >
                     合併帳單作業
                 </BootstrapDialogTitle>
                 <DialogContent>

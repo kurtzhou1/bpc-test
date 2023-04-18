@@ -103,15 +103,15 @@ const CreditBalanceView = ({ cbView, handleViewClose, listInfo, viewId }) => {
 
     return (
         <Dialog
-            onClose={() => {
-                itemDetailInitial();
-                handleViewClose();
-            }}
+            // onClose={() => {
+            //     itemDetailInitial();
+            //     handleViewClose();
+            // }}
             maxWidth="sm"
             fullWidth
             open={cbView}
         >
-            <BootstrapDialogTitle id="customized-dialog-title">檢視Credit Balance明細</BootstrapDialogTitle>
+            <BootstrapDialogTitle>檢視Credit Balance明細</BootstrapDialogTitle>
             <DialogContent dividers>
                 <Grid container spacing={1}>
                     {/* <Grid item xs={12} sm={12} md={12} lg={12}>

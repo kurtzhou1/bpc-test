@@ -117,14 +117,14 @@ const DeductedWork = ({ isDeductedWorkOpen, handleDeductedClose, billDetailInfo 
 
     return (
         <Dialog
-            onClose={() => {
-                initData();
-                handleDeductedClose();
-            }}
+            // onClose={() => {
+            //     initData();
+            //     handleDeductedClose();
+            // }}
             maxWidth="sm"
             open={isDeductedWorkOpen}
         >
-            <BootstrapDialogTitle id="customized-dialog-title">檢視已折抵帳單</BootstrapDialogTitle>
+            <BootstrapDialogTitle>檢視已折抵帳單</BootstrapDialogTitle>
             <DialogContent>
                 <Grid container spacing={1} display="flex" justifyContent="center" alignItems="center" sx={{ fontSize: 10 }}>
                     <Grid item xs={12} sm={12} md={12} lg={12}>

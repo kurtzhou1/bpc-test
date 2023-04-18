@@ -93,10 +93,13 @@ const CorrespondenceMake = ({ isDialogOpen, handleDialogClose, listInfo }) => {
     }));
 
     return (
-        <Dialog onClose={handleDialogClose} maxWidth="lg" fullWidth open={isDialogOpen}>
-            <BootstrapDialogTitle id="customized-dialog-title" className="no-print">
-                製作函稿
-            </BootstrapDialogTitle>
+        <Dialog
+            // onClose={handleDialogClose}
+            maxWidth="lg"
+            fullWidth
+            open={isDialogOpen}
+        >
+            <BootstrapDialogTitle className="no-print">製作函稿</BootstrapDialogTitle>
             <DialogContent dividers className="no-print">
                 <Grid container spacing={1} className="no-print">
                     <Grid item xs={7} sm={7} md={7} lg={7}>

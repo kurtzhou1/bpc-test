@@ -53,8 +53,15 @@ const GenerateFeeTerminate = ({ infoTerminal, handleTerminalClose }) => {
     };
 
     return (
-        <Dialog onClose={handleTerminalClose} maxWidth="xs" fullWidth open={infoTerminal}>
-            <BootstrapDialogTitle id="customized-dialog-title" onClose={handleTerminalClose}>
+        <Dialog
+            // onClose={handleTerminalClose}
+            maxWidth="xs"
+            fullWidth
+            open={infoTerminal}
+        >
+            <BootstrapDialogTitle
+            // onClose={handleTerminalClose}
+            >
                 確認終止訊息
             </BootstrapDialogTitle>
             <DialogContent dividers>
