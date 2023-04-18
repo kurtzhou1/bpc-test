@@ -336,7 +336,7 @@ const InvoiceWorkManage = () => {
 
     useEffect(() => {
         if (workTitle && submarineCable) {
-            let bmApi = billMilestoneList + 'SubmarineCable=' + submarineCable + '&WorkTitle=' + workTitle;
+            let bmApi = billMilestoneList + 'SubmarineCable=' + submarineCable + '&WorkTitle=' + workTitle + '&End=false';
             fetch(bmApi, { method: 'GET' })
                 .then((res) => res.json())
                 .then((data) => {

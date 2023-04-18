@@ -262,7 +262,7 @@ const InvoiceWorkManage = () => {
 
     useEffect(() => {
         if (workTitle && submarineCable) {
-            let bmApi = billMilestoneList + 'SubmarineCable=' + submarineCable + '&WorkTitle=' + workTitle;
+            let bmApi = billMilestoneList + 'SubmarineCable=' + submarineCable + '&WorkTitle=' + workTitle + '&End=false';
             let snApi = supplierNameListForInvoice + 'SubmarineCable=' + submarineCable + '&WorkTitle=' + workTitle;
             fetch(bmApi, { method: 'GET' })
                 .then((res) => res.json())
@@ -276,6 +276,9 @@ const InvoiceWorkManage = () => {
                     setSupNmList(data);
                 })
                 .catch((e) => console.log('e1=>', e));
+        } else {
+            setBmStoneList([]);
+            setSupNmList([]);
         }
     }, [workTitle, submarineCable]);
 
