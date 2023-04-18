@@ -57,7 +57,7 @@ const InvoiceWorkManage = ({
     }, [workTitle, submarineCable]);
 
     return (
-        <MainCard title="發票工作主檔建立" sx={{ height: '100%' }}>
+        <MainCard title="發票工作主檔" sx={{ height: '100%' }}>
             <Grid container display="flex" justifyContent="center" alignItems="center" spacing={1}>
                 {/* row1 */}
                 <Grid item xs={12} sm={6} md={4} lg={2}>

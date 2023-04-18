@@ -100,7 +100,7 @@ const ContractDataList = ({}) => {
             WorkTitle: workTitle,
             CreateDate: dayjs(createDate).format('YYYY-MM-DD hh:mm:ss')
         };
-        console.log('tmpArray=>>', tmpArray);
+        console.log('', tmpArray);
         fetch(addContracts, { method: 'POST', body: JSON.stringify(tmpArray), headers: { 'Content-Type': 'application/json' } })
             .then((res) => res.json())
             .then(() => {

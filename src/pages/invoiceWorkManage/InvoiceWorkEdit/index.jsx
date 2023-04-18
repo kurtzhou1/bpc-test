@@ -66,8 +66,8 @@ const InvoiceWorkManage = () => {
     const queryApi = useRef(queryInvoice + '/all');
 
     const { supNmList, subCableList, bmsList } = useSelector((state) => state.dropdown); //供應商下拉選單 + 海纜名稱下拉選單
-
     const [listInfo, setListInfo] = useState([]);
+    const [page, setPage] = useState(0); //分頁Page
 
     const itemInfoInitial = () => {
         wKMasterID.current = 0;
@@ -102,6 +102,7 @@ const InvoiceWorkManage = () => {
         fetch(queryApi.current, { method: 'GET' })
             .then((res) => res.json())
             .then((data) => {
+                console.log('queryInit=>>', data);
                 setListInfo(data);
             })
             .catch((e) => console.log('e1=>', e));
@@ -189,6 +190,8 @@ const InvoiceWorkManage = () => {
                 .then((res) => res.json())
                 .then(() => {
                     dispatch(setMessageStateOpen({ messageStateOpen: { isOpen: true, severity: 'success', message: 'Validated成功' } }));
+                    setPage(0);
+                    setAction('');
                     queryInit();
                 })
                 .catch((e) => console.log('e1=>', e));
@@ -202,6 +205,8 @@ const InvoiceWorkManage = () => {
                 .then((res) => res.json())
                 .then(() => {
                     dispatch(setMessageStateOpen({ messageStateOpen: { isOpen: true, severity: 'success', message: '作廢成功' } }));
+                    setPage(0);
+                    setAction('');
                     queryInit();
                 })
                 .catch((e) => console.log('e1=>', e));
@@ -219,13 +224,14 @@ const InvoiceWorkManage = () => {
                         .then(() => {
                             console.log('刪除明細成功');
                             dispatch(setMessageStateOpen({ messageStateOpen: { isOpen: true, severity: 'success', message: '刪除成功' } }));
+                            setPage(0);
+                            setAction('');
                             queryInit();
                         })
                         .catch((e) => console.log('e1=>', e));
                 })
                 .catch((e) => console.log('e1=>', e));
         }
-        setAction('');
     }, [action]);
 
     const infoCheck = () => {
@@ -353,6 +359,7 @@ const InvoiceWorkManage = () => {
                                 subCableList={subCableList}
                                 billmileStoneList={bmsList}
                                 setAction={setAction}
+                                setPage={setPage}
                             />
                         </Grid>
                     </Grid>
@@ -363,7 +370,13 @@ const InvoiceWorkManage = () => {
                     <Grid container display="flex" spacing={2}>
                         <Grid item xs={12}>
                             <MainCard>
-                                <InvoiceDataList listInfo={listInfo} setAction={setAction} setModifyItem={setModifyItem} />
+                                <InvoiceDataList
+                                    listInfo={listInfo}
+                                    setAction={setAction}
+                                    setModifyItem={setModifyItem}
+                                    page={page}
+                                    setPage={setPage}
+                                />
                             </MainCard>
                         </Grid>
                     </Grid>

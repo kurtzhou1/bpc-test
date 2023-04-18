@@ -105,65 +105,6 @@ const LiabilityQuery = ({ setListInfo, bmStoneList, partyList, subCableList, wor
         <MainCard title="Liability條件查詢" sx={{ width: '100%' }}>
             <Grid container display="flex" justifyContent="center" alignItems="center" spacing={2}>
                 {/* row1 */}
-                <Grid item xs={2} sm={2} md={1} lg={1} xl={1}>
-                    <Typography variant="h5" sx={{ fontSize: { lg: '0.5rem', xl: '0.88rem' }, ml: { lg: '0.5rem', xl: '1.5rem' } }}>
-                        記帳段號：
-                    </Typography>
-                </Grid>
-                <Grid item xs={4} sm={4} md={2} lg={2} xl={2}>
-                    <FormControl fullWidth size="small">
-                        <InputLabel id="demo-simple-select-label">選擇記帳段號</InputLabel>
-                        <Select value={billMilestoneQuery} label="記帳段號" onChange={(e) => setBillMilestoneQuery(e.target.value)}>
-                            {bmStoneList?.map((i) => (
-                                <MenuItem key={i} value={i}>
-                                    {i}
-                                </MenuItem>
-                            ))}
-                        </Select>
-                    </FormControl>
-                </Grid>
-                <Grid item xs={2} sm={2} md={1} lg={1} xl={1}>
-                    <Typography variant="h5" sx={{ fontSize: { lg: '0.5rem', xl: '0.88rem' }, ml: { lg: '0.5rem', xl: '1.5rem' } }}>
-                        會員代號：
-                    </Typography>
-                </Grid>
-                <Grid item xs={4} sm={4} md={2} lg={2} xl={2}>
-                    <FormControl fullWidth size="small">
-                        <InputLabel id="demo-simple-select-label">選擇會員</InputLabel>
-                        <Select value={partyNameQuery} label="會員代號" onChange={(e) => setPartyNameQuery(e.target.value)}>
-                            {partyList.map((i) => (
-                                <MenuItem key={i} value={i}>
-                                    {i}
-                                </MenuItem>
-                            ))}
-                        </Select>
-                    </FormControl>
-                </Grid>
-                <Grid item xs={2} sm={2} md={1} lg={1} xl={1}>
-                    <Typography variant="h5" sx={{ fontSize: { lg: '0.5rem', xl: '0.88rem' }, ml: { lg: '0.5rem', xl: '1.5rem' } }}>
-                        建立日期：
-                    </Typography>
-                </Grid>
-                <Grid item xs={10} sm={10} md={5} lg={5} xl={5}>
-                    <LocalizationProvider dateAdapter={AdapterDayjs} localeText={{ start: '起始日', end: '結束日' }}>
-                        <DateRangePicker
-                            inputFormat="YYYY/MM/DD"
-                            value={createDate}
-                            onChange={(e) => {
-                                setCreateDate(e);
-                            }}
-                            renderInput={(startProps, endProps) => (
-                                <>
-                                    <TextField fullWidth size="small" {...startProps} />
-                                    <Box sx={{ mx: 1 }}> to </Box>
-                                    <TextField fullWidth size="small" {...endProps} />
-                                </>
-                            )}
-                        />
-                    </LocalizationProvider>
-                </Grid>
-
-                {/* row2 */}
                 <Grid item xs={2} sm={2} md={1} lg={1} display="flex">
                     <Typography variant="h5" sx={{ fontSize: { lg: '0.5rem', xl: '0.88rem' }, ml: { lg: '0.5rem', xl: '1.5rem' } }}>
                         海纜名稱：
@@ -200,6 +141,64 @@ const LiabilityQuery = ({ setListInfo, bmStoneList, partyList, subCableList, wor
                         </InputLabel>
                         <Select size="small" value={workTitle} label="填寫海纜作業" onChange={(e) => setWorkTitle(e.target.value)}>
                             {workTitleList.map((i) => (
+                                <MenuItem key={i} value={i}>
+                                    {i}
+                                </MenuItem>
+                            ))}
+                        </Select>
+                    </FormControl>
+                </Grid>
+                <Grid item xs={2} sm={2} md={1} lg={1} xl={1}>
+                    <Typography variant="h5" sx={{ fontSize: { lg: '0.5rem', xl: '0.88rem' }, ml: { lg: '0.5rem', xl: '1.5rem' } }}>
+                        建立日期：
+                    </Typography>
+                </Grid>
+                <Grid item xs={10} sm={10} md={5} lg={5} xl={5}>
+                    <LocalizationProvider dateAdapter={AdapterDayjs} localeText={{ start: '起始日', end: '結束日' }}>
+                        <DateRangePicker
+                            inputFormat="YYYY/MM/DD"
+                            value={createDate}
+                            onChange={(e) => {
+                                setCreateDate(e);
+                            }}
+                            renderInput={(startProps, endProps) => (
+                                <>
+                                    <TextField fullWidth size="small" {...startProps} />
+                                    <Box sx={{ mx: 1 }}> to </Box>
+                                    <TextField fullWidth size="small" {...endProps} />
+                                </>
+                            )}
+                        />
+                    </LocalizationProvider>
+                </Grid>
+                {/* row2 */}
+                <Grid item xs={2} sm={2} md={1} lg={1} xl={1}>
+                    <Typography variant="h5" sx={{ fontSize: { lg: '0.5rem', xl: '0.88rem' }, ml: { lg: '0.5rem', xl: '1.5rem' } }}>
+                        記帳段號：
+                    </Typography>
+                </Grid>
+                <Grid item xs={4} sm={4} md={2} lg={2} xl={2}>
+                    <FormControl fullWidth size="small">
+                        <InputLabel id="demo-simple-select-label">選擇記帳段號</InputLabel>
+                        <Select value={billMilestoneQuery} label="記帳段號" onChange={(e) => setBillMilestoneQuery(e.target.value)}>
+                            {bmStoneList?.map((i) => (
+                                <MenuItem key={i} value={i}>
+                                    {i}
+                                </MenuItem>
+                            ))}
+                        </Select>
+                    </FormControl>
+                </Grid>
+                <Grid item xs={2} sm={2} md={1} lg={1} xl={1}>
+                    <Typography variant="h5" sx={{ fontSize: { lg: '0.5rem', xl: '0.88rem' }, ml: { lg: '0.5rem', xl: '1.5rem' } }}>
+                        會員代號：
+                    </Typography>
+                </Grid>
+                <Grid item xs={4} sm={4} md={2} lg={2} xl={2}>
+                    <FormControl fullWidth size="small">
+                        <InputLabel id="demo-simple-select-label">選擇會員</InputLabel>
+                        <Select value={partyNameQuery} label="會員代號" onChange={(e) => setPartyNameQuery(e.target.value)}>
+                            {partyList.map((i) => (
                                 <MenuItem key={i} value={i}>
                                     {i}
                                 </MenuItem>

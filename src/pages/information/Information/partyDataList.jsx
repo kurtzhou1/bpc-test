@@ -275,7 +275,7 @@ const PartyDataList = ({ maxHei }) => {
             Branch: branch,
             BankAddress: bankAddress
         };
-        console.log('tmpArray=>>', tmpArray);
+        console.log('', tmpArray);
         fetch(addParties, { method: 'POST', body: JSON.stringify(tmpArray), headers: { 'Content-Type': 'application/json' } })
             .then((res) => res.json())
             .then(() => {

@@ -131,7 +131,7 @@ const LiabilityAdd = ({
     const addList = () => {
         if (infoCheck()) {
             let tmpArray = listInfo.map((i) => i);
-            console.log('tmpArray=>>', tmpArray);
+            console.log('', tmpArray);
             let partyArray = partyName;
             partyArray.forEach((e) => {
                 tmpArray.push({
@@ -365,7 +365,7 @@ const LiabilityAdd = ({
                             fullWidth
                             variant="outlined"
                             value={note}
-                            disabled={dialogAction === 'Edit' || dialogAction === 'Split'}
+                            // disabled={dialogAction === 'Edit' || dialogAction === 'Split'}
                             size="small"
                             label="填寫備註"
                             onChange={(e) => setNote(e.target.value)}

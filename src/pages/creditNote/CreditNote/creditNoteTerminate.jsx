@@ -39,7 +39,7 @@ const CreditBalanceTerminate = ({ cbTerminal, handleTerminalClose }) => {
             EndDate: terminateInfo.EndDate,
             EndNote: endNote ? endNote : ''
         };
-        console.log('tmpArray=>>', tmpArray);
+        console.log('', tmpArray);
         fetch(updateLiability, { method: 'POST', body: JSON.stringify(tmpArray) })
             .then((res) => res.json())
             .then(() => {

@@ -196,7 +196,7 @@ const Corporates = ({ maxHei }) => {
             WorkTitle: workTitle,
             BranchAddress: branchAddress
         };
-        console.log('tmpArray=>>', tmpArray);
+        console.log('', tmpArray);
         fetch(addCorporates, { method: 'POST', body: JSON.stringify(tmpArray), headers: { 'Content-Type': 'application/json' } })
             .then((res) => res.json())
             .then(() => {

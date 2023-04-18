@@ -132,7 +132,7 @@ const LiabilityManage = () => {
     //編輯
     const editlistInfoItem = () => {
         let tmpArray = listInfo[editItem];
-        console.log('tmpArray=>>', editItem, tmpArray);
+        console.log('', editItem, tmpArray);
         if (tmpArray) {
             setBillMilestone(tmpArray?.BillMilestone);
             setPartyName([tmpArray?.PartyName]);
@@ -153,6 +153,7 @@ const LiabilityManage = () => {
             PartyName: listInfo[editItem].PartyName,
             WorkTitle: listInfo[editItem].WorkTitle,
             LBRatio: Number(lBRatio).toFixed(10),
+            Note: note,
             ModifyNote: modifyNote ? modifyNote : ''
         };
         fetch(updateLiability, { method: 'POST', body: JSON.stringify(tmpArray) })

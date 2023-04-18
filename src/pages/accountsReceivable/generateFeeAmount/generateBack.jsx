@@ -57,7 +57,7 @@ const GenerateBack = ({ infoBack, handleBackClose }) => {
             EndDate: terminateInfo.EndDate,
             EndNote: endNote ? endNote : ''
         };
-        console.log('tmpArray=>>', tmpArray);
+        console.log('', tmpArray);
     };
 
     return (

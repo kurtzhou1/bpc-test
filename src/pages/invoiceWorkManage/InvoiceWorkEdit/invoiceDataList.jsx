@@ -14,7 +14,7 @@ import { styled } from '@mui/material/styles';
 import { InfoCircleOutlined } from '@ant-design/icons';
 import dayjs from 'dayjs';
 
-const InvoiceDataList = ({ listInfo, setAction, setModifyItem }) => {
+const InvoiceDataList = ({ listInfo, setAction, setModifyItem, page, setPage }) => {
     const StyledTableCell = styled(TableCell)(({ theme }) => ({
         [`&.${tableCellClasses.head}`]: {
             // backgroundColor: theme.palette.common.gary,
@@ -28,7 +28,6 @@ const InvoiceDataList = ({ listInfo, setAction, setModifyItem }) => {
             paddingBottom: '0.2rem'
         }
     }));
-    const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(10);
     const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - listInfo.length) : 0;
     let tmpArray = [];
@@ -80,7 +79,9 @@ const InvoiceDataList = ({ listInfo, setAction, setModifyItem }) => {
                                     tmpArray.push(i.BillMilestone);
                                 }
                             });
-                            console.log('tmpArray=>>', tmpArray);
+                            if (row.InvoiceWKMaster?.InvoiceNo === 'TBD') {
+                                console.log('row=>>', row);
+                            }
                             return (
                                 <TableRow
                                     key={row.InvoiceWKMaster?.WKMasterID + row.InvoiceWKMaster?.InvoiceNo}

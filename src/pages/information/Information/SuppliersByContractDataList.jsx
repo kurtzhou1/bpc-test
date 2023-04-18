@@ -76,7 +76,7 @@ const SuppliersByContractDataList = ({}) => {
         let tmpArray = {
             SupplierName: supplierName
         };
-        console.log('tmpArray=>>', tmpArray);
+        console.log('', tmpArray);
         fetch(addPartiesByContract, { method: 'POST', body: JSON.stringify(tmpArray), headers: { 'Content-Type': 'application/json' } })
             .then((res) => res.json())
             .then(() => {

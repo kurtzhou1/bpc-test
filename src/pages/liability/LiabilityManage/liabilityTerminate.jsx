@@ -7,7 +7,7 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogActions from '@mui/material/DialogActions';
 
 // api
-import { updateLiability } from 'components/apis.jsx';
+import { deleteLiability } from 'components/apis.jsx';
 
 // project
 import { BootstrapDialogTitle } from 'components/commonFunction';
@@ -26,8 +26,8 @@ const LiabilityTerminate = ({ dialogTerminate, handleDialogClose, terminateInfo,
             EndDate: terminateInfo.EndDate,
             ModifyNote: endNote ? endNote : ''
         };
-        console.log('tmpArray=>>', tmpArray);
-        fetch(updateLiability, { method: 'POST', body: JSON.stringify(tmpArray) })
+        console.log('', tmpArray);
+        fetch(deleteLiability, { method: 'POST', body: JSON.stringify(tmpArray) })
             .then((res) => res.json())
             .then(() => {
                 dispatch(setMessageStateOpen({ messageStateOpen: { isOpen: true, severity: 'success', message: '終止成功' } }));
