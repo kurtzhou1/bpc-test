@@ -122,7 +122,7 @@ const LiabilityDataList = ({ listInfo, setDialogAction, setIsDialogOpen, setEdit
                                                             BillMilestone: row.BillMilestone,
                                                             PartyName: row.PartyName,
                                                             LBRawID: row.LBRawID,
-                                                            EndDate: dayjs(new Date()).format('YYYY-MM-DD hh:mm:ss')
+                                                            EndDate: dayjs(new Date()).format('YYYY-MM-DD HH:mm:ss')
                                                         });
                                                     }}
                                                 >

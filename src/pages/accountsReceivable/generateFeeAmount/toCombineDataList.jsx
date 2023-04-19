@@ -35,74 +35,6 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { useDispatch } from 'react-redux';
 import { setMessageStateOpen } from 'store/reducers/dropdown';
 
-// const fakeData = {
-//     message: 'success',
-//     BillMaster: {
-//         BillingNo: '3345678',
-//         PartyName: 'str',
-//         SubmarineCable: 'str',
-//         WorkTitle: 'str',
-//         IssueDate: '2022-09-09T12:00:00',
-//         DueDate: '2022-09-09T12:00:00',
-//         FeeAmountSum: 19870131.8888,
-//         ReceivedAmountSum: 19870131.8888,
-//         IsPro: true,
-//         Status: 'str'
-//     },
-//     BillDetail: [
-//         {
-//             WKMasterID: 131,
-//             InvDetailID: 131,
-//             PartyName: 'str',
-//             SupplierName: 'str',
-//             SubmarineC: 'str',
-//             WorkTitle: 'O&M',
-//             BillMilestone: 'str',
-//             SubmarineCable: 'str',
-//             FeeItem: 'str',
-//             FeeAmount: 999,
-//             OrgFeeAmount: 19870131.8888,
-//             DedAmount: 19870131.8888,
-//             FeeAmount: 19870131.8888,
-//             ReceivedAmount: 19870131.8888,
-//             OverAmount: 19870131.8888,
-//             ShortAmount: 19870131.8888,
-//             BankFees: 19870131.8888,
-//             ShortOverReason: 'str',
-//             WriteOffDate: '2022-09-09T12:00:00',
-//             ReceiveDate: '2022-09-09T12:00:00',
-//             Note: 'str',
-//             ToCBAmount: 'str',
-//             Status: 'str'
-//         },
-//         {
-//             WKMasterID: 131,
-//             InvDetailID: 131,
-//             PartyName: 'str',
-//             SupplierName: 'str',
-//             SubmarineC: 'str',
-//             WorkTitle: 'O&M',
-//             SubmarineCable: 'str',
-//             BillMilestone: 'str',
-//             FeeItem: 'str',
-//             OrgFeeAmount: 19870131.8888,
-//             DedAmount: 19870131.8888,
-//             FeeAmount: 19870131.8888,
-//             ReceivedAmount: 19870131.8888,
-//             OverAmount: 19870131.8888,
-//             ShortAmount: 19870131.8888,
-//             BankFees: 19870131.8888,
-//             ShortOverReason: 'str',
-//             FeeAmount: 999,
-//             WriteOffDate: '2022-09-09T12:00:00',
-//             ReceiveDate: '2022-09-09T12:00:00',
-//             Note: 'str',
-//             ToCBAmount: 'str',
-//             Status: 'str'
-//         }
-//     ]
-// };
-
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
     [`&.${tableCellClasses.head}`]: {
         // backgroundColor: theme.palette.common.gary,
@@ -175,42 +107,43 @@ const ToCombineDataList = ({ handleDialogClose, isDialogOpen, dataList, cbToCn, 
                 BillingNo: billingNo
             };
             billList.BillMaster.BillingNo = billingNo;
-            // billList.BillMaster.DueDate = dayjs(issueDate).format('YYYY-MM-DD hh:mm:ss');
-            billList.DueDate = dayjs(issueDate).format('YYYY-MM-DD hh:mm:ss');
+            // billList.BillMaster.DueDate = dayjs(issueDate).format('YYYY-MM-DD HH:mm:ss');
+            billList.DueDate = dayjs(issueDate).format('YYYY-MM-DD HH:mm:ss');
             billList.PONo = poNo;
             delete billList.BillMaster.SupplierName;
-            fetch(isBillNoCheckOK, {
-                method: 'POST',
-                body: JSON.stringify(tmpArray)
-            })
-                .then((res) => res.json())
-                .then((data) => {
-                    if (!data.isExist) {
-                        fetch(invoCombine, {
-                            method: 'POST',
-                            body: JSON.stringify(billList)
-                        })
-                            .then((res) => res.json())
-                            .then(() => {
-                                dispatch(
-                                    setMessageStateOpen({
-                                        messageStateOpen: { isOpen: true, severity: 'success', message: '合併帳單成功' }
-                                    })
-                                );
-                                //資料初始化
-                                setIssueDate(new Date());
-                                setPoNo('');
-                                setBillingNo('');
-                                // setCbToCn({});
-                                handleDialogClose();
-                                receivableQuery();
-                            })
-                            .catch((e) => console.log('e1=>', e));
-                    } else {
-                        dispatch(setMessageStateOpen({ messageStateOpen: { isOpen: true, severity: 'error', message: '帳單號碼已重複' } }));
-                    }
-                })
-                .catch((e) => console.log('e1=>', e));
+            console.log('billList=>>', billList.DueDate);
+            // fetch(isBillNoCheckOK, {
+            //     method: 'POST',
+            //     body: JSON.stringify(tmpArray)
+            // })
+            //     .then((res) => res.json())
+            //     .then((data) => {
+            //         if (!data.isExist) {
+            //             fetch(invoCombine, {
+            //                 method: 'POST',
+            //                 body: JSON.stringify(billList)
+            //             })
+            //                 .then((res) => res.json())
+            //                 .then(() => {
+            //                     dispatch(
+            //                         setMessageStateOpen({
+            //                             messageStateOpen: { isOpen: true, severity: 'success', message: '合併帳單成功' }
+            //                         })
+            //                     );
+            //                     //資料初始化
+            //                     setIssueDate(new Date());
+            //                     setPoNo('');
+            //                     setBillingNo('');
+            //                     // setCbToCn({});
+            //                     handleDialogClose();
+            //                     receivableQuery();
+            //                 })
+            //                 .catch((e) => console.log('e1=>', e));
+            //         } else {
+            //             dispatch(setMessageStateOpen({ messageStateOpen: { isOpen: true, severity: 'error', message: '帳單號碼已重複' } }));
+            //         }
+            //     })
+            //     .catch((e) => console.log('e1=>', e));
         }
     };
 

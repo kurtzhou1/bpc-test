@@ -92,7 +92,7 @@ const GeneratedDataList = ({}) => {
         let tmpArray = {
             CorpName: corpName,
             SubmarineCable: submarineCable,
-            CreateDate: dayjs(createDate).format('YYYY-MM-DD hh:mm:ss')
+            CreateDate: dayjs(createDate).format('YYYY-MM-DD HH:mm:ss')
         };
         console.log('', tmpArray);
         fetch(addCorporates, { method: 'POST', body: JSON.stringify(tmpArray), headers: { 'Content-Type': 'application/json' } })
@@ -128,7 +128,7 @@ const GeneratedDataList = ({}) => {
             CorpID: corpID.current,
             CorpName: corpNameEdit,
             SubmarineCable: submarineCableEdit,
-            CreateDate: dayjs(createDateEdit).format('YYYY-MM-DD hh:mm:ss')
+            CreateDate: dayjs(createDateEdit).format('YYYY-MM-DD HH:mm:ss')
         };
         console.log('123=>>', tmpArray);
         fetch(editCorporates, { method: 'POST', body: JSON.stringify(tmpArray), headers: { 'Content-Type': 'application/json' } })

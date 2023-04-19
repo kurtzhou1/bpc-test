@@ -98,7 +98,7 @@ const ContractDataList = ({}) => {
             ContractName: contractName,
             SubmarineCable: submarineCable,
             WorkTitle: workTitle,
-            CreateDate: dayjs(createDate).format('YYYY-MM-DD hh:mm:ss')
+            CreateDate: dayjs(createDate).format('YYYY-MM-DD HH:mm:ss')
         };
         console.log('', tmpArray);
         fetch(addContracts, { method: 'POST', body: JSON.stringify(tmpArray), headers: { 'Content-Type': 'application/json' } })
@@ -137,7 +137,7 @@ const ContractDataList = ({}) => {
             ContractName: contractNameEdit,
             SubmarineCable: submarineCableEdit,
             WorkTitle: workTitleEdit,
-            CreateDate: dayjs(createDateEdit).format('YYYY-MM-DD hh:mm:ss')
+            CreateDate: dayjs(createDateEdit).format('YYYY-MM-DD HH:mm:ss')
         };
         console.log('123=>>', tmpArray);
         fetch(editContracts, { method: 'POST', body: JSON.stringify(tmpArray), headers: { 'Content-Type': 'application/json' } })
