@@ -1,4 +1,4 @@
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 
 // project import
 import { handleNumber, BootstrapDialogTitle } from 'components/commonFunction';
@@ -32,80 +32,64 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import dayjs from 'dayjs';
 
 import { toBillDataapi, sendJounary } from 'components/apis.jsx';
+const StyledTableCell = styled(TableCell)(({ theme }) => ({
+    [`&.${tableCellClasses.head}`]: {
+        // backgroundColor: theme.palette.common.gary,
+        color: theme.palette.common.black,
+        paddingTop: '0.2rem',
+        paddingBottom: '0.2rem',
+        fontSize: '0.05rem'
+    },
+    [`&.${tableCellClasses.body}`]: {
+        fontSize: 14,
+        paddingTop: '0.2rem',
+        paddingBottom: '0.2rem'
+    }
+}));
 
 const WriteOffWork = ({ isDialogOpen, handleDialogClose, writeOffInfo }) => {
     console.log('writeOffInfo=>>', writeOffInfo);
-    const fakeData = {
-        TotalAmount: 5582012.72,
-        BillMaster: [
-            {
-                InvMasterID: 1,
-                WKMasterID: 1,
-                InvoiceNo: 'DT0170168-1',
-                PartyName: 'Edge',
-                SupplierName: 'NEC',
-                SubmarineCable: 'SJC2',
-                WorkTitle: 'Construction',
-                IssueDate: '2022-09-09T00:00:00',
-                DueDate: '2022-11-08T00:00:00',
-                IsPro: false,
-                ContractType: 'SC',
-                Status: ''
-            }
-        ],
-        BillDetail: [
-            {
-                WKMasterID: 2,
-                WKDetailID: 2,
-                InvMasterID: 2,
-                InvoiceNo: 'DT0170168-2',
-                PartyName: 'Edge',
-                SupplierName: 'NEC',
-                SubmarineCable: 'SJC2',
-                WorkTitle: 'Construction',
-                BillMilestone: 'BM9a',
-                FeeItem: 'BM12a Under the Sea',
-                OrgFeeAmount: 8888.88, //原始費用金額
-                DedAmount: 8888.88, //抵扣金額
-                FeeAmount: 8888.88, //應收(會員繳)金額
-                ReceivedAmount: 1111.88, //累積實收(會員繳)金額
-                D: 1288844.44, //重溢繳金額
-                ShortAmount: 8888.88, //短繳金額
-                BankFees: 8888.88, //銀行手續費
-                ToCBAmount: 8888.88, //已經轉CB的金額
-                ShortOverReason: '短溢繳原因測試', //短溢繳原因
-                WriteOffDate: 8888.88, //銷帳日期
-                ReceivedDate: 0, //最新收款日期
-                Note: '測試', //摘要說明
-                Status: '' //收費狀態
-            }
-        ]
-    };
 
     const [isDeductWorkOpen, setIsDeductWorkOpen] = useState(false);
     const [editItem, setEditItem] = useState();
-    const [toBillDataInfo, setToBillDataInfo] = useState(fakeData.BillDetail); //帳單明細檔
-    const [totalAmount, setTotalAmount] = useState(fakeData.TotalAmount); //發票總金額
-    const [currentAmount, setCurrentAmount] = useState(''); //目前金額
-    const StyledTableCell = styled(TableCell)(({ theme }) => ({
-        [`&.${tableCellClasses.head}`]: {
-            // backgroundColor: theme.palette.common.gary,
-            color: theme.palette.common.black,
-            paddingTop: '0.2rem',
-            paddingBottom: '0.2rem',
-            fontSize: '0.05rem'
-        },
-        [`&.${tableCellClasses.body}`]: {
-            fontSize: 14,
-            paddingTop: '0.2rem',
-            paddingBottom: '0.2rem'
-        }
-    }));
+    const [toWriteOffDetailInfo, setToWriteOffDetailInfo] = useState([]); //帳單明細檔
 
-    const deductWork = (id) => {
-        setEditItem(id);
-        setIsDeductWorkOpen(true);
+    const changeBankFees = (bankFees, id) => {
+        let tmpArray = toWriteOffDetailInfo.map((i) => i);
+        tmpArray.forEach((i) => {
+            if (i.BillDetailID === id) {
+                i.BankFees = bankFees;
+            }
+        });
+        setToWriteOffDetailInfo(tmpArray);
     };
+
+    const changeReceiveAmount = (receiveAmount, id) => {
+        let tmpArray = toWriteOffDetailInfo.map((i) => i);
+        tmpArray.forEach((i) => {
+            if (i.BillDetailID === id) {
+                i.ReceiveAmount = receiveAmount;
+            }
+        });
+        setToWriteOffDetailInfo(tmpArray);
+    };
+
+    const initData = () => {
+        let tmpArray = writeOffInfo?.BillDetail?.map((i) => i);
+        tmpArray.forEach((i) => {
+            i.ReceiveAmount = 0;
+            i.BankFees = 0;
+        });
+        setToWriteOffDetailInfo(tmpArray);
+    };
+
+    useEffect(() => {
+        if (writeOffInfo?.BillDetail?.length > 0) {
+            initData();
+        }
+    }, [writeOffInfo]);
+
+    console.log('toWriteOffDetailInfo=>>', toWriteOffDetailInfo);
 
     return (
         <Dialog
@@ -132,12 +116,11 @@ const WriteOffWork = ({ isDialogOpen, handleDialogClose, writeOffInfo }) => {
                             </Grid>
                             <Grid item xs={2} sm={2} md={2} lg={2}>
                                 <TextField
-                                    value={writeOffInfo.PartyName}
+                                    value={writeOffInfo?.BillMaster?.PartyName}
                                     fullWidth
                                     disabled={true}
                                     variant="outlined"
                                     size="small"
-                                    // type="number"
                                 />
                             </Grid>
                             <Grid item xs={1} sm={1} md={1} lg={1}>
@@ -150,12 +133,11 @@ const WriteOffWork = ({ isDialogOpen, handleDialogClose, writeOffInfo }) => {
                             </Grid>
                             <Grid item xs={2} sm={2} md={2} lg={2}>
                                 <TextField
-                                    value={writeOffInfo.IssueDate}
+                                    value={dayjs(writeOffInfo?.BillMaster?.DueDate).format('YYYY/MM/DD')}
                                     fullWidth
                                     disabled={true}
                                     variant="outlined"
                                     size="small"
-                                    // type="number"
                                 />
                             </Grid>
                             <Grid item xs={1} sm={1} md={1} lg={1}>
@@ -168,12 +150,11 @@ const WriteOffWork = ({ isDialogOpen, handleDialogClose, writeOffInfo }) => {
                             </Grid>
                             <Grid item xs={2} sm={2} md={2} lg={2}>
                                 <TextField
-                                    value={writeOffInfo.SubmarineCable}
+                                    value={writeOffInfo?.BillMaster?.SubmarineCable}
                                     fullWidth
                                     disabled={true}
                                     variant="outlined"
                                     size="small"
-                                    // type="number"
                                 />
                             </Grid>
                             <Grid item xs={1} sm={1} md={1} lg={1}>
@@ -186,12 +167,11 @@ const WriteOffWork = ({ isDialogOpen, handleDialogClose, writeOffInfo }) => {
                             </Grid>
                             <Grid item xs={2} sm={2} md={2} lg={2}>
                                 <TextField
-                                    value={writeOffInfo.WorkTitle}
+                                    value={writeOffInfo?.BillMaster?.WorkTitle}
                                     fullWidth
                                     disabled={true}
                                     variant="outlined"
                                     size="small"
-                                    // type="number"
                                 />
                             </Grid>
                         </Grid>
@@ -220,79 +200,73 @@ const WriteOffWork = ({ isDialogOpen, handleDialogClose, writeOffInfo }) => {
                                         </TableRow>
                                     </TableHead>
                                     <TableBody>
-                                        {toBillDataInfo.map((row, id) => {
+                                        {toWriteOffDetailInfo?.map((row, id) => {
+                                            let totalAmount = Number(row.BankFees) + Number(row.ReceiveAmount);
+                                            let tmpAmount = Number(row.ReceiveAmount) + Number(row.ReceivedAmount);
+                                            let diffAmount = tmpAmount - Number(row.BankFees);
                                             return (
                                                 <TableRow
-                                                    key={row.FeeAmountPre + row?.PartyName + row?.LBRatio}
+                                                    // key={row?.FeeAmountPre + row?.PartyName + row?.LBRatio}
                                                     sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                                                 >
                                                     <TableCell align="center" sx={{ fontSize: '0.1rem' }}>
-                                                        {id + 1}???
+                                                        {id + 1}
                                                     </TableCell>
                                                     <TableCell sx={{ fontSize: '0.1rem' }} align="center">
-                                                        {row.OrgFeeAmount}
+                                                        ${handleNumber(row?.OrgFeeAmount.toFixed(2))}
                                                     </TableCell>
-                                                    <TableCell sx={{ fontSize: '0.1rem' }} align="center">{`$${handleNumber(
-                                                        row.DedAmount
-                                                    )}`}</TableCell>
-                                                    <TableCell sx={{ fontSize: '0.1rem' }} align="center">{`$${handleNumber(
-                                                        row.FeeAmount
-                                                    )}`}</TableCell>
-                                                    <TableCell sx={{ fontSize: '0.1rem' }} align="center">{`$${handleNumber(
-                                                        row.ReceivedAmount
-                                                    )}`}</TableCell>
+                                                    <TableCell sx={{ fontSize: '0.1rem' }} align="center">
+                                                        ${handleNumber(row?.DedAmount.toFixed(2))}
+                                                    </TableCell>
+                                                    <TableCell sx={{ fontSize: '0.1rem' }} align="center">
+                                                        ${handleNumber(row?.FeeAmount.toFixed(2))}
+                                                    </TableCell>
+                                                    <TableCell sx={{ fontSize: '0.1rem' }} align="center">
+                                                        ${handleNumber(row?.ReceivedAmount.toFixed(2))}
+                                                    </TableCell>
                                                     <TableCell sx={{ fontSize: '0.1rem' }} align="center">
                                                         <TextField
-                                                            label="$"
                                                             size="small"
+                                                            value={row.BankFees}
                                                             type="number"
-                                                            // style={{ width: '30%' }}
-                                                            // value={diffNumber}
-                                                            // onChange={(e) => {
-                                                            //     changeDiff(e.target.value, id);
-                                                            // }}
+                                                            onChange={(e) => changeBankFees(e.target.value, row.BillDetailID)}
                                                         />
                                                     </TableCell>
                                                     <TableCell sx={{ fontSize: '0.1rem' }} align="center">
                                                         <TextField
-                                                            label="$"
                                                             size="small"
-                                                            type="number"
                                                             // style={{ width: '30%' }}
-                                                            // value={diffNumber}
-                                                            // onChange={(e) => {
-                                                            //     changeDiff(e.target.value, id);
-                                                            // }}
+                                                            value={row.ReceiveAmount}
+                                                            type="number"
+                                                            onChange={(e) => {
+                                                                changeReceiveAmount(e.target.value, row.BillDetailID);
+                                                            }}
                                                         />
                                                     </TableCell>
                                                     <TableCell sx={{ fontSize: '0.1rem' }} align="center">
-                                                        <TextField
-                                                            label="$"
-                                                            size="small"
-                                                            type="number"
-                                                            // style={{ width: '30%' }}
-                                                            // value={diffNumber}
-                                                            // onChange={(e) => {
-                                                            //     changeDiff(e.target.value, id);
-                                                            // }}
-                                                        />
+                                                        {totalAmount ? totalAmount.toFixed(2) : '0.00'}
                                                     </TableCell>
                                                     <TableCell sx={{ fontSize: '0.1rem' }} align="center">
-                                                        <TextField
-                                                            label="$"
-                                                            size="small"
-                                                            type="number"
-                                                            // style={{ width: '30%' }}
-                                                            // value={diffNumber}
-                                                            // onChange={(e) => {
-                                                            //     changeDiff(e.target.value, id);
-                                                            // }}
-                                                        />
+                                                        {diffAmount > 0 ? handleNumber(diffAmount.toFixed(2)) : '0.00'}
                                                     </TableCell>
                                                     <TableCell sx={{ fontSize: '0.1rem' }} align="center">
-                                                        短繳
+                                                        {diffAmount > row.BankFees ? handleNumber(tmpAmount.toFixed(2)) : '0.00'}
                                                     </TableCell>
-                                                    <TableCell sx={{ fontSize: '0.1rem' }} align="center"></TableCell>
+                                                    <TableCell sx={{ fontSize: '0.1rem' }} align="center">
+                                                        {diffAmount <= row.BankFees ? handleNumber(tmpAmount.toFixed(2)) : '0.00'}
+                                                    </TableCell>
+                                                    <TableCell sx={{ fontSize: '0.1rem' }} align="center">
+                                                        {row.ShortOverReason}
+                                                    </TableCell>
+                                                    <TableCell sx={{ fontSize: '0.1rem' }} align="center">
+                                                        {row.ReceiveDate ? dayjs(row?.ReceiveDate) : ''}
+                                                    </TableCell>
+                                                    <TableCell sx={{ fontSize: '0.1rem' }} align="center">
+                                                        {row?.Note}
+                                                    </TableCell>
+                                                    <TableCell sx={{ fontSize: '0.1rem' }} align="center">
+                                                        {row?.Status}
+                                                    </TableCell>
                                                 </TableRow>
                                             );
                                         })}
@@ -301,99 +275,13 @@ const WriteOffWork = ({ isDialogOpen, handleDialogClose, writeOffInfo }) => {
                             </TableContainer>
                         </MainCard>
                     </Grid>
-                    {isDeductWorkOpen ? (
-                        <Grid item xs={12} sm={12} md={12} lg={12}>
-                            <MainCard title={`${writeOffInfo.PartyName}可折抵CB`}>
-                                <Grid container>
-                                    <Grid item xs={12} sm={12} md={12} lg={12}>
-                                        <TableContainer component={Paper} sx={{ maxHeight: 350 }}>
-                                            <Table sx={{ minWidth: 300 }} stickyHeader aria-label="sticky table">
-                                                <TableHead>
-                                                    <TableRow>
-                                                        <StyledTableCell align="center">NO</StyledTableCell>
-                                                        <StyledTableCell align="center">CB種類</StyledTableCell>
-                                                        <StyledTableCell align="center">可折抵金額</StyledTableCell>
-                                                        <StyledTableCell align="center">摘要說明</StyledTableCell>
-                                                        <StyledTableCell align="center">折抵金額</StyledTableCell>
-                                                        <StyledTableCell align="center">剩餘可折抵金額</StyledTableCell>
-                                                    </TableRow>
-                                                </TableHead>
-                                                <TableBody>
-                                                    {toBillDataInfo.map((row, id) => {
-                                                        let afterDiff = row.FeeAmountPost + row.Difference;
-                                                        return (
-                                                            <TableRow
-                                                                key={row.FeeAmountPre + row?.PartyName + row?.LBRatio}
-                                                                sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-                                                            >
-                                                                <TableCell align="center">{row.FeeItem}</TableCell>
-                                                                <TableCell align="center">{row.PartyName}</TableCell>
-                                                                <TableCell align="center">{`${row.LBRatio}%`}</TableCell>
-                                                                <TableCell align="center">{`$${handleNumber(
-                                                                    row.FeeAmountPost
-                                                                )}`}</TableCell>
-                                                                <TableCell align="center">
-                                                                    <TextField
-                                                                        label="$"
-                                                                        size="small"
-                                                                        type="number"
-                                                                        style={{ width: '30%' }}
-                                                                        // value={diffNumber}
-                                                                        onChange={(e) => {
-                                                                            changeDiff(e.target.value, id);
-                                                                        }}
-                                                                    />
-                                                                </TableCell>
-                                                                <TableCell align="center">{`$${handleNumber(
-                                                                    afterDiff.toFixed(2)
-                                                                )}`}</TableCell>
-                                                            </TableRow>
-                                                        );
-                                                    })}
-                                                </TableBody>
-                                            </Table>
-                                        </TableContainer>
-                                    </Grid>
-                                    <Grid item xs={12} sm={12} md={12} lg={12} display="flex" justifyContent="end">
-                                        <Button
-                                            color="primary"
-                                            variant="contained"
-                                            size="small"
-                                            sx={{ ml: '0.5rem', mt: '0.5rem' }}
-                                            onClick={() => {
-                                                setIsDeductWorkOpen(false);
-                                                setEditItem();
-                                            }}
-                                        >
-                                            儲存
-                                        </Button>
-                                        <Button
-                                            color="primary"
-                                            variant="contained"
-                                            size="small"
-                                            sx={{ ml: '0.5rem', mt: '0.5rem' }}
-                                            onClick={() => {
-                                                setIsDeductWorkOpen(false);
-                                                setEditItem();
-                                            }}
-                                        >
-                                            取消
-                                        </Button>
-                                    </Grid>
-                                </Grid>
-                            </MainCard>
-                        </Grid>
-                    ) : (
-                        ''
-                    )}
                 </Grid>
-                {/* <DialogContentText sx={{ fontSize: '20px', mt: '0.5rem' }}>總金額：${handleNumber(totalAmount)}</DialogContentText> */}
             </DialogContent>
             <DialogActions>
                 <Button sx={{ mr: '0.05rem' }} variant="contained" onClick={handleDialogClose}>
                     儲存
                 </Button>
-                <Button sx={{ mr: '0.05rem' }} variant="contained" onClick={handleDialogClose}>
+                <Button sx={{ mr: '0.05rem' }} variant="contained" onClick={initData}>
                     Reset
                 </Button>
                 <Button
