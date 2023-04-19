@@ -118,14 +118,14 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
     }
 }));
 
-const ToCombineDataList = ({ handleDialogClose, isDialogOpen, dataList, totalCombineAmount, receivableQuery }) => {
+const ToCombineDataList = ({ handleDialogClose, isDialogOpen, dataList, cbToCn, setCbToCn, receivableQuery }) => {
     const dispatch = useDispatch();
     const [issueDate, setIssueDate] = useState(new Date()); //發票日期
     const [poNo, setPoNo] = useState(''); //PO號碼
     const [billList, setBillList] = useState({});
     const [billingNo, setBillingNo] = useState('');
     const billingNoOld = useRef('');
-    const [cbToCn, setCbToCn] = useState({}); //處理狀態
+    // const [cbToCn, setCbToCn] = useState({}); //處理狀態
     const sendComBineData = useRef({}); //按下合併帳單時送出的資料
     const totalAmount = useRef(0);
     let tmpBMArray = [];
@@ -222,18 +222,18 @@ const ToCombineDataList = ({ handleDialogClose, isDialogOpen, dataList, totalCom
             });
             setCbToCn(tmpObj);
         } else {
-            let tmpAmount = 0;
+            // let tmpAmount = 0;
             let tmpSendArray = [];
             let tmpArray = dataList.filter((i) => {
                 return cbToCn[i.InvoiceMaster.InvMasterID];
             });
             tmpArray.forEach((i) => {
-                console.log('i=>>', i);
-                tmpAmount = tmpAmount + i.InvoiceDetail[0]?.FeeAmountPre;
+                // console.log('i=>>', i);
+                // tmpAmount = tmpAmount + i.InvoiceDetail[0]?.FeeAmountPre;
                 tmpSendArray.push(i.InvoiceMaster);
             });
             sendComBineData.current = { InvoiceMaster: tmpSendArray }; //按下合併帳單時，送出的資料
-            totalCombineAmount.current = tmpAmount;
+            // totalCombineAmount.current = tmpAmount;
         }
     }, [dataList, cbToCn]);
 
