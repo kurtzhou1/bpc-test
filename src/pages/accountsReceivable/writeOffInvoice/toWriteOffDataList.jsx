@@ -105,7 +105,6 @@ const ToWriteOffDataList = ({ listInfo }) => {
                     </TableHead>
                     <TableBody>
                         {listInfo?.map((row, id) => {
-                            console.log('row=>>', row);
                             tmpBMArray = [];
                             row.BillDetail.forEach((i) => {
                                 if (!tmpBMArray.includes(i.BillMilestone)) {

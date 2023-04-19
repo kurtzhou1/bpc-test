@@ -162,7 +162,7 @@ const Profile = () => {
             >
                 <Stack direction="row" spacing={2} alignItems="center" sx={{ p: 0.5 }}>
                     <Avatar alt="profile user" src={avatar4} sx={{ width: 32, height: 32 }} />
-                    {drawerOpen ? <Typography variant="subtitle1">OOO</Typography> : ''}
+                    {drawerOpen ? <Typography variant="subtitle1">ＯＯＯ</Typography> : ''}
                 </Stack>
             </ButtonBase>
             <Popper
@@ -200,13 +200,13 @@ const Profile = () => {
                             >
                                 <ClickAwayListener onClickAway={handleClose}>
                                     <MainCard elevation={0} border={false} content={false}>
-                                        <CardContent sx={{ px: 2.5, pt: 3 }}>
+                                        {/* <CardContent sx={{ px: 2.5, pt: 3 }}>
                                             <Grid container justifyContent="space-between" alignItems="center">
                                                 <Grid item>
                                                     <Stack direction="row" spacing={1.25} alignItems="center">
                                                         <Avatar alt="profile user" src={avatar4} sx={{ width: 32, height: 32 }} />
                                                         <Stack>
-                                                            <Typography variant="h6">張XX</Typography>
+                                                            <Typography variant="h6">ＯＯＯ</Typography>
                                                             <Typography variant="body2" color="textSecondary">
                                                                 UI/UX Designer
                                                             </Typography>
@@ -214,9 +214,10 @@ const Profile = () => {
                                                     </Stack>
                                                 </Grid>
                                                 <Grid item>
-                                                    {/* <IconButton size="large" color="secondary" onClick={handleLogout}>
+                                                    <IconButton size="large" color="secondary" onClick={handleLogout}>
                                                         <LogoutOutlined />
-                                                    </IconButton> */}
+                                                    </IconButton>
+                                                    中英切換
                                                     <Stack direction="row" spacing={1} alignItems="center">
                                                         <Typography>英</Typography>
                                                         <AntSwitch
@@ -229,10 +230,10 @@ const Profile = () => {
                                                     </Stack>
                                                 </Grid>
                                             </Grid>
-                                        </CardContent>
+                                        </CardContent> */}
                                         {open && (
                                             <>
-                                                <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
+                                                {/* <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
                                                     <Tabs
                                                         variant="fullWidth"
                                                         value={value}
@@ -264,7 +265,7 @@ const Profile = () => {
                                                             {...a11yProps(1)}
                                                         />
                                                     </Tabs>
-                                                </Box>
+                                                </Box> */}
                                                 <TabPanel value={value} index={0} dir={theme.direction}>
                                                     <ProfileTab handleLogout={handleLogout} />
                                                 </TabPanel>

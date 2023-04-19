@@ -18,7 +18,7 @@ const DrawerContent = () => (
             mb: 1
         }}
     >
-        <Notification />
+        {/* <Notification /> */}
         <Setting />
         <Liability />
         <Profile />
