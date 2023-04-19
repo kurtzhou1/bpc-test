@@ -128,6 +128,7 @@ const ToCombineDataList = ({ handleDialogClose, isDialogOpen, dataList, totalCom
     const [cbToCn, setCbToCn] = useState({}); //處理狀態
     const sendComBineData = useRef({}); //按下合併帳單時送出的資料
     const totalAmount = useRef(0);
+    let tmpBMArray = [];
 
     const handleChange = (event) => {
         setCbToCn({ ...cbToCn, [event.target.value]: event.target.checked });
@@ -398,7 +399,7 @@ const ToCombineDataList = ({ handleDialogClose, isDialogOpen, dataList, totalCom
                             <StyledTableCell align="center">會員</StyledTableCell>
                             <StyledTableCell align="center">海纜名稱</StyledTableCell>
                             <StyledTableCell align="center">海纜作業</StyledTableCell>
-                            {/* <StyledTableCell align="center">記帳段號</StyledTableCell> */}
+                            <StyledTableCell align="center">記帳段號</StyledTableCell>
                             <StyledTableCell align="center">發票號碼</StyledTableCell>
                             <StyledTableCell align="center">供應商</StyledTableCell>
                             <StyledTableCell align="center">合約種類</StyledTableCell>
@@ -411,6 +412,12 @@ const ToCombineDataList = ({ handleDialogClose, isDialogOpen, dataList, totalCom
                     <TableBody>
                         {dataList.map((row, id) => {
                             console.log('row=>>', row);
+                            tmpBMArray = [];
+                            row.InvoiceDetail.forEach((i) => {
+                                if (!tmpBMArray.includes(i.BillMilestone)) {
+                                    tmpBMArray.push(i.BillMilestone);
+                                }
+                            });
                             let tmpAmount = 0;
                             row.InvoiceDetail.forEach((i) => {
                                 tmpAmount = tmpAmount + i.FeeAmountPost;
@@ -433,6 +440,7 @@ const ToCombineDataList = ({ handleDialogClose, isDialogOpen, dataList, totalCom
                                     <TableCell align="center">{row.InvoiceMaster?.PartyName}</TableCell>
                                     <TableCell align="center">{row.InvoiceMaster?.SubmarineCable}</TableCell>
                                     <TableCell align="center">{row.InvoiceMaster?.WorkTitle}</TableCell>
+                                    <TableCell align="center">{tmpBMArray.join(',')}</TableCell>
                                     <TableCell align="center">{row.InvoiceMaster?.InvoiceNo}</TableCell>
                                     <TableCell align="center">{row.InvoiceMaster?.SupplierName}</TableCell>
                                     <TableCell align="center">{row.InvoiceMaster?.ContractType}</TableCell>

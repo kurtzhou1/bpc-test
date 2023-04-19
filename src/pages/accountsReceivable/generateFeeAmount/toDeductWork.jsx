@@ -342,7 +342,6 @@ const ToDeductWork = ({ isDeductOpen, handleDeductClose, billDetailInfo, billMas
                                                     dedAmountTmp = dedAmountTmp + i.TransAmount;
                                                 });
                                             }
-                                            console.log('rowssss=>>', row);
                                             return (
                                                 <TableRow
                                                     key={row.BillDetailID + row?.BillMasterID}

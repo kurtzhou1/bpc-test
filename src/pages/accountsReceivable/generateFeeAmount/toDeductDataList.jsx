@@ -106,7 +106,7 @@ const ToGenerateDataList = ({ dataList, receivableQuery }) => {
                             <StyledTableCell align="center">海纜作業</StyledTableCell>
                             <StyledTableCell align="center">帳單號碼</StyledTableCell>
                             <StyledTableCell align="center">帳單日期</StyledTableCell>
-                            <StyledTableCell align="center">帳單截止日</StyledTableCell>
+                            <StyledTableCell align="center">截止日</StyledTableCell>
                             <StyledTableCell align="center">明細數量</StyledTableCell>
                             <StyledTableCell align="center">是否為pro-forma</StyledTableCell>
                             <StyledTableCell align="center">Action</StyledTableCell>

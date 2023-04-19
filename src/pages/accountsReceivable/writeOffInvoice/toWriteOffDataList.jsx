@@ -44,6 +44,7 @@ const ToWriteOffDataList = ({ listInfo }) => {
     const actionName = useRef('');
     const [editItem, setEditItem] = useState();
     const [currentAmount, setCurrentAmount] = useState(''); //目前金額
+    let tmpBMArray = [];
     const [infoTerminal, setInfoTerminal] = useState(false);
     const StyledTableCell = styled(TableCell)(({ theme }) => ({
         [`&.${tableCellClasses.head}`]: {
@@ -76,63 +77,6 @@ const ToWriteOffDataList = ({ listInfo }) => {
         setInfoTerminal(false);
     };
 
-    // //立帳作業
-    // const toBillData = (wKMasterID) => {
-    //     console.log('立帳作業wKMasterID=>>', wKMasterID);
-    //     let tmpQuery = '/' + 'WKMasterID=' + wKMasterID;
-    //     tmpQuery = toBillDataapi + tmpQuery;
-    //     console.log('tmpQuery=>>', tmpQuery);
-    //     fetch(tmpQuery, { method: 'GET' })
-    //         .then((res) => res.json())
-    //         .then((data) => {
-    //             console.log('立帳成功=>>', data);
-    //             let tmpAmount = 0;
-    //             if (Array.isArray(data)) {
-    //                 toBillDataMain.current = data ? data.InvoiceMaster : [];
-    //                 setToBillDataInfo(data ? data.InvoiceDetail : []);
-    //                 setTotalAmount(data ? data.TotalAmount : 0);
-    //                 data.InvoiceDetail.forEach((i) => {
-    //                     tmpAmount = tmpAmount + i.FeeAmountPost + i.Difference;
-    //                 });
-    //                 setCurrentAmount(tmpAmount.toFixed(2));
-    //             }
-    //         })
-    //         .catch((e) => console.log('e1=>', e));
-    //     setIsDialogOpen(true);
-    // };
-
-    // const changeDiff = (diff, id) => {
-    //     let tmpArray = toBillDataInfo.map((i) => i);
-    //     let tmpAmount = 0;
-    //     tmpArray[id].Difference = Number(diff);
-    //     tmpArray.forEach((i) => {
-    //         tmpAmount = tmpAmount + i.FeeAmountPost + i.Difference;
-    //     });
-    //     setToBillDataInfo(tmpArray);
-    //     setCurrentAmount(tmpAmount.toFixed(2));
-    // };
-
-    // 送出立帳(新增)
-    // const sendJounaryInfo = () => {
-    //     let tmpArray = toBillDataMain.current.map((i) => i);
-    //     tmpArray.forEach((i) => {
-    //         delete i.InvMasterID;
-    //     });
-    //     let tmpData = {
-    //         TotalAmount: totalAmount,
-    //         InvoiceMaster: tmpArray,
-    //         InvoiceDetail: toBillDataInfo
-    //     };
-    //     fetch(sendJounary, { method: 'POST', body: JSON.stringify(tmpData) })
-    //         .then((res) => res.json())
-    //         .then((data) => {
-    //             console.log('立帳成功=>>', data);
-    //             apiQuery();
-    //             handleDialogClose();
-    //         })
-    //         .catch((e) => console.log('e1=>', e));
-    // };
-
     return (
         <>
             <WriteOffWork
@@ -162,12 +106,18 @@ const ToWriteOffDataList = ({ listInfo }) => {
                     <TableBody>
                         {listInfo?.map((row, id) => {
                             console.log('row=>>', row);
+                            tmpBMArray = [];
+                            row.BillDetail.forEach((i) => {
+                                if (!tmpBMArray.includes(i.BillMilestone)) {
+                                    tmpBMArray.push(i.BillMilestone);
+                                }
+                            });
                             return (
                                 <TableRow key={row.WKMasterID + row.InvoiceNo} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
                                     <StyledTableCell align="center">{id + 1}</StyledTableCell>
                                     <StyledTableCell align="center">{row.BillMaster.SubmarineCable}</StyledTableCell>
                                     <StyledTableCell align="center">{row.BillMaster.WorkTitle}</StyledTableCell>
-                                    <StyledTableCell align="center">{row.BillMaster.BillMilestone}</StyledTableCell>
+                                    <StyledTableCell align="center">{tmpBMArray.join(',')}</StyledTableCell>
                                     <StyledTableCell align="center">{row.BillMaster.PartyName}</StyledTableCell>
                                     <StyledTableCell align="center">{row.BillMaster.BillingNo}</StyledTableCell>
                                     <StyledTableCell align="center">{dayjs(row.BillMaster.IssueDate).format('YYYY/MM/DD')}</StyledTableCell>

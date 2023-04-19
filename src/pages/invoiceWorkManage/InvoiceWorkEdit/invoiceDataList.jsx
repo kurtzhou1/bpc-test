@@ -30,7 +30,7 @@ const InvoiceDataList = ({ listInfo, setAction, setModifyItem, page, setPage }) 
     }));
     const [rowsPerPage, setRowsPerPage] = useState(10);
     const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - listInfo.length) : 0;
-    let tmpArray = [];
+    let tmpBMArray = [];
 
     const handleChangePage = (event, newPage) => {
         setPage(newPage);
@@ -73,10 +73,10 @@ const InvoiceDataList = ({ listInfo, setAction, setModifyItem, page, setPage }) 
                 <TableBody>
                     {(rowsPerPage > 0 ? listInfo.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage) : listInfo)?.map(
                         (row, itemID) => {
-                            tmpArray = [];
+                            tmpBMArray = [];
                             row.InvoiceWKDetail.forEach((i) => {
-                                if (!tmpArray.includes(i.BillMilestone)) {
-                                    tmpArray.push(i.BillMilestone);
+                                if (!tmpBMArray.includes(i.BillMilestone)) {
+                                    tmpBMArray.push(i.BillMilestone);
                                 }
                             });
                             if (row.InvoiceWKMaster?.InvoiceNo === 'TBD') {
@@ -91,7 +91,7 @@ const InvoiceDataList = ({ listInfo, setAction, setModifyItem, page, setPage }) 
                                     <StyledTableCell align="center">{row.InvoiceWKMaster?.InvoiceNo}</StyledTableCell>
                                     <StyledTableCell align="center">{row.InvoiceWKMaster?.SupplierName}</StyledTableCell>
                                     <StyledTableCell align="center">{row.InvoiceWKMaster?.SubmarineCable}</StyledTableCell>
-                                    <StyledTableCell align="center">{tmpArray.join(',')}</StyledTableCell>
+                                    <StyledTableCell align="center">{tmpBMArray.join(',')}</StyledTableCell>
                                     <StyledTableCell align="center">{row.InvoiceWKMaster?.ContractType}</StyledTableCell>
                                     <StyledTableCell align="center">
                                         {dayjs(row.InvoiceWKMaster?.IssueDate).format('YYYY/MM/DD')}

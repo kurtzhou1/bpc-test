@@ -48,6 +48,7 @@ const ToBillDataList = ({ listInfo, apiQuery }) => {
         fetch(tmpQuery, { method: 'GET' })
             .then((res) => res.json())
             .then((data) => {
+                console.log('data=>>', data, Array.isArray(data.InvoiceDetail), Array.isArray(data.InvoiceMaster));
                 let tmpAmount = 0;
                 if (Array.isArray(data.InvoiceDetail) && Array.isArray(data.InvoiceMaster)) {
                     toBillDataMain.current = data.InvoiceMaster;
@@ -63,6 +64,7 @@ const ToBillDataList = ({ listInfo, apiQuery }) => {
                     setToBillDataInfo([]);
                     setTotalAmount(0);
                     setCurrentAmount(0);
+                    dispatch(setMessageStateOpen({ messageStateOpen: { isOpen: true, severity: 'info', message: '沒有攤分資料' } }));
                 }
             })
             .catch((e) => console.log('e1=>', e));
