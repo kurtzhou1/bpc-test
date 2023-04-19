@@ -85,9 +85,9 @@ const ToBillDataList = ({ listInfo, apiQuery }) => {
     const sendJounaryInfo = () => {
         if (Number(totalAmount).toFixed(2) === Number(currentAmount).toFixed(2)) {
             let tmpArray = toBillDataMain.current.map((i) => i);
-            tmpArray.forEach((i) => {
-                delete i.InvMasterID;
-            });
+            // tmpArray.forEach((i) => {
+            //     delete i.InvMasterID;
+            // });
             let tmpData = {
                 TotalAmount: totalAmount,
                 InvoiceMaster: tmpArray,
