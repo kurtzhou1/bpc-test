@@ -1,5 +1,5 @@
 import { useRoutes } from 'react-router-dom';
-import routes from './routes';
+// import routes from './routes';
 
 // project import
 import LoginRoutes from './LoginRoutes';
@@ -9,7 +9,8 @@ import MainRoutes from './MainRoutes';
 
 export default function ThemeRoutes() {
     // return useRoutes([LoginRoutes, MainRoutes]);
-    const isLoggedIn = false;
-    const routing = useRoutes(routes(isLoggedIn));
-    return { routing };
+    return useRoutes([MainRoutes, LoginRoutes]);
+    // const isLoggedIn = false;
+    // const routing = useRoutes(routes(isLoggedIn));
+    // return { routing };
 }
