@@ -34,6 +34,7 @@ import dayjs from 'dayjs';
 import { toBillDataapi, sendJounary } from 'components/apis.jsx';
 
 const WriteOffWork = ({ isDialogOpen, handleDialogClose, writeOffInfo }) => {
+    console.log('writeOffInfo=>>', writeOffInfo);
     const fakeData = {
         TotalAmount: 5582012.72,
         BillMaster: [
@@ -119,100 +120,90 @@ const WriteOffWork = ({ isDialogOpen, handleDialogClose, writeOffInfo }) => {
             </BootstrapDialogTitle>
             <DialogContent>
                 <Grid container spacing={1} display="flex" justifyContent="center" alignItems="center" sx={{ fontSize: 10 }}>
-                    {actionName !== 'view' ? (
-                        <Grid item xs={12} sm={12} md={12} lg={12}>
-                            <Grid container spacing={1} display="flex" justifyContent="center" alignItems="center" sx={{ fontSize: 10 }}>
-                                <Grid item xs={1} sm={1} md={1} lg={1}>
-                                    <Typography
-                                        variant="h5"
-                                        sx={{ fontSize: { lg: '0.5rem', xl: '0.88rem' }, ml: { lg: '0.5rem', xl: '1.5rem' } }}
-                                    >
-                                        會員：
-                                    </Typography>
-                                </Grid>
-                                <Grid item xs={2} sm={2} md={2} lg={2}>
-                                    <TextField
-                                        value={deductInfo.PartyName}
-                                        fullWidth
-                                        disabled={true}
-                                        variant="outlined"
-                                        size="small"
-                                        // type="number"
-                                    />
-                                </Grid>
-                                <Grid item xs={1} sm={1} md={1} lg={1}>
-                                    <Typography
-                                        variant="h5"
-                                        sx={{ fontSize: { lg: '0.5rem', xl: '0.88rem' }, ml: { lg: '0.5rem', xl: '1.5rem' } }}
-                                    >
-                                        發票截止日期：
-                                    </Typography>
-                                </Grid>
-                                <Grid item xs={2} sm={2} md={2} lg={2}>
-                                    <TextField
-                                        value={deductInfo.IssueDate}
-                                        fullWidth
-                                        disabled={true}
-                                        variant="outlined"
-                                        size="small"
-                                        // type="number"
-                                    />
-                                </Grid>
-                                <Grid item xs={1} sm={1} md={1} lg={1}>
-                                    <Typography
-                                        variant="h5"
-                                        sx={{ fontSize: { lg: '0.5rem', xl: '0.88rem' }, ml: { lg: '0.5rem', xl: '1.5rem' } }}
-                                    >
-                                        海纜名稱：
-                                    </Typography>
-                                </Grid>
-                                <Grid item xs={2} sm={2} md={2} lg={2}>
-                                    <TextField
-                                        value={deductInfo.SubmarineCable}
-                                        fullWidth
-                                        disabled={true}
-                                        variant="outlined"
-                                        size="small"
-                                        // type="number"
-                                    />
-                                </Grid>
-                                <Grid item xs={1} sm={1} md={1} lg={1}>
-                                    <Typography
-                                        variant="h5"
-                                        sx={{ fontSize: { lg: '0.5rem', xl: '0.88rem' }, ml: { lg: '0.5rem', xl: '1.5rem' } }}
-                                    >
-                                        海纜作業：
-                                    </Typography>
-                                </Grid>
-                                <Grid item xs={2} sm={2} md={2} lg={2}>
-                                    <TextField
-                                        value={deductInfo.WorkTitle}
-                                        fullWidth
-                                        disabled={true}
-                                        variant="outlined"
-                                        size="small"
-                                        // type="number"
-                                    />
-                                </Grid>
+                    <Grid item xs={12} sm={12} md={12} lg={12}>
+                        <Grid container spacing={1} display="flex" justifyContent="center" alignItems="center" sx={{ fontSize: 10 }}>
+                            <Grid item xs={1} sm={1} md={1} lg={1}>
+                                <Typography
+                                    variant="h5"
+                                    sx={{ fontSize: { lg: '0.5rem', xl: '0.88rem' }, ml: { lg: '0.5rem', xl: '1.5rem' } }}
+                                >
+                                    會員：
+                                </Typography>
+                            </Grid>
+                            <Grid item xs={2} sm={2} md={2} lg={2}>
+                                <TextField
+                                    value={writeOffInfo.PartyName}
+                                    fullWidth
+                                    disabled={true}
+                                    variant="outlined"
+                                    size="small"
+                                    // type="number"
+                                />
+                            </Grid>
+                            <Grid item xs={1} sm={1} md={1} lg={1}>
+                                <Typography
+                                    variant="h5"
+                                    sx={{ fontSize: { lg: '0.5rem', xl: '0.88rem' }, ml: { lg: '0.5rem', xl: '1.5rem' } }}
+                                >
+                                    發票截止日期：
+                                </Typography>
+                            </Grid>
+                            <Grid item xs={2} sm={2} md={2} lg={2}>
+                                <TextField
+                                    value={writeOffInfo.IssueDate}
+                                    fullWidth
+                                    disabled={true}
+                                    variant="outlined"
+                                    size="small"
+                                    // type="number"
+                                />
+                            </Grid>
+                            <Grid item xs={1} sm={1} md={1} lg={1}>
+                                <Typography
+                                    variant="h5"
+                                    sx={{ fontSize: { lg: '0.5rem', xl: '0.88rem' }, ml: { lg: '0.5rem', xl: '1.5rem' } }}
+                                >
+                                    海纜名稱：
+                                </Typography>
+                            </Grid>
+                            <Grid item xs={2} sm={2} md={2} lg={2}>
+                                <TextField
+                                    value={writeOffInfo.SubmarineCable}
+                                    fullWidth
+                                    disabled={true}
+                                    variant="outlined"
+                                    size="small"
+                                    // type="number"
+                                />
+                            </Grid>
+                            <Grid item xs={1} sm={1} md={1} lg={1}>
+                                <Typography
+                                    variant="h5"
+                                    sx={{ fontSize: { lg: '0.5rem', xl: '0.88rem' }, ml: { lg: '0.5rem', xl: '1.5rem' } }}
+                                >
+                                    海纜作業：
+                                </Typography>
+                            </Grid>
+                            <Grid item xs={2} sm={2} md={2} lg={2}>
+                                <TextField
+                                    value={writeOffInfo.WorkTitle}
+                                    fullWidth
+                                    disabled={true}
+                                    variant="outlined"
+                                    size="small"
+                                    // type="number"
+                                />
                             </Grid>
                         </Grid>
-                    ) : (
-                        ''
-                    )}
+                    </Grid>
                     <Grid item xs={12} sm={12} md={12} lg={12}>
                         <MainCard title="帳單明細列表">
                             <TableContainer component={Paper} sx={{ maxHeight: 350 }}>
                                 <Table sx={{ minWidth: 300, fontSize: 18 }} stickyHeader aria-label="sticky table">
                                     <TableHead>
                                         <TableRow>
-                                            {/* <StyledTableCell align="center">NO</StyledTableCell> */}
                                             <StyledTableCell align="center">費用項目</StyledTableCell>
                                             <StyledTableCell align="center">原始費用</StyledTableCell>
-                                            {/* {actionName === 'viewDeducted' ? (
-                                                <StyledTableCell align="center">折抵CB種類</StyledTableCell>
-                                            ) : (
-                                                ''
-                                            )} */}
                                             <StyledTableCell align="center">折抵</StyledTableCell>
                                             <StyledTableCell align="center">應繳</StyledTableCell>
                                             <StyledTableCell align="center">累計實收</StyledTableCell>
@@ -226,7 +217,6 @@ const WriteOffWork = ({ isDialogOpen, handleDialogClose, writeOffInfo }) => {
                                             <StyledTableCell align="center">收款日期</StyledTableCell>
                                             <StyledTableCell align="center">摘要說明</StyledTableCell>
                                             <StyledTableCell align="center">收費狀態</StyledTableCell>
-                                            {/* {actionName === 'deduct' ? <StyledTableCell align="center">Action</StyledTableCell> : ''} */}
                                         </TableRow>
                                     </TableHead>
                                     <TableBody>
@@ -303,31 +293,6 @@ const WriteOffWork = ({ isDialogOpen, handleDialogClose, writeOffInfo }) => {
                                                         短繳
                                                     </TableCell>
                                                     <TableCell sx={{ fontSize: '0.1rem' }} align="center"></TableCell>
-                                                    {/* {actionName === 'viewDeducted' ? (
-                                                        <StyledTableCell align="center">一般、賠償</StyledTableCell>
-                                                    ) : (
-                                                        ''
-                                                    )}
-                                                    <TableCell sx={{ fontSize: '0.1rem' }} align="center">{`1`}</TableCell>
-                                                    <TableCell sx={{ fontSize: '0.1rem' }} align="center">{`$${handleNumber(
-                                                        afterDiff.toFixed(2)
-                                                    )}`}</TableCell>
-                                                    {actionName === 'deduct' ? (
-                                                        <TableCell sx={{ fontSize: '0.1rem' }} align="center">
-                                                            <Button
-                                                                color="primary"
-                                                                variant={editItem === id ? 'contained' : 'outlined'}
-                                                                size="small"
-                                                                onClick={() => {
-                                                                    deductWork(id);
-                                                                }}
-                                                            >
-                                                                折抵
-                                                            </Button>
-                                                        </TableCell>
-                                                    ) : (
-                                                        ''
-                                                    )} */}
                                                 </TableRow>
                                             );
                                         })}
@@ -336,9 +301,9 @@ const WriteOffWork = ({ isDialogOpen, handleDialogClose, writeOffInfo }) => {
                             </TableContainer>
                         </MainCard>
                     </Grid>
-                    {isDeductWorkOpen && actionName === 'deduct' ? (
+                    {isDeductWorkOpen ? (
                         <Grid item xs={12} sm={12} md={12} lg={12}>
-                            <MainCard title={`${deductInfo.PartyName}可折抵CB`}>
+                            <MainCard title={`${writeOffInfo.PartyName}可折抵CB`}>
                                 <Grid container>
                                     <Grid item xs={12} sm={12} md={12} lg={12}>
                                         <TableContainer component={Paper} sx={{ maxHeight: 350 }}>
@@ -425,18 +390,12 @@ const WriteOffWork = ({ isDialogOpen, handleDialogClose, writeOffInfo }) => {
                 {/* <DialogContentText sx={{ fontSize: '20px', mt: '0.5rem' }}>總金額：${handleNumber(totalAmount)}</DialogContentText> */}
             </DialogContent>
             <DialogActions>
-                {actionName === 'deduct' ? (
-                    <>
-                        <Button sx={{ mr: '0.05rem' }} variant="contained" onClick={handleDialogClose}>
-                            儲存
-                        </Button>
-                        <Button sx={{ mr: '0.05rem' }} variant="contained" onClick={handleDialogClose}>
-                            Reset
-                        </Button>
-                    </>
-                ) : (
-                    ''
-                )}
+                <Button sx={{ mr: '0.05rem' }} variant="contained" onClick={handleDialogClose}>
+                    儲存
+                </Button>
+                <Button sx={{ mr: '0.05rem' }} variant="contained" onClick={handleDialogClose}>
+                    Reset
+                </Button>
                 <Button
                     sx={{ mr: '0.05rem' }}
                     variant="contained"
