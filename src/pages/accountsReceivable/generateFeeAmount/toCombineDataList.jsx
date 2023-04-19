@@ -228,7 +228,8 @@ const ToCombineDataList = ({ handleDialogClose, isDialogOpen, dataList, totalCom
                 return cbToCn[i.InvoiceMaster.InvMasterID];
             });
             tmpArray.forEach((i) => {
-                tmpAmount = tmpAmount + i.InvoiceDetail[0].FeeAmountPre;
+                console.log('i=>>', i);
+                tmpAmount = tmpAmount + i.InvoiceDetail[0]?.FeeAmountPre;
                 tmpSendArray.push(i.InvoiceMaster);
             });
             sendComBineData.current = { InvoiceMaster: tmpSendArray }; //按下合併帳單時，送出的資料
@@ -411,7 +412,6 @@ const ToCombineDataList = ({ handleDialogClose, isDialogOpen, dataList, totalCom
                     </TableHead>
                     <TableBody>
                         {dataList.map((row, id) => {
-                            console.log('row=>>', row);
                             tmpBMArray = [];
                             row.InvoiceDetail.forEach((i) => {
                                 if (!tmpBMArray.includes(i.BillMilestone)) {
