@@ -112,38 +112,38 @@ const ToCombineDataList = ({ handleDialogClose, isDialogOpen, dataList, cbToCn, 
             billList.PONo = poNo;
             delete billList.BillMaster.SupplierName;
             console.log('billList=>>', billList.DueDate);
-            // fetch(isBillNoCheckOK, {
-            //     method: 'POST',
-            //     body: JSON.stringify(tmpArray)
-            // })
-            //     .then((res) => res.json())
-            //     .then((data) => {
-            //         if (!data.isExist) {
-            //             fetch(invoCombine, {
-            //                 method: 'POST',
-            //                 body: JSON.stringify(billList)
-            //             })
-            //                 .then((res) => res.json())
-            //                 .then(() => {
-            //                     dispatch(
-            //                         setMessageStateOpen({
-            //                             messageStateOpen: { isOpen: true, severity: 'success', message: '合併帳單成功' }
-            //                         })
-            //                     );
-            //                     //資料初始化
-            //                     setIssueDate(new Date());
-            //                     setPoNo('');
-            //                     setBillingNo('');
-            //                     // setCbToCn({});
-            //                     handleDialogClose();
-            //                     receivableQuery();
-            //                 })
-            //                 .catch((e) => console.log('e1=>', e));
-            //         } else {
-            //             dispatch(setMessageStateOpen({ messageStateOpen: { isOpen: true, severity: 'error', message: '帳單號碼已重複' } }));
-            //         }
-            //     })
-            //     .catch((e) => console.log('e1=>', e));
+            fetch(isBillNoCheckOK, {
+                method: 'POST',
+                body: JSON.stringify(tmpArray)
+            })
+                .then((res) => res.json())
+                .then((data) => {
+                    if (!data.isExist) {
+                        fetch(invoCombine, {
+                            method: 'POST',
+                            body: JSON.stringify(billList)
+                        })
+                            .then((res) => res.json())
+                            .then(() => {
+                                dispatch(
+                                    setMessageStateOpen({
+                                        messageStateOpen: { isOpen: true, severity: 'success', message: '合併帳單成功' }
+                                    })
+                                );
+                                //資料初始化
+                                setIssueDate(new Date());
+                                setPoNo('');
+                                setBillingNo('');
+                                // setCbToCn({});
+                                handleDialogClose();
+                                receivableQuery();
+                            })
+                            .catch((e) => console.log('e1=>', e));
+                    } else {
+                        dispatch(setMessageStateOpen({ messageStateOpen: { isOpen: true, severity: 'error', message: '帳單號碼已重複' } }));
+                    }
+                })
+                .catch((e) => console.log('e1=>', e));
         }
     };
 

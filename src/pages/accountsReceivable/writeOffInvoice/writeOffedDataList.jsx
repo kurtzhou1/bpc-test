@@ -3,7 +3,6 @@ import { useState, useRef } from 'react';
 // project import
 import { handleNumber, BootstrapDialogTitle } from 'components/commonFunction';
 import DeductWork from './writeOffWork';
-import GenerateFeeTerminate from './generateFeeTerminate';
 // material-ui
 import {
     Typography,
@@ -135,7 +134,6 @@ const WriteOffedDataList = ({ listInfo, apiQuery }) => {
                 deductInfo={deductInfo.current}
                 actionName={actionName.current}
             />
-            <GenerateFeeTerminate infoTerminal={infoTerminal} handleTerminalClose={handleTerminalClose} />
             <TableContainer component={Paper} sx={{ maxHeight: 350 }}>
                 <Table sx={{ minWidth: 300 }} stickyHeader aria-label="sticky table">
                     <TableHead>

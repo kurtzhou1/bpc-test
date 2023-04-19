@@ -66,8 +66,6 @@ const GenerateFeeAmount = () => {
             });
     };
 
-    console.log('cbToCn=>>', cbToCn);
-
     return (
         <Grid container spacing={1}>
             <Grid item xs={12}>

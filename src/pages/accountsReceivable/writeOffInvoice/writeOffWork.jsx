@@ -33,22 +33,8 @@ import dayjs from 'dayjs';
 
 import { toBillDataapi, sendJounary } from 'components/apis.jsx';
 
-const ToGenerateDataList = ({ isDialogOpen, handleDialogClose, deductInfo, actionName }) => {
+const WriteOffWork = ({ isDialogOpen, handleDialogClose, writeOffInfo }) => {
     const fakeData = {
-        // 原始費用
-        // 抵扣
-        // 應繳
-        // 累計實收
-        // 手續費
-        // 不含手續費實收
-        // 總金額
-        // 重溢繳
-        // 短繳
-        // 手續費差額
-        // 短繳原因
-        // 收款日期
-        // 摘要說明
-        // 收費狀態
         TotalAmount: 5582012.72,
         BillMaster: [
             {
@@ -97,7 +83,6 @@ const ToGenerateDataList = ({ isDialogOpen, handleDialogClose, deductInfo, actio
 
     const [isDeductWorkOpen, setIsDeductWorkOpen] = useState(false);
     const [editItem, setEditItem] = useState();
-    const [toBillDataMain, setToBillDataMain] = useState(fakeData.BillMaster); //帳單主檔
     const [toBillDataInfo, setToBillDataInfo] = useState(fakeData.BillDetail); //帳單明細檔
     const [totalAmount, setTotalAmount] = useState(fakeData.TotalAmount); //發票總金額
     const [currentAmount, setCurrentAmount] = useState(''); //目前金額
@@ -468,4 +453,4 @@ const ToGenerateDataList = ({ isDialogOpen, handleDialogClose, deductInfo, actio
     );
 };
 
-export default ToGenerateDataList;
+export default WriteOffWork;

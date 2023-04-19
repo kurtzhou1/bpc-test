@@ -50,8 +50,6 @@ const CreditBalanceDataList = ({ listInfo, setIsDialogOpen, deletelistInfoItem }
         setCbToCn({ ...cbToCn, [event.target.name]: event.target.checked });
     };
 
-    console.log('cbToCn=>>', cbToCn);
-
     return (
         <Grid container spacing={1}>
             <Grid item xs={6}>

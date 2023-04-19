@@ -4,7 +4,6 @@ import { useState, useRef } from 'react';
 import WriteOffWork from './writeOffWork';
 import { handleNumber } from 'components/commonFunction';
 import MainCard from 'components/MainCard';
-import GenerateFeeTerminate from './generateFeeTerminate';
 
 // material-ui
 import {
@@ -37,55 +36,38 @@ import dayjs from 'dayjs';
 
 import { toBillDataapi, sendJounary } from 'components/apis.jsx';
 
+const StyledTableCell = styled(TableCell)(({ theme }) => ({
+    [`&.${tableCellClasses.head}`]: {
+        // backgroundColor: theme.palette.common.gary,
+        color: theme.palette.common.black,
+        paddingTop: '0.2rem',
+        paddingBottom: '0.2rem'
+    },
+    [`&.${tableCellClasses.body}.totalAmount`]: {
+        fontSize: 14,
+        paddingTop: '0.2rem',
+        paddingBottom: '0.2rem',
+        backgroundColor: '#CFD8DC'
+    }
+}));
+
 const ToWriteOffDataList = ({ listInfo }) => {
     const [isDialogOpen, setIsDialogOpen] = useState(false); //折抵作業
-    const [isDeductWorkOpen, setIsDeductWorkOpen] = useState(false); //作廢
-    const deductInfo = useRef({});
-    const actionName = useRef('');
-    const [editItem, setEditItem] = useState();
-    const [currentAmount, setCurrentAmount] = useState(''); //目前金額
+    const writeOffInfo = useRef({});
     let tmpBMArray = [];
-    const [infoTerminal, setInfoTerminal] = useState(false);
-    const StyledTableCell = styled(TableCell)(({ theme }) => ({
-        [`&.${tableCellClasses.head}`]: {
-            // backgroundColor: theme.palette.common.gary,
-            color: theme.palette.common.black,
-            paddingTop: '0.2rem',
-            paddingBottom: '0.2rem'
-        },
-        [`&.${tableCellClasses.body}.totalAmount`]: {
-            fontSize: 14,
-            paddingTop: '0.2rem',
-            paddingBottom: '0.2rem',
-            backgroundColor: '#CFD8DC'
-        }
-    }));
 
     const handleDialogClose = () => {
-        deductInfo.current = '可折抵CB';
         setIsDialogOpen(false);
-        setEditItem();
     };
 
-    const handleDialogOpen = (action, info) => {
-        deductInfo.current = info;
-        actionName.current = action;
+    const handleDialogOpen = (info) => {
+        writeOffInfo.current = info;
         setIsDialogOpen(true);
-    };
-
-    const handleTerminalClose = () => {
-        setInfoTerminal(false);
     };
 
     return (
         <>
-            <WriteOffWork
-                isDialogOpen={isDialogOpen}
-                handleDialogClose={handleDialogClose}
-                deductInfo={deductInfo.current}
-                actionName={actionName.current}
-            />
-            <GenerateFeeTerminate infoTerminal={infoTerminal} handleTerminalClose={handleTerminalClose} />
+            <WriteOffWork isDialogOpen={isDialogOpen} handleDialogClose={handleDialogClose} writeOffInfo={writeOffInfo.current} />
             <TableContainer component={Paper} sx={{ maxHeight: 350 }}>
                 <Table sx={{ minWidth: 300 }} stickyHeader aria-label="sticky table">
                     <TableHead>
@@ -130,41 +112,11 @@ const ToWriteOffDataList = ({ listInfo }) => {
                                                 size="small"
                                                 variant="outlined"
                                                 onClick={() => {
-                                                    handleDialogOpen('deduct', {
-                                                        PartyName: row.PartyName,
-                                                        IssueDate: dayjs(row.IssueDate).format('YYYY/MM/DD'),
-                                                        SubmarineCable: row.SubmarineCable,
-                                                        WorkTitle: row.WorkTitle
-                                                    });
+                                                    handleDialogOpen(row);
                                                 }}
                                             >
                                                 銷帳作業
                                             </Button>
-                                            {/* <Button
-                                                color="success"
-                                                size="small"
-                                                variant="outlined"
-                                                onClick={() => {
-                                                    handleDialogOpen('view', {
-                                                        PartyName: row.PartyName,
-                                                        IssueDate: dayjs(row.IssueDate).format('YYYY/MM/DD'),
-                                                        SubmarineCable: row.SubmarineCable,
-                                                        WorkTitle: row.WorkTitle
-                                                    });
-                                                }}
-                                            >
-                                                檢視
-                                            </Button> */}
-                                            {/* <Button
-                                                color="error"
-                                                size="small"
-                                                variant="outlined"
-                                                onClick={() => {
-                                                    setInfoTerminal(true);
-                                                }}
-                                            >
-                                                作廢
-                                            </Button> */}
                                         </Box>
                                     </StyledTableCell>
                                 </TableRow>
