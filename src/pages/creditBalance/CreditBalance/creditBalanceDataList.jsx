@@ -17,7 +17,7 @@ import CreditBalanceTerminate from './creditBalanceTerminate';
 import dayjs from 'dayjs';
 import { useRef, useState } from 'react';
 
-const CreditBalanceDataList = ({ listInfo, setIsDialogOpen, deletelistInfoItem }) => {
+const CreditBalanceDataList = ({ listInfo, setIsDialogOpen }) => {
     const [cbView, setCbview] = useState(false);
     const [cbTerminal, setCbTerminal] = useState(false);
     const viewId = useRef(-1);

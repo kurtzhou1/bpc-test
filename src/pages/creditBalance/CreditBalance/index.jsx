@@ -14,19 +14,15 @@ import { useSelector } from 'react-redux';
 const CreditBalance = () => {
     const { partiesList, subCableList } = useSelector((state) => state.dropdown); //供應商下拉選單 + 海纜名稱下拉選單
     const queryApi = useRef('');
-    const [listInfo, setListInfo] = useState([]);
+    const [listInfo2, setListInfo] = useState([]);
     const [isDialogOpen, setIsDialogOpen] = useState(false);
-    const [dialogAction, setDialogAction] = useState('');
 
     const [billMilestone, setBillMilestone] = useState(''); //記帳段號
     const [partyName, setPartyName] = useState([]); //會員名稱
-    const [lBRatio, setLBRatio] = useState(''); //攤分比例
     const [editItem, setEditItem] = useState(NaN);
-    const [modifyNote, setModifyNote] = useState('');
 
     const handleDialogOpen = () => {
         setIsDialogOpen(true);
-        setDialogAction('add');
     };
 
     const handleDialogClose = () => {
@@ -36,35 +32,6 @@ const CreditBalance = () => {
     const itemDetailInitial = () => {
         setBillMilestone('');
         setPartyName([]);
-        setLBRatio('');
-        setModifyNote('');
-    };
-
-    //新增
-    const addLiability = (list) => {
-        if (list.length > 0) {
-            let tmpArray = listInfo.map((i) => i);
-            list.forEach((i) => {
-                tmpArray.push({
-                    BillMilestone: i.BillMilestone,
-                    PartyName: i.PartyName,
-                    LBRatio: i.LbRatio,
-                    createTime: new Date(),
-                    modifyNote: modifyNote.trim() === '' ? '' : modifyNote
-                });
-            });
-
-            setListInfo([...tmpArray]);
-            handleDialogClose();
-            itemDetailInitial();
-        }
-    };
-
-    //刪除
-    const deletelistInfoItem = (deleteItem) => {
-        let tmpArray = listInfo.map((i) => i);
-        tmpArray.splice(deleteItem, 1);
-        setListInfo([...tmpArray]);
     };
 
     //編輯
@@ -73,7 +40,6 @@ const CreditBalance = () => {
         if (tmpArray) {
             setBillMilestone(tmpArray?.billMilestone);
             partyName.current = tmpArray?.partyName;
-            setLBRatio(tmpArray?.lBRatio);
             setModifyNote(tmpArray?.modifyNote);
         }
     };
@@ -85,6 +51,73 @@ const CreditBalance = () => {
             setIsDialogOpen(true);
         }
     }, [editItem]);
+
+    const listInfo = [
+        {
+            BillingNo: null,
+            BLDetailID: null,
+            CBType: 'PREPAID',
+            WorkTitle: 'Upgrade',
+            CurrAmount: 53810.85,
+            CNNo: null,
+            LastUpdDate: '2023-03-30T09:35:48',
+            CBID: 1,
+            InvoiceNo: null,
+            SubmarineCable: 'TPE',
+            BillMilestone: 'BM1-3',
+            PartyName: 'KT',
+            CreateDate: '2023-03-30T14:00:00',
+            Note: 'test'
+        },
+        {
+            BillingNo: null,
+            BLDetailID: null,
+            CBType: 'MWG',
+            WorkTitle: 'Construction',
+            CurrAmount: null,
+            CNNo: 'CN03CO-CU2304141743',
+            LastUpdDate: null,
+            CBID: 2,
+            InvoiceNo: null,
+            SubmarineCable: 'TPE',
+            BillMilestone: null,
+            PartyName: 'CU',
+            CreateDate: '2023-04-14T17:43:45',
+            Note: null
+        },
+        {
+            BillingNo: null,
+            BLDetailID: null,
+            CBType: 'MWG',
+            WorkTitle: 'Construction',
+            CurrAmount: null,
+            CNNo: 'CN03CO-CU2304141743',
+            LastUpdDate: null,
+            CBID: 3,
+            InvoiceNo: null,
+            SubmarineCable: 'TPE',
+            BillMilestone: null,
+            PartyName: 'CU',
+            CreateDate: '2023-04-14T17:43:48',
+            Note: null
+        },
+        {
+            BillingNo: null,
+            BLDetailID: null,
+            CBType: 'MWG',
+            WorkTitle: 'Construction',
+            CurrAmount: null,
+            CNNo: 'CN03CO-CU2304141743',
+            LastUpdDate: null,
+            CBID: 4,
+            InvoiceNo: null,
+            SubmarineCable: 'TPE',
+            BillMilestone: null,
+            PartyName: 'CU',
+            CreateDate: '2023-04-14T17:43:49',
+            Note: null
+        }
+    ];
 
     return (
         <Grid container spacing={1}>
@@ -107,13 +140,7 @@ const CreditBalance = () => {
             </Grid>
             <Grid item xs={12}>
                 <MainCard title="Credit Balance資料列表">
-                    <CreditBalanceDataList
-                        listInfo={listInfo}
-                        setDialogAction={setDialogAction}
-                        setIsDialogOpen={setIsDialogOpen}
-                        setEditItem={setEditItem}
-                        deletelistInfoItem={deletelistInfoItem}
-                    />
+                    <CreditBalanceDataList listInfo={listInfo} setIsDialogOpen={setIsDialogOpen} />
                 </MainCard>
             </Grid>
         </Grid>

@@ -5,11 +5,16 @@ import CloseIcon from '@mui/icons-material/Close';
 // 數字格式化
 export const handleNumber = (value) => {
     // if ((Number(value) === value && value % 1 === 0) || (Number(value) === value && value % 1 !== 0)) {
-    const tmpValue = value.toString().replaceAll(',', '');
-    const parts = tmpValue.toString().split('.');
-    parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ',');
-    const partJoin = parts.join('.');
-    return partJoin;
+    if (value) {
+        const tmpValue = value?.toString().replaceAll(',', '');
+        const parts = tmpValue.toString().split('.');
+        parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+        const partJoin = parts.join('.');
+        return partJoin;
+    } else {
+        return '0';
+    }
+
     // }
 };
 
