@@ -12,8 +12,8 @@ const Setting = () => {
         <Box sx={{ display: 'flex' }}>
             <Box sx={{ flexShrink: 0, ml: drawerOpen ? 0 : 0 }}>
                 <IconButton disableRipple color="secondary" sx={{ color: 'text.primary' }}>
-                    <Link to="/information">
-                        <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#262626' }}>
+                    <Link to="/information" style={{ color: '#262626', textDecoration: 'none' }}>
+                        <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                             <SettingOutlined />
                             {drawerOpen ? <ListItemText sx={{ flexShrink: 0, ml: 0.5 }}>基本資料設定</ListItemText> : ''}
                         </Box>
