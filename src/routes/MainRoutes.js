@@ -168,17 +168,17 @@ const MainRoutes = {
         {
             path: 'Information',
             element: (
-                <RequireAuth>
-                    <Information />
-                </RequireAuth>
+                // <RequireAuth>
+                <Information />
+                // </RequireAuth>
             )
         },
         {
             path: 'Liability',
             element: (
-                <RequireAuth>
-                    <LiabilityManage />
-                </RequireAuth>
+                // <RequireAuth>
+                <LiabilityManage />
+                // </RequireAuth>
             )
         },
         {

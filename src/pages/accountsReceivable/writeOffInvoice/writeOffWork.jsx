@@ -16,7 +16,9 @@ import {
     InputLabel,
     Select,
     DialogActions,
-    TextField
+    TextField,
+    Checkbox,
+    Box
 } from '@mui/material';
 import TableBody from '@mui/material/TableBody';
 import TableCell, { tableCellClasses } from '@mui/material/TableCell';
@@ -274,6 +276,23 @@ const WriteOffWork = ({ isDialogOpen, handleDialogClose, writeOffInfo }) => {
                                 </Table>
                             </TableContainer>
                         </MainCard>
+                    </Grid>
+                    <Grid item xs={12} sm={12} md={12} lg={12}>
+                        <Box
+                            sx={{
+                                fontSize: '12px',
+                                m: 1,
+                                fontWeight: 'bold',
+                                display: 'flex',
+                                justifyContent: 'end',
+                                alignItems: 'center'
+                            }}
+                        >
+                            <Box sx={{ color: 'red', mr: 2.5 }}>(提示：若有費用項目還未完成收款，原則上不用勾選)</Box>
+                            <Box>
+                                <Checkbox size="small" sx={{ p: 0 }} /> 確認此帳單完成銷帳作業
+                            </Box>
+                        </Box>
                     </Grid>
                 </Grid>
             </DialogContent>

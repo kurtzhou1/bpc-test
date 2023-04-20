@@ -54,7 +54,7 @@ const AuthLogin = () => {
         <>
             <Formik
                 initialValues={{
-                    email: 'info@codedthemes.com',
+                    email: 'user01',
                     password: '123456',
                     submit: null
                 }}
@@ -78,7 +78,7 @@ const AuthLogin = () => {
                         <Grid container spacing={3}>
                             <Grid item xs={12}>
                                 <Stack spacing={1}>
-                                    <InputLabel htmlFor="email-login">Email Address</InputLabel>
+                                    <InputLabel htmlFor="email-login">Account</InputLabel>
                                     <OutlinedInput
                                         id="email-login"
                                         type="email"

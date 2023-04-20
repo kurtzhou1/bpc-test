@@ -19,8 +19,7 @@ import {
     Select,
     DialogActions,
     TextField,
-    Box,
-    Checkbox
+    Box
 } from '@mui/material';
 import TableBody from '@mui/material/TableBody';
 import TableCell, { tableCellClasses } from '@mui/material/TableCell';
@@ -126,12 +125,6 @@ const ToWriteOffDataList = ({ listInfo }) => {
                     </TableBody>
                 </Table>
             </TableContainer>
-            <Box sx={{ fontSize: '12px', m: 1, fontWeight: 'bold', display: 'flex', justifyContent: 'end', alignItems: 'center' }}>
-                <Box sx={{ color: 'red', mr: 1.5 }}>(提示：若有費用項目還未完成收款，原則上不用勾選)</Box>
-                <Box>
-                    <Checkbox size="small" sx={{ p: 0.5 }} /> 確認此帳單完成銷帳作業
-                </Box>
-            </Box>
         </>
     );
 };
