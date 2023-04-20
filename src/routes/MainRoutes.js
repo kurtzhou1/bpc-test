@@ -166,7 +166,11 @@ const MainRoutes = {
         },
         {
             path: 'Information',
-            element: <Information />
+            element: (
+                // <RequireAuth>
+                <Information />
+                // </RequireAuth>
+            )
         },
         {
             path: 'Liability',
