@@ -59,6 +59,7 @@ const DeductedDataList = ({ dataList, receivableQuery }) => {
     const [infoBack, setInfoBack] = useState(false); //退回
     const billMasterID = useRef(-1);
     const submarineCable = useRef('');
+    const billingNo = useRef('');
     const pONo = useRef('');
     const billDetailInfo = useRef([]);
     const [editItem, setEditItem] = useState();
@@ -78,7 +79,7 @@ const DeductedDataList = ({ dataList, receivableQuery }) => {
         billMasterID.current = info.BillMasterID;
         pONo.current = info.PONo;
         submarineCable.current = info.SubmarineCable;
-        // billMasterInfo.current = info.BillMaster;
+        BillingNo.current = info.BillingNo;
         setIsDialogOpen(true);
     };
 
@@ -120,6 +121,7 @@ const DeductedDataList = ({ dataList, receivableQuery }) => {
                 billMasterID={billMasterID.current}
                 pONo={pONo.current}
                 submarineCableName={submarineCable.current}
+                billingNo={billingNo.current}
                 action={'deducted'}
             />
             <SignAndUpload
@@ -146,6 +148,7 @@ const DeductedDataList = ({ dataList, receivableQuery }) => {
                     </TableHead>
                     <TableBody>
                         {dataList?.map((row, id) => {
+                            console.log('dataList=>>', row);
                             return (
                                 <TableRow
                                     key={row.BillMaster.BillMasterID + row.BillMaster.BillingNo}
@@ -181,7 +184,8 @@ const DeductedDataList = ({ dataList, receivableQuery }) => {
                                                         BillMasterID: row.BillMaster.BillMasterID,
                                                         PONo: row.BillMaster.PONo,
                                                         SubmarineCable: row.BillMaster.SubmarineCable, //haha
-                                                        WorkTitle: row.BillMaster.WorkTitle
+                                                        WorkTitle: row.BillMaster.WorkTitle,
+                                                        BillingNo: row.BillMaster.BillingNo
                                                     });
                                                 }}
                                             >

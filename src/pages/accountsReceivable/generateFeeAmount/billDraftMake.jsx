@@ -135,7 +135,7 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
     }
 }));
 
-const BillDraftMake = ({ isDialogOpen, handleDialogClose, billMasterID, pONo, submarineCableName, action }) => {
+const BillDraftMake = ({ isDialogOpen, handleDialogClose, billMasterID, pONo, submarineCableName, action, billingNo }) => {
     const [dataList, setDataList] = useState([]);
     const [contact, setContact] = useState('chang_ty');
     const [contactList, setContactList] = useState([]);
@@ -192,7 +192,7 @@ const BillDraftMake = ({ isDialogOpen, handleDialogClose, billMasterID, pONo, su
             .then((blob) => {
                 const link = document.createElement('a');
                 link.href = window.URL.createObjectURL(blob);
-                link.download = `${submarineCableName} Cable Network ${subject1} Central Billing Party.docx`;
+                link.download = `${billingNo}.docx`;
                 link.click();
             })
             .catch((e) => console.log('e1=>', e));
