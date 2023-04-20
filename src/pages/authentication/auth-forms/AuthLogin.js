@@ -28,12 +28,20 @@ import AnimateButton from 'components/@extended/AnimateButton';
 // assets
 import { EyeOutlined, EyeInvisibleOutlined } from '@ant-design/icons';
 
+import { useDispatch } from 'react-redux';
+import { setIsLogin } from 'store/reducers/dropdown';
+
 // ============================|| FIREBASE - LOGIN ||============================ //
 
 const AuthLogin = () => {
     const [checked, setChecked] = React.useState(false);
-
+    const dispatch = useDispatch();
     const [showPassword, setShowPassword] = React.useState(false);
+
+    const loginNow = () => {
+        dispatch(setIsLogin({ isLogin: true }));
+    };
+
     const handleClickShowPassword = () => {
         setShowPassword(!showPassword);
     };
@@ -157,6 +165,7 @@ const AuthLogin = () => {
                                         type="submit"
                                         variant="contained"
                                         color="primary"
+                                        onClick={loginNow}
                                     >
                                         Login
                                     </Button>

@@ -24,13 +24,7 @@ import {
 } from 'store/reducers/dropdown';
 
 // api
-import {
-    supplierNameList,
-    submarineCableList,
-    billMilestoneList,
-    billMilestoneLiabilityList,
-    getPartiesInfoList
-} from 'components/apis.jsx';
+import { supplierNameList, submarineCableList, billMilestoneLiabilityList, getPartiesInfoList } from 'components/apis.jsx';
 
 // ==============================|| MAIN LAYOUT ||============================== //
 
@@ -66,7 +60,6 @@ const MainLayout = () => {
         }
     };
     const handleClose = (event, reason) => {
-        console.log('handleClose=>', reason);
         if (reason === 'clickaway') {
             return;
         }
