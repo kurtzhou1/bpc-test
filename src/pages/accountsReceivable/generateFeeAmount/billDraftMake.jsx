@@ -135,124 +135,14 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
     }
 }));
 
-const fakeData = {
-    ContactWindowAndSupervisorInformation: {
-        Company: 'International Business Group,\r\nChunghwa Telecom Co., Ltd.',
-        Address: 'No. 31 Aikuo E. Rd., Taipei, Taiwan, 106',
-        Tel: '02-23443897',
-        Fax: '02-23443897',
-        DirectorName: 'Hsuan-Lung Liu',
-        DTel: '+886-2-2344-3912',
-        DFax: '+886-2-2322-5940',
-        DEmail: 'lsl008@cht.com.tw'
-    },
-    PartyInformation: {
-        Company: 'Chunghwa Telecom Co., Ltd. Network Technology Group',
-        Address: '31, Aikuo East Road, Taipei, Taiwan 106',
-        Contact: '黃宏杰',
-        Email: 'hj-hwang@cht.com.tw',
-        Tel: '03-9772252'
-    },
-    CorporateInformation: {
-        BankName: 'Bank of Taiwan, Hsinyi Branch',
-        Branch: '',
-        BranchAddress: '31 Aikuo E. Rd., Taipei, Taiwan, 106',
-        BankAcctName: 'SJC2 Central Billing Party of Chunghwa Telecom (International Business Group)',
-        BankAcctNo: '054007501968',
-        SavingAcctNo: '',
-        IBAN: '',
-        SWIFTCode: 'BKTWTWTP054',
-        ACHNo: '',
-        WireRouting: '',
-        Address: '88, Sec. 2, Sinyi Road, Taipei'
-    },
-    DetailInformation: [
-        {
-            Supplier: 'NEC Corporation, Submarine Network Division',
-            InvNumber: 'DT0170168-1',
-            Description: 'BM9a Sea cable manufactured (except 8.5km spare cable))- Equipment',
-            BilledAmount: 1288822.32,
-            Liability: 7.1428571429,
-            ShareAmount: 92058.74
-        },
-        {
-            Supplier: 'NEC Corporation, Submarine Network Division',
-            InvNumber: 'DT0170168-1',
-            Description: 'BM9a Sea cable manufactured (except 8.5km spare cable))- Service',
-            BilledAmount: 1178227.94,
-            Liability: 7.1428571429,
-            ShareAmount: 84159.14
-        },
-        {
-            Supplier: 'NEC Corporation, Submarine Network Division',
-            InvNumber: 'DT0170168-1',
-            Description: 'BM12 Branching Units (100%)-Equipment',
-            BilledAmount: 1627300.92,
-            Liability: 7.1428571429,
-            ShareAmount: 116235.78
-        },
-        {
-            Supplier: 'NEC Corporation, Submarine Network Division',
-            InvNumber: 'DT0170168-1',
-            Description: 'BM12 Branching Units (100%)-Service',
-            BilledAmount: 1487661.54,
-            Liability: 7.1428571429,
-            ShareAmount: 106261.54
-        },
-        {
-            Supplier: 'NEC Corporation, Submarine Network Division',
-            InvNumber: 'test',
-            Description: 'BM9a Sea cable manufactured (except 8.5km spare cable))- Equipment',
-            BilledAmount: -10,
-            Liability: 100,
-            ShareAmount: -10
-        },
-        {
-            Supplier: 'NEC Corporation, Submarine Network Division',
-            InvNumber: 'test',
-            Description: 'BM9a Sea cable manufactured (except 8.5km spare cable))- Service',
-            BilledAmount: -10,
-            Liability: 100,
-            ShareAmount: -10
-        }
-    ],
-    InvoiceNo: '02CO-CI2303301838'
-};
-
-//
-const fakeData2 = [
-    {
-        UserName: '張增益',
-        UserID: 'chang_ty',
-        Company: 'CHT',
-        Address: 'test-address',
-        Tel: '123456789',
-        Fax: '123456789',
-        DirectorName: '郭贊章',
-        DTel: '123456789',
-        DFax: '123456789'
-    },
-    {
-        UserName: '李心儀',
-        UserID: 'chang_ty33',
-        Company: 'CHT#2',
-        Address: 'test-address#2',
-        Tel: '123456789#2',
-        Fax: '123456789',
-        DirectorName: '郭贊',
-        DTel: '123456789',
-        DFax: '123456789'
-    }
-];
-
 const BillDraftMake = ({ isDialogOpen, handleDialogClose, billMasterID, pONo, submarineCableName, action }) => {
     const [dataList, setDataList] = useState([]);
     const [contact, setContact] = useState('chang_ty');
-    const [contactList, setContactList] = useState(fakeData2);
-    const [contactInfo, setContactInfo] = useState(fakeData.ContactWindowAndSupervisorInformation);
-    const [partyInfo, setPartyInfo] = useState(fakeData.PartyInformation);
-    const [submarineCableInfo, setSubmarineCableInfo] = useState(fakeData.CorporateInformation);
-    const [datailInfo, setDetailInfo] = useState(fakeData.DetailInformation);
+    const [contactList, setContactList] = useState([]);
+    const [contactInfo, setContactInfo] = useState({});
+    const [partyInfo, setPartyInfo] = useState({});
+    const [submarineCableInfo, setSubmarineCableInfo] = useState({});
+    const [datailInfo, setDetailInfo] = useState([]);
     const totalAmount = useRef(0);
     const [issueDate, setIssueDate] = useState(new Date()); //發票日期
     const [dueDate, setDueDate] = useState(new Date()); //發票日期
@@ -263,11 +153,19 @@ const BillDraftMake = ({ isDialogOpen, handleDialogClose, billMasterID, pONo, su
     const [subject3, setSubject3] = useState(''); //主旨3
 
     const itemDetailInitial = () => {
-        // setDataList([]);
-        setContact('');
+        setDetailInfo([]);
         // setContactList([]);
         // setPartyInfo('');
         // setSubmarineCableInfo?('');
+    };
+
+    const clearDetail = () => {
+        setContact('');
+        setLogo(1);
+        setSubject1('');
+        setSubject3('');
+        setIssueDate(new Date());
+        setDueDate(new Date());
     };
 
     const handleDownload = () => {
@@ -509,7 +407,7 @@ const BillDraftMake = ({ isDialogOpen, handleDialogClose, billMasterID, pONo, su
                             </Box>
                             <Box
                                 sx={{
-                                    fontSize: subject1.length <= 50 ? '18px' : '15px',
+                                    fontSize: subject1?.length <= 50 ? '18px' : '15px',
                                     mt: 1,
                                     textAlign: 'center',
                                     whiteSpace: 'nowrap',
@@ -615,7 +513,7 @@ const BillDraftMake = ({ isDialogOpen, handleDialogClose, billMasterID, pONo, su
                                     <Box>Company Addr：{submarineCableInfo?.Address}</Box>
                                     <Box>
                                         A/C No.:
-                                        {submarineCableInfo?.BankAcctNo.length !== 0
+                                        {submarineCableInfo?.BankAcctNo?.length !== 0
                                             ? submarineCableInfo?.BankAcctNo
                                             : submarineCableInfo?.SavingAcctNo}
                                     </Box>
@@ -630,6 +528,16 @@ const BillDraftMake = ({ isDialogOpen, handleDialogClose, billMasterID, pONo, su
                 </Grid>
             </DialogContent>
             <DialogActions className="no-print">
+                <Button
+                    sx={{ mr: '0.05rem' }}
+                    variant="contained"
+                    disabled={action === 'toDeduct'}
+                    onClick={() => {
+                        clearDetail();
+                    }}
+                >
+                    清除
+                </Button>
                 <Button
                     sx={{ mr: '0.05rem' }}
                     variant="contained"
