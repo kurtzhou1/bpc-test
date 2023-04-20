@@ -2,7 +2,6 @@
 import Routes from 'routes';
 import ThemeCustomization from 'themes';
 import ScrollTop from 'components/ScrollTop';
-import ProtectedRoute from './ProtectedRoute';
 
 //test
 // import { Routes, Route, useRoutes, Navigate } from 'react-router-dom';

@@ -61,7 +61,6 @@ const MainRoutes = {
     children: [
         {
             path: '/',
-
             element: (
                 <RequireAuth>
                     <DashboardDefault />
@@ -167,19 +166,11 @@ const MainRoutes = {
         },
         {
             path: 'Information',
-            element: (
-                // <RequireAuth>
-                <Information />
-                // </RequireAuth>
-            )
+            element: <Information />
         },
         {
             path: 'Liability',
-            element: (
-                // <RequireAuth>
-                <LiabilityManage />
-                // </RequireAuth>
-            )
+            element: <LiabilityManage />
         },
         {
             path: 'color',
