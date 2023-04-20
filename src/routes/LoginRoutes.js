@@ -6,7 +6,6 @@ import MinimalLayout from 'layout/MinimalLayout';
 
 // render - login
 const AuthLogin = Loadable(lazy(() => import('pages/authentication/Login')));
-const AuthRegister = Loadable(lazy(() => import('pages/authentication/Register')));
 
 import { Navigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
@@ -34,10 +33,6 @@ const LoginRoutes = {
                     <AuthLogin />
                 </RequireAuth>
             )
-        },
-        {
-            path: 'register',
-            element: <AuthRegister />
         }
     ]
 };
