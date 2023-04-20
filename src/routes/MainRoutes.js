@@ -44,10 +44,14 @@ const Color = Loadable(lazy(() => import('pages/components-overview/Color')));
 const Shadow = Loadable(lazy(() => import('pages/components-overview/Shadow')));
 const AntIcons = Loadable(lazy(() => import('pages/components-overview/AntIcons')));
 
+import { useSelector } from 'react-redux';
+
 // ==============================|| MAIN ROUTING ||============================== //
 const RequireAuth = ({ children }) => {
+    const { isLogin } = useSelector((state) => state.dropdown);
+    console.log('isLogin=>>', isLogin);
     // let auth = localStorage.getItem('name');
-    if (123) {
+    if (!isLogin) {
         return <Navigate to="login" replace />;
     }
 
@@ -56,15 +60,16 @@ const RequireAuth = ({ children }) => {
 
 const MainRoutes = {
     path: '/',
-    element: (
-        <RequireAuth>
-            <MainLayout />
-        </RequireAuth>
-    ),
+    element: <MainLayout />,
     children: [
         {
             path: '/',
-            element: <DashboardDefault />
+
+            element: (
+                <RequireAuth>
+                    <DashboardDefault />
+                </RequireAuth>
+            )
         },
         {
             path: 'color',

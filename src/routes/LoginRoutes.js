@@ -8,7 +8,20 @@ import MinimalLayout from 'layout/MinimalLayout';
 const AuthLogin = Loadable(lazy(() => import('pages/authentication/Login')));
 const AuthRegister = Loadable(lazy(() => import('pages/authentication/Register')));
 
+import { Navigate } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+
 // ==============================|| AUTH ROUTING ||============================== //
+
+const RequireAuth = ({ children }) => {
+    const { isLogin } = useSelector((state) => state.dropdown);
+    // let auth = localStorage.getItem('name');
+    if (isLogin) {
+        return <Navigate to="/" replace />;
+    }
+
+    return children;
+};
 
 const LoginRoutes = {
     path: '/',
@@ -16,7 +29,11 @@ const LoginRoutes = {
     children: [
         {
             path: 'login',
-            element: <AuthLogin />
+            element: (
+                <RequireAuth>
+                    <AuthLogin />
+                </RequireAuth>
+            )
         },
         {
             path: 'register',
