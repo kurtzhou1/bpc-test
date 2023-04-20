@@ -9,9 +9,6 @@ import { Navigate } from 'react-router-dom';
 // render - dashboard
 const DashboardDefault = Loadable(lazy(() => import('pages/dashboard')));
 
-// render - sample page
-const SamplePage = Loadable(lazy(() => import('pages/extra-pages/SamplePage')));
-
 // 發票工作管理
 const InvoiceWorkManageCreate = Loadable(lazy(() => import('pages/invoiceWorkManage/InvoiceWorkCreate')));
 const InvoiceWorkManageEdit = Loadable(lazy(() => import('pages/invoiceWorkManage/InvoiceWorkEdit')));
@@ -52,7 +49,7 @@ const RequireAuth = ({ children }) => {
     console.log('isLogin=>>', isLogin);
     // let auth = localStorage.getItem('name');
     if (!isLogin) {
-        return <Navigate to="login" replace />;
+        return <Navigate to="/login" replace />;
     }
 
     return children;
@@ -72,6 +69,119 @@ const MainRoutes = {
             )
         },
         {
+            path: 'InvoiceWorkManage',
+            children: [
+                {
+                    path: 'InvoiceWorkCreate',
+                    element: (
+                        <RequireAuth>
+                            <InvoiceWorkManageCreate />
+                        </RequireAuth>
+                    )
+                },
+                {
+                    path: 'InvoiceWorkEdit',
+                    element: (
+                        <RequireAuth>
+                            <InvoiceWorkManageEdit />
+                        </RequireAuth>
+                    )
+                }
+            ]
+        },
+        {
+            path: 'CreditBalance',
+            children: [
+                {
+                    path: 'CreditBalanceManage',
+                    element: (
+                        <RequireAuth>
+                            <CreditBalance />
+                        </RequireAuth>
+                    )
+                }
+            ]
+        },
+        {
+            path: 'CreditNote',
+            children: [
+                {
+                    path: 'CreditNoteManage',
+                    element: (
+                        <RequireAuth>
+                            <CreditNote />
+                        </RequireAuth>
+                    )
+                }
+            ]
+        },
+        {
+            path: 'CreateJournal',
+            children: [
+                {
+                    path: 'CreateJournal',
+                    element: (
+                        <RequireAuth>
+                            <CreateJournal />
+                        </RequireAuth>
+                    )
+                }
+            ]
+        },
+        {
+            path: 'AccountsReceivable',
+            children: [
+                {
+                    path: 'GenerateFeeAmount',
+                    element: (
+                        <RequireAuth>
+                            <GenerateFeeAmount />
+                        </RequireAuth>
+                    )
+                },
+                {
+                    path: 'WriteOffInvoice',
+                    element: (
+                        <RequireAuth>
+                            <WriteOffInvoice />
+                        </RequireAuth>
+                    )
+                },
+                {
+                    path: 'SupplierPayment',
+                    element: (
+                        <RequireAuth>
+                            <SupplierPayment />
+                        </RequireAuth>
+                    )
+                },
+                {
+                    path: 'Correspondence',
+                    element: (
+                        <RequireAuth>
+                            <Correspondence />
+                        </RequireAuth>
+                    )
+                }
+            ]
+        },
+        {
+            path: 'Information',
+            element: (
+                <RequireAuth>
+                    <Information />
+                </RequireAuth>
+            )
+        },
+        {
+            path: 'Liability',
+            element: (
+                <RequireAuth>
+                    <LiabilityManage />
+                </RequireAuth>
+            )
+        },
+        {
             path: 'color',
             element: <Color />
         },
@@ -85,10 +195,6 @@ const MainRoutes = {
             ]
         },
         {
-            path: 'sample-page',
-            element: <SamplePage />
-        },
-        {
             path: 'shadow',
             element: <Shadow />
         },
@@ -99,76 +205,8 @@ const MainRoutes = {
         {
             path: 'icons/ant',
             element: <AntIcons />
-        },
-        {
-            path: 'InvoiceWorkManage',
-            children: [
-                {
-                    path: 'InvoiceWorkCreate',
-                    element: <InvoiceWorkManageCreate />
-                },
-                {
-                    path: 'InvoiceWorkEdit',
-                    element: <InvoiceWorkManageEdit />
-                }
-            ]
-        },
-        {
-            path: 'CreditBalance',
-            children: [
-                {
-                    path: 'CreditBalanceManage',
-                    element: <CreditBalance />
-                }
-            ]
-        },
-        {
-            path: 'CreditNote',
-            children: [
-                {
-                    path: 'CreditNoteManage',
-                    element: <CreditNote />
-                }
-            ]
-        },
-        {
-            path: 'CreateJournal',
-            children: [
-                {
-                    path: 'CreateJournal',
-                    element: <CreateJournal />
-                }
-            ]
-        },
-        {
-            path: 'AccountsReceivable',
-            children: [
-                {
-                    path: 'GenerateFeeAmount',
-                    element: <GenerateFeeAmount />
-                },
-                {
-                    path: 'WriteOffInvoice',
-                    element: <WriteOffInvoice />
-                },
-                {
-                    path: 'SupplierPayment',
-                    element: <SupplierPayment />
-                },
-                {
-                    path: 'Correspondence',
-                    element: <Correspondence />
-                }
-            ]
-        },
-        {
-            path: 'Information',
-            element: <Information />
-        },
-        {
-            path: 'Liability',
-            element: <LiabilityManage />
         }
+
         // {
         //     path: 'CreateJournal',
         //     element: <CreateJournal />
