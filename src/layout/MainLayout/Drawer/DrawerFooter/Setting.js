@@ -1,5 +1,6 @@
 import { Box, IconButton, ListItemText } from '@mui/material';
 import { useSelector } from 'react-redux';
+import { Link } from 'react-router-dom';
 
 // assets
 import { SettingOutlined } from '@ant-design/icons';
@@ -10,9 +11,13 @@ const Setting = () => {
     return (
         <Box sx={{ display: 'flex' }}>
             <Box sx={{ flexShrink: 0, ml: drawerOpen ? 0 : 0 }}>
-                <IconButton disableRipple color="secondary" sx={{ color: 'text.primary' }} href="/Information">
-                    <SettingOutlined />
-                    {drawerOpen ? <ListItemText sx={{ flexShrink: 0, ml: 0.5 }}>基本資料設定</ListItemText> : ''}
+                <IconButton disableRipple color="secondary" sx={{ color: 'text.primary' }}>
+                    <Link to="/information">
+                        <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#262626' }}>
+                            <SettingOutlined />
+                            {drawerOpen ? <ListItemText sx={{ flexShrink: 0, ml: 0.5 }}>基本資料設定</ListItemText> : ''}
+                        </Box>
+                    </Link>
                 </IconButton>
             </Box>
         </Box>
