@@ -95,7 +95,7 @@ const CreditBalanceView = ({ cbView, handleViewClose, listInfo, viewId }) => {
             .then((blob) => {
                 const link = document.createElement('a');
                 link.href = window.URL.createObjectURL(blob);
-                link.download = `CB報表.xlxx`;
+                link.download = `CB報表.xlsx`;
                 link.click();
             })
             .catch((e) => console.log('e1=>', e));
