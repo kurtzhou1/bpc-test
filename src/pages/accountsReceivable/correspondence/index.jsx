@@ -77,8 +77,6 @@ const Correspondence = ({ listInfo, apiQuery }) => {
         setUploadOpen(false);
     };
 
-    console.log('infoTerminal=>>', infoTerminal);
-
     return (
         <>
             <Grid container spacing={1}>
@@ -106,7 +104,7 @@ const Correspondence = ({ listInfo, apiQuery }) => {
                                     </TableRow>
                                 </TableHead>
                                 <TableBody>
-                                    {toBillDataInfo?.map((row, id) => {
+                                    {[].map((row, id) => {
                                         return (
                                             <TableRow
                                                 key={row.InvoiceWKMaster?.WKMasterID + row.InvoiceWKMaster?.InvoiceNo}

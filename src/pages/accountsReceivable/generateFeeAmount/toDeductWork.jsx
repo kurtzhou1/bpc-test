@@ -530,7 +530,7 @@ const ToDeductWork = ({ isDeductOpen, handleDeductClose, billDetailInfo, billMas
                         handleDeductClose();
                     }}
                 >
-                    取消
+                    關閉
                 </Button>
             </DialogActions>
         </Dialog>

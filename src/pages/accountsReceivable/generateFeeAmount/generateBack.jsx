@@ -150,7 +150,7 @@ const GenerateBack = ({ infoBack, handleBackClose }) => {
                 </Button>
 
                 <Button sx={{ mr: '0.05rem' }} variant="contained" onClick={handleBackClose}>
-                    取消
+                    關閉
                 </Button>
             </DialogActions>
         </Dialog>

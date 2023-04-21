@@ -348,7 +348,7 @@ const ToGenerateDataList = ({ isDialogOpen, handleDialogClose, deductInfo, actio
                                                 setEditItem();
                                             }}
                                         >
-                                            取消
+                                            關閉
                                         </Button>
                                     </Grid>
                                 </Grid>
@@ -382,7 +382,7 @@ const ToGenerateDataList = ({ isDialogOpen, handleDialogClose, deductInfo, actio
                         setEditItem();
                     }}
                 >
-                    取消
+                    關閉
                 </Button>
             </DialogActions>
         </Dialog>

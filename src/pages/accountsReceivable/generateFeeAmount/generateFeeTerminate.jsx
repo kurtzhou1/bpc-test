@@ -97,7 +97,7 @@ const GenerateFeeTerminate = ({ infoTerminal, handleTerminalClose }) => {
                 </Button>
 
                 <Button sx={{ mr: '0.05rem' }} variant="contained" onClick={handleTerminalClose}>
-                    取消
+                    關閉
                 </Button>
             </DialogActions>
         </Dialog>

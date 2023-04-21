@@ -555,7 +555,7 @@ const BillDraftMake = ({ isDialogOpen, handleDialogClose, billMasterID, pONo, su
                         itemDetailInitial();
                     }}
                 >
-                    取消
+                    關閉
                 </Button>
             </DialogActions>
             {/* 列印開始 */}

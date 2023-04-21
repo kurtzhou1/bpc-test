@@ -33,7 +33,8 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 
 import dayjs from 'dayjs';
 
-import { toBillDataapi, sendJounary } from 'components/apis.jsx';
+// api
+import { sendToWriteOff } from 'components/apis.jsx';
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
     [`&.${tableCellClasses.head}`]: {
         // backgroundColor: theme.palette.common.gary,
@@ -55,6 +56,7 @@ const WriteOffWork = ({ isDialogOpen, handleDialogClose, writeOffInfo }) => {
     const [isDeductWorkOpen, setIsDeductWorkOpen] = useState(false);
     const [editItem, setEditItem] = useState();
     const [toWriteOffDetailInfo, setToWriteOffDetailInfo] = useState([]); //帳單明細檔
+    const [isComplete, setIsComplete] = useState(false);
 
     const changeBankFees = (bankFees, id) => {
         let tmpArray = toWriteOffDetailInfo.map((i) => i);
@@ -76,6 +78,10 @@ const WriteOffWork = ({ isDialogOpen, handleDialogClose, writeOffInfo }) => {
         setToWriteOffDetailInfo(tmpArray);
     };
 
+    const handleChange = (e) => {
+        setIsComplete(e.target.checked);
+    };
+
     const initData = () => {
         let tmpArray = writeOffInfo?.BillDetail?.map((i) => i);
         tmpArray.forEach((i) => {
@@ -90,8 +96,6 @@ const WriteOffWork = ({ isDialogOpen, handleDialogClose, writeOffInfo }) => {
             initData();
         }
     }, [writeOffInfo]);
-
-    console.log('toWriteOffDetailInfo=>>', toWriteOffDetailInfo);
 
     return (
         <Dialog
@@ -290,7 +294,7 @@ const WriteOffWork = ({ isDialogOpen, handleDialogClose, writeOffInfo }) => {
                         >
                             <Box sx={{ color: 'red', mr: 2.5 }}>(提示：若有費用項目還未完成收款，原則上不用勾選)</Box>
                             <Box>
-                                <Checkbox size="small" sx={{ p: 0 }} /> 確認此帳單完成銷帳作業
+                                <Checkbox checked={isComplete} onChange={handleChange} size="small" sx={{ p: 0 }} /> 確認此帳單完成銷帳作業
                             </Box>
                         </Box>
                     </Grid>
@@ -312,7 +316,7 @@ const WriteOffWork = ({ isDialogOpen, handleDialogClose, writeOffInfo }) => {
                         setEditItem();
                     }}
                 >
-                    取消
+                    關閉
                 </Button>
             </DialogActions>
         </Dialog>

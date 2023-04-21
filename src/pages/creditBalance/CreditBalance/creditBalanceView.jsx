@@ -231,7 +231,7 @@ const CreditBalanceView = ({ cbView, handleViewClose, listInfo, viewId }) => {
                         itemDetailInitial();
                     }}
                 >
-                    取消
+                    關閉
                 </Button>
             </DialogActions>
         </Dialog>

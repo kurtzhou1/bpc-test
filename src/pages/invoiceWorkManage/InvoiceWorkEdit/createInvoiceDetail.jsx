@@ -199,7 +199,7 @@ const CreateInvoiceDetail = ({
                         )}
                         {isEdit ? (
                             <Button sx={{ ml: '0.25rem' }} variant="contained" onClick={itemDetailCancel}>
-                                取消
+                                關閉
                             </Button>
                         ) : (
                             <Button sx={{ ml: '0.25rem' }} variant="contained" onClick={itemDetailInitial}>

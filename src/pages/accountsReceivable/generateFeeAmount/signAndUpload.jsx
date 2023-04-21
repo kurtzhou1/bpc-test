@@ -146,7 +146,7 @@ const SignAndUpload = ({ isUploadOpen, handleUploadClose, billMasterID, receivab
                     確定
                 </Button>
                 <Button sx={{ mr: '0.05rem' }} variant="contained" onClick={handleUploadClose}>
-                    取消
+                    關閉
                 </Button>
             </DialogActions>
         </Dialog>

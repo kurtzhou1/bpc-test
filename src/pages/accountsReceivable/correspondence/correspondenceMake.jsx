@@ -506,7 +506,7 @@ const CorrespondenceMake = ({ isDialogOpen, handleDialogClose, listInfo }) => {
                         handleDialogClose();
                     }}
                 >
-                    取消
+                    關閉
                 </Button>
             </DialogActions>
             <Grid container spacing={1} className="no-show">

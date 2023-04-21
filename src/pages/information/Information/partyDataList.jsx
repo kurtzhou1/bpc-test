@@ -628,7 +628,7 @@ const PartyDataList = ({ maxHei }) => {
                                                     儲存
                                                 </Button>
                                                 <Button color="error" variant="outlined" onClick={editInfoInit}>
-                                                    取消
+                                                    關閉
                                                 </Button>
                                             </Box>
                                         </StyledTableCell>

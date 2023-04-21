@@ -300,7 +300,7 @@ const CreditBalanceAdd = ({ handleDialogClose, isDialogOpen, billMilestone, part
                             infoInitial();
                         }}
                     >
-                        取消
+                        關閉
                     </Button>
                 </>
             </DialogActions>

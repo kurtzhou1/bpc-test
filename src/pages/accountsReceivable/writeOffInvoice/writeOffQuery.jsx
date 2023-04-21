@@ -1,28 +1,10 @@
 import { useEffect, useState } from 'react';
-import {
-    Typography,
-    Grid,
-    Button,
-    FormControl,
-    InputLabel,
-    Select,
-    MenuItem,
-    Box,
-    FormGroup,
-    FormControlLabel,
-    Checkbox
-} from '@mui/material';
+import { Typography, Grid, Button, FormControl, InputLabel, Select, MenuItem } from '@mui/material';
 
 // project import
 import MainCard from 'components/MainCard';
 
-// day
-import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import { DesktopDatePicker } from '@mui/x-date-pickers/DesktopDatePicker';
-import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import dayjs from 'dayjs';
-import { DateRangePicker } from '@mui/x-date-pickers-pro/DateRangePicker';
-import { TextField } from '@mui/material/index';
+// api
 import { queryToDecutBill } from 'components/apis';
 
 // redux
@@ -31,7 +13,6 @@ import { useSelector } from 'react-redux';
 // ==============================|| SAMPLE PAGE ||============================== //
 
 const WriteOffQuery = ({ setListInfo }) => {
-    // const [issueDate, setIssueDate] = useState([null, null]); //發票日期
     const { partiesList, subCableList } = useSelector((state) => state.dropdown); //供應商下拉選單 + 海纜名稱下拉選單
     const [workTitle, setWorkTitle] = useState(''); //海纜作業
     const [partyName, setPartyName] = useState(''); //會員代號

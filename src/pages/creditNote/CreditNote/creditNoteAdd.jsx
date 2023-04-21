@@ -282,7 +282,7 @@ const CreditBalanceManage = ({
                             itemDetailInitial();
                         }}
                     >
-                        取消
+                        關閉
                     </Button>
                 </>
             </DialogActions>

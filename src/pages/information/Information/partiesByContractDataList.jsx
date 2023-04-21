@@ -208,7 +208,7 @@ const PartiesByContractDataList = ({}) => {
                                                         editInfoInit();
                                                     }}
                                                 >
-                                                    取消
+                                                    關閉
                                                 </Button>
                                             </Box>
                                         </StyledTableCell>

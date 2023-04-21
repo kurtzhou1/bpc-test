@@ -492,7 +492,7 @@ const LiabilityAdd = ({
                         setListInfo([]);
                     }}
                 >
-                    取消
+                    關閉
                 </Button>
             </DialogActions>
         </Dialog>

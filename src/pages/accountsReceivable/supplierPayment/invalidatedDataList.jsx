@@ -192,7 +192,7 @@ const InvalidatedDataList = ({ listInfo, apiQuery }) => {
                         新增
                     </Button> */}
                     <Button sx={{ mr: '0.05rem' }} variant="contained" onClick={handleDialogClose}>
-                        取消
+                        關閉
                     </Button>
                 </DialogActions>
             </Dialog>

@@ -320,7 +320,7 @@ const ToCombineDataList = ({ handleDialogClose, isDialogOpen, dataList, cbToCn, 
                         合併
                     </Button>
                     <Button sx={{ mr: '0.05rem' }} variant="contained" onClick={handleCancel}>
-                        取消
+                        關閉
                     </Button>
                 </DialogActions>
             </Dialog>

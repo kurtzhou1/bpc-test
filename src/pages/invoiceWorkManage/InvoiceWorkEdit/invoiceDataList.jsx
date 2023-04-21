@@ -132,7 +132,6 @@ const InvoiceDataList = ({ listInfo, setAction, setModifyItem, page, setPage }) 
                                                                     ? 'warning'
                                                                     : 'error'
                                                             }
-                                                            // variant="outlined"
                                                             key={option}
                                                             variant="outlined"
                                                             size="small"
@@ -147,6 +146,26 @@ const InvoiceDataList = ({ listInfo, setAction, setModifyItem, page, setPage }) 
                                                 })}
                                             </Box>
                                         ) : row.InvoiceWKMaster.Status === 'VALIDATED' ? (
+                                            <Box
+                                                sx={{
+                                                    display: 'flex',
+                                                    justifyContent: 'center',
+                                                    '& button': { mx: { md: 0.2, lg: 0.2, xl: 1 }, p: 0, fontSize: 1 }
+                                                }}
+                                            >
+                                                <Button
+                                                    color="primary"
+                                                    variant="outlined"
+                                                    size="small"
+                                                    onClick={() => {
+                                                        setModifyItem(itemID);
+                                                        setAction('View');
+                                                    }}
+                                                >
+                                                    {'View'}
+                                                </Button>
+                                            </Box>
+                                        ) : (
                                             <Box
                                                 sx={{
                                                     display: 'flex',
@@ -171,8 +190,6 @@ const InvoiceDataList = ({ listInfo, setAction, setModifyItem, page, setPage }) 
                                                     );
                                                 })}
                                             </Box>
-                                        ) : (
-                                            ''
                                         )}
                                     </TableCell>
                                 </TableRow>

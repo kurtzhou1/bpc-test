@@ -67,6 +67,9 @@ export const contactUser = 'http://10.193.130.8:8000/api/v1/User/all';
 export const updateBM = 'http://10.193.130.8:8000/api/v1/updateBillMaster';
 export const downBM = 'http://10.193.130.8:8000/api/v1/BillMaster/signedDraft';
 
+// 銷帳
+export const sendToWriteOff = 'http://10.193.130.8:8000/api/v1/BillMaster&BillDetail/toWriteOff';
+
 // 基本資料-Suppliers
 export const addSuppliers = 'http://10.193.130.8:8000/api/v1/Suppliers';
 export const deleteSuppliers = 'http://10.193.130.8:8000/api/v1/deleteSuppliers';
