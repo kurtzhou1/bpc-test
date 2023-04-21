@@ -216,10 +216,8 @@ const BillDraftMake = ({ isDialogOpen, handleDialogClose, billMasterID, pONo, su
                     setSubmarineCableInfo(data.CorporateInformation);
                     setDetailInfo(data.DetailInformation);
                     data.DetailInformation.forEach((i) => {
-                        console.log('i.ShareAmount=>>', i.ShareAmount);
                         tmpAmount = tmpAmount + i.ShareAmount;
                     });
-                    console.log('tmpAmount=>>', tmpAmount);
                     totalAmount.current = tmpAmount;
                 })
                 .catch((e) => console.log('e1=>', e));

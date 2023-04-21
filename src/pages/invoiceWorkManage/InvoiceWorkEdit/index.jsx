@@ -34,6 +34,8 @@ import { useSelector } from 'react-redux';
 import { useDispatch } from 'react-redux';
 import { setMessageStateOpen } from 'store/reducers/dropdown';
 
+import { Link } from 'react-router-dom';
+
 // ==============================|| SAMPLE PAGE ||============================== //
 
 const InvoiceWorkManage = () => {
@@ -452,9 +454,11 @@ const InvoiceWorkManage = () => {
                 ''
             )}
             <Grid item xs={12} display="flex" justifyContent="center" alignItems="center">
-                <Button variant="contained" sx={{ px: '1rem', py: '0.5rem' }} href="/CreateJournal/CreateJournal">
-                    下一頁
-                </Button>
+                <Link to="/CreateJournal/CreateJournal" style={{ color: '#262626', textDecoration: 'none' }}>
+                    <Button variant="contained" sx={{ px: '1rem', py: '0.5rem' }}>
+                        下一頁
+                    </Button>
+                </Link>
             </Grid>
         </Grid>
     );

@@ -22,6 +22,8 @@ import { handleNumber } from 'components/commonFunction';
 import { useDispatch } from 'react-redux';
 import { setMessageStateOpen } from 'store/reducers/dropdown';
 
+import { Link } from 'react-router-dom';
+
 // ==============================|| SAMPLE PAGE ||============================== //
 
 const InvoiceWorkManage = () => {
@@ -391,9 +393,11 @@ const InvoiceWorkManage = () => {
                             ) : (
                                 ''
                             )}
-                            <Button variant="contained" sx={{ ml: '0.25rem', mr: '0.25rem' }} href="/InvoiceWorkManage/InvoiceWorkEdit">
-                                下一頁
-                            </Button>
+                            <Link to="/InvoiceWorkManage/InvoiceWorkEdit" style={{ color: '#262626', textDecoration: 'none' }}>
+                                <Button variant="contained" sx={{ ml: '0.25rem', mr: '0.25rem' }}>
+                                    下一頁
+                                </Button>
+                            </Link>
                         </Grid>
                     </Grid>
                 </MainCard>

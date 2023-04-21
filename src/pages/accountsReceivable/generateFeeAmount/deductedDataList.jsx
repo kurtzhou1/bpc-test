@@ -79,7 +79,7 @@ const DeductedDataList = ({ dataList, receivableQuery }) => {
         billMasterID.current = info.BillMasterID;
         pONo.current = info.PONo;
         submarineCable.current = info.SubmarineCable;
-        BillingNo.current = info.BillingNo;
+        billingNo.current = info.BillingNo;
         setIsDialogOpen(true);
     };
 
