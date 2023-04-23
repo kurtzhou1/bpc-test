@@ -51,7 +51,7 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
     }
 }));
 
-const ToWriteOffDataList = ({ listInfo }) => {
+const ToWriteOffDataList = ({ listInfo, writeOffQuery }) => {
     const [isDialogOpen, setIsDialogOpen] = useState(false); //折抵作業
     const writeOffInfo = useRef({});
     let tmpBMArray = [];
@@ -67,7 +67,12 @@ const ToWriteOffDataList = ({ listInfo }) => {
 
     return (
         <>
-            <WriteOffWork isDialogOpen={isDialogOpen} handleDialogClose={handleDialogClose} writeOffInfo={writeOffInfo.current} />
+            <WriteOffWork
+                isDialogOpen={isDialogOpen}
+                handleDialogClose={handleDialogClose}
+                writeOffInfo={writeOffInfo.current}
+                writeOffQuery={writeOffQuery}
+            />
             <TableContainer component={Paper} sx={{ maxHeight: 350 }}>
                 <Table sx={{ minWidth: 300 }} stickyHeader aria-label="sticky table">
                     <TableHead>

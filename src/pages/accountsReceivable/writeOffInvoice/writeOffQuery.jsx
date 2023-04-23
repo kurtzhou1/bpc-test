@@ -12,7 +12,7 @@ import { useSelector } from 'react-redux';
 
 // ==============================|| SAMPLE PAGE ||============================== //
 
-const WriteOffQuery = ({ setListInfo }) => {
+const WriteOffQuery = ({ setListInfo, queryApi }) => {
     const { partiesList, subCableList } = useSelector((state) => state.dropdown); //供應商下拉選單 + 海纜名稱下拉選單
     const [workTitle, setWorkTitle] = useState(''); //海纜作業
     const [partyName, setPartyName] = useState(''); //會員代號
@@ -39,6 +39,7 @@ const WriteOffQuery = ({ setListInfo }) => {
             tmpQuery = tmpQuery.slice(0, -1);
         }
         tmpQuery = queryToDecutBill + tmpQuery;
+        queryApi.current = tmpQuery;
         console.log('tmpQuery=>>', tmpQuery);
         fetch(tmpQuery, { method: 'GET' })
             .then((res) => res.json())

@@ -72,10 +72,6 @@ const SignedDataList = ({ dataList, receivableQuery }) => {
         const tmpArray = url.split('/');
         fetch(tmpApi, {
             method: 'GET'
-            // headers: {
-            //     Accept: 'application/json'
-            // }
-            // body: JSON.stringify(tmpData)
         })
             .then((res) => {
                 return res.blob();
@@ -98,11 +94,11 @@ const SignedDataList = ({ dataList, receivableQuery }) => {
                         <StyledTableCell align="center">會員</StyledTableCell>
                         <StyledTableCell align="center">海纜名稱</StyledTableCell>
                         <StyledTableCell align="center">海纜作業</StyledTableCell>
-                        <StyledTableCell align="center">發票號碼</StyledTableCell>
-                        <StyledTableCell align="center">供應商</StyledTableCell>
-                        <StyledTableCell align="center">發票日期</StyledTableCell>
+                        <StyledTableCell align="center">帳單號碼</StyledTableCell>
+                        <StyledTableCell align="center">帳單日期</StyledTableCell>
+                        <StyledTableCell align="center">截止日</StyledTableCell>
                         <StyledTableCell align="center">明細數量</StyledTableCell>
-                        <StyledTableCell align="center">總金額</StyledTableCell>
+                        {/* <StyledTableCell align="center">總金額</StyledTableCell> */}
                         <StyledTableCell align="center">Action</StyledTableCell>
                     </TableRow>
                 </TableHead>
@@ -118,10 +114,9 @@ const SignedDataList = ({ dataList, receivableQuery }) => {
                                 <StyledTableCell align="center">{row.BillMaster.SubmarineCable}</StyledTableCell>
                                 <StyledTableCell align="center">{row.BillMaster.WorkTitle}</StyledTableCell>
                                 <StyledTableCell align="center">{row.BillMaster.BillingNo}</StyledTableCell>
-                                <StyledTableCell align="center">{row.BillMaster.SupplierName}</StyledTableCell>
                                 <StyledTableCell align="center">{dayjs(row.BillMaster.IssueDate).format('YYYY/MM/DD')}</StyledTableCell>
                                 <StyledTableCell align="center">{row.data ? row.data.length : 0}</StyledTableCell>
-                                <StyledTableCell align="center">{row.BillMaster.FeeAmountSum}</StyledTableCell>
+                                {/* <StyledTableCell align="center">{row.BillMaster.FeeAmountSum}</StyledTableCell> */}
                                 <StyledTableCell align="center">
                                     <Box
                                         sx={{

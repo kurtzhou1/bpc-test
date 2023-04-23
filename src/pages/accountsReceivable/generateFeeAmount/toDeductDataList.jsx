@@ -166,7 +166,7 @@ const ToGenerateDataList = ({ dataList, receivableQuery }) => {
                                                     handleDialogOpen({
                                                         BillMasterID: row.BillMaster.BillMasterID,
                                                         PONo: row.BillMaster.PONo,
-                                                        SubmarineCable: row.BillMaster.SubmarineCable, //haha
+                                                        SubmarineCable: row.BillMaster.SubmarineCable,
                                                         WorkTitle: row.BillMaster.WorkTitle
                                                     });
                                                 }}

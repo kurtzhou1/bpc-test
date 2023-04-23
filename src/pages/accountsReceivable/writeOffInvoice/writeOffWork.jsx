@@ -34,7 +34,7 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import dayjs from 'dayjs';
 
 // api
-import { sendToWriteOff } from 'components/apis.jsx';
+import { sendToWriteOff, queryToDecutBill } from 'components/apis.jsx';
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
     [`&.${tableCellClasses.head}`]: {
         // backgroundColor: theme.palette.common.gary,
@@ -50,11 +50,10 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
     }
 }));
 
-const WriteOffWork = ({ isDialogOpen, handleDialogClose, writeOffInfo }) => {
-    console.log('writeOffInfo=>>', writeOffInfo);
-
+const WriteOffWork = ({ isDialogOpen, handleDialogClose, writeOffInfo, writeOffQuery }) => {
     const [isDeductWorkOpen, setIsDeductWorkOpen] = useState(false);
     const [editItem, setEditItem] = useState();
+    const [toWriteOffMasterInfo, setToWriteOffMasterInfo] = useState({}); //帳單明細檔
     const [toWriteOffDetailInfo, setToWriteOffDetailInfo] = useState([]); //帳單明細檔
     const [isComplete, setIsComplete] = useState(false);
 
@@ -78,6 +77,37 @@ const WriteOffWork = ({ isDialogOpen, handleDialogClose, writeOffInfo }) => {
         setToWriteOffDetailInfo(tmpArray);
     };
 
+    const changeShortOverReason = (shortOverReason, id) => {
+        let tmpArray = toWriteOffDetailInfo.map((i) => i);
+        tmpArray.forEach((i) => {
+            if (i.BillDetailID === id) {
+                i.ShortOverReason = shortOverReason;
+            }
+        });
+        setToWriteOffDetailInfo(tmpArray);
+    };
+
+    const changeReceiveDate = (receiveDate, id) => {
+        console.log('receiveDate=>>', receiveDate);
+        let tmpArray = toWriteOffDetailInfo.map((i) => i);
+        tmpArray.forEach((i) => {
+            if (i.BillDetailID === id) {
+                i.ReceiveDate = dayjs(receiveDate).format('YYYY/MM/DD');
+            }
+        });
+        setToWriteOffDetailInfo(tmpArray);
+    };
+
+    const changeNote = (note, id) => {
+        let tmpArray = toWriteOffDetailInfo.map((i) => i);
+        tmpArray.forEach((i) => {
+            if (i.BillDetailID === id) {
+                i.Note = note;
+            }
+        });
+        setToWriteOffDetailInfo(tmpArray);
+    };
+
     const handleChange = (e) => {
         setIsComplete(e.target.checked);
     };
@@ -87,8 +117,45 @@ const WriteOffWork = ({ isDialogOpen, handleDialogClose, writeOffInfo }) => {
         tmpArray.forEach((i) => {
             i.ReceiveAmount = 0;
             i.BankFees = 0;
+            i.OverAmount = 0;
+            i.ShortAmount = 0;
+            i.ShortOverReason = i.ShortOverReason ? i.ShortOverReason : '';
+            i.Note = i.Note ? i.Note : '';
         });
         setToWriteOffDetailInfo(tmpArray);
+        setToWriteOffMasterInfo(writeOffInfo?.BillMaster);
+    };
+
+    const sendData = () => {
+        let tmpArray = {};
+        let tmpData = toWriteOffDetailInfo?.map((i) => i);
+        let tmpBankFees = 0;
+        let tmpAmount = 0;
+        let diffAmount = 0;
+
+        tmpData.forEach((i) => {
+            tmpAmount = 0;
+            tmpAmount = Number(i.ReceiveAmount) + Number(i.ReceivedAmount);
+            diffAmount = 0;
+            diffAmount = tmpAmount - Number(i.BankFees);
+            i.OverAmount = diffAmount > 0 ? diffAmount : 0;
+            i.ShortAmount = diffAmount > i.BankFees ? tmpAmount : 0;
+            tmpBankFees = tmpBankFees + Number(i.BankFees);
+            i.ReceivedAmount = Number(i.ReceiveAmount);
+            delete i.ReceiveAmount;
+        });
+        toWriteOffMasterInfo.Status = isComplete ? 'COMPLETE' : '';
+        toWriteOffMasterInfo.BankFees = tmpBankFees;
+        tmpArray = {
+            BillMaster: toWriteOffMasterInfo,
+            BillDetail: toWriteOffDetailInfo
+        };
+        fetch(sendToWriteOff, { method: 'POST', body: JSON.stringify(tmpArray) })
+            .then((res) => res.json())
+            .then(() => {
+                writeOffQuery();
+            })
+            .catch((e) => console.log('e1=>', e));
     };
 
     useEffect(() => {
@@ -206,6 +273,7 @@ const WriteOffWork = ({ isDialogOpen, handleDialogClose, writeOffInfo }) => {
                                         </TableRow>
                                     </TableHead>
                                     <TableBody>
+                                        {/* haha */}
                                         {toWriteOffDetailInfo?.map((row, id) => {
                                             let totalAmount = Number(row.BankFees) + Number(row.ReceiveAmount);
                                             let tmpAmount = Number(row.ReceiveAmount) + Number(row.ReceivedAmount);
@@ -221,15 +289,18 @@ const WriteOffWork = ({ isDialogOpen, handleDialogClose, writeOffInfo }) => {
                                                     <TableCell sx={{ fontSize: '0.1rem' }} align="center">
                                                         ${handleNumber(row?.OrgFeeAmount.toFixed(2))}
                                                     </TableCell>
+                                                    {/* 折抵 */}
                                                     <TableCell sx={{ fontSize: '0.1rem' }} align="center">
                                                         ${handleNumber(row?.DedAmount.toFixed(2))}
                                                     </TableCell>
+                                                    {/* 應繳 */}
                                                     <TableCell sx={{ fontSize: '0.1rem' }} align="center">
                                                         ${handleNumber(row?.FeeAmount.toFixed(2))}
                                                     </TableCell>
                                                     <TableCell sx={{ fontSize: '0.1rem' }} align="center">
                                                         ${handleNumber(row?.ReceivedAmount.toFixed(2))}
                                                     </TableCell>
+                                                    {/* 手續費 */}
                                                     <TableCell sx={{ fontSize: '0.1rem' }} align="center">
                                                         <TextField
                                                             size="small"
@@ -238,10 +309,10 @@ const WriteOffWork = ({ isDialogOpen, handleDialogClose, writeOffInfo }) => {
                                                             onChange={(e) => changeBankFees(e.target.value, row.BillDetailID)}
                                                         />
                                                     </TableCell>
+                                                    {/* 本次實收 */}
                                                     <TableCell sx={{ fontSize: '0.1rem' }} align="center">
                                                         <TextField
                                                             size="small"
-                                                            // style={{ width: '30%' }}
                                                             value={row.ReceiveAmount}
                                                             type="number"
                                                             onChange={(e) => {
@@ -249,26 +320,53 @@ const WriteOffWork = ({ isDialogOpen, handleDialogClose, writeOffInfo }) => {
                                                             }}
                                                         />
                                                     </TableCell>
+                                                    {/* 總金額 */}
                                                     <TableCell sx={{ fontSize: '0.1rem' }} align="center">
                                                         {totalAmount ? totalAmount.toFixed(2) : '0.00'}
                                                     </TableCell>
+                                                    {/* 重溢繳 */}
                                                     <TableCell sx={{ fontSize: '0.1rem' }} align="center">
                                                         {diffAmount > 0 ? handleNumber(diffAmount.toFixed(2)) : '0.00'}
                                                     </TableCell>
+                                                    {/* 短繳 */}
                                                     <TableCell sx={{ fontSize: '0.1rem' }} align="center">
                                                         {diffAmount > row.BankFees ? handleNumber(tmpAmount.toFixed(2)) : '0.00'}
                                                     </TableCell>
+                                                    {/* 手續費差額 */}
                                                     <TableCell sx={{ fontSize: '0.1rem' }} align="center">
                                                         {diffAmount <= row.BankFees ? handleNumber(tmpAmount.toFixed(2)) : '0.00'}
                                                     </TableCell>
                                                     <TableCell sx={{ fontSize: '0.1rem' }} align="center">
-                                                        {row.ShortOverReason}
+                                                        <TextField
+                                                            size="small"
+                                                            value={row.ShortOverReason}
+                                                            onChange={(e) => {
+                                                                changeShortOverReason(e.target.value, row.BillDetailID);
+                                                            }}
+                                                        />
                                                     </TableCell>
                                                     <TableCell sx={{ fontSize: '0.1rem' }} align="center">
-                                                        {row.ReceiveDate ? dayjs(row?.ReceiveDate) : ''}
+                                                        {/* {row.ReceiveDate ? dayjs(row?.ReceiveDate) : ''} */}
+                                                        <LocalizationProvider dateAdapter={AdapterDayjs}>
+                                                            <DesktopDatePicker
+                                                                // inputFormat="YYYY/MM/DD"
+                                                                value={row.ReceiveDate}
+                                                                // value={dayjs(row.ReceiveDate).format('YYYY/MM/DD')}
+                                                                onChange={(e) => {
+                                                                    changeReceiveDate(e, row.BillDetailID);
+                                                                }}
+                                                                renderInput={(params) => <TextField size="small" {...params} />}
+                                                            />
+                                                        </LocalizationProvider>
                                                     </TableCell>
                                                     <TableCell sx={{ fontSize: '0.1rem' }} align="center">
-                                                        {row?.Note}
+                                                        <TextField
+                                                            size="small"
+                                                            value={row.Note}
+                                                            onChange={(e) => {
+                                                                changeNote(e.target.value, row.BillDetailID);
+                                                            }}
+                                                        />
                                                     </TableCell>
                                                     <TableCell sx={{ fontSize: '0.1rem' }} align="center">
                                                         {row?.Status}
@@ -301,7 +399,7 @@ const WriteOffWork = ({ isDialogOpen, handleDialogClose, writeOffInfo }) => {
                 </Grid>
             </DialogContent>
             <DialogActions>
-                <Button sx={{ mr: '0.05rem' }} variant="contained" onClick={handleDialogClose}>
+                <Button sx={{ mr: '0.05rem' }} variant="contained" onClick={sendData}>
                     儲存
                 </Button>
                 <Button sx={{ mr: '0.05rem' }} variant="contained" onClick={initData}>

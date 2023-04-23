@@ -311,9 +311,6 @@ const ToCombineDataList = ({ handleDialogClose, isDialogOpen, dataList, cbToCn, 
                             </TableContainer>
                         </Grid>
                     </Grid>
-                    {/* <DialogContentText sx={{ fontSize: '20px', mt: '0.5rem' }}>
-                        總金額：${handleNumber(totalCombineAmount.current)}
-                    </DialogContentText> */}
                 </DialogContent>
                 <DialogActions>
                     <Button sx={{ mr: '0.05rem' }} variant="contained" onClick={handleCombine}>
@@ -340,7 +337,6 @@ const ToCombineDataList = ({ handleDialogClose, isDialogOpen, dataList, cbToCn, 
                             <StyledTableCell align="center">發票日期</StyledTableCell>
                             <StyledTableCell align="center">明細數量</StyledTableCell>
                             <StyledTableCell align="center">總金額</StyledTableCell>
-                            {/* <StyledTableCell align="center">處理狀態</StyledTableCell> */}
                         </TableRow>
                     </TableHead>
                     <TableBody>

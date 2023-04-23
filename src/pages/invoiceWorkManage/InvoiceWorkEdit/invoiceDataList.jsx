@@ -64,6 +64,7 @@ const InvoiceDataList = ({ listInfo, setAction, setModifyItem, page, setPage }) 
                         <StyledTableCell align="center">記帳段號</StyledTableCell>
                         <StyledTableCell align="center">合約種類</StyledTableCell>
                         <StyledTableCell align="center">發票日期</StyledTableCell>
+                        <StyledTableCell align="center">發票到期日</StyledTableCell>
                         <StyledTableCell align="center">明細數量</StyledTableCell>
                         <StyledTableCell align="center">總金額</StyledTableCell>
                         <StyledTableCell align="center">Status</StyledTableCell>
@@ -95,6 +96,9 @@ const InvoiceDataList = ({ listInfo, setAction, setModifyItem, page, setPage }) 
                                     <StyledTableCell align="center">{row.InvoiceWKMaster?.ContractType}</StyledTableCell>
                                     <StyledTableCell align="center">
                                         {dayjs(row.InvoiceWKMaster?.IssueDate).format('YYYY/MM/DD')}
+                                    </StyledTableCell>
+                                    <StyledTableCell align="center">
+                                        {dayjs(row.InvoiceWKMaster?.DueDate).format('YYYY/MM/DD')}
                                     </StyledTableCell>
                                     <StyledTableCell align="center">{row.InvoiceWKDetail.length}</StyledTableCell>
                                     <StyledTableCell align="center">{handleNumber(row.InvoiceWKMaster.TotalAmount)}</StyledTableCell>

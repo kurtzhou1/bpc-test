@@ -137,7 +137,7 @@ const fakeData = [
 
 const WriteOffInvoice = () => {
     const [value, setValue] = useState(0);
-
+    const queryApi = useRef('');
     const handleChange = (event, newValue) => {
         setValue(newValue);
     };
@@ -186,6 +186,17 @@ const WriteOffInvoice = () => {
         }
     };
 
+    const writeOffQuery = () => {
+        fetch(queryApi.current, { method: 'GET' })
+            .then((res) => res.json())
+            .then((data) => {
+                setListInfo(data);
+            })
+            .catch((e) => {
+                console.log('e1=>', e);
+            });
+    };
+
     useEffect(() => {
         itemDetailInitial();
         if (editItem >= 0) {
@@ -197,7 +208,7 @@ const WriteOffInvoice = () => {
     return (
         <Grid container spacing={1}>
             <Grid item xs={12}>
-                <WriteOffQuery setListInfo={setListInfo} />
+                <WriteOffQuery setListInfo={setListInfo} queryApi={queryApi} />
             </Grid>
             <Grid item xs={12}>
                 {/* <MainCard title={`${value == 0 ? '待銷帳' : value == 1 ? '已銷帳' : '已作廢'}帳單資料列表`}> */}
@@ -210,7 +221,8 @@ const WriteOffInvoice = () => {
                         </Tabs>
                     </Box>
                     <TabPanel value={value} index={0}>
-                        <ToWriteOffDataList listInfo={listInfo} />
+                        <ToWriteOffDataList listInfo={listInfo} writeOffQuery={writeOffQuery} />
+                        {/* <ToWriteOffDataList listInfo={listInfo} /> haha */}
                     </TabPanel>
                     <TabPanel value={value} index={1}>
                         <WriteOffedDataList />
