@@ -16,6 +16,13 @@ import { TextField } from '@mui/material/index';
 
 import { useTranslation } from 'react-i18next';
 
+// api
+import { checkInvoiceNo } from 'components/apis';
+
+// redux
+import { useDispatch } from 'react-redux';
+import { setMessageStateOpen } from 'store/reducers/dropdown';
+
 // ==============================|| SAMPLE PAGE ||============================== //
 
 const InvoiceWorkManage = ({
@@ -47,6 +54,23 @@ const InvoiceWorkManage = ({
     subCableList
 }) => {
     const { t } = useTranslation();
+    const dispatch = useDispatch();
+    const invoiceNoCheck = () => {
+        let tmpArray = {
+            InvoiceNo: invoiceNo
+        };
+        fetch(checkInvoiceNo, { method: 'POST', body: JSON.stringify(tmpArray) })
+            .then((res) => {
+                if (res.isExist) {
+                    dispatch(setMessageStateOpen({ messageStateOpen: { isOpen: true, severity: 'error', message: '發票號碼重複' } }));
+                    setInvoiceNo('');
+                } else {
+                    dispatch(setMessageStateOpen({ messageStateOpen: { isOpen: true, severity: 'success', message: '發票號碼無重複' } }));
+                }
+            })
+            .catch((e) => console.log('e1=>', e));
+    };
+
     return (
         <MainCard title="發票工作主檔建立" sx={{ height: '100%' }}>
             <Grid container display="flex" justifyContent="center" alignItems="center" spacing={1}>
@@ -58,7 +82,7 @@ const InvoiceWorkManage = ({
                 </Grid>
                 <Grid item xs={12} sm={6} md={3} lg={4}>
                     <FormControl fullWidth size="small">
-                        <InputLabel id="demo-simple-select-label">選擇海纜</InputLabel>
+                        <InputLabel>選擇海纜</InputLabel>
                         <Select value={submarineCable} label="發票供應商" onChange={(e) => setSubmarineCable(e.target.value)}>
                             {subCableList.map((i) => (
                                 <MenuItem key={i.CableName} value={i.CableName}>
@@ -75,7 +99,7 @@ const InvoiceWorkManage = ({
                 </Grid>
                 <Grid item xs={12} sm={6} md={3} lg={4}>
                     <FormControl fullWidth size="small">
-                        <InputLabel id="demo-simple-select-label">選擇海纜作業</InputLabel>
+                        <InputLabel>選擇海纜作業</InputLabel>
                         <Select value={workTitle} label="填寫海纜作業" onChange={(e) => setWorkTitle(e.target.value)}>
                             <MenuItem value={'Construction'}>Construction</MenuItem>
                             <MenuItem value={'Upgrade'}>Upgrade</MenuItem>
@@ -92,7 +116,7 @@ const InvoiceWorkManage = ({
                 </Grid>
                 <Grid item xs={12} sm={6} md={3} lg={4}>
                     <FormControl fullWidth size="small">
-                        <InputLabel id="demo-simple-select-label">選擇供應商</InputLabel>
+                        <InputLabel>選擇供應商</InputLabel>
                         <Select value={supplierName} label="發票供應商" onChange={(e) => setSupplierName(e.target.value)}>
                             {supNmList.map((i) => (
                                 <MenuItem key={i.SupplierName} value={i.SupplierName}>
@@ -111,9 +135,15 @@ const InvoiceWorkManage = ({
                     <TextField
                         fullWidth
                         variant="outlined"
+                        u
                         value={invoiceNo}
                         size="small"
                         label="發票號碼"
+                        inputProps={{
+                            onBlur: () => {
+                                invoiceNoCheck();
+                            }
+                        }}
                         onChange={(e) => setInvoiceNo(e.target.value)}
                     />
                 </Grid>
@@ -125,7 +155,7 @@ const InvoiceWorkManage = ({
                 </Grid>
                 <Grid item xs={12} sm={6} md={3} lg={4}>
                     <FormControl fullWidth size="small">
-                        <InputLabel id="demo-simple-select-label">選擇合約種類</InputLabel>
+                        <InputLabel>選擇合約種類</InputLabel>
                         <Select value={contractType} label="發票供應商" onChange={(e) => setContractType(e.target.value)}>
                             <MenuItem value={'SC'}>SC</MenuItem>
                             <MenuItem value={'NSC'}>NSC</MenuItem>

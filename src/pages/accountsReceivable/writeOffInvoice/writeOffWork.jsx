@@ -273,7 +273,6 @@ const WriteOffWork = ({ isDialogOpen, handleDialogClose, writeOffInfo, writeOffQ
                                         </TableRow>
                                     </TableHead>
                                     <TableBody>
-                                        {/* haha */}
                                         {toWriteOffDetailInfo?.map((row, id) => {
                                             let totalAmount = Number(row.BankFees) + Number(row.ReceiveAmount);
                                             let tmpAmount = Number(row.ReceiveAmount) + Number(row.ReceivedAmount);
