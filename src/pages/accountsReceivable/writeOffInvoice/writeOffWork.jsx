@@ -137,7 +137,7 @@ const WriteOffWork = ({ isDialogOpen, handleDialogClose, writeOffInfo, writeOffQ
             tmpAmount = 0;
             tmpAmount = Number(i.ReceiveAmount) + Number(i.ReceivedAmount);
             diffAmount = 0;
-            diffAmount = tmpAmount - Number(i.BankFees);
+            diffAmount = tmpAmount - Number(i.FeeAmount);
             i.OverAmount = diffAmount > 0 ? diffAmount : 0;
             i.ShortAmount = diffAmount >= 0 ? 0 : Math.abs(diffAmount) > i.BankFees ? tmpAmount : 0;
             tmpBankFees = tmpBankFees + Number(i.BankFees);
@@ -276,7 +276,7 @@ const WriteOffWork = ({ isDialogOpen, handleDialogClose, writeOffInfo, writeOffQ
                                         {toWriteOffDetailInfo?.map((row, id) => {
                                             let totalAmount = Number(row.BankFees) + Number(row.ReceiveAmount);
                                             let tmpAmount = Number(row.ReceiveAmount) + Number(row.ReceivedAmount); //本次實收+累計實收
-                                            let diffAmount = tmpAmount - Number(row.BankFees); //本次實收+累計實收-應繳金額
+                                            let diffAmount = tmpAmount - Number(row.FeeAmount); //本次實收+累計實收-應繳金額
                                             // 本次實收+累計實收-應繳 > 0，則顯示其金額差額
                                             return (
                                                 <TableRow
