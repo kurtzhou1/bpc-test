@@ -61,6 +61,7 @@ const InvoiceWorkManage = ({
         };
         fetch(checkInvoiceNo, { method: 'POST', body: JSON.stringify(tmpArray) })
             .then((res) => {
+                console.log('res=>>', res);
                 if (res.isExist) {
                     dispatch(setMessageStateOpen({ messageStateOpen: { isOpen: true, severity: 'error', message: '發票號碼重複' } }));
                     setInvoiceNo('');
