@@ -139,7 +139,7 @@ const WriteOffWork = ({ isDialogOpen, handleDialogClose, writeOffInfo, writeOffQ
             diffAmount = 0;
             diffAmount = tmpAmount - Number(i.BankFees);
             i.OverAmount = diffAmount > 0 ? diffAmount : 0;
-            i.ShortAmount = diffAmount > i.BankFees ? tmpAmount : 0;
+            i.ShortAmount = diffAmount >= 0 ? 0 : Math.abs(diffAmount) > i.BankFees ? tmpAmount : 0;
             tmpBankFees = tmpBankFees + Number(i.BankFees);
             i.ReceivedAmount = Number(i.ReceiveAmount);
             delete i.ReceiveAmount;
@@ -275,8 +275,9 @@ const WriteOffWork = ({ isDialogOpen, handleDialogClose, writeOffInfo, writeOffQ
                                     <TableBody>
                                         {toWriteOffDetailInfo?.map((row, id) => {
                                             let totalAmount = Number(row.BankFees) + Number(row.ReceiveAmount);
-                                            let tmpAmount = Number(row.ReceiveAmount) + Number(row.ReceivedAmount);
-                                            let diffAmount = tmpAmount - Number(row.BankFees);
+                                            let tmpAmount = Number(row.ReceiveAmount) + Number(row.ReceivedAmount); //本次實收+累計實收
+                                            let diffAmount = tmpAmount - Number(row.BankFees); //本次實收+累計實收-應繳金額
+                                            // 本次實收+累計實收-應繳 > 0，則顯示其金額差額
                                             return (
                                                 <TableRow
                                                     // key={row?.FeeAmountPre + row?.PartyName + row?.LBRatio}
@@ -324,16 +325,27 @@ const WriteOffWork = ({ isDialogOpen, handleDialogClose, writeOffInfo, writeOffQ
                                                         {totalAmount ? totalAmount.toFixed(2) : '0.00'}
                                                     </TableCell>
                                                     {/* 重溢繳 */}
+                                                    {/* 重溢繳 : 本次實收+累計實收-應繳 > 0，則顯示其金額差額 */}
                                                     <TableCell sx={{ fontSize: '0.1rem' }} align="center">
                                                         {diffAmount > 0 ? handleNumber(diffAmount.toFixed(2)) : '0.00'}
                                                     </TableCell>
                                                     {/* 短繳 */}
+                                                    {/* 短繳：本次實收+累計實收-應繳 (應該是負值或0) 取正值 跟 手續費比，如果大於 則顯示此正值的金額(顯示的金額不用減掉手續費) */}
                                                     <TableCell sx={{ fontSize: '0.1rem' }} align="center">
-                                                        {diffAmount > row.BankFees ? handleNumber(tmpAmount.toFixed(2)) : '0.00'}
+                                                        {diffAmount >= 0
+                                                            ? '0.00'
+                                                            : Math.abs(diffAmount) > row.BankFees
+                                                            ? handleNumber(tmpAmount.toFixed(2))
+                                                            : '0.00'}
                                                     </TableCell>
                                                     {/* 手續費差額 */}
+                                                    {/* 手續費差額：本次實收+累計實收-應繳 (應該是負值或0) 取正值 跟 手續費比 ，如果小於等於則顯示正值的金額(顯示的金額不用減掉手續費) */}
                                                     <TableCell sx={{ fontSize: '0.1rem' }} align="center">
-                                                        {diffAmount <= row.BankFees ? handleNumber(tmpAmount.toFixed(2)) : '0.00'}
+                                                        {diffAmount >= 0
+                                                            ? '0.00'
+                                                            : Math.abs(diffAmount) <= row.BankFees
+                                                            ? handleNumber(tmpAmount.toFixed(2))
+                                                            : '0.00'}
                                                     </TableCell>
                                                     <TableCell sx={{ fontSize: '0.1rem' }} align="center">
                                                         <TextField
