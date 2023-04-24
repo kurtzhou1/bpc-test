@@ -41,7 +41,7 @@ export const sendJounary = 'http://10.193.130.8:8000/api/v1/addInvoiceMaster&Inv
 export const journaryDetailView = 'http://10.193.130.8:8000/api/v1/InvoiceDetail';
 export const journaryMasterView = 'http://10.193.130.8:8000/api/v1/InvoiceWKMaster';
 export const updateInvoiceMaster = 'http://10.193.130.8:8000/api/v1/updateInvoiceMaster';
-export const checkInvoiceNo = 'http://localhost:8000/api/v1/checkInvoiceNo';
+export const checkInvoiceNo = 'http://10.193.130.8:8000/api/v1/checkInvoiceNo';
 
 // 應收帳款管理
 export const uploadFileApi = 'http://10.193.130.8:8000/api/v1/uploadSignedBillMaster';
