@@ -255,7 +255,7 @@ const WriteOffWork = ({ isDialogOpen, handleDialogClose, writeOffInfo, writeOffQ
                                 <Table sx={{ minWidth: 300, fontSize: 18 }} stickyHeader aria-label="sticky table">
                                     <TableHead>
                                         <TableRow>
-                                            <StyledTableCell align="center">費用項目</StyledTableCell>
+                                            {/* <StyledTableCell align="center">費用項目</StyledTableCell> */}
                                             <StyledTableCell align="center">原始費用</StyledTableCell>
                                             <StyledTableCell align="center">折抵</StyledTableCell>
                                             <StyledTableCell align="center">應繳</StyledTableCell>
@@ -283,9 +283,9 @@ const WriteOffWork = ({ isDialogOpen, handleDialogClose, writeOffInfo, writeOffQ
                                                     // key={row?.FeeAmountPre + row?.PartyName + row?.LBRatio}
                                                     sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                                                 >
-                                                    <TableCell align="center" sx={{ fontSize: '0.1rem' }}>
+                                                    {/* <TableCell align="center" sx={{ fontSize: '0.1rem' }}>
                                                         {id + 1}
-                                                    </TableCell>
+                                                    </TableCell> */}
                                                     <TableCell sx={{ fontSize: '0.1rem' }} align="center">
                                                         ${handleNumber(row?.OrgFeeAmount.toFixed(2))}
                                                     </TableCell>
