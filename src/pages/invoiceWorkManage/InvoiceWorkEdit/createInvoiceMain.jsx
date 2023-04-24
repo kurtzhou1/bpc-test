@@ -13,6 +13,10 @@ import { handleNumber } from 'components/commonFunction';
 
 import { supplierNameListForInvoice } from 'components/apis.jsx';
 
+// redux
+import { useDispatch } from 'react-redux';
+import { setMessageStateOpen } from 'store/reducers/dropdown';
+
 // ==============================|| SAMPLE PAGE ||============================== //
 
 const InvoiceWorkManage = ({
@@ -44,6 +48,29 @@ const InvoiceWorkManage = ({
     subCableList
 }) => {
     const [supNmList, setSupNmList] = useState([]); //供應商下拉選單
+    const dispatch = useDispatch();
+    const invoiceNoCheck = () => {
+        if (action !== 'View') {
+            let tmpArray = {
+                InvoiceNo: invoiceNo
+            };
+            fetch(checkInvoiceNo, { method: 'POST', body: JSON.stringify(tmpArray) })
+                .then((res) => res.json())
+                .then((data) => {
+                    console.log('data=>>', data);
+                    if (data.isExist) {
+                        dispatch(setMessageStateOpen({ messageStateOpen: { isOpen: true, severity: 'error', message: '發票號碼重複' } }));
+                        setInvoiceNo('');
+                    } else {
+                        dispatch(
+                            setMessageStateOpen({ messageStateOpen: { isOpen: true, severity: 'success', message: '發票號碼無重複' } })
+                        );
+                    }
+                })
+                .catch((e) => console.log('e1=>', e));
+        }
+    };
+
     useEffect(() => {
         if (workTitle && submarineCable) {
             let snApi = supplierNameListForInvoice + 'SubmarineCable=' + submarineCable + '&WorkTitle=' + workTitle;
@@ -67,7 +94,7 @@ const InvoiceWorkManage = ({
                 </Grid>
                 <Grid item xs={12} sm={6} md={4} lg={4}>
                     <FormControl fullWidth size="small">
-                        <InputLabel id="demo-simple-select-label">選擇海纜</InputLabel>
+                        <InputLabel>選擇海纜</InputLabel>
                         <Select
                             disabled={action === 'View'}
                             value={submarineCable}
@@ -89,7 +116,7 @@ const InvoiceWorkManage = ({
                 </Grid>
                 <Grid item xs={12} sm={6} md={4} lg={4}>
                     <FormControl fullWidth size="small">
-                        <InputLabel id="demo-simple-select-label">選擇海纜作業</InputLabel>
+                        <InputLabel>選擇海纜作業</InputLabel>
                         <Select
                             disabled={action === 'View'}
                             value={workTitle}
@@ -110,7 +137,7 @@ const InvoiceWorkManage = ({
                 </Grid>
                 <Grid item xs={12} sm={6} md={4} lg={4}>
                     <FormControl fullWidth size="small">
-                        <InputLabel id="demo-simple-select-label">選擇供應商</InputLabel>
+                        <InputLabel>選擇供應商</InputLabel>
                         <Select
                             value={supplierName}
                             label="發票供應商"
@@ -138,6 +165,11 @@ const InvoiceWorkManage = ({
                         value={invoiceNo}
                         size="small"
                         label="發票號碼"
+                        inputProps={{
+                            onBlur: () => {
+                                invoiceNoCheck();
+                            }
+                        }}
                         onChange={(e) => setInvoiceNo(e.target.value)}
                     />
                 </Grid>
@@ -149,7 +181,7 @@ const InvoiceWorkManage = ({
                 </Grid>
                 <Grid item xs={12} sm={6} md={4} lg={4}>
                     <FormControl fullWidth size="small">
-                        <InputLabel id="demo-simple-select-label">選擇合約種類</InputLabel>
+                        <InputLabel>選擇合約種類</InputLabel>
                         <Select
                             disabled={action === 'View'}
                             value={contractType}
