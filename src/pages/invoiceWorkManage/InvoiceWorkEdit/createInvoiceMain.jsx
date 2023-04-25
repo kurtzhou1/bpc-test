@@ -11,7 +11,8 @@ import MainCard from 'components/MainCard';
 import { TextField } from '@mui/material/index';
 import { handleNumber } from 'components/commonFunction';
 
-import { supplierNameListForInvoice } from 'components/apis.jsx';
+// api
+import { supplierNameListForInvoice, checkInvoiceNo } from 'components/apis.jsx';
 
 // redux
 import { useDispatch } from 'react-redux';
@@ -50,6 +51,7 @@ const InvoiceWorkManage = ({
     const [supNmList, setSupNmList] = useState([]); //供應商下拉選單
     const dispatch = useDispatch();
     const invoiceNoCheck = () => {
+        console.log('test');
         if (action !== 'View') {
             let tmpArray = {
                 InvoiceNo: invoiceNo
