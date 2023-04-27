@@ -152,19 +152,20 @@ const WriteOffWork = ({ isDialogOpen, handleDialogClose, writeOffInfo, writeOffD
             i.ReceivedAmount = Number(i.ReceiveAmount);
             delete i.ReceiveAmount;
         });
-        toWriteOffMasterInfo.Status = isComplete ? 'COMPLETE' : '';
-        toWriteOffMasterInfo.BankFees = tmpBankFees;
+        toWriteOffMasterInfo.current.Status = isComplete ? 'COMPLETE' : '';
+        toWriteOffMasterInfo.current.BankFees = tmpBankFees;
         tmpArray = {
-            BillMaster: toWriteOffMasterInfo,
+            BillMaster: toWriteOffMasterInfo.current,
             BillDetail: toWriteOffDetailInfo
         };
-        fetch(sendToWriteOff, { method: 'POST', body: JSON.stringify(tmpArray) })
-            .then((res) => res.json())
-            .then(() => {
-                handleClose();
-                writeOffQuery();
-            })
-            .catch((e) => console.log('e1=>', e));
+        console.log('tmpArray=>>', tmpArray);
+        // fetch(sendToWriteOff, { method: 'POST', body: JSON.stringify(tmpArray) })
+        //     .then((res) => res.json())
+        //     .then(() => {
+        //         handleClose();
+        //         writeOffQuery();
+        //     })
+        //     .catch((e) => console.log('e1=>', e));
     };
 
     const handleClose = () => {
