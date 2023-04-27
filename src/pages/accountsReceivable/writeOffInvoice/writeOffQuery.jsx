@@ -12,7 +12,7 @@ import { useSelector } from 'react-redux';
 
 // ==============================|| SAMPLE PAGE ||============================== //
 
-const WriteOffQuery = ({ setListInfo, queryApi }) => {
+const WriteOffQuery = ({ setListInfo, queryApi, value }) => {
     const { partiesList, subCableList } = useSelector((state) => state.dropdown); //供應商下拉選單 + 海纜名稱下拉選單
     const [workTitle, setWorkTitle] = useState(''); //海纜作業
     const [partyName, setPartyName] = useState(''); //會員代號
@@ -25,7 +25,7 @@ const WriteOffQuery = ({ setListInfo, queryApi }) => {
     };
 
     const writeOffQuery = () => {
-        let tmpQuery = '/Status=TO_WRITEOFF';
+        let tmpQuery = value === 0 ? '/Status=TO_WRITEOFF' : '/Status=COMPLETE';
         if (workTitle && workTitle !== '') {
             tmpQuery = tmpQuery + 'WorkTitle=' + workTitle + '&';
         }
@@ -53,10 +53,10 @@ const WriteOffQuery = ({ setListInfo, queryApi }) => {
 
     useEffect(() => {
         writeOffQuery();
-    }, []);
+    }, [value]);
 
     return (
-        <MainCard title="發票查詢" sx={{ width: '100%' }}>
+        <MainCard title="帳單查詢" sx={{ width: '100%' }}>
             <Grid container display="flex" justifyContent="center" alignItems="center" spacing={2}>
                 {/* row1 */}
                 <Grid item xs={1} sm={1} md={1} lg={1}>

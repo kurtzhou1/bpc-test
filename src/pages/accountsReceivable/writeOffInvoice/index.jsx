@@ -208,7 +208,7 @@ const WriteOffInvoice = () => {
     return (
         <Grid container spacing={1}>
             <Grid item xs={12}>
-                <WriteOffQuery setListInfo={setListInfo} queryApi={queryApi} />
+                <WriteOffQuery setListInfo={setListInfo} queryApi={queryApi} value={value} />
             </Grid>
             <Grid item xs={12}>
                 {/* <MainCard title={`${value == 0 ? '待銷帳' : value == 1 ? '已銷帳' : '已作廢'}帳單資料列表`}> */}
@@ -221,8 +221,8 @@ const WriteOffInvoice = () => {
                         </Tabs>
                     </Box>
                     <TabPanel value={value} index={0}>
-                        <ToWriteOffDataList listInfo={listInfo} writeOffQuery={writeOffQuery} />
-                        {/* <ToWriteOffDataList listInfo={fakeData} writeOffQuery={writeOffQuery} /> */}
+                        {/* <ToWriteOffDataList listInfo={listInfo} writeOffQuery={writeOffQuery} /> */}
+                        <ToWriteOffDataList listInfo={fakeData} writeOffQuery={writeOffQuery} />
                     </TabPanel>
                     <TabPanel value={value} index={1}>
                         <WriteOffedDataList listInfo={listInfo} />

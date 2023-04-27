@@ -51,8 +51,6 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
 }));
 
 const WriteOffWork = ({ isDialogOpen, handleDialogClose, writeOffInfo, writeOffQuery }) => {
-    const [isDeductWorkOpen, setIsDeductWorkOpen] = useState(false);
-    const [editItem, setEditItem] = useState();
     const [toWriteOffMasterInfo, setToWriteOffMasterInfo] = useState({}); //帳單明細檔
     const [toWriteOffDetailInfo, setToWriteOffDetailInfo] = useState([]); //帳單明細檔
     const [isComplete, setIsComplete] = useState(false);
@@ -424,8 +422,6 @@ const WriteOffWork = ({ isDialogOpen, handleDialogClose, writeOffInfo, writeOffQ
                     variant="contained"
                     onClick={() => {
                         handleDialogClose();
-                        setIsDeductWorkOpen(false);
-                        setEditItem();
                     }}
                 >
                     關閉
