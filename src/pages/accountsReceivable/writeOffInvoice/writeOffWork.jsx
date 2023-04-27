@@ -139,13 +139,15 @@ const WriteOffWork = ({ isDialogOpen, handleDialogClose, writeOffInfo, writeOffQ
             diffAmount = 0;
             diffAmount = tmpAmount - Number(i.FeeAmount);
             i.OverAmount = diffAmount > 0 ? diffAmount : 0;
-            i.ShortAmount = diffAmount >= 0 ? 0 : Math.abs(diffAmount) > i.BankFees ? tmpAmount : 0;
+            i.ShortAmount = diffAmount >= 0 ? 0 : Math.abs(diffAmount) > Number(i.BankFees) ? tmpAmount : 0;
             tmpBankFees = tmpBankFees + Number(i.BankFees);
             i.ReceivedAmount = Number(i.ReceiveAmount);
             delete i.ReceiveAmount;
         });
         toWriteOffMasterInfo.Status = isComplete ? 'COMPLETE' : '';
         toWriteOffMasterInfo.BankFees = tmpBankFees;
+        console.log('toWriteOffMasterInfo=>>', toWriteOffMasterInfo);
+        console.log('toWriteOffDetailInfo=>>', toWriteOffDetailInfo);
         tmpArray = {
             BillMaster: toWriteOffMasterInfo,
             BillDetail: toWriteOffDetailInfo
@@ -334,7 +336,7 @@ const WriteOffWork = ({ isDialogOpen, handleDialogClose, writeOffInfo, writeOffQ
                                                     <TableCell sx={{ fontSize: '0.1rem' }} align="center">
                                                         {diffAmount >= 0
                                                             ? '0.00'
-                                                            : Math.abs(diffAmount) > row.BankFees
+                                                            : Math.abs(diffAmount) > Number(row.BankFees)
                                                             ? handleNumber(tmpAmount.toFixed(2))
                                                             : '0.00'}
                                                     </TableCell>
@@ -343,7 +345,7 @@ const WriteOffWork = ({ isDialogOpen, handleDialogClose, writeOffInfo, writeOffQ
                                                     <TableCell sx={{ fontSize: '0.1rem' }} align="center">
                                                         {diffAmount >= 0
                                                             ? '0.00'
-                                                            : Math.abs(diffAmount) <= row.BankFees
+                                                            : Math.abs(diffAmount) <= Number(row.BankFees)
                                                             ? handleNumber(tmpAmount.toFixed(2))
                                                             : '0.00'}
                                                     </TableCell>
