@@ -112,31 +112,18 @@ const CreditBalanceAdd = ({ handleDialogClose, isDialogOpen, billMilestone, part
                 CurrAmount: currAmount ? Number(currAmount.replaceAll(',', '')) : null,
                 Note: note ? note : null
             };
-            fetch(queryCB, { method: 'POST', body: JSON.stringify(tmpArray) })
-                .then((res) => res.json())
-                .then(() => {
-                    alert('送出Credit Balance成功');
-                    handleDialogClose();
-                    infoInitial();
-                    creditBalanceQuery();
-                })
-                .catch((e) => console.log('e1=>', e));
+            console.log('tmpArray=>>', tmpArray);
+            // fetch(queryCB, { method: 'POST', body: JSON.stringify(tmpArray) })
+            //     .then((res) => res.json())
+            //     .then(() => {
+            //         alert('送出Credit Balance成功');
+            //         handleDialogClose();
+            //         infoInitial();
+            //         creditBalanceQuery();
+            //     })
+            //     .catch((e) => console.log('e1=>', e));
         }
     };
-
-    const StyledTableCell = styled(TableCell)(({ theme }) => ({
-        [`&.${tableCellClasses.head}`]: {
-            // backgroundColor: theme.palette.common.gary,
-            color: theme.palette.common.black,
-            paddingTop: '0.2rem',
-            paddingBottom: '0.2rem'
-        },
-        [`&.${tableCellClasses.body}`]: {
-            fontSize: 14,
-            paddingTop: '0.2rem',
-            paddingBottom: '0.2rem'
-        }
-    }));
 
     return (
         <Dialog
@@ -163,7 +150,7 @@ const CreditBalanceAdd = ({ handleDialogClose, isDialogOpen, billMilestone, part
                                 <MenuItem value={'MWG'}>MWG</MenuItem>
                                 <MenuItem value={'重溢繳'}>重溢繳</MenuItem>
                                 <MenuItem value={'賠償'}>賠償</MenuItem>
-                                <MenuItem value={'賠償'}>預付</MenuItem>
+                                <MenuItem value={'預付'}>預付</MenuItem>
                                 <MenuItem value={'其他'}>其他</MenuItem>
                             </Select>
                         </FormControl>
