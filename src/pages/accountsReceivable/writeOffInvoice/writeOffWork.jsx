@@ -123,6 +123,18 @@ const WriteOffWork = ({ isDialogOpen, handleDialogClose, writeOffInfo, writeOffD
         setIsComplete(e.target.checked);
     };
 
+    const resetData = () => {
+        writeOffDetail.forEach((i) => {
+            delete i.ReceiveAmount;
+            delete i.BankFees;
+            // i.OverAmount = 0;
+            // i.ShortAmount = 0;
+            delete i.ShortOverReason;
+            delete i.ReceiveDate;
+            delete i.Note;
+        });
+    };
+
     const initData = () => {
         let tmpArray = writeOffDetail.map((i) => i);
         console.log('tmpArray=>>', tmpArray);
@@ -171,6 +183,11 @@ const WriteOffWork = ({ isDialogOpen, handleDialogClose, writeOffInfo, writeOffD
                 writeOffQuery();
             })
             .catch((e) => console.log('e1=>', e));
+    };
+
+    const handleClose = () => {
+        handleDialogClose();
+        resetData();
     };
 
     useEffect(() => {
@@ -422,10 +439,10 @@ const WriteOffWork = ({ isDialogOpen, handleDialogClose, writeOffInfo, writeOffD
                 <Button sx={{ mr: '0.05rem' }} variant="contained" onClick={sendData}>
                     儲存
                 </Button>
-                <Button sx={{ mr: '0.05rem' }} variant="contained" onClick={initData}>
+                {/* <Button sx={{ mr: '0.05rem' }} variant="contained" onClick={initData}>
                     Reset
-                </Button>
-                <Button sx={{ mr: '0.05rem' }} variant="contained" onClick={handleDialogClose}>
+                </Button> */}
+                <Button sx={{ mr: '0.05rem' }} variant="contained" onClick={handleClose}>
                     關閉
                 </Button>
             </DialogActions>
