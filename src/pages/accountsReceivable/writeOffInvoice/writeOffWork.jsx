@@ -161,6 +161,7 @@ const WriteOffWork = ({ isDialogOpen, handleDialogClose, writeOffInfo, writeOffD
         fetch(sendToWriteOff, { method: 'POST', body: JSON.stringify(tmpArray) })
             .then((res) => res.json())
             .then(() => {
+                handleClose();
                 writeOffQuery();
             })
             .catch((e) => console.log('e1=>', e));
