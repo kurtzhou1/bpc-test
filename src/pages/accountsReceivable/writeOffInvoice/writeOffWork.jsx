@@ -124,22 +124,18 @@ const WriteOffWork = ({ isDialogOpen, handleDialogClose, writeOffInfo, writeOffD
     };
 
     const initData = () => {
-        let tmpArray = writeOffInfo?.BillDetail?.map((i) => i);
+        let tmpArray = writeOffDetail.map((i) => i);
         console.log('tmpArray=>>', tmpArray);
-        // tmpArray.forEach((i) => {
-        //     i.ReceiveAmount = 0;
-        //     i.BankFees = 0;
-        //     i.OverAmount = 0;
-        //     i.ShortAmount = 0;
-        //     i.ShortOverReason = i.ShortOverReason ? i.ShortOverReason : '';
-        //     i.Note = i.Note ? i.Note : '';
-        // });
-        setToWriteOffDetailInfo(writeOffDetail);
-        setToWriteOffMasterInfo(writeOffInfo);
-    };
-
-    const testData = () => {
-        setToWriteOffDetailInfo(writeOffDetail);
+        tmpArray.forEach((i) => {
+            i.ReceiveAmount = 0;
+            i.BankFees = 0;
+            // i.OverAmount = 0;
+            // i.ShortAmount = 0;
+            i.ShortOverReason = i.ShortOverReason ? i.ShortOverReason : '';
+            i.ReceiveDate = i.ReceiveDate ? i.ReceiveDate : null;
+            i.Note = i.Note ? i.Note : '';
+        });
+        setToWriteOffDetailInfo(tmpArray);
         setToWriteOffMasterInfo(writeOffInfo);
     };
 
@@ -209,13 +205,7 @@ const WriteOffWork = ({ isDialogOpen, handleDialogClose, writeOffInfo, writeOffD
                                 </Typography>
                             </Grid>
                             <Grid item xs={2} sm={2} md={2} lg={2}>
-                                <TextField
-                                    value={writeOffInfo?.BillMaster?.PartyName}
-                                    fullWidth
-                                    disabled={true}
-                                    variant="outlined"
-                                    size="small"
-                                />
+                                <TextField value={writeOffInfo?.PartyName} fullWidth disabled={true} variant="outlined" size="small" />
                             </Grid>
                             <Grid item xs={1} sm={1} md={1} lg={1}>
                                 <Typography
@@ -227,7 +217,7 @@ const WriteOffWork = ({ isDialogOpen, handleDialogClose, writeOffInfo, writeOffD
                             </Grid>
                             <Grid item xs={2} sm={2} md={2} lg={2}>
                                 <TextField
-                                    value={dayjs(writeOffInfo?.BillMaster?.DueDate).format('YYYY/MM/DD')}
+                                    value={dayjs(writeOffInfo?.DueDate).format('YYYY/MM/DD')}
                                     fullWidth
                                     disabled={true}
                                     variant="outlined"
@@ -243,13 +233,7 @@ const WriteOffWork = ({ isDialogOpen, handleDialogClose, writeOffInfo, writeOffD
                                 </Typography>
                             </Grid>
                             <Grid item xs={2} sm={2} md={2} lg={2}>
-                                <TextField
-                                    value={writeOffInfo?.BillMaster?.SubmarineCable}
-                                    fullWidth
-                                    disabled={true}
-                                    variant="outlined"
-                                    size="small"
-                                />
+                                <TextField value={writeOffInfo?.SubmarineCable} fullWidth disabled={true} variant="outlined" size="small" />
                             </Grid>
                             <Grid item xs={1} sm={1} md={1} lg={1}>
                                 <Typography
@@ -260,13 +244,7 @@ const WriteOffWork = ({ isDialogOpen, handleDialogClose, writeOffInfo, writeOffD
                                 </Typography>
                             </Grid>
                             <Grid item xs={2} sm={2} md={2} lg={2}>
-                                <TextField
-                                    value={writeOffInfo?.BillMaster?.WorkTitle}
-                                    fullWidth
-                                    disabled={true}
-                                    variant="outlined"
-                                    size="small"
-                                />
+                                <TextField value={writeOffInfo?.WorkTitle} fullWidth disabled={true} variant="outlined" size="small" />
                             </Grid>
                         </Grid>
                     </Grid>
@@ -444,16 +422,10 @@ const WriteOffWork = ({ isDialogOpen, handleDialogClose, writeOffInfo, writeOffD
                 <Button sx={{ mr: '0.05rem' }} variant="contained" onClick={sendData}>
                     儲存
                 </Button>
-                <Button sx={{ mr: '0.05rem' }} variant="contained" onClick={testData}>
+                <Button sx={{ mr: '0.05rem' }} variant="contained" onClick={initData}>
                     Reset
                 </Button>
-                <Button
-                    sx={{ mr: '0.05rem' }}
-                    variant="contained"
-                    onClick={() => {
-                        handleDialogClose();
-                    }}
-                >
+                <Button sx={{ mr: '0.05rem' }} variant="contained" onClick={handleDialogClose}>
                     關閉
                 </Button>
             </DialogActions>
