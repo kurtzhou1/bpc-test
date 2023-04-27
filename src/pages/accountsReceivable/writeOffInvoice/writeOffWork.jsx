@@ -139,7 +139,7 @@ const WriteOffWork = ({ isDialogOpen, handleDialogClose, writeOffInfo, writeOffQ
             diffAmount = 0;
             diffAmount = tmpAmount - Number(i.FeeAmount);
             i.OverAmount = diffAmount > 0 ? diffAmount : 0;
-            i.ShortAmount = diffAmount >= 0 ? 0 : Math.abs(diffAmount) > Number(i.BankFees) ? tmpAmount : 0;
+            i.ShortAmount = diffAmount >= 0 ? 0 : Math.abs(diffAmount) > Number(i.BankFees) ? Math.abs(diffAmount) : 0;
             tmpBankFees = tmpBankFees + Number(i.BankFees);
             i.ReceivedAmount = Number(i.ReceiveAmount);
             delete i.ReceiveAmount;
@@ -280,7 +280,7 @@ const WriteOffWork = ({ isDialogOpen, handleDialogClose, writeOffInfo, writeOffQ
                                             let tmpAmount = Number(row.ReceiveAmount) + Number(row.ReceivedAmount); //本次實收+累計實收
                                             let diffAmount = tmpAmount - Number(row.FeeAmount); //本次實收+累計實收-應繳金額
                                             // 本次實收+累計實收-應繳 > 0，則顯示其金額差額
-                                            console.log('123=>>', diffAmount);
+                                            console.log('123=>>', diffAmount, Math.abs(diffAmount) > Number(row.BankFees));
                                             return (
                                                 <TableRow
                                                     // key={row?.FeeAmountPre + row?.PartyName + row?.LBRatio}
@@ -338,7 +338,7 @@ const WriteOffWork = ({ isDialogOpen, handleDialogClose, writeOffInfo, writeOffQ
                                                         {diffAmount >= 0
                                                             ? '0.00'
                                                             : Math.abs(diffAmount) > Number(row.BankFees)
-                                                            ? handleNumber(tmpAmount.toFixed(2))
+                                                            ? handleNumber(Math.abs(diffAmount).toFixed(2))
                                                             : '0.00'}
                                                     </TableCell>
                                                     {/* 手續費差額 */}
@@ -347,7 +347,7 @@ const WriteOffWork = ({ isDialogOpen, handleDialogClose, writeOffInfo, writeOffQ
                                                         {diffAmount >= 0
                                                             ? '0.00'
                                                             : Math.abs(diffAmount) <= Number(row.BankFees)
-                                                            ? handleNumber(tmpAmount.toFixed(2))
+                                                            ? handleNumber(Math.abs(diffAmount).toFixed(2))
                                                             : '0.00'}
                                                     </TableCell>
                                                     <TableCell sx={{ fontSize: '0.1rem' }} align="center">
