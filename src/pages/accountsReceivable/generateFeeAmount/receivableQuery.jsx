@@ -135,8 +135,10 @@ const ReceivableQuery = ({ value, setListInfo, queryApi }) => {
             }
             tmpQuery = queryToCombineInvo + tmpQuery;
         } else if (value === 1) {
+            console.log('tmpQuery=>>', tmpQuery);
             if (tmpQuery.includes('&')) {
                 tmpQuery = '/' + tmpQuery.slice(0, -1);
+                tmpQuery = tmpQuery + '&Status=INITIAL';
             } else {
                 tmpQuery = tmpQuery + '/Status=INITIAL​';
             }
@@ -144,6 +146,7 @@ const ReceivableQuery = ({ value, setListInfo, queryApi }) => {
         } else if (value === 2) {
             if (tmpQuery.includes('&')) {
                 tmpQuery = '/' + tmpQuery.slice(0, -1);
+                tmpQuery = tmpQuery + '&Status=RATED';
             } else {
                 tmpQuery = tmpQuery + '/Status=RATED';
             }
@@ -151,6 +154,7 @@ const ReceivableQuery = ({ value, setListInfo, queryApi }) => {
         } else if (value === 3) {
             if (tmpQuery.includes('&')) {
                 tmpQuery = '/' + tmpQuery.slice(0, -1);
+                tmpQuery = tmpQuery + '&Status=SIGNED';
             } else {
                 tmpQuery = tmpQuery + '/Status=SIGNED';
             }
@@ -158,12 +162,13 @@ const ReceivableQuery = ({ value, setListInfo, queryApi }) => {
         } else if (value === 4) {
             if (tmpQuery.includes('&')) {
                 tmpQuery = '/' + tmpQuery.slice(0, -1);
+                tmpQuery = tmpQuery + '&Status=INVALID';
             } else {
                 tmpQuery = tmpQuery + '/Status=INVALID';
             }
             tmpQuery = queryToDecutBill + tmpQuery;
         }
-        console.log('tmpQuery=>>', tmpQuery);
+        console.log('按下查詢=>>', tmpQuery);
         fetch(tmpQuery, { method: 'GET' })
             .then((res) => res.json())
             .then((data) => {

@@ -51,7 +51,9 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
     }
 }));
 
-const WriteOffWork = ({ isDialogOpen, handleDialogClose, writeOffInfo, writeOffQuery }) => {
+const WriteOffWork = ({ isDialogOpen, handleDialogClose, writeOffInfo, writeOffDetail, writeOffQuery }) => {
+    console.log('writeOffInfo=>>', writeOffInfo);
+    console.log('writeOffDetail=>>', writeOffDetail);
     const [toWriteOffMasterInfo, setToWriteOffMasterInfo] = useState({}); //帳單明細檔
     const [toWriteOffDetailInfo, setToWriteOffDetailInfo] = useState([]); //帳單明細檔
     const [isComplete, setIsComplete] = useState(false);
@@ -123,16 +125,22 @@ const WriteOffWork = ({ isDialogOpen, handleDialogClose, writeOffInfo, writeOffQ
 
     const initData = () => {
         let tmpArray = writeOffInfo?.BillDetail?.map((i) => i);
-        tmpArray.forEach((i) => {
-            i.ReceiveAmount = 0;
-            i.BankFees = 0;
-            i.OverAmount = 0;
-            i.ShortAmount = 0;
-            i.ShortOverReason = i.ShortOverReason ? i.ShortOverReason : '';
-            i.Note = i.Note ? i.Note : '';
-        });
-        setToWriteOffDetailInfo(tmpArray);
-        setToWriteOffMasterInfo(writeOffInfo?.BillMaster);
+        console.log('tmpArray=>>', tmpArray);
+        // tmpArray.forEach((i) => {
+        //     i.ReceiveAmount = 0;
+        //     i.BankFees = 0;
+        //     i.OverAmount = 0;
+        //     i.ShortAmount = 0;
+        //     i.ShortOverReason = i.ShortOverReason ? i.ShortOverReason : '';
+        //     i.Note = i.Note ? i.Note : '';
+        // });
+        setToWriteOffDetailInfo(writeOffDetail);
+        setToWriteOffMasterInfo(writeOffInfo);
+    };
+
+    const testData = () => {
+        setToWriteOffDetailInfo(writeOffDetail);
+        setToWriteOffMasterInfo(writeOffInfo);
     };
 
     const sendData = () => {
@@ -170,10 +178,12 @@ const WriteOffWork = ({ isDialogOpen, handleDialogClose, writeOffInfo, writeOffQ
     };
 
     useEffect(() => {
-        if (writeOffInfo?.BillDetail?.length > 0) {
+        if (writeOffDetail?.length > 0 && isDialogOpen) {
             initData();
+            // setToWriteOffDetailInfo(writeOffInfo.BillDetail);
+            // setToWriteOffMasterInfo(writeOffInfo?.BillMaster);
         }
-    }, [writeOffInfo]);
+    }, [writeOffInfo, writeOffDetail, isDialogOpen]);
 
     return (
         <Dialog
@@ -289,10 +299,9 @@ const WriteOffWork = ({ isDialogOpen, handleDialogClose, writeOffInfo, writeOffQ
                                             let tmpAmount = Number(row.ReceiveAmount) + Number(row.ReceivedAmount); //本次實收+累計實收
                                             let diffAmount = tmpAmount - Number(row.FeeAmount); //本次實收+累計實收-應繳金額
                                             // 本次實收+累計實收-應繳 > 0，則顯示其金額差額
-                                            console.log('123=>>', diffAmount, Math.abs(diffAmount) > Number(row.BankFees));
                                             return (
                                                 <TableRow
-                                                    // key={row?.FeeAmountPre + row?.PartyName + row?.LBRatio}
+                                                    key={row?.BillMasterID + row?.BillDetailID}
                                                     sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                                                 >
                                                     {/* <TableCell align="center" sx={{ fontSize: '0.1rem' }}>
@@ -435,7 +444,7 @@ const WriteOffWork = ({ isDialogOpen, handleDialogClose, writeOffInfo, writeOffQ
                 <Button sx={{ mr: '0.05rem' }} variant="contained" onClick={sendData}>
                     儲存
                 </Button>
-                <Button sx={{ mr: '0.05rem' }} variant="contained" onClick={initData}>
+                <Button sx={{ mr: '0.05rem' }} variant="contained" onClick={testData}>
                     Reset
                 </Button>
                 <Button

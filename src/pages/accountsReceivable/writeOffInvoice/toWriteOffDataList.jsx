@@ -54,14 +54,18 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
 const ToWriteOffDataList = ({ listInfo, writeOffQuery }) => {
     const [isDialogOpen, setIsDialogOpen] = useState(false); //折抵作業
     const writeOffInfo = useRef({});
+    const writeOffDetail = useRef([]);
     let tmpBMArray = [];
 
     const handleDialogClose = () => {
+        writeOffInfo.current = {};
+        writeOffDetail.current = [];
         setIsDialogOpen(false);
     };
 
     const handleDialogOpen = (info) => {
-        writeOffInfo.current = info;
+        writeOffInfo.current = info.BillMaster;
+        writeOffDetail.current = info.BillDetail;
         setIsDialogOpen(true);
     };
 
@@ -71,6 +75,7 @@ const ToWriteOffDataList = ({ listInfo, writeOffQuery }) => {
                 isDialogOpen={isDialogOpen}
                 handleDialogClose={handleDialogClose}
                 writeOffInfo={writeOffInfo.current}
+                writeOffDetail={writeOffDetail.current}
                 writeOffQuery={writeOffQuery}
             />
             <TableContainer component={Paper} sx={{ maxHeight: 350 }}>
