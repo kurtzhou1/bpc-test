@@ -19,6 +19,10 @@ import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import { styled } from '@mui/material/styles';
 
+// redux
+import { useDispatch } from 'react-redux';
+import { setMessageStateOpen } from 'store/reducers/dropdown';
+
 const CreateInvoiceDetail = ({
     setInvoiceDetailInfo,
     bmStoneList,
@@ -33,9 +37,8 @@ const CreateInvoiceDetail = ({
     setFeeAmount
 }) => {
     const [isEdit, setIsEdit] = useState(false);
-    // const [editItem, setEditItem] = useState();
     const editItem = useRef();
-
+    const dispatch = useDispatch();
     const createData = (FeeItem, BillMilestone, FeeAmount) => {
         return { FeeItem, BillMilestone, FeeAmount };
     };
@@ -59,7 +62,7 @@ const CreateInvoiceDetail = ({
             dispatch(setMessageStateOpen({ messageStateOpen: { isOpen: true, severity: 'error', message: '請輸入記帳段號' } }));
             return false;
         }
-        if (feeItem === '') {
+        if (feeItem.trim() === '') {
             dispatch(setMessageStateOpen({ messageStateOpen: { isOpen: true, severity: 'error', message: '請輸入費用項目' } }));
             return false;
         }
@@ -73,7 +76,7 @@ const CreateInvoiceDetail = ({
     const itemDetailAdd = () => {
         if (infoCheck()) {
             let tmpArray = invoiceDetailInfo;
-            tmpArray.push(createData(feeItem, billMilestone, Number(feeAmount.replaceAll(',', ''))));
+            tmpArray.push(createData(feeItem.trim(), billMilestone, Number(feeAmount.replaceAll(',', ''))));
             // tmpArray.reverse();
             setInvoiceDetailInfo([...tmpArray]);
             itemDetailInitial();

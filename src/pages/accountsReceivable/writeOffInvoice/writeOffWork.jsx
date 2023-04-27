@@ -18,7 +18,8 @@ import {
     DialogActions,
     TextField,
     Checkbox,
-    Box
+    Box,
+    MenuItem
 } from '@mui/material';
 import TableBody from '@mui/material/TableBody';
 import TableCell, { tableCellClasses } from '@mui/material/TableCell';
@@ -101,6 +102,16 @@ const WriteOffWork = ({ isDialogOpen, handleDialogClose, writeOffInfo, writeOffQ
         tmpArray.forEach((i) => {
             if (i.BillDetailID === id) {
                 i.Note = note;
+            }
+        });
+        setToWriteOffDetailInfo(tmpArray);
+    };
+
+    const changeState = (status, id) => {
+        let tmpArray = toWriteOffDetailInfo.map((i) => i);
+        tmpArray.forEach((i) => {
+            if (i.BillDetailID === id) {
+                i.Status = status;
             }
         });
         setToWriteOffDetailInfo(tmpArray);
@@ -381,7 +392,17 @@ const WriteOffWork = ({ isDialogOpen, handleDialogClose, writeOffInfo, writeOffQ
                                                         />
                                                     </TableCell>
                                                     <TableCell sx={{ fontSize: '0.1rem' }} align="center">
-                                                        {row?.Status}
+                                                        <Select
+                                                            value={row?.Status}
+                                                            label="會員"
+                                                            onChange={(e) => changeState(e.target.value, row.BillDetailID)}
+                                                        >
+                                                            <MenuItem value={'OK'}>正常繳款</MenuItem>
+                                                            <MenuItem value={'OVER'}>重溢繳</MenuItem>
+                                                            <MenuItem value={'BANK_FEE'}>補手續費</MenuItem>
+                                                            <MenuItem value={'PARTIAL'}>部分收款</MenuItem>
+                                                            <MenuItem value={'INCOMPLETE'}>尚未收款</MenuItem>
+                                                        </Select>
                                                     </TableCell>
                                                 </TableRow>
                                             );
