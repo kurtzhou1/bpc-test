@@ -52,8 +52,6 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
 }));
 
 const WriteOffWork = ({ isDialogOpen, handleDialogClose, writeOffInfo, writeOffDetail, writeOffQuery }) => {
-    console.log('writeOffInfo=>>', writeOffInfo);
-    console.log('writeOffDetail=>>', writeOffDetail);
     const [toWriteOffMasterInfo, setToWriteOffMasterInfo] = useState({}); //帳單明細檔
     const [toWriteOffDetailInfo, setToWriteOffDetailInfo] = useState([]); //帳單明細檔
     const [isComplete, setIsComplete] = useState(false);
@@ -123,29 +121,14 @@ const WriteOffWork = ({ isDialogOpen, handleDialogClose, writeOffInfo, writeOffD
         setIsComplete(e.target.checked);
     };
 
-    const resetData = () => {
-        writeOffDetail.forEach((i) => {
-            delete i.ReceiveAmount;
-            delete i.BankFees;
-            // i.OverAmount = 0;
-            // i.ShortAmount = 0;
-            delete i.ShortOverReason;
-            delete i.ReceiveDate;
-            delete i.Note;
-        });
-    };
-
     const initData = () => {
-        let tmpArray = writeOffDetail.map((i) => i);
-        console.log('tmpArray=>>', tmpArray);
+        let tmpArray = JSON.parse(JSON.stringify(writeOffDetail));
         tmpArray.forEach((i) => {
             i.ReceiveAmount = 0;
             i.BankFees = 0;
-            // i.OverAmount = 0;
-            // i.ShortAmount = 0;
-            i.ShortOverReason = i.ShortOverReason ? i.ShortOverReason : '';
-            i.ReceiveDate = i.ReceiveDate ? i.ReceiveDate : null;
-            i.Note = i.Note ? i.Note : '';
+            // i.ShortOverReason = i.ShortOverReason ? i.ShortOverReason : '';
+            // i.ReceiveDate = i.ReceiveDate ? i.ReceiveDate : null;
+            // i.Note = i.Note ? i.Note : '';
         });
         setToWriteOffDetailInfo(tmpArray);
         setToWriteOffMasterInfo(writeOffInfo);
@@ -171,8 +154,6 @@ const WriteOffWork = ({ isDialogOpen, handleDialogClose, writeOffInfo, writeOffD
         });
         toWriteOffMasterInfo.Status = isComplete ? 'COMPLETE' : '';
         toWriteOffMasterInfo.BankFees = tmpBankFees;
-        console.log('toWriteOffMasterInfo=>>', toWriteOffMasterInfo);
-        console.log('toWriteOffDetailInfo=>>', toWriteOffDetailInfo);
         tmpArray = {
             BillMaster: toWriteOffMasterInfo,
             BillDetail: toWriteOffDetailInfo
@@ -187,7 +168,8 @@ const WriteOffWork = ({ isDialogOpen, handleDialogClose, writeOffInfo, writeOffD
 
     const handleClose = () => {
         handleDialogClose();
-        resetData();
+        setToWriteOffDetailInfo([]);
+        // resetData();
     };
 
     useEffect(() => {
@@ -196,7 +178,7 @@ const WriteOffWork = ({ isDialogOpen, handleDialogClose, writeOffInfo, writeOffD
             // setToWriteOffDetailInfo(writeOffInfo.BillDetail);
             // setToWriteOffMasterInfo(writeOffInfo?.BillMaster);
         }
-    }, [writeOffInfo, writeOffDetail, isDialogOpen]);
+    }, [writeOffDetail, isDialogOpen]);
 
     return (
         <Dialog

@@ -59,7 +59,7 @@ const fakeData = [
             {
                 BillDetailID: 2,
                 BillMilestone: 'BM9a',
-                ShortOverReason: null,
+                ShortOverReason: '測試',
                 WKMasterID: 1,
                 FeeItem: 'BM9a Sea cable manufactured (except 8.5km spare cable))- Service',
                 WriteOffDate: null,

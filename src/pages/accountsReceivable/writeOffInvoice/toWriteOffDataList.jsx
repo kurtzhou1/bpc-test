@@ -65,8 +65,6 @@ const ToWriteOffDataList = ({ listInfo, writeOffQuery }) => {
     };
 
     const handleDialogOpen = (info) => {
-        console.log('listInfo=>>', listInfo);
-        console.log('info=>>', info);
         let tmpArray = info.BillDetail.map((i) => i);
         writeOffInfo.current = info.BillMaster;
         setWriteOffDetail(tmpArray);
