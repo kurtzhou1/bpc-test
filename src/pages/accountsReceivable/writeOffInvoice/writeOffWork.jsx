@@ -280,6 +280,7 @@ const WriteOffWork = ({ isDialogOpen, handleDialogClose, writeOffInfo, writeOffQ
                                             let tmpAmount = Number(row.ReceiveAmount) + Number(row.ReceivedAmount); //本次實收+累計實收
                                             let diffAmount = tmpAmount - Number(row.FeeAmount); //本次實收+累計實收-應繳金額
                                             // 本次實收+累計實收-應繳 > 0，則顯示其金額差額
+                                            console.log('123=>>', diffAmount);
                                             return (
                                                 <TableRow
                                                     // key={row?.FeeAmountPre + row?.PartyName + row?.LBRatio}

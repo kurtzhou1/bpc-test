@@ -46,7 +46,6 @@ import { useSelector } from 'react-redux';
 // ==============================|| MAIN ROUTING ||============================== //
 const RequireAuth = ({ children }) => {
     const { isLogin } = useSelector((state) => state.dropdown);
-    console.log('isLogin=>>', isLogin);
     // let auth = localStorage.getItem('name');
     if (!isLogin) {
         return <Navigate to="/login" replace />;
