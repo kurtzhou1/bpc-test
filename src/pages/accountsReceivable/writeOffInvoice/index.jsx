@@ -221,8 +221,8 @@ const WriteOffInvoice = () => {
                         </Tabs>
                     </Box>
                     <TabPanel value={value} index={0}>
-                        {/* <ToWriteOffDataList listInfo={listInfo} writeOffQuery={writeOffQuery} /> */}
-                        <ToWriteOffDataList listInfo={fakeData} writeOffQuery={writeOffQuery} />
+                        <ToWriteOffDataList listInfo={listInfo} writeOffQuery={writeOffQuery} />
+                        {/* <ToWriteOffDataList listInfo={fakeData} writeOffQuery={writeOffQuery} /> */}
                     </TabPanel>
                     <TabPanel value={value} index={1}>
                         <WriteOffedDataList listInfo={listInfo} />
