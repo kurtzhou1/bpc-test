@@ -152,7 +152,7 @@ const WriteOffWork = ({ isDialogOpen, handleDialogClose, writeOffInfo, writeOffD
             i.ReceivedAmount = Number(i.ReceiveAmount);
             delete i.ReceiveAmount;
         });
-        toWriteOffMasterInfo.current.Status = isComplete ? 'COMPLETE' : '';
+        toWriteOffMasterInfo.current.Status = isComplete ? 'COMPLETE' : toWriteOffMasterInfo.current.Status;
         toWriteOffMasterInfo.current.BankFees = tmpBankFees;
         tmpArray = {
             BillMaster: toWriteOffMasterInfo.current,
