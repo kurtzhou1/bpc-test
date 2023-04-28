@@ -126,6 +126,7 @@ const ToBillDataList = ({ listInfo, apiQuery }) => {
                                 <TableRow>
                                     <StyledTableCell align="center">費用項目</StyledTableCell>
                                     <StyledTableCell align="center">費用金額</StyledTableCell>
+                                    <StyledTableCell align="center">記帳段號</StyledTableCell>
                                     <StyledTableCell align="center">會員</StyledTableCell>
                                     <StyledTableCell align="center">攤分比例</StyledTableCell>
                                     <StyledTableCell align="center">攤分後金額</StyledTableCell>
@@ -143,12 +144,14 @@ const ToBillDataList = ({ listInfo, apiQuery }) => {
                                         >
                                             <TableCell align="center">{row.FeeItem}</TableCell>
                                             <TableCell align="center">{`$${handleNumber(row.FeeAmountPre)}`}</TableCell>
+                                            <TableCell align="center">{row.BillMilestone}</TableCell>
                                             <TableCell align="center">{row.PartyName}</TableCell>
                                             <TableCell align="center">{`${row.LBRatio}%`}</TableCell>
                                             <TableCell align="center">{`$${handleNumber(row.FeeAmountPost)}`}</TableCell>
                                             <TableCell align="center">
                                                 <TextField
                                                     label="$"
+                                                    inputProps={{ step: '.01' }}
                                                     size="small"
                                                     type="number"
                                                     style={{ width: '30%' }}

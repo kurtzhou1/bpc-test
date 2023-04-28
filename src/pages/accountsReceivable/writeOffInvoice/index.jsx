@@ -137,7 +137,7 @@ const fakeData = [
 
 const WriteOffInvoice = () => {
     const [value, setValue] = useState(0);
-    const queryApi = useRef('');
+    const queryApi = useRef('/Status=TO_WRITEOFF');
     const handleChange = (event, newValue) => {
         setValue(newValue);
     };
@@ -150,42 +150,6 @@ const WriteOffInvoice = () => {
     };
 
     const [listInfo, setListInfo] = useState([]);
-    const [isDialogOpen, setIsDialogOpen] = useState(false);
-    const [dialogAction, setDialogAction] = useState('');
-
-    const [billMilestone, setBillMilestone] = useState(''); //記帳段號
-    const [partyName, setPartyName] = useState([]); //會員名稱
-    const [lBRatio, setLBRatio] = useState(''); //攤分比例
-    const [editItem, setEditItem] = useState(NaN);
-    const [modifyNote, setModifyNote] = useState('');
-
-    const handleDialogOpen = () => {
-        setIsDialogOpen(true);
-        setDialogAction('add');
-    };
-
-    const handleDialogClose = () => {
-        setIsDialogOpen(false);
-    };
-
-    const itemDetailInitial = () => {
-        setBillMilestone('');
-        setPartyName([]);
-        setLBRatio('');
-        setModifyNote('');
-    };
-
-    //編輯
-    const editlistInfoItem = () => {
-        let tmpArray = listInfo[editItem];
-        if (tmpArray) {
-            setBillMilestone(tmpArray?.billMilestone);
-            partyName.current = tmpArray?.partyName;
-            setLBRatio(tmpArray?.lBRatio);
-            setModifyNote(tmpArray?.modifyNote);
-        }
-    };
-
     const writeOffQuery = () => {
         fetch(queryApi.current, { method: 'GET' })
             .then((res) => res.json())
@@ -196,14 +160,6 @@ const WriteOffInvoice = () => {
                 console.log('e1=>', e);
             });
     };
-
-    useEffect(() => {
-        itemDetailInitial();
-        if (editItem >= 0) {
-            editlistInfoItem();
-            setIsDialogOpen(true);
-        }
-    }, [editItem]);
 
     return (
         <Grid container spacing={1}>
@@ -221,8 +177,8 @@ const WriteOffInvoice = () => {
                         </Tabs>
                     </Box>
                     <TabPanel value={value} index={0}>
-                        <ToWriteOffDataList listInfo={listInfo} writeOffQuery={writeOffQuery} />
-                        {/* <ToWriteOffDataList listInfo={fakeData} writeOffQuery={writeOffQuery} /> */}
+                        {/* <ToWriteOffDataList listInfo={listInfo} writeOffQuery={writeOffQuery} /> */}
+                        <ToWriteOffDataList listInfo={fakeData} writeOffQuery={writeOffQuery} />
                     </TabPanel>
                     <TabPanel value={value} index={1}>
                         <WriteOffedDataList listInfo={listInfo} />

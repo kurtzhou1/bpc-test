@@ -13,7 +13,7 @@ import { useSelector } from 'react-redux';
 
 const CreditBalance = () => {
     const { partiesList, subCableList } = useSelector((state) => state.dropdown); //供應商下拉選單 + 海纜名稱下拉選單
-    const queryApi = useRef('');
+    const queryApi = useRef('/all');
     const [listInfo, setListInfo] = useState([]);
     const [isDialogOpen, setIsDialogOpen] = useState(false);
 

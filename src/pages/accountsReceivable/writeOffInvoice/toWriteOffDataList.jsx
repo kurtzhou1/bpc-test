@@ -76,7 +76,7 @@ const ToWriteOffDataList = ({ listInfo, writeOffQuery }) => {
             <WriteOffWork
                 isDialogOpen={isDialogOpen}
                 handleDialogClose={handleDialogClose}
-                writeOffInfo={writeOffInfo}
+                writeOffInfo={writeOffInfo.current}
                 writeOffDetail={writeOffDetail}
                 writeOffQuery={writeOffQuery}
             />

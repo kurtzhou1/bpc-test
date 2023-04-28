@@ -33,6 +33,7 @@ import { DesktopDatePicker } from '@mui/x-date-pickers/DesktopDatePicker';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 
 import dayjs from 'dayjs';
+import { withStyles } from '@material-ui/core/styles';
 
 // api
 import { sendToWriteOff, queryToDecutBill } from 'components/apis.jsx';
@@ -40,39 +41,70 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
     [`&.${tableCellClasses.head}`]: {
         // backgroundColor: theme.palette.common.gary,
         color: theme.palette.common.black,
-        paddingTop: '0.2rem',
-        paddingBottom: '0.2rem',
-        fontSize: '0.05rem'
+        paddingTop: '0.1rem',
+        paddingBottom: '0.1rem',
+        fontSize: '0.05rem',
+        overflowX: 'auto',
+        minWidth: '100%'
     },
-    [`&.${tableCellClasses.body}`]: {
+    [`&.${tableCellClasses.body}.totalAmount`]: {
         fontSize: 14,
         paddingTop: '0.2rem',
-        paddingBottom: '0.2rem'
+        paddingBottom: '0.2rem',
+        backgroundColor: '#CFD8DC'
     }
 }));
+
+const styles = (theme) => ({
+    root: {
+        overflowX: 'auto'
+    }
+});
 
 const WriteOffWork = ({ isDialogOpen, handleDialogClose, writeOffInfo, writeOffDetail, writeOffQuery }) => {
     const [toWriteOffMasterInfo, setToWriteOffMasterInfo] = useState({}); //帳單明細檔
     const [toWriteOffDetailInfo, setToWriteOffDetailInfo] = useState([]); //帳單明細檔
     const [isComplete, setIsComplete] = useState(false);
+    const orgFeeAmountTotal = useRef(0); //原始費用
+    const dedAmountTotal = useRef(0); //折抵費用
+    const feeAmountTotal = useRef(0); //應繳費用
+    const receivedAmountTotal = useRef(0); //累計費用
+
+    const bankFeesTotal = useRef(0); //手續費
+    const ReceiveAmountTotal = useRef(0); //本次實收費用
+    const totalAmountTotal = useRef(0); //總金額
+    const overAmountTotal = useRef(0); //重溢繳
+    const shortAmountTotal = useRef(0); //短繳
+    const bankFeesLessTotal = useRef(0);
 
     const changeBankFees = (bankFees, id) => {
         let tmpArray = toWriteOffDetailInfo.map((i) => i);
+        let tmpBankFees = 0;
+        console.log('bankFees=>>', bankFeesTotal.current, Number(bankFees));
         tmpArray.forEach((i) => {
             if (i.BillDetailID === id) {
                 i.BankFees = bankFees;
+                tmpBankFees = tmpBankFees + Number(bankFees);
+            } else {
+                tmpBankFees = tmpBankFees + Number(i.BankFees);
             }
         });
+        bankFeesTotal.current = tmpBankFees;
         setToWriteOffDetailInfo(tmpArray);
     };
 
     const changeReceiveAmount = (receiveAmount, id) => {
         let tmpArray = toWriteOffDetailInfo.map((i) => i);
+        let tmpreceiveAmount = 0;
         tmpArray.forEach((i) => {
             if (i.BillDetailID === id) {
                 i.ReceiveAmount = receiveAmount;
+                tmpreceiveAmount = tmpreceiveAmount + Number(receiveAmount);
+            } else {
+                tmpreceiveAmount = tmpreceiveAmount + Number(i.ReceiveAmount);
             }
         });
+        ReceiveAmountTotal.current = tmpreceiveAmount;
         setToWriteOffDetailInfo(tmpArray);
     };
 
@@ -123,13 +155,23 @@ const WriteOffWork = ({ isDialogOpen, handleDialogClose, writeOffInfo, writeOffD
 
     const initData = () => {
         let tmpArray = JSON.parse(JSON.stringify(writeOffDetail));
+        let tmpOrgFeeAmountTotal = 0; //原始費用
+        let tmpDedAmountTotal = 0; //折抵費用
+        let tmpFeeAmountTotal = 0; //應繳費用
+        let tmpReceivedAmountTotal = 0; //累計費用
         tmpArray.forEach((i) => {
             i.ReceiveAmount = 0;
             i.BankFees = 0;
-            // i.ShortOverReason = i.ShortOverReason ? i.ShortOverReason : '';
-            // i.ReceiveDate = i.ReceiveDate ? i.ReceiveDate : null;
-            // i.Note = i.Note ? i.Note : '';
+            tmpOrgFeeAmountTotal = tmpOrgFeeAmountTotal + i.OrgFeeAmount;
+            tmpDedAmountTotal = tmpDedAmountTotal + i.DedAmount;
+            tmpFeeAmountTotal = tmpFeeAmountTotal + i.FeeAmount;
+            tmpReceivedAmountTotal = tmpReceivedAmountTotal + i.ReceivedAmount;
         });
+        console.log('tmpOrgFeeAmountTotal=>>', tmpOrgFeeAmountTotal);
+        orgFeeAmountTotal.current = tmpOrgFeeAmountTotal; //原始費用
+        dedAmountTotal.current = tmpDedAmountTotal; //折抵費用
+        feeAmountTotal.current = tmpFeeAmountTotal; //應繳費用
+        receivedAmountTotal.current = tmpReceivedAmountTotal; //累計費用
         setToWriteOffDetailInfo(tmpArray);
         setToWriteOffMasterInfo(writeOffInfo);
     };
@@ -150,20 +192,21 @@ const WriteOffWork = ({ isDialogOpen, handleDialogClose, writeOffInfo, writeOffD
             i.ShortAmount = diffAmount >= 0 ? 0 : Math.abs(diffAmount) > Number(i.BankFees) ? Math.abs(diffAmount) : 0;
             tmpBankFees = tmpBankFees + Number(i.BankFees);
             i.ReceivedAmount = Number(i.ReceiveAmount);
-            delete i.ReceiveAmount;
+            // delete i.ReceiveAmount;
         });
-        toWriteOffMasterInfo.current.Status = isComplete ? 'COMPLETE' : toWriteOffMasterInfo.current.Status;
-        toWriteOffMasterInfo.current.BankFees = tmpBankFees;
+        toWriteOffMasterInfo.Status = isComplete ? 'COMPLETE' : toWriteOffMasterInfo.Status;
+        toWriteOffMasterInfo.BankFees = tmpBankFees;
         tmpArray = {
-            BillMaster: toWriteOffMasterInfo.current,
+            BillMaster: toWriteOffMasterInfo,
             BillDetail: toWriteOffDetailInfo
         };
+        console.log('toWriteOffDetailInfo=>>', toWriteOffDetailInfo);
         console.log('tmpArray=>>', tmpArray);
         fetch(sendToWriteOff, { method: 'POST', body: JSON.stringify(tmpArray) })
             .then((res) => res.json())
             .then(() => {
-                handleClose();
                 writeOffQuery();
+                handleClose();
             })
             .catch((e) => console.log('e1=>', e));
     };
@@ -171,14 +214,23 @@ const WriteOffWork = ({ isDialogOpen, handleDialogClose, writeOffInfo, writeOffD
     const handleClose = () => {
         handleDialogClose();
         setToWriteOffDetailInfo([]);
-        // resetData();
+        setToWriteOffMasterInfo({});
+        orgFeeAmountTotal.current = 0; //原始費用
+        dedAmountTotal.current = 0; //折抵費用
+        feeAmountTotal.current = 0; //應繳費用
+        receivedAmountTotal.current = 0; //累計費用
+
+        bankFeesTotal.current = 0; //手續費
+        ReceiveAmountTotal.current = 0; //本次實收費用
+        totalAmountTotal.current = 0; //總金額
+        overAmountTotal.current = 0; //重溢繳
+        bankFeesLessTotal.current = 0;
+        shortAmountTotal.current = 0;
     };
 
     useEffect(() => {
         if (writeOffDetail?.length > 0 && isDialogOpen) {
             initData();
-            // setToWriteOffDetailInfo(writeOffInfo.BillDetail);
-            // setToWriteOffMasterInfo(writeOffInfo?.BillMaster);
         }
     }, [writeOffDetail, isDialogOpen]);
 
@@ -251,11 +303,11 @@ const WriteOffWork = ({ isDialogOpen, handleDialogClose, writeOffInfo, writeOffD
                     </Grid>
                     <Grid item xs={12} sm={12} md={12} lg={12}>
                         <MainCard title="帳單明細列表">
-                            <TableContainer component={Paper} sx={{ maxHeight: 350 }}>
-                                <Table sx={{ minWidth: 300, fontSize: 18 }} stickyHeader aria-label="sticky table">
+                            <TableContainer component={Paper}>
+                                <Table stickyHeader sx={{ minWidth: 1000 }}>
                                     <TableHead>
                                         <TableRow>
-                                            {/* <StyledTableCell align="center">費用項目</StyledTableCell> */}
+                                            <StyledTableCell align="center">費用項目</StyledTableCell>
                                             <StyledTableCell align="center">原始費用</StyledTableCell>
                                             <StyledTableCell align="center">折抵</StyledTableCell>
                                             <StyledTableCell align="center">應繳</StyledTableCell>
@@ -278,32 +330,42 @@ const WriteOffWork = ({ isDialogOpen, handleDialogClose, writeOffInfo, writeOffD
                                             let tmpAmount = Number(row.ReceiveAmount) + Number(row.ReceivedAmount); //本次實收+累計實收
                                             let diffAmount = tmpAmount - Number(row.FeeAmount); //本次實收+累計實收-應繳金額
                                             // 本次實收+累計實收-應繳 > 0，則顯示其金額差額
+
+                                            //處理Total
+
+                                            totalAmountTotal.current = 0; //總金額
+                                            overAmountTotal.current = 0; //重溢繳
+                                            bankFeesLessTotal.current = 0;
+                                            totalAmountTotal.current = totalAmountTotal.current + 1;
                                             return (
                                                 <TableRow
                                                     key={row?.BillMasterID + row?.BillDetailID}
                                                     sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                                                 >
-                                                    {/* <TableCell align="center" sx={{ fontSize: '0.1rem' }}>
-                                                        {id + 1}
-                                                    </TableCell> */}
+                                                    <TableCell align="center" sx={{ fontSize: '0.1rem', minWidth: 75 }}>
+                                                        {row.FeeItem}
+                                                    </TableCell>
                                                     <TableCell sx={{ fontSize: '0.1rem' }} align="center">
-                                                        ${handleNumber(row?.OrgFeeAmount.toFixed(2))}
+                                                        {handleNumber(row?.OrgFeeAmount.toFixed(2))}
                                                     </TableCell>
                                                     {/* 折抵 */}
                                                     <TableCell sx={{ fontSize: '0.1rem' }} align="center">
-                                                        ${handleNumber(row?.DedAmount.toFixed(2))}
+                                                        {handleNumber(row?.DedAmount.toFixed(2))}
                                                     </TableCell>
                                                     {/* 應繳 */}
                                                     <TableCell sx={{ fontSize: '0.1rem' }} align="center">
-                                                        ${handleNumber(row?.FeeAmount.toFixed(2))}
+                                                        {handleNumber(row?.FeeAmount.toFixed(2))}
                                                     </TableCell>
                                                     <TableCell sx={{ fontSize: '0.1rem' }} align="center">
-                                                        ${handleNumber(row?.ReceivedAmount.toFixed(2))}
+                                                        {handleNumber(row?.ReceivedAmount.toFixed(2))}
                                                     </TableCell>
                                                     {/* 手續費 */}
                                                     <TableCell sx={{ fontSize: '0.1rem' }} align="center">
                                                         <TextField
+                                                            inputProps={{ step: '.01' }}
+                                                            sx={{ minWidth: 75 }}
                                                             size="small"
+                                                            fullWidth
                                                             value={row.BankFees}
                                                             type="number"
                                                             onChange={(e) => changeBankFees(e.target.value, row.BillDetailID)}
@@ -312,6 +374,8 @@ const WriteOffWork = ({ isDialogOpen, handleDialogClose, writeOffInfo, writeOffD
                                                     {/* 本次實收 */}
                                                     <TableCell sx={{ fontSize: '0.1rem' }} align="center">
                                                         <TextField
+                                                            inputProps={{ step: '.01' }}
+                                                            sx={{ minWidth: 75 }}
                                                             size="small"
                                                             value={row.ReceiveAmount}
                                                             type="number"
@@ -350,6 +414,7 @@ const WriteOffWork = ({ isDialogOpen, handleDialogClose, writeOffInfo, writeOffD
                                                     <TableCell sx={{ fontSize: '0.1rem' }} align="center">
                                                         <TextField
                                                             size="small"
+                                                            sx={{ minWidth: 75 }}
                                                             value={row.ShortOverReason}
                                                             onChange={(e) => {
                                                                 changeShortOverReason(e.target.value, row.BillDetailID);
@@ -366,13 +431,16 @@ const WriteOffWork = ({ isDialogOpen, handleDialogClose, writeOffInfo, writeOffD
                                                                 onChange={(e) => {
                                                                     changeReceiveDate(e, row.BillDetailID);
                                                                 }}
-                                                                renderInput={(params) => <TextField size="small" {...params} />}
+                                                                renderInput={(params) => (
+                                                                    <TextField size="small" sx={{ minWidth: 150 }} {...params} />
+                                                                )}
                                                             />
                                                         </LocalizationProvider>
                                                     </TableCell>
                                                     <TableCell sx={{ fontSize: '0.1rem' }} align="center">
                                                         <TextField
                                                             size="small"
+                                                            sx={{ minWidth: 75 }}
                                                             value={row.Note}
                                                             onChange={(e) => {
                                                                 changeNote(e.target.value, row.BillDetailID);
@@ -395,6 +463,42 @@ const WriteOffWork = ({ isDialogOpen, handleDialogClose, writeOffInfo, writeOffD
                                                 </TableRow>
                                             );
                                         })}
+                                        <TableRow sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
+                                            <StyledTableCell className="totalAmount" align="center">
+                                                Total
+                                            </StyledTableCell>
+                                            <StyledTableCell className="totalAmount" align="center">
+                                                {handleNumber(orgFeeAmountTotal.current.toFixed(2))}
+                                            </StyledTableCell>
+                                            <StyledTableCell className="totalAmount" align="center">
+                                                {handleNumber(dedAmountTotal.current.toFixed(2))}
+                                            </StyledTableCell>
+                                            <StyledTableCell className="totalAmount" align="center">
+                                                {handleNumber(feeAmountTotal.current.toFixed(2))}
+                                            </StyledTableCell>
+                                            <StyledTableCell className="totalAmount" align="center">
+                                                {handleNumber(receivedAmountTotal.current.toFixed(2))}
+                                            </StyledTableCell>
+                                            <StyledTableCell className="totalAmount" align="center">
+                                                {handleNumber(bankFeesTotal.current.toFixed(2))}
+                                            </StyledTableCell>
+                                            <StyledTableCell className="totalAmount" align="center">
+                                                {handleNumber(ReceiveAmountTotal.current.toFixed(2))}
+                                            </StyledTableCell>
+                                            <StyledTableCell className="totalAmount" align="center">
+                                                {/* {handleNumber(bankFeesTotal.current.toFixed(2))} */}
+                                            </StyledTableCell>
+                                            <StyledTableCell className="totalAmount" align="center"></StyledTableCell>
+                                            <StyledTableCell className="totalAmount" align="center"></StyledTableCell>
+                                            <StyledTableCell className="totalAmount" align="center"></StyledTableCell>
+                                            <StyledTableCell className="totalAmount" align="center"></StyledTableCell>
+                                            <StyledTableCell className="totalAmount" align="center"></StyledTableCell>
+                                            <StyledTableCell className="totalAmount" align="center"></StyledTableCell>
+                                            <StyledTableCell className="totalAmount" align="center"></StyledTableCell>
+                                            {/* <StyledTableCell className="totalAmount" align="center">{`$${handleNumber(
+                                                feeAmount.current.toFixed(2)
+                                            )}`}</StyledTableCell> */}
+                                        </TableRow>
                                     </TableBody>
                                 </Table>
                             </TableContainer>

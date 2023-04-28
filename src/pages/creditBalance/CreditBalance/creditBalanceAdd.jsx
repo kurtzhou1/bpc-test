@@ -113,15 +113,15 @@ const CreditBalanceAdd = ({ handleDialogClose, isDialogOpen, billMilestone, part
                 Note: note ? note : null
             };
             console.log('tmpArray=>>', tmpArray);
-            // fetch(queryCB, { method: 'POST', body: JSON.stringify(tmpArray) })
-            //     .then((res) => res.json())
-            //     .then(() => {
-            //         alert('送出Credit Balance成功');
-            //         handleDialogClose();
-            //         infoInitial();
-            //         creditBalanceQuery();
-            //     })
-            //     .catch((e) => console.log('e1=>', e));
+            fetch(queryCB, { method: 'POST', body: JSON.stringify(tmpArray) })
+                .then((res) => res.json())
+                .then(() => {
+                    alert('送出Credit Balance成功');
+                    handleDialogClose();
+                    infoInitial();
+                    creditBalanceQuery();
+                })
+                .catch((e) => console.log('e1=>', e));
         }
     };
 

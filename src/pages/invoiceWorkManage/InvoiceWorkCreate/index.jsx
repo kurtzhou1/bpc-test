@@ -356,19 +356,19 @@ const InvoiceWorkManage = () => {
                         <Grid item xs={12} display="flex" justifyContent="center" alignItems="center">
                             {isListEdit ? (
                                 <>
-                                    <Button variant="contained" sx={{ ml: '0.25rem', mr: '0.25rem' }} onClick={saveEdit}>
+                                    <Button variant="contained" onClick={saveEdit}>
                                         儲存編輯
                                     </Button>
-                                    <Button variant="contained" sx={{ ml: '0.25rem', mr: '0.25rem' }} onClick={cancelEdit}>
+                                    <Button variant="contained" onClick={cancelEdit}>
                                         取消編輯
                                     </Button>
                                 </>
                             ) : (
                                 <>
-                                    <Button variant="contained" sx={{ ml: '0.25rem', mr: '0.25rem' }} onClick={addInvoiceInfo}>
+                                    <Button variant="contained" onClick={addInvoiceInfo}>
                                         新增發票
                                     </Button>
-                                    <Button variant="contained" sx={{ ml: '0.25rem', mr: '0.25rem' }} onClick={itemInfoInitial}>
+                                    <Button variant="contained" onClick={itemInfoInitial}>
                                         全部清除
                                     </Button>
                                 </>
@@ -387,16 +387,14 @@ const InvoiceWorkManage = () => {
                         </Grid>
                         <Grid item xs={12} display="flex" justifyContent="center" alignItems="center">
                             {listInfo.length > 0 ? (
-                                <Button variant="contained" sx={{ ml: '0.25rem', mr: '0.25rem' }} onClick={sendInvoice}>
+                                <Button variant="contained" onClick={sendInvoice}>
                                     送出發票
                                 </Button>
                             ) : (
                                 ''
                             )}
                             <Link to="/InvoiceWorkManage/InvoiceWorkEdit" style={{ color: '#262626', textDecoration: 'none' }}>
-                                <Button variant="contained" sx={{ ml: '0.25rem', mr: '0.25rem' }}>
-                                    下一頁
-                                </Button>
+                                <Button variant="contained">下一頁</Button>
                             </Link>
                         </Grid>
                     </Grid>

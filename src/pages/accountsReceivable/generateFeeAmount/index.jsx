@@ -24,7 +24,7 @@ const GenerateFeeAmount = () => {
     const [listInfo, setListInfo] = useState([]);
     // const [dataList, setDataList] = useState([]);
     const dispatch = useDispatch();
-    const queryApi = useRef('');
+    const queryApi = useRef('/Status=TO_MERGE');
     const [isDialogOpen, setIsDialogOpen] = useState(false);
     const [cbToCn, setCbToCn] = useState({}); //勾選合併狀態
     // const totalCombineAmount = useRef(0); //勾選合併帳單總金額

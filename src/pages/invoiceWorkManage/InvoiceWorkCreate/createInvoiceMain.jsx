@@ -136,7 +136,6 @@ const InvoiceWorkManage = ({
                     <TextField
                         fullWidth
                         variant="outlined"
-                        u
                         value={invoiceNo}
                         size="small"
                         label="發票號碼"

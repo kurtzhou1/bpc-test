@@ -437,10 +437,10 @@ const InvoiceWorkManage = () => {
                             </Grid>
                             {action === 'Edit' ? (
                                 <Grid item xs={12} display="flex" justifyContent="center" alignItems="center">
-                                    <Button variant="contained" sx={{ ml: '0.25rem', mr: '0.25rem' }} onClick={addInvoiceInfo}>
+                                    <Button variant="contained" onClick={addInvoiceInfo}>
                                         儲存編輯
                                     </Button>
-                                    <Button variant="contained" sx={{ ml: '0.25rem', mr: '0.25rem' }} onClick={cancelAdd}>
+                                    <Button variant="contained" onClick={cancelAdd}>
                                         取消編輯
                                     </Button>
                                 </Grid>
@@ -455,9 +455,7 @@ const InvoiceWorkManage = () => {
             )}
             <Grid item xs={12} display="flex" justifyContent="center" alignItems="center">
                 <Link to="/CreateJournal/CreateJournal" style={{ color: '#262626', textDecoration: 'none' }}>
-                    <Button variant="contained" sx={{ px: '1rem', py: '0.5rem' }}>
-                        下一頁
-                    </Button>
+                    <Button variant="contained">切換至立帳管理</Button>
                 </Link>
             </Grid>
         </Grid>
