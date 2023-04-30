@@ -77,10 +77,21 @@ const WriteOffWork = ({ isDialogOpen, handleDialogClose, writeOffInfo, writeOffD
     const shortAmountTotal = useRef(0); //短繳
     const bankFeesLessTotal = useRef(0);
 
+    //跑加總使用
+    let totalAmount = 0; //總金額
+    let tmpTotalAmount = 0; //本次實收+累計實收-應繳金額
+    let overAmount = 0; //短繳
+    let shortAmount = 0;
+    let bankFeeBalance = 0;
+
+    let tmpTotal = 0;
+    let tmpOverAmount = 0; //短繳
+    let tmpShortAmount = 0;
+    let tmpBankFeeBalance = 0;
+
     const changeBankFees = (bankFees, id) => {
         let tmpArray = toWriteOffDetailInfo.map((i) => i);
         let tmpBankFees = 0;
-        console.log('bankFees=>>', bankFeesTotal.current, Number(bankFees));
         tmpArray.forEach((i) => {
             if (i.BillDetailID === id) {
                 i.BankFees = bankFees;
@@ -119,7 +130,6 @@ const WriteOffWork = ({ isDialogOpen, handleDialogClose, writeOffInfo, writeOffD
     };
 
     const changeReceiveDate = (receiveDate, id) => {
-        console.log('receiveDate=>>', receiveDate);
         let tmpArray = toWriteOffDetailInfo.map((i) => i);
         tmpArray.forEach((i) => {
             if (i.BillDetailID === id) {
@@ -167,7 +177,6 @@ const WriteOffWork = ({ isDialogOpen, handleDialogClose, writeOffInfo, writeOffD
             tmpFeeAmountTotal = tmpFeeAmountTotal + i.FeeAmount;
             tmpReceivedAmountTotal = tmpReceivedAmountTotal + i.ReceivedAmount;
         });
-        console.log('tmpOrgFeeAmountTotal=>>', tmpOrgFeeAmountTotal);
         orgFeeAmountTotal.current = tmpOrgFeeAmountTotal; //原始費用
         dedAmountTotal.current = tmpDedAmountTotal; //折抵費用
         feeAmountTotal.current = tmpFeeAmountTotal; //應繳費用
@@ -200,8 +209,6 @@ const WriteOffWork = ({ isDialogOpen, handleDialogClose, writeOffInfo, writeOffD
             BillMaster: toWriteOffMasterInfo,
             BillDetail: toWriteOffDetailInfo
         };
-        console.log('toWriteOffDetailInfo=>>', toWriteOffDetailInfo);
-        console.log('tmpArray=>>', tmpArray);
         fetch(sendToWriteOff, { method: 'POST', body: JSON.stringify(tmpArray) })
             .then((res) => res.json())
             .then(() => {
@@ -326,17 +333,30 @@ const WriteOffWork = ({ isDialogOpen, handleDialogClose, writeOffInfo, writeOffD
                                     </TableHead>
                                     <TableBody>
                                         {toWriteOffDetailInfo?.map((row, id) => {
-                                            let totalAmount = Number(row.BankFees) + Number(row.ReceiveAmount);
-                                            let tmpAmount = Number(row.ReceiveAmount) + Number(row.ReceivedAmount); //本次實收+累計實收
-                                            let diffAmount = tmpAmount - Number(row.FeeAmount); //本次實收+累計實收-應繳金額
+                                            totalAmount = Number(row.BankFees) + Number(row.ReceiveAmount);
+                                            tmpTotalAmount = Number(row.ReceiveAmount) + Number(row.ReceivedAmount) - Number(row.FeeAmount); //本次實收+累計實收-應繳金額
                                             // 本次實收+累計實收-應繳 > 0，則顯示其金額差額
 
                                             //處理Total
+                                            overAmount = tmpTotalAmount > 0 ? tmpTotalAmount : 0;
+                                            shortAmount =
+                                                tmpTotalAmount >= 0
+                                                    ? 0
+                                                    : Math.abs(tmpTotalAmount) > Number(row.BankFees)
+                                                    ? Math.abs(tmpTotalAmount)
+                                                    : 0;
+                                            bankFeeBalance =
+                                                tmpTotalAmount >= 0
+                                                    ? 0
+                                                    : Math.abs(tmpTotalAmount) <= Number(row.BankFees)
+                                                    ? tmpTotalAmount
+                                                    : 0;
 
-                                            totalAmountTotal.current = 0; //總金額
-                                            overAmountTotal.current = 0; //重溢繳
-                                            bankFeesLessTotal.current = 0;
-                                            totalAmountTotal.current = totalAmountTotal.current + 1;
+                                            tmpTotal = tmpTotal + totalAmount;
+                                            tmpOverAmount = tmpOverAmount + overAmount; //短繳
+                                            tmpShortAmount = tmpShortAmount + shortAmount;
+                                            tmpBankFeeBalance = tmpBankFeeBalance + bankFeeBalance;
+
                                             return (
                                                 <TableRow
                                                     key={row?.BillMasterID + row?.BillDetailID}
@@ -391,24 +411,24 @@ const WriteOffWork = ({ isDialogOpen, handleDialogClose, writeOffInfo, writeOffD
                                                     {/* 重溢繳 */}
                                                     {/* 重溢繳 : 本次實收+累計實收-應繳 > 0，則顯示其金額差額 */}
                                                     <TableCell sx={{ fontSize: '0.1rem' }} align="center">
-                                                        {diffAmount > 0 ? handleNumber(diffAmount.toFixed(2)) : '0.00'}
+                                                        {tmpTotalAmount > 0 ? handleNumber(tmpTotalAmount.toFixed(2)) : '0.00'}
                                                     </TableCell>
                                                     {/* 短繳 */}
                                                     {/* 短繳：本次實收+累計實收-應繳 (應該是負值或0) 取正值 跟 手續費比，如果大於 則顯示此正值的金額(顯示的金額不用減掉手續費) */}
                                                     <TableCell sx={{ fontSize: '0.1rem' }} align="center">
-                                                        {diffAmount >= 0
+                                                        {tmpTotalAmount >= 0
                                                             ? '0.00'
-                                                            : Math.abs(diffAmount) > Number(row.BankFees)
-                                                            ? handleNumber(Math.abs(diffAmount).toFixed(2))
+                                                            : Math.abs(tmpTotalAmount) > Number(row.BankFees)
+                                                            ? handleNumber(Math.abs(tmpTotalAmount).toFixed(2))
                                                             : '0.00'}
                                                     </TableCell>
                                                     {/* 手續費差額 */}
                                                     {/* 手續費差額：本次實收+累計實收-應繳 (應該是負值或0) 取正值 跟 手續費比 ，如果小於等於則顯示正值的金額(顯示的金額不用減掉手續費) */}
                                                     <TableCell sx={{ fontSize: '0.1rem' }} align="center">
-                                                        {diffAmount >= 0
+                                                        {tmpTotalAmount >= 0
                                                             ? '0.00'
-                                                            : Math.abs(diffAmount) <= Number(row.BankFees)
-                                                            ? handleNumber(Math.abs(diffAmount).toFixed(2))
+                                                            : Math.abs(tmpTotalAmount) <= Number(row.BankFees)
+                                                            ? handleNumber(Math.abs(tmpTotalAmount).toFixed(2))
                                                             : '0.00'}
                                                     </TableCell>
                                                     <TableCell sx={{ fontSize: '0.1rem' }} align="center">
@@ -486,11 +506,17 @@ const WriteOffWork = ({ isDialogOpen, handleDialogClose, writeOffInfo, writeOffD
                                                 {handleNumber(ReceiveAmountTotal.current.toFixed(2))}
                                             </StyledTableCell>
                                             <StyledTableCell className="totalAmount" align="center">
-                                                {/* {handleNumber(bankFeesTotal.current.toFixed(2))} */}
+                                                {handleNumber(tmpTotal.toFixed(2))}
                                             </StyledTableCell>
-                                            <StyledTableCell className="totalAmount" align="center"></StyledTableCell>
-                                            <StyledTableCell className="totalAmount" align="center"></StyledTableCell>
-                                            <StyledTableCell className="totalAmount" align="center"></StyledTableCell>
+                                            <StyledTableCell className="totalAmount" align="center">
+                                                {handleNumber(tmpOverAmount.toFixed(2))}
+                                            </StyledTableCell>
+                                            <StyledTableCell className="totalAmount" align="center">
+                                                {handleNumber(tmpShortAmount.toFixed(2))}
+                                            </StyledTableCell>
+                                            <StyledTableCell className="totalAmount" align="center">
+                                                {handleNumber(tmpBankFeeBalance.toFixed(2))}
+                                            </StyledTableCell>
                                             <StyledTableCell className="totalAmount" align="center"></StyledTableCell>
                                             <StyledTableCell className="totalAmount" align="center"></StyledTableCell>
                                             <StyledTableCell className="totalAmount" align="center"></StyledTableCell>
