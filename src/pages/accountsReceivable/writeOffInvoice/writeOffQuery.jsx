@@ -27,13 +27,13 @@ const WriteOffQuery = ({ setListInfo, queryApi, value }) => {
     const writeOffQuery = () => {
         let tmpQuery = value === 0 ? '/Status=TO_WRITEOFF' : '/Status=COMPLETE';
         if (workTitle && workTitle !== '') {
-            tmpQuery = tmpQuery + 'WorkTitle=' + workTitle + '&';
+            tmpQuery = tmpQuery + '&WorkTitle=' + workTitle + '&';
         }
         if (partyName && partyName !== '') {
-            tmpQuery = tmpQuery + 'PartyName=' + partyName + '&';
+            tmpQuery = tmpQuery + '&PartyName=' + partyName + '&';
         }
         if (submarineCable && submarineCable !== '') {
-            tmpQuery = tmpQuery + 'SubmarineCable=' + submarineCable + '&';
+            tmpQuery = tmpQuery + '&SubmarineCable=' + submarineCable + '&';
         }
         if (tmpQuery.includes('&')) {
             tmpQuery = tmpQuery.slice(0, -1);
