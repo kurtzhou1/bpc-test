@@ -29,6 +29,7 @@ const NavItem = ({ item, level }) => {
     }
 
     const itemHandler = (id) => {
+        console.log('id', id);
         dispatch(activeItem({ openItem: [id] }));
     };
 

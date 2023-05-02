@@ -37,6 +37,8 @@ const NavCollapse = ({ item, level }) => {
         if (drawerOpen) {
             setOpen(!open);
             dispatch(activeItem({ openItem: [id] }));
+        } else {
+            dispatch(activeItem({ openItem: [id] }));
         }
     };
 

@@ -19,6 +19,7 @@ const LiabilityManage = Loadable(lazy(() => import('pages/liability/LiabilityMan
 
 // 立帳管理
 const CreateJournal = Loadable(lazy(() => import('pages/createJournal/CreateJournal')));
+const JournalQuery = Loadable(lazy(() => import('pages/createJournal/CreateJournalQuery')));
 
 // Credit Balance
 const CreditBalance = Loadable(lazy(() => import('pages/creditBalance/CreditBalance')));
@@ -121,6 +122,19 @@ const MainRoutes = {
                     element: (
                         <RequireAuth>
                             <CreateJournal />
+                        </RequireAuth>
+                    )
+                }
+            ]
+        },
+        {
+            path: 'CreateJournal',
+            children: [
+                {
+                    path: 'JournalQuery',
+                    element: (
+                        <RequireAuth>
+                            <JournalQuery />
                         </RequireAuth>
                     )
                 }

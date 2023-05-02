@@ -13,6 +13,7 @@ import CreateInvoiceMain from './createInvoiceMain';
 import CreateInvoiceDetail from './createInvoiceDetail';
 import InvoiceDataList from './invoiceDataList';
 import { TextField } from '@mui/material/index';
+import { activeItem } from 'store/reducers/menu';
 
 // api
 import { supplierNameListForInvoice, submarineCableList, billMilestoneList, generateInvoice } from 'components/apis.jsx';
@@ -262,6 +263,10 @@ const InvoiceWorkManage = () => {
         });
     };
 
+    const handleLink = () => {
+        dispatch(activeItem({ openItem: ['item12'] }));
+    };
+
     useEffect(() => {
         if (workTitle && submarineCable) {
             let bmApi = billMilestoneList + 'SubmarineCable=' + submarineCable + '&WorkTitle=' + workTitle + '&End=false';
@@ -393,7 +398,11 @@ const InvoiceWorkManage = () => {
                             ) : (
                                 ''
                             )}
-                            <Link to="/InvoiceWorkManage/InvoiceWorkEdit" style={{ color: '#262626', textDecoration: 'none' }}>
+                            <Link
+                                to="/InvoiceWorkManage/InvoiceWorkEdit"
+                                onClick={handleLink}
+                                style={{ color: '#262626', textDecoration: 'none' }}
+                            >
                                 <Button variant="contained">下一頁</Button>
                             </Link>
                         </Grid>

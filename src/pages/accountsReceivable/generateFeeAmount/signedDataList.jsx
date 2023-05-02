@@ -2,6 +2,7 @@ import { useState, useRef } from 'react';
 
 // project import
 import { handleNumber, BootstrapDialogTitle } from 'components/commonFunction';
+import SignedDataWork from './signedDataWork';
 // material-ui
 import {
     Typography,
@@ -52,6 +53,8 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
 const SignedDataList = ({ dataList, receivableQuery }) => {
     const dispatch = useDispatch();
     const [infoTerminal, setInfoTerminal] = useState(false); //作廢
+    const [isDeductedWorkOpen, setIsDeductedWorkOpen] = useState(false); //產製帳單
+    const billDetailInfo = useRef([]);
 
     const toWriteOff = (billMasterID) => {
         let tmpData = {
@@ -85,101 +88,130 @@ const SignedDataList = ({ dataList, receivableQuery }) => {
             .catch((e) => console.log('e1=>', e));
     };
 
+    const handleDeductedClose = () => {
+        setIsDeductedWorkOpen(false);
+        // setEditItem();
+    };
+
+    const handleDeductedOpen = (data) => {
+        console.log('data=>>', data);
+        billDetailInfo.current = data;
+        // billMasterInfo.current = info.BillMaster;
+        setIsDeductedWorkOpen(true);
+    };
+
     return (
-        <TableContainer component={Paper} sx={{ maxHeight: 350 }}>
-            <Table sx={{ minWidth: 300 }} stickyHeader aria-label="sticky table">
-                <TableHead>
-                    <TableRow>
-                        <StyledTableCell align="center">NO</StyledTableCell>
-                        <StyledTableCell align="center">會員</StyledTableCell>
-                        <StyledTableCell align="center">海纜名稱</StyledTableCell>
-                        <StyledTableCell align="center">海纜作業</StyledTableCell>
-                        <StyledTableCell align="center">帳單號碼</StyledTableCell>
-                        <StyledTableCell align="center">帳單日期</StyledTableCell>
-                        <StyledTableCell align="center">截止日</StyledTableCell>
-                        <StyledTableCell align="center">明細數量</StyledTableCell>
-                        {/* <StyledTableCell align="center">總金額</StyledTableCell> */}
-                        <StyledTableCell align="center">Action</StyledTableCell>
-                    </TableRow>
-                </TableHead>
-                <TableBody>
-                    {dataList?.map((row, id) => {
-                        return (
-                            <TableRow
-                                key={row.InvoiceWKMaster?.BillMasterID + row.InvoiceWKMaster?.InvoiceNo}
-                                sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-                            >
-                                <StyledTableCell align="center">{id + 1}</StyledTableCell>
-                                <StyledTableCell align="center">{row.BillMaster.PartyName}</StyledTableCell>
-                                <StyledTableCell align="center">{row.BillMaster.SubmarineCable}</StyledTableCell>
-                                <StyledTableCell align="center">{row.BillMaster.WorkTitle}</StyledTableCell>
-                                <StyledTableCell align="center">{row.BillMaster.BillingNo}</StyledTableCell>
-                                <StyledTableCell align="center">{dayjs(row.BillMaster.IssueDate).format('YYYY/MM/DD')}</StyledTableCell>
-                                <StyledTableCell align="center">{dayjs(row.BillMaster.DueDate).format('YYYY/MM/DD')}</StyledTableCell>
-                                <StyledTableCell align="center">{row.data ? row.data.length : 0}</StyledTableCell>
-                                {/* <StyledTableCell align="center">{row.BillMaster.FeeAmountSum}</StyledTableCell> */}
-                                <StyledTableCell align="center">
-                                    <Box
-                                        sx={{
-                                            display: 'flex',
-                                            justifyContent: 'center',
-                                            '& button': { mx: { sm: 0.2, md: 0.2, lg: 0.2, xl: 1 }, p: 0, fontSize: 1 }
-                                        }}
-                                    >
-                                        <Button
-                                            color="success"
-                                            size="small"
-                                            variant="outlined"
-                                            onClick={() => {
-                                                handleDownload(row.BillMaster.BillMasterID, row.BillMaster.URI);
+        <>
+            <SignedDataWork
+                isDeductedWorkOpen={isDeductedWorkOpen}
+                handleDeductedClose={handleDeductedClose}
+                billDetailInfo={billDetailInfo.current}
+            />
+            <TableContainer component={Paper} sx={{ maxHeight: 350 }}>
+                <Table sx={{ minWidth: 300 }} stickyHeader aria-label="sticky table">
+                    <TableHead>
+                        <TableRow>
+                            <StyledTableCell align="center">NO</StyledTableCell>
+                            <StyledTableCell align="center">會員</StyledTableCell>
+                            <StyledTableCell align="center">海纜名稱</StyledTableCell>
+                            <StyledTableCell align="center">海纜作業</StyledTableCell>
+                            <StyledTableCell align="center">帳單號碼</StyledTableCell>
+                            <StyledTableCell align="center">帳單日期</StyledTableCell>
+                            <StyledTableCell align="center">截止日</StyledTableCell>
+                            <StyledTableCell align="center">明細數量</StyledTableCell>
+                            <StyledTableCell align="center">總金額</StyledTableCell>
+                            <StyledTableCell align="center">Action</StyledTableCell>
+                        </TableRow>
+                    </TableHead>
+                    <TableBody>
+                        {dataList?.map((row, id) => {
+                            return (
+                                <TableRow
+                                    key={row.InvoiceWKMaster?.BillMasterID + row.InvoiceWKMaster?.InvoiceNo}
+                                    sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                                >
+                                    <StyledTableCell align="center">{id + 1}</StyledTableCell>
+                                    <StyledTableCell align="center">{row.BillMaster.PartyName}</StyledTableCell>
+                                    <StyledTableCell align="center">{row.BillMaster.SubmarineCable}</StyledTableCell>
+                                    <StyledTableCell align="center">{row.BillMaster.WorkTitle}</StyledTableCell>
+                                    <StyledTableCell align="center">{row.BillMaster.BillingNo}</StyledTableCell>
+                                    <StyledTableCell align="center">{dayjs(row.BillMaster.IssueDate).format('YYYY/MM/DD')}</StyledTableCell>
+                                    <StyledTableCell align="center">{dayjs(row.BillMaster.DueDate).format('YYYY/MM/DD')}</StyledTableCell>
+                                    <StyledTableCell align="center">{row.BillDetail ? row.BillDetail.length : 0}</StyledTableCell>
+                                    <StyledTableCell align="center">{row.BillMaster.FeeAmountSum}</StyledTableCell>
+                                    <StyledTableCell align="center">
+                                        <Box
+                                            sx={{
+                                                display: 'flex',
+                                                justifyContent: 'center',
+                                                '& button': { mx: { sm: 0.2, md: 0.2, lg: 0.2, xl: 1 }, p: 0, fontSize: 1 }
                                             }}
                                         >
-                                            下載帳單
-                                        </Button>
-                                        {row.BillMaster.Status === 'TO_WRITEOFF' ? (
-                                            <Button color="secondary" size="small" variant="outlined">
-                                                已進待銷
+                                            <Button
+                                                color="success"
+                                                size="small"
+                                                variant="outlined"
+                                                onClick={() => {
+                                                    handleDeductedOpen(row.BillDetail);
+                                                }}
+                                            >
+                                                檢視
                                             </Button>
-                                        ) : (
                                             <Button
                                                 color="primary"
                                                 size="small"
                                                 variant="outlined"
                                                 onClick={() => {
-                                                    toWriteOff(row.BillMaster.BillMasterID);
+                                                    handleDownload(row.BillMaster.BillMasterID, row.BillMaster.URI);
                                                 }}
                                             >
-                                                進待銷帳
+                                                下載帳單
                                             </Button>
-                                        )}
-                                        <Button
-                                            color="warning"
-                                            size="small"
-                                            variant="outlined"
-                                            onClick={() => {
-                                                setInfoTerminal(true);
-                                            }}
-                                        >
-                                            退回
-                                        </Button>
-                                        <Button
-                                            color="error"
-                                            size="small"
-                                            variant="outlined"
-                                            onClick={() => {
-                                                setInfoTerminal(true);
-                                            }}
-                                        >
-                                            作廢
-                                        </Button>
-                                    </Box>
-                                </StyledTableCell>
-                            </TableRow>
-                        );
-                    })}
-                </TableBody>
-            </Table>
-        </TableContainer>
+                                            {row.BillMaster.Status === 'TO_WRITEOFF' ? (
+                                                <Button color="secondary" size="small" variant="outlined">
+                                                    已進待銷
+                                                </Button>
+                                            ) : (
+                                                <Button
+                                                    color="info"
+                                                    size="small"
+                                                    variant="outlined"
+                                                    onClick={() => {
+                                                        toWriteOff(row.BillMaster.BillMasterID);
+                                                    }}
+                                                >
+                                                    進待銷帳
+                                                </Button>
+                                            )}
+                                            <Button
+                                                color="warning"
+                                                size="small"
+                                                variant="outlined"
+                                                onClick={() => {
+                                                    setInfoTerminal(true);
+                                                }}
+                                            >
+                                                退回
+                                            </Button>
+                                            <Button
+                                                color="error"
+                                                size="small"
+                                                variant="outlined"
+                                                onClick={() => {
+                                                    setInfoTerminal(true);
+                                                }}
+                                            >
+                                                作廢
+                                            </Button>
+                                        </Box>
+                                    </StyledTableCell>
+                                </TableRow>
+                            );
+                        })}
+                    </TableBody>
+                </Table>
+            </TableContainer>
+        </>
     );
 };
 

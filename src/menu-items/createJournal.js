@@ -30,6 +30,14 @@ const createJournal = {
                     url: '/CreateJournal/CreateJournal',
                     icon: icons.TagOutlined,
                     breadcrumbs: true
+                },
+                {
+                    id: 'item22',
+                    title: '已立帳查詢',
+                    type: 'item',
+                    url: '/CreateJournal/JournalQuery',
+                    icon: icons.TagOutlined,
+                    breadcrumbs: true
                 }
             ]
         }

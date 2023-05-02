@@ -148,7 +148,6 @@ const DeductedDataList = ({ dataList, receivableQuery }) => {
                     </TableHead>
                     <TableBody>
                         {dataList?.map((row, id) => {
-                            console.log('dataList=>>', row);
                             return (
                                 <TableRow
                                     key={row.BillMaster.BillMasterID + row.BillMaster.BillingNo}

@@ -68,9 +68,6 @@ const SignAndUpload = ({ isUploadOpen, handleUploadClose, billMasterID, receivab
         }
     }, [uploadFile]);
 
-    console.log('uploadFile=>>', uploadFile);
-    console.log('displayName=>>', displayName);
-
     return (
         <Dialog
             // onClose={handleUploadClose}

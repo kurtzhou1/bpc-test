@@ -29,6 +29,7 @@ import {
 
 // redux
 import { useSelector } from 'react-redux';
+import { activeItem } from 'store/reducers/menu';
 
 // redux
 import { useDispatch } from 'react-redux';
@@ -154,6 +155,10 @@ const InvoiceWorkManage = () => {
             IsLiability,
             TotalAmount
         };
+    };
+
+    const handleLink = () => {
+        dispatch(activeItem({ openItem: ['item21'] }));
     };
 
     useEffect(() => {
@@ -454,7 +459,7 @@ const InvoiceWorkManage = () => {
                 ''
             )}
             <Grid item xs={12} display="flex" justifyContent="center" alignItems="center">
-                <Link to="/CreateJournal/CreateJournal" style={{ color: '#262626', textDecoration: 'none' }}>
+                <Link to="/CreateJournal/CreateJournal" onClick={handleLink} style={{ color: '#262626', textDecoration: 'none' }}>
                     <Button variant="contained">切換至立帳管理</Button>
                 </Link>
             </Grid>

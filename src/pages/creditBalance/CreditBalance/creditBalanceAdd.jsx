@@ -46,7 +46,7 @@ const CreditBalanceAdd = ({ handleDialogClose, isDialogOpen, billMilestone, part
     const dispatch = useDispatch();
     const [cBType, setCBType] = useState(''); // CB種類
     const [partyName, setPartyName] = useState(''); //會員代號
-    const [currAmount, setCurrAmount] = useState('0'); // 剩餘金額
+    const [currAmount, setCurrAmount] = useState(''); // 剩餘金額
     const [note, setNote] = useState(''); // 摘要
     const [invoiceNo, setInvoiceNo] = useState(''); // 發票號碼
     const [billingNo, setBillingNo] = useState(''); // 帳單號碼
@@ -56,7 +56,7 @@ const CreditBalanceAdd = ({ handleDialogClose, isDialogOpen, billMilestone, part
     const infoInitial = () => {
         setCBType('');
         setPartyName('');
-        setCurrAmount('0');
+        setCurrAmount('');
         setNote('');
         setInvoiceNo('');
         setBillingNo('');
@@ -92,7 +92,7 @@ const CreditBalanceAdd = ({ handleDialogClose, isDialogOpen, billMilestone, part
             dispatch(setMessageStateOpen({ messageStateOpen: { isOpen: true, severity: 'error', message: '請輸入海纜作業' } }));
             return false;
         }
-        if (currAmount === '0') {
+        if (currAmount === '' || currAmount === '0') {
             dispatch(setMessageStateOpen({ messageStateOpen: { isOpen: true, severity: 'error', message: '剩餘金額不能小於0' } }));
             return false;
         }
