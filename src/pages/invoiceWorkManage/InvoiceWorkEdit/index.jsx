@@ -105,7 +105,6 @@ const InvoiceWorkManage = () => {
         fetch(queryApi.current, { method: 'GET' })
             .then((res) => res.json())
             .then((data) => {
-                console.log('queryInit=>>', data);
                 setListInfo(data);
             })
             .catch((e) => console.log('e1=>', e));
@@ -229,7 +228,6 @@ const InvoiceWorkManage = () => {
                     fetch(deleteInvoiceWKDetail, { method: 'POST', body: JSON.stringify(tmpArray) })
                         .then((res) => res.json())
                         .then(() => {
-                            console.log('刪除明細成功');
                             dispatch(setMessageStateOpen({ messageStateOpen: { isOpen: true, severity: 'success', message: '刪除成功' } }));
                             setPage(0);
                             setAction('');

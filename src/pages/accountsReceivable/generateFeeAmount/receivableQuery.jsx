@@ -38,6 +38,7 @@ const ReceivableQuery = ({ value, setListInfo, queryApi }) => {
     const [supplierName, setSupplierName] = useState(''); //供應商
     const [submarineCable, setSubmarineCable] = useState(''); //海纜名稱
     const [invoiceNo, setInvoiceNo] = useState(''); //發票號碼
+    const [billingNo, setBillingNo] = useState(''); //發票號碼
 
     const initInfo = () => {
         setIssueDate([null, null]);
@@ -46,6 +47,7 @@ const ReceivableQuery = ({ value, setListInfo, queryApi }) => {
         setSupplierName('');
         setSubmarineCable('');
         setInvoiceNo('');
+        setBillingNo('');
     };
 
     const initQuery = () => {
@@ -112,6 +114,9 @@ const ReceivableQuery = ({ value, setListInfo, queryApi }) => {
         }
         if (invoiceNo && invoiceNo !== '') {
             tmpQuery = tmpQuery + 'InvoiceNo=' + invoiceNo + '&';
+        }
+        if (invoiceNo && invoiceNo !== '') {
+            tmpQuery = tmpQuery + 'BillingNo=' + invoiceNo + '&';
         }
         if (workTitle && workTitle !== '') {
             tmpQuery = tmpQuery + 'WorkTitle=' + workTitle + '&';
@@ -299,14 +304,31 @@ const ReceivableQuery = ({ value, setListInfo, queryApi }) => {
                                 />
                             </LocalizationProvider>
                         </Grid>
+                        <Grid item xs={1} sm={1} md={1} lg={1}>
+                            <Typography variant="h5" sx={{ fontSize: { lg: '0.5rem', xl: '0.88rem' }, ml: { lg: '0.5rem', xl: '1.5rem' } }}>
+                                帳單號碼：
+                            </Typography>
+                        </Grid>
+                        <Grid item xs={2} sm={2} md={2} lg={2}>
+                            <FormControl fullWidth size="small">
+                                <TextField
+                                    fullWidth
+                                    variant="outlined"
+                                    value={billingNo}
+                                    size="small"
+                                    label="填寫帳單號碼"
+                                    onChange={(e) => setBillingNo(e.target.value)}
+                                />
+                            </FormControl>
+                        </Grid>
                     </>
                 )}
                 <Grid
                     item
-                    xs={value === 0 ? 9 : 6}
-                    sm={value === 0 ? 9 : 6}
-                    md={value === 0 ? 9 : 6}
-                    lg={value === 0 ? 9 : 6}
+                    xs={value === 0 ? 9 : 3}
+                    sm={value === 0 ? 9 : 3}
+                    md={value === 0 ? 9 : 3}
+                    lg={value === 0 ? 9 : 3}
                     display="flex"
                     justifyContent="end"
                     alignItems="center"
