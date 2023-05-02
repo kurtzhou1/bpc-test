@@ -1,21 +1,5 @@
 import { useEffect, useState } from 'react';
-import {
-    Typography,
-    Grid,
-    Button,
-    FormControl,
-    InputLabel,
-    Select,
-    MenuItem,
-    Box,
-    TextField,
-    Checkbox,
-    Autocomplete,
-    Table,
-    RadioGroup,
-    FormControlLabel,
-    Radio
-} from '@mui/material';
+import { Typography, Grid, Button, FormControl, Box, RadioGroup, FormControlLabel, Radio } from '@mui/material';
 import { DropzoneArea } from 'mui-file-dropzone';
 // import { FileUploader } from 'react-drag-drop-files';
 
@@ -26,10 +10,6 @@ import { BootstrapDialogTitle } from 'components/commonFunction';
 import Dialog from '@mui/material/Dialog';
 import DialogContent from '@mui/material/DialogContent';
 import DialogActions from '@mui/material/DialogActions';
-
-// autocomplete
-import CheckBoxOutlineBlankIcon from '@mui/icons-material/CheckBoxOutlineBlank';
-import CheckBoxIcon from '@mui/icons-material/CheckBox';
 
 // api
 import { uploadFileApi } from 'components/apis.jsx';
@@ -43,7 +23,8 @@ const SignAndUpload = ({ isUploadOpen, handleUploadClose, billMasterID, receivab
     const dispatch = useDispatch();
     const [uploadFile, setUploadFile] = useState(null);
     const [isUpload, setIsUpload] = useState(false); //是否需攤分
-    const fileTypes = ['PDF', 'PNG'];
+    const [displayName, setDisplayName] = useState([]);
+    // const fileTypes = ['PDF', 'PNG'];
     const handleUploadChange = (file) => {
         setUploadFile(file);
         if (file.length > 0) {
@@ -76,6 +57,19 @@ const SignAndUpload = ({ isUploadOpen, handleUploadClose, billMasterID, receivab
             dispatch(setMessageStateOpen({ messageStateOpen: { isOpen: true, severity: 'error', message: '請上傳檔案' } }));
         }
     };
+
+    useEffect(() => {
+        if (uploadFile) {
+            let tmpArray = [];
+            uploadFile.forEach((i) => {
+                tmpArray.push(i.name);
+            });
+            setDisplayName(tmpArray);
+        }
+    }, [uploadFile]);
+
+    console.log('uploadFile=>>', uploadFile);
+    console.log('displayName=>>', displayName);
 
     return (
         <Dialog
@@ -130,6 +124,9 @@ const SignAndUpload = ({ isUploadOpen, handleUploadClose, billMasterID, receivab
                                     control={<Radio sx={{ '& .MuiSvgIcon-root': { fontSize: { lg: 14, xl: 20 } } }} />}
                                 />
                             </Box>
+                        </Grid>
+                        <Grid item xs={12} sm={12} md={12} lg={12} display="flex">
+                            <Box sx={{ fontSize: 0.1, textAlign: 'left' }}>{displayName[0] ? `上傳成功：${displayName[0]}` : ''}</Box>
                         </Grid>
                     </Grid>
                 </RadioGroup>

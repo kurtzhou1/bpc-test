@@ -79,6 +79,7 @@ const ToWriteOffDataList = ({ listInfo, writeOffQuery }) => {
                 writeOffInfo={writeOffInfo.current}
                 writeOffDetail={writeOffDetail}
                 writeOffQuery={writeOffQuery}
+                action="writeOff"
             />
             <TableContainer component={Paper} sx={{ maxHeight: 350 }}>
                 <Table sx={{ minWidth: 300 }} stickyHeader aria-label="sticky table">

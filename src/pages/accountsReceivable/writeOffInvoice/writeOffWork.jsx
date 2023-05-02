@@ -61,7 +61,7 @@ const styles = (theme) => ({
     }
 });
 
-const WriteOffWork = ({ isDialogOpen, handleDialogClose, writeOffInfo, writeOffDetail, writeOffQuery }) => {
+const WriteOffWork = ({ isDialogOpen, handleDialogClose, writeOffInfo, writeOffDetail, writeOffQuery, action }) => {
     const [toWriteOffMasterInfo, setToWriteOffMasterInfo] = useState({}); //帳單明細檔
     const [toWriteOffDetailInfo, setToWriteOffDetailInfo] = useState([]); //帳單明細檔
     const [isComplete, setIsComplete] = useState(false);
@@ -319,16 +319,17 @@ const WriteOffWork = ({ isDialogOpen, handleDialogClose, writeOffInfo, writeOffD
                                             <StyledTableCell align="center">折抵</StyledTableCell>
                                             <StyledTableCell align="center">應繳</StyledTableCell>
                                             <StyledTableCell align="center">累計實收</StyledTableCell>
-                                            <StyledTableCell align="center">手續費</StyledTableCell>
-                                            <StyledTableCell align="center">本次實收</StyledTableCell>
-                                            <StyledTableCell align="center">總金額(含手續費)</StyledTableCell>
+                                            {action === 'view' ? '' : <StyledTableCell align="center">手續費</StyledTableCell>}
+                                            {action === 'view' ? '' : <StyledTableCell align="center">本次實收</StyledTableCell>}
+                                            {action === 'view' ? '' : <StyledTableCell align="center">總金額(含手續費)</StyledTableCell>}
                                             <StyledTableCell align="center">重溢繳</StyledTableCell>
                                             <StyledTableCell align="center">短繳</StyledTableCell>
                                             <StyledTableCell align="center">手續費差額</StyledTableCell>
+                                            {action === 'view' ? '' : <StyledTableCell align="center">手續費差額</StyledTableCell>}
                                             <StyledTableCell align="center">短繳原因</StyledTableCell>
                                             <StyledTableCell align="center">收款日期</StyledTableCell>
                                             <StyledTableCell align="center">摘要說明</StyledTableCell>
-                                            <StyledTableCell align="center">收費狀態</StyledTableCell>
+                                            {action === 'view' ? '' : <StyledTableCell align="center">收費狀態</StyledTableCell>}
                                         </TableRow>
                                     </TableHead>
                                     <TableBody>
@@ -380,30 +381,38 @@ const WriteOffWork = ({ isDialogOpen, handleDialogClose, writeOffInfo, writeOffD
                                                         {handleNumber(row?.ReceivedAmount.toFixed(2))}
                                                     </TableCell>
                                                     {/* 手續費 */}
-                                                    <TableCell sx={{ fontSize: '0.1rem' }} align="center">
-                                                        <TextField
-                                                            inputProps={{ step: '.01' }}
-                                                            sx={{ minWidth: 75 }}
-                                                            size="small"
-                                                            fullWidth
-                                                            value={row.BankFees}
-                                                            type="number"
-                                                            onChange={(e) => changeBankFees(e.target.value, row.BillDetailID)}
-                                                        />
-                                                    </TableCell>
+                                                    {action === 'view' ? (
+                                                        ''
+                                                    ) : (
+                                                        <TableCell sx={{ fontSize: '0.1rem' }} align="center">
+                                                            <TextField
+                                                                inputProps={{ step: '.01' }}
+                                                                sx={{ minWidth: 75 }}
+                                                                size="small"
+                                                                fullWidth
+                                                                value={row.BankFees}
+                                                                type="number"
+                                                                onChange={(e) => changeBankFees(e.target.value, row.BillDetailID)}
+                                                            />
+                                                        </TableCell>
+                                                    )}
                                                     {/* 本次實收 */}
-                                                    <TableCell sx={{ fontSize: '0.1rem' }} align="center">
-                                                        <TextField
-                                                            inputProps={{ step: '.01' }}
-                                                            sx={{ minWidth: 75 }}
-                                                            size="small"
-                                                            value={row.ReceiveAmount}
-                                                            type="number"
-                                                            onChange={(e) => {
-                                                                changeReceiveAmount(e.target.value, row.BillDetailID);
-                                                            }}
-                                                        />
-                                                    </TableCell>
+                                                    {action === 'view' ? (
+                                                        ''
+                                                    ) : (
+                                                        <TableCell sx={{ fontSize: '0.1rem' }} align="center">
+                                                            <TextField
+                                                                inputProps={{ step: '.01' }}
+                                                                sx={{ minWidth: 75 }}
+                                                                size="small"
+                                                                value={row.ReceiveAmount}
+                                                                type="number"
+                                                                onChange={(e) => {
+                                                                    changeReceiveAmount(e.target.value, row.BillDetailID);
+                                                                }}
+                                                            />
+                                                        </TableCell>
+                                                    )}
                                                     {/* 總金額 */}
                                                     <TableCell sx={{ fontSize: '0.1rem' }} align="center">
                                                         {totalAmount ? totalAmount.toFixed(2) : '0.00'}
@@ -424,62 +433,82 @@ const WriteOffWork = ({ isDialogOpen, handleDialogClose, writeOffInfo, writeOffD
                                                     </TableCell>
                                                     {/* 手續費差額 */}
                                                     {/* 手續費差額：本次實收+累計實收-應繳 (應該是負值或0) 取正值 跟 手續費比 ，如果小於等於則顯示正值的金額(顯示的金額不用減掉手續費) */}
+                                                    {action === 'view' ? (
+                                                        ''
+                                                    ) : (
+                                                        <TableCell sx={{ fontSize: '0.1rem' }} align="center">
+                                                            {tmpTotalAmount >= 0
+                                                                ? '0.00'
+                                                                : Math.abs(tmpTotalAmount) <= Number(row.BankFees)
+                                                                ? handleNumber(Math.abs(tmpTotalAmount).toFixed(2))
+                                                                : '0.00'}
+                                                        </TableCell>
+                                                    )}
                                                     <TableCell sx={{ fontSize: '0.1rem' }} align="center">
-                                                        {tmpTotalAmount >= 0
-                                                            ? '0.00'
-                                                            : Math.abs(tmpTotalAmount) <= Number(row.BankFees)
-                                                            ? handleNumber(Math.abs(tmpTotalAmount).toFixed(2))
-                                                            : '0.00'}
-                                                    </TableCell>
-                                                    <TableCell sx={{ fontSize: '0.1rem' }} align="center">
-                                                        <TextField
-                                                            size="small"
-                                                            sx={{ minWidth: 75 }}
-                                                            value={row.ShortOverReason}
-                                                            onChange={(e) => {
-                                                                changeShortOverReason(e.target.value, row.BillDetailID);
-                                                            }}
-                                                        />
-                                                    </TableCell>
-                                                    <TableCell sx={{ fontSize: '0.1rem' }} align="center">
-                                                        {/* {row.ReceiveDate ? dayjs(row?.ReceiveDate) : ''} */}
-                                                        <LocalizationProvider dateAdapter={AdapterDayjs}>
-                                                            <DesktopDatePicker
-                                                                // inputFormat="YYYY/MM/DD"
-                                                                value={row.ReceiveDate}
-                                                                // value={dayjs(row.ReceiveDate).format('YYYY/MM/DD')}
+                                                        {action === 'view' ? (
+                                                            row.ShortOverReason
+                                                        ) : (
+                                                            <TextField
+                                                                size="small"
+                                                                sx={{ minWidth: 75 }}
+                                                                value={row.ShortOverReason}
                                                                 onChange={(e) => {
-                                                                    changeReceiveDate(e, row.BillDetailID);
+                                                                    changeShortOverReason(e.target.value, row.BillDetailID);
                                                                 }}
-                                                                renderInput={(params) => (
-                                                                    <TextField size="small" sx={{ minWidth: 150 }} {...params} />
-                                                                )}
                                                             />
-                                                        </LocalizationProvider>
+                                                        )}
                                                     </TableCell>
                                                     <TableCell sx={{ fontSize: '0.1rem' }} align="center">
-                                                        <TextField
-                                                            size="small"
-                                                            sx={{ minWidth: 75 }}
-                                                            value={row.Note}
-                                                            onChange={(e) => {
-                                                                changeNote(e.target.value, row.BillDetailID);
-                                                            }}
-                                                        />
+                                                        {action === 'view' ? (
+                                                            row.ReceiveDate
+                                                        ) : (
+                                                            <LocalizationProvider dateAdapter={AdapterDayjs}>
+                                                                <DesktopDatePicker
+                                                                    // inputFormat="YYYY/MM/DD"
+                                                                    value={row.ReceiveDate}
+                                                                    // value={dayjs(row.ReceiveDate).format('YYYY/MM/DD')}
+                                                                    onChange={(e) => {
+                                                                        changeReceiveDate(e, row.BillDetailID);
+                                                                    }}
+                                                                    renderInput={(params) => (
+                                                                        <TextField size="small" sx={{ minWidth: 150 }} {...params} />
+                                                                    )}
+                                                                />
+                                                            </LocalizationProvider>
+                                                        )}
                                                     </TableCell>
+
                                                     <TableCell sx={{ fontSize: '0.1rem' }} align="center">
-                                                        <Select
-                                                            value={row?.Status}
-                                                            label="會員"
-                                                            onChange={(e) => changeState(e.target.value, row.BillDetailID)}
-                                                        >
-                                                            <MenuItem value={'OK'}>正常繳款</MenuItem>
-                                                            <MenuItem value={'OVER'}>重溢繳</MenuItem>
-                                                            <MenuItem value={'BANK_FEE'}>補手續費</MenuItem>
-                                                            <MenuItem value={'PARTIAL'}>部分收款</MenuItem>
-                                                            <MenuItem value={'INCOMPLETE'}>尚未收款</MenuItem>
-                                                        </Select>
+                                                        {action === 'view' ? (
+                                                            row.Note
+                                                        ) : (
+                                                            <TextField
+                                                                size="small"
+                                                                sx={{ minWidth: 75 }}
+                                                                value={row.Note}
+                                                                onChange={(e) => {
+                                                                    changeNote(e.target.value, row.BillDetailID);
+                                                                }}
+                                                            />
+                                                        )}
                                                     </TableCell>
+                                                    {action === 'view' ? (
+                                                        ''
+                                                    ) : (
+                                                        <TableCell sx={{ fontSize: '0.1rem' }} align="center">
+                                                            <Select
+                                                                value={row?.Status}
+                                                                label="會員"
+                                                                onChange={(e) => changeState(e.target.value, row.BillDetailID)}
+                                                            >
+                                                                <MenuItem value={'OK'}>正常繳款</MenuItem>
+                                                                <MenuItem value={'OVER'}>重溢繳</MenuItem>
+                                                                <MenuItem value={'BANK_FEE'}>補手續費</MenuItem>
+                                                                <MenuItem value={'PARTIAL'}>部分收款</MenuItem>
+                                                                <MenuItem value={'INCOMPLETE'}>尚未收款</MenuItem>
+                                                            </Select>
+                                                        </TableCell>
+                                                    )}
                                                 </TableRow>
                                             );
                                         })}
@@ -499,12 +528,20 @@ const WriteOffWork = ({ isDialogOpen, handleDialogClose, writeOffInfo, writeOffD
                                             <StyledTableCell className="totalAmount" align="center">
                                                 {handleNumber(receivedAmountTotal.current.toFixed(2))}
                                             </StyledTableCell>
-                                            <StyledTableCell className="totalAmount" align="center">
-                                                {handleNumber(bankFeesTotal.current.toFixed(2))}
-                                            </StyledTableCell>
-                                            <StyledTableCell className="totalAmount" align="center">
-                                                {handleNumber(ReceiveAmountTotal.current.toFixed(2))}
-                                            </StyledTableCell>
+                                            {action === 'view' ? (
+                                                ''
+                                            ) : (
+                                                <StyledTableCell className="totalAmount" align="center">
+                                                    {handleNumber(bankFeesTotal.current.toFixed(2))}
+                                                </StyledTableCell>
+                                            )}
+                                            {action === 'view' ? (
+                                                ''
+                                            ) : (
+                                                <StyledTableCell className="totalAmount" align="center">
+                                                    {handleNumber(ReceiveAmountTotal.current.toFixed(2))}
+                                                </StyledTableCell>
+                                            )}
                                             <StyledTableCell className="totalAmount" align="center">
                                                 {handleNumber(tmpTotal.toFixed(2))}
                                             </StyledTableCell>
@@ -514,16 +551,21 @@ const WriteOffWork = ({ isDialogOpen, handleDialogClose, writeOffInfo, writeOffD
                                             <StyledTableCell className="totalAmount" align="center">
                                                 {handleNumber(tmpShortAmount.toFixed(2))}
                                             </StyledTableCell>
-                                            <StyledTableCell className="totalAmount" align="center">
-                                                {handleNumber(tmpBankFeeBalance.toFixed(2))}
-                                            </StyledTableCell>
+                                            {action === 'view' ? (
+                                                ''
+                                            ) : (
+                                                <StyledTableCell className="totalAmount" align="center">
+                                                    {handleNumber(tmpBankFeeBalance.toFixed(2))}
+                                                </StyledTableCell>
+                                            )}
                                             <StyledTableCell className="totalAmount" align="center"></StyledTableCell>
                                             <StyledTableCell className="totalAmount" align="center"></StyledTableCell>
                                             <StyledTableCell className="totalAmount" align="center"></StyledTableCell>
-                                            <StyledTableCell className="totalAmount" align="center"></StyledTableCell>
-                                            {/* <StyledTableCell className="totalAmount" align="center">{`$${handleNumber(
-                                                feeAmount.current.toFixed(2)
-                                            )}`}</StyledTableCell> */}
+                                            {action === 'view' ? (
+                                                ''
+                                            ) : (
+                                                <StyledTableCell className="totalAmount" align="center"></StyledTableCell>
+                                            )}
                                         </TableRow>
                                     </TableBody>
                                 </Table>

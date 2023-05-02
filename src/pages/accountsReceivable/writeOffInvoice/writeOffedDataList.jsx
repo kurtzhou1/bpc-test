@@ -2,7 +2,7 @@ import { useState, useRef } from 'react';
 
 // project import
 import { handleNumber, BootstrapDialogTitle } from 'components/commonFunction';
-import DeductWork from './writeOffWork';
+import WriteOffWork from './writeOffWork';
 // material-ui
 import {
     Typography,
@@ -48,30 +48,29 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
 const WriteOffedDataList = ({ listInfo }) => {
     let tmpBMArray = [];
     const [isDialogOpen, setIsDialogOpen] = useState(false); //檢視
+    const writeOffInfo = useRef({});
+    const [writeOffDetail, setWriteOffDetail] = useState([]);
 
     const handleDialogClose = () => {
+        writeOffInfo.current = {};
+        setWriteOffDetail([]);
         setIsDialogOpen(false);
     };
-
-    const handleDialogOpen = (action, info) => {
+    const handleDialogOpen = (info) => {
+        let tmpArray = info.BillDetail.map((i) => i);
+        writeOffInfo.current = info.BillMaster;
+        setWriteOffDetail(tmpArray);
         setIsDialogOpen(true);
-    };
-
-    const handleTerminalClose = () => {
-        setInfoTerminal(false);
-    };
-
-    const handUploadClose = () => {
-        setUploadOpen(false);
     };
 
     return (
         <>
-            <DeductWork
+            <WriteOffWork
                 isDialogOpen={isDialogOpen}
                 handleDialogClose={handleDialogClose}
-                // deductInfo={deductInfo.current}
-                // actionName={actionName.current}
+                writeOffInfo={writeOffInfo.current}
+                writeOffDetail={writeOffDetail}
+                action="view"
             />
             <TableContainer component={Paper} sx={{ maxHeight: 350 }}>
                 <Table sx={{ minWidth: 300 }} stickyHeader aria-label="sticky table">
@@ -126,12 +125,7 @@ const WriteOffedDataList = ({ listInfo }) => {
                                                 size="small"
                                                 variant="outlined"
                                                 onClick={() => {
-                                                    handleDialogOpen('viewDeducted', {
-                                                        PartyName: row.PartyName,
-                                                        IssueDate: dayjs(row.IssueDate).format('YYYY/MM/DD'),
-                                                        SubmarineCable: row.SubmarineCable,
-                                                        WorkTitle: row.WorkTitle
-                                                    });
+                                                    handleDialogOpen(row);
                                                 }}
                                             >
                                                 檢視
