@@ -88,6 +88,7 @@ const WriteOffWork = ({ isDialogOpen, handleDialogClose, writeOffInfo, writeOffD
     let tmpOverAmount = 0; //短繳
     let tmpShortAmount = 0;
     let tmpBankFeeBalance = 0;
+    let tmpStatus = '';
 
     const changeBankFees = (bankFees, id) => {
         let tmpArray = toWriteOffDetailInfo.map((i) => i);
@@ -119,15 +120,15 @@ const WriteOffWork = ({ isDialogOpen, handleDialogClose, writeOffInfo, writeOffD
         setToWriteOffDetailInfo(tmpArray);
     };
 
-    const changeShortOverReason = (shortOverReason, id) => {
-        let tmpArray = toWriteOffDetailInfo.map((i) => i);
-        tmpArray.forEach((i) => {
-            if (i.BillDetailID === id) {
-                i.ShortOverReason = shortOverReason;
-            }
-        });
-        setToWriteOffDetailInfo(tmpArray);
-    };
+    // const changeShortOverReason = (shortOverReason, id) => {
+    //     let tmpArray = toWriteOffDetailInfo.map((i) => i);
+    //     tmpArray.forEach((i) => {
+    //         if (i.BillDetailID === id) {
+    //             i.ShortOverReason = shortOverReason;
+    //         }
+    //     });
+    //     setToWriteOffDetailInfo(tmpArray);
+    // };
 
     const changeReceiveDate = (receiveDate, id) => {
         let tmpArray = toWriteOffDetailInfo.map((i) => i);
@@ -353,10 +354,17 @@ const WriteOffWork = ({ isDialogOpen, handleDialogClose, writeOffInfo, writeOffD
                                                     : 0;
 
                                             tmpTotal = tmpTotal + totalAmount;
-                                            tmpOverAmount = tmpOverAmount + overAmount; //短繳
-                                            tmpShortAmount = tmpShortAmount + shortAmount;
-                                            tmpBankFeeBalance = tmpBankFeeBalance + bankFeeBalance;
-
+                                            tmpOverAmount = tmpOverAmount + overAmount; //溢繳
+                                            tmpShortAmount = tmpShortAmount + shortAmount; //短繳
+                                            tmpBankFeeBalance = tmpBankFeeBalance + bankFeeBalance; //手續費差額(負值)
+                                            tmpStatus =
+                                                overAmount > 0
+                                                    ? 'OVER'
+                                                    : Math.abs(bankFeeBalance) > 0
+                                                    ? 'BANK_FEE'
+                                                    : shortAmount === 0 || shortAmount === row.FeeAmount
+                                                    ? 'INCOMPLETE'
+                                                    : 'PARTIAL';
                                             return (
                                                 <TableRow
                                                     key={row?.BillMasterID + row?.BillDetailID}
@@ -500,7 +508,7 @@ const WriteOffWork = ({ isDialogOpen, handleDialogClose, writeOffInfo, writeOffD
                                                     ) : (
                                                         <TableCell sx={{ fontSize: '0.1rem' }} align="center">
                                                             <Select
-                                                                value={row?.Status}
+                                                                value={tmpStatus}
                                                                 label="會員"
                                                                 onChange={(e) => changeState(e.target.value, row.BillDetailID)}
                                                             >
@@ -562,7 +570,7 @@ const WriteOffWork = ({ isDialogOpen, handleDialogClose, writeOffInfo, writeOffD
                                                 ''
                                             ) : (
                                                 <StyledTableCell className="totalAmount" align="center">
-                                                    {handleNumber(tmpBankFeeBalance.toFixed(2))}
+                                                    {handleNumber(Math.abs(tmpBankFeeBalance).toFixed(2))}
                                                 </StyledTableCell>
                                             )}
                                             <StyledTableCell className="totalAmount" align="center"></StyledTableCell>
@@ -599,7 +607,7 @@ const WriteOffWork = ({ isDialogOpen, handleDialogClose, writeOffInfo, writeOffD
                             >
                                 <Box sx={{ color: 'red', mr: 2.5 }}>(提示：若有費用項目還未完成收款，原則上不用勾選)</Box>
                                 <Box>
-                                    <Checkbox checked={isComplete} onChange={handleChange} size="small" sx={{ p: 0 }} />{' '}
+                                    <Checkbox checked={isComplete} onChange={handleChange} size="small" sx={{ p: 0 }} />
                                     確認此帳單完成銷帳作業
                                 </Box>
                             </Box>

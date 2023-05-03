@@ -175,8 +175,8 @@ const BillDraftMake = ({
         setLogo(1);
         setSubject1('');
         setSubject3('');
-        setIssueDate(new Date());
-        setDueDate(new Date());
+        setIssueDate(issueDateDefault);
+        setDueDate(dueDateDefault);
     };
 
     const handleDownload = () => {
@@ -542,7 +542,7 @@ const BillDraftMake = ({
                 <Button
                     sx={{ mr: '0.05rem' }}
                     variant="contained"
-                    disabled={action === 'toDeduct'}
+                    // disabled={action === 'toDeduct'}
                     onClick={() => {
                         clearDetail();
                     }}
@@ -552,7 +552,7 @@ const BillDraftMake = ({
                 <Button
                     sx={{ mr: '0.05rem' }}
                     variant="contained"
-                    disabled={action === 'toDeduct'}
+                    // disabled={action === 'toDeduct'}
                     onClick={() => {
                         // window.print();
                         handleDownload();
