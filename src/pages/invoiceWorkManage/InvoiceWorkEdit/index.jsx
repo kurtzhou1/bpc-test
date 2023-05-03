@@ -157,7 +157,7 @@ const InvoiceWorkManage = () => {
     };
 
     const handleLink = () => {
-        dispatch(activeItem({ openItem: ['item21'] }));
+        dispatch(activeItem({ openItem: ['item2'] }));
     };
 
     useEffect(() => {
@@ -440,10 +440,10 @@ const InvoiceWorkManage = () => {
                             </Grid>
                             {action === 'Edit' ? (
                                 <Grid item xs={12} display="flex" justifyContent="center" alignItems="center">
-                                    <Button variant="contained" onClick={addInvoiceInfo}>
+                                    <Button variant="contained" onClick={addInvoiceInfo} sx={{ mx: 1 }}>
                                         儲存編輯
                                     </Button>
-                                    <Button variant="contained" onClick={cancelAdd}>
+                                    <Button variant="contained" onClick={cancelAdd} sx={{ mx: 1 }}>
                                         取消編輯
                                     </Button>
                                 </Grid>

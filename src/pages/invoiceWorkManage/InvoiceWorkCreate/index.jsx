@@ -361,19 +361,19 @@ const InvoiceWorkManage = () => {
                         <Grid item xs={12} display="flex" justifyContent="center" alignItems="center">
                             {isListEdit ? (
                                 <>
-                                    <Button variant="contained" onClick={saveEdit}>
+                                    <Button variant="contained" onClick={saveEdit} sx={{ mx: 1 }}>
                                         儲存編輯
                                     </Button>
-                                    <Button variant="contained" onClick={cancelEdit}>
+                                    <Button variant="contained" onClick={cancelEdit} sx={{ mx: 1 }}>
                                         取消編輯
                                     </Button>
                                 </>
                             ) : (
                                 <>
-                                    <Button variant="contained" onClick={addInvoiceInfo}>
+                                    <Button variant="contained" onClick={addInvoiceInfo} sx={{ mx: 1 }}>
                                         新增發票
                                     </Button>
-                                    <Button variant="contained" onClick={itemInfoInitial}>
+                                    <Button variant="contained" onClick={itemInfoInitial} sx={{ mx: 1 }}>
                                         全部清除
                                     </Button>
                                 </>
