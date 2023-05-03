@@ -135,7 +135,18 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
     }
 }));
 
-const BillDraftMake = ({ isDialogOpen, handleDialogClose, billMasterID, pONo, submarineCableName, action, billingNo }) => {
+const BillDraftMake = ({
+    isDialogOpen,
+    handleDialogClose,
+    billMasterID,
+    pONo,
+    submarineCableName,
+    issueDateDefault,
+    dueDateDefault,
+    action,
+    billingNo
+}) => {
+    console.log('issueDateDefault=>>', issueDateDefault);
     const [dataList, setDataList] = useState([]);
     const [contact, setContact] = useState('chang_ty');
     const [contactList, setContactList] = useState([]);
@@ -144,8 +155,8 @@ const BillDraftMake = ({ isDialogOpen, handleDialogClose, billMasterID, pONo, su
     const [submarineCableInfo, setSubmarineCableInfo] = useState({});
     const [datailInfo, setDetailInfo] = useState([]);
     const totalAmount = useRef(0);
-    const [issueDate, setIssueDate] = useState(new Date()); //發票日期
-    const [dueDate, setDueDate] = useState(new Date()); //發票日期
+    const [issueDate, setIssueDate] = useState(issueDateDefault); //發票日期
+    const [dueDate, setDueDate] = useState(dueDateDefault); //發票日期
     const [logo, setLogo] = useState(1);
 
     const [subject1, setSubject1] = useState(''); //主旨1
@@ -206,6 +217,8 @@ const BillDraftMake = ({ isDialogOpen, handleDialogClose, billMasterID, pONo, su
                 UserID: 'chang_ty',
                 GetTemplate: true
             };
+            setIssueDate(issueDateDefault);
+            setDueDate(dueDateDefault);
             fetch(generateBillData, { method: 'POST', body: JSON.stringify(tmpData) })
                 .then((res) => res.json())
                 .then((data) => {
@@ -259,7 +272,7 @@ const BillDraftMake = ({ isDialogOpen, handleDialogClose, billMasterID, pONo, su
             //     itemDetailInitial();
             //     handleDialogClose();
             // }}
-            maxWidth="xl"
+            maxWidth="xxl"
             fullWidth
             open={isDialogOpen}
         >
@@ -558,163 +571,6 @@ const BillDraftMake = ({ isDialogOpen, handleDialogClose, billMasterID, pONo, su
                     關閉
                 </Button>
             </DialogActions>
-            {/* 列印開始 */}
-            {/* <Grid container spacing={1} className="no-show">
-                <Grid item xs={12} sm={12} md={12} lg={12}>
-                    <Typography sx={{ fontFamily: 'Microsoft JhengHei,Arial', lineHeight: '1.2' }}>
-                        <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
-                            <Box sx={{ m: 1 }}>
-                                <Box sx={{ fontSize: '18px', textAlign: 'left' }}>
-                                    <Box
-                                        component="img"
-                                        sx={{
-                                            width: '10rem',
-                                            height: 'auto'
-                                        }}
-                                        src={Logo}
-                                    />
-                                </Box>
-                            </Box>
-                            <Box sx={{ m: 1, width: '20%' }} />
-                            <Box sx={{ fontSize: '14px', m: 1, width: '30%' }}>
-                                <Box sx={{ textAlign: 'right' }}>{contactInfo?.Address}</Box>
-                                <Box sx={{ textAlign: 'right' }}>Tel：{contactInfo?.Tel}</Box>
-                                <Box sx={{ textAlign: 'right' }}>Fax：{contactInfo?.Fax}</Box>
-                            </Box>
-                        </Box>
-                        <Box
-                            sx={{
-                                fontSize: subject1.length <= 50 ? '26px' : '23px',
-                                mt: 1,
-                                textAlign: 'center',
-                                whiteSpace: 'nowrap',
-                                fontWeight: 'bold'
-                            }}
-                        >
-                            {subject1}
-                        </Box>
-                        <Box
-                            sx={{
-                                fontSize: subject2.length <= 50 ? '26px' : '23px',
-                                mt: 1,
-                                textAlign: 'center',
-                                whiteSpace: 'nowrap',
-                                fontWeight: 'bold'
-                            }}
-                        >
-                            {subject2}
-                        </Box>
-                        <Box sx={{ fontSize: '30px', m: 1, textAlign: 'center', fontWeight: 'bold' }}>{subject3}</Box>
-                        <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
-                            <Box sx={{ m: 1, minWidth: '40%', with: '40%', fontSize: '14px' }}>
-                                <Box sx={{ textAlign: 'left' }}>BILL TO：</Box>
-                                <Box sx={{ textAlign: 'left' }}>{partyInfo?.Company}</Box>
-                                <Box sx={{ textAlign: 'left' }}>ADDR：{partyInfo?.Address}</Box>
-                                <Box sx={{ textAlign: 'left' }}>ATTN：{partyInfo?.Contact}</Box>
-                                <Box sx={{ textAlign: 'left' }}>E-mail：{partyInfo?.Email}</Box>
-                                <Box sx={{ textAlign: 'left' }}>Tel：{partyInfo?.Tel}</Box>
-                            </Box>
-                            <Box sx={{ m: 1, minWidth: '30%', with: '30%' }} />
-                            <Box sx={{ m: 1, minWidth: '30%', with: '30%' }}>
-                                <Box sx={{ fontSize: '14px', textAlign: 'left' }}>Invoice No.： {dataList.InvoiceNo}</Box>
-                                <Box sx={{ fontSize: '10px', textAlign: 'left' }}>(Please Refer To This Invoice No. On Remittance)</Box>
-                                <Box sx={{ fontSize: '14px', textAlign: 'left' }}>Issue Date：{dayjs(issueDate).format('YYYY/MM/DD')}</Box>
-                                <Box sx={{ fontSize: '14px', textAlign: 'left' }}>Due Date：{dayjs(dueDate).format('YYYY/MM/DD')}</Box>
-                            </Box>
-                        </Box>
-                        <Box sx={{ fontSize: '14px', m: 1, display: 'flex', justifyContent: 'space-between' }}>
-                            <Box>{pONo.length > 0 ? `PO No. ${pONo}` : 0}</Box>
-                            <Box>(Currency：USD)</Box>
-                        </Box>
-                        <Box>
-                            <TableContainer component={Paper}>
-                                <Table sx={{ minWidth: 300 }} stickyHeader aria-label="sticky table">
-                                    <TableHead>
-                                        <TableRow>
-                                            <StyledTableCell className="theTopFirst">Supplier</StyledTableCell>
-                                            <StyledTableCell className="top">INV. No.</StyledTableCell>
-                                            <StyledTableCell className="top">Description</StyledTableCell>
-                                            <StyledTableCell className="top">Billed Amount</StyledTableCell>
-                                            <StyledTableCell className="top">Liability</StyledTableCell>
-                                            <StyledTableCell className="theTopFinal">Share Amount</StyledTableCell>
-                                        </TableRow>
-                                    </TableHead>
-                                    <TableBody>
-                                        {datailInfo?.map((row) => {
-                                            return (
-                                                <TableRow>
-                                                    <StyledTableCell align="center" className="theSecondFirst">
-                                                        {row.Supplier}
-                                                    </StyledTableCell>
-                                                    <StyledTableCell align="left" className="theSecond">
-                                                        {row.InvNumber}
-                                                    </StyledTableCell>
-                                                    <StyledTableCell align="left" className="theSecond">
-                                                        {row.Description}
-                                                    </StyledTableCell>
-                                                    <StyledTableCell align="right" className="theSecond">
-                                                        {handleNumber(row.BilledAmount.toFixed(2))}
-                                                    </StyledTableCell>
-                                                    <StyledTableCell align="right" className="theSecond">
-                                                        {row.Liability.toFixed(10)}%
-                                                    </StyledTableCell>
-                                                    <StyledTableCell align="right" className="theSecondFinal">
-                                                        {handleNumber(row.ShareAmount.toFixed(2))}
-                                                    </StyledTableCell>
-                                                </TableRow>
-                                            );
-                                        })}
-                                        <TableRow>
-                                            <StyledTableCell align="center" className="totalAmountFirst"></StyledTableCell>
-                                            <StyledTableCell align="center" className="totalAmount"></StyledTableCell>
-                                            <StyledTableCell align="center" className="totalAmount"></StyledTableCell>
-                                            <StyledTableCell align="center" className="totalAmount"></StyledTableCell>
-                                            <StyledTableCell align="right" className="totalAmount">
-                                                Total
-                                            </StyledTableCell>
-                                            <StyledTableCell align="right" className="totalAmountFinal">
-                                                {handleNumber(totalAmount.current.toFixed(2))}
-                                            </StyledTableCell>
-                                        </TableRow>
-                                    </TableBody>
-                                </Table>
-                            </TableContainer>
-                        </Box>
-                        <Box sx={{ m: 1, fontSize: '14px' }}>&nbsp;&nbsp;&nbsp;</Box>
-                        <Box sx={{ m: 1, fontSize: '14px' }}>&nbsp;&nbsp;&nbsp;</Box>
-                        <Box sx={{ m: 1, fontSize: '14px' }}>Certified by：</Box>
-                        <Box sx={{ fontSize: '14px', m: 1, display: 'flex', justifyContent: 'space-between' }}>
-                            <Box sx={{ width: '50%', display: 'flex', flexDirection: 'column', justifyContent: 'end' }}>
-                                <Box sx={{}}>———————————————</Box>
-                                <Box sx={{}}>{contactInfo?.DirectorName}</Box>
-                                <Box sx={{}}>Director, CBP</Box>
-                                <Box sx={{}}>{contactInfo?.Company}</Box>
-                                <Box sx={{}}>Email： {contactInfo?.DEmail}</Box>
-                                <Box sx={{}}>Tel： {contactInfo?.DTel}</Box>
-                                <Box sx={{}}>Fax： {contactInfo?.DFax}</Box>
-                            </Box>
-                            <Box sx={{ width: '50%' }}>
-                                <Box>Payment by Telegraphic Transfer to：</Box>
-                                <Box>Bank Name： {submarineCableInfo?.BankName}</Box>
-                                <Box>Branch Name： {submarineCableInfo?.Branch}</Box>
-                                <Box>Branch Address： {submarineCableInfo?.BranchAddress}</Box>
-                                <Box>A/C Name：{submarineCableInfo?.AcctName}</Box>
-                                <Box>Company Addr：{submarineCableInfo?.Address}</Box>
-                                <Box>
-                                    A/C No.：
-                                    {submarineCableInfo?.BankAcctNo.length !== 0
-                                        ? submarineCableInfo?.BankAcctNo
-                                        : submarineCableInfo?.SavingAcctNo}
-                                </Box>
-                                <Box>IBAN： {submarineCableInfo?.IBAN}</Box>
-                                <Box>Swift： {submarineCableInfo?.SWIFTCode}</Box>
-                                <Box>ACH：{submarineCableInfo?.ACHNo}</Box>
-                                <Box>Wire/Routing：{submarineCableInfo?.WireRouting}</Box>
-                            </Box>
-                        </Box>
-                    </Typography>
-                </Grid>
-            </Grid> */}
         </Dialog>
     );
 };

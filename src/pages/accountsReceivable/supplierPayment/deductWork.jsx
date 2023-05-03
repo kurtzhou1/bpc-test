@@ -117,7 +117,7 @@ const ToGenerateDataList = ({ isDialogOpen, handleDialogClose, deductInfo, actio
     return (
         <Dialog
             // onClose={handleDialogClose}
-            maxWidth="xl"
+            maxWidth="xxl"
             open={isDialogOpen}
         >
             <BootstrapDialogTitle

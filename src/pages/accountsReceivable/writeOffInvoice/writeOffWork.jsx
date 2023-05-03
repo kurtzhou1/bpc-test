@@ -244,13 +244,13 @@ const WriteOffWork = ({ isDialogOpen, handleDialogClose, writeOffInfo, writeOffD
     return (
         <Dialog
             // onClose={handleDialogClose}
-            maxWidth="xl"
+            maxWidth="xxl"
             open={isDialogOpen}
         >
             <BootstrapDialogTitle
             // onClose={handleDialogClose}
             >
-                {action !== 'view' ? '收款銷帳作業' : '已消帳明細'}
+                {action !== 'view' ? '收款銷帳作業' : '已銷帳明細'}
             </BootstrapDialogTitle>
             <DialogContent>
                 <Grid container spacing={1} display="flex" justifyContent="center" alignItems="center" sx={{ fontSize: 10 }}>
@@ -325,7 +325,7 @@ const WriteOffWork = ({ isDialogOpen, handleDialogClose, writeOffInfo, writeOffD
                                             <StyledTableCell align="center">重溢繳</StyledTableCell>
                                             <StyledTableCell align="center">短繳</StyledTableCell>
                                             {action === 'view' ? '' : <StyledTableCell align="center">手續費差額</StyledTableCell>}
-                                            {action === 'view' ? '' : <StyledTableCell align="center">短繳原因</StyledTableCell>}
+                                            {/* {action === 'view' ? '' : <StyledTableCell align="center">短繳原因</StyledTableCell>} */}
                                             <StyledTableCell align="center">收款日期</StyledTableCell>
                                             <StyledTableCell align="center">摘要說明</StyledTableCell>
                                             {action === 'view' ? '' : <StyledTableCell align="center">收費狀態</StyledTableCell>}
@@ -448,7 +448,7 @@ const WriteOffWork = ({ isDialogOpen, handleDialogClose, writeOffInfo, writeOffD
                                                                 : '0.00'}
                                                         </TableCell>
                                                     )}
-                                                    {action === 'view' ? (
+                                                    {/* {action === 'view' ? (
                                                         ''
                                                     ) : (
                                                         <TableCell sx={{ fontSize: '0.1rem' }} align="center">
@@ -461,7 +461,7 @@ const WriteOffWork = ({ isDialogOpen, handleDialogClose, writeOffInfo, writeOffD
                                                                 }}
                                                             />
                                                         </TableCell>
-                                                    )}
+                                                    )} */}
                                                     <TableCell sx={{ fontSize: '0.1rem' }} align="center">
                                                         {action === 'view' ? (
                                                             row.ReceiveDate
@@ -567,11 +567,11 @@ const WriteOffWork = ({ isDialogOpen, handleDialogClose, writeOffInfo, writeOffD
                                             )}
                                             <StyledTableCell className="totalAmount" align="center"></StyledTableCell>
                                             <StyledTableCell className="totalAmount" align="center"></StyledTableCell>
-                                            {action === 'view' ? (
+                                            {/* {action === 'view' ? (
                                                 ''
                                             ) : (
                                                 <StyledTableCell className="totalAmount" align="center"></StyledTableCell>
-                                            )}
+                                            )} */}
                                             {action === 'view' ? (
                                                 ''
                                             ) : (

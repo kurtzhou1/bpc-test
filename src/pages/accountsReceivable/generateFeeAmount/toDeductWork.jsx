@@ -132,7 +132,6 @@ const ToDeductWork = ({ isDeductOpen, handleDeductClose, billDetailInfo, billMas
 
     const changeDiff = (currAmount, maxValue, value, cbid) => {
         //原始可折抵金額,可折抵金額,目前輸入值
-        console.log('原始可折抵金額=>>', currAmount, '可折抵金額=>>', maxValue, '目前數值=>>', value, 'cbid=>>', cbid);
         let resule = 0;
         let tmpArrayFiliter = tmpCBArray.filter((i) => i.CBID === cbid);
         let tmpArray = tmpCBArray.map((i) => i);

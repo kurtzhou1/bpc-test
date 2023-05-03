@@ -40,9 +40,7 @@ const ToGenerateDataList = ({ dataList, receivableQuery }) => {
     const actionName = useRef('');
     const [editItem, setEditItem] = useState();
     const [infoTerminal, setInfoTerminal] = useState(false);
-    const billMasterID = useRef(-1);
-    const submarineCable = useRef('');
-    const pONo = useRef('');
+    const billMaster = useRef({});
 
     const handleDeductClose = () => {
         setIsDeductOpen(false);
@@ -57,15 +55,13 @@ const ToGenerateDataList = ({ dataList, receivableQuery }) => {
     };
 
     const handleDialogOpen = (info) => {
-        billMasterID.current = info.BillMasterID;
-        pONo.current = info.PONo;
-        submarineCable.current = info.SubmarineCable;
+        billMaster.current = info;
         setIsDialogOpen(true);
     };
 
     const handleDialogClose = () => {
         setIsDialogOpen(false);
-        billMasterID.current = -1;
+        billMaster.current = {};
     };
 
     const handleTerminalClose = () => {
@@ -91,9 +87,11 @@ const ToGenerateDataList = ({ dataList, receivableQuery }) => {
             <BillDraftMake
                 isDialogOpen={isDialogOpen}
                 handleDialogClose={handleDialogClose}
-                billMasterID={billMasterID.current}
-                pONo={pONo.current}
-                submarineCableName={submarineCable.current}
+                billMasterID={billMaster.current.BillMasterID}
+                pONo={billMaster.current.PONo}
+                submarineCableName={billMaster.current.SubmarineCable}
+                issueDateDefault={billMaster.current.IssueDate}
+                dueDateDefault={billMaster.current.DueDate}
                 action={'toDeduct'}
             />
             <TableContainer component={Paper} sx={{ maxHeight: 350 }}>
@@ -163,12 +161,7 @@ const ToGenerateDataList = ({ dataList, receivableQuery }) => {
                                                 size="small"
                                                 variant="outlined"
                                                 onClick={() => {
-                                                    handleDialogOpen({
-                                                        BillMasterID: row.BillMaster.BillMasterID,
-                                                        PONo: row.BillMaster.PONo,
-                                                        SubmarineCable: row.BillMaster.SubmarineCable,
-                                                        WorkTitle: row.BillMaster.WorkTitle
-                                                    });
+                                                    handleDialogOpen(row.BillMaster);
                                                 }}
                                             >
                                                 預覽帳單

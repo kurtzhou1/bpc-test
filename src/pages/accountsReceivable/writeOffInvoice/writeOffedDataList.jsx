@@ -112,8 +112,10 @@ const WriteOffedDataList = ({ listInfo }) => {
                                     <StyledTableCell align="center">{dayjs(row.BillMaster.IssueDate).format('YYYY/MM/DD')}</StyledTableCell>
                                     <StyledTableCell align="center">{dayjs(row.BillMaster.DueDate).format('YYYY/MM/DD')}</StyledTableCell>
                                     <StyledTableCell align="center">{row.BillDetail?.length}</StyledTableCell>
-                                    <StyledTableCell align="center">{row.BillMaster?.BankFees}</StyledTableCell>
-                                    <StyledTableCell align="center">{row.BillMaster?.FeeAmountSum}</StyledTableCell>
+                                    <StyledTableCell align="center">{handleNumber(row.BillMaster?.BankFees.toFixed(2))}</StyledTableCell>
+                                    <StyledTableCell align="center">
+                                        {handleNumber(row.BillMaster?.FeeAmountSum.toFixed(2))}
+                                    </StyledTableCell>
                                     <StyledTableCell align="center">
                                         <Box
                                             sx={{

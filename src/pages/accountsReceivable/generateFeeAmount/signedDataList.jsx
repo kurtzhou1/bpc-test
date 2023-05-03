@@ -138,7 +138,7 @@ const SignedDataList = ({ dataList, receivableQuery }) => {
                                     <StyledTableCell align="center">{dayjs(row.BillMaster.IssueDate).format('YYYY/MM/DD')}</StyledTableCell>
                                     <StyledTableCell align="center">{dayjs(row.BillMaster.DueDate).format('YYYY/MM/DD')}</StyledTableCell>
                                     <StyledTableCell align="center">{row.BillDetail ? row.BillDetail.length : 0}</StyledTableCell>
-                                    <StyledTableCell align="center">{row.BillMaster.FeeAmountSum}</StyledTableCell>
+                                    <StyledTableCell align="center">{handleNumber(row.BillMaster.FeeAmountSum)}</StyledTableCell>
                                     <StyledTableCell align="center">
                                         <Box
                                             sx={{

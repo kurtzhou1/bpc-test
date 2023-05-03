@@ -51,18 +51,14 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
 }));
 
 const DeductedDataList = ({ dataList, receivableQuery }) => {
-    const billInfo = useRef({});
+    const billMaster = useRef({});
     const [isDialogOpen, setIsDialogOpen] = useState(false); //檢視
     const [isDeductedWorkOpen, setIsDeductedWorkOpen] = useState(false); //產製帳單
     const [isUploadOpen, setIsUploadOpen] = useState(false); //簽核
     const [infoTerminal, setInfoTerminal] = useState(false); //作廢
     const [infoBack, setInfoBack] = useState(false); //退回
     const billMasterID = useRef(-1);
-    const submarineCable = useRef('');
-    const billingNo = useRef('');
-    const pONo = useRef('');
     const billDetailInfo = useRef([]);
-    const [editItem, setEditItem] = useState();
 
     const handleDeductedOpen = (data) => {
         billDetailInfo.current = data;
@@ -72,20 +68,18 @@ const DeductedDataList = ({ dataList, receivableQuery }) => {
 
     const handleDeductedClose = () => {
         setIsDeductedWorkOpen(false);
-        // setEditItem();
     };
 
     const handleDialogOpen = (info) => {
         billMasterID.current = info.BillMasterID;
-        pONo.current = info.PONo;
-        submarineCable.current = info.SubmarineCable;
-        billingNo.current = info.BillingNo;
+        billMaster.current = info.BillInfo;
         setIsDialogOpen(true);
     };
 
     const handleDialogClose = () => {
         setIsDialogOpen(false);
         billMasterID.current = -1;
+        billMaster.current = {};
     };
 
     const handleUploadOpen = (info) => {
@@ -119,9 +113,11 @@ const DeductedDataList = ({ dataList, receivableQuery }) => {
                 isDialogOpen={isDialogOpen}
                 handleDialogClose={handleDialogClose}
                 billMasterID={billMasterID.current}
-                pONo={pONo.current}
-                submarineCableName={submarineCable.current}
-                billingNo={billingNo.current}
+                pONo={billMaster.current.PONo}
+                submarineCableName={billMaster.current.SubmarineCable}
+                billingNo={billMaster.current.current}
+                issueDateDefault={billMaster.current.IssueDate}
+                dueDateDefault={billMaster.current.DueDate}
                 action={'deducted'}
             />
             <SignAndUpload
@@ -181,10 +177,10 @@ const DeductedDataList = ({ dataList, receivableQuery }) => {
                                                 onClick={() => {
                                                     handleDialogOpen({
                                                         BillMasterID: row.BillMaster.BillMasterID,
-                                                        PONo: row.BillMaster.PONo,
-                                                        SubmarineCable: row.BillMaster.SubmarineCable,
-                                                        WorkTitle: row.BillMaster.WorkTitle,
-                                                        BillingNo: row.BillMaster.BillingNo
+                                                        BillInfo: row.BillMaster
+                                                        // PONo: row.BillMaster.PONo,
+                                                        // SubmarineCable: row.BillMaster.SubmarineCable,
+                                                        // BillingNo: row.BillMaster.BillingNo
                                                     });
                                                 }}
                                             >
