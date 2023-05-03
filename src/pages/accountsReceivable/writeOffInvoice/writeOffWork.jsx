@@ -250,7 +250,7 @@ const WriteOffWork = ({ isDialogOpen, handleDialogClose, writeOffInfo, writeOffD
             <BootstrapDialogTitle
             // onClose={handleDialogClose}
             >
-                收款銷帳作業
+                {action !== 'view' ? '收款銷帳作業' : '已消帳明細'}
             </BootstrapDialogTitle>
             <DialogContent>
                 <Grid container spacing={1} display="flex" justifyContent="center" alignItems="center" sx={{ fontSize: 10 }}>
@@ -324,9 +324,8 @@ const WriteOffWork = ({ isDialogOpen, handleDialogClose, writeOffInfo, writeOffD
                                             {action === 'view' ? '' : <StyledTableCell align="center">總金額(含手續費)</StyledTableCell>}
                                             <StyledTableCell align="center">重溢繳</StyledTableCell>
                                             <StyledTableCell align="center">短繳</StyledTableCell>
-                                            <StyledTableCell align="center">手續費差額</StyledTableCell>
                                             {action === 'view' ? '' : <StyledTableCell align="center">手續費差額</StyledTableCell>}
-                                            <StyledTableCell align="center">短繳原因</StyledTableCell>
+                                            {action === 'view' ? '' : <StyledTableCell align="center">短繳原因</StyledTableCell>}
                                             <StyledTableCell align="center">收款日期</StyledTableCell>
                                             <StyledTableCell align="center">摘要說明</StyledTableCell>
                                             {action === 'view' ? '' : <StyledTableCell align="center">收費狀態</StyledTableCell>}
@@ -377,6 +376,7 @@ const WriteOffWork = ({ isDialogOpen, handleDialogClose, writeOffInfo, writeOffD
                                                     <TableCell sx={{ fontSize: '0.1rem' }} align="center">
                                                         {handleNumber(row?.FeeAmount.toFixed(2))}
                                                     </TableCell>
+                                                    {/* 累計實收 */}
                                                     <TableCell sx={{ fontSize: '0.1rem' }} align="center">
                                                         {handleNumber(row?.ReceivedAmount.toFixed(2))}
                                                     </TableCell>
@@ -414,9 +414,13 @@ const WriteOffWork = ({ isDialogOpen, handleDialogClose, writeOffInfo, writeOffD
                                                         </TableCell>
                                                     )}
                                                     {/* 總金額 */}
-                                                    <TableCell sx={{ fontSize: '0.1rem' }} align="center">
-                                                        {totalAmount ? totalAmount.toFixed(2) : '0.00'}
-                                                    </TableCell>
+                                                    {action === 'view' ? (
+                                                        ''
+                                                    ) : (
+                                                        <TableCell sx={{ fontSize: '0.1rem' }} align="center">
+                                                            {totalAmount ? totalAmount.toFixed(2) : '0.00'}
+                                                        </TableCell>
+                                                    )}
                                                     {/* 重溢繳 */}
                                                     {/* 重溢繳 : 本次實收+累計實收-應繳 > 0，則顯示其金額差額 */}
                                                     <TableCell sx={{ fontSize: '0.1rem' }} align="center">
@@ -444,10 +448,10 @@ const WriteOffWork = ({ isDialogOpen, handleDialogClose, writeOffInfo, writeOffD
                                                                 : '0.00'}
                                                         </TableCell>
                                                     )}
-                                                    <TableCell sx={{ fontSize: '0.1rem' }} align="center">
-                                                        {action === 'view' ? (
-                                                            row.ShortOverReason
-                                                        ) : (
+                                                    {action === 'view' ? (
+                                                        ''
+                                                    ) : (
+                                                        <TableCell sx={{ fontSize: '0.1rem' }} align="center">
                                                             <TextField
                                                                 size="small"
                                                                 sx={{ minWidth: 75 }}
@@ -456,8 +460,8 @@ const WriteOffWork = ({ isDialogOpen, handleDialogClose, writeOffInfo, writeOffD
                                                                     changeShortOverReason(e.target.value, row.BillDetailID);
                                                                 }}
                                                             />
-                                                        )}
-                                                    </TableCell>
+                                                        </TableCell>
+                                                    )}
                                                     <TableCell sx={{ fontSize: '0.1rem' }} align="center">
                                                         {action === 'view' ? (
                                                             row.ReceiveDate
@@ -477,7 +481,6 @@ const WriteOffWork = ({ isDialogOpen, handleDialogClose, writeOffInfo, writeOffD
                                                             </LocalizationProvider>
                                                         )}
                                                     </TableCell>
-
                                                     <TableCell sx={{ fontSize: '0.1rem' }} align="center">
                                                         {action === 'view' ? (
                                                             row.Note
@@ -542,9 +545,13 @@ const WriteOffWork = ({ isDialogOpen, handleDialogClose, writeOffInfo, writeOffD
                                                     {handleNumber(ReceiveAmountTotal.current.toFixed(2))}
                                                 </StyledTableCell>
                                             )}
-                                            <StyledTableCell className="totalAmount" align="center">
-                                                {handleNumber(tmpTotal.toFixed(2))}
-                                            </StyledTableCell>
+                                            {action === 'view' ? (
+                                                ''
+                                            ) : (
+                                                <StyledTableCell className="totalAmount" align="center">
+                                                    {handleNumber(tmpTotal.toFixed(2))}
+                                                </StyledTableCell>
+                                            )}
                                             <StyledTableCell className="totalAmount" align="center">
                                                 {handleNumber(tmpOverAmount.toFixed(2))}
                                             </StyledTableCell>
@@ -560,7 +567,11 @@ const WriteOffWork = ({ isDialogOpen, handleDialogClose, writeOffInfo, writeOffD
                                             )}
                                             <StyledTableCell className="totalAmount" align="center"></StyledTableCell>
                                             <StyledTableCell className="totalAmount" align="center"></StyledTableCell>
-                                            <StyledTableCell className="totalAmount" align="center"></StyledTableCell>
+                                            {action === 'view' ? (
+                                                ''
+                                            ) : (
+                                                <StyledTableCell className="totalAmount" align="center"></StyledTableCell>
+                                            )}
                                             {action === 'view' ? (
                                                 ''
                                             ) : (
@@ -573,31 +584,52 @@ const WriteOffWork = ({ isDialogOpen, handleDialogClose, writeOffInfo, writeOffD
                         </MainCard>
                     </Grid>
                     <Grid item xs={12} sm={12} md={12} lg={12}>
-                        <Box
-                            sx={{
-                                fontSize: '12px',
-                                m: 1,
-                                fontWeight: 'bold',
-                                display: 'flex',
-                                justifyContent: 'end',
-                                alignItems: 'center'
-                            }}
-                        >
-                            <Box sx={{ color: 'red', mr: 2.5 }}>(提示：若有費用項目還未完成收款，原則上不用勾選)</Box>
-                            <Box>
-                                <Checkbox checked={isComplete} onChange={handleChange} size="small" sx={{ p: 0 }} /> 確認此帳單完成銷帳作業
+                        {action === 'view' ? (
+                            ''
+                        ) : (
+                            <Box
+                                sx={{
+                                    fontSize: '12px',
+                                    m: 1,
+                                    fontWeight: 'bold',
+                                    display: 'flex',
+                                    justifyContent: 'end',
+                                    alignItems: 'center'
+                                }}
+                            >
+                                <Box sx={{ color: 'red', mr: 2.5 }}>(提示：若有費用項目還未完成收款，原則上不用勾選)</Box>
+                                <Box>
+                                    <Checkbox checked={isComplete} onChange={handleChange} size="small" sx={{ p: 0 }} />{' '}
+                                    確認此帳單完成銷帳作業
+                                </Box>
                             </Box>
-                        </Box>
+                        )}
                     </Grid>
                 </Grid>
             </DialogContent>
             <DialogActions>
-                <Button sx={{ mr: '0.05rem' }} variant="contained" onClick={sendData}>
-                    儲存
-                </Button>
-                {/* <Button sx={{ mr: '0.05rem' }} variant="contained" onClick={initData}>
+                {action === 'view' ? (
+                    ''
+                ) : (
+                    <Box
+                        sx={{
+                            fontSize: '12px',
+                            m: 1,
+                            fontWeight: 'bold',
+                            display: 'flex',
+                            justifyContent: 'end',
+                            alignItems: 'center'
+                        }}
+                    >
+                        <Button sx={{ mr: '0.05rem' }} disabled={action === 'view'} variant="contained" onClick={sendData}>
+                            儲存
+                        </Button>
+                        {/* <Button sx={{ mr: '0.05rem' }} variant="contained" onClick={initData}>
                     Reset
                 </Button> */}
+                    </Box>
+                )}
+
                 <Button sx={{ mr: '0.05rem' }} variant="contained" onClick={handleClose}>
                     關閉
                 </Button>
