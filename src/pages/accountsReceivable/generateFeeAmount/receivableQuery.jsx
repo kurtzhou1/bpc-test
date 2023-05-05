@@ -38,7 +38,7 @@ const ReceivableQuery = ({ value, setListInfo, queryApi }) => {
     const [supplierName, setSupplierName] = useState(''); //供應商
     const [submarineCable, setSubmarineCable] = useState(''); //海纜名稱
     const [invoiceNo, setInvoiceNo] = useState(''); //發票號碼
-    const [billingNo, setBillingNo] = useState(''); //發票號碼
+    const [billingNo, setBillingNo] = useState(''); //帳單號碼
 
     const initInfo = () => {
         setIssueDate([null, null]);
@@ -112,11 +112,11 @@ const ReceivableQuery = ({ value, setListInfo, queryApi }) => {
         if (submarineCable && submarineCable !== '') {
             tmpQuery = tmpQuery + 'SubmarineCable=' + submarineCable + '&';
         }
-        if (invoiceNo && invoiceNo !== '') {
+        if (invoiceNo && invoiceNo !== '' && value === 0) {
             tmpQuery = tmpQuery + 'InvoiceNo=' + invoiceNo + '&';
         }
-        if (invoiceNo && invoiceNo !== '') {
-            tmpQuery = tmpQuery + 'BillingNo=' + invoiceNo + '&';
+        if (billingNo && billingNo !== '' && value !== 0) {
+            tmpQuery = tmpQuery + 'BillingNo=' + billingNo + '&';
         }
         if (workTitle && workTitle !== '') {
             tmpQuery = tmpQuery + 'WorkTitle=' + workTitle + '&';
