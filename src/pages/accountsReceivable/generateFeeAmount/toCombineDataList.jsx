@@ -57,7 +57,6 @@ const ToCombineDataList = ({ handleDialogClose, isDialogOpen, dataList, cbToCn, 
     const [billList, setBillList] = useState({});
     const [billingNo, setBillingNo] = useState('');
     const billingNoOld = useRef('');
-    // const [cbToCn, setCbToCn] = useState({}); //處理狀態
     const sendComBineData = useRef({}); //按下合併帳單時送出的資料
     const totalAmount = useRef(0);
     let tmpBMArray = [];
@@ -151,22 +150,19 @@ const ToCombineDataList = ({ handleDialogClose, isDialogOpen, dataList, cbToCn, 
         if (Object.keys(cbToCn).length === 0) {
             let tmpObj = {};
             dataList.forEach((i) => {
-                tmpObj[i.InvoiceMaster?.InvMasterID] = false;
+                tmpObj[i?.InvMasterID] = false;
             });
             setCbToCn(tmpObj);
         } else {
             // let tmpAmount = 0;
             let tmpSendArray = [];
             let tmpArray = dataList.filter((i) => {
-                return cbToCn[i.InvoiceMaster.InvMasterID];
+                return cbToCn[i?.InvMasterID];
             });
             tmpArray.forEach((i) => {
-                // console.log('i=>>', i);
-                // tmpAmount = tmpAmount + i.InvoiceDetail[0]?.FeeAmountPre;
-                tmpSendArray.push(i.InvoiceMaster);
+                tmpSendArray.push(i);
             });
             sendComBineData.current = { InvoiceMaster: tmpSendArray }; //按下合併帳單時，送出的資料
-            // totalCombineAmount.current = tmpAmount;
         }
     }, [dataList, cbToCn]);
 
@@ -333,52 +329,43 @@ const ToCombineDataList = ({ handleDialogClose, isDialogOpen, dataList, cbToCn, 
                             <StyledTableCell align="center">記帳段號</StyledTableCell>
                             <StyledTableCell align="center">發票號碼</StyledTableCell>
                             <StyledTableCell align="center">供應商</StyledTableCell>
-                            <StyledTableCell align="center">合約種類</StyledTableCell>
+                            {/* <StyledTableCell align="center">合約種類</StyledTableCell> */}
                             <StyledTableCell align="center">發票日期</StyledTableCell>
-                            <StyledTableCell align="center">明細數量</StyledTableCell>
+                            {/* <StyledTableCell align="center">明細數量</StyledTableCell> */}
                             <StyledTableCell align="center">總金額</StyledTableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>
                         {dataList.map((row, id) => {
                             tmpBMArray = [];
-                            row.InvoiceDetail.forEach((i) => {
-                                if (!tmpBMArray.includes(i.BillMilestone)) {
-                                    tmpBMArray.push(i.BillMilestone);
-                                }
-                            });
+                            // row.InvoiceDetail.forEach((i) => {
+                            //     if (!tmpBMArray.includes(i.BillMilestone)) {
+                            //         tmpBMArray.push(i.BillMilestone);
+                            //     }
+                            // });
                             let tmpAmount = 0;
-                            row.InvoiceDetail.forEach((i) => {
-                                tmpAmount = tmpAmount + i.FeeAmountPost;
-                            });
+                            // row.InvoiceDetail.forEach((i) => {
+                            //     tmpAmount = tmpAmount + i.FeeAmountPost;
+                            // });
                             return (
-                                <TableRow
-                                    key={row.InvoiceMaster?.InvoiceNo + id}
-                                    sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-                                >
+                                <TableRow key={row?.InvoiceNo + id} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
                                     <TableCell align="center">
                                         <Checkbox
-                                            value={row.InvoiceMaster?.InvMasterID}
+                                            value={row?.InvMasterID}
                                             onChange={handleChange}
-                                            checked={cbToCn[row.InvoiceMaster?.InvMasterID] || false}
-                                            // defaultChecked={cbToCn[row.InvoiceMaster?.InvMasterID]}
+                                            checked={cbToCn[row?.InvMasterID] || false}
                                             // sx={{ '& .MuiSvgIcon-root': { fontSize: { lg: 14, xl: 20 } } }}
                                         />
                                     </TableCell>
                                     <TableCell align="center">{id + 1}</TableCell>
-                                    <TableCell align="center">{row.InvoiceMaster?.PartyName}</TableCell>
-                                    <TableCell align="center">{row.InvoiceMaster?.SubmarineCable}</TableCell>
-                                    <TableCell align="center">{row.InvoiceMaster?.WorkTitle}</TableCell>
-                                    <TableCell align="center">{tmpBMArray.join(',')}</TableCell>
-                                    <TableCell align="center">{row.InvoiceMaster?.InvoiceNo}</TableCell>
-                                    <TableCell align="center">{row.InvoiceMaster?.SupplierName}</TableCell>
-                                    <TableCell align="center">{row.InvoiceMaster?.ContractType}</TableCell>
-                                    <TableCell align="center">{dayjs(row.InvoiceMaster?.IssueDate).format('YYYY/MM/DD')}</TableCell>
-                                    <TableCell align="center">{row.InvoiceDetail?.length}</TableCell>
+                                    <TableCell align="center">{row?.PartyName}</TableCell>
+                                    <TableCell align="center">{row?.SubmarineCable}</TableCell>
+                                    <TableCell align="center">{row?.WorkTitle}</TableCell>
+                                    <TableCell align="center">{row?.BillMilestone}</TableCell>
+                                    <TableCell align="center">{row?.InvoiceNo}</TableCell>
+                                    <TableCell align="center">{row?.SupplierName}</TableCell>
+                                    <TableCell align="center">{dayjs(row?.IssueDate).format('YYYY/MM/DD')}</TableCell>
                                     <TableCell align="center">{`$${handleNumber(tmpAmount.toFixed(2))}`}</TableCell>
-                                    {/* <TableCell align="center">
-                                        {row.InvoiceMaster?.Status === 'TO_MERGE' ? '待合併' : row.InvoiceMaster?.Status}
-                                    </TableCell> */}
                                 </TableRow>
                             );
                         })}
