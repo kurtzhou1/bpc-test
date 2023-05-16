@@ -147,17 +147,19 @@ const ToCombineDataList = ({ handleDialogClose, isDialogOpen, dataList, cbToCn, 
     };
 
     useEffect(() => {
+        console.log('cbToCn=>>', cbToCn);
         if (Object.keys(cbToCn).length === 0) {
             let tmpObj = {};
             dataList.forEach((i) => {
-                tmpObj[i?.InvMasterID] = false;
+                // tmpObj[i?.InvMasterID] = false;
+                tmpObj[i?.InvDetailID] = false;
             });
             setCbToCn(tmpObj);
         } else {
             // let tmpAmount = 0;
             let tmpSendArray = [];
             let tmpArray = dataList.filter((i) => {
-                return cbToCn[i?.InvMasterID];
+                return cbToCn[i?.InvDetailID];
             });
             tmpArray.forEach((i) => {
                 tmpSendArray.push(i);
@@ -351,9 +353,9 @@ const ToCombineDataList = ({ handleDialogClose, isDialogOpen, dataList, cbToCn, 
                                 <TableRow key={row?.InvoiceNo + id} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
                                     <TableCell align="center">
                                         <Checkbox
-                                            value={row?.InvMasterID}
+                                            value={row?.InvDetailID}
                                             onChange={handleChange}
-                                            checked={cbToCn[row?.InvMasterID] || false}
+                                            checked={cbToCn[row?.InvDetailID] || false}
                                             // sx={{ '& .MuiSvgIcon-root': { fontSize: { lg: 14, xl: 20 } } }}
                                         />
                                     </TableCell>
