@@ -325,7 +325,7 @@ const WriteOffWork = ({ isDialogOpen, handleDialogClose, writeOffInfo, writeOffD
                                             {action === 'view' ? '' : <StyledTableCell align="center">總金額(含手續費)</StyledTableCell>}
                                             <StyledTableCell align="center">重溢繳</StyledTableCell>
                                             <StyledTableCell align="center">短繳</StyledTableCell>
-                                            {action === 'view' ? '' : <StyledTableCell align="center">手續費差額</StyledTableCell>}
+                                            {/* {action === 'view' ? '' : <StyledTableCell align="center">手續費差額</StyledTableCell>} */}
                                             {/* {action === 'view' ? '' : <StyledTableCell align="center">短繳原因</StyledTableCell>} */}
                                             <StyledTableCell align="center">收款日期</StyledTableCell>
                                             <StyledTableCell align="center">摘要說明</StyledTableCell>
@@ -357,14 +357,14 @@ const WriteOffWork = ({ isDialogOpen, handleDialogClose, writeOffInfo, writeOffD
                                             tmpOverAmount = tmpOverAmount + overAmount; //溢繳
                                             tmpShortAmount = tmpShortAmount + shortAmount; //短繳
                                             tmpBankFeeBalance = tmpBankFeeBalance + bankFeeBalance; //手續費差額(負值)
-                                            tmpStatus =
-                                                overAmount > 0
-                                                    ? 'OVER'
-                                                    : Math.abs(bankFeeBalance) > 0
-                                                    ? 'BANK_FEE'
-                                                    : shortAmount === 0 || shortAmount === row.FeeAmount
-                                                    ? 'INCOMPLETE'
-                                                    : 'PARTIAL';
+                                            // tmpStatus =
+                                            //     overAmount > 0
+                                            //         ? 'OVER'
+                                            //         : Math.abs(bankFeeBalance) > 0
+                                            //         ? 'BANK_FEE'
+                                            //         : shortAmount === 0 || shortAmount === row.FeeAmount
+                                            //         ? 'INCOMPLETE'
+                                            //         : 'PARTIAL';
                                             return (
                                                 <TableRow
                                                     key={row?.BillMasterID + row?.BillDetailID}
@@ -445,7 +445,7 @@ const WriteOffWork = ({ isDialogOpen, handleDialogClose, writeOffInfo, writeOffD
                                                     </TableCell>
                                                     {/* 手續費差額 */}
                                                     {/* 手續費差額：本次實收+累計實收-應繳 (應該是負值或0) 取正值 跟 手續費比 ，如果小於等於則顯示正值的金額(顯示的金額不用減掉手續費) */}
-                                                    {action === 'view' ? (
+                                                    {/* {action === 'view' ? (
                                                         ''
                                                     ) : (
                                                         <TableCell sx={{ fontSize: '0.1rem' }} align="center">
@@ -455,7 +455,7 @@ const WriteOffWork = ({ isDialogOpen, handleDialogClose, writeOffInfo, writeOffD
                                                                 ? handleNumber(Math.abs(tmpTotalAmount).toFixed(2))
                                                                 : '0.00'}
                                                         </TableCell>
-                                                    )}
+                                                    )} */}
                                                     {/* {action === 'view' ? (
                                                         ''
                                                     ) : (
@@ -508,7 +508,8 @@ const WriteOffWork = ({ isDialogOpen, handleDialogClose, writeOffInfo, writeOffD
                                                     ) : (
                                                         <TableCell sx={{ fontSize: '0.1rem' }} align="center">
                                                             <Select
-                                                                value={tmpStatus}
+                                                                // value={tmpStatus}
+                                                                value={row.Status}
                                                                 label="會員"
                                                                 onChange={(e) => changeState(e.target.value, row.BillDetailID)}
                                                             >
