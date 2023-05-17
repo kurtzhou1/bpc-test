@@ -154,7 +154,7 @@ const ToCombineDataList = ({ handleDialogClose, isDialogOpen, dataList, cbToCn, 
                 // tmpObj[i?.InvMasterID] = false;
                 tmpObj[i?.InvDetailID] = false;
             });
-            setCbToCn(tmpObj);
+            // setCbToCn(tmpObj);
         } else {
             // let tmpAmount = 0;
             let tmpSendArray = [];
@@ -164,12 +164,13 @@ const ToCombineDataList = ({ handleDialogClose, isDialogOpen, dataList, cbToCn, 
             tmpArray.forEach((i) => {
                 tmpSendArray.push(i);
             });
-            sendComBineData.current = { InvoiceMaster: tmpSendArray }; //按下合併帳單時，送出的資料
+            sendComBineData.current = { InvoiceDetail: tmpSendArray }; //按下合併帳單時，送出的資料
         }
     }, [dataList, cbToCn]);
 
     useEffect(() => {
         if (isDialogOpen) {
+            console.log('sendComBineData.current=>>', sendComBineData.current);
             let tmpAmount = 0;
             fetch(combineInvo, {
                 method: 'POST',
@@ -177,6 +178,7 @@ const ToCombineDataList = ({ handleDialogClose, isDialogOpen, dataList, cbToCn, 
             })
                 .then((res) => res.json())
                 .then((data) => {
+                    console.log('data=>>>', data);
                     setBillList(data);
                     billingNoOld.current = data.BillMaster.BillingNo;
                     data.BillDetail.forEach((i) => {
@@ -324,7 +326,8 @@ const ToCombineDataList = ({ handleDialogClose, isDialogOpen, dataList, cbToCn, 
                     <TableHead>
                         <TableRow>
                             <StyledTableCell align="center"></StyledTableCell>
-                            <StyledTableCell align="center">NO</StyledTableCell>
+                            {/* <StyledTableCell align="center">NO</StyledTableCell> */}
+                            <StyledTableCell align="center">項目</StyledTableCell>
                             <StyledTableCell align="center">會員</StyledTableCell>
                             <StyledTableCell align="center">海纜名稱</StyledTableCell>
                             <StyledTableCell align="center">海纜作業</StyledTableCell>
@@ -359,7 +362,8 @@ const ToCombineDataList = ({ handleDialogClose, isDialogOpen, dataList, cbToCn, 
                                             // sx={{ '& .MuiSvgIcon-root': { fontSize: { lg: 14, xl: 20 } } }}
                                         />
                                     </TableCell>
-                                    <TableCell align="center">{id + 1}</TableCell>
+                                    {/* <TableCell align="center">{id + 1}</TableCell> */}
+                                    <TableCell align="center">{row?.FeeItem}</TableCell>
                                     <TableCell align="center">{row?.PartyName}</TableCell>
                                     <TableCell align="center">{row?.SubmarineCable}</TableCell>
                                     <TableCell align="center">{row?.WorkTitle}</TableCell>
@@ -367,7 +371,7 @@ const ToCombineDataList = ({ handleDialogClose, isDialogOpen, dataList, cbToCn, 
                                     <TableCell align="center">{row?.InvoiceNo}</TableCell>
                                     <TableCell align="center">{row?.SupplierName}</TableCell>
                                     <TableCell align="center">{dayjs(row?.IssueDate).format('YYYY/MM/DD')}</TableCell>
-                                    <TableCell align="center">{`$${handleNumber(tmpAmount.toFixed(2))}`}</TableCell>
+                                    <TableCell align="center">{`$${handleNumber(row?.FeeAmountPost.toFixed(2))}`}</TableCell>
                                 </TableRow>
                             );
                         })}
