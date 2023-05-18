@@ -65,7 +65,6 @@ const CreditBalanceDataList = ({ listInfo, setIsDialogOpen }) => {
                     </TableHead>
                     <TableBody>
                         {listInfo?.map((row, id) => {
-                            console.log('row=>>', row);
                             return (
                                 <TableRow
                                     // key={row.InvoiceWKMaster?.invoiceNo + row.InvoiceWKMaster?.supplierName + id}

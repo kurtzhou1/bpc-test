@@ -40,82 +40,22 @@ import TableCell, { tableCellClasses } from '@mui/material/TableCell';
 import Paper from '@mui/material/Paper';
 import { styled } from '@mui/material/styles';
 
+const StyledTableCell = styled(TableCell)(({ theme }) => ({
+    [`&.${tableCellClasses.head}`]: {
+        // backgroundColor: theme.palette.common.gary,
+        color: theme.palette.common.black,
+        paddingTop: '0.2rem',
+        paddingBottom: '0.2rem'
+    },
+    [`&.${tableCellClasses.body}`]: {
+        fontSize: 14,
+        paddingTop: '0.2rem',
+        paddingBottom: '0.2rem'
+    }
+}));
+
 const CreditBalanceDeduct = ({ cblistInfo }) => {
     console.log('cblistInfo=>>', cblistInfo);
-    const [partyName, setPartyName] = useState(''); //會員代號
-    const [cBType, setCBType] = useState(''); //CB種類
-    const [submarineCable, setSubmarineCable] = useState(''); //海纜名稱
-    const [workTitle, setWorkTitle] = useState(''); //海纜作業
-    const [createDate, setCreateDate] = useState([null, null]); //建立日期
-
-    const [listInfo, setListInfo] = useState(cblistInfo);
-    // const [editItem, setEditItem] = useState(NaN);
-    const [isEdit, setIsEdit] = useState(false);
-    const [value, setValue] = useState(0);
-
-    // const icon = <CheckBoxOutlineBlankIcon fontSize="small" />;
-    // const checkedIcon = <CheckBoxIcon fontSize="small" />;
-
-    const itemDetailInitial = () => {
-        setPartyName([]);
-        setLBRatio('');
-        setIsEdit(false);
-    };
-
-    // //編輯
-    // const editlistInfoItem = () => {
-    //     let tmpArray = listInfo[editItem];
-
-    //     if (tmpArray) {
-    //         setPartyName([tmpArray?.PartyName]);
-    //         setLBRatio(tmpArray?.LbRatio);
-    //     }
-    //     setIsEdit(true);
-    // };
-
-    //新增
-    const addList = () => {
-        let tmpArray = listInfo.map((i) => i);
-        console.log('=>>', partyName);
-        let partyArray = partyName;
-        partyArray.forEach((e) => {
-            tmpArray.push({
-                BillMilestone: billMilestone,
-                PartyName: e,
-                LBRatio: lBRatio
-            });
-        });
-        setListInfo([...tmpArray]);
-        itemDetailInitial();
-    };
-
-    //刪除
-    const deletelistInfoItem = (deleteItem) => {
-        let tmpArray = listInfo.map((i) => i);
-        tmpArray.splice(deleteItem, 1);
-        setListInfo([...tmpArray]);
-    };
-
-    // useEffect(() => {
-    //     if (editItem >= 0) {
-    //         editlistInfoItem();
-    //         // setIsListEdit(true);
-    //     }
-    // }, [editItem]);
-
-    const StyledTableCell = styled(TableCell)(({ theme }) => ({
-        [`&.${tableCellClasses.head}`]: {
-            // backgroundColor: theme.palette.common.gary,
-            color: theme.palette.common.black,
-            paddingTop: '0.2rem',
-            paddingBottom: '0.2rem'
-        },
-        [`&.${tableCellClasses.body}`]: {
-            fontSize: 14,
-            paddingTop: '0.2rem',
-            paddingBottom: '0.2rem'
-        }
-    }));
 
     return (
         <TableContainer component={Paper} sx={{ maxHeight: 350 }}>
@@ -131,10 +71,10 @@ const CreditBalanceDeduct = ({ cblistInfo }) => {
                     </TableRow>
                 </TableHead>
                 <TableBody>
-                    {listInfo?.map((row, id) => {
+                    {cblistInfo?.map((row, id) => {
                         return (
                             <TableRow
-                                // key={row.InvoiceWKMaster?.invoiceNo + row.InvoiceWKMaster?.supplierName + id}
+                                key={row?.BLDetailID + row?.BillMilestone + row?.BillingNo}
                                 sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                             >
                                 <StyledTableCell align="center">{id + 1}</StyledTableCell>

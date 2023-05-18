@@ -44,6 +44,7 @@ import { styled } from '@mui/material/styles';
 import { generateReport } from 'components/apis.jsx';
 
 const CreditBalanceView = ({ cbView, handleViewClose, listInfo, viewId }) => {
+    console.log('listInfo=>>', listInfo);
     const [cblistInfo, setCbListInfo] = useState(listInfo);
     const [value, setValue] = useState(0);
 
@@ -102,114 +103,23 @@ const CreditBalanceView = ({ cbView, handleViewClose, listInfo, viewId }) => {
     };
 
     return (
-        <Dialog
-            // onClose={() => {
-            //     itemDetailInitial();
-            //     handleViewClose();
-            // }}
-            maxWidth="sm"
-            fullWidth
-            open={cbView}
-        >
+        <Dialog maxWidth="sm" fullWidth open={cbView}>
             <BootstrapDialogTitle>檢視Credit Balance明細</BootstrapDialogTitle>
             <DialogContent dividers>
                 <Grid container spacing={1}>
-                    {/* <Grid item xs={12} sm={12} md={12} lg={12}>
-                        <MainCard title="Credit Balance" sx={{ width: '100%' }}>
-                            <Grid container spacing={1}>
-                                <Grid item xs={3} sm={3} md={3} lg={3} display="flex" justifyContent="center">
-                                    <Typography
-                                        variant="h5"
-                                        sx={{ fontSize: { lg: '0.5rem', xl: '0.88rem' }, ml: { lg: '0.5rem', xl: '1.5rem' } }}
-                                    >
-                                        會員代號：
-                                    </Typography>
-                                </Grid>
-                                <Grid item xs={3} sm={3} md={3} lg={3}>
-                                    <FormControl fullWidth size="small">
-                                        <TextField
-                                            fullWidth
-                                            variant="outlined"
-                                            // disabled={listInfo.length > 0}
-                                            // value={billMilestone}
-                                            size="small"
-                                            label="填寫CB種類"
-                                            // onChange={(e) => setBillMilestone(e.target.value)}
-                                        />
-                                    </FormControl>
-                                </Grid>
-                                <Grid item xs={3} sm={3} md={3} lg={3} display="flex" justifyContent="center">
-                                    <Typography
-                                        variant="h5"
-                                        sx={{ fontSize: { lg: '0.5rem', xl: '0.88rem' }, ml: { lg: '0.5rem', xl: '1.5rem' } }}
-                                    >
-                                        CB種類：
-                                    </Typography>
-                                </Grid>
-                                <Grid item xs={3} sm={3} md={3} lg={3}>
-                                    <TextField
-                                        fullWidth
-                                        variant="outlined"
-                                        // value={lBRatio}
-                                        size="small"
-                                        label="填寫會員代號"
-                                        // onChange={(e) => setLBRatio(e.target.value)}
-                                    />
-                                </Grid>
-                                <Grid item xs={3} sm={3} md={3} lg={3} display="flex" justifyContent="center">
-                                    <Typography
-                                        variant="h5"
-                                        sx={{ fontSize: { lg: '0.5rem', xl: '0.88rem' }, ml: { lg: '0.5rem', xl: '1.5rem' } }}
-                                    >
-                                        剩餘金額：
-                                    </Typography>
-                                </Grid>
-                                <Grid item xs={3} sm={3} md={3} lg={3}>
-                                    <TextField
-                                        fullWidth
-                                        variant="outlined"
-                                        // value={lBRatio}
-                                        size="small"
-                                        label="填寫剩餘金額"
-                                        // onChange={(e) => setLBRatio(e.target.value)}
-                                    />
-                                </Grid>
-                                <Grid item xs={3} sm={3} md={3} lg={3} display="flex" justifyContent="center">
-                                    <Typography
-                                        variant="h5"
-                                        sx={{ fontSize: { lg: '0.5rem', xl: '0.88rem' }, ml: { lg: '0.5rem', xl: '1.5rem' } }}
-                                    >
-                                        摘要：
-                                    </Typography>
-                                </Grid>
-                                <Grid item xs={3} sm={3} md={3} lg={3}>
-                                    <TextField
-                                        fullWidth
-                                        variant="outlined"
-                                        // value={lBRatio}
-                                        size="small"
-                                        label="填寫摘要"
-                                        // onChange={(e) => setLBRatio(e.target.value)}
-                                    />
-                                </Grid>
-                            </Grid>
-                        </MainCard>
-                    </Grid> */}
                     <Grid item xs={12} sm={12} md={12} lg={12}>
-                        <MainCard title="Credit Balance" sx={{ width: '100%' }}>
-                            <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-                                <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
-                                    <Tab label="CB抵扣紀錄" {...a11yProps(0)} />
-                                    <Tab label="退費紀錄" {...a11yProps(1)} />
-                                </Tabs>
-                            </Box>
-                            <TabPanel value={value} index={0}>
-                                <CreditBalanceDeduct cblistInfo={cblistInfo} />
-                            </TabPanel>
-                            <TabPanel value={value} index={1}>
-                                <CreditBalanceRefund cblistInfo={cblistInfo} />
-                            </TabPanel>
-                        </MainCard>
+                        <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
+                            <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
+                                <Tab label="CB抵扣紀錄" {...a11yProps(0)} />
+                                {/* <Tab label="退費紀錄" {...a11yProps(1)} /> */}
+                            </Tabs>
+                        </Box>
+                        <TabPanel value={value} index={0}>
+                            <CreditBalanceDeduct cblistInfo={listInfo} />
+                        </TabPanel>
+                        {/* <TabPanel value={value} index={1}>
+                            <CreditBalanceRefund cblistInfo={cblistInfo} />
+                        </TabPanel> */}
                     </Grid>
                 </Grid>
             </DialogContent>
