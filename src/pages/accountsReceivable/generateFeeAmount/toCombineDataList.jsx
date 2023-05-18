@@ -290,7 +290,7 @@ const ToCombineDataList = ({ handleDialogClose, isDialogOpen, dataList, cbToCn, 
                                                     <TableCell align="center">{row.SupplierName}</TableCell>
                                                     <TableCell align="center">{row.SubmarineCable}</TableCell>
                                                     <TableCell align="center">{dayjs(row.IssueDate).format('YYYY/MM/DD')}</TableCell>
-                                                    <TableCell align="center">{`$${handleNumber(row.FeeAmount.toFixed(2))}`}</TableCell>
+                                                    <TableCell align="center">{`$${handleNumber(row.FeeAmount?.toFixed(2))}`}</TableCell>
                                                 </TableRow>
                                             );
                                         })}
@@ -303,7 +303,7 @@ const ToCombineDataList = ({ handleDialogClose, isDialogOpen, dataList, cbToCn, 
                                             <StyledTableCell className="totalAmount" align="center"></StyledTableCell>
                                             <StyledTableCell className="totalAmount" align="center"></StyledTableCell>
                                             <StyledTableCell className="totalAmount" align="center">{`$${handleNumber(
-                                                totalAmount.current.toFixed(2)
+                                                totalAmount.current?.toFixed(2)
                                             )}`}</StyledTableCell>
                                         </TableRow>
                                     </TableBody>

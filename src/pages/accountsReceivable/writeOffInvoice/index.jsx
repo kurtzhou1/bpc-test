@@ -27,7 +27,7 @@ const fakeData = [
             SubmarineCable: 'SJC2',
             PartyName: 'TICC',
             FeeAmountSum: 398695.2,
-            BankFees: 10000,
+            BankFees: null,
             Status: 'TO_WRITEOFF'
         },
         BillDetail: [

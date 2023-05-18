@@ -478,13 +478,13 @@ const BillDraftMake = ({
                                                             {row.Description}
                                                         </StyledTableCell>
                                                         <StyledTableCell align="right" className="theSecond">
-                                                            {handleNumber(row.BilledAmount.toFixed(2))}
+                                                            {handleNumber(row.BilledAmount?.toFixed(2))}
                                                         </StyledTableCell>
                                                         <StyledTableCell align="right" className="theSecond">
-                                                            {row.Liability.toFixed(10)}%
+                                                            {row.Liability?.toFixed(10)}%
                                                         </StyledTableCell>
                                                         <StyledTableCell align="right" className="theSecondFinal">
-                                                            {handleNumber(row.ShareAmount.toFixed(2))}
+                                                            {handleNumber(row.ShareAmount?.toFixed(2))}
                                                         </StyledTableCell>
                                                     </TableRow>
                                                 );
