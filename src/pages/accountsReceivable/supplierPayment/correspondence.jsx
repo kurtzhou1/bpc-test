@@ -147,7 +147,7 @@ const Correspondence = ({ listInfo, apiQuery }) => {
                             <StyledTableCell align="center">供應商</StyledTableCell>
                             <StyledTableCell align="center">海纜名稱</StyledTableCell>
                             <StyledTableCell align="center">海纜作業</StyledTableCell>
-                            <StyledTableCell align="center">記帳段號</StyledTableCell>
+                            <StyledTableCell align="center">計帳段號</StyledTableCell>
                             <StyledTableCell align="center">應付金額</StyledTableCell>
                             <StyledTableCell align="center">累積實付金額</StyledTableCell>
                             <StyledTableCell align="center">摘要說明</StyledTableCell>

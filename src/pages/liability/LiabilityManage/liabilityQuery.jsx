@@ -31,7 +31,7 @@ import PropTypes from 'prop-types';
 // ==============================|| SAMPLE PAGE ||============================== //
 
 const LiabilityQuery = ({ setListInfo, bmStoneList, partyList, subCableList, workTitleList, queryApi }) => {
-    const [billMilestoneQuery, setBillMilestoneQuery] = useState(''); //記帳段號
+    const [billMilestoneQuery, setBillMilestoneQuery] = useState(''); //計帳段號
     const [partyNameQuery, setPartyNameQuery] = useState(''); //會員代號
     const [createDate, setCreateDate] = useState([null, null]); //建立日期
     const [submarineCableQuery, setSubmarineCableQuery] = useState(''); //海纜名稱
@@ -174,13 +174,13 @@ const LiabilityQuery = ({ setListInfo, bmStoneList, partyList, subCableList, wor
                 {/* row2 */}
                 <Grid item xs={2} sm={2} md={1} lg={1} xl={1}>
                     <Typography variant="h5" sx={{ fontSize: { lg: '0.5rem', xl: '0.88rem' }, ml: { lg: '0.5rem', xl: '1.5rem' } }}>
-                        記帳段號：
+                        計帳段號：
                     </Typography>
                 </Grid>
                 <Grid item xs={4} sm={4} md={2} lg={2} xl={2}>
                     <FormControl fullWidth size="small">
-                        <InputLabel id="demo-simple-select-label">選擇記帳段號</InputLabel>
-                        <Select value={billMilestoneQuery} label="記帳段號" onChange={(e) => setBillMilestoneQuery(e.target.value)}>
+                        <InputLabel id="demo-simple-select-label">選擇計帳段號</InputLabel>
+                        <Select value={billMilestoneQuery} label="計帳段號" onChange={(e) => setBillMilestoneQuery(e.target.value)}>
                             {bmStoneList?.map((i) => (
                                 <MenuItem key={i} value={i}>
                                     {i}

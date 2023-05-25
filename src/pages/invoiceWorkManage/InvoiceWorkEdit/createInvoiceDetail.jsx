@@ -59,7 +59,7 @@ const CreateInvoiceDetail = ({
 
     const infoCheck = () => {
         if (billMilestone === '') {
-            dispatch(setMessageStateOpen({ messageStateOpen: { isOpen: true, severity: 'error', message: '請輸入記帳段號' } }));
+            dispatch(setMessageStateOpen({ messageStateOpen: { isOpen: true, severity: 'error', message: '請輸入計帳段號' } }));
             return false;
         }
         if (feeItem.trim() === '') {
@@ -124,13 +124,13 @@ const CreateInvoiceDetail = ({
                 {/* row1 */}
                 <Grid item xs={12} sm={6} md={2} lg={2}>
                     <Typography variant="h5" sx={{ fontSize: { lg: '0.5rem', xl: '0.88rem' }, ml: { lg: '0rem', xl: '1.5rem' } }}>
-                        記帳段號：
+                        計帳段號：
                     </Typography>
                 </Grid>
                 <Grid item xs={12} sm={6} md={4} lg={4}>
                     <FormControl fullWidth>
                         <InputLabel size="small" id="billMilestone" disabled={action === 'View'}>
-                            選擇記帳段號
+                            選擇計帳段號
                         </InputLabel>
                         <Select
                             value={billMilestone}
@@ -219,7 +219,7 @@ const CreateInvoiceDetail = ({
                             <TableHead>
                                 <TableRow>
                                     <StyledTableCell align="center">費用項目</StyledTableCell>
-                                    <StyledTableCell align="center">記帳段號</StyledTableCell>
+                                    <StyledTableCell align="center">計帳段號</StyledTableCell>
                                     <StyledTableCell align="center">費用項目</StyledTableCell>
                                     <StyledTableCell align="center">Action</StyledTableCell>
                                 </TableRow>

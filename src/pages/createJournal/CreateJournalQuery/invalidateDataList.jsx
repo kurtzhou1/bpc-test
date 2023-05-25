@@ -97,17 +97,8 @@ const BilledDataList = ({ listInfo, apiQuery }) => {
 
     return (
         <>
-            <Dialog
-                // onClose={handleDialogClose}
-                maxWidth="lg"
-                fullWidth
-                open={isDialogOpen}
-            >
-                <BootstrapDialogTitle
-                //  onClose={handleDialogClose}
-                >
-                    立帳作業
-                </BootstrapDialogTitle>
+            <Dialog maxWidth="lg" fullWidth open={isDialogOpen}>
+                <BootstrapDialogTitle>立帳作業</BootstrapDialogTitle>
                 <DialogContent>
                     <TableContainer component={Paper} sx={{ maxHeight: 350 }}>
                         <Table sx={{ minWidth: 300 }} stickyHeader aria-label="sticky table">
@@ -161,7 +152,6 @@ const BilledDataList = ({ listInfo, apiQuery }) => {
                     <TableHead>
                         <TableRow>
                             <StyledTableCell align="center">NO</StyledTableCell>
-                            <StyledTableCell align="center">工作主檔ID</StyledTableCell>
                             <StyledTableCell align="center">發票號碼</StyledTableCell>
                             <StyledTableCell align="center">供應商</StyledTableCell>
                             <StyledTableCell align="center">海纜名稱</StyledTableCell>
@@ -176,20 +166,19 @@ const BilledDataList = ({ listInfo, apiQuery }) => {
                         {listInfo?.map((row, id) => {
                             return (
                                 <TableRow
-                                    // key={row.InvoiceWKMaster?.invoiceNo + row.InvoiceWKMaster?.supplierName + id}
+                                    key={row.InvoiceWKMaster?.invoiceNo + row.InvoiceWKMaster?.WKMasterID + id}
                                     sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                                 >
                                     <StyledTableCell align="center">{id + 1}</StyledTableCell>
-                                    <StyledTableCell align="center">{row.InvoiceWKMaster.WKMasterID}</StyledTableCell>
-                                    <StyledTableCell align="center">{row.InvoiceWKMaster.InvoiceNo}</StyledTableCell>
-                                    <StyledTableCell align="center">{row.InvoiceWKMaster.SupplierName}</StyledTableCell>
-                                    <StyledTableCell align="center">{row.InvoiceWKMaster.SubmarineCable}</StyledTableCell>
-                                    <StyledTableCell align="center">{row.InvoiceWKMaster.WorkTitle}</StyledTableCell>
+                                    <StyledTableCell align="center">{row?.InvoiceWKMaster?.InvoiceNo}</StyledTableCell>
+                                    <StyledTableCell align="center">{row?.InvoiceWKMaster?.SupplierName}</StyledTableCell>
+                                    <StyledTableCell align="center">{row?.InvoiceWKMaster?.SubmarineCable}</StyledTableCell>
+                                    <StyledTableCell align="center">{row?.InvoiceWKMaster?.WorkTitle}</StyledTableCell>
                                     <StyledTableCell align="center">
-                                        {dayjs(row.InvoiceWKMaster.IssueDate).format('YYYY/MM/DD')}
+                                        {dayjs(row?.InvoiceWKMaster?.IssueDate).format('YYYY/MM/DD')}
                                     </StyledTableCell>
-                                    <StyledTableCell align="center">{row.InvoiceWKDetail.length}</StyledTableCell>
-                                    <StyledTableCell align="center">{handleNumber(row.InvoiceWKMaster.TotalAmount)}</StyledTableCell>
+                                    <StyledTableCell align="center">{row?.InvoiceWKDetail?.length}</StyledTableCell>
+                                    <StyledTableCell align="center">{handleNumber(row?.InvoiceWKMaster?.TotalAmount)}</StyledTableCell>
                                     <StyledTableCell align="center">
                                         <Box
                                             sx={{

@@ -53,7 +53,7 @@ const CreditBalanceQuery = ({ creditBalanceQuery }) => {
                 </Grid>
                 <Grid item xs={1} sm={1} md={1} lg={1}>
                     <Typography variant="h5" sx={{ fontSize: { lg: '0.5rem', xl: '0.88rem' }, ml: { lg: '0.5rem', xl: '1.5rem' } }}>
-                        記帳段號：
+                        計帳段號：
                     </Typography>
                 </Grid>
                 <Grid item xs={2} sm={2} md={2} lg={2}>
@@ -64,9 +64,9 @@ const CreditBalanceQuery = ({ creditBalanceQuery }) => {
                             label="發票供應商"
                             onChange={(e) => setSubmarineCable(e.target.value)}
                         >
-                            <MenuItem value={'記帳段號1'}>記帳段號1</MenuItem>
-                            <MenuItem value={'記帳段號2'}>記帳段號2</MenuItem>
-                            <MenuItem value={'記帳段號3'}>記帳段號3</MenuItem>
+                            <MenuItem value={'計帳段號1'}>計帳段號1</MenuItem>
+                            <MenuItem value={'計帳段號2'}>計帳段號2</MenuItem>
+                            <MenuItem value={'計帳段號3'}>計帳段號3</MenuItem>
                         </Select>
                     </FormControl>
                 </Grid>

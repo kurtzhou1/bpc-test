@@ -103,7 +103,7 @@ const MainLayout = () => {
                 dispatch(setPartiesList({ partiesList: data }));
             })
             .catch((e) => console.log('e1=>', e));
-        // 記帳段號
+        // 計帳段號
         fetch(billMilestoneLiabilityList, { method: 'GET' })
             .then((res) => res.json())
             .then((data) => {

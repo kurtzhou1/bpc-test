@@ -80,7 +80,7 @@ const WriteOffedDataList = ({ listInfo }) => {
                             <StyledTableCell align="center">NO</StyledTableCell>
                             <StyledTableCell align="center">海纜名稱</StyledTableCell>
                             <StyledTableCell align="center">海纜作業</StyledTableCell>
-                            <StyledTableCell align="center">記帳段號</StyledTableCell>
+                            <StyledTableCell align="center">計帳段號</StyledTableCell>
                             <StyledTableCell align="center">會員</StyledTableCell>
                             <StyledTableCell align="center">帳單號碼</StyledTableCell>
                             <StyledTableCell align="center">帳單日期</StyledTableCell>

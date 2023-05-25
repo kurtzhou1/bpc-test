@@ -237,15 +237,7 @@ const ToDeductWork = ({ isDeductOpen, handleDeductClose, billDetailInfo, billMas
     }, [dedAmount.current]);
 
     return (
-        <Dialog
-            // onClose={() => {
-            //     initData();
-            //     setIsDeductWorkOpen(false);
-            //     handleDeductClose();
-            // }}
-            maxWidth="sm"
-            open={isDeductOpen}
-        >
+        <Dialog maxWidth="xxl" open={isDeductOpen}>
             <BootstrapDialogTitle>折抵作業</BootstrapDialogTitle>
             <DialogContent>
                 <Grid container spacing={1} display="flex" justifyContent="center" alignItems="center" sx={{ fontSize: 10 }}>
@@ -324,7 +316,7 @@ const ToDeductWork = ({ isDeductOpen, handleDeductClose, billDetailInfo, billMas
                                     <TableHead>
                                         <TableRow>
                                             <StyledTableCell align="center">NO</StyledTableCell>
-                                            <StyledTableCell align="center">記帳段號</StyledTableCell>
+                                            <StyledTableCell align="center">計帳段號</StyledTableCell>
                                             <StyledTableCell align="center">費用項目</StyledTableCell>
                                             <StyledTableCell align="center">費用金額</StyledTableCell>
                                             <StyledTableCell align="center">折抵金額</StyledTableCell>

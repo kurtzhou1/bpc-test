@@ -4,7 +4,7 @@ export const supplierNameListForInvoice = 'http://10.193.130.7:8000/api/v1/Suppl
 export const supplierNameList = 'http://10.193.130.7:8000/api/v1/Suppliers/all'; //供應商
 // export const getPartiesInfoList = 'http://10.193.130.7:8000/api/v1/Parties/all'; // 會員名稱
 export const getPartiesInfoList = 'http://10.193.130.7:8000/api/v1/dropdownmenuParties'; // 會員名稱
-export const billMilestoneLiabilityList = 'http://10.193.130.7:8000/api/v1/dropdownmenuBillMilestone'; //記帳段號
+export const billMilestoneLiabilityList = 'http://10.193.130.7:8000/api/v1/dropdownmenuBillMilestone'; //計帳段號
 
 //發票管理下拉選單
 export const billMilestoneList = 'http://10.193.130.7:8000/api/v1/BillMilestone/';

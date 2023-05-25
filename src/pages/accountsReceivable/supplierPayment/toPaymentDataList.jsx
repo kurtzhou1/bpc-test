@@ -103,7 +103,7 @@ const ToWriteOffDataList = ({ listInfo, apiQuery }) => {
     const columns1 = [
         { id: '海纜名稱', label: '海纜名稱', minWidth: '90px', align: 'center', className: '' },
         { id: '海纜作業', label: '海纜作業', minWidth: '90px', align: 'center' },
-        { id: '記帳段號', label: '記帳段號', minWidth: '90px', align: 'center' }
+        { id: '計帳段號', label: '計帳段號', minWidth: '90px', align: 'center' }
     ];
 
     const columns2 = [

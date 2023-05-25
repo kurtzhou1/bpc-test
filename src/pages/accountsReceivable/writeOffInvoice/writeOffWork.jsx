@@ -199,7 +199,10 @@ const WriteOffWork = ({ isDialogOpen, handleDialogClose, writeOffInfo, writeOffD
             diffAmount = 0;
             diffAmount = tmpAmount - Number(i.FeeAmount);
             i.OverAmount = diffAmount > 0 ? diffAmount : 0;
-            i.ShortAmount = diffAmount >= 0 ? 0 : Math.abs(diffAmount) > Number(i.BankFees) ? Math.abs(diffAmount) : 0;
+            i.ShortAmount =
+                Number(i?.FeeAmount) - Number(i?.ReceivedAmount) - Number(totalAmount) > 0
+                    ? Number(i?.FeeAmount) - Number(i?.ReceivedAmount) - Number(totalAmount)
+                    : 0;
             tmpBankFees = tmpBankFees + Number(i.BankFees);
             i.ReceivedAmount = Number(i.ReceiveAmount);
             // delete i.ReceiveAmount;
@@ -241,6 +244,8 @@ const WriteOffWork = ({ isDialogOpen, handleDialogClose, writeOffInfo, writeOffD
             initData();
         }
     }, [writeOffDetail, isDialogOpen]);
+
+    console.log('toWriteOffDetailInfo=>>', toWriteOffDetailInfo);
 
     return (
         <Dialog
@@ -315,7 +320,9 @@ const WriteOffWork = ({ isDialogOpen, handleDialogClose, writeOffInfo, writeOffD
                                 <Table stickyHeader sx={{ minWidth: 1000 }}>
                                     <TableHead>
                                         <TableRow>
+                                            <StyledTableCell align="center">發票號碼</StyledTableCell>
                                             <StyledTableCell align="center">費用項目</StyledTableCell>
+                                            <StyledTableCell align="center">記帳段號</StyledTableCell>
                                             <StyledTableCell align="center">原始費用</StyledTableCell>
                                             <StyledTableCell align="center">折抵</StyledTableCell>
                                             <StyledTableCell align="center">應繳</StyledTableCell>
@@ -336,15 +343,18 @@ const WriteOffWork = ({ isDialogOpen, handleDialogClose, writeOffInfo, writeOffD
                                         {toWriteOffDetailInfo?.map((row, id) => {
                                             totalAmount = Number(row.BankFees) + Number(row.ReceiveAmount);
                                             tmpTotalAmount = Number(row.ReceiveAmount) + Number(row.ReceivedAmount) - Number(row.FeeAmount); //本次實收+累計實收-應繳金額
-                                            // 本次實收+累計實收-應繳 > 0，則顯示其金額差額
 
                                             //處理Total
                                             overAmount = tmpTotalAmount > 0 ? tmpTotalAmount : 0;
+                                            // 短繳 本次實收+累計實收-應繳 > 0，則顯示其金額差額 5/25改
                                             shortAmount =
-                                                tmpTotalAmount >= 0
-                                                    ? 0
-                                                    : Math.abs(tmpTotalAmount) > Number(row.BankFees)
-                                                    ? Math.abs(tmpTotalAmount)
+                                                // tmpTotalAmount >= 0
+                                                //     ? 0
+                                                //     : Math.abs(tmpTotalAmount) > Number(row.BankFees)
+                                                //     ? Math.abs(tmpTotalAmount)
+                                                //     : 0;
+                                                Number(row?.FeeAmount) - Number(row?.ReceivedAmount) - Number(totalAmount) > 0
+                                                    ? Number(row?.FeeAmount) - Number(row?.ReceivedAmount) - Number(totalAmount)
                                                     : 0;
                                             bankFeeBalance =
                                                 tmpTotalAmount >= 0
@@ -355,8 +365,8 @@ const WriteOffWork = ({ isDialogOpen, handleDialogClose, writeOffInfo, writeOffD
 
                                             tmpTotal = tmpTotal + totalAmount;
                                             tmpOverAmount = tmpOverAmount + overAmount; //溢繳
-                                            tmpShortAmount = tmpShortAmount + shortAmount; //短繳
-                                            tmpBankFeeBalance = tmpBankFeeBalance + bankFeeBalance; //手續費差額(負值)
+                                            tmpShortAmount = tmpShortAmount + shortAmount; //短繳加總
+                                            // tmpBankFeeBalance = tmpBankFeeBalance + bankFeeBalance; //手續費差額(負值)
                                             // tmpStatus =
                                             //     overAmount > 0
                                             //         ? 'OVER'
@@ -371,7 +381,13 @@ const WriteOffWork = ({ isDialogOpen, handleDialogClose, writeOffInfo, writeOffD
                                                     sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                                                 >
                                                     <TableCell align="center" sx={{ fontSize: '0.1rem', minWidth: 75 }}>
-                                                        {row.FeeItem}
+                                                        {row?.InvoiceNo}
+                                                    </TableCell>
+                                                    <TableCell align="center" sx={{ fontSize: '0.1rem', minWidth: 75 }}>
+                                                        {row?.FeeItem}
+                                                    </TableCell>
+                                                    <TableCell align="center" sx={{ fontSize: '0.1rem', minWidth: 75 }}>
+                                                        {row?.BillMilestone}
                                                     </TableCell>
                                                     <TableCell sx={{ fontSize: '0.1rem' }} align="center">
                                                         {handleNumber(row?.OrgFeeAmount.toFixed(2))}
@@ -436,12 +452,15 @@ const WriteOffWork = ({ isDialogOpen, handleDialogClose, writeOffInfo, writeOffD
                                                     </TableCell>
                                                     {/* 短繳 */}
                                                     {/* 短繳：本次實收+累計實收-應繳 (應該是負值或0) 取正值 跟 手續費比，如果大於 則顯示此正值的金額(顯示的金額不用減掉手續費) */}
+                                                    {/* 短繳：應繳金額-累計實收金額-總金額(含手續費)  5/25以後 */}
                                                     <TableCell sx={{ fontSize: '0.1rem' }} align="center">
-                                                        {tmpTotalAmount >= 0
+                                                        {/* {tmpTotalAmount >= 0
                                                             ? '0.00'
                                                             : Math.abs(tmpTotalAmount) > Number(row.BankFees)
                                                             ? handleNumber(Math.abs(tmpTotalAmount).toFixed(2))
-                                                            : '0.00'}
+                                                            : '0.00'} */}
+                                                        {/* 5/25以後 */}
+                                                        {shortAmount.toFixed(2)}
                                                     </TableCell>
                                                     {/* 手續費差額 */}
                                                     {/* 手續費差額：本次實收+累計實收-應繳 (應該是負值或0) 取正值 跟 手續費比 ，如果小於等於則顯示正值的金額(顯示的金額不用減掉手續費) */}
@@ -456,6 +475,7 @@ const WriteOffWork = ({ isDialogOpen, handleDialogClose, writeOffInfo, writeOffD
                                                                 : '0.00'}
                                                         </TableCell>
                                                     )} */}
+                                                    {/* 短繳原因 */}
                                                     {/* {action === 'view' ? (
                                                         ''
                                                     ) : (
@@ -528,6 +548,8 @@ const WriteOffWork = ({ isDialogOpen, handleDialogClose, writeOffInfo, writeOffD
                                             <StyledTableCell className="totalAmount" align="center">
                                                 Total
                                             </StyledTableCell>
+                                            <StyledTableCell className="totalAmount" align="center" />
+                                            <StyledTableCell className="totalAmount" align="center" />
                                             <StyledTableCell className="totalAmount" align="center">
                                                 {handleNumber(orgFeeAmountTotal.current.toFixed(2))}
                                             </StyledTableCell>
@@ -567,13 +589,13 @@ const WriteOffWork = ({ isDialogOpen, handleDialogClose, writeOffInfo, writeOffD
                                             <StyledTableCell className="totalAmount" align="center">
                                                 {handleNumber(tmpShortAmount.toFixed(2))}
                                             </StyledTableCell>
-                                            {action === 'view' ? (
+                                            {/* {action === 'view' ? (
                                                 ''
                                             ) : (
                                                 <StyledTableCell className="totalAmount" align="center">
                                                     {handleNumber(Math.abs(tmpBankFeeBalance).toFixed(2))}
                                                 </StyledTableCell>
-                                            )}
+                                            )} */}
                                             <StyledTableCell className="totalAmount" align="center"></StyledTableCell>
                                             <StyledTableCell className="totalAmount" align="center"></StyledTableCell>
                                             {/* {action === 'view' ? (

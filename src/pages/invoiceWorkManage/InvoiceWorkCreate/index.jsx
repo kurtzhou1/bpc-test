@@ -44,9 +44,9 @@ const InvoiceWorkManage = () => {
 
     const [supNmList, setSupNmList] = useState([]); //供應商下拉選單
     const [subCableList, setSubCableList] = useState([]); //海纜名稱下拉選單
-    const [bmStoneList, setBmStoneList] = useState([]); //記帳段號下拉選單
+    const [bmStoneList, setBmStoneList] = useState([]); //計帳段號下拉選單
 
-    const [billMilestone, setBillMilestone] = useState(''); //記帳段號
+    const [billMilestone, setBillMilestone] = useState(''); //計帳段號
     const [feeItem, setFeeItem] = useState(''); //費用項目
     const [feeAmount, setFeeAmount] = useState(''); //費用金額
 

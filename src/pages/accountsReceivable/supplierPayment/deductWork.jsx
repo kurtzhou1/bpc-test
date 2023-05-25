@@ -109,22 +109,13 @@ const ToGenerateDataList = ({ isDialogOpen, handleDialogClose, deductInfo, actio
     }));
 
     const deductWork = (id) => {
-        console.log('我問號');
         setEditItem(id);
         setIsDeductWorkOpen(true);
     };
 
     return (
-        <Dialog
-            // onClose={handleDialogClose}
-            maxWidth="xxl"
-            open={isDialogOpen}
-        >
-            <BootstrapDialogTitle
-            // onClose={handleDialogClose}
-            >
-                折抵作業
-            </BootstrapDialogTitle>
+        <Dialog maxWidth="xxl" open={isDialogOpen}>
+            <BootstrapDialogTitle>折抵作業</BootstrapDialogTitle>
             <DialogContent>
                 <Grid container spacing={1} display="flex" justifyContent="center" alignItems="center" sx={{ fontSize: 10 }}>
                     {actionName === 'view' ? (

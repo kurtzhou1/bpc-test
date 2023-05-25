@@ -184,9 +184,6 @@ const WriteOffInvoice = () => {
                         <WriteOffedDataList listInfo={listInfo} />
                         {/* <WriteOffedDataList listInfo={fakeData} /> */}
                     </TabPanel>
-                    {/* <TabPanel value={value} index={2}>
-                        <InvalidatedDataList />
-                    </TabPanel> */}
                 </MainCard>
             </Grid>
         </Grid>

@@ -56,10 +56,10 @@ const InvoiceWorkManage = () => {
     const [partyName, setPartyName] = useState(''); //會員代號
     const wKMasterID = useRef(); //工作檔ID
 
-    const [bmStoneList, setBmStoneList] = useState([]); //記帳段號下拉選單
-    // const [queryBmStoneList, setQueryBmStoneList] = useState([]); //條件查詢的記帳段號下拉選單
+    const [bmStoneList, setBmStoneList] = useState([]); //計帳段號下拉選單
+    // const [queryBmStoneList, setQueryBmStoneList] = useState([]); //條件查詢的計帳段號下拉選單
 
-    const [billMilestone, setBillMilestone] = useState(''); //記帳段號
+    const [billMilestone, setBillMilestone] = useState(''); //計帳段號
     const [feeItem, setFeeItem] = useState(''); //費用項目
     const [feeAmount, setFeeAmount] = useState(''); //費用金額
 

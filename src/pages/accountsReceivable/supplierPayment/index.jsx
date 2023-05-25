@@ -29,7 +29,7 @@ const SupplierPayment = () => {
     const [isDialogOpen, setIsDialogOpen] = useState(false);
     const [dialogAction, setDialogAction] = useState('');
 
-    const [billMilestone, setBillMilestone] = useState(''); //記帳段號
+    const [billMilestone, setBillMilestone] = useState(''); //計帳段號
     const [partyName, setPartyName] = useState([]); //會員名稱
     const [lBRatio, setLBRatio] = useState(''); //攤分比例
     const [editItem, setEditItem] = useState(NaN);

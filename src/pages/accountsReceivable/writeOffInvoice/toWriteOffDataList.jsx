@@ -71,6 +71,8 @@ const ToWriteOffDataList = ({ listInfo, writeOffQuery }) => {
         setIsDialogOpen(true);
     };
 
+    console.log('listInfo=>>', listInfo);
+
     return (
         <>
             <WriteOffWork
@@ -88,13 +90,14 @@ const ToWriteOffDataList = ({ listInfo, writeOffQuery }) => {
                             <StyledTableCell align="center">NO</StyledTableCell>
                             <StyledTableCell align="center">海纜名稱</StyledTableCell>
                             <StyledTableCell align="center">海纜作業</StyledTableCell>
-                            <StyledTableCell align="center">記帳段號</StyledTableCell>
+                            <StyledTableCell align="center">計帳段號</StyledTableCell>
                             <StyledTableCell align="center">會員</StyledTableCell>
                             <StyledTableCell align="center">帳單號碼</StyledTableCell>
                             <StyledTableCell align="center">帳單日期</StyledTableCell>
                             <StyledTableCell align="center">到期日期</StyledTableCell>
                             <StyledTableCell align="center">明細數量</StyledTableCell>
                             <StyledTableCell align="center">總金額</StyledTableCell>
+                            <StyledTableCell align="center">累計手續費金額</StyledTableCell>
                             <StyledTableCell align="center">Action</StyledTableCell>
                         </TableRow>
                     </TableHead>
@@ -109,15 +112,18 @@ const ToWriteOffDataList = ({ listInfo, writeOffQuery }) => {
                             return (
                                 <TableRow key={row.WKMasterID + row.InvoiceNo} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
                                     <StyledTableCell align="center">{id + 1}</StyledTableCell>
-                                    <StyledTableCell align="center">{row.BillMaster.SubmarineCable}</StyledTableCell>
-                                    <StyledTableCell align="center">{row.BillMaster.WorkTitle}</StyledTableCell>
+                                    <StyledTableCell align="center">{row?.BillMaster?.SubmarineCable}</StyledTableCell>
+                                    <StyledTableCell align="center">{row?.BillMaster?.WorkTitle}</StyledTableCell>
                                     <StyledTableCell align="center">{tmpBMArray.join(',')}</StyledTableCell>
-                                    <StyledTableCell align="center">{row.BillMaster.PartyName}</StyledTableCell>
-                                    <StyledTableCell align="center">{row.BillMaster.BillingNo}</StyledTableCell>
-                                    <StyledTableCell align="center">{dayjs(row.BillMaster.IssueDate).format('YYYY/MM/DD')}</StyledTableCell>
-                                    <StyledTableCell align="center">{dayjs(row.BillMaster.DueDate).format('YYYY/MM/DD')}</StyledTableCell>
+                                    <StyledTableCell align="center">{row?.BillMaster?.PartyName}</StyledTableCell>
+                                    <StyledTableCell align="center">{row?.BillMaster?.BillingNo}</StyledTableCell>
+                                    <StyledTableCell align="center">
+                                        {dayjs(row?.BillMaster?.IssueDate).format('YYYY/MM/DD')}
+                                    </StyledTableCell>
+                                    <StyledTableCell align="center">{dayjs(row?.BillMaster?.DueDate).format('YYYY/MM/DD')}</StyledTableCell>
                                     <StyledTableCell align="center">{row.BillDetail?.length}</StyledTableCell>
-                                    <StyledTableCell align="center">{row.BillMaster.FeeAmountSum}</StyledTableCell>
+                                    <StyledTableCell align="center">{row?.BillMaster?.FeeAmountSum}</StyledTableCell>
+                                    <StyledTableCell align="center">{row?.BillMaster?.BankFees}</StyledTableCell>
                                     <StyledTableCell align="center">
                                         <Box sx={{ display: 'flex', justifyContent: 'center', '& button': { mx: 1, p: 0, fontSize: 1 } }}>
                                             <Button

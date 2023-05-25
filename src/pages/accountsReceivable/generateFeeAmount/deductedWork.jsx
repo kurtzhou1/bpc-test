@@ -99,7 +99,7 @@ const DeductedWork = ({ isDeductedWorkOpen, handleDeductedClose, billDetailInfo 
                                     <TableRow>
                                         <StyledTableCell align="center">NO</StyledTableCell>
                                         <StyledTableCell align="center">費用項目</StyledTableCell>
-                                        <StyledTableCell align="center">記帳段號</StyledTableCell>
+                                        <StyledTableCell align="center">計帳段號</StyledTableCell>
                                         <StyledTableCell align="center">折抵CB</StyledTableCell>
                                         <StyledTableCell align="center">折抵金額</StyledTableCell>
                                         <StyledTableCell align="center">總金額</StyledTableCell>

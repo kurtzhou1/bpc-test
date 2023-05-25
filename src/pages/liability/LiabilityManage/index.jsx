@@ -51,7 +51,7 @@ const LiabilityManage = () => {
     const [isDialogOpen, setIsDialogOpen] = useState(false); //新增編輯Liability
     const [dialogAction, setDialogAction] = useState('');
 
-    const [billMilestone, setBillMilestone] = useState(''); //記帳段號
+    const [billMilestone, setBillMilestone] = useState(''); //計帳段號
     const [workTitle, setWorkTitle] = useState(''); //海纜作業
     const [submarineCable, setSubmarineCable] = useState(''); //海纜名稱
     const [partyName, setPartyName] = useState([]); //會員名稱
@@ -62,7 +62,7 @@ const LiabilityManage = () => {
 
     const [filterList, setFilterList] = useState(listInfo);
 
-    const [bmStoneList, setBmStoneList] = useState([]); //記帳段號下拉選單
+    const [bmStoneList, setBmStoneList] = useState([]); //計帳段號下拉選單
     const [partyList, setPartyList] = useState([]); //會員名稱下拉選單
     const [subCableList, setSubCableList] = useState([]); //海纜名稱下拉選單
     const [workTitleList, setWorkTitleList] = useState([]); //海纜作業下拉選單

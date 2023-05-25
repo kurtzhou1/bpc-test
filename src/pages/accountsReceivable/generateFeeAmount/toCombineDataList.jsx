@@ -102,11 +102,11 @@ const ToCombineDataList = ({ handleDialogClose, isDialogOpen, dataList, cbToCn, 
                 })
             );
         } else {
+            console.log('billingNo=>>', billingNo);
             let tmpArray = {
                 BillingNo: billingNo
             };
             billList.BillMaster.BillingNo = billingNo;
-            // billList.BillMaster.DueDate = dayjs(issueDate).format('YYYY-MM-DD HH:mm:ss');
             billList.DueDate = dayjs(issueDate).format('YYYY-MM-DD HH:mm:ss');
             billList.PONo = poNo;
             delete billList.BillMaster.SupplierName;
@@ -331,7 +331,7 @@ const ToCombineDataList = ({ handleDialogClose, isDialogOpen, dataList, cbToCn, 
                             <StyledTableCell align="center">會員</StyledTableCell>
                             <StyledTableCell align="center">海纜名稱</StyledTableCell>
                             <StyledTableCell align="center">海纜作業</StyledTableCell>
-                            <StyledTableCell align="center">記帳段號</StyledTableCell>
+                            <StyledTableCell align="center">計帳段號</StyledTableCell>
                             <StyledTableCell align="center">發票號碼</StyledTableCell>
                             <StyledTableCell align="center">供應商</StyledTableCell>
                             {/* <StyledTableCell align="center">合約種類</StyledTableCell> */}

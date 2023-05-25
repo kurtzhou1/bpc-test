@@ -38,7 +38,7 @@ const InvoiceQueryBlock = ({ setListInfo, queryApi, supNmList, subCableList, bil
         VALIDATED: false
     }); //處理狀態
     // const [partyNameQuery, setPartyNameQuery] = useState(''); //會員代號
-    const [billMilestoneQuery, setBillMilestoneQuery] = useState(''); //記帳段號
+    const [billMilestoneQuery, setBillMilestoneQuery] = useState(''); //計帳段號
     const [invoiceNoQuery, setInvoiceNoQuery] = useState(''); //發票號碼
     const [isIssueDate, setIsIssueDate] = useState(''); //是否為發票日期
 
@@ -272,12 +272,12 @@ const InvoiceQueryBlock = ({ setListInfo, queryApi, supNmList, subCableList, bil
                 {/* row2 */}
                 <Grid item xs={12} sm={2} md={1} lg={1}>
                     <Typography variant="h5" sx={{ fontSize: { lg: '0.5rem', xl: '0.88rem' }, ml: { lg: '0.5rem', xl: '1.5rem' } }}>
-                        記帳段號：
+                        計帳段號：
                     </Typography>
                 </Grid>
                 <Grid item xs={12} sm={2} md={2} lg={2}>
                     <FormControl fullWidth size="small">
-                        <InputLabel id="demo-simple-select-label">選擇記帳段號</InputLabel>
+                        <InputLabel id="demo-simple-select-label">選擇計帳段號</InputLabel>
                         <Select value={billMilestoneQuery} label="發票供應商" onChange={(e) => setBillMilestoneQuery(e.target.value)}>
                             {billmileStoneList.map((i) => (
                                 <MenuItem key={i} value={i}>

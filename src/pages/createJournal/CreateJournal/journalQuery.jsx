@@ -98,8 +98,12 @@ const JournalQuery = ({ setListInfo, queryApi, invoiceStatus }) => {
                         </Select>
                     </FormControl>
                 </Grid>
-                <Grid item xs={2} sm={2} md={1} lg={1}>
-                    <Typography variant="h5" sx={{ fontSize: { lg: '0.5rem', xl: '0.88rem' }, ml: { lg: '0.5rem', xl: '1.5rem' } }}>
+                <Grid item xs={2} sm={2} md={2} lg={2}>
+                    <Typography
+                        textAlign="right"
+                        variant="h5"
+                        sx={{ fontSize: { lg: '0.5rem', xl: '0.88rem' }, ml: { lg: '0.5rem', xl: '1.5rem' } }}
+                    >
                         海纜名稱：
                     </Typography>
                 </Grid>
@@ -115,12 +119,16 @@ const JournalQuery = ({ setListInfo, queryApi, invoiceStatus }) => {
                         </Select>
                     </FormControl>
                 </Grid>
-                <Grid item xs={3} sm={3} md={1} lg={1}>
-                    <Typography variant="h5" sx={{ fontSize: { lg: '0.5rem', xl: '0.88rem' }, ml: { lg: '0.5rem', xl: '1.5rem' } }}>
+                <Grid item xs={3} sm={3} md={2} lg={2}>
+                    <Typography
+                        textAlign="right"
+                        variant="h5"
+                        sx={{ fontSize: { lg: '0.5rem', xl: '0.88rem' }, ml: { lg: '0.5rem', xl: '1.5rem' } }}
+                    >
                         發票日期：
                     </Typography>
                 </Grid>
-                <Grid item xs={9} sm={9} md={5} lg={5}>
+                <Grid item xs={9} sm={9} md={3} lg={3}>
                     <LocalizationProvider dateAdapter={AdapterDayjs} localeText={{ start: '起始日', end: '結束日' }}>
                         <DateRangePicker
                             inputFormat="YYYY/MM/DD"

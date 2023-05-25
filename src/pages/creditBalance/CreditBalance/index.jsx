@@ -17,7 +17,7 @@ const CreditBalance = () => {
     const [listInfo, setListInfo] = useState([]);
     const [isDialogOpen, setIsDialogOpen] = useState(false);
 
-    const [billMilestone, setBillMilestone] = useState(''); //記帳段號
+    const [billMilestone, setBillMilestone] = useState(''); //計帳段號
     const [partyName, setPartyName] = useState([]); //會員名稱
     const [editItem, setEditItem] = useState(NaN);
 

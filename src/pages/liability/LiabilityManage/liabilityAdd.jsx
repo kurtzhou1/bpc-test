@@ -109,7 +109,7 @@ const LiabilityAdd = ({
             return false;
         }
         if (billMilestone === '') {
-            dispatch(setMessageStateOpen({ messageStateOpen: { isOpen: true, severity: 'error', message: '請輸入記帳段號' } }));
+            dispatch(setMessageStateOpen({ messageStateOpen: { isOpen: true, severity: 'error', message: '請輸入計帳段號' } }));
             return false;
         }
         if (submarineCable === '') {
@@ -222,7 +222,7 @@ const LiabilityAdd = ({
                 <Grid container spacing={1} display="flex" justifyContent="center" alignItems="center">
                     <Grid item xs={2} sm={2} md={2} lg={2} display="flex" justifyContent="center">
                         <Typography variant="h5" sx={{ fontSize: { lg: '0.5rem', xl: '0.88rem' }, ml: { lg: '0.5rem', xl: '1.5rem' } }}>
-                            記帳段號：
+                            計帳段號：
                         </Typography>
                     </Grid>
                     {dialogAction === 'Split' ? (
@@ -233,7 +233,7 @@ const LiabilityAdd = ({
                                 disabled={dialogAction === 'Split'}
                                 value={billMilestone}
                                 size="small"
-                                label="記帳段號"
+                                label="計帳段號"
                                 inputProps={{ style: { textTransform: 'uppercase' } }}
                                 onChange={(e) => setBillMilestone(e.target.value)}
                             />
@@ -414,7 +414,7 @@ const LiabilityAdd = ({
                                 <Table sx={{ minWidth: 300 }} stickyHeader aria-label="sticky table">
                                     <TableHead>
                                         <TableRow>
-                                            <StyledTableCell align="center">記帳段號</StyledTableCell>
+                                            <StyledTableCell align="center">計帳段號</StyledTableCell>
                                             <StyledTableCell align="center">會員名稱</StyledTableCell>
                                             <StyledTableCell align="center">攤分比例</StyledTableCell>
                                             <StyledTableCell align="center">海纜名稱</StyledTableCell>
