@@ -66,12 +66,13 @@ const CreditBalanceDeduct = ({ cblistInfo }) => {
                         <StyledTableCell align="center">海纜名稱</StyledTableCell>
                         <StyledTableCell align="center">海纜作業</StyledTableCell>
                         <StyledTableCell align="center">計帳段號</StyledTableCell>
-                        <StyledTableCell align="center">發票號碼</StyledTableCell>
+                        <StyledTableCell align="center">Invoice No.</StyledTableCell>
+                        <StyledTableCell align="center">Issue Date</StyledTableCell>
+                        <StyledTableCell align="center">CN no.</StyledTableCell>
+                        <StyledTableCell align="center">Description</StyledTableCell>
                         <StyledTableCell align="center">Debit</StyledTableCell>
                         <StyledTableCell align="center">Credit</StyledTableCell>
                         <StyledTableCell align="center">Balance</StyledTableCell>
-                        <StyledTableCell align="center">日期</StyledTableCell>
-                        <StyledTableCell align="center">備註</StyledTableCell>
                     </TableRow>
                 </TableHead>
                 <TableBody>
@@ -83,11 +84,24 @@ const CreditBalanceDeduct = ({ cblistInfo }) => {
                                 <StyledTableCell align="center">{row.WorkTitle}</StyledTableCell>
                                 <StyledTableCell align="center">{row.BillMilestone}</StyledTableCell>
                                 <StyledTableCell align="center">{row.InvNo}</StyledTableCell>
-                                <StyledTableCell align="center">{`$${handleNumber(row.Debit)}`}</StyledTableCell>
-                                <StyledTableCell align="center">{`$${handleNumber(row.Credit)}`}</StyledTableCell>
-                                <StyledTableCell align="center">{`$${handleNumber(row.Balance)}`}</StyledTableCell>
-                                <StyledTableCell align="center">{dayjs(row.CNIssueDate).format('YYYYMMDD')}</StyledTableCell>
+                                <StyledTableCell align="center">{dayjs(row.BillIssueDate).format('YYYYMMDD')}</StyledTableCell>
+                                <StyledTableCell align="center">{row.CNNo}</StyledTableCell>
+                                <StyledTableCell align="center">
+                                    {row.CNIssueDate ? dayjs(row.CNIssueDate).format('YYYYMMDD') : ''}
+                                </StyledTableCell>
                                 <StyledTableCell align="center">{row.Description}</StyledTableCell>
+                                <StyledTableCell align="center">
+                                    {row.Debit ? '$' : ''}
+                                    {handleNumber(row.Debit)}
+                                </StyledTableCell>
+                                <StyledTableCell align="center">
+                                    {row.Credit ? '$' : ''}
+                                    {handleNumber(row.Credit)}
+                                </StyledTableCell>
+                                <StyledTableCell align="center">
+                                    {row.Balance ? '$' : ''}
+                                    {handleNumber(row.Balance)}
+                                </StyledTableCell>
                             </TableRow>
                         );
                     })}
