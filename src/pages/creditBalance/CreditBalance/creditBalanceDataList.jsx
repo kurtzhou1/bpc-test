@@ -15,7 +15,7 @@ import { styled } from '@mui/material/styles';
 import CreditBalanceView from './creditBalanceView';
 import CreditBalanceTerminate from './creditBalanceTerminate';
 import dayjs from 'dayjs';
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 const CreditBalanceDataList = ({ listInfo, setIsDialogOpen }) => {
     const [cbView, setCbview] = useState(false);
@@ -43,6 +43,8 @@ const CreditBalanceDataList = ({ listInfo, setIsDialogOpen }) => {
     const handleTerminalClose = () => {
         setCbTerminal(false);
     };
+
+    console.log('listInfo=>>', listInfo);
 
     return (
         <>
@@ -115,7 +117,7 @@ const CreditBalanceDataList = ({ listInfo, setIsDialogOpen }) => {
                     </TableBody>
                 </Table>
             </TableContainer>
-            <CreditBalanceView cbView={cbView} handleViewClose={handleViewClose} listInfo={listInfo} viewId={viewId.current} />
+            <CreditBalanceView cbView={cbView} handleViewClose={handleViewClose} viewId={viewId.current} />
             <CreditBalanceTerminate cbTerminal={cbTerminal} handleTerminalClose={handleTerminalClose} />
         </>
     );

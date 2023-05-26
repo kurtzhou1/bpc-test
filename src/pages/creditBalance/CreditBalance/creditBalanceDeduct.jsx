@@ -63,26 +63,31 @@ const CreditBalanceDeduct = ({ cblistInfo }) => {
                 <TableHead>
                     <TableRow>
                         <StyledTableCell align="center">NO</StyledTableCell>
-                        <StyledTableCell align="center">費用種類</StyledTableCell>
-                        <StyledTableCell align="center">原始剩餘金額</StyledTableCell>
-                        <StyledTableCell align="center">此次抵購金額</StyledTableCell>
+                        <StyledTableCell align="center">海纜名稱</StyledTableCell>
+                        <StyledTableCell align="center">海纜作業</StyledTableCell>
+                        <StyledTableCell align="center">計帳段號</StyledTableCell>
+                        <StyledTableCell align="center">發票號碼</StyledTableCell>
+                        <StyledTableCell align="center">Debit</StyledTableCell>
+                        <StyledTableCell align="center">Credit</StyledTableCell>
+                        <StyledTableCell align="center">Balance</StyledTableCell>
                         <StyledTableCell align="center">日期</StyledTableCell>
-                        <StyledTableCell align="center">發票明細ID</StyledTableCell>
+                        <StyledTableCell align="center">備註</StyledTableCell>
                     </TableRow>
                 </TableHead>
                 <TableBody>
                     {cblistInfo?.map((row, id) => {
                         return (
-                            <TableRow
-                                key={row?.BLDetailID + row?.BillMilestone + row?.BillingNo}
-                                sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-                            >
+                            <TableRow key={row?.SubmarineCable + row?.InvNo} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
                                 <StyledTableCell align="center">{id + 1}</StyledTableCell>
-                                <StyledTableCell align="center">{row.CBType}</StyledTableCell>
-                                <StyledTableCell align="center">{`$${handleNumber(row.CurrAmount)}`}</StyledTableCell>
-                                <StyledTableCell align="center">{`$${handleNumber(row.CurrAmount)}`}</StyledTableCell>
-                                <StyledTableCell align="center">{dayjs(row.BillingNo).format('YYYYMMDD')}</StyledTableCell>
-                                <StyledTableCell align="center">{row.InvoiceNo}</StyledTableCell>
+                                <StyledTableCell align="center">{row.SubmarineCable}</StyledTableCell>
+                                <StyledTableCell align="center">{row.WorkTitle}</StyledTableCell>
+                                <StyledTableCell align="center">{row.BillMilestone}</StyledTableCell>
+                                <StyledTableCell align="center">{row.InvNo}</StyledTableCell>
+                                <StyledTableCell align="center">{`$${handleNumber(row.Debit)}`}</StyledTableCell>
+                                <StyledTableCell align="center">{`$${handleNumber(row.Credit)}`}</StyledTableCell>
+                                <StyledTableCell align="center">{`$${handleNumber(row.Balance)}`}</StyledTableCell>
+                                <StyledTableCell align="center">{dayjs(row.CNIssueDate).format('YYYYMMDD')}</StyledTableCell>
+                                <StyledTableCell align="center">{row.Description}</StyledTableCell>
                             </TableRow>
                         );
                     })}

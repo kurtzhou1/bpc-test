@@ -442,7 +442,7 @@ const WriteOffWork = ({ isDialogOpen, handleDialogClose, writeOffInfo, writeOffD
                                                         ''
                                                     ) : (
                                                         <TableCell sx={{ fontSize: '0.1rem' }} align="center">
-                                                            {totalAmount ? totalAmount.toFixed(2) : '0.00'}
+                                                            {totalAmount ? handleNumber(totalAmount.toFixed(2)) : '0.00'}
                                                         </TableCell>
                                                     )}
                                                     {/* 重溢繳 */}
@@ -460,7 +460,7 @@ const WriteOffWork = ({ isDialogOpen, handleDialogClose, writeOffInfo, writeOffD
                                                             ? handleNumber(Math.abs(tmpTotalAmount).toFixed(2))
                                                             : '0.00'} */}
                                                         {/* 5/25以後 */}
-                                                        {shortAmount.toFixed(2)}
+                                                        {handleNumber(shortAmount.toFixed(2))}
                                                     </TableCell>
                                                     {/* 手續費差額 */}
                                                     {/* 手續費差額：本次實收+累計實收-應繳 (應該是負值或0) 取正值 跟 手續費比 ，如果小於等於則顯示正值的金額(顯示的金額不用減掉手續費) */}

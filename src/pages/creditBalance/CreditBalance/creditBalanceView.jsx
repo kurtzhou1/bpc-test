@@ -43,29 +43,28 @@ import { styled } from '@mui/material/styles';
 // api
 import { generateReport } from 'components/apis.jsx';
 
-const CreditBalanceView = ({ cbView, handleViewClose, listInfo, viewId }) => {
-    console.log('listInfo=>>', listInfo);
-    const [cblistInfo, setCbListInfo] = useState(listInfo);
+const StyledTableCell = styled(TableCell)(({ theme }) => ({
+    [`&.${tableCellClasses.head}`]: {
+        // backgroundColor: theme.palette.common.gary,
+        color: theme.palette.common.black,
+        paddingTop: '0.2rem',
+        paddingBottom: '0.2rem'
+    },
+    [`&.${tableCellClasses.body}`]: {
+        fontSize: 14,
+        paddingTop: '0.2rem',
+        paddingBottom: '0.2rem'
+    }
+}));
+
+const CreditBalanceView = ({ cbView, handleViewClose, viewId }) => {
+    const [listInfo, setListInfo] = useState([]);
     const [value, setValue] = useState(0);
 
     const itemDetailInitial = () => {
         setPartyName([]);
         setLBRatio('');
     };
-
-    const StyledTableCell = styled(TableCell)(({ theme }) => ({
-        [`&.${tableCellClasses.head}`]: {
-            // backgroundColor: theme.palette.common.gary,
-            color: theme.palette.common.black,
-            paddingTop: '0.2rem',
-            paddingBottom: '0.2rem'
-        },
-        [`&.${tableCellClasses.body}`]: {
-            fontSize: 14,
-            paddingTop: '0.2rem',
-            paddingBottom: '0.2rem'
-        }
-    }));
 
     const a11yProps = (index) => {
         return {
@@ -101,6 +100,30 @@ const CreditBalanceView = ({ cbView, handleViewClose, listInfo, viewId }) => {
             })
             .catch((e) => console.log('e1=>', e));
     };
+
+    const getData = () => {
+        let tmpData = {
+            CBID: viewId,
+            Download: false
+        };
+        fetch(generateReport, {
+            method: 'POST',
+            body: JSON.stringify(tmpData)
+        })
+            .then((res) => res.json())
+            .then((data) => {
+                if (data) {
+                    setListInfo(data);
+                }
+            })
+            .catch((e) => console.log('e1=>', e));
+    };
+
+    useEffect(() => {
+        if (cbView) {
+            getData();
+        }
+    }, [cbView]);
 
     return (
         <Dialog maxWidth="sm" fullWidth open={cbView}>
