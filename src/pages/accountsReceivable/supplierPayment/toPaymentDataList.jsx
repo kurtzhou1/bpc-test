@@ -1,7 +1,7 @@
 import { useState, useRef } from 'react';
 
 // project import
-import DeductWork from './deductWork';
+import PaymentWork from './paymentWork';
 import { handleNumber } from 'components/commonFunction';
 import MainCard from 'components/MainCard';
 import GenerateFeeTerminate from './generateFeeTerminate';
@@ -41,11 +41,27 @@ import dayjs from 'dayjs';
 
 import { toBillDataapi, sendJounary } from 'components/apis.jsx';
 
+const StyledTableCell = styled(TableCell)(({ theme }) => ({
+    [`&.${tableCellClasses.head}`]: {
+        // backgroundColor: theme.palette.common.gary,
+        color: theme.palette.common.black,
+        paddingTop: '0.2rem',
+        paddingBottom: '0.2rem',
+        border: '1px solid #EEEEEE'
+    },
+    [`&.${tableCellClasses.body}.totalAmount`]: {
+        fontSize: 14,
+        paddingTop: '0.2rem',
+        paddingBottom: '0.2rem',
+        backgroundColor: '#CFD8DC'
+    }
+}));
+
 const ToWriteOffDataList = ({ listInfo }) => {
     const [isColumn2Open, setIsColumn2Open] = useState(true);
     const [isColumn3Open, setIsColumn3Open] = useState(true);
     const [isColumn4Open, setIsColumn4Open] = useState(true);
-    let tmpBMArray = [];
+    // let tmpBMArray = [];
 
     const fakeData = {
         TotalAmount: 5582012.72,
@@ -203,118 +219,34 @@ const ToWriteOffDataList = ({ listInfo }) => {
     ];
 
     const [isDialogOpen, setIsDialogOpen] = useState(false); //折抵作業
-    const [isDeductWorkOpen, setIsDeductWorkOpen] = useState(false); //作廢
-    const deductInfo = useRef({});
+    const editPaymentInfo = useRef({});
     const actionName = useRef('');
-    const [editItem, setEditItem] = useState();
-    const [toBillDataMain, setToBillDataMain] = useState(fakeData.InvoiceMaster); //發票主檔
-    const [toBillDataInfo, setToBillDataInfo] = useState(fakeData.InvoiceDetail); //發票明細檔
-    const [totalAmount, setTotalAmount] = useState(fakeData.TotalAmount); //發票總金額
-    const [currentAmount, setCurrentAmount] = useState(''); //目前金額
-    const [infoTerminal, setInfoTerminal] = useState(false);
-    const StyledTableCell = styled(TableCell)(({ theme }) => ({
-        [`&.${tableCellClasses.head}`]: {
-            // backgroundColor: theme.palette.common.gary,
-            color: theme.palette.common.black,
-            paddingTop: '0.2rem',
-            paddingBottom: '0.2rem',
-            border: '1px solid #EEEEEE'
-        },
-        [`&.${tableCellClasses.body}.totalAmount`]: {
-            fontSize: 14,
-            paddingTop: '0.2rem',
-            paddingBottom: '0.2rem',
-            backgroundColor: '#CFD8DC'
-        }
-    }));
 
-    const handleDialogClose = () => {
-        deductInfo.current = '可折抵CB';
-        setIsDialogOpen(false);
-        setEditItem();
-    };
-
-    const handleDialogOpen = (action, info) => {
-        deductInfo.current = info;
-        actionName.current = action;
+    const handleDialogOpen = (info) => {
+        // let tmpArray = info.BillDetail.map((i) => i);
+        editPaymentInfo.current = info;
+        // setWriteOffDetail(tmpArray);
         setIsDialogOpen(true);
     };
 
-    const handleTerminalClose = () => {
-        setInfoTerminal(false);
+    const handleDialogClose = () => {
+        editPaymentInfo.current = {};
+        setWriteOffDetail([]);
+        setIsDialogOpen(false);
     };
-
-    // //立帳作業
-    // const toBillData = (wKMasterID) => {
-    //     console.log('立帳作業wKMasterID=>>', wKMasterID);
-    //     let tmpQuery = '/' + 'WKMasterID=' + wKMasterID;
-    //     tmpQuery = toBillDataapi + tmpQuery;
-    //     console.log('tmpQuery=>>', tmpQuery);
-    //     fetch(tmpQuery, { method: 'GET' })
-    //         .then((res) => res.json())
-    //         .then((data) => {
-    //             console.log('立帳成功=>>', data);
-    //             let tmpAmount = 0;
-    //             if (Array.isArray(data)) {
-    //                 toBillDataMain.current = data ? data.InvoiceMaster : [];
-    //                 setToBillDataInfo(data ? data.InvoiceDetail : []);
-    //                 setTotalAmount(data ? data.TotalAmount : 0);
-    //                 data.InvoiceDetail.forEach((i) => {
-    //                     tmpAmount = tmpAmount + i.FeeAmountPost + i.Difference;
-    //                 });
-    //                 setCurrentAmount(tmpAmount.toFixed(2));
-    //             }
-    //         })
-    //         .catch((e) => console.log('e1=>', e));
-    //     setIsDialogOpen(true);
-    // };
-
-    // const changeDiff = (diff, id) => {
-    //     let tmpArray = toBillDataInfo.map((i) => i);
-    //     let tmpAmount = 0;
-    //     tmpArray[id].Difference = Number(diff);
-    //     tmpArray.forEach((i) => {
-    //         tmpAmount = tmpAmount + i.FeeAmountPost + i.Difference;
-    //     });
-    //     setToBillDataInfo(tmpArray);
-    //     setCurrentAmount(tmpAmount.toFixed(2));
-    // };
-
-    // 送出立帳(新增)
-    // const sendJounaryInfo = () => {
-    //     let tmpArray = toBillDataMain.current.map((i) => i);
-    //     tmpArray.forEach((i) => {
-    //         delete i.InvMasterID;
-    //     });
-    //     let tmpData = {
-    //         TotalAmount: totalAmount,
-    //         InvoiceMaster: tmpArray,
-    //         InvoiceDetail: toBillDataInfo
-    //     };
-    //     fetch(sendJounary, { method: 'POST', body: JSON.stringify(tmpData) })
-    //         .then((res) => res.json())
-    //         .then((data) => {
-    //             console.log('立帳成功=>>', data);
-    //             apiQuery();
-    //             handleDialogClose();
-    //         })
-    //         .catch((e) => console.log('e1=>', e));
-    // };
 
     return (
         <>
-            <DeductWork
+            <PaymentWork
                 isDialogOpen={isDialogOpen}
                 handleDialogClose={handleDialogClose}
-                deductInfo={deductInfo.current}
+                editPaymentInfo={editPaymentInfo.current}
                 actionName={actionName.current}
             />
-            <GenerateFeeTerminate infoTerminal={infoTerminal} handleTerminalClose={handleTerminalClose} />
             <TableContainer component={Paper} sx={{ maxHeight: 400 }}>
                 <Table sx={{ minWidth: 300 }} stickyHeader aria-label="sticky table">
-                    {/* <Table sx={{ minWidth: 200 }} aria-label="sticky table"> */}
                     <TableHead>
-                        <TableRow>
+                        {/* <TableRow>
                             <StyledTableCell align="center" colSpan={3}></StyledTableCell>
                             <StyledTableCell align="center" colSpan={isColumn2Open ? 4 : 1}>
                                 <Button
@@ -324,7 +256,6 @@ const ToWriteOffDataList = ({ listInfo }) => {
                                 >
                                     {isColumn2Open ? <DoNotDisturbOnIcon /> : <AddCircleIcon />}
                                 </Button>
-                                {/* {isColumn2Open ? "Suppliers' Invoice 供應商發票" : ''} */}
                                 {isColumn2Open ? '供應商發票' : ''}
                             </StyledTableCell>
                             <StyledTableCell align="center" colSpan={isColumn3Open ? 8 : 1}>
@@ -345,7 +276,6 @@ const ToWriteOffDataList = ({ listInfo }) => {
                                 >
                                     {isColumn4Open ? <DoNotDisturbOnIcon /> : <AddCircleIcon />}
                                 </Button>
-                                {/* {isColumn4Open ? 'Paid to Suppliers 匯出金額給供應商' : ''} */}
                                 {isColumn4Open ? '匯出金額給供應商' : ''}
                             </StyledTableCell>
                         </TableRow>
@@ -396,10 +326,62 @@ const ToWriteOffDataList = ({ listInfo }) => {
                                     {columns4[0].label}
                                 </StyledTableCell>
                             )}
+                        </TableRow> */}
+                        <TableRow>
+                            <StyledTableCell align="center">NO</StyledTableCell>
+                            <StyledTableCell align="center">會員代碼</StyledTableCell>
+                            <StyledTableCell align="center">供應商</StyledTableCell>
+                            <StyledTableCell align="center">海纜名稱</StyledTableCell>
+                            <StyledTableCell align="center">海纜作業</StyledTableCell>
+                            <StyledTableCell align="center">發票到期日</StyledTableCell>
+                            <StyledTableCell align="center">總金額</StyledTableCell>
+                            <StyledTableCell align="center">累計實收金額</StyledTableCell>
+                            <StyledTableCell align="center">累計實付金額</StyledTableCell>
+                            <StyledTableCell align="center">本次付款金額</StyledTableCell>
+                            <StyledTableCell align="center">Action</StyledTableCell>
+                            <StyledTableCell align="center">摘要說明</StyledTableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {listInfo?.map((row) => {
+                        {listInfo?.map((row, id) => {
+                            // tmpBMArray = [];
+                            // row?.BillDetailList.forEach((i) => {
+                            //     if (!tmpBMArray.includes(i.BillMilestone)) {
+                            //         tmpBMArray.push(i.BillMilestone);
+                            //     }
+                            // });
+                            return (
+                                <TableRow key={row.WKMasterID + row.InvoiceNo} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
+                                    <StyledTableCell align="center">{id + 1}</StyledTableCell>
+                                    <StyledTableCell align="center">{row?.InvoiceWKMaster?.InvoiceNo}</StyledTableCell>
+                                    <StyledTableCell align="center">{row?.InvoiceWKMaster?.SupplierName}</StyledTableCell>
+                                    <StyledTableCell align="center">{row?.InvoiceWKMaster?.SubmarineCable}</StyledTableCell>
+                                    <StyledTableCell align="center">{row?.InvoiceWKMaster?.WorkTitle}</StyledTableCell>
+                                    <StyledTableCell align="center">
+                                        {dayjs(row?.InvoiceWKMaster?.DueDate).format('YYYY/MM/DD')}
+                                    </StyledTableCell>
+                                    <StyledTableCell align="center">{handleNumber(row?.InvoiceWKMaster?.TotalAmount)}</StyledTableCell>
+                                    <StyledTableCell align="center">{handleNumber(row?.InvoiceWKMaster?.PaidAmount)}</StyledTableCell>
+                                    <StyledTableCell align="center">{handleNumber(row?.ReceivedAmountSum)}</StyledTableCell>
+                                    <StyledTableCell align="center">{handleNumber(0)}</StyledTableCell>
+                                    <StyledTableCell align="center">
+                                        <Box sx={{ display: 'flex', justifyContent: 'center', '& button': { mx: 1, p: 0, fontSize: 1 } }}>
+                                            <Button
+                                                color="primary"
+                                                size="small"
+                                                variant="outlined"
+                                                onClick={() => {
+                                                    handleDialogOpen(row.BillDetailList);
+                                                }}
+                                            >
+                                                編輯付款資訊
+                                            </Button>
+                                        </Box>
+                                    </StyledTableCell>
+                                </TableRow>
+                            );
+                        })}
+                        {/* {listInfo?.map((row) => {
                             tmpBMArray = [];
                             row?.BillDetailList.forEach((i) => {
                                 if (!tmpBMArray.includes(i.BillMilestone)) {
@@ -423,7 +405,7 @@ const ToWriteOffDataList = ({ listInfo }) => {
                                     ) : (
                                         <StyledTableCell align="center">{row.SupplierName}</StyledTableCell>
                                     )}
-                                    {/* {isColumn3Open ? (
+                                    {isColumn3Open ? (
                                         <>
                                             <StyledTableCell align="center">{'No. 12345678'}</StyledTableCell>
                                             <StyledTableCell align="center">{row.PartyName}</StyledTableCell>
@@ -445,10 +427,10 @@ const ToWriteOffDataList = ({ listInfo }) => {
                                         </>
                                     ) : (
                                         <StyledTableCell align="center">{handleNumber(123456789)}</StyledTableCell>
-                                    )} */}
+                                    )}
                                 </TableRow>
                             );
-                        })}
+                        })} */}
                     </TableBody>
                 </Table>
             </TableContainer>

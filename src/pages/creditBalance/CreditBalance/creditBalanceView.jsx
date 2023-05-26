@@ -62,8 +62,7 @@ const CreditBalanceView = ({ cbView, handleViewClose, viewId }) => {
     const [value, setValue] = useState(0);
 
     const itemDetailInitial = () => {
-        setPartyName([]);
-        setLBRatio('');
+        setListInfo([]);
     };
 
     const a11yProps = (index) => {

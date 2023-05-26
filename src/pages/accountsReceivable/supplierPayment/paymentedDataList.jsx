@@ -2,7 +2,7 @@ import { useState, useRef } from 'react';
 
 // project import
 import { handleNumber, BootstrapDialogTitle } from 'components/commonFunction';
-import DeductWork from './deductWork';
+import DeductWork from './paymentWork';
 import GenerateFeeTerminate from './generateFeeTerminate';
 // material-ui
 import {
