@@ -55,8 +55,6 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
 }));
 
 const CreditBalanceDeduct = ({ cblistInfo }) => {
-    console.log('cblistInfo=>>', cblistInfo);
-
     return (
         <TableContainer component={Paper} sx={{ maxHeight: 350 }}>
             <Table sx={{ minWidth: 300 }} stickyHeader aria-label="sticky table">
@@ -86,9 +84,6 @@ const CreditBalanceDeduct = ({ cblistInfo }) => {
                                 <StyledTableCell align="center">{row.InvNo}</StyledTableCell>
                                 <StyledTableCell align="center">{dayjs(row.BillIssueDate).format('YYYYMMDD')}</StyledTableCell>
                                 <StyledTableCell align="center">{row.CNNo}</StyledTableCell>
-                                <StyledTableCell align="center">
-                                    {row.CNIssueDate ? dayjs(row.CNIssueDate).format('YYYYMMDD') : ''}
-                                </StyledTableCell>
                                 <StyledTableCell align="center">{row.Description}</StyledTableCell>
                                 <StyledTableCell align="center">
                                     {row.Debit ? '$' : ''}

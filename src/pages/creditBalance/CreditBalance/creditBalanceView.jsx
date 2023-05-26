@@ -126,7 +126,7 @@ const CreditBalanceView = ({ cbView, handleViewClose, viewId }) => {
     }, [cbView]);
 
     return (
-        <Dialog maxWidth="sm" fullWidth open={cbView}>
+        <Dialog maxWidth="xl" fullWidth open={cbView}>
             <BootstrapDialogTitle>檢視Credit Balance明細</BootstrapDialogTitle>
             <DialogContent dividers>
                 <Grid container spacing={1}>

@@ -41,10 +41,11 @@ import dayjs from 'dayjs';
 
 import { toBillDataapi, sendJounary } from 'components/apis.jsx';
 
-const ToWriteOffDataList = ({ listInfo, apiQuery }) => {
+const ToWriteOffDataList = ({ listInfo }) => {
     const [isColumn2Open, setIsColumn2Open] = useState(true);
     const [isColumn3Open, setIsColumn3Open] = useState(true);
     const [isColumn4Open, setIsColumn4Open] = useState(true);
+    let tmpBMArray = [];
 
     const fakeData = {
         TotalAmount: 5582012.72,
@@ -398,23 +399,31 @@ const ToWriteOffDataList = ({ listInfo, apiQuery }) => {
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {toBillDataMain?.map((row) => {
+                        {listInfo?.map((row) => {
+                            tmpBMArray = [];
+                            row?.BillDetailList.forEach((i) => {
+                                if (!tmpBMArray.includes(i.BillMilestone)) {
+                                    tmpBMArray.push(i.BillMilestone);
+                                }
+                            });
                             return (
                                 <TableRow key={row.WKMasterID + row.InvoiceNo} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
-                                    <StyledTableCell align="center">{row.SubmarineCable}</StyledTableCell>
-                                    <StyledTableCell align="center">{row.WorkTitle}</StyledTableCell>
-                                    <StyledTableCell align="center">{row.BillMilestone}</StyledTableCell>
+                                    <StyledTableCell align="center">{row?.InvoiceWKMaster?.SubmarineCable}</StyledTableCell>
+                                    <StyledTableCell align="center">{row?.InvoiceWKMaster?.WorkTitle}</StyledTableCell>
+                                    <StyledTableCell align="center">{tmpBMArray.join(',')}</StyledTableCell>
                                     {isColumn2Open ? (
                                         <>
-                                            <StyledTableCell align="center">{row.SupplierName}</StyledTableCell>
-                                            <StyledTableCell align="center">{'No. 12345678'}</StyledTableCell>
-                                            <StyledTableCell align="center">{handleNumber(123456789)}</StyledTableCell>
-                                            <StyledTableCell align="center">{dayjs(row.IssueDate).format('YYYY/MM/DD')}</StyledTableCell>
+                                            <StyledTableCell align="center">{row?.InvoiceWKMaster?.SupplierName}</StyledTableCell>
+                                            <StyledTableCell align="center">{row?.InvoiceWKMaster?.InvoiceNo}</StyledTableCell>
+                                            <StyledTableCell align="center">
+                                                {handleNumber(row?.InvoiceWKMaster?.TotalAmount)}
+                                            </StyledTableCell>
+                                            <StyledTableCell align="center">{dayjs(row?.DueDate).format('YYYY/MM/DD')}</StyledTableCell>
                                         </>
                                     ) : (
                                         <StyledTableCell align="center">{row.SupplierName}</StyledTableCell>
                                     )}
-                                    {isColumn3Open ? (
+                                    {/* {isColumn3Open ? (
                                         <>
                                             <StyledTableCell align="center">{'No. 12345678'}</StyledTableCell>
                                             <StyledTableCell align="center">{row.PartyName}</StyledTableCell>
@@ -436,7 +445,7 @@ const ToWriteOffDataList = ({ listInfo, apiQuery }) => {
                                         </>
                                     ) : (
                                         <StyledTableCell align="center">{handleNumber(123456789)}</StyledTableCell>
-                                    )}
+                                    )} */}
                                 </TableRow>
                             );
                         })}

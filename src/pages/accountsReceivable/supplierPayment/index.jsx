@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { Grid, Button, IconButton, Box, Tabs, Tab, Typography, DialogTitle } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 // import { styled } from '@mui/material/styles';
@@ -9,10 +9,398 @@ import MainCard from 'components/MainCard';
 import ToPaymentDataList from './toPaymentDataList';
 import PaymentedDataList from './paymentedDataList';
 import InvalidatedDataList from './invalidatedDataList';
-import ReceivableQuery from './receivableQuery';
+import SupplierPaymentQuery from './supplierPaymentQuery';
+
+const fakeData = [
+    {
+        InvoiceWKMaster: {
+            WKMasterID: 8,
+            SupplierName: 'CHT',
+            WorkTitle: 'Upgrade',
+            IssueDate: '2022-11-07T04:43:41',
+            PartyName: '',
+            IsRecharge: false,
+            TotalAmount: 6000.0,
+            CreateDate: '2023-04-17T16:54:51',
+            Status: 'PAYING',
+            SubmarineCable: 'TPE',
+            InvoiceNo: 'TPE-UPG11-221102',
+            ContractType: 'SC',
+            DueDate: '2022-12-22T04:43:41',
+            IsPro: false,
+            IsLiability: true,
+            PaidAmount: 200.0,
+            PaidDate: '2023-05-25T19:22:25'
+        },
+        BillDetailList: [
+            {
+                WKMasterID: 8,
+                BillMilestone: 'BM2',
+                ToCBAmount: 0.0,
+                InvoiceNo: 'TPE-UPG11-221102',
+                FeeItem: 'CBP Fee BM2 UPG11',
+                PaidAmount: 0.0,
+                InvDetailID: 11,
+                OrgFeeAmount: 1000.0,
+                ShortOverReason: null,
+                PartyName: 'KT',
+                DedAmount: 1000.0,
+                WriteOffDate: '2023-04-28T09:41:57',
+                SupplierName: 'CHT',
+                FeeAmount: 0.0,
+                ReceiveDate: null,
+                SubmarineCable: 'TPE',
+                ReceivedAmount: 0.0,
+                Note: null,
+                BillMasterID: 1,
+                WorkTitle: 'Upgrade',
+                OverAmount: 0.0,
+                Status: 'OK',
+                BillDetailID: 1,
+                ShortAmount: 0.0
+            },
+            {
+                WKMasterID: 8,
+                BillMilestone: 'BM2',
+                ToCBAmount: 0.0,
+                InvoiceNo: 'TPE-UPG11-221102',
+                FeeItem: 'CBP Fee BM2 UPG11',
+                PaidAmount: 100.0,
+                InvDetailID: 13,
+                OrgFeeAmount: 2000.0,
+                ShortOverReason: '',
+                PartyName: 'CT',
+                DedAmount: 0.0,
+                WriteOffDate: '2023-05-25T18:06:31',
+                SupplierName: 'CHT',
+                FeeAmount: 2000.0,
+                ReceiveDate: '2023-04-24T15:00:00',
+                SubmarineCable: 'TPE',
+                ReceivedAmount: 990.0,
+                Note: '',
+                BillMasterID: 2,
+                WorkTitle: 'Upgrade',
+                OverAmount: 0.0,
+                Status: 'PARTIAL',
+                BillDetailID: 13,
+                ShortAmount: 1010.0
+            },
+            {
+                WKMasterID: 8,
+                BillMilestone: 'BM2',
+                ToCBAmount: 0.0,
+                InvoiceNo: 'TPE-UPG11-221102',
+                FeeItem: 'CBP Fee BM2 UPG11',
+                PaidAmount: 100.0,
+                InvDetailID: 12,
+                OrgFeeAmount: 3000.0,
+                ShortOverReason: null,
+                PartyName: 'CU',
+                DedAmount: 0.0,
+                WriteOffDate: '2023-05-25T20:59:04',
+                SupplierName: 'CHT',
+                FeeAmount: 3000.0,
+                ReceiveDate: null,
+                SubmarineCable: 'TPE',
+                ReceivedAmount: 1990.0,
+                Note: null,
+                BillMasterID: 3,
+                WorkTitle: 'Upgrade',
+                OverAmount: 0.0,
+                Status: 'PARTIAL',
+                BillDetailID: 17,
+                ShortAmount: 1010.0
+            }
+        ],
+        ReceivedAmountSum: 2980.0
+    },
+    {
+        InvoiceWKMaster: {
+            WKMasterID: 9,
+            SupplierName: 'Ciena-US',
+            WorkTitle: 'Upgrade',
+            IssueDate: '2022-10-29T04:46:50',
+            PartyName: '',
+            IsRecharge: false,
+            TotalAmount: 24288.0,
+            CreateDate: '2023-04-17T16:54:51',
+            Status: 'PAYING',
+            SubmarineCable: 'TPE',
+            InvoiceNo: '15428',
+            ContractType: 'SC',
+            DueDate: '2022-12-29T04:46:50',
+            IsPro: false,
+            IsLiability: true,
+            PaidAmount: 1708.0,
+            PaidDate: '2023-05-25T21:08:11'
+        },
+        BillDetailList: [
+            {
+                WKMasterID: 9,
+                BillMilestone: 'BM2',
+                ToCBAmount: 0.0,
+                InvoiceNo: '15428',
+                FeeItem: 'Provisional Network Acceptance',
+                PaidAmount: 0.0,
+                InvDetailID: 14,
+                OrgFeeAmount: 3680.0,
+                ShortOverReason: null,
+                PartyName: 'KT',
+                DedAmount: 3680.0,
+                WriteOffDate: '2023-04-28T09:41:57',
+                SupplierName: 'Ciena-US',
+                FeeAmount: 0.0,
+                ReceiveDate: null,
+                SubmarineCable: 'TPE',
+                ReceivedAmount: 0.0,
+                Note: null,
+                BillMasterID: 1,
+                WorkTitle: 'Upgrade',
+                OverAmount: 0.0,
+                Status: 'OK',
+                BillDetailID: 2,
+                ShortAmount: 0.0
+            },
+            {
+                WKMasterID: 9,
+                BillMilestone: 'BM2',
+                ToCBAmount: 0.0,
+                InvoiceNo: '15428',
+                FeeItem: 'Tax-Provisional Network Acceptance',
+                PaidAmount: 68.0,
+                InvDetailID: 15,
+                OrgFeeAmount: 368.0,
+                ShortOverReason: null,
+                PartyName: 'KT',
+                DedAmount: 368.0,
+                WriteOffDate: '2023-04-28T09:41:57',
+                SupplierName: 'Ciena-US',
+                FeeAmount: 0.0,
+                ReceiveDate: null,
+                SubmarineCable: 'TPE',
+                ReceivedAmount: 0.0,
+                Note: null,
+                BillMasterID: 1,
+                WorkTitle: 'Upgrade',
+                OverAmount: 0.0,
+                Status: 'OK',
+                BillDetailID: 3,
+                ShortAmount: 0.0
+            },
+            {
+                WKMasterID: 9,
+                BillMilestone: 'BM2',
+                ToCBAmount: 0.0,
+                InvoiceNo: '15428',
+                FeeItem: 'Provisional Network Acceptance',
+                PaidAmount: 1360.0,
+                InvDetailID: 18,
+                OrgFeeAmount: 7360.0,
+                ShortOverReason: null,
+                PartyName: 'CT',
+                DedAmount: 0.0,
+                WriteOffDate: '2023-05-25T18:06:31',
+                SupplierName: 'Ciena-US',
+                FeeAmount: 7360.0,
+                ReceiveDate: '2023-04-24T15:00:00',
+                SubmarineCable: 'TPE',
+                ReceivedAmount: 2360.0,
+                Note: null,
+                BillMasterID: 2,
+                WorkTitle: 'Upgrade',
+                OverAmount: 0.0,
+                Status: 'PARTIAL',
+                BillDetailID: 14,
+                ShortAmount: 5000.0
+            },
+            {
+                WKMasterID: 9,
+                BillMilestone: 'BM2',
+                ToCBAmount: 0.0,
+                InvoiceNo: '15428',
+                FeeItem: 'Tax-Provisional Network Acceptance',
+                PaidAmount: 136.0,
+                InvDetailID: 18,
+                OrgFeeAmount: 736.0,
+                ShortOverReason: null,
+                PartyName: 'CT',
+                DedAmount: 0.0,
+                WriteOffDate: '2023-05-25T18:06:31',
+                SupplierName: 'Ciena-US',
+                FeeAmount: 736.0,
+                ReceiveDate: '2023-04-24T15:00:00',
+                SubmarineCable: 'TPE',
+                ReceivedAmount: 136.0,
+                Note: null,
+                BillMasterID: 2,
+                WorkTitle: 'Upgrade',
+                OverAmount: 0.0,
+                Status: 'PARTIAL',
+                BillDetailID: 15,
+                ShortAmount: 600.0
+            },
+            {
+                WKMasterID: 9,
+                BillMilestone: 'BM2',
+                ToCBAmount: 0.0,
+                InvoiceNo: '15428',
+                FeeItem: 'Provisional Network Acceptance',
+                PaidAmount: 40.0,
+                InvDetailID: 16,
+                OrgFeeAmount: 11040.0,
+                ShortOverReason: null,
+                PartyName: 'CU',
+                DedAmount: 0.0,
+                WriteOffDate: '2023-05-25T20:59:04',
+                SupplierName: 'Ciena-US',
+                FeeAmount: 11040.0,
+                ReceiveDate: '2023-04-24T15:00:00',
+                SubmarineCable: 'TPE',
+                ReceivedAmount: 40.0,
+                Note: null,
+                BillMasterID: 3,
+                WorkTitle: 'Upgrade',
+                OverAmount: 0.0,
+                Status: 'PARTIAL',
+                BillDetailID: 18,
+                ShortAmount: 11000.0
+            },
+            {
+                WKMasterID: 9,
+                BillMilestone: 'BM2',
+                ToCBAmount: 0.0,
+                InvoiceNo: '15428',
+                FeeItem: 'Tax-Provisional Network Acceptance',
+                PaidAmount: 104.0,
+                InvDetailID: 17,
+                OrgFeeAmount: 1104.0,
+                ShortOverReason: null,
+                PartyName: 'CU',
+                DedAmount: 0.0,
+                WriteOffDate: '2023-05-25T20:59:04',
+                SupplierName: 'Ciena-US',
+                FeeAmount: 1104.0,
+                ReceiveDate: '2023-04-24T15:00:00',
+                SubmarineCable: 'TPE',
+                ReceivedAmount: 1104.0,
+                Note: null,
+                BillMasterID: 3,
+                WorkTitle: 'Upgrade',
+                OverAmount: 0.0,
+                Status: 'OK',
+                BillDetailID: 19,
+                ShortAmount: 11000.0
+            }
+        ],
+        ReceivedAmountSum: 3640.0
+    },
+    {
+        InvoiceWKMaster: {
+            WKMasterID: 10,
+            SupplierName: 'Ciena-US',
+            WorkTitle: 'Upgrade',
+            IssueDate: '2022-10-29T04:51:48',
+            PartyName: '',
+            IsRecharge: false,
+            TotalAmount: 190194.0,
+            CreateDate: '2023-04-17T16:54:51',
+            Status: 'PAYING',
+            SubmarineCable: 'TPE',
+            InvoiceNo: '503418',
+            ContractType: 'SC',
+            DueDate: '2022-12-29T04:51:48',
+            IsPro: false,
+            IsLiability: true,
+            PaidAmount: 0.0,
+            PaidDate: null
+        },
+        BillDetailList: [
+            {
+                WKMasterID: 10,
+                BillMilestone: 'BM2',
+                ToCBAmount: 0.0,
+                InvoiceNo: '503418',
+                FeeItem: 'BM2 - Provisional Network Acceptance',
+                PaidAmount: 0.0,
+                InvDetailID: 20,
+                OrgFeeAmount: 31699.0,
+                ShortOverReason: null,
+                PartyName: 'KT',
+                DedAmount: 31699.0,
+                WriteOffDate: '2023-04-28T09:41:57',
+                SupplierName: 'Ciena-US',
+                FeeAmount: 0.0,
+                ReceiveDate: null,
+                SubmarineCable: 'TPE',
+                ReceivedAmount: 0.0,
+                Note: null,
+                BillMasterID: 1,
+                WorkTitle: 'Upgrade',
+                OverAmount: 0.0,
+                Status: 'OK',
+                BillDetailID: 4,
+                ShortAmount: 0.0
+            },
+            {
+                WKMasterID: 10,
+                BillMilestone: 'BM2',
+                ToCBAmount: 0.0,
+                InvoiceNo: '503418',
+                FeeItem: 'BM2 - Provisional Network Acceptance',
+                PaidAmount: 0.0,
+                InvDetailID: 18,
+                OrgFeeAmount: 63398.0,
+                ShortOverReason: '',
+                PartyName: 'CT',
+                DedAmount: 0.0,
+                WriteOffDate: '2023-05-25T18:06:31',
+                SupplierName: 'Ciena-US',
+                FeeAmount: 63398.0,
+                ReceiveDate: '2023-04-24T15:00:00',
+                SubmarineCable: 'TPE',
+                ReceivedAmount: 0.0,
+                Note: '',
+                BillMasterID: 2,
+                WorkTitle: 'Upgrade',
+                OverAmount: 0.0,
+                Status: 'INCOMPLETE',
+                BillDetailID: 16,
+                ShortAmount: 63398.0
+            },
+            {
+                WKMasterID: 10,
+                BillMilestone: 'BM2',
+                ToCBAmount: 0.0,
+                InvoiceNo: '503418',
+                FeeItem: 'BM2 - Provisional Network Acceptance',
+                PaidAmount: 0.0,
+                InvDetailID: 21,
+                OrgFeeAmount: 95097.0,
+                ShortOverReason: null,
+                PartyName: 'CU',
+                DedAmount: 0.0,
+                WriteOffDate: '2023-05-25T20:59:04',
+                SupplierName: 'Ciena-US',
+                FeeAmount: 95097.0,
+                ReceiveDate: null,
+                SubmarineCable: 'TPE',
+                ReceivedAmount: 0.0,
+                Note: null,
+                BillMasterID: 3,
+                WorkTitle: 'Upgrade',
+                OverAmount: 0.0,
+                Status: 'INCOMPLETE',
+                BillDetailID: 20,
+                ShortAmount: 95097.0
+            }
+        ],
+        ReceivedAmountSum: 0.0
+    }
+];
 
 const SupplierPayment = () => {
-    const [value, setValue] = useState(4);
+    const [value, setValue] = useState(0);
+    const queryApi = useRef('/Status=PAYING');
 
     const handleChange = (event, newValue) => {
         setValue(newValue);
@@ -26,113 +414,21 @@ const SupplierPayment = () => {
     };
 
     const [listInfo, setListInfo] = useState([]);
-    const [isDialogOpen, setIsDialogOpen] = useState(false);
-    const [dialogAction, setDialogAction] = useState('');
-
-    const [billMilestone, setBillMilestone] = useState(''); //計帳段號
-    const [partyName, setPartyName] = useState([]); //會員名稱
-    const [lBRatio, setLBRatio] = useState(''); //攤分比例
-    const [editItem, setEditItem] = useState(NaN);
-    const [modifyNote, setModifyNote] = useState('');
-
-    const receivableQuery = () => {
-        console.log('ReceivableQueryFunction');
-    };
-
-    const handleDialogOpen = () => {
-        setIsDialogOpen(true);
-        setDialogAction('add');
-    };
-
-    const handleDialogClose = () => {
-        setIsDialogOpen(false);
-    };
-
-    const itemDetailInitial = () => {
-        setBillMilestone('');
-        setPartyName([]);
-        setLBRatio('');
-        setModifyNote('');
-    };
-
-    //新增
-    const addLiability = (list) => {
-        console.log('list=>>', list);
-        if (list.length > 0) {
-            let tmpArray = listInfo.map((i) => i);
-            list.forEach((i) => {
-                tmpArray.push({
-                    BillMilestone: i.BillMilestone,
-                    PartyName: i.PartyName,
-                    LBRatio: i.LbRatio,
-                    createTime: new Date(),
-                    modifyNote: modifyNote.trim() === '' ? '' : modifyNote
-                });
+    const supplierPaymentQuery = () => {
+        fetch(queryApi.current, { method: 'GET' })
+            .then((res) => res.json())
+            .then((data) => {
+                setListInfo(data);
+            })
+            .catch((e) => {
+                console.log('e1=>', e);
             });
-
-            setListInfo([...tmpArray]);
-            handleDialogClose();
-            itemDetailInitial();
-        }
     };
-
-    //刪除
-    const deletelistInfoItem = (deleteItem) => {
-        let tmpArray = listInfo.map((i) => i);
-        tmpArray.splice(deleteItem, 1);
-        setListInfo([...tmpArray]);
-    };
-
-    //編輯
-    const editlistInfoItem = () => {
-        let tmpArray = listInfo[editItem];
-        if (tmpArray) {
-            setBillMilestone(tmpArray?.billMilestone);
-            partyName.current = tmpArray?.partyName;
-            setLBRatio(tmpArray?.lBRatio);
-            setModifyNote(tmpArray?.modifyNote);
-        }
-    };
-
-    //儲存編輯
-    const saveEdit = () => {
-        setEditItem(NaN);
-        deletelistInfoItem(editItem);
-        addLiability();
-        setIsListEdit(false);
-        itemDetailInitial();
-    };
-
-    useEffect(() => {
-        itemDetailInitial();
-        if (editItem >= 0) {
-            editlistInfoItem();
-            setIsDialogOpen(true);
-        }
-    }, [editItem]);
 
     return (
         <Grid container spacing={1}>
-            {/* <Grid item xs={12} display="flex" justifyContent="right">
-                <Button sx={{ mr: '0.25rem' }} variant="contained" onClick={handleDialogOpen}>
-                    + 新增Credit Balance
-                </Button>
-                <CreditBalanceAdd
-                    handleDialogClose={handleDialogClose}
-                    addLiability={addLiability}
-                    saveEdit={saveEdit}
-                    partyName={partyName}
-                    setPartyName={setPartyName}
-                    isDialogOpen={isDialogOpen}
-                    billMilestone={billMilestone}
-                    setBillMilestone={setBillMilestone}
-                    dialogAction={dialogAction}
-                    lBRatio={lBRatio}
-                    setLBRatio={setLBRatio}
-                />
-            </Grid> */}
             <Grid item xs={12}>
-                <ReceivableQuery receivableQuery={receivableQuery} />
+                <SupplierPaymentQuery setListInfo={setListInfo} queryApi={queryApi} value={value} />
             </Grid>
             <Grid item xs={12}>
                 <MainCard title={`${value == 0 ? '待確認' : value == 1 ? '已確認' : '函稿'}資料列表`}>
@@ -144,7 +440,8 @@ const SupplierPayment = () => {
                         </Tabs>
                     </Box>
                     <TabPanel value={value} index={0}>
-                        <ToPaymentDataList />
+                        {/* <ToPaymentDataList listInfo={listInfo} /> */}
+                        <ToPaymentDataList listInfo={fakeData} />
                     </TabPanel>
                     <TabPanel value={value} index={1}>
                         <PaymentedDataList />
