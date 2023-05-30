@@ -17,10 +17,6 @@ const CreditBalance = () => {
     const [listInfo, setListInfo] = useState([]);
     const [isDialogOpen, setIsDialogOpen] = useState(false);
 
-    const [billMilestone, setBillMilestone] = useState(''); //計帳段號
-    const [partyName, setPartyName] = useState([]); //會員名稱
-    const [editItem, setEditItem] = useState(NaN);
-
     const handleDialogOpen = () => {
         setIsDialogOpen(true);
     };
@@ -28,29 +24,6 @@ const CreditBalance = () => {
     const handleDialogClose = () => {
         setIsDialogOpen(false);
     };
-
-    const itemDetailInitial = () => {
-        setBillMilestone('');
-        setPartyName([]);
-    };
-
-    //編輯
-    const editlistInfoItem = () => {
-        let tmpArray = listInfo[editItem];
-        if (tmpArray) {
-            setBillMilestone(tmpArray?.billMilestone);
-            partyName.current = tmpArray?.partyName;
-            setModifyNote(tmpArray?.modifyNote);
-        }
-    };
-
-    useEffect(() => {
-        itemDetailInitial();
-        if (editItem >= 0) {
-            editlistInfoItem();
-            setIsDialogOpen(true);
-        }
-    }, [editItem]);
 
     return (
         <Grid container spacing={1}>
@@ -61,7 +34,6 @@ const CreditBalance = () => {
                 <CreditBalanceAdd
                     handleDialogClose={handleDialogClose}
                     isDialogOpen={isDialogOpen}
-                    billMilestone={billMilestone}
                     partiesList={partiesList}
                     subCableList={subCableList}
                     queryApi={queryApi.current}

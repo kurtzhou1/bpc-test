@@ -57,6 +57,7 @@ const CreditBalanceDataList = ({ listInfo, setIsDialogOpen }) => {
                             <StyledTableCell align="center">會員</StyledTableCell>
                             <StyledTableCell align="center">發票號碼</StyledTableCell>
                             <StyledTableCell align="center">帳單號碼</StyledTableCell>
+                            <StyledTableCell align="center">計帳段號</StyledTableCell>
                             <StyledTableCell align="center">海纜名稱</StyledTableCell>
                             <StyledTableCell align="center">海纜作業</StyledTableCell>
                             <StyledTableCell align="center">剩餘金額</StyledTableCell>
@@ -77,6 +78,7 @@ const CreditBalanceDataList = ({ listInfo, setIsDialogOpen }) => {
                                     <StyledTableCell align="center">{row.PartyName}</StyledTableCell>
                                     <StyledTableCell align="center">{row.InvoiceNo}</StyledTableCell>
                                     <StyledTableCell align="center">{row.BillingNo}</StyledTableCell>
+                                    <StyledTableCell align="center">{row.BillMilestone}</StyledTableCell>
                                     <StyledTableCell align="center">{row.SubmarineCable}</StyledTableCell>
                                     <StyledTableCell align="center">{row.WorkTitle}</StyledTableCell>
                                     <StyledTableCell align="center">{`$${handleNumber(row.CurrAmount)}`}</StyledTableCell>

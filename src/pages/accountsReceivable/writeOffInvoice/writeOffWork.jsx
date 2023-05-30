@@ -245,19 +245,9 @@ const WriteOffWork = ({ isDialogOpen, handleDialogClose, writeOffInfo, writeOffD
         }
     }, [writeOffDetail, isDialogOpen]);
 
-    console.log('toWriteOffDetailInfo=>>', toWriteOffDetailInfo);
-
     return (
-        <Dialog
-            // onClose={handleDialogClose}
-            maxWidth="xxl"
-            open={isDialogOpen}
-        >
-            <BootstrapDialogTitle
-            // onClose={handleDialogClose}
-            >
-                {action !== 'view' ? '收款銷帳作業' : '已銷帳明細'}
-            </BootstrapDialogTitle>
+        <Dialog maxWidth="xxl" open={isDialogOpen}>
+            <BootstrapDialogTitle>{action !== 'view' ? '收款銷帳作業' : '已銷帳明細'}</BootstrapDialogTitle>
             <DialogContent>
                 <Grid container spacing={1} display="flex" justifyContent="center" alignItems="center" sx={{ fontSize: 10 }}>
                     <Grid item xs={12} sm={12} md={12} lg={12}>
@@ -322,7 +312,7 @@ const WriteOffWork = ({ isDialogOpen, handleDialogClose, writeOffInfo, writeOffD
                                         <TableRow>
                                             <StyledTableCell align="center">發票號碼</StyledTableCell>
                                             <StyledTableCell align="center">費用項目</StyledTableCell>
-                                            <StyledTableCell align="center">記帳段號</StyledTableCell>
+                                            <StyledTableCell align="center">計帳段號</StyledTableCell>
                                             <StyledTableCell align="center">原始費用</StyledTableCell>
                                             <StyledTableCell align="center">折抵</StyledTableCell>
                                             <StyledTableCell align="center">應繳</StyledTableCell>

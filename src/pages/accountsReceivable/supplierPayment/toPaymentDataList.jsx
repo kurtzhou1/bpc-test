@@ -1,4 +1,4 @@
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 
 // project import
 import PaymentWork from './paymentWork';
@@ -58,64 +58,11 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
 }));
 
 const ToWriteOffDataList = ({ listInfo }) => {
+    console.log('listInfo=>>', listInfo);
     const [isColumn2Open, setIsColumn2Open] = useState(true);
     const [isColumn3Open, setIsColumn3Open] = useState(true);
     const [isColumn4Open, setIsColumn4Open] = useState(true);
     // let tmpBMArray = [];
-
-    const fakeData = {
-        TotalAmount: 5582012.72,
-        InvoiceMaster: [
-            {
-                InvMasterID: 1,
-                WKMasterID: 1,
-                InvoiceNo: 'DT0170168-1',
-                PartyName: 'Edge',
-                SupplierName: 'NEC',
-                SubmarineCable: 'SJC2',
-                WorkTitle: 'Construction',
-                IssueDate: '2022-09-09T00:00:00',
-                DueDate: '2022-11-08T00:00:00',
-                IsPro: false,
-                ContractType: 'SC',
-                Status: ''
-            }
-        ],
-        InvoiceDetail: [
-            {
-                WKMasterID: 1,
-                WKDetailID: 1,
-                InvMasterID: 1,
-                InvoiceNo: 'DT0170168-1',
-                PartyName: 'Edge',
-                SupplierName: 'NEC',
-                SubmarineCable: 'SJC2',
-                WorkTitle: 'Construction',
-                BillMilestone: 'BM9a',
-                FeeItem: 'BM9a Sea...',
-                LBRatio: 28.5714285714,
-                FeeAmountPre: 1288822.32,
-                FeeAmountPost: 369234.95,
-                Difference: 0
-            },
-            {
-                WKMasterID: 2,
-                WKDetailID: 2,
-                InvMasterID: 2,
-                InvoiceNo: 'DT0170168-2',
-                PartyName: 'Edge',
-                SupplierName: 'NEC',
-                SubmarineCable: 'SJC2',
-                WorkTitle: 'Construction',
-                BillMilestone: 'BM9a',
-                FeeItem: 'BM12a Under the Sea',
-                LBRatio: 28.5714285714,
-                FeeAmountPre: 1288844.44,
-                FeeAmountPost: 368244.44,
-                Difference: 0
-            }
-        ]
-    };
 
     const columns1 = [
         { id: '海纜名稱', label: '海纜名稱', minWidth: '90px', align: 'center', className: '' },
@@ -218,22 +165,42 @@ const ToWriteOffDataList = ({ listInfo }) => {
         }
     ];
 
+    const [toPaymentList, setToPaymentList] = useState([]);
     const [isDialogOpen, setIsDialogOpen] = useState(false); //折抵作業
-    const editPaymentInfo = useRef({});
+    const editPaymentInfo = useRef([]);
     const actionName = useRef('');
+    const invoiceNoEdit = useRef('');
+    const dueDateEdit = useRef('');
 
-    const handleDialogOpen = (info) => {
+    const handleDialogOpen = (info, invoiceNo, dueDate) => {
         // let tmpArray = info.BillDetail.map((i) => i);
         editPaymentInfo.current = info;
-        // setWriteOffDetail(tmpArray);
+        invoiceNoEdit.current = invoiceNo;
+        dueDateEdit.current = dueDate;
         setIsDialogOpen(true);
     };
 
     const handleDialogClose = () => {
-        editPaymentInfo.current = {};
-        setWriteOffDetail([]);
+        editPaymentInfo.current = [];
+        invoiceNoEdit.current = '';
         setIsDialogOpen(false);
     };
+
+    const savePaymentEdit = (info) => {
+        console.log('info=>>', info);
+        let tmpArray = toPaymentList.map((i) => i);
+        tmpArray.forEach((i) => {
+            if ((i.InvoiceWKMaster.InvoiceNo = invoiceNoEdit.current)) {
+                i.BillDetailList = info;
+            }
+        });
+        setToPaymentList(tmpArray);
+        handleDialogClose();
+    };
+
+    useEffect(() => {
+        setToPaymentList(listInfo);
+    }, [listInfo]);
 
     return (
         <>
@@ -242,6 +209,9 @@ const ToWriteOffDataList = ({ listInfo }) => {
                 handleDialogClose={handleDialogClose}
                 editPaymentInfo={editPaymentInfo.current}
                 actionName={actionName.current}
+                invoiceNo={invoiceNoEdit.current}
+                dueDate={dueDateEdit.current}
+                savePaymentEdit={savePaymentEdit}
             />
             <TableContainer component={Paper} sx={{ maxHeight: 400 }}>
                 <Table sx={{ minWidth: 300 }} stickyHeader aria-label="sticky table">
@@ -343,7 +313,7 @@ const ToWriteOffDataList = ({ listInfo }) => {
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {listInfo?.map((row, id) => {
+                        {toPaymentList?.map((row, id) => {
                             // tmpBMArray = [];
                             // row?.BillDetailList.forEach((i) => {
                             //     if (!tmpBMArray.includes(i.BillMilestone)) {
@@ -353,7 +323,7 @@ const ToWriteOffDataList = ({ listInfo }) => {
                             return (
                                 <TableRow key={row.WKMasterID + row.InvoiceNo} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
                                     <StyledTableCell align="center">{id + 1}</StyledTableCell>
-                                    <StyledTableCell align="center">{row?.InvoiceWKMaster?.InvoiceNo}</StyledTableCell>
+                                    <StyledTableCell align="center">{row?.InvoiceWKMaster?.PartyName}</StyledTableCell>
                                     <StyledTableCell align="center">{row?.InvoiceWKMaster?.SupplierName}</StyledTableCell>
                                     <StyledTableCell align="center">{row?.InvoiceWKMaster?.SubmarineCable}</StyledTableCell>
                                     <StyledTableCell align="center">{row?.InvoiceWKMaster?.WorkTitle}</StyledTableCell>
@@ -371,7 +341,11 @@ const ToWriteOffDataList = ({ listInfo }) => {
                                                 size="small"
                                                 variant="outlined"
                                                 onClick={() => {
-                                                    handleDialogOpen(row.BillDetailList);
+                                                    handleDialogOpen(
+                                                        row.BillDetailList,
+                                                        row.InvoiceWKMaster.InvoiceNo,
+                                                        row.InvoiceWKMaster.DueDate
+                                                    );
                                                 }}
                                             >
                                                 編輯付款資訊

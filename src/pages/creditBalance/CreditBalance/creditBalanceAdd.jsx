@@ -42,7 +42,7 @@ import { queryCB } from 'components/apis.jsx';
 import { useDispatch } from 'react-redux';
 import { setMessageStateOpen } from 'store/reducers/dropdown';
 
-const CreditBalanceAdd = ({ handleDialogClose, isDialogOpen, billMilestone, partiesList, subCableList, queryApi, setListInfo }) => {
+const CreditBalanceAdd = ({ handleDialogClose, isDialogOpen, partiesList, subCableList, queryApi, setListInfo }) => {
     const dispatch = useDispatch();
     const [cBType, setCBType] = useState(''); // CB種類
     const [partyName, setPartyName] = useState(''); //會員代號
@@ -52,6 +52,7 @@ const CreditBalanceAdd = ({ handleDialogClose, isDialogOpen, billMilestone, part
     const [billingNo, setBillingNo] = useState(''); // 帳單號碼
     const [submarineCable, setSubmarineCable] = useState(''); // 海纜名稱
     const [workTitle, setWorkTitle] = useState(''); // 海纜作業
+    const [billMilestone, setBillMilestone] = useState(''); // 計帳段號
 
     const infoInitial = () => {
         setCBType('');
@@ -126,24 +127,16 @@ const CreditBalanceAdd = ({ handleDialogClose, isDialogOpen, billMilestone, part
     };
 
     return (
-        <Dialog
-            // onClose={() => {
-            //     infoInitial();
-            //     handleDialogClose();
-            // }}
-            maxWidth="sm"
-            fullWidth
-            open={isDialogOpen}
-        >
+        <Dialog maxWidth="md" fullWidth open={isDialogOpen}>
             <BootstrapDialogTitle>新增Credit Balance</BootstrapDialogTitle>
             <DialogContent dividers>
                 <Grid container spacing={1} display="flex" justifyContent="center" alignItems="center">
-                    <Grid item xs={3} sm={3} md={3} lg={3} display="flex" justifyContent="center">
+                    <Grid item xs={2} sm={2} md={2} lg={2} display="flex" justifyContent="center">
                         <Typography variant="h5" sx={{ fontSize: { lg: '0.5rem', xl: '0.88rem' }, ml: { lg: '0.5rem', xl: '1.5rem' } }}>
                             CB種類：
                         </Typography>
                     </Grid>
-                    <Grid item xs={3} sm={3} md={3} lg={3}>
+                    <Grid item xs={2} sm={2} md={2} lg={2}>
                         <FormControl fullWidth size="small">
                             <InputLabel id="demo-simple-select-label">選擇CB種類</InputLabel>
                             <Select value={cBType} label="填寫海纜作業" onChange={(e) => setCBType(e.target.value)}>
@@ -155,12 +148,12 @@ const CreditBalanceAdd = ({ handleDialogClose, isDialogOpen, billMilestone, part
                             </Select>
                         </FormControl>
                     </Grid>
-                    <Grid item xs={3} sm={3} md={3} lg={3} display="flex" justifyContent="center">
+                    <Grid item xs={2} sm={2} md={2} lg={2} display="flex" justifyContent="center">
                         <Typography variant="h5" sx={{ fontSize: { lg: '0.5rem', xl: '0.88rem' }, ml: { lg: '0.5rem', xl: '1.5rem' } }}>
                             摘要：
                         </Typography>
                     </Grid>
-                    <Grid item xs={3} sm={3} md={3} lg={3}>
+                    <Grid item xs={2} sm={2} md={2} lg={2}>
                         <TextField
                             fullWidth
                             variant="outlined"
@@ -170,12 +163,12 @@ const CreditBalanceAdd = ({ handleDialogClose, isDialogOpen, billMilestone, part
                             onChange={(e) => setNote(e.target.value)}
                         />
                     </Grid>
-                    <Grid item xs={3} sm={3} md={3} lg={3} display="flex" justifyContent="center">
+                    <Grid item xs={2} sm={2} md={2} lg={2} display="flex" justifyContent="center">
                         <Typography variant="h5" sx={{ fontSize: { lg: '0.5rem', xl: '0.88rem' }, ml: { lg: '0.5rem', xl: '1.5rem' } }}>
                             會員代號：
                         </Typography>
                     </Grid>
-                    <Grid item xs={3} sm={3} md={3} lg={3}>
+                    <Grid item xs={2} sm={2} md={2} lg={2}>
                         <FormControl fullWidth size="small">
                             <InputLabel id="demo-simple-select-label">選擇會員</InputLabel>
                             <Select value={partyName} label="會員" onChange={(e) => setPartyName(e.target.value)}>
@@ -185,13 +178,13 @@ const CreditBalanceAdd = ({ handleDialogClose, isDialogOpen, billMilestone, part
                             </Select>
                         </FormControl>
                     </Grid>
-                    {/* <Grid item xs={3} sm={3} md={3} lg={3} xl={6} /> */}
-                    <Grid item xs={3} sm={3} md={3} lg={3} display="flex" justifyContent="center">
+                    {/* <Grid item xs={2} sm={2} md={2} lg={2} xl={6} /> */}
+                    <Grid item xs={2} sm={2} md={2} lg={2} display="flex" justifyContent="center">
                         <Typography variant="h5" sx={{ fontSize: { lg: '0.5rem', xl: '0.88rem' }, ml: { lg: '0.5rem', xl: '1.5rem' } }}>
                             剩餘金額：
                         </Typography>
                     </Grid>
-                    <Grid item xs={3} sm={3} md={3} lg={3}>
+                    <Grid item xs={2} sm={2} md={2} lg={2}>
                         <TextField
                             fullWidth
                             variant="outlined"
@@ -202,13 +195,13 @@ const CreditBalanceAdd = ({ handleDialogClose, isDialogOpen, billMilestone, part
                         />
                     </Grid>
 
-                    {/* <Grid item xs={3} sm={3} md={3} lg={3} xl={6} /> */}
-                    <Grid item xs={3} sm={3} md={3} lg={3} display="flex" justifyContent="center">
+                    {/* <Grid item xs={2} sm={2} md={2} lg={2} xl={6} /> */}
+                    <Grid item xs={2} sm={2} md={2} lg={2} display="flex" justifyContent="center">
                         <Typography variant="h5" sx={{ fontSize: { lg: '0.5rem', xl: '0.88rem' }, ml: { lg: '0.5rem', xl: '1.5rem' } }}>
                             發票號碼：
                         </Typography>
                     </Grid>
-                    <Grid item xs={3} sm={3} md={3} lg={3}>
+                    <Grid item xs={2} sm={2} md={2} lg={2}>
                         <TextField
                             fullWidth
                             variant="outlined"
@@ -218,12 +211,12 @@ const CreditBalanceAdd = ({ handleDialogClose, isDialogOpen, billMilestone, part
                             onChange={(e) => setInvoiceNo(e.target.value)}
                         />
                     </Grid>
-                    <Grid item xs={3} sm={3} md={3} lg={3} display="flex" justifyContent="center">
+                    <Grid item xs={2} sm={2} md={2} lg={2} display="flex" justifyContent="center">
                         <Typography variant="h5" sx={{ fontSize: { lg: '0.5rem', xl: '0.88rem' }, ml: { lg: '0.5rem', xl: '1.5rem' } }}>
                             帳單號碼：
                         </Typography>
                     </Grid>
-                    <Grid item xs={3} sm={3} md={3} lg={3}>
+                    <Grid item xs={2} sm={2} md={2} lg={2}>
                         <TextField
                             fullWidth
                             variant="outlined"
@@ -233,13 +226,13 @@ const CreditBalanceAdd = ({ handleDialogClose, isDialogOpen, billMilestone, part
                             onChange={(e) => setBillingNo(e.target.value)}
                         />
                     </Grid>
-                    {/* <Grid item xs={3} sm={3} md={3} lg={3} xl={6} /> */}
-                    <Grid item xs={3} sm={3} md={3} lg={3} display="flex" justifyContent="center">
+                    {/* <Grid item xs={2} sm={2} md={2} lg={2} xl={6} /> */}
+                    <Grid item xs={2} sm={2} md={2} lg={2} display="flex" justifyContent="center">
                         <Typography variant="h5" sx={{ fontSize: { lg: '0.5rem', xl: '0.88rem' }, ml: { lg: '0.5rem', xl: '1.5rem' } }}>
                             海纜名稱：
                         </Typography>
                     </Grid>
-                    <Grid item xs={3} sm={3} md={3} lg={3}>
+                    <Grid item xs={2} sm={2} md={2} lg={2}>
                         <FormControl fullWidth size="small">
                             <InputLabel>選擇海纜名稱</InputLabel>
                             <Select value={submarineCable} label="海纜名稱" onChange={(e) => setSubmarineCable(e.target.value)}>
@@ -251,12 +244,12 @@ const CreditBalanceAdd = ({ handleDialogClose, isDialogOpen, billMilestone, part
                             </Select>
                         </FormControl>
                     </Grid>
-                    <Grid item xs={3} sm={3} md={3} lg={3} display="flex" justifyContent="center">
+                    <Grid item xs={2} sm={2} md={2} lg={2} display="flex" justifyContent="center">
                         <Typography variant="h5" sx={{ fontSize: { lg: '0.5rem', xl: '0.88rem' }, ml: { lg: '0.5rem', xl: '1.5rem' } }}>
                             海纜作業：
                         </Typography>
                     </Grid>
-                    <Grid item xs={3} sm={3} md={3} lg={3}>
+                    <Grid item xs={2} sm={2} md={2} lg={2}>
                         <FormControl fullWidth size="small">
                             <InputLabel id="billMilestone">選擇海纜作業</InputLabel>
                             <Select value={workTitle} label="海纜作業" onChange={(e) => setWorkTitle(e.target.value)}>
@@ -265,6 +258,21 @@ const CreditBalanceAdd = ({ handleDialogClose, isDialogOpen, billMilestone, part
                                 <MenuItem value={'O&M'}>O&M</MenuItem>
                             </Select>
                         </FormControl>
+                    </Grid>
+                    <Grid item xs={2} sm={2} md={2} lg={2} display="flex" justifyContent="center">
+                        <Typography variant="h5" sx={{ fontSize: { lg: '0.5rem', xl: '0.88rem' }, ml: { lg: '0.5rem', xl: '1.5rem' } }}>
+                            計帳段號：
+                        </Typography>
+                    </Grid>
+                    <Grid item xs={2} sm={2} md={2} lg={2}>
+                        <TextField
+                            fullWidth
+                            variant="outlined"
+                            value={billMilestone}
+                            size="small"
+                            label="填寫計帳段號"
+                            onChange={(e) => setBillMilestone(e.target.value)}
+                        />
                     </Grid>
                 </Grid>
             </DialogContent>
