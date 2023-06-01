@@ -35,7 +35,7 @@ import { updateLiability } from 'components/apis.jsx';
 const GenerateFeeTerminate = ({ infoTerminal, handleTerminalClose, receivableQuery, editBillingNo, editBillMasterID }) => {
     const [endNote, setEndNote] = useState([]);
 
-    const terminalLiability = () => {
+    const terminalBill = () => {
         console.log('terminateInfo=>>', terminateInfo);
         let tmpArray = {
             LBRawID: terminateInfo.LBRawID,
@@ -53,17 +53,8 @@ const GenerateFeeTerminate = ({ infoTerminal, handleTerminalClose, receivableQue
     };
 
     return (
-        <Dialog
-            // onClose={handleTerminalClose}
-            maxWidth="xs"
-            fullWidth
-            open={infoTerminal}
-        >
-            <BootstrapDialogTitle
-            // onClose={handleTerminalClose}
-            >
-                確認終止訊息
-            </BootstrapDialogTitle>
+        <Dialog maxWidth="xs" fullWidth open={infoTerminal}>
+            <BootstrapDialogTitle>確認終止訊息</BootstrapDialogTitle>
             <DialogContent dividers>
                 <Grid container spacing={1} display="flex" justifyContent="center" alignItems="center">
                     {/* row3 */}
@@ -90,7 +81,7 @@ const GenerateFeeTerminate = ({ infoTerminal, handleTerminalClose, receivableQue
                     sx={{ mr: '0.05rem' }}
                     variant="contained"
                     onClick={() => {
-                        terminalLiability();
+                        terminalBill();
                     }}
                 >
                     確定

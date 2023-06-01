@@ -56,7 +56,7 @@ const GenerateBack = ({ action, infoBack, handleBackClose, receivableQuery, edit
         }
     }));
 
-    const terminalBill = () => {
+    const backBill = () => {
         console.log('terminateInfo=>>', terminateInfo);
         const queryApi = action === 'toDeduct' ? beforeDuction : afterDeduction;
         let tmpArray = {
@@ -101,7 +101,7 @@ const GenerateBack = ({ action, infoBack, handleBackClose, receivableQuery, edit
                     sx={{ mr: '0.05rem' }}
                     variant="contained"
                     onClick={() => {
-                        terminalBill();
+                        backBill();
                     }}
                 >
                     確定

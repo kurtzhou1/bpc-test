@@ -195,8 +195,6 @@ const ToPaymentDataList = ({ listInfo, cbToCn, setCbToCn, isSend, setIsSend, sup
         setFinishList({ ...finishList, [event.target.value]: event.target.checked });
     };
 
-    console.log('finishList=>>', finishList);
-
     const handleDialogOpen = (info, invoiceNo, dueDate) => {
         // let tmpArray = info.BillDetail.map((i) => i);
         editPaymentInfo.current = info;
@@ -243,9 +241,12 @@ const ToPaymentDataList = ({ listInfo, cbToCn, setCbToCn, isSend, setIsSend, sup
                 i.Status = 'COMPLETE';
             }
         });
+        let sendTmpArray = {
+            PaymentList: tmpArray
+        };
         fetch(sendPayment, {
             method: 'POST',
-            body: JSON.stringify(tmpArray)
+            body: JSON.stringify(sendTmpArray)
         })
             .then((res) => res.json())
             .then((data) => {
@@ -280,8 +281,6 @@ const ToPaymentDataList = ({ listInfo, cbToCn, setCbToCn, isSend, setIsSend, sup
             setIsSend(false);
         }
     }, [isSend]);
-
-    console.log('toPaymentList=>>', toPaymentList);
 
     return (
         <>
