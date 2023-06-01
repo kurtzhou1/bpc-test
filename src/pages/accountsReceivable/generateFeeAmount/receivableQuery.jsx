@@ -93,7 +93,9 @@ const ReceivableQuery = ({ value, setListInfo, queryApi }) => {
         fetch(tmpQuery, { method: 'GET' })
             .then((res) => res.json())
             .then((data) => {
-                setListInfo(data);
+                if (Array.isArray(data)) {
+                    setListInfo(data);
+                }
             })
             .catch((e) => {
                 console.log('e1=>', e);
