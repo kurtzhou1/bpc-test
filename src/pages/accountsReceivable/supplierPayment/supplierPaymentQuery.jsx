@@ -93,8 +93,9 @@ const SupplierPaymentQuery = ({ setListInfo, queryApi, value }) => {
         fetch(tmpQuery, { method: 'GET' })
             .then((res) => res.json())
             .then((data) => {
-                console.log('data=>>', data);
-                setListInfo(data);
+                if (Array.isArray(data)) {
+                    setListInfo(data);
+                }
             })
             .catch((e) => {
                 console.log('e1=>', e);

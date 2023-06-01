@@ -146,7 +146,6 @@ const BillDraftMake = ({
     action,
     billingNo
 }) => {
-    console.log('issueDateDefault=>>', issueDateDefault);
     const [dataList, setDataList] = useState([]);
     const [contact, setContact] = useState('chang_ty');
     const [contactList, setContactList] = useState([]);

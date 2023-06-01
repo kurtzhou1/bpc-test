@@ -3,6 +3,7 @@ import { useState, useRef } from 'react';
 // project import
 import { handleNumber, BootstrapDialogTitle } from 'components/commonFunction';
 import SignedDataWork from './signedDataWork';
+import GenerateTerminate from './generateTerminate';
 // material-ui
 import {
     Typography,
@@ -55,6 +56,8 @@ const SignedDataList = ({ dataList, receivableQuery }) => {
     const [infoTerminal, setInfoTerminal] = useState(false); //作廢
     const [isDeductedWorkOpen, setIsDeductedWorkOpen] = useState(false); //產製帳單
     const billDetailInfo = useRef([]);
+    const editBillingNo = useRef('');
+    const editBillMasterID = useRef('');
 
     const toWriteOff = (billMasterID) => {
         let tmpData = {
@@ -100,8 +103,25 @@ const SignedDataList = ({ dataList, receivableQuery }) => {
         setIsDeductedWorkOpen(true);
     };
 
+    const handleTerminalClose = () => {
+        setInfoTerminal(false);
+    };
+
+    const handleInfoTerminal = (no, id) => {
+        editBillingNo.current = no;
+        editBillMasterID.current = id;
+        setInfoTerminal(true);
+    };
+
     return (
         <>
+            <GenerateTerminate
+                infoTerminal={infoTerminal}
+                handleTerminalClose={handleTerminalClose}
+                receivableQuery={receivableQuery}
+                editBillingNo={editBillingNo.current}
+                editBillMasterID={editBillMasterID.current}
+            />
             <SignedDataWork
                 isDeductedWorkOpen={isDeductedWorkOpen}
                 handleDeductedClose={handleDeductedClose}
@@ -198,7 +218,7 @@ const SignedDataList = ({ dataList, receivableQuery }) => {
                                                 size="small"
                                                 variant="outlined"
                                                 onClick={() => {
-                                                    setInfoTerminal(true);
+                                                    handleInfoTerminal(row.BillMaster.BillingNo, row.BillMaster.BillMasterID);
                                                 }}
                                             >
                                                 作廢

@@ -32,7 +32,7 @@ import CheckBoxIcon from '@mui/icons-material/CheckBox';
 // api
 import { updateLiability } from 'components/apis.jsx';
 
-const GenerateFeeTerminate = ({ infoTerminal, handleTerminalClose }) => {
+const GenerateFeeTerminate = ({ infoTerminal, handleTerminalClose, receivableQuery, editBillingNo, editBillMasterID }) => {
     const [endNote, setEndNote] = useState([]);
 
     const terminalLiability = () => {
@@ -70,10 +70,10 @@ const GenerateFeeTerminate = ({ infoTerminal, handleTerminalClose }) => {
                     <Grid item xs={12} sm={12} md={12} lg={12} display="flex">
                         <Typography variant="h5" sx={{ fontSize: { lg: '0.5rem', xl: '0.88rem' }, ml: { lg: '0.5rem', xl: '1.5rem' } }}>
                             {/* {`是否確定刪除${terminateInfo.BillMilestone}、${terminateInfo.PartyName}的Credit Balance資料`} */}
-                            {`是否確定終止此Credit Balance資料`}
+                            {`是否確定作廢此${editBillingNo}帳單`}
                         </Typography>
                     </Grid>
-                    <Grid item xs={12} sm={12} md={12} lg={12} display="flex">
+                    {/* <Grid item xs={12} sm={12} md={12} lg={12} display="flex">
                         <TextField
                             fullWidth
                             variant="outlined"
@@ -82,7 +82,7 @@ const GenerateFeeTerminate = ({ infoTerminal, handleTerminalClose }) => {
                             label="填寫終止原因"
                             onChange={(e) => setEndNote(e.target.value)}
                         />
-                    </Grid>
+                    </Grid> */}
                 </Grid>
             </DialogContent>
             <DialogActions>

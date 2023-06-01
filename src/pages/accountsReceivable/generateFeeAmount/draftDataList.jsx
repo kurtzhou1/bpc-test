@@ -4,7 +4,7 @@ import { useState, useRef } from 'react';
 import { handleNumber, BootstrapDialogTitle } from 'components/commonFunction';
 import BillDraftMake from './billDraftMake';
 // import DeductWork from './deductWork';
-import GenerateFeeTerminate from './generateFeeTerminate';
+import GenerateFeeTerminate from './generateTerminate';
 import SignAndUpload from './signAndUpload';
 import GenerateBack from './generateBack';
 // material-ui

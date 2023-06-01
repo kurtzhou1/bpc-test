@@ -4,7 +4,7 @@ import { useState, useRef } from 'react';
 import DeductWork from './toDeductWork';
 import { handleNumber } from 'components/commonFunction';
 import MainCard from 'components/MainCard';
-import GenerateFeeTerminate from './generateFeeTerminate';
+import GenerateTerminate from './generateTerminate';
 import GenerateBack from './generateBack';
 
 // material-ui
@@ -41,6 +41,8 @@ const ToGenerateDataList = ({ dataList, receivableQuery }) => {
     const [editItem, setEditItem] = useState();
     const [infoTerminal, setInfoTerminal] = useState(false);
     const billMaster = useRef({});
+    const editBillingNo = useRef('');
+    const editBillMasterID = useRef('');
 
     const handleDeductClose = () => {
         setIsDeductOpen(false);
@@ -70,6 +72,14 @@ const ToGenerateDataList = ({ dataList, receivableQuery }) => {
 
     const handleBackClose = () => {
         setInfoBack(false);
+        editBillingNo.current = '';
+        editBillMasterID.current = '';
+    };
+
+    const handleInfoBack = (no, id) => {
+        editBillingNo.current = no;
+        editBillMasterID.current = id;
+        setInfoBack(true);
     };
 
     return (
@@ -82,8 +92,15 @@ const ToGenerateDataList = ({ dataList, receivableQuery }) => {
                 actionName={actionName.current}
                 receivableQuery={receivableQuery}
             />
-            <GenerateFeeTerminate infoTerminal={infoTerminal} handleTerminalClose={handleTerminalClose} />
-            <GenerateBack infoBack={infoBack} handleBackClose={handleBackClose} />
+            <GenerateTerminate infoTerminal={infoTerminal} handleTerminalClose={handleTerminalClose} />
+            <GenerateBack
+                action={'toDeduct'}
+                infoBack={infoBack}
+                handleBackClose={handleBackClose}
+                receivableQuery={receivableQuery}
+                editBillingNo={editBillingNo.current}
+                editBillMasterID={editBillMasterID.current}
+            />
             <BillDraftMake
                 isDialogOpen={isDialogOpen}
                 handleDialogClose={handleDialogClose}
@@ -171,7 +188,7 @@ const ToGenerateDataList = ({ dataList, receivableQuery }) => {
                                                 size="small"
                                                 variant="outlined"
                                                 onClick={() => {
-                                                    setInfoBack(true);
+                                                    handleInfoBack(row.BillMaster.BillingNo, row.BillMaster.BillMasterID);
                                                 }}
                                             >
                                                 退回

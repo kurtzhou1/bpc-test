@@ -3,7 +3,7 @@ import { useState, useRef } from 'react';
 // project import
 import { handleNumber, BootstrapDialogTitle } from 'components/commonFunction';
 import DeductedWork from './deductedWork';
-import GenerateFeeTerminate from './generateFeeTerminate';
+import GenerateTerminate from './generateTerminate';
 import GenerateBack from './generateBack';
 import SignAndUpload from './signAndUpload';
 import BillDraftMake from './billDraftMake';
@@ -59,6 +59,8 @@ const DeductedDataList = ({ dataList, receivableQuery }) => {
     const [infoBack, setInfoBack] = useState(false); //退回
     const billMasterID = useRef(-1);
     const billDetailInfo = useRef([]);
+    const editBillingNo = useRef('');
+    const editBillMasterID = useRef('');
 
     const handleDeductedOpen = (data) => {
         billDetailInfo.current = data;
@@ -98,6 +100,8 @@ const DeductedDataList = ({ dataList, receivableQuery }) => {
 
     const handleBackClose = () => {
         setInfoBack(false);
+        editBillingNo.current = '';
+        editBillMasterID.current = '';
     };
 
     return (
@@ -107,8 +111,15 @@ const DeductedDataList = ({ dataList, receivableQuery }) => {
                 handleDeductedClose={handleDeductedClose}
                 billDetailInfo={billDetailInfo.current}
             />
-            {/* <GenerateFeeTerminate infoTerminal={infoTerminal} handleTerminalClose={handleTerminalClose} />
-            <GenerateBack infoBack={infoBack} handleBackClose={handleBackClose} />  */}
+            {/* <GenerateTerminate infoTerminal={infoTerminal} handleTerminalClose={handleTerminalClose} /> */}
+            <GenerateBack
+                action={'deducted'}
+                infoBack={infoBack}
+                handleBackClose={handleBackClose}
+                receivableQuery={receivableQuery}
+                editBillingNo={editBillingNo.current}
+                editBillMasterID={editBillMasterID.current}
+            />
             <BillDraftMake
                 isDialogOpen={isDialogOpen}
                 handleDialogClose={handleDialogClose}

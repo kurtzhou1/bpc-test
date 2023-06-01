@@ -72,8 +72,13 @@ export const downBM = 'http://10.193.130.8:8000/api/v1/BillMaster/signedDraft';
 export const sendToWriteOff = 'http://10.193.130.8:8000/api/v1/BillMaster&BillDetail/toWriteOff';
 
 // 廠商付款處理
-export const querySupplierPayment = 'http://10.193.130.8:8000/api/v1/Payment';
-export const sendPayment = 'http://10.193.130.8:8000/api/v1/Payment/submit';
+export const querySupplierPayment = 'http://10.193.130.8:8000/api/v1/payment';
+export const sendPayment = 'http://10.193.130.8:8000/api/v1/payment/submit';
+
+// 退回-待抵扣
+export const beforeDuction = 'http://10.193.130.8:8000/api/v1/returnBillMaster/beforeduction';
+// 退回-已抵扣
+export const afterDeduction = 'http://10.193.130.8:8000/api/v1/returnBillMaster/afterdeduction';
 
 // 基本資料-Suppliers
 export const addSuppliers = 'http://10.193.130.8:8000/api/v1/Suppliers';

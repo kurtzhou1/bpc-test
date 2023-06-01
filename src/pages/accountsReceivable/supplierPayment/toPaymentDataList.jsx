@@ -281,6 +281,8 @@ const ToPaymentDataList = ({ listInfo, cbToCn, setCbToCn, isSend, setIsSend, sup
         }
     }, [isSend]);
 
+    console.log('toPaymentList=>>', toPaymentList);
+
     return (
         <>
             <Dialog maxWidth="md" fullWidth open={isSendDialogOpen}>
