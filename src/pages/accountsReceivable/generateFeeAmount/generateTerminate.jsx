@@ -33,23 +33,21 @@ import CheckBoxIcon from '@mui/icons-material/CheckBox';
 import { updateLiability } from 'components/apis.jsx';
 
 const GenerateFeeTerminate = ({ infoTerminal, handleTerminalClose, receivableQuery, editBillingNo, editBillMasterID }) => {
-    const [endNote, setEndNote] = useState([]);
+    const [note, setNote] = useState('');
 
     const terminalBill = () => {
-        console.log('terminateInfo=>>', terminateInfo);
         let tmpArray = {
-            LBRawID: terminateInfo.LBRawID,
-            EndDate: terminateInfo.EndDate,
-            EndNote: endNote ? endNote : ''
+            BillMasterID: editBillMasterID,
+            Note: note
         };
-        console.log('', tmpArray);
-        // fetch(updateLiability, { method: 'POST', body: JSON.stringify(tmpArray) })
-        //     .then((res) => res.json())
-        //     .then(() => {
-        //         apiQuery();
-        //         handleTerminalClose();
-        //     })
-        //     .catch((e) => console.log('e1=>', e));
+        fetch(queryApi, { method: 'POST', body: JSON.stringify(tmpArray) })
+            .then((res) => res.json())
+            .then(() => {
+                dispatch(setMessageStateOpen({ messageStateOpen: { isOpen: true, severity: 'success', message: '作廢成功' } }));
+                receivableQuery();
+                handleTerminalClose();
+            })
+            .catch((e) => console.log('e1=>', e));
     };
 
     return (
@@ -64,16 +62,16 @@ const GenerateFeeTerminate = ({ infoTerminal, handleTerminalClose, receivableQue
                             {`是否確定作廢此${editBillingNo}帳單`}
                         </Typography>
                     </Grid>
-                    {/* <Grid item xs={12} sm={12} md={12} lg={12} display="flex">
+                    <Grid item xs={12} sm={12} md={12} lg={12} display="flex">
                         <TextField
                             fullWidth
                             variant="outlined"
                             value={endNote}
                             size="small"
                             label="填寫終止原因"
-                            onChange={(e) => setEndNote(e.target.value)}
+                            onChange={(e) => setNote(e.target.value)}
                         />
-                    </Grid> */}
+                    </Grid>
                 </Grid>
             </DialogContent>
             <DialogActions>
