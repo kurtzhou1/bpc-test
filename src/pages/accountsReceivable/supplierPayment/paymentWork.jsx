@@ -60,7 +60,7 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
 const ToGenerateDataList = ({ isDialogOpen, handleDialogClose, editPaymentInfo, actionName, invoiceNo, dueDate, savePaymentEdit }) => {
     const dispatch = useDispatch();
     const [toPaymentDetailInfo, setToPaymentDetailInfo] = useState([]); //帳單明細檔
-    const feeAmountTotal = useRef(0); //應收金額
+    const orgfeeAmountTotal = useRef(0); //應收金額
     const receivedAmountTotal = useRef(0); //已實收金額
     const paidAmountTotal = useRef(0); //已實付金額
     const toPaymentAmountTotal = useRef(0); //未付款金額
@@ -121,10 +121,10 @@ const ToGenerateDataList = ({ isDialogOpen, handleDialogClose, editPaymentInfo, 
         let tmpArray = JSON.parse(JSON.stringify(editPaymentInfo));
         tmpArray.forEach((i) => {
             // i.PayAmount = i.PayAmount ? i.PayAmount : Number(i.ReceivedAmount - i.PaidAmount);
-            feeAmountTotal.current = feeAmountTotal.current + i.FeeAmount;
+            orgfeeAmountTotal.current = orgfeeAmountTotal.current + i.OrgFeeAmount;
             receivedAmountTotal.current = receivedAmountTotal.current + i.ReceivedAmount;
             paidAmountTotal.current = paidAmountTotal.current + i.PaidAmount;
-            toPaymentAmountTotal.current = toPaymentAmountTotal.current + (i.FeeAmount - i.PaidAmount);
+            toPaymentAmountTotal.current = toPaymentAmountTotal.current + (i.OrgFeeAmount - i.PaidAmount);
             payAmountTotal.current = payAmountTotal.current + (i.PayAmount ? i.PayAmount : Number(i.ReceivedAmount - i.PaidAmount));
         });
         if (isDialogOpen) {
@@ -197,7 +197,7 @@ const ToGenerateDataList = ({ isDialogOpen, handleDialogClose, editPaymentInfo, 
                                     </TableHead>
                                     <TableBody>
                                         {toPaymentDetailInfo?.map((row) => {
-                                            let toPayment = row.FeeAmount - row.PaidAmount;
+                                            let toPayment = row.OrgFeeAmount - row.PaidAmount;
                                             return (
                                                 <TableRow
                                                     key={row.InvoiceNo + row?.BillMasterID + row?.BillDetailID}
@@ -206,7 +206,7 @@ const ToGenerateDataList = ({ isDialogOpen, handleDialogClose, editPaymentInfo, 
                                                     <TableCell align="center">{row.FeeItem}</TableCell>
                                                     <TableCell align="center">{row.BillMilestone}</TableCell>
                                                     <TableCell align="center">{row.PartyName}</TableCell>
-                                                    <TableCell align="center">{`$${handleNumber(row.FeeAmount.toFixed(2))}`}</TableCell>
+                                                    <TableCell align="center">{`$${handleNumber(row.OrgFeeAmount.toFixed(2))}`}</TableCell>
                                                     <TableCell align="center">{`$${handleNumber(
                                                         row.ReceivedAmount.toFixed(2)
                                                     )}`}</TableCell>
@@ -246,7 +246,7 @@ const ToGenerateDataList = ({ isDialogOpen, handleDialogClose, editPaymentInfo, 
                                             <StyledTableCell className="totalAmount" align="center" />
                                             <StyledTableCell className="totalAmount" align="center" />
                                             <StyledTableCell className="totalAmount" align="center">
-                                                {handleNumber(feeAmountTotal.current.toFixed(2))}
+                                                {handleNumber(orgfeeAmountTotal.current.toFixed(2))}
                                             </StyledTableCell>
                                             <StyledTableCell className="totalAmount" align="center">
                                                 {handleNumber(receivedAmountTotal.current.toFixed(2))}
@@ -288,7 +288,7 @@ const ToGenerateDataList = ({ isDialogOpen, handleDialogClose, editPaymentInfo, 
                     onClick={() => {
                         sendInfo();
                         handleSaveEdit();
-                        feeAmountTotal.current = 0;
+                        orgfeeAmountTotal.current = 0;
                         receivedAmountTotal.current = 0;
                         paidAmountTotal.current = 0;
                         toPaymentAmountTotal.current = 0;
@@ -303,7 +303,7 @@ const ToGenerateDataList = ({ isDialogOpen, handleDialogClose, editPaymentInfo, 
                     onClick={() => {
                         handleDialogClose();
                         handleTmpSaveEdit();
-                        feeAmountTotal.current = 0;
+                        orgfeeAmountTotal.current = 0;
                         receivedAmountTotal.current = 0;
                         paidAmountTotal.current = 0;
                         toPaymentAmountTotal.current = 0;

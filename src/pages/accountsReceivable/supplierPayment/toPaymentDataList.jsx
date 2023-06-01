@@ -306,6 +306,15 @@ const ToPaymentDataList = ({ listInfo, cbToCn, setCbToCn, isSend, setIsSend, sup
 
     return (
         <>
+            <PaymentWork
+                isDialogOpen={isDialogOpen}
+                handleDialogClose={handleDialogClose}
+                editPaymentInfo={editPaymentInfo.current}
+                actionName={actionName.current}
+                invoiceNo={invoiceNoEdit.current}
+                dueDate={dueDateEdit.current}
+                savePaymentEdit={savePaymentEdit}
+            />
             <Dialog maxWidth="md" fullWidth open={isSendDialogOpen}>
                 <BootstrapDialogTitle>本次付款資訊</BootstrapDialogTitle>
                 <DialogContent>
@@ -396,15 +405,6 @@ const ToPaymentDataList = ({ listInfo, cbToCn, setCbToCn, isSend, setIsSend, sup
                     </Button>
                 </DialogActions>
             </Dialog>
-            <PaymentWork
-                isDialogOpen={isDialogOpen}
-                handleDialogClose={handleDialogClose}
-                editPaymentInfo={editPaymentInfo.current}
-                actionName={actionName.current}
-                invoiceNo={invoiceNoEdit.current}
-                dueDate={dueDateEdit.current}
-                savePaymentEdit={savePaymentEdit}
-            />
             <TableContainer component={Paper} sx={{ maxHeight: 400 }}>
                 <Table sx={{ minWidth: 300 }} stickyHeader aria-label="sticky table">
                     <TableHead>

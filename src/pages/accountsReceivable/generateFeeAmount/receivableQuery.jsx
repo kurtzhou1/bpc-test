@@ -49,6 +49,8 @@ const ReceivableQuery = ({ value, setListInfo, queryApi }) => {
         setBillingNo('');
     };
 
+    console.log('value=>>', value);
+
     const initQuery = () => {
         let tmpQuery = '';
         if (value === 0) {
