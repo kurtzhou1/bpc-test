@@ -65,7 +65,8 @@ const ReceivableQuery = ({ value, setListInfo, queryApi }) => {
             if (tmpQuery.includes('&')) {
                 tmpQuery = '/' + tmpQuery.slice(0, -1);
             } else {
-                tmpQuery = tmpQuery + '/Status=INITIAL​';
+                tmpQuery = tmpQuery + '/Status' + '=INITIAL';
+                //
             }
             tmpQuery = queryToDecutBill + tmpQuery;
         } else if (value === 2) {
