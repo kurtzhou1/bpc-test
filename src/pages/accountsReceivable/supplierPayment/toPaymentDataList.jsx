@@ -361,7 +361,7 @@ const ToPaymentDataList = ({ listInfo, cbToCn, setCbToCn, isSend, setIsSend, sup
                 </DialogContent>
                 <DialogActions>
                     <Button sx={{ mr: '0.05rem' }} variant="contained" onClick={sendPaymentInfo}>
-                        合併
+                        確認
                     </Button>
                     <Button sx={{ mr: '0.05rem' }} variant="contained" onClick={handleIsSendDialogClose}>
                         關閉
