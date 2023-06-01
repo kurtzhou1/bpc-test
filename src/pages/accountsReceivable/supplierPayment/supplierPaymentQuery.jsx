@@ -89,6 +89,7 @@ const SupplierPaymentQuery = ({ setListInfo, queryApi, value }) => {
             tmpQuery = queryToDecutBill + tmpQuery;
         }
         console.log('按下查詢=>>', tmpQuery);
+        queryApi.current = tmpQuery;
         fetch(tmpQuery, { method: 'GET' })
             .then((res) => res.json())
             .then((data) => {

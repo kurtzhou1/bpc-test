@@ -73,6 +73,7 @@ export const sendToWriteOff = 'http://10.193.130.8:8000/api/v1/BillMaster&BillDe
 
 // 廠商付款處理
 export const querySupplierPayment = 'http://10.193.130.8:8000/api/v1/Payment';
+export const sendPayment = 'http://10.193.130.8:8000/api/v1/Payment/submit';
 
 // 基本資料-Suppliers
 export const addSuppliers = 'http://10.193.130.8:8000/api/v1/Suppliers';

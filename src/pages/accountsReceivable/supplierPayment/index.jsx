@@ -477,6 +477,7 @@ const SupplierPayment = () => {
                             setCbToCn={setCbToCn}
                             isSend={isSend}
                             setIsSend={setIsSend}
+                            supplierPaymentQuery={supplierPaymentQuery}
                         />
                     </TabPanel>
                     <TabPanel value={value} index={1}>
