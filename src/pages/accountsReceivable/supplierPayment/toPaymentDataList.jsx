@@ -175,6 +175,10 @@ const ToPaymentDataList = ({ listInfo, cbToCn, setCbToCn, isSend, setIsSend, sup
     const [finishList, setFinishList] = useState({}); //完成付款結案
     const currentSupplierName = useRef('');
     const [paymentInfo, setPaymentInfo] = useState([]); //付款資訊
+    const paidAmount = useRef(0);
+    // const totalAmount = useRef(0);
+    const [totalAmount, setTotalAmount] = useState(0);
+    const payAmount = useRef(0);
 
     const handleChange = (event, supplierName) => {
         if (currentSupplierName.current === supplierName || currentSupplierName.current === '') {
@@ -232,6 +236,10 @@ const ToPaymentDataList = ({ listInfo, cbToCn, setCbToCn, isSend, setIsSend, sup
 
     const handleIsSendDialogClose = () => {
         setIsSendDialogOpen(false);
+        paidAmount.current = 0;
+        // totalAmount.current = 0;
+        setTotalAmount(0);
+        payAmount.current = 0;
     };
 
     const sendPaymentInfo = () => {
@@ -282,6 +290,20 @@ const ToPaymentDataList = ({ listInfo, cbToCn, setCbToCn, isSend, setIsSend, sup
         }
     }, [isSend]);
 
+    useEffect(() => {
+        if (isSendDialogOpen) {
+            console.log('????', paymentInfo);
+            let tmpTotal = 0;
+            paymentInfo.forEach((i) => {
+                console.log('i=>>', i);
+                paidAmount.current = paidAmount.current + i.ReceivedAmountSum;
+                tmpTotal = tmpTotal + i.InvoiceWKMaster.TotalAmount;
+                payAmount.current = payAmount.current + i.PayAmount;
+            });
+            setTotalAmount(tmpTotal);
+        }
+    }, [isSendDialogOpen]);
+
     return (
         <>
             <Dialog maxWidth="md" fullWidth open={isSendDialogOpen}>
@@ -324,11 +346,9 @@ const ToPaymentDataList = ({ listInfo, cbToCn, setCbToCn, isSend, setIsSend, sup
                                                         row.InvoiceWKMaster.TotalAmount?.toFixed(2)
                                                     )}`}</TableCell>
                                                     <TableCell align="center">{`$${handleNumber(
-                                                        row.InvoiceWKMaster.ReceivedAmountSum?.toFixed(2)
+                                                        row?.ReceivedAmountSum?.toFixed(2)
                                                     )}`}</TableCell>
-                                                    <TableCell align="center">{`$${handleNumber(
-                                                        row.InvoiceWKMaster.PayAmount?.toFixed(2)
-                                                    )}`}</TableCell>
+                                                    <TableCell align="center">{`$${handleNumber(row?.PayAmount?.toFixed(2))}`}</TableCell>
                                                     <TableCell align="center">
                                                         <Checkbox
                                                             value={row.InvoiceWKMaster.InvoiceNo}
@@ -340,7 +360,7 @@ const ToPaymentDataList = ({ listInfo, cbToCn, setCbToCn, isSend, setIsSend, sup
                                                 </TableRow>
                                             );
                                         })}
-                                        {/* <TableRow sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
+                                        <TableRow sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
                                             <StyledTableCell className="totalAmount" align="center">
                                                 Total
                                             </StyledTableCell>
@@ -348,10 +368,19 @@ const ToPaymentDataList = ({ listInfo, cbToCn, setCbToCn, isSend, setIsSend, sup
                                             <StyledTableCell className="totalAmount" align="center"></StyledTableCell>
                                             <StyledTableCell className="totalAmount" align="center"></StyledTableCell>
                                             <StyledTableCell className="totalAmount" align="center"></StyledTableCell>
+                                            <StyledTableCell className="totalAmount" align="center"></StyledTableCell>
                                             <StyledTableCell className="totalAmount" align="center">{`$${handleNumber(
-                                                totalAmount.current?.toFixed(2)
+                                                totalAmount?.toFixed(2)
                                             )}`}</StyledTableCell>
-                                        </TableRow> */}
+                                            <StyledTableCell className="totalAmount" align="center">{`$${handleNumber(
+                                                paidAmount.current?.toFixed(2)
+                                            )}`}</StyledTableCell>
+
+                                            <StyledTableCell className="totalAmount" align="center">{`$${handleNumber(
+                                                payAmount.current?.toFixed(2)
+                                            )}`}</StyledTableCell>
+                                            <StyledTableCell className="totalAmount" align="center"></StyledTableCell>
+                                        </TableRow>
                                     </TableBody>
                                 </Table>
                             </TableContainer>
@@ -463,7 +492,7 @@ const ToPaymentDataList = ({ listInfo, cbToCn, setCbToCn, isSend, setIsSend, sup
                         <TableRow>
                             <StyledTableCell align="center"></StyledTableCell>
                             <StyledTableCell align="center">NO</StyledTableCell>
-                            <StyledTableCell align="center">會員代碼</StyledTableCell>
+                            <StyledTableCell align="center">發票代碼</StyledTableCell>
                             <StyledTableCell align="center">供應商</StyledTableCell>
                             <StyledTableCell align="center">海纜名稱</StyledTableCell>
                             <StyledTableCell align="center">海纜作業</StyledTableCell>
@@ -506,7 +535,7 @@ const ToPaymentDataList = ({ listInfo, cbToCn, setCbToCn, isSend, setIsSend, sup
                                         />
                                     </TableCell>
                                     <StyledTableCell align="center">{id + 1}</StyledTableCell>
-                                    <StyledTableCell align="center">{row?.InvoiceWKMaster?.PartyName}</StyledTableCell>
+                                    <StyledTableCell align="center">{row?.InvoiceWKMaster?.InvoiceNo}</StyledTableCell>
                                     <StyledTableCell align="center">{row?.InvoiceWKMaster?.SupplierName}</StyledTableCell>
                                     <StyledTableCell align="center">{row?.InvoiceWKMaster?.SubmarineCable}</StyledTableCell>
                                     <StyledTableCell align="center">{row?.InvoiceWKMaster?.WorkTitle}</StyledTableCell>
