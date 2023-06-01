@@ -51,6 +51,7 @@ const InvoiceDataList = ({ listInfo, setAction, setModifyItem, page, setPage }) 
 
     const options1 = ['View', 'Validate', 'Edit', 'Delete'];
     const options2 = ['View', '作廢'];
+    const options3 = ['View', '作廢', '退回'];
 
     return (
         <TableContainer component={Paper} sx={{ maxHeight: 640 }}>
@@ -157,26 +158,6 @@ const InvoiceDataList = ({ listInfo, setAction, setModifyItem, page, setPage }) 
                                                     '& button': { mx: { md: 0.2, lg: 0.2, xl: 1 }, p: 0, fontSize: 1 }
                                                 }}
                                             >
-                                                <Button
-                                                    color="primary"
-                                                    variant="outlined"
-                                                    size="small"
-                                                    onClick={() => {
-                                                        setModifyItem(itemID);
-                                                        setAction('View');
-                                                    }}
-                                                >
-                                                    {'View'}
-                                                </Button>
-                                            </Box>
-                                        ) : (
-                                            <Box
-                                                sx={{
-                                                    display: 'flex',
-                                                    justifyContent: 'center',
-                                                    '& button': { mx: { md: 0.2, lg: 0.2, xl: 1 }, p: 0, fontSize: 1 }
-                                                }}
-                                            >
                                                 {options2.map((option) => {
                                                     return (
                                                         <Button
@@ -193,6 +174,51 @@ const InvoiceDataList = ({ listInfo, setAction, setModifyItem, page, setPage }) 
                                                         </Button>
                                                     );
                                                 })}
+                                            </Box>
+                                        ) : row.InvoiceWKMaster.Status === 'BILLED' ? (
+                                            <Box
+                                                sx={{
+                                                    display: 'flex',
+                                                    justifyContent: 'center',
+                                                    '& button': { mx: { md: 0.2, lg: 0.2, xl: 1 }, p: 0, fontSize: 1 }
+                                                }}
+                                            >
+                                                {options3.map((option) => {
+                                                    return (
+                                                        <Button
+                                                            color={option === 'View' ? 'primary' : option === '作廢' ? 'error' : 'info'}
+                                                            key={option}
+                                                            variant="outlined"
+                                                            size="small"
+                                                            onClick={() => {
+                                                                setModifyItem(itemID);
+                                                                setAction(option);
+                                                            }}
+                                                        >
+                                                            {option}
+                                                        </Button>
+                                                    );
+                                                })}
+                                            </Box>
+                                        ) : (
+                                            <Box
+                                                sx={{
+                                                    display: 'flex',
+                                                    justifyContent: 'center',
+                                                    '& button': { mx: { md: 0.2, lg: 0.2, xl: 1 }, p: 0, fontSize: 1 }
+                                                }}
+                                            >
+                                                <Button
+                                                    color="primary"
+                                                    variant="outlined"
+                                                    size="small"
+                                                    onClick={() => {
+                                                        setModifyItem(itemID);
+                                                        setAction('View');
+                                                    }}
+                                                >
+                                                    {'View'}
+                                                </Button>
                                             </Box>
                                         )}
                                     </TableCell>

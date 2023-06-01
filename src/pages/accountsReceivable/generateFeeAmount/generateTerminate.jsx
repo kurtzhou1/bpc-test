@@ -66,7 +66,7 @@ const GenerateFeeTerminate = ({ infoTerminal, handleTerminalClose, receivableQue
                         <TextField
                             fullWidth
                             variant="outlined"
-                            value={endNote}
+                            value={note}
                             size="small"
                             label="填寫終止原因"
                             onChange={(e) => setNote(e.target.value)}
