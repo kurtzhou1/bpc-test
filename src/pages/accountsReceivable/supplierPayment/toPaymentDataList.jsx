@@ -248,6 +248,9 @@ const ToPaymentDataList = ({ listInfo, cbToCn, setCbToCn, isSend, setIsSend, sup
             if (finishList[i.InvoiceWKMaster.InvoiceNo]) {
                 i.Status = 'COMPLETE';
             }
+            i.BillDetailList.forEach((i) => {
+                i.PayAmount = i.PayAmount ? i.PayAmount : 0;
+            });
         });
         let sendTmpArray = {
             PaymentList: tmpArray
@@ -295,7 +298,6 @@ const ToPaymentDataList = ({ listInfo, cbToCn, setCbToCn, isSend, setIsSend, sup
             console.log('????', paymentInfo);
             let tmpTotal = 0;
             paymentInfo.forEach((i) => {
-                console.log('i=>>', i);
                 paidAmount.current = paidAmount.current + i.ReceivedAmountSum;
                 tmpTotal = tmpTotal + i.InvoiceWKMaster.TotalAmount;
                 payAmount.current = payAmount.current + i.PayAmount;

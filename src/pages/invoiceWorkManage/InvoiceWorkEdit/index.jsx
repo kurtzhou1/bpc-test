@@ -218,6 +218,23 @@ const InvoiceWorkManage = () => {
                 })
                 .catch((e) => console.log('e1=>', e));
         }
+        if (action === '退回') {
+            let tmpArray = {
+                WKMasterID: listInfo[modifyItem].InvoiceWKMaster.WKMasterID
+            };
+            console.log('modifyItem=>>', modifyItem, listInfo[modifyItem].InvoiceWKMaster.WKMasterID, listInfo);
+            fetch(returnToValidated, { method: 'POST', body: JSON.stringify(tmpArray) })
+                .then((res) => res.json())
+                .then((data) => {
+                    if (!data.ifReturn) {
+                        dispatch(setMessageStateOpen({ messageStateOpen: { isOpen: true, severity: 'error', message: '退回失敗' } }));
+                    }
+                    // setPage(0);
+                    // setAction('');
+                    // queryInit();
+                })
+                .catch((e) => console.log('e1=>', e));
+        }
         if (action === 'Delete' && listInfo[modifyItem].InvoiceWKMaster.Status === 'TEMPORARY') {
             let tmpArray = {
                 WKMasterID: listInfo[modifyItem].InvoiceWKMaster.WKMasterID
