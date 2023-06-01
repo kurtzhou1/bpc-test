@@ -545,10 +545,10 @@ const ToPaymentDataList = ({ listInfo, cbToCn, setCbToCn, isSend, setIsSend, sup
                                     <StyledTableCell align="center">
                                         {handleNumber(row?.InvoiceWKMaster?.TotalAmount.toFixed(2))}
                                     </StyledTableCell>
+                                    <StyledTableCell align="center">{handleNumber(row?.ReceivedAmountSum.toFixed(2))}</StyledTableCell>
                                     <StyledTableCell align="center">
                                         {handleNumber(row?.InvoiceWKMaster?.PaidAmount.toFixed(2))}
                                     </StyledTableCell>
-                                    <StyledTableCell align="center">{handleNumber(row?.ReceivedAmountSum.toFixed(2))}</StyledTableCell>
                                     {/* <StyledTableCell align="center">{handleNumber(tmpPayAmount.toFixed(2))}</StyledTableCell> */}
                                     <StyledTableCell align="center">{handleNumber(row.PayAmount.toFixed(2))}</StyledTableCell>
                                     <StyledTableCell align="center">
