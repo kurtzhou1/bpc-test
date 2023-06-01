@@ -7,22 +7,7 @@ import MainCard from 'components/MainCard';
 import GenerateFeeTerminate from './generateFeeTerminate';
 
 // material-ui
-import {
-    Typography,
-    Button,
-    Table,
-    Dialog,
-    DialogContent,
-    DialogContentText,
-    Grid,
-    FormControl,
-    InputLabel,
-    Select,
-    DialogActions,
-    TextField,
-    Box,
-    Paper
-} from '@mui/material';
+import { Button, Table, TextField, Box, Paper, Checkbox } from '@mui/material';
 import TableBody from '@mui/material/TableBody';
 import TableCell, { tableCellClasses } from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
@@ -41,6 +26,10 @@ import dayjs from 'dayjs';
 
 import { toBillDataapi, sendJounary } from 'components/apis.jsx';
 
+// redux
+import { useDispatch } from 'react-redux';
+import { setMessageStateOpen } from 'store/reducers/dropdown';
+
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
     [`&.${tableCellClasses.head}`]: {
         // backgroundColor: theme.palette.common.gary,
@@ -57,11 +46,11 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
     }
 }));
 
-const ToWriteOffDataList = ({ listInfo }) => {
-    console.log('listInfo=>>', listInfo);
+const ToPaymentDataList = ({ listInfo, cbToCn, setCbToCn, isSend, setIsSend }) => {
     const [isColumn2Open, setIsColumn2Open] = useState(true);
     const [isColumn3Open, setIsColumn3Open] = useState(true);
     const [isColumn4Open, setIsColumn4Open] = useState(true);
+    const dispatch = useDispatch();
     // let tmpBMArray = [];
 
     const columns1 = [
@@ -171,6 +160,23 @@ const ToWriteOffDataList = ({ listInfo }) => {
     const actionName = useRef('');
     const invoiceNoEdit = useRef('');
     const dueDateEdit = useRef('');
+    // const [cbToCn, setCbToCn] = useState({}); //勾選合併狀態
+    const currentSupplierName = useRef('');
+    const [paymentInfo, setPaymentInfo] = useState([]); //付款資訊
+
+    const handleChange = (event, supplierName) => {
+        if (currentSupplierName.current === supplierName || currentSupplierName.current === '') {
+            if (event.target.checked && (currentSupplierName.current === supplierName || currentSupplierName.current === '')) {
+                currentSupplierName.current = supplierName;
+                setCbToCn({ ...cbToCn, [event.target.value]: event.target.checked });
+            } else {
+                setCbToCn({ ...cbToCn, [event.target.value]: event.target.checked });
+                if (Object.values(cbToCn).filter((i) => i).length === 1) {
+                    currentSupplierName.current = '';
+                }
+            }
+        }
+    };
 
     const handleDialogOpen = (info, invoiceNo, dueDate) => {
         // let tmpArray = info.BillDetail.map((i) => i);
@@ -187,10 +193,9 @@ const ToWriteOffDataList = ({ listInfo }) => {
     };
 
     const savePaymentEdit = (info) => {
-        console.log('info=>>', info);
         let tmpArray = toPaymentList.map((i) => i);
         tmpArray.forEach((i) => {
-            if ((i.InvoiceWKMaster.InvoiceNo = invoiceNoEdit.current)) {
+            if (i.InvoiceWKMaster.InvoiceNo === invoiceNoEdit.current) {
                 i.BillDetailList = info;
             }
         });
@@ -198,12 +203,167 @@ const ToWriteOffDataList = ({ listInfo }) => {
         handleDialogClose();
     };
 
+    const changeNote = (note, invoiceNo) => {
+        let tmpArray = toPaymentList.map((i) => i);
+        tmpArray.forEach((i) => {
+            if (i.InvoiceWKMaster.InvoiceNo === invoiceNo) {
+                i.Note = note;
+            }
+        });
+        setToPaymentList(tmpArray);
+    };
+
     useEffect(() => {
         setToPaymentList(listInfo);
     }, [listInfo]);
 
+    useEffect(() => {
+        if (isSend) {
+            let tmpArray = [];
+            console.log('cbToCn=>>', cbToCn);
+            toPaymentList.forEach((i) => {
+                if (cbToCn[i.InvoiceWKMaster.InvoiceNo]) {
+                    tmpArray.push(i);
+                }
+            });
+            console.log('tmpArray=>>', tmpArray);
+            setPaymentInfo(tmpArray);
+            setIsSend(false);
+        }
+    }, [isSend]);
+
     return (
         <>
+            {' '}
+            <Dialog
+                // onClose={handleDialogClose}
+                maxWidth="md"
+                fullWidth
+                open={isDialogOpen}
+            >
+                <BootstrapDialogTitle
+                // onClose={handleDialogClose}
+                >
+                    合併帳單作業
+                </BootstrapDialogTitle>
+                <DialogContent>
+                    <Grid container spacing={1} display="flex" justifyContent="center" alignItems="center">
+                        <Grid item xs={6} sm={3} md={2} lg={2} display="flex" justifyContent="center" alignItems="center">
+                            <Typography variant="h5" sx={{ fontSize: { lg: '0.5rem', xl: '0.88rem' } }}>
+                                帳單到期日期：
+                            </Typography>
+                        </Grid>
+                        <Grid item xs={6} sm={3} md={2} lg={2}>
+                            <FormControl>
+                                <LocalizationProvider dateAdapter={AdapterDayjs}>
+                                    <DesktopDatePicker
+                                        inputFormat="YYYY/MM/DD"
+                                        value={issueDate}
+                                        onChange={(e) => {
+                                            setIssueDate(e);
+                                        }}
+                                        renderInput={(params) => <TextField size="small" {...params} />}
+                                    />
+                                </LocalizationProvider>
+                            </FormControl>
+                        </Grid>
+                        <Grid item xs={6} sm={3} md={1} lg={1} display="flex" justifyContent="center" alignItems="center">
+                            <Typography variant="h5" sx={{ fontSize: { lg: '0.5rem', xl: '0.88rem' } }}>
+                                PO號碼：
+                            </Typography>
+                        </Grid>
+                        <Grid item xs={6} sm={3} md={2} lg={2}>
+                            <TextField
+                                value={poNo}
+                                fullWidth
+                                variant="outlined"
+                                size="small"
+                                // type="number"
+                                label="填寫Po號碼"
+                                onChange={(e) => {
+                                    setPoNo(e.target.value);
+                                }}
+                            />
+                        </Grid>
+                        <Grid item xs={6} sm={3} md={2} lg={2} display="flex" justifyContent="center" alignItems="center">
+                            <Typography variant="h5" sx={{ fontSize: { lg: '0.5rem', xl: '0.88rem' } }}>
+                                帳單號碼：
+                            </Typography>
+                        </Grid>
+                        <Grid item xs={6} sm={3} md={2} lg={2}>
+                            <TextField
+                                value={billingNo}
+                                fullWidth
+                                variant="outlined"
+                                size="small"
+                                // type="number"
+                                label="填寫帳單號碼"
+                                onChange={(e) => {
+                                    setBillingNo(e.target.value);
+                                }}
+                            />
+                        </Grid>
+                        <Grid item xs={0} sm={0} md={1} lg={1} display="flex" justifyContent="start" alignItems="center">
+                            <Button sx={{ ml: '0.rem' }} variant="contained" size="small" onClick={billNoGenerate}>
+                                自動產生
+                            </Button>
+                        </Grid>
+                        <Grid item xs={12} sm={12} md={12} lg={12}>
+                            <TableContainer component={Paper} sx={{ maxHeight: 350 }}>
+                                <Table sx={{ minWidth: 300 }} stickyHeader aria-label="sticky table">
+                                    <TableHead>
+                                        <TableRow>
+                                            <StyledTableCell align="center">會員</StyledTableCell>
+                                            <StyledTableCell align="center">發票號碼</StyledTableCell>
+                                            <StyledTableCell align="center">供應商</StyledTableCell>
+                                            <StyledTableCell align="center">海纜名稱</StyledTableCell>
+                                            <StyledTableCell align="center">發票日期</StyledTableCell>
+                                            <StyledTableCell align="center">總金額</StyledTableCell>
+                                        </TableRow>
+                                    </TableHead>
+                                    <TableBody>
+                                        {billList?.BillDetail?.map((row, id) => {
+                                            return (
+                                                <TableRow
+                                                    key={row.PartyName + id}
+                                                    sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                                                >
+                                                    <TableCell align="center">{row.PartyName}</TableCell>
+                                                    <TableCell align="center">{row.InvoiceNo}</TableCell>
+                                                    <TableCell align="center">{row.SupplierName}</TableCell>
+                                                    <TableCell align="center">{row.SubmarineCable}</TableCell>
+                                                    <TableCell align="center">{dayjs(row.IssueDate).format('YYYY/MM/DD')}</TableCell>
+                                                    <TableCell align="center">{`$${handleNumber(row.FeeAmount?.toFixed(2))}`}</TableCell>
+                                                </TableRow>
+                                            );
+                                        })}
+                                        <TableRow sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
+                                            <StyledTableCell className="totalAmount" align="center">
+                                                Total
+                                            </StyledTableCell>
+                                            <StyledTableCell className="totalAmount" align="center"></StyledTableCell>
+                                            <StyledTableCell className="totalAmount" align="center"></StyledTableCell>
+                                            <StyledTableCell className="totalAmount" align="center"></StyledTableCell>
+                                            <StyledTableCell className="totalAmount" align="center"></StyledTableCell>
+                                            <StyledTableCell className="totalAmount" align="center">{`$${handleNumber(
+                                                totalAmount.current?.toFixed(2)
+                                            )}`}</StyledTableCell>
+                                        </TableRow>
+                                    </TableBody>
+                                </Table>
+                            </TableContainer>
+                        </Grid>
+                    </Grid>
+                </DialogContent>
+                <DialogActions>
+                    <Button sx={{ mr: '0.05rem' }} variant="contained" onClick={handleCombine}>
+                        合併
+                    </Button>
+                    <Button sx={{ mr: '0.05rem' }} variant="contained" onClick={handleCancel}>
+                        關閉
+                    </Button>
+                </DialogActions>
+            </Dialog>
             <PaymentWork
                 isDialogOpen={isDialogOpen}
                 handleDialogClose={handleDialogClose}
@@ -298,6 +458,7 @@ const ToWriteOffDataList = ({ listInfo }) => {
                             )}
                         </TableRow> */}
                         <TableRow>
+                            <StyledTableCell align="center"></StyledTableCell>
                             <StyledTableCell align="center">NO</StyledTableCell>
                             <StyledTableCell align="center">會員代碼</StyledTableCell>
                             <StyledTableCell align="center">供應商</StyledTableCell>
@@ -315,13 +476,32 @@ const ToWriteOffDataList = ({ listInfo }) => {
                     <TableBody>
                         {toPaymentList?.map((row, id) => {
                             // tmpBMArray = [];
+                            // let tmpPayAmount = 0;
+                            row.PayAmount = 0;
+                            row.BillDetailList.forEach((i) => {
+                                // tmpPayAmount = tmpPayAmount + (i.PayAmount ? i.PayAmount : 0);
+                                row.PayAmount = row.PayAmount + (i.PayAmount ? i.PayAmount : 0);
+                            });
                             // row?.BillDetailList.forEach((i) => {
                             //     if (!tmpBMArray.includes(i.BillMilestone)) {
                             //         tmpBMArray.push(i.BillMilestone);
                             //     }
                             // });
                             return (
-                                <TableRow key={row.WKMasterID + row.InvoiceNo} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
+                                <TableRow
+                                    key={row?.InvoiceWKMaster?.WKMasterID + row?.InvoiceWKMaster?.InvoiceNo}
+                                    sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                                >
+                                    <TableCell align="center">
+                                        <Checkbox
+                                            value={row?.InvoiceWKMaster?.InvoiceNo}
+                                            onChange={(e) => {
+                                                handleChange(e, row?.InvoiceWKMaster?.SupplierName);
+                                            }}
+                                            checked={cbToCn[row?.InvoiceWKMaster?.InvoiceNo] || false}
+                                            // sx={{ '& .MuiSvgIcon-root': { fontSize: { lg: 14, xl: 20 } } }}
+                                        />
+                                    </TableCell>
                                     <StyledTableCell align="center">{id + 1}</StyledTableCell>
                                     <StyledTableCell align="center">{row?.InvoiceWKMaster?.PartyName}</StyledTableCell>
                                     <StyledTableCell align="center">{row?.InvoiceWKMaster?.SupplierName}</StyledTableCell>
@@ -330,10 +510,15 @@ const ToWriteOffDataList = ({ listInfo }) => {
                                     <StyledTableCell align="center">
                                         {dayjs(row?.InvoiceWKMaster?.DueDate).format('YYYY/MM/DD')}
                                     </StyledTableCell>
-                                    <StyledTableCell align="center">{handleNumber(row?.InvoiceWKMaster?.TotalAmount)}</StyledTableCell>
-                                    <StyledTableCell align="center">{handleNumber(row?.InvoiceWKMaster?.PaidAmount)}</StyledTableCell>
-                                    <StyledTableCell align="center">{handleNumber(row?.ReceivedAmountSum)}</StyledTableCell>
-                                    <StyledTableCell align="center">{handleNumber(0)}</StyledTableCell>
+                                    <StyledTableCell align="center">
+                                        {handleNumber(row?.InvoiceWKMaster?.TotalAmount.toFixed(2))}
+                                    </StyledTableCell>
+                                    <StyledTableCell align="center">
+                                        {handleNumber(row?.InvoiceWKMaster?.PaidAmount.toFixed(2))}
+                                    </StyledTableCell>
+                                    <StyledTableCell align="center">{handleNumber(row?.ReceivedAmountSum.toFixed(2))}</StyledTableCell>
+                                    {/* <StyledTableCell align="center">{handleNumber(tmpPayAmount.toFixed(2))}</StyledTableCell> */}
+                                    <StyledTableCell align="center">{handleNumber(row.PayAmount.toFixed(2))}</StyledTableCell>
                                     <StyledTableCell align="center">
                                         <Box sx={{ display: 'flex', justifyContent: 'center', '& button': { mx: 1, p: 0, fontSize: 1 } }}>
                                             <Button
@@ -351,6 +536,16 @@ const ToWriteOffDataList = ({ listInfo }) => {
                                                 編輯付款資訊
                                             </Button>
                                         </Box>
+                                    </StyledTableCell>
+                                    <StyledTableCell align="center">
+                                        <TextField
+                                            size="small"
+                                            sx={{ minWidth: 75 }}
+                                            value={row.Note}
+                                            onChange={(e) => {
+                                                changeNote(e.target.value, row.InvoiceWKMaster.InvoiceNo);
+                                            }}
+                                        />
                                     </StyledTableCell>
                                 </TableRow>
                             );
@@ -413,4 +608,4 @@ const ToWriteOffDataList = ({ listInfo }) => {
     );
 };
 
-export default ToWriteOffDataList;
+export default ToPaymentDataList;

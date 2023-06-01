@@ -167,7 +167,7 @@ const fakeData = [
                 ToCBAmount: 0.0,
                 InvoiceNo: '15428',
                 FeeItem: 'Tax-Provisional Network Acceptance',
-                PaidAmount: 68.0,
+                PaidAmount: 0.0,
                 InvDetailID: 15,
                 OrgFeeAmount: 368.0,
                 ShortOverReason: null,
@@ -401,6 +401,8 @@ const fakeData = [
 const SupplierPayment = () => {
     const [value, setValue] = useState(0);
     const queryApi = useRef('/Status=PAYING');
+    const [cbToCn, setCbToCn] = useState({}); //勾選合併狀態
+    const [isSend, setIsSend] = useState(false);
 
     const handleChange = (event, newValue) => {
         setValue(newValue);
@@ -425,6 +427,14 @@ const SupplierPayment = () => {
             });
     };
 
+    const sendPaymentData = () => {
+        if (Object.values(cbToCn).indexOf(true) > -1) {
+            setIsSend(true); //打開的時候才會觸發合併API
+        } else {
+            dispatch(setMessageStateOpen({ messageStateOpen: { isOpen: true, severity: 'error', message: '請至少勾選一筆發票項目' } }));
+        }
+    };
+
     return (
         <Grid container spacing={1}>
             <Grid item xs={12}>
@@ -432,16 +442,42 @@ const SupplierPayment = () => {
             </Grid>
             <Grid item xs={12}>
                 <MainCard title={`${value == 0 ? '待確認' : value == 1 ? '已確認' : '函稿'}資料列表`}>
-                    <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
+                    <Box sx={{ borderBottom: 1, borderColor: 'divider', position: 'relative' }}>
                         <Tabs value={value} onChange={handleChange}>
                             <Tab label="待確認" {...a11yProps(0)} />
                             <Tab label="已確認" {...a11yProps(1)} />
                             {/* <Tab label="函稿" {...a11yProps(2)} /> */}
                         </Tabs>
+                        {value == 0 ? (
+                            <>
+                                <Button
+                                    color="primary"
+                                    variant="contained"
+                                    sx={{
+                                        position: 'absolute',
+                                        right: 5,
+                                        top: 4
+                                    }}
+                                    onClick={() => {
+                                        sendPaymentData();
+                                    }}
+                                >
+                                    付款送出(進入函稿)
+                                </Button>
+                            </>
+                        ) : (
+                            ''
+                        )}
                     </Box>
                     <TabPanel value={value} index={0}>
                         {/* <ToPaymentDataList listInfo={listInfo} /> */}
-                        <ToPaymentDataList listInfo={fakeData} />
+                        <ToPaymentDataList
+                            listInfo={fakeData}
+                            cbToCn={cbToCn}
+                            setCbToCn={setCbToCn}
+                            isSend={isSend}
+                            setIsSend={setIsSend}
+                        />
                     </TabPanel>
                     <TabPanel value={value} index={1}>
                         <PaymentedDataList />
