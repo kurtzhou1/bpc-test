@@ -84,7 +84,7 @@ const SupplierPaymentQuery = ({ setListInfo, queryApi, value }) => {
                 tmpQuery = '/' + tmpQuery.slice(0, -1);
                 tmpQuery = tmpQuery + '&Status=INITIAL';
             } else {
-                tmpQuery = tmpQuery + '/Status=INITIAL​';
+                tmpQuery = tmpQuery + '/Status=COMPLETE';
             }
             tmpQuery = queryToDecutBill + tmpQuery;
         }
