@@ -82,11 +82,11 @@ const SupplierPaymentQuery = ({ setListInfo, queryApi, value }) => {
             console.log('tmpQuery=>>', tmpQuery);
             if (tmpQuery.includes('&')) {
                 tmpQuery = '/' + tmpQuery.slice(0, -1);
-                tmpQuery = tmpQuery + '&Status=INITIAL';
+                tmpQuery = tmpQuery + '&Status=COMPLETE';
             } else {
                 tmpQuery = tmpQuery + '/Status=COMPLETE';
             }
-            tmpQuery = queryToDecutBill + tmpQuery;
+            tmpQuery = querySupplierPayment + tmpQuery;
         }
         console.log('按下查詢=>>', tmpQuery);
         queryApi.current = tmpQuery;
