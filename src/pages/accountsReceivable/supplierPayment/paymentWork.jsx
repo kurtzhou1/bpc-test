@@ -216,7 +216,9 @@ const ToGenerateDataList = ({ isDialogOpen, handleDialogClose, editPaymentInfo, 
                                                         row.ReceivedAmount.toFixed(2)
                                                     )}`}</TableCell>
                                                     <TableCell align="center">{`$${handleNumber(row.PaidAmount.toFixed(2))}`}</TableCell>
-                                                    <TableCell align="center">{`$${handleNumber(toPayment.toFixed(2))}`}</TableCell>
+                                                    <TableCell align="center">
+                                                        {toPayment > 0 ? `$${handleNumber(toPayment.toFixed(2))}` : 0}
+                                                    </TableCell>
 
                                                     {actionName === 'toPayment' ? (
                                                         <TableCell sx={{ fontSize: '0.1rem' }} align="center">
