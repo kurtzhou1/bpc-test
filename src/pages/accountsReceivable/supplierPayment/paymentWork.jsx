@@ -83,7 +83,9 @@ const ToGenerateDataList = ({ isDialogOpen, handleDialogClose, editPaymentInfo, 
             if (i.BillMasterID === billMasterID && i.BillDetailID === billDetailID) {
                 i.PayAmount = Number(payment);
             }
-            payAmountTotal.current = payAmountTotal.current + (i.PayAmount ? i.PayAmount : Number(i.ReceivedAmount - i.PaidAmount));
+            payAmountTotal.current =
+                payAmountTotal.current +
+                (i.PayAmount ? i.PayAmount : Number(i.ReceivedAmount - i.PaidAmount) > 0 ? Number(i.ReceivedAmount - i.PaidAmount) : 0);
         });
         setToPaymentDetailInfo(tmpArray);
     };
@@ -219,7 +221,6 @@ const ToGenerateDataList = ({ isDialogOpen, handleDialogClose, editPaymentInfo, 
                                                     <TableCell align="center">
                                                         {toPayment > 0 ? `$${handleNumber(toPayment.toFixed(2))}` : 0}
                                                     </TableCell>
-
                                                     {actionName === 'toPayment' ? (
                                                         <TableCell sx={{ fontSize: '0.1rem' }} align="center">
                                                             <TextField
