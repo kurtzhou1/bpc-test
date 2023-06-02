@@ -88,7 +88,7 @@ const PaymentedDataList = ({ listInfo }) => {
                             <StyledTableCell align="center">總金額</StyledTableCell>
                             <StyledTableCell align="center">累計實收金額</StyledTableCell>
                             <StyledTableCell align="center">累計實付金額</StyledTableCell>
-                            <StyledTableCell align="center">摘要說明</StyledTableCell>
+                            {/* <StyledTableCell align="center">摘要說明</StyledTableCell> */}
                             <StyledTableCell align="center">Action</StyledTableCell>
                         </TableRow>
                     </TableHead>
@@ -119,9 +119,9 @@ const PaymentedDataList = ({ listInfo }) => {
                                     <StyledTableCell align="center">
                                         {handleNumber(row?.InvoiceWKMaster?.PaidAmount.toFixed(2))}
                                     </StyledTableCell>
-                                    <StyledTableCell align="center">
+                                    {/* <StyledTableCell align="center">
                                         <StyledTableCell align="center">{row?.Note}</StyledTableCell>
-                                    </StyledTableCell>
+                                    </StyledTableCell> */}
                                     <StyledTableCell align="center">
                                         <Box sx={{ display: 'flex', justifyContent: 'center', '& button': { mx: 1, p: 0, fontSize: 1 } }}>
                                             <Button
