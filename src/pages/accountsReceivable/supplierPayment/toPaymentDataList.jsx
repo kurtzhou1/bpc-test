@@ -295,16 +295,18 @@ const ToPaymentDataList = ({ listInfo, cbToCn, setCbToCn, isSend, setIsSend, sup
 
     useEffect(() => {
         if (isSendDialogOpen) {
-            console.log('????', paymentInfo);
             let tmpTotal = 0;
             paymentInfo.forEach((i) => {
-                paidAmount.current = paidAmount.current + i.ReceivedAmountSum;
+                paidAmount.current = paidAmount.current + i?.InvoiceWKMaster?.PaidAmount;
                 tmpTotal = tmpTotal + i.InvoiceWKMaster.TotalAmount;
                 payAmount.current = payAmount.current + i.PayAmount;
             });
             setTotalAmount(tmpTotal);
         }
     }, [isSendDialogOpen]);
+
+    console.log('toPaymentList=>>', toPaymentList);
+    console.log('paymentInfo=>>', paymentInfo);
 
     return (
         <>
@@ -333,7 +335,7 @@ const ToPaymentDataList = ({ listInfo, cbToCn, setCbToCn, isSend, setIsSend, sup
                                             <StyledTableCell align="center">海纜作業</StyledTableCell>
                                             <StyledTableCell align="center">發票到期日</StyledTableCell>
                                             <StyledTableCell align="center">總金額</StyledTableCell>
-                                            <StyledTableCell align="center">累積實付金額</StyledTableCell>
+                                            <StyledTableCell align="center">累計實付金額</StyledTableCell>
                                             <StyledTableCell align="center">本次付款金額</StyledTableCell>
                                             <StyledTableCell align="center">完成付款結案</StyledTableCell>
                                         </TableRow>
@@ -354,10 +356,10 @@ const ToPaymentDataList = ({ listInfo, cbToCn, setCbToCn, isSend, setIsSend, sup
                                                         {dayjs(row.InvoiceWKMaster.IssueDate).format('YYYY/MM/DD')}
                                                     </TableCell>
                                                     <TableCell align="center">{`$${handleNumber(
-                                                        row.InvoiceWKMaster.TotalAmount?.toFixed(2)
+                                                        row.InvoiceWKMaster?.TotalAmount?.toFixed(2)
                                                     )}`}</TableCell>
                                                     <TableCell align="center">{`$${handleNumber(
-                                                        row?.ReceivedAmountSum?.toFixed(2)
+                                                        row?.InvoiceWKMaster?.PaidAmount?.toFixed(2)
                                                     )}`}</TableCell>
                                                     <TableCell align="center">{`$${handleNumber(row?.PayAmount?.toFixed(2))}`}</TableCell>
                                                     <TableCell align="center">
