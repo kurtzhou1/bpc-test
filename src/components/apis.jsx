@@ -81,6 +81,8 @@ export const returnToValidated = 'http://10.193.130.8:8000/api/v1/returnToValida
 export const beforeDuction = 'http://10.193.130.8:8000/api/v1/returnBillMaster/beforeduction';
 // 退回-已抵扣
 export const afterDeduction = 'http://10.193.130.8:8000/api/v1/returnBillMaster/afterdeduction';
+// 發票查詢-作廢
+export const afterBilled = 'http://10.193.130.8:8000/api/v1/invalidInvoice/afterBilled';
 
 // 基本資料-Suppliers
 export const addSuppliers = 'http://10.193.130.8:8000/api/v1/Suppliers';

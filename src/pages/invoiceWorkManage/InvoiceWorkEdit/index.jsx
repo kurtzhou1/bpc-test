@@ -15,6 +15,7 @@ import CreateInvoiceMain from './createInvoiceMain';
 import CreateInvoiceDetail from './createInvoiceDetail';
 import InvoiceDataList from './invoiceDataList';
 import { handleNumber } from 'components/commonFunction';
+import ReturnDataList from './returnDataList';
 // import { TextField } from '@mui/material/index';
 
 // api
@@ -25,7 +26,8 @@ import {
     deleteInvoiceWKMaster,
     deleteInvoiceWKDetail,
     billMilestoneList,
-    returnToValidated
+    returnToValidated,
+    afterBilled
 } from 'components/apis.jsx';
 
 // redux
@@ -37,6 +39,7 @@ import { useDispatch } from 'react-redux';
 import { setMessageStateOpen } from 'store/reducers/dropdown';
 
 import { Link } from 'react-router-dom';
+import { DataObjectRounded } from '../../../../node_modules/@mui/icons-material/index';
 
 // ==============================|| SAMPLE PAGE ||============================== //
 
@@ -72,6 +75,11 @@ const InvoiceWorkManage = () => {
     const { supNmList, subCableList, bmsList } = useSelector((state) => state.dropdown); //供應商下拉選單 + 海纜名稱下拉選單
     const [listInfo, setListInfo] = useState([]);
     const [page, setPage] = useState(0); //分頁Page
+
+    const [isReturnOpen, setIsReturnOpen] = useState(false);
+    const returnDataList = useRef([]);
+
+    const actionBack = useRef('');
 
     const itemInfoInitial = () => {
         wKMasterID.current = 0;
@@ -205,29 +213,52 @@ const InvoiceWorkManage = () => {
         }
         if (action === '作廢') {
             let tmpArray = {
-                WKMasterID: listInfo[modifyItem].InvoiceWKMaster.WKMasterID,
-                Status: 'INVALID'
+                WKMasterID: listInfo[modifyItem].InvoiceWKMaster.WKMasterID
             };
-            fetch(updateInvoice, { method: 'POST', body: JSON.stringify(tmpArray) })
+            fetch(afterBilled, { method: 'POST', body: JSON.stringify(tmpArray) })
                 .then((res) => res.json())
-                .then(() => {
-                    dispatch(setMessageStateOpen({ messageStateOpen: { isOpen: true, severity: 'success', message: '作廢成功' } }));
-                    setPage(0);
-                    setAction('');
-                    queryInit();
+                .then((data) => {
+                    if (!data.ifReturn && data.hasOwnProperty('ifReturn')) {
+                        dispatch(setMessageStateOpen({ messageStateOpen: { isOpen: true, severity: 'error', message: '作廢失敗' } }));
+                        returnDataList.current = data.BillMaster;
+                        setIsReturnOpen(true);
+                        actionBack.current = '作廢';
+                    } else if (data.ifReturn && data.hasOwnProperty('ifReturn')) {
+                        dispatch(setMessageStateOpen({ messageStateOpen: { isOpen: true, severity: 'success', message: '作廢成功' } }));
+                    }
+                    // setPage(0);
+                    // setAction('');
+                    // queryInit();
                 })
                 .catch((e) => console.log('e1=>', e));
+            // let tmpArray = {
+            //     WKMasterID: listInfo[modifyItem].InvoiceWKMaster.WKMasterID,
+            //     Status: 'INVALID'
+            // };
+            // fetch(updateInvoice, { method: 'POST', body: JSON.stringify(tmpArray) })
+            //     .then((res) => res.json())
+            //     .then(() => {
+            //         dispatch(setMessageStateOpen({ messageStateOpen: { isOpen: true, severity: 'success', message: '作廢成功' } }));
+            //         setPage(0);
+            //         setAction('');
+            //         queryInit();
+            //     })
+            //     .catch((e) => console.log('e1=>', e));
         }
         if (action === '退回') {
             let tmpArray = {
                 WKMasterID: listInfo[modifyItem].InvoiceWKMaster.WKMasterID
             };
-            console.log('modifyItem=>>', modifyItem, listInfo[modifyItem].InvoiceWKMaster.WKMasterID, listInfo);
             fetch(returnToValidated, { method: 'POST', body: JSON.stringify(tmpArray) })
                 .then((res) => res.json())
                 .then((data) => {
-                    if (!data.ifReturn) {
+                    if (!data.ifReturn && data.hasOwnProperty('ifReturn')) {
                         dispatch(setMessageStateOpen({ messageStateOpen: { isOpen: true, severity: 'error', message: '退回失敗' } }));
+                        returnDataList.current = data.BillMaster;
+                        setIsReturnOpen(true);
+                        actionBack.current = '退回';
+                    } else if (data.ifReturn && data.hasOwnProperty('ifReturn')) {
+                        dispatch(setMessageStateOpen({ messageStateOpen: { isOpen: true, severity: 'success', message: '退回成功' } }));
                     }
                     // setPage(0);
                     // setAction('');
@@ -357,6 +388,12 @@ const InvoiceWorkManage = () => {
         setModifyItem(-1);
     };
 
+    const handleReturnClose = () => {
+        setIsReturnOpen(false);
+        returnDataList.current = {};
+        actionBack.current = '';
+    };
+
     useEffect(() => {
         if (workTitle && submarineCable) {
             let bmApi = billMilestoneList + 'SubmarineCable=' + submarineCable + '&WorkTitle=' + workTitle + '&End=false';
@@ -370,116 +407,124 @@ const InvoiceWorkManage = () => {
     }, [workTitle, submarineCable]);
 
     return (
-        <Grid container spacing={1}>
-            <Grid item xs={12}>
-                <MainCard sx={{ width: '100%' }}>
-                    <Grid container display="flex" spacing={2}>
-                        <Grid item xs={12}>
-                            <InvoiceQuery
-                                setListInfo={setListInfo}
-                                queryApi={queryApi}
-                                supNmList={supNmList}
-                                subCableList={subCableList}
-                                billmileStoneList={bmsList}
-                                setAction={setAction}
-                                setPage={setPage}
-                            />
-                        </Grid>
-                    </Grid>
-                </MainCard>
-            </Grid>
-            <Grid item xs={12}>
-                <MainCard title="發票資料列表" sx={{ width: '100%' }}>
-                    <Grid container display="flex" spacing={2}>
-                        <Grid item xs={12}>
-                            <MainCard>
-                                <InvoiceDataList
-                                    listInfo={listInfo}
-                                    setAction={setAction}
-                                    setModifyItem={setModifyItem}
-                                    page={page}
-                                    setPage={setPage}
-                                />
-                            </MainCard>
-                        </Grid>
-                    </Grid>
-                </MainCard>
-            </Grid>
-            {action === 'Edit' || action === 'View' ? (
+        <>
+            <ReturnDataList
+                isReturnOpen={isReturnOpen}
+                handleReturnClose={handleReturnClose}
+                returnDataList={returnDataList.current}
+                actionBack={actionBack.current}
+            />
+            <Grid container spacing={1}>
                 <Grid item xs={12}>
                     <MainCard sx={{ width: '100%' }}>
                         <Grid container display="flex" spacing={2}>
-                            {/* 左 */}
-                            <Grid item xs={6}>
-                                <CreateInvoiceMain
-                                    supplierName={supplierName}
-                                    setSupplierName={setSupplierName}
-                                    invoiceNo={invoiceNo}
-                                    setInvoiceNo={setInvoiceNo}
-                                    submarineCable={submarineCable}
-                                    setSubmarineCable={setSubmarineCable}
-                                    workTitle={workTitle}
-                                    setWorkTitle={setWorkTitle}
-                                    contractType={contractType}
-                                    setContractType={setContractType}
-                                    issueDate={issueDate}
-                                    setIssueDate={setIssueDate}
-                                    dueDate={dueDate}
-                                    setDueDate={setDueDate}
-                                    totalAmount={totalAmount}
-                                    setTotalAmount={setTotalAmount}
-                                    isPro={isPro}
-                                    setIsPro={setIsPro}
-                                    isLiability={isLiability}
-                                    setIsLiability={setIsLiability}
-                                    isRecharge={isRecharge}
-                                    setIsRecharge={setIsRecharge}
-                                    partyName={partyName}
-                                    setPartyName={setPartyName}
+                            <Grid item xs={12}>
+                                <InvoiceQuery
+                                    setListInfo={setListInfo}
+                                    queryApi={queryApi}
+                                    supNmList={supNmList}
                                     subCableList={subCableList}
-                                    action={action}
+                                    billmileStoneList={bmsList}
+                                    setAction={setAction}
+                                    setPage={setPage}
                                 />
                             </Grid>
-                            {/* 右 */}
-                            <Grid item xs={6}>
-                                <CreateInvoiceDetail
-                                    setInvoiceDetailInfo={setInvoiceDetailInfo}
-                                    invoiceDetailInfo={invoiceDetailInfo}
-                                    bmStoneList={bmStoneList}
-                                    action={action}
-                                    itemDetailInitial={itemDetailInitial}
-                                    billMilestone={billMilestone}
-                                    setBillMilestone={setBillMilestone}
-                                    feeItem={feeItem}
-                                    setFeeItem={setFeeItem}
-                                    feeAmount={feeAmount}
-                                    setFeeAmount={setFeeAmount}
-                                />
-                            </Grid>
-                            {action === 'Edit' ? (
-                                <Grid item xs={12} display="flex" justifyContent="center" alignItems="center">
-                                    <Button variant="contained" onClick={addInvoiceInfo} sx={{ mx: 1 }}>
-                                        儲存編輯
-                                    </Button>
-                                    <Button variant="contained" onClick={cancelAdd} sx={{ mx: 1 }}>
-                                        取消編輯
-                                    </Button>
-                                </Grid>
-                            ) : (
-                                ''
-                            )}
                         </Grid>
                     </MainCard>
                 </Grid>
-            ) : (
-                ''
-            )}
-            <Grid item xs={12} display="flex" justifyContent="center" alignItems="center">
-                <Link to="/CreateJournal/CreateJournal" onClick={handleLink} style={{ color: '#262626', textDecoration: 'none' }}>
-                    <Button variant="contained">切換至立帳管理</Button>
-                </Link>
+                <Grid item xs={12}>
+                    <MainCard title="發票資料列表" sx={{ width: '100%' }}>
+                        <Grid container display="flex" spacing={2}>
+                            <Grid item xs={12}>
+                                <MainCard>
+                                    <InvoiceDataList
+                                        listInfo={listInfo}
+                                        setAction={setAction}
+                                        setModifyItem={setModifyItem}
+                                        page={page}
+                                        setPage={setPage}
+                                    />
+                                </MainCard>
+                            </Grid>
+                        </Grid>
+                    </MainCard>
+                </Grid>
+                {action === 'Edit' || action === 'View' ? (
+                    <Grid item xs={12}>
+                        <MainCard sx={{ width: '100%' }}>
+                            <Grid container display="flex" spacing={2}>
+                                {/* 左 */}
+                                <Grid item xs={6}>
+                                    <CreateInvoiceMain
+                                        supplierName={supplierName}
+                                        setSupplierName={setSupplierName}
+                                        invoiceNo={invoiceNo}
+                                        setInvoiceNo={setInvoiceNo}
+                                        submarineCable={submarineCable}
+                                        setSubmarineCable={setSubmarineCable}
+                                        workTitle={workTitle}
+                                        setWorkTitle={setWorkTitle}
+                                        contractType={contractType}
+                                        setContractType={setContractType}
+                                        issueDate={issueDate}
+                                        setIssueDate={setIssueDate}
+                                        dueDate={dueDate}
+                                        setDueDate={setDueDate}
+                                        totalAmount={totalAmount}
+                                        setTotalAmount={setTotalAmount}
+                                        isPro={isPro}
+                                        setIsPro={setIsPro}
+                                        isLiability={isLiability}
+                                        setIsLiability={setIsLiability}
+                                        isRecharge={isRecharge}
+                                        setIsRecharge={setIsRecharge}
+                                        partyName={partyName}
+                                        setPartyName={setPartyName}
+                                        subCableList={subCableList}
+                                        action={action}
+                                    />
+                                </Grid>
+                                {/* 右 */}
+                                <Grid item xs={6}>
+                                    <CreateInvoiceDetail
+                                        setInvoiceDetailInfo={setInvoiceDetailInfo}
+                                        invoiceDetailInfo={invoiceDetailInfo}
+                                        bmStoneList={bmStoneList}
+                                        action={action}
+                                        itemDetailInitial={itemDetailInitial}
+                                        billMilestone={billMilestone}
+                                        setBillMilestone={setBillMilestone}
+                                        feeItem={feeItem}
+                                        setFeeItem={setFeeItem}
+                                        feeAmount={feeAmount}
+                                        setFeeAmount={setFeeAmount}
+                                    />
+                                </Grid>
+                                {action === 'Edit' ? (
+                                    <Grid item xs={12} display="flex" justifyContent="center" alignItems="center">
+                                        <Button variant="contained" onClick={addInvoiceInfo} sx={{ mx: 1 }}>
+                                            儲存編輯
+                                        </Button>
+                                        <Button variant="contained" onClick={cancelAdd} sx={{ mx: 1 }}>
+                                            取消編輯
+                                        </Button>
+                                    </Grid>
+                                ) : (
+                                    ''
+                                )}
+                            </Grid>
+                        </MainCard>
+                    </Grid>
+                ) : (
+                    ''
+                )}
+                <Grid item xs={12} display="flex" justifyContent="center" alignItems="center">
+                    <Link to="/CreateJournal/CreateJournal" onClick={handleLink} style={{ color: '#262626', textDecoration: 'none' }}>
+                        <Button variant="contained">切換至立帳管理</Button>
+                    </Link>
+                </Grid>
             </Grid>
-        </Grid>
+        </>
     );
 };
 
