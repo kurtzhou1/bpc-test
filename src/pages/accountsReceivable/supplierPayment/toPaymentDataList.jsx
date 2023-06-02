@@ -205,12 +205,14 @@ const ToPaymentDataList = ({ listInfo, cbToCn, setCbToCn, isSend, setIsSend, sup
         invoiceNoEdit.current = invoiceNo;
         dueDateEdit.current = dueDate;
         setIsDialogOpen(true);
+        actionName.current = 'toPayment';
     };
 
     const handleDialogClose = () => {
         editPaymentInfo.current = [];
         invoiceNoEdit.current = '';
         setIsDialogOpen(false);
+        actionName.current = '';
     };
 
     const savePaymentEdit = (info) => {

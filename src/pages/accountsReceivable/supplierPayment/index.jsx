@@ -472,7 +472,7 @@ const SupplierPayment = () => {
                     <TabPanel value={value} index={0}>
                         {/* <ToPaymentDataList listInfo={listInfo} /> */}
                         <ToPaymentDataList
-                            listInfo={listInfo}
+                            listInfo={fakeData}
                             cbToCn={cbToCn}
                             setCbToCn={setCbToCn}
                             isSend={isSend}
@@ -481,7 +481,7 @@ const SupplierPayment = () => {
                         />
                     </TabPanel>
                     <TabPanel value={value} index={1}>
-                        <PaymentedDataList />
+                        <PaymentedDataList listInfo={fakeData} />
                     </TabPanel>
                     {/* <TabPanel value={value} index={2}>
                         <InvalidatedDataList />

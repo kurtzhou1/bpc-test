@@ -119,6 +119,7 @@ const ToGenerateDataList = ({ isDialogOpen, handleDialogClose, editPaymentInfo, 
     useEffect(() => {
         // let tmpArray = editPaymentInfo.map((i) => i);
         let tmpArray = JSON.parse(JSON.stringify(editPaymentInfo));
+        console.log('paidAmountTotal.current=>>', paidAmountTotal.current);
         tmpArray.forEach((i) => {
             // i.PayAmount = i.PayAmount ? i.PayAmount : Number(i.ReceivedAmount - i.PaidAmount);
             orgfeeAmountTotal.current = orgfeeAmountTotal.current + i.OrgFeeAmount;
@@ -134,7 +135,7 @@ const ToGenerateDataList = ({ isDialogOpen, handleDialogClose, editPaymentInfo, 
 
     return (
         <Dialog maxWidth="xxl" open={isDialogOpen}>
-            <BootstrapDialogTitle>收款明細與編輯付款資訊</BootstrapDialogTitle>
+            <BootstrapDialogTitle>{actionName === 'toPayment' ? '收款明細與編輯付款資訊' : '收款明細與付款資訊'}</BootstrapDialogTitle>
             <DialogContent>
                 <Grid container spacing={1} display="flex" justifyContent="center" alignItems="center" sx={{ fontSize: 10 }}>
                     <Grid item xs={12} sm={12} md={12} lg={12}>
@@ -192,7 +193,11 @@ const ToGenerateDataList = ({ isDialogOpen, handleDialogClose, editPaymentInfo, 
                                             <StyledTableCell align="center">已實付金額</StyledTableCell>
                                             <StyledTableCell align="center">未付款金額</StyledTableCell>
                                             <StyledTableCell align="center">摘要說明</StyledTableCell>
-                                            <StyledTableCell align="center">此次付款金額</StyledTableCell>
+                                            {actionName === 'toPayment' ? (
+                                                <StyledTableCell align="center">此次付款金額</StyledTableCell>
+                                            ) : (
+                                                ''
+                                            )}
                                         </TableRow>
                                     </TableHead>
                                     <TableBody>
@@ -212,30 +217,43 @@ const ToGenerateDataList = ({ isDialogOpen, handleDialogClose, editPaymentInfo, 
                                                     )}`}</TableCell>
                                                     <TableCell align="center">{`$${handleNumber(row.PaidAmount.toFixed(2))}`}</TableCell>
                                                     <TableCell align="center">{`$${handleNumber(toPayment.toFixed(2))}`}</TableCell>
-                                                    <TableCell sx={{ fontSize: '0.1rem' }} align="center">
-                                                        <TextField
-                                                            size="small"
-                                                            sx={{ minWidth: 75 }}
-                                                            value={row.Note}
-                                                            onChange={(e) => {
-                                                                changeNote(e.target.value, row.BillMasterID, row.BillDetailID);
-                                                            }}
-                                                        />
-                                                    </TableCell>
-                                                    <TableCell align="center">
-                                                        <TextField
-                                                            size="small"
-                                                            inputProps={{ step: '.01' }}
-                                                            sx={{ minWidth: 75 }}
-                                                            value={
-                                                                row.PayAmount ? row.PayAmount : Number(row.ReceivedAmount - row.PaidAmount)
-                                                            }
-                                                            type="number"
-                                                            onChange={(e) => {
-                                                                changePayAmount(e.target.value, row.BillMasterID, row.BillDetailID);
-                                                            }}
-                                                        />
-                                                    </TableCell>
+
+                                                    {actionName === 'toPayment' ? (
+                                                        <TableCell sx={{ fontSize: '0.1rem' }} align="center">
+                                                            <TextField
+                                                                size="small"
+                                                                sx={{ minWidth: 75 }}
+                                                                value={row.Note}
+                                                                onChange={(e) => {
+                                                                    changeNote(e.target.value, row.BillMasterID, row.BillDetailID);
+                                                                }}
+                                                            />
+                                                        </TableCell>
+                                                    ) : (
+                                                        <TableCell sx={{ fontSize: '0.1rem' }} align="center">
+                                                            <TableCell align="center">{row.Note}</TableCell>
+                                                        </TableCell>
+                                                    )}
+                                                    {actionName === 'toPayment' ? (
+                                                        <TableCell align="center">
+                                                            <TextField
+                                                                size="small"
+                                                                inputProps={{ step: '.01' }}
+                                                                sx={{ minWidth: 75 }}
+                                                                value={
+                                                                    row.PayAmount
+                                                                        ? row.PayAmount
+                                                                        : Number(row.ReceivedAmount - row.PaidAmount)
+                                                                }
+                                                                type="number"
+                                                                onChange={(e) => {
+                                                                    changePayAmount(e.target.value, row.BillMasterID, row.BillDetailID);
+                                                                }}
+                                                            />
+                                                        </TableCell>
+                                                    ) : (
+                                                        ''
+                                                    )}
                                                 </TableRow>
                                             );
                                         })}
@@ -258,9 +276,13 @@ const ToGenerateDataList = ({ isDialogOpen, handleDialogClose, editPaymentInfo, 
                                                 {handleNumber(toPaymentAmountTotal.current.toFixed(2))}
                                             </StyledTableCell>
                                             <StyledTableCell className="totalAmount" align="center" />
-                                            <StyledTableCell className="totalAmount" align="center">
-                                                {handleNumber(payAmountTotal.current.toFixed(2))}
-                                            </StyledTableCell>
+                                            {actionName === 'toPayment' ? (
+                                                <StyledTableCell className="totalAmount" align="center">
+                                                    {handleNumber(payAmountTotal.current.toFixed(2))}
+                                                </StyledTableCell>
+                                            ) : (
+                                                ''
+                                            )}
                                         </TableRow>
                                     </TableBody>
                                 </Table>
@@ -270,48 +292,55 @@ const ToGenerateDataList = ({ isDialogOpen, handleDialogClose, editPaymentInfo, 
                 </Grid>
             </DialogContent>
             <DialogActions>
-                {actionName === 'deduct' ? (
+                {actionName === 'toPayment' ? (
                     <>
-                        <Button sx={{ mr: '0.05rem' }} variant="contained" onClick={handleDialogClose}>
+                        <Button
+                            sx={{ mr: '0.05rem' }}
+                            variant="contained"
+                            onClick={() => {
+                                sendInfo();
+                                handleSaveEdit();
+                                orgfeeAmountTotal.current = 0;
+                                receivedAmountTotal.current = 0;
+                                paidAmountTotal.current = 0;
+                                toPaymentAmountTotal.current = 0;
+                                payAmountTotal.current = 0;
+                            }}
+                        >
                             儲存
                         </Button>
-                        <Button sx={{ mr: '0.05rem' }} variant="contained" onClick={handleDialogClose}>
-                            Reset
+                        <Button
+                            sx={{ mr: '0.05rem' }}
+                            variant="contained"
+                            onClick={() => {
+                                handleDialogClose();
+                                handleTmpSaveEdit();
+                                orgfeeAmountTotal.current = 0;
+                                receivedAmountTotal.current = 0;
+                                paidAmountTotal.current = 0;
+                                toPaymentAmountTotal.current = 0;
+                                payAmountTotal.current = 0;
+                            }}
+                        >
+                            關閉
                         </Button>
                     </>
                 ) : (
-                    ''
+                    <Button
+                        sx={{ mr: '0.05rem' }}
+                        variant="contained"
+                        onClick={() => {
+                            handleDialogClose();
+                            orgfeeAmountTotal.current = 0;
+                            receivedAmountTotal.current = 0;
+                            paidAmountTotal.current = 0;
+                            toPaymentAmountTotal.current = 0;
+                            payAmountTotal.current = 0;
+                        }}
+                    >
+                        關閉
+                    </Button>
                 )}
-                <Button
-                    sx={{ mr: '0.05rem' }}
-                    variant="contained"
-                    onClick={() => {
-                        sendInfo();
-                        handleSaveEdit();
-                        orgfeeAmountTotal.current = 0;
-                        receivedAmountTotal.current = 0;
-                        paidAmountTotal.current = 0;
-                        toPaymentAmountTotal.current = 0;
-                        payAmountTotal.current = 0;
-                    }}
-                >
-                    儲存
-                </Button>
-                <Button
-                    sx={{ mr: '0.05rem' }}
-                    variant="contained"
-                    onClick={() => {
-                        handleDialogClose();
-                        handleTmpSaveEdit();
-                        orgfeeAmountTotal.current = 0;
-                        receivedAmountTotal.current = 0;
-                        paidAmountTotal.current = 0;
-                        toPaymentAmountTotal.current = 0;
-                        payAmountTotal.current = 0;
-                    }}
-                >
-                    關閉
-                </Button>
             </DialogActions>
         </Dialog>
     );
