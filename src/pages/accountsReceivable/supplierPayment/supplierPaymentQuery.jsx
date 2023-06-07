@@ -73,7 +73,7 @@ const SupplierPaymentQuery = ({ setListInfo, queryApi, value }) => {
         if (value === 0) {
             if (tmpQuery.includes('&')) {
                 tmpQuery = tmpQuery.slice(0, -1);
-                tmpQuery = '/Status=PAYINGE&' + tmpQuery;
+                tmpQuery = '/Status=PAYING&' + tmpQuery;
             } else {
                 tmpQuery = tmpQuery + '/Status=PAYING';
             }

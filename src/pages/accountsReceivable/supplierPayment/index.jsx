@@ -41,7 +41,7 @@ const fakeData = [
                 FeeItem: 'CBP Fee BM2 UPG11',
                 PaidAmount: 0.0,
                 InvDetailID: 11,
-                OrgFeeAmount: 1000.0,
+                OrgFeeAmount: 31699.0,
                 ShortOverReason: null,
                 PartyName: 'KT',
                 DedAmount: 1000.0,
@@ -50,7 +50,7 @@ const fakeData = [
                 FeeAmount: 0.0,
                 ReceiveDate: null,
                 SubmarineCable: 'TPE',
-                ReceivedAmount: 0.0,
+                ReceivedAmount: 31699.0,
                 Note: null,
                 BillMasterID: 1,
                 WorkTitle: 'Upgrade',
@@ -472,7 +472,7 @@ const SupplierPayment = () => {
                     <TabPanel value={value} index={0}>
                         {/* <ToPaymentDataList listInfo={listInfo} /> */}
                         <ToPaymentDataList
-                            listInfo={listInfo}
+                            listInfo={fakeData}
                             cbToCn={cbToCn}
                             setCbToCn={setCbToCn}
                             isSend={isSend}
@@ -481,7 +481,7 @@ const SupplierPayment = () => {
                         />
                     </TabPanel>
                     <TabPanel value={value} index={1}>
-                        <PaymentedDataList listInfo={listInfo} />
+                        <PaymentedDataList listInfo={fakeData} />
                     </TabPanel>
                     {/* <TabPanel value={value} index={2}>
                         <InvalidatedDataList />

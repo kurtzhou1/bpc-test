@@ -127,7 +127,8 @@ const ToGenerateDataList = ({ isDialogOpen, handleDialogClose, editPaymentInfo, 
             orgfeeAmountTotal.current = orgfeeAmountTotal.current + i.OrgFeeAmount;
             receivedAmountTotal.current = receivedAmountTotal.current + i.ReceivedAmount;
             paidAmountTotal.current = paidAmountTotal.current + i.PaidAmount;
-            toPaymentAmountTotal.current = toPaymentAmountTotal.current + (i.OrgFeeAmount - i.PaidAmount);
+            toPaymentAmountTotal.current =
+                toPaymentAmountTotal.current + (i.OrgFeeAmount - i.PaidAmount > 0 ? i.OrgFeeAmount - i.PaidAmount : 0);
             payAmountTotal.current = payAmountTotal.current + (i.PayAmount ? i.PayAmount : Number(i.ReceivedAmount - i.PaidAmount));
         });
         if (isDialogOpen) {
