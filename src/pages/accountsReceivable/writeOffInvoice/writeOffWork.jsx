@@ -404,7 +404,7 @@ const WriteOffWork = ({ isDialogOpen, handleDialogClose, writeOffInfo, writeOffD
                                                                 sx={{ minWidth: 75 }}
                                                                 size="small"
                                                                 fullWidth
-                                                                value={row.BankFees}
+                                                                value={handleNumber(row.BankFees)}
                                                                 type="number"
                                                                 onChange={(e) => changeBankFees(e.target.value, row.BillDetailID)}
                                                             />
@@ -419,7 +419,7 @@ const WriteOffWork = ({ isDialogOpen, handleDialogClose, writeOffInfo, writeOffD
                                                                 inputProps={{ step: '.01' }}
                                                                 sx={{ minWidth: 75 }}
                                                                 size="small"
-                                                                value={row.ReceiveAmount}
+                                                                value={handleNumber(row.ReceiveAmount)}
                                                                 type="number"
                                                                 onChange={(e) => {
                                                                     changeReceiveAmount(e.target.value, row.BillDetailID);
