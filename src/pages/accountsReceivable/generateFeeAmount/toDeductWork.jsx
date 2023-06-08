@@ -176,9 +176,13 @@ const ToDeductWork = ({ isDeductOpen, handleDeductClose, billDetailInfo, billMas
     };
 
     const saveDeduct = () => {
+        let tmpFeeAmount = 0;
         let deductAmount = 0;
+        console.log('billDetailInfo=>>', billDetailInfo);
         let tmpArrayFiliter = tmpDeductArray.current.filter((i) => i.BillDetailID === editItem.current);
+        console.log('tmpArrayFiliter=>>', tmpArrayFiliter);
         let tmpArray = tmpDeductArray.current.map((i) => i);
+        console.log('tmpArray=>>', tmpArray);
         if (tmpArrayFiliter.length > 0) {
             tmpArray.forEach((i) => {
                 if (i.BillDetailID === editItem.current) {
@@ -193,9 +197,14 @@ const ToDeductWork = ({ isDeductOpen, handleDeductClose, billDetailInfo, billMas
                 deductAmount = deductAmount + i2.TransAmount;
             });
         });
+        billDetailInfo.forEach((i) => {
+            console.log('i.FeeAmount=>>', i.FeeAmount);
+            tmpFeeAmount = tmpFeeAmount + i.FeeAmount;
+        });
+        console.log('tmpFeeAmount=>>', tmpFeeAmount, deductAmount);
         dedAmount.current = deductAmount;
         tmpDeductArray.current = tmpArray;
-        setFeeAmountTotal(feeAmountTotal - deductAmount);
+        setFeeAmountTotal(tmpFeeAmount - deductAmount);
         setTmpCBArray([]);
         setIsDeductWorkOpen(false);
         editItem.current = '';
@@ -235,6 +244,8 @@ const ToDeductWork = ({ isDeductOpen, handleDeductClose, billDetailInfo, billMas
     useEffect(() => {
         setFeeAmountTotal(orgFeeAmount.current - dedAmount.current);
     }, [dedAmount.current]);
+
+    console.log('feeAmountTotal222=>>', feeAmountTotal);
 
     return (
         <Dialog maxWidth="xxl" open={isDeductOpen}>
