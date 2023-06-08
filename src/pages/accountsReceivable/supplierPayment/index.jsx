@@ -1,14 +1,11 @@
-import { useEffect, useState, useRef } from 'react';
-import { Grid, Button, IconButton, Box, Tabs, Tab, Typography, DialogTitle } from '@mui/material';
-import CloseIcon from '@mui/icons-material/Close';
-// import { styled } from '@mui/material/styles';
+import { useState, useRef } from 'react';
+import { Grid, Button, Box, Tabs, Tab } from '@mui/material';
 
 // project import
 import { TabPanel } from 'components/commonFunction';
 import MainCard from 'components/MainCard';
 import ToPaymentDataList from './toPaymentDataList';
 import PaymentedDataList from './paymentedDataList';
-import InvalidatedDataList from './invalidatedDataList';
 import SupplierPaymentQuery from './supplierPaymentQuery';
 
 const fakeData = [

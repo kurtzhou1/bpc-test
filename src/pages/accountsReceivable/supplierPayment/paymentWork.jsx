@@ -246,8 +246,8 @@ const ToGenerateDataList = ({ isDialogOpen, handleDialogClose, editPaymentInfo, 
                                                                 sx={{ minWidth: 75 }}
                                                                 value={
                                                                     row.PayAmount
-                                                                        ? row.PayAmount
-                                                                        : Number(row.ReceivedAmount - row.PaidAmount)
+                                                                        ? handleNumber(row.PayAmount)
+                                                                        : handleNumber(Number(row.ReceivedAmount - row.PaidAmount))
                                                                 }
                                                                 type="number"
                                                                 onChange={(e) => {
