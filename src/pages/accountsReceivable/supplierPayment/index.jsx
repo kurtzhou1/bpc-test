@@ -478,7 +478,7 @@ const SupplierPayment = () => {
                         />
                     </TabPanel>
                     <TabPanel value={value} index={1}>
-                        <PaymentedDataList listInfo={fakeData} />
+                        <PaymentedDataList listInfo={listInfo} />
                     </TabPanel>
                     {/* <TabPanel value={value} index={2}>
                         <InvalidatedDataList />
