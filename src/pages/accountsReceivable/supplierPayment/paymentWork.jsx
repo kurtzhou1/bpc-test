@@ -336,11 +336,11 @@ const PaymentWork = ({ isDialogOpen, handleDialogClose, editPaymentInfo, actionN
 export default PaymentWork;
 
 PaymentWork.propTypes = {
-    // actionName: React.PropTypes.String,
-    // invoiceNo: React.PropTypes.String,
+    actionName: React.String,
+    invoiceNo: React.String,
     // dueDate: React.PropTypes.instanceOf(Date),
-    // editPaymentInfo: React.PropTypes.Array,
-    // savePaymentEdit: React.PropTypes.func,
-    // handleDialogClose: React.PropTypes.func,
-    // isDialogOpen: React.PropTypes.bool
+    editPaymentInfo: React.Array,
+    savePaymentEdit: React.func,
+    handleDialogClose: React.func,
+    isDialogOpen: React.bool
 };
