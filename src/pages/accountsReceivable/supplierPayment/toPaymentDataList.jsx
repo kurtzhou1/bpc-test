@@ -571,7 +571,7 @@ const ToPaymentDataList = ({ listInfo, cbToCn, setCbToCn, isSend, setIsSend, sup
                                                     );
                                                 }}
                                             >
-                                                編輯付款資訊
+                                                編輯付款
                                             </Button>
                                         </Box>
                                     </StyledTableCell>

@@ -1,33 +1,18 @@
 import { useState, useRef, useEffect } from 'react';
+import React from 'react';
 
 // project import
 import { handleNumber, BootstrapDialogTitle } from 'components/commonFunction';
 import MainCard from 'components/MainCard';
 // material-ui
-import {
-    Typography,
-    Button,
-    Table,
-    Dialog,
-    DialogContent,
-    DialogContentText,
-    Grid,
-    FormControl,
-    InputLabel,
-    Select,
-    DialogActions,
-    TextField
-} from '@mui/material';
+import { Typography, Button, Table, Dialog, DialogContent, Grid, DialogActions, TextField } from '@mui/material';
 import TableBody from '@mui/material/TableBody';
 import TableCell, { tableCellClasses } from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
-import { alpha, styled } from '@mui/material/styles';
-import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import { DesktopDatePicker } from '@mui/x-date-pickers/DesktopDatePicker';
-import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { styled } from '@mui/material/styles';
 
 import dayjs from 'dayjs';
 
@@ -35,7 +20,7 @@ import dayjs from 'dayjs';
 import { useDispatch } from 'react-redux';
 import { setMessageStateOpen } from 'store/reducers/dropdown';
 
-import { toBillDataapi, sendJounary } from 'components/apis.jsx';
+// import { toBillDataapi } from 'components/apis.jsx';
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
     [`&.${tableCellClasses.head}`]: {
@@ -57,7 +42,7 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
     }
 }));
 
-const ToGenerateDataList = ({ isDialogOpen, handleDialogClose, editPaymentInfo, actionName, invoiceNo, dueDate, savePaymentEdit }) => {
+const PaymentWork = ({ isDialogOpen, handleDialogClose, editPaymentInfo, actionName, invoiceNo, dueDate, savePaymentEdit }) => {
     const dispatch = useDispatch();
     const [toPaymentDetailInfo, setToPaymentDetailInfo] = useState([]); //帳單明細檔
     const orgfeeAmountTotal = useRef(0); //應收金額
@@ -119,9 +104,7 @@ const ToGenerateDataList = ({ isDialogOpen, handleDialogClose, editPaymentInfo, 
     };
 
     useEffect(() => {
-        // let tmpArray = editPaymentInfo.map((i) => i);
         let tmpArray = JSON.parse(JSON.stringify(editPaymentInfo));
-        console.log('paidAmountTotal.current=>>', paidAmountTotal.current);
         tmpArray.forEach((i) => {
             // i.PayAmount = i.PayAmount ? i.PayAmount : Number(i.ReceivedAmount - i.PaidAmount);
             orgfeeAmountTotal.current = orgfeeAmountTotal.current + i.OrgFeeAmount;
@@ -148,7 +131,7 @@ const ToGenerateDataList = ({ isDialogOpen, handleDialogClose, editPaymentInfo, 
                                     variant="h5"
                                     sx={{ fontSize: { lg: '0.5rem', xl: '0.88rem' }, ml: { lg: '0.5rem', xl: '1.5rem' } }}
                                 >
-                                    會員：
+                                    發票號碼：
                                 </Typography>
                             </Grid>
                             <Grid item xs={2} sm={2} md={2} lg={2}>
@@ -246,8 +229,8 @@ const ToGenerateDataList = ({ isDialogOpen, handleDialogClose, editPaymentInfo, 
                                                                 sx={{ minWidth: 75 }}
                                                                 value={
                                                                     row.PayAmount
-                                                                        ? handleNumber(row.PayAmount)
-                                                                        : handleNumber(Number(row.ReceivedAmount - row.PaidAmount))
+                                                                        ? row.PayAmount
+                                                                        : Number(row.ReceivedAmount - row.PaidAmount)
                                                                 }
                                                                 type="number"
                                                                 onChange={(e) => {
@@ -350,4 +333,14 @@ const ToGenerateDataList = ({ isDialogOpen, handleDialogClose, editPaymentInfo, 
     );
 };
 
-export default ToGenerateDataList;
+export default PaymentWork;
+
+PaymentWork.propTypes = {
+    // actionName: React.PropTypes.String,
+    // invoiceNo: React.PropTypes.String,
+    // dueDate: React.PropTypes.instanceOf(Date),
+    // editPaymentInfo: React.PropTypes.Array,
+    // savePaymentEdit: React.PropTypes.func,
+    // handleDialogClose: React.PropTypes.func,
+    // isDialogOpen: React.PropTypes.bool
+};
