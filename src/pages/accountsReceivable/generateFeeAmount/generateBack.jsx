@@ -57,7 +57,6 @@ const GenerateBack = ({ action, infoBack, handleBackClose, receivableQuery, edit
     }));
 
     const backBill = () => {
-        console.log('terminateInfo=>>', terminateInfo);
         const queryApi = action === 'toDeduct' ? beforeDuction : afterDeduction;
         let tmpArray = {
             BillMasterID: editBillMasterID

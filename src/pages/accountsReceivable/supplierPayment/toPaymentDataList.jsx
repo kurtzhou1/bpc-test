@@ -1,4 +1,6 @@
 import { useState, useRef, useEffect } from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 
 // project import
 import PaymentWork from './paymentWork';
@@ -6,40 +8,25 @@ import { handleNumber } from 'components/commonFunction';
 import { BootstrapDialogTitle } from 'components/commonFunction';
 
 // material-ui
-import {
-    Button,
-    Table,
-    TextField,
-    Box,
-    Paper,
-    Checkbox,
-    Dialog,
-    DialogContent,
-    DialogContentText,
-    Grid,
-    DialogActions
-} from '@mui/material';
+import { Button, Table, TextField, Box, Paper, Checkbox, Dialog, DialogContent, Grid, DialogActions } from '@mui/material';
 import TableBody from '@mui/material/TableBody';
 import TableCell, { tableCellClasses } from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import { styled } from '@mui/material/styles';
-import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import { DesktopDatePicker } from '@mui/x-date-pickers/DesktopDatePicker';
-import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 
 // icon
 // import DoNotDisturbOnIcon from '@mui/icons-material/DoNotDisturbOn';
-import AddCircleIcon from '@mui/icons-material/AddCircle';
+// import AddCircleIcon from '@mui/icons-material/AddCircle';
 
 import dayjs from 'dayjs';
 
 import { sendPayment } from 'components/apis.jsx';
 
 // redux
-import { useDispatch } from 'react-redux';
-import { setMessageStateOpen } from 'store/reducers/dropdown';
+// import { useDispatch } from 'react-redux';
+// import { setMessageStateOpen } from 'store/reducers/dropdown';
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
     [`&.${tableCellClasses.head}`]: {
@@ -58,112 +45,112 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
 }));
 
 const ToPaymentDataList = ({ listInfo, cbToCn, setCbToCn, isSend, setIsSend, supplierPaymentQuery }) => {
-    const [isColumn2Open, setIsColumn2Open] = useState(true);
-    const [isColumn3Open, setIsColumn3Open] = useState(true);
-    const [isColumn4Open, setIsColumn4Open] = useState(true);
-    const dispatch = useDispatch();
+    // const [isColumn2Open, setIsColumn2Open] = useState(true);
+    // const [isColumn3Open, setIsColumn3Open] = useState(true);
+    // const [isColumn4Open, setIsColumn4Open] = useState(true);
+    // const dispatch = useDispatch();
     // let tmpBMArray = [];
 
-    const columns1 = [
-        { id: '海纜名稱', label: '海纜名稱', minWidth: '90px', align: 'center', className: '' },
-        { id: '海纜作業', label: '海纜作業', minWidth: '90px', align: 'center' },
-        { id: '計帳段號', label: '計帳段號', minWidth: '90px', align: 'center' }
-    ];
+    // const columns1 = [
+    //     { id: '海纜名稱', label: '海纜名稱', minWidth: '90px', align: 'center', className: '' },
+    //     { id: '海纜作業', label: '海纜作業', minWidth: '90px', align: 'center' },
+    //     { id: '計帳段號', label: '計帳段號', minWidth: '90px', align: 'center' }
+    // ];
 
-    const columns2 = [
-        { id: 'Suppliers', label: 'Suppliers', minWidth: '90px', align: 'center', className: '' },
-        {
-            id: "Supplier's Invoice No.",
-            label: "Supplier's Invoice No.",
-            minWidth: '90px',
-            align: 'center'
-        },
-        {
-            id: 'Amt(USD)',
-            label: 'Amt(USD)',
-            minWidth: '90px',
-            align: 'center'
-        },
-        {
-            id: 'dueDate',
-            label: 'DueDate',
-            minWidth: '90px',
-            align: 'center'
-        }
-    ];
+    // const columns2 = [
+    //     { id: 'Suppliers', label: 'Suppliers', minWidth: '90px', align: 'center', className: '' },
+    //     {
+    //         id: "Supplier's Invoice No.",
+    //         label: "Supplier's Invoice No.",
+    //         minWidth: '90px',
+    //         align: 'center'
+    //     },
+    //     {
+    //         id: 'Amt(USD)',
+    //         label: 'Amt(USD)',
+    //         minWidth: '90px',
+    //         align: 'center'
+    //     },
+    //     {
+    //         id: 'dueDate',
+    //         label: 'DueDate',
+    //         minWidth: '90px',
+    //         align: 'center'
+    //     }
+    // ];
 
-    const columns3 = [
-        {
-            id: 'Invoice#(CBP to Party)',
-            label: 'Invoice#(CBP to Party)',
-            minWidth: '90px',
-            align: 'center'
-        },
+    // const columns3 = [
+    //     {
+    //         id: 'Invoice#(CBP to Party)',
+    //         label: 'Invoice#(CBP to Party)',
+    //         minWidth: '90px',
+    //         align: 'center'
+    //     },
 
-        {
-            id: 'Party',
-            label: 'Party',
-            minWidth: '90px',
-            align: 'center'
-        },
-        {
-            id: 'Description',
-            label: 'Description',
-            minWidth: '90px',
-            align: 'center'
-        },
-        {
-            id: 'Amount Billed(USD)',
-            label: 'Amount Billed(USD)',
-            minWidth: '90px',
-            align: 'center'
-        },
-        {
-            id: 'Due Date',
-            label: 'Due Date',
-            minWidth: '90px',
-            align: 'center'
-        },
-        {
-            id: 'Received Amt(USD)',
-            label: 'Received Amt(USD)',
-            minWidth: '90px',
-            align: 'center'
-        },
-        {
-            id: 'Diff',
-            label: 'Diff',
-            minWidth: '90px',
-            align: 'center'
-        },
-        {
-            id: 'Remark',
-            label: 'Remark',
-            minWidth: '90px',
-            align: 'center'
-        }
-    ];
+    //     {
+    //         id: 'Party',
+    //         label: 'Party',
+    //         minWidth: '90px',
+    //         align: 'center'
+    //     },
+    //     {
+    //         id: 'Description',
+    //         label: 'Description',
+    //         minWidth: '90px',
+    //         align: 'center'
+    //     },
+    //     {
+    //         id: 'Amount Billed(USD)',
+    //         label: 'Amount Billed(USD)',
+    //         minWidth: '90px',
+    //         align: 'center'
+    //     },
+    //     {
+    //         id: 'Due Date',
+    //         label: 'Due Date',
+    //         minWidth: '90px',
+    //         align: 'center'
+    //     },
+    //     {
+    //         id: 'Received Amt(USD)',
+    //         label: 'Received Amt(USD)',
+    //         minWidth: '90px',
+    //         align: 'center'
+    //     },
+    //     {
+    //         id: 'Diff',
+    //         label: 'Diff',
+    //         minWidth: '90px',
+    //         align: 'center'
+    //     },
+    //     {
+    //         id: 'Remark',
+    //         label: 'Remark',
+    //         minWidth: '90px',
+    //         align: 'center'
+    //     }
+    // ];
 
-    const columns4 = [
-        {
-            id: 'Amt(USD)',
-            label: 'Amt(USD)',
-            minWidth: '90px',
-            align: 'center'
-        },
-        {
-            id: 'Remittance Date',
-            label: 'Remittance Date',
-            minWidth: '90px',
-            align: 'center'
-        },
-        {
-            id: 'Diff',
-            label: 'Diff',
-            minWidth: '90px',
-            align: 'center'
-        }
-    ];
+    // const columns4 = [
+    //     {
+    //         id: 'Amt(USD)',
+    //         label: 'Amt(USD)',
+    //         minWidth: '90px',
+    //         align: 'center'
+    //     },
+    //     {
+    //         id: 'Remittance Date',
+    //         label: 'Remittance Date',
+    //         minWidth: '90px',
+    //         align: 'center'
+    //     },
+    //     {
+    //         id: 'Diff',
+    //         label: 'Diff',
+    //         minWidth: '90px',
+    //         align: 'center'
+    //     }
+    // ];
 
     const [toPaymentList, setToPaymentList] = useState([]);
     const [isDialogOpen, setIsDialogOpen] = useState(false); //折抵作業
@@ -278,7 +265,6 @@ const ToPaymentDataList = ({ listInfo, cbToCn, setCbToCn, isSend, setIsSend, sup
     useEffect(() => {
         if (isSend) {
             let tmpArray = [];
-            console.log('cbToCn=>>', cbToCn);
             toPaymentList.forEach((i) => {
                 if (cbToCn[i.InvoiceWKMaster.InvoiceNo]) {
                     tmpArray.push(i);
@@ -647,3 +633,16 @@ const ToPaymentDataList = ({ listInfo, cbToCn, setCbToCn, isSend, setIsSend, sup
 };
 
 export default ToPaymentDataList;
+
+ToPaymentDataList.propTypes = {
+    listInfo: React.Array,
+    supplierPaymentQuery: React.func,
+    // setIsSend:React.SetStateAction<string>,
+
+    actionName: React.String,
+    invoiceNo: React.String,
+    dueDate: PropTypes.instanceOf(Date),
+
+    handleDialogClose: React.func,
+    isDialogOpen: React.bool
+};
