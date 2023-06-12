@@ -172,6 +172,7 @@ const PaymentWork = ({ isDialogOpen, handleDialogClose, editPaymentInfo, actionN
                                 <Table sx={{ minWidth: 300 }} stickyHeader aria-label="sticky table">
                                     <TableHead>
                                         <TableRow>
+                                            <StyledTableCell align="center">帳單號碼</StyledTableCell>
                                             <StyledTableCell align="center">費用項目</StyledTableCell>
                                             <StyledTableCell align="center">計帳段號</StyledTableCell>
                                             <StyledTableCell align="center">會員</StyledTableCell>
@@ -195,6 +196,7 @@ const PaymentWork = ({ isDialogOpen, handleDialogClose, editPaymentInfo, actionN
                                                     key={row.InvoiceNo + row?.BillMasterID + row?.BillDetailID}
                                                     sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                                                 >
+                                                    <TableCell align="center">{row?.BillingNo}</TableCell>
                                                     <TableCell align="center">{row.FeeItem}</TableCell>
                                                     <TableCell align="center">{row.BillMilestone}</TableCell>
                                                     <TableCell align="center">{row.PartyName}</TableCell>
@@ -249,6 +251,7 @@ const PaymentWork = ({ isDialogOpen, handleDialogClose, editPaymentInfo, actionN
                                             <StyledTableCell className="totalAmount" align="center">
                                                 Total
                                             </StyledTableCell>
+                                            <StyledTableCell className="totalAmount" align="center" />
                                             <StyledTableCell className="totalAmount" align="center" />
                                             <StyledTableCell className="totalAmount" align="center" />
                                             <StyledTableCell className="totalAmount" align="center">
