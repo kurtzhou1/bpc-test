@@ -102,11 +102,11 @@ const LiabilityManage = () => {
         list.forEach((e) => {
             tmpNumber = Number(e.LBRatio) + Number(tmpNumber);
         });
-        console.log('tmpNumber=>>', tmpNumber);
-        if (tmpNumber.toFixed(0) !== 100) {
+        console.log('tmpNumber=>>', tmpNumber.toFixed(10), tmpNumber.toFixed(10) !== '100.0000000000');
+        if (tmpNumber.toFixed(10) !== '100.0000000000') {
             dispatch(setMessageStateOpen({ messageStateOpen: { isOpen: true, severity: 'error', message: '攤分比例加總須等於100' } }));
         }
-        if (list.length > 0 && tmpNumber === 100) {
+        if (list.length > 0 && tmpNumber.toFixed(10) === '100.0000000000') {
             fetch(compareLiability, { method: 'POST', body: JSON.stringify(list) })
                 .then((res) => res.json())
                 .then((data) => {
