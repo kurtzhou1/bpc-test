@@ -103,7 +103,7 @@ const LiabilityManage = () => {
             tmpNumber = Number(e.LBRatio) + Number(tmpNumber);
         });
         console.log('tmpNumber=>>', tmpNumber);
-        if (tmpNumber !== 100) {
+        if (tmpNumber.toFixed(0) !== 100) {
             dispatch(setMessageStateOpen({ messageStateOpen: { isOpen: true, severity: 'error', message: '攤分比例加總須等於100' } }));
         }
         if (list.length > 0 && tmpNumber === 100) {
