@@ -30,8 +30,9 @@ const CreditNote = Loadable(lazy(() => import('pages/creditNote/CreditNote')));
 // 應收帳款管理
 const GenerateFeeAmount = Loadable(lazy(() => import('pages/accountsReceivable/generateFeeAmount')));
 const WriteOffInvoice = Loadable(lazy(() => import('pages/accountsReceivable/writeOffInvoice')));
-const SupplierPayment = Loadable(lazy(() => import('pages/accountsReceivable/supplierPayment')));
-const Correspondence = Loadable(lazy(() => import('pages/accountsReceivable/correspondence')));
+const SupplierPayment = Loadable(lazy(() => import('pages/supplierPayment/supplierPayment')));
+const Correspondence = Loadable(lazy(() => import('pages/supplierPayment/correspondence')));
+const PaymentRecord = Loadable(lazy(() => import('pages/supplierPayment/paymentRecord')));
 
 // 基本資料設定
 const Information = Loadable(lazy(() => import('pages/information/Information')));
@@ -158,7 +159,12 @@ const MainRoutes = {
                             <WriteOffInvoice />
                         </RequireAuth>
                     )
-                },
+                }
+            ]
+        },
+        {
+            path: 'SupplierPayment',
+            children: [
                 {
                     path: 'SupplierPayment',
                     element: (
@@ -172,6 +178,14 @@ const MainRoutes = {
                     element: (
                         <RequireAuth>
                             <Correspondence />
+                        </RequireAuth>
+                    )
+                },
+                {
+                    path: 'PaymentRecord',
+                    element: (
+                        <RequireAuth>
+                            <PaymentRecord />
                         </RequireAuth>
                     )
                 }

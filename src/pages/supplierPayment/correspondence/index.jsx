@@ -90,16 +90,10 @@ const Correspondence = ({ listInfo, apiQuery }) => {
                                 <TableHead>
                                     <TableRow>
                                         <StyledTableCell align="center">供應商</StyledTableCell>
-                                        <StyledTableCell align="center">海纜資訊</StyledTableCell>
+                                        <StyledTableCell align="center">發票號碼</StyledTableCell>
+                                        <StyledTableCell align="center">海纜名稱</StyledTableCell>
+                                        <StyledTableCell align="center">海纜作業</StyledTableCell>
                                         <StyledTableCell align="center">匯款總金額</StyledTableCell>
-                                        <StyledTableCell align="center">主旨</StyledTableCell>
-                                        <StyledTableCell align="center">聯絡人員</StyledTableCell>
-                                        <StyledTableCell align="center">連絡電話</StyledTableCell>
-                                        <StyledTableCell align="center">E-mail</StyledTableCell>
-                                        <StyledTableCell align="center">發文日期</StyledTableCell>
-                                        <StyledTableCell align="center">發文字號</StyledTableCell>
-                                        <StyledTableCell align="center">發文者</StyledTableCell>
-                                        <StyledTableCell align="center">狀態</StyledTableCell>
                                         <StyledTableCell align="center">Action</StyledTableCell>
                                     </TableRow>
                                 </TableHead>
@@ -119,10 +113,6 @@ const Correspondence = ({ listInfo, apiQuery }) => {
                                                 <StyledTableCell align="center">
                                                     {dayjs(row.IssueDate).format('YYYY/MM/DD')}
                                                 </StyledTableCell>
-                                                <StyledTableCell align="center">{toBillDataInfo.length}</StyledTableCell>
-                                                <StyledTableCell align="center">{toBillDataInfo.length}</StyledTableCell>
-                                                <StyledTableCell align="center">{toBillDataInfo.length}</StyledTableCell>
-                                                <StyledTableCell align="center">{row.Status}</StyledTableCell>
                                                 <StyledTableCell align="center">
                                                     <Box
                                                         sx={{
@@ -146,26 +136,6 @@ const Correspondence = ({ listInfo, apiQuery }) => {
                                                         >
                                                             更新函稿
                                                         </Button>
-                                                        {/* <Button
-                                                            color="error"
-                                                            size="small"
-                                                            variant="outlined"
-                                                            onClick={() => {
-                                                                setInfoTerminal(true);
-                                                            }}
-                                                        >
-                                                            作廢
-                                                        </Button>
-                                                        <Button
-                                                            color="warning"
-                                                            size="small"
-                                                            variant="outlined"
-                                                            onClick={() => {
-                                                                setInfoTerminal(true);
-                                                            }}
-                                                        >
-                                                            退回
-                                                        </Button> */}
                                                     </Box>
                                                 </StyledTableCell>
                                             </TableRow>

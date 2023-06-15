@@ -365,6 +365,7 @@ const WriteOffWork = ({ isDialogOpen, handleDialogClose, writeOffInfo, writeOffD
                                             //         : shortAmount === 0 || shortAmount === row.FeeAmount
                                             //         ? 'INCOMPLETE'
                                             //         : 'PARTIAL';
+                                            console.log('row.BankFees=>>', row.BankFees, typeof row.BankFees);
                                             return (
                                                 <TableRow
                                                     key={row?.BillMasterID + row?.BillDetailID}
@@ -400,12 +401,12 @@ const WriteOffWork = ({ isDialogOpen, handleDialogClose, writeOffInfo, writeOffD
                                                     ) : (
                                                         <TableCell sx={{ fontSize: '0.1rem' }} align="center">
                                                             <TextField
-                                                                inputProps={{ step: '.01' }}
+                                                                // inputProps={{ step: '.01' }}
                                                                 sx={{ minWidth: 75 }}
                                                                 size="small"
                                                                 fullWidth
                                                                 value={handleNumber(row.BankFees)}
-                                                                type="number"
+                                                                // type="number"
                                                                 onChange={(e) => changeBankFees(e.target.value, row.BillDetailID)}
                                                             />
                                                         </TableCell>
@@ -416,11 +417,11 @@ const WriteOffWork = ({ isDialogOpen, handleDialogClose, writeOffInfo, writeOffD
                                                     ) : (
                                                         <TableCell sx={{ fontSize: '0.1rem' }} align="center">
                                                             <TextField
-                                                                inputProps={{ step: '.01' }}
+                                                                // inputProps={{ step: '.01' }}
                                                                 sx={{ minWidth: 75 }}
                                                                 size="small"
                                                                 value={handleNumber(row.ReceiveAmount)}
-                                                                type="number"
+                                                                // type="number"
                                                                 onChange={(e) => {
                                                                     changeReceiveAmount(e.target.value, row.BillDetailID);
                                                                 }}

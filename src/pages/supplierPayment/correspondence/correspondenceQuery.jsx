@@ -24,10 +24,17 @@ import dayjs from 'dayjs';
 import { DateRangePicker } from '@mui/x-date-pickers-pro/DateRangePicker';
 import { TextField } from '@mui/material/index';
 
+// redux
+import { useSelector } from 'react-redux';
+
 // ==============================|| SAMPLE PAGE ||============================== //
 
 const CorrespondenceQuery = ({ correspondenceQuery }) => {
     const [issueDate, setIssueDate] = useState([null, null]); //發票日期
+    const [supplierName, setSupplierName] = useState(''); //供應商
+    const [submarineCable, setSubmarineCable] = useState(''); //海纜名稱
+    const [workTitle, setWorkTitle] = useState(''); //海纜作業
+    const { supNmList, subCableList } = useSelector((state) => state.dropdown); //供應商下拉選單 + 海纜名稱下拉選單
     return (
         <MainCard title="函稿查詢" sx={{ width: '100%' }}>
             <Grid container display="flex" justifyContent="center" alignItems="center" spacing={2}>
@@ -58,15 +65,13 @@ const CorrespondenceQuery = ({ correspondenceQuery }) => {
                 </Grid>
                 <Grid item xs={2} sm={2} md={2} lg={2}>
                     <FormControl fullWidth size="small">
-                        <InputLabel id="demo-simple-select-label">選擇CB種類</InputLabel>
-                        <Select
-                            // value={submarineCable}
-                            label="發票供應商"
-                            onChange={(e) => setSubmarineCable(e.target.value)}
-                        >
-                            <MenuItem value={'CB種類1'}>CB種類1</MenuItem>
-                            <MenuItem value={'CB種類2'}>CB種類2</MenuItem>
-                            <MenuItem value={'CB種類3'}>CB種類3</MenuItem>
+                        <InputLabel id="demo-simple-select-label">選擇海纜</InputLabel>
+                        <Select value={submarineCable} label="海纜" onChange={(e) => setSubmarineCable(e.target.value)}>
+                            {subCableList.map((i) => (
+                                <MenuItem key={i.CableName} value={i.CableName}>
+                                    {i.CableName}
+                                </MenuItem>
+                            ))}
                         </Select>
                     </FormControl>
                 </Grid>
@@ -77,15 +82,11 @@ const CorrespondenceQuery = ({ correspondenceQuery }) => {
                 </Grid>
                 <Grid item xs={2} sm={2} md={2} lg={2}>
                     <FormControl fullWidth size="small">
-                        <InputLabel id="demo-simple-select-label">選擇海纜名稱</InputLabel>
-                        <Select
-                            // value={submarineCable}
-                            label="海纜名稱"
-                            onChange={(e) => setSubmarineCable(e.target.value)}
-                        >
-                            <MenuItem value={'一段'}>一段</MenuItem>
-                            <MenuItem value={'二段'}>二段</MenuItem>
-                            <MenuItem value={'三段'}>三段</MenuItem>
+                        <InputLabel id="demo-simple-select-label">選擇海纜作業</InputLabel>
+                        <Select value={workTitle} label="海纜作業" onChange={(e) => setWorkTitle(e.target.value)}>
+                            <MenuItem value={'Upgrade'}>Upgrade</MenuItem>
+                            <MenuItem value={'Construction'}>Construction</MenuItem>
+                            <MenuItem value={'O&M'}>O&M</MenuItem>
                         </Select>
                     </FormControl>
                 </Grid>
@@ -96,20 +97,18 @@ const CorrespondenceQuery = ({ correspondenceQuery }) => {
                 </Grid>
                 <Grid item xs={2} sm={2} md={2} lg={2}>
                     <FormControl fullWidth size="small">
-                        <InputLabel id="demo-simple-select-label">選擇海纜作業</InputLabel>
-                        <Select
-                            // value={submarineCable}
-                            label="海纜作業"
-                            onChange={(e) => setSubmarineCable(e.target.value)}
-                        >
-                            <MenuItem value={'一段'}>一段</MenuItem>
-                            <MenuItem value={'二段'}>二段</MenuItem>
-                            <MenuItem value={'三段'}>三段</MenuItem>
+                        <InputLabel id="demo-simple-select-label">選擇供應商</InputLabel>
+                        <Select value={supplierName} label="供應商" onChange={(e) => setSupplierName(e.target.value)}>
+                            {supNmList.map((i) => (
+                                <MenuItem key={i.SupplierName} value={i.SupplierName}>
+                                    {i.SupplierName}
+                                </MenuItem>
+                            ))}
                         </Select>
                     </FormControl>
                 </Grid>
                 {/* row2 */}
-                <Grid item xs={1} sm={1} md={1} lg={1}>
+                {/* <Grid item xs={1} sm={1} md={1} lg={1}>
                     <Typography variant="h5" sx={{ fontSize: { lg: '0.5rem', xl: '0.88rem' }, ml: { lg: '0.5rem', xl: '1.5rem' } }}>
                         剩餘金額：
                     </Typography>
@@ -160,8 +159,8 @@ const CorrespondenceQuery = ({ correspondenceQuery }) => {
                             )}
                         />
                     </LocalizationProvider>
-                </Grid>
-                <Grid item xs={7} sm={7} md={3} lg={3} display="flex" justifyContent="end" alignItems="center">
+                </Grid> */}
+                <Grid item xs={12} sm={12} md={12} lg={12} display="flex" justifyContent="end" alignItems="center">
                     <Button sx={{ mr: '0.5rem' }} variant="contained" onClick={correspondenceQuery}>
                         查詢
                     </Button>
