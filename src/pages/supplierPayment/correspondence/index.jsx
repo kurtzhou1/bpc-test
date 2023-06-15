@@ -5,6 +5,8 @@ import { handleNumber, BootstrapDialogTitle } from 'components/commonFunction';
 import CorrespondenceQuery from './correspondenceQuery';
 import MainCard from 'components/MainCard';
 import CorrespondenceMake from './correspondenceMake';
+import ToEditDataList from './toEditDataList';
+import { TabPanel } from 'components/commonFunction';
 // material-ui
 import {
     Typography,
@@ -19,7 +21,9 @@ import {
     Select,
     DialogActions,
     TextField,
-    Box
+    Box,
+    Tabs,
+    Tab
 } from '@mui/material';
 import TableBody from '@mui/material/TableBody';
 import TableCell, { tableCellClasses } from '@mui/material/TableCell';
@@ -34,8 +38,16 @@ import dayjs from 'dayjs';
 import { toBillDataapi, sendJounary } from 'components/apis.jsx';
 
 const Correspondence = ({ listInfo, apiQuery }) => {
+    const [value, setValue] = useState(0);
     const correspondenceQuery = () => {
         console.log('correspondenceQuery');
+    };
+
+    const a11yProps = (index) => {
+        return {
+            id: `simple-tab-${index}`,
+            'aria-controls': `simple-tabpanel-${index}`
+        };
     };
 
     //以下都無用
@@ -77,73 +89,30 @@ const Correspondence = ({ listInfo, apiQuery }) => {
         setUploadOpen(false);
     };
 
+    const handleChange = (event, newValue) => {
+        setValue(newValue);
+    };
+
     return (
         <>
             <Grid container spacing={1}>
                 <Grid item xs={12}>
-                    <CorrespondenceQuery correspondenceQuery={correspondenceQuery} />
+                    <CorrespondenceQuery correspondenceQuery={correspondenceQuery} value={value} />
                 </Grid>
                 <Grid item xs={12}>
-                    <MainCard title="函稿資料列表">
-                        <TableContainer component={Paper} sx={{ maxHeight: 350 }}>
-                            <Table sx={{ minWidth: 300 }} stickyHeader aria-label="sticky table">
-                                <TableHead>
-                                    <TableRow>
-                                        <StyledTableCell align="center">供應商</StyledTableCell>
-                                        <StyledTableCell align="center">發票號碼</StyledTableCell>
-                                        <StyledTableCell align="center">海纜名稱</StyledTableCell>
-                                        <StyledTableCell align="center">海纜作業</StyledTableCell>
-                                        <StyledTableCell align="center">匯款總金額</StyledTableCell>
-                                        <StyledTableCell align="center">Action</StyledTableCell>
-                                    </TableRow>
-                                </TableHead>
-                                <TableBody>
-                                    {[].map((row, id) => {
-                                        return (
-                                            <TableRow
-                                                key={row.InvoiceWKMaster?.WKMasterID + row.InvoiceWKMaster?.InvoiceNo}
-                                                sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-                                            >
-                                                <StyledTableCell align="center">{id + 1}</StyledTableCell>
-                                                <StyledTableCell align="center">{row.PartyName}</StyledTableCell>
-                                                <StyledTableCell align="center">{row.SubmarineCable}</StyledTableCell>
-                                                <StyledTableCell align="center">{row.WorkTitle}</StyledTableCell>
-                                                <StyledTableCell align="center">{row.InvoiceNo}</StyledTableCell>
-                                                <StyledTableCell align="center">{row.SupplierName}</StyledTableCell>
-                                                <StyledTableCell align="center">
-                                                    {dayjs(row.IssueDate).format('YYYY/MM/DD')}
-                                                </StyledTableCell>
-                                                <StyledTableCell align="center">
-                                                    <Box
-                                                        sx={{
-                                                            display: 'flex',
-                                                            justifyContent: 'center',
-                                                            '& button': { mx: { sm: 0.3, md: 0.3, lg: 0.6, xl: 1.5 }, p: 0, fontSize: 1 }
-                                                        }}
-                                                    >
-                                                        <Button
-                                                            color="primary"
-                                                            size="small"
-                                                            variant="outlined"
-                                                            onClick={() => {
-                                                                handleDialogOpen('viewDeducted', {
-                                                                    PartyName: row.PartyName,
-                                                                    IssueDate: dayjs(row.IssueDate).format('YYYY/MM/DD'),
-                                                                    SubmarineCable: row.SubmarineCable,
-                                                                    WorkTitle: row.WorkTitle
-                                                                });
-                                                            }}
-                                                        >
-                                                            更新函稿
-                                                        </Button>
-                                                    </Box>
-                                                </StyledTableCell>
-                                            </TableRow>
-                                        );
-                                    })}
-                                </TableBody>
-                            </Table>
-                        </TableContainer>
+                    <MainCard title={`${value == 0 ? '未編輯' : '已編輯'}資料列表`}>
+                        <Box sx={{ borderBottom: 1, borderColor: 'divider', position: 'relative' }}>
+                            <Tabs value={value} onChange={handleChange}>
+                                <Tab label="未編輯" {...a11yProps(0)} />
+                                <Tab label="已編輯" {...a11yProps(1)} />
+                            </Tabs>
+                        </Box>
+                        <TabPanel value={value} index={0}>
+                            <ToEditDataList />
+                        </TabPanel>
+                        <TabPanel value={value} index={1}>
+                            <ToEditDataList />
+                        </TabPanel>
                     </MainCard>
                 </Grid>
             </Grid>

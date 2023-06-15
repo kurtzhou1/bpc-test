@@ -29,11 +29,12 @@ import { useSelector } from 'react-redux';
 
 // ==============================|| SAMPLE PAGE ||============================== //
 
-const CorrespondenceQuery = ({ correspondenceQuery }) => {
-    const [issueDate, setIssueDate] = useState([null, null]); //發票日期
+const CorrespondenceQuery = ({ correspondenceQuery, value }) => {
+    const [issueDate, setIssueDate] = useState(null); //發票日期
     const [supplierName, setSupplierName] = useState(''); //供應商
     const [submarineCable, setSubmarineCable] = useState(''); //海纜名稱
     const [workTitle, setWorkTitle] = useState(''); //海纜作業
+    const [invoiceNoQuery, setInvoiceNoQuery] = useState(''); //發票號碼
     const { supNmList, subCableList } = useSelector((state) => state.dropdown); //供應商下拉選單 + 海纜名稱下拉選單
     return (
         <MainCard title="函稿查詢" sx={{ width: '100%' }}>
@@ -41,22 +42,18 @@ const CorrespondenceQuery = ({ correspondenceQuery }) => {
                 {/* row1 */}
                 <Grid item xs={1} sm={1} md={1} lg={1}>
                     <Typography variant="h5" sx={{ fontSize: { lg: '0.5rem', xl: '0.88rem' }, ml: { lg: '0.5rem', xl: '1.5rem' } }}>
-                        計帳段號：
+                        發票號碼：
                     </Typography>
                 </Grid>
                 <Grid item xs={2} sm={2} md={2} lg={2}>
-                    <FormControl fullWidth size="small">
-                        <InputLabel id="demo-simple-select-label">選擇會員</InputLabel>
-                        <Select
-                            // value={supplierName}
-                            label="會員"
-                            onChange={(e) => setSupplierName(e.target.value)}
-                        >
-                            <MenuItem value={'Taiwan'}>Taiwan</MenuItem>
-                            <MenuItem value={'Korean'}>Korean</MenuItem>
-                            <MenuItem value={'Japan'}>Japan</MenuItem>
-                        </Select>
-                    </FormControl>
+                    <TextField
+                        fullWidth
+                        variant="outlined"
+                        value={invoiceNoQuery}
+                        size="small"
+                        label="填寫發票號碼"
+                        onChange={(e) => setInvoiceNoQuery(e.target.value)}
+                    />
                 </Grid>
                 <Grid item xs={1} sm={1} md={1} lg={1}>
                     <Typography variant="h5" sx={{ fontSize: { lg: '0.5rem', xl: '0.88rem' }, ml: { lg: '0.5rem', xl: '1.5rem' } }}>
@@ -136,36 +133,43 @@ const CorrespondenceQuery = ({ correspondenceQuery }) => {
                             />
                         </FormGroup>
                     </FormControl>
-                </Grid>
-                <Grid item xs={1} sm={1} md={1} lg={1}>
-                    <Typography variant="h5" sx={{ fontSize: { lg: '0.5rem', xl: '0.88rem' }, ml: { lg: '0.5rem', xl: '1.5rem' } }}>
-                        建立日期：
-                    </Typography>
-                </Grid>
-                <Grid item xs={5} sm={5} md={5} lg={5}>
-                    <LocalizationProvider dateAdapter={AdapterDayjs} localeText={{ start: '起始日', end: '結束日' }}>
-                        <DateRangePicker
-                            inputFormat="YYYY/MM/DD"
-                            value={issueDate}
-                            onChange={(e) => {
-                                setIssueDate(e);
-                            }}
-                            renderInput={(startProps, endProps) => (
-                                <>
-                                    <TextField fullWidth size="small" {...startProps} />
-                                    <Box sx={{ mx: 1 }}> to </Box>
-                                    <TextField fullWidth size="small" {...endProps} />
-                                </>
-                            )}
-                        />
-                    </LocalizationProvider>
                 </Grid> */}
-                <Grid item xs={12} sm={12} md={12} lg={12} display="flex" justifyContent="end" alignItems="center">
-                    <Button sx={{ mr: '0.5rem' }} variant="contained" onClick={correspondenceQuery}>
-                        查詢
-                    </Button>
-                    <Button variant="contained">清除</Button>
-                </Grid>
+                {value === 1 ? (
+                    <>
+                        <Grid item xs={1} sm={1} md={1} lg={1}>
+                            <Typography variant="h5" sx={{ fontSize: { lg: '0.5rem', xl: '0.88rem' }, ml: { lg: '0.5rem', xl: '1.5rem' } }}>
+                                發文日期：
+                            </Typography>
+                        </Grid>
+                        <Grid item xs={2} sm={2} md={2} lg={2}>
+                            <FormControl>
+                                <LocalizationProvider dateAdapter={AdapterDayjs}>
+                                    <DesktopDatePicker
+                                        inputFormat="YYYY/MM/DD"
+                                        value={issueDate}
+                                        onChange={(e) => {
+                                            setIssueDate(e);
+                                        }}
+                                        renderInput={(params) => <TextField size="small" {...params} />}
+                                    />
+                                </LocalizationProvider>
+                            </FormControl>
+                        </Grid>
+                        <Grid item xs={9} sm={9} md={9} lg={9} display="flex" justifyContent="end" alignItems="center">
+                            <Button sx={{ mr: '0.5rem' }} variant="contained" onClick={correspondenceQuery}>
+                                查詢
+                            </Button>
+                            <Button variant="contained">清除</Button>
+                        </Grid>
+                    </>
+                ) : (
+                    <Grid item xs={12} sm={12} md={12} lg={12} display="flex" justifyContent="end" alignItems="center">
+                        <Button sx={{ mr: '0.5rem' }} variant="contained" onClick={correspondenceQuery}>
+                            查詢
+                        </Button>
+                        <Button variant="contained">清除</Button>
+                    </Grid>
+                )}
             </Grid>
         </MainCard>
     );
