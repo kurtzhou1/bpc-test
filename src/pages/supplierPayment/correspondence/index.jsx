@@ -37,11 +37,10 @@ import dayjs from 'dayjs';
 
 import { toBillDataapi, sendJounary } from 'components/apis.jsx';
 
-const Correspondence = ({ listInfo, apiQuery }) => {
+const Correspondence = () => {
     const [value, setValue] = useState(0);
-    const correspondenceQuery = () => {
-        console.log('correspondenceQuery');
-    };
+    const [listInfo, setListInfo] = useState([]);
+    const queryApi = useRef('/Status=PAYING');
 
     const a11yProps = (index) => {
         return {
@@ -97,7 +96,7 @@ const Correspondence = ({ listInfo, apiQuery }) => {
         <>
             <Grid container spacing={1}>
                 <Grid item xs={12}>
-                    <CorrespondenceQuery correspondenceQuery={correspondenceQuery} value={value} />
+                    <CorrespondenceQuery setListInfo={setListInfo} queryApi={queryApi} value={value} />
                 </Grid>
                 <Grid item xs={12}>
                     <MainCard title={`${value == 0 ? '未編輯' : '已編輯'}資料列表`}>

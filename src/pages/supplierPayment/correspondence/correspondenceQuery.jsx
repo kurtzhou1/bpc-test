@@ -15,6 +15,7 @@ import {
 
 // project import
 import MainCard from 'components/MainCard';
+import { queryPaydraft } from 'components/apis';
 
 // day
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
@@ -29,13 +30,58 @@ import { useSelector } from 'react-redux';
 
 // ==============================|| SAMPLE PAGE ||============================== //
 
-const CorrespondenceQuery = ({ correspondenceQuery, value }) => {
+const CorrespondenceQuery = ({ setListInfo, queryApi, value }) => {
     const [issueDate, setIssueDate] = useState(null); //發票日期
     const [supplierName, setSupplierName] = useState(''); //供應商
     const [submarineCable, setSubmarineCable] = useState(''); //海纜名稱
     const [workTitle, setWorkTitle] = useState(''); //海纜作業
     const [invoiceNoQuery, setInvoiceNoQuery] = useState(''); //發票號碼
     const { supNmList, subCableList } = useSelector((state) => state.dropdown); //供應商下拉選單 + 海纜名稱下拉選單
+    const [invoiceNo, setInvoiceNo] = useState(''); //發票號碼
+
+    const correspondenceQuery = () => {
+        let tmpQuery = '/';
+        if (supplierName && supplierName !== '') {
+            tmpQuery = tmpQuery + 'SupplierName=' + supplierName + '&';
+        }
+        if (submarineCable && submarineCable !== '') {
+            tmpQuery = tmpQuery + 'SubmarineCable=' + submarineCable + '&';
+        }
+        if (invoiceNo && invoiceNo !== '' && value === 0) {
+            tmpQuery = tmpQuery + 'InvoiceNo=' + invoiceNo + '&';
+        }
+        if (workTitle && workTitle !== '') {
+            tmpQuery = tmpQuery + 'WorkTitle=' + workTitle + '&';
+        }
+        if (issueDate && value === 1) {
+            tmpQuery =
+                tmpQuery +
+                'startIssueDate=' +
+                dayjs(issueDate[0]).format('YYYYMMDD') +
+                '&' +
+                'endIssueDate=' +
+                dayjs(issueDate[1]).format('YYYYMMDD') +
+                '&';
+        }
+        if (tmpQuery.includes('&')) {
+            tmpQuery = tmpQuery.slice(0, -1);
+        }
+        tmpQuery = queryPaydraft + tmpQuery;
+        console.log('tmpQuery=>>', tmpQuery);
+        queryApi.current = tmpQuery;
+        fetch(tmpQuery, { method: 'GET' })
+            .then((res) => res.json())
+            .then((data) => {
+                console.log('data=>>', data);
+                if (Array.isArray(data)) {
+                    setListInfo(data);
+                }
+            })
+            .catch((e) => {
+                console.log('e1=>', e);
+            });
+    };
+
     return (
         <MainCard title="函稿查詢" sx={{ width: '100%' }}>
             <Grid container display="flex" justifyContent="center" alignItems="center" spacing={2}>
@@ -46,14 +92,16 @@ const CorrespondenceQuery = ({ correspondenceQuery, value }) => {
                     </Typography>
                 </Grid>
                 <Grid item xs={2} sm={2} md={2} lg={2}>
-                    <TextField
-                        fullWidth
-                        variant="outlined"
-                        value={invoiceNoQuery}
-                        size="small"
-                        label="填寫發票號碼"
-                        onChange={(e) => setInvoiceNoQuery(e.target.value)}
-                    />
+                    <FormControl fullWidth size="small">
+                        <TextField
+                            fullWidth
+                            variant="outlined"
+                            value={invoiceNo}
+                            size="small"
+                            label="填寫發票號碼"
+                            onChange={(e) => setInvoiceNo(e.target.value)}
+                        />
+                    </FormControl>
                 </Grid>
                 <Grid item xs={1} sm={1} md={1} lg={1}>
                     <Typography variant="h5" sx={{ fontSize: { lg: '0.5rem', xl: '0.88rem' }, ml: { lg: '0.5rem', xl: '1.5rem' } }}>

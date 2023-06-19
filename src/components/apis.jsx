@@ -75,6 +75,9 @@ export const sendToWriteOff = 'http://10.193.130.8:8000/api/v1/BillMaster&BillDe
 export const querySupplierPayment = 'http://10.193.130.8:8000/api/v1/payment';
 export const sendPayment = 'http://10.193.130.8:8000/api/v1/payment/submit';
 
+//函稿製作
+export const queryPaydraft = 'http://10.193.130.8:8000/api/v1/paydraft';
+
 // 退回-發票查詢
 export const returnToValidated = 'http://10.193.130.8:8000/api/v1/returnToValidated';
 // 退回-待抵扣
