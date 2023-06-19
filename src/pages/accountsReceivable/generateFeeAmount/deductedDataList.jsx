@@ -104,6 +104,12 @@ const DeductedDataList = ({ dataList, receivableQuery }) => {
         editBillMasterID.current = '';
     };
 
+    const handleInfoBack = (no, id) => {
+        editBillingNo.current = no;
+        editBillMasterID.current = id;
+        setInfoBack(true);
+    };
+
     return (
         <>
             <DeductedWork
@@ -214,7 +220,7 @@ const DeductedDataList = ({ dataList, receivableQuery }) => {
                                                 size="small"
                                                 variant="outlined"
                                                 onClick={() => {
-                                                    setInfoBack(true);
+                                                    handleInfoBack(row.BillMaster.BillingNo, row.BillMaster.BillMasterID);
                                                 }}
                                             >
                                                 退回
