@@ -35,12 +35,19 @@ const CorrespondenceQuery = ({ setListInfo, queryApi, value }) => {
     const [supplierName, setSupplierName] = useState(''); //供應商
     const [submarineCable, setSubmarineCable] = useState(''); //海纜名稱
     const [workTitle, setWorkTitle] = useState(''); //海纜作業
-    const [invoiceNoQuery, setInvoiceNoQuery] = useState(''); //發票號碼
     const { supNmList, subCableList } = useSelector((state) => state.dropdown); //供應商下拉選單 + 海纜名稱下拉選單
     const [invoiceNo, setInvoiceNo] = useState(''); //發票號碼
 
+    const initData = () => {
+        setIssueDate(null);
+        setSupplierName('');
+        setSubmarineCable('');
+        setWorkTitle('');
+        setInvoiceNo('');
+    };
+
     const correspondenceQuery = () => {
-        let tmpQuery = '/';
+        let tmpQuery = '/Status=TEMPORARY&PayeeType=SUPPLIER&';
         if (supplierName && supplierName !== '') {
             tmpQuery = tmpQuery + 'SupplierName=' + supplierName + '&';
         }
@@ -63,9 +70,7 @@ const CorrespondenceQuery = ({ setListInfo, queryApi, value }) => {
                 dayjs(issueDate[1]).format('YYYYMMDD') +
                 '&';
         }
-        if (tmpQuery.includes('&')) {
-            tmpQuery = tmpQuery.slice(0, -1);
-        }
+        tmpQuery = tmpQuery.slice(0, -1);
         tmpQuery = queryPaydraft + tmpQuery;
         console.log('tmpQuery=>>', tmpQuery);
         queryApi.current = tmpQuery;
@@ -207,7 +212,9 @@ const CorrespondenceQuery = ({ setListInfo, queryApi, value }) => {
                             <Button sx={{ mr: '0.5rem' }} variant="contained" onClick={correspondenceQuery}>
                                 查詢
                             </Button>
-                            <Button variant="contained">清除</Button>
+                            <Button variant="contained" onClick={initData}>
+                                清除
+                            </Button>
                         </Grid>
                     </>
                 ) : (
@@ -215,7 +222,9 @@ const CorrespondenceQuery = ({ setListInfo, queryApi, value }) => {
                         <Button sx={{ mr: '0.5rem' }} variant="contained" onClick={correspondenceQuery}>
                             查詢
                         </Button>
-                        <Button variant="contained">清除</Button>
+                        <Button variant="contained" onClick={initData}>
+                            清除
+                        </Button>
                     </Grid>
                 )}
             </Grid>
