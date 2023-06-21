@@ -87,6 +87,8 @@ export const afterDeduction = 'http://10.193.130.8:8000/api/v1/returnBillMaster/
 // 發票查詢-作廢
 export const afterBilled = 'http://10.193.130.8:8000/api/v1/invalidInvoice/afterBilled';
 
+export const getPayDraftStream = 'http://10.193.130.8:8000/api/v1/getPayDraftStream';
+
 // 基本資料-Suppliers
 export const addSuppliers = 'http://10.193.130.8:8000/api/v1/Suppliers';
 export const deleteSuppliers = 'http://10.193.130.8:8000/api/v1/deleteSuppliers';

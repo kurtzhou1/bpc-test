@@ -37,6 +37,39 @@ import dayjs from 'dayjs';
 
 import { toBillDataapi, sendJounary } from 'components/apis.jsx';
 
+const fakeData = [
+    {
+        PayDraftID: 2,
+        PayMID: 2,
+        Payee: '字串',
+        InvoiceNo: '字串',
+        SubmarineCable: '字串',
+        WorkTitle: '字串',
+        CableInfo: '字串',
+        TotalFeeAmount: 208494.52,
+        Subject: '字串',
+        Address: '字串',
+        CtactPerson: '字串',
+        Tel: '字串',
+        email: '字串',
+        IssueDate: '字串',
+        IssueNo: '字串',
+        OriginalTo: '字串',
+        CBPBankAcctNo: '字串',
+        BankAcctName: '字串',
+        BankName: '字串',
+        BankAddress: '字串',
+        BankAcctNo: '字串',
+        IBAN: '字串',
+        SWIFTCode: '字串',
+        ACHNo: '字串',
+        WireRouting: '字串',
+        Status: 'TEMPORARY',
+        PayeeType: 'SUPPLIER',
+        URI: ''
+    }
+];
+
 const Correspondence = () => {
     const [value, setValue] = useState(0);
     const [listInfo, setListInfo] = useState([]);
@@ -49,13 +82,7 @@ const Correspondence = () => {
         };
     };
 
-    //以下都無用
-    const deductInfo = useRef({});
-    const actionName = useRef('');
     const [isDialogOpen, setIsDialogOpen] = useState(false); //檢視
-    const [infoTerminal, setInfoTerminal] = useState(false); //作廢
-    const [uploadOpen, setUploadOpen] = useState(false); //上傳
-    const [currentAmount, setCurrentAmount] = useState(''); //目前金額
     const StyledTableCell = styled(TableCell)(({ theme }) => ({
         [`&.${tableCellClasses.head}`]: {
             // backgroundColor: theme.palette.common.gary,
@@ -72,20 +99,6 @@ const Correspondence = () => {
 
     const handleDialogClose = () => {
         setIsDialogOpen(false);
-    };
-
-    const handleDialogOpen = (action, info) => {
-        deductInfo.current = info;
-        actionName.current = action;
-        setIsDialogOpen(true);
-    };
-
-    const handleTerminalClose = () => {
-        setInfoTerminal(false);
-    };
-
-    const handUploadClose = () => {
-        setUploadOpen(false);
     };
 
     const handleChange = (event, newValue) => {
@@ -107,7 +120,8 @@ const Correspondence = () => {
                             </Tabs>
                         </Box>
                         <TabPanel value={value} index={0}>
-                            <ToEditDataList />
+                            {/* <ToEditDataList listInfo={fakeData} /> */}
+                            <ToEditDataList listInfo={listInfo} />
                         </TabPanel>
                         <TabPanel value={value} index={1}>
                             <ToEditDataList />

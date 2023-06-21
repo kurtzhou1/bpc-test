@@ -31,110 +31,145 @@ import { alpha, styled } from '@mui/material/styles';
 
 import dayjs from 'dayjs';
 
-import { toBillDataapi, sendJounary } from 'components/apis.jsx';
+import { getPayDraftStream } from 'components/apis.jsx';
+
+// redux
+import { useDispatch } from 'react-redux';
+import { setMessageStateOpen } from 'store/reducers/dropdown';
+
+const StyledTableCell = styled(TableCell)(({ theme }) => ({
+    [`&.${tableCellClasses.head}`]: {
+        // backgroundColor: theme.palette.common.gary,
+        color: theme.palette.common.black,
+        paddingTop: '0.2rem',
+        paddingBottom: '0.2rem'
+    },
+    [`&.${tableCellClasses.body}`]: {
+        fontSize: 14,
+        paddingTop: '0.2rem',
+        paddingBottom: '0.2rem'
+    }
+}));
 
 const ToEditDataList = ({ listInfo, apiQuery }) => {
-    const correspondenceQuery = () => {
-        console.log('correspondenceQuery');
-    };
-
-    //以下都無用
-    const deductInfo = useRef({});
-    const actionName = useRef('');
-    const [isDialogOpen, setIsDialogOpen] = useState(false); //檢視
-    const [infoTerminal, setInfoTerminal] = useState(false); //作廢
-    const [uploadOpen, setUploadOpen] = useState(false); //上傳
-    const [currentAmount, setCurrentAmount] = useState(''); //目前金額
-    const StyledTableCell = styled(TableCell)(({ theme }) => ({
-        [`&.${tableCellClasses.head}`]: {
-            // backgroundColor: theme.palette.common.gary,
-            color: theme.palette.common.black,
-            paddingTop: '0.2rem',
-            paddingBottom: '0.2rem'
-        },
-        [`&.${tableCellClasses.body}`]: {
-            fontSize: 14,
-            paddingTop: '0.2rem',
-            paddingBottom: '0.2rem'
-        }
-    }));
-
-    const handleDialogClose = () => {
-        setIsDialogOpen(false);
-    };
-
-    const handleDialogOpen = (action, info) => {
-        deductInfo.current = info;
-        actionName.current = action;
+    const dispatch = useDispatch();
+    const [isDialogOpen, setIsDialogOpen] = useState(false);
+    const payDraftID = useRef(-1);
+    const handleDialogOpen = (id) => {
+        payDraftID.current = id;
         setIsDialogOpen(true);
     };
-
-    const handleTerminalClose = () => {
-        setInfoTerminal(false);
+    const handleDialogClose = () => {
+        setIsDialogOpen(false);
+        payDraftID.current = -1;
+    };
+    const handleDownload = (id) => {
+        let tmpArray = {
+            PayDraftID: id,
+            DownloadTemplate: true
+        };
+        fetch(getPayDraftStream, {
+            method: 'POST',
+            headers: {
+                Accept: 'application/json'
+            },
+            body: JSON.stringify(tmpArray)
+        })
+            .then((res) => {
+                return res.blob();
+            })
+            .then((blob) => {
+                const link = document.createElement('a');
+                link.href = window.URL.createObjectURL(blob);
+                link.download = `${billingNo}.docx`;
+                link.click();
+            })
+            .catch((e) => console.log('e=>', e));
     };
 
-    const handUploadClose = () => {
-        setUploadOpen(false);
+    const handleComplete = (id) => {
+        let tmpArray = {
+            PayDraftID: id,
+            Status: 'COMPLETE'
+        };
+        fetch(getPayDraftStream, { method: 'POST', body: JSON.stringify(tmpArray) })
+            .then((res) => res.json())
+            .then(() => {
+                dispatch(setMessageStateOpen({ messageStateOpen: { isOpen: true, severity: 'success', message: '送出成功' } }));
+            })
+            .catch((e) => dispatch(setMessageStateOpen({ messageStateOpen: { isOpen: true, severity: 'error', message: '送出不成功' } })));
     };
-
     return (
-        <TableContainer component={Paper} sx={{ maxHeight: 350 }}>
-            <Table sx={{ minWidth: 300 }} stickyHeader aria-label="sticky table">
-                <TableHead>
-                    <TableRow>
-                        <StyledTableCell align="center">供應商</StyledTableCell>
-                        <StyledTableCell align="center">發票號碼</StyledTableCell>
-                        <StyledTableCell align="center">海纜名稱</StyledTableCell>
-                        <StyledTableCell align="center">海纜作業</StyledTableCell>
-                        <StyledTableCell align="center">匯款總金額</StyledTableCell>
-                        <StyledTableCell align="center">Action</StyledTableCell>
-                    </TableRow>
-                </TableHead>
-                <TableBody>
-                    {[].map((row, id) => {
-                        return (
-                            <TableRow
-                                key={row.InvoiceWKMaster?.WKMasterID + row.InvoiceWKMaster?.InvoiceNo}
-                                sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-                            >
-                                <StyledTableCell align="center">{id + 1}</StyledTableCell>
-                                <StyledTableCell align="center">{row.PartyName}</StyledTableCell>
-                                <StyledTableCell align="center">{row.SubmarineCable}</StyledTableCell>
-                                <StyledTableCell align="center">{row.WorkTitle}</StyledTableCell>
-                                <StyledTableCell align="center">{row.InvoiceNo}</StyledTableCell>
-                                <StyledTableCell align="center">{row.SupplierName}</StyledTableCell>
-                                <StyledTableCell align="center">{dayjs(row.IssueDate).format('YYYY/MM/DD')}</StyledTableCell>
-                                <StyledTableCell align="center">
-                                    <Box
-                                        sx={{
-                                            display: 'flex',
-                                            justifyContent: 'center',
-                                            '& button': { mx: { sm: 0.3, md: 0.3, lg: 0.6, xl: 1.5 }, p: 0, fontSize: 1 }
-                                        }}
-                                    >
-                                        <Button
-                                            color="primary"
-                                            size="small"
-                                            variant="outlined"
-                                            onClick={() => {
-                                                handleDialogOpen('viewDeducted', {
-                                                    PartyName: row.PartyName,
-                                                    IssueDate: dayjs(row.IssueDate).format('YYYY/MM/DD'),
-                                                    SubmarineCable: row.SubmarineCable,
-                                                    WorkTitle: row.WorkTitle
-                                                });
+        <>
+            <CorrespondenceMake isDialogOpen={isDialogOpen} payDraftID={payDraftID.current} handleDialogClose={handleDialogClose} />
+            <TableContainer component={Paper} sx={{ maxHeight: 350 }}>
+                <Table sx={{ minWidth: 300 }} stickyHeader aria-label="sticky table">
+                    <TableHead>
+                        <TableRow>
+                            <StyledTableCell align="center">供應商</StyledTableCell>
+                            <StyledTableCell align="center">發票號碼</StyledTableCell>
+                            <StyledTableCell align="center">海纜名稱</StyledTableCell>
+                            <StyledTableCell align="center">海纜作業</StyledTableCell>
+                            <StyledTableCell align="center">匯款總金額</StyledTableCell>
+                            <StyledTableCell align="center">Action</StyledTableCell>
+                        </TableRow>
+                    </TableHead>
+                    <TableBody>
+                        {listInfo.map((row, id) => {
+                            return (
+                                <TableRow key={row?.PayDraftID + row?.PayMID} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
+                                    <StyledTableCell align="center">{row?.Payee}</StyledTableCell>
+                                    <StyledTableCell align="center">{row?.InvoiceNo}</StyledTableCell>
+                                    <StyledTableCell align="center">{row?.SubmarineCable}</StyledTableCell>
+                                    <StyledTableCell align="center">{row?.WorkTitle}</StyledTableCell>
+                                    <StyledTableCell align="center">{row?.TotalFeeAmount}</StyledTableCell>
+                                    <StyledTableCell align="center">
+                                        <Box
+                                            sx={{
+                                                display: 'flex',
+                                                justifyContent: 'center',
+                                                '& button': { mx: { sm: 0.3, md: 0.3, lg: 0.6, xl: 1.5 }, p: 0, fontSize: 1 }
                                             }}
                                         >
-                                            更新函稿
-                                        </Button>
-                                    </Box>
-                                </StyledTableCell>
-                            </TableRow>
-                        );
-                    })}
-                </TableBody>
-            </Table>
-        </TableContainer>
+                                            <Button
+                                                color="primary"
+                                                size="small"
+                                                variant="outlined"
+                                                onClick={() => {
+                                                    handleDialogOpen(row?.PayDraftID);
+                                                }}
+                                            >
+                                                製作函稿
+                                            </Button>
+                                            <Button
+                                                color="success"
+                                                size="small"
+                                                variant="outlined"
+                                                onClick={() => {
+                                                    handleDownload(row?.PayDraftID);
+                                                }}
+                                            >
+                                                下載
+                                            </Button>
+                                            <Button
+                                                color="warning"
+                                                size="small"
+                                                variant="outlined"
+                                                onClick={() => {
+                                                    handleComplete(row?.PayDraftID);
+                                                }}
+                                            >
+                                                確認完成函稿
+                                            </Button>
+                                        </Box>
+                                    </StyledTableCell>
+                                </TableRow>
+                            );
+                        })}
+                    </TableBody>
+                </Table>
+            </TableContainer>
+        </>
     );
 };
 

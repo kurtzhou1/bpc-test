@@ -37,253 +37,163 @@ import { tableCellClasses } from '@mui/material/TableCell';
 import Paper from '@mui/material/Paper';
 import { styled } from '@mui/material/styles';
 
+// api
+import { getPayDraftStream } from 'components/apis.jsx';
+
 // print
 import './styles.css';
 
-const CorrespondenceMake = ({ isDialogOpen, handleDialogClose, listInfo }) => {
-    const [cblistInfo, setCbListInfo] = useState(listInfo);
-    const [isDefault, setIsDefault] = useState(true);
-    const [isEdit, setIsEdit] = useState(false);
+// redux
+import { useDispatch } from 'react-redux';
+import { setMessageStateOpen } from 'store/reducers/dropdown';
+
+const StyledTableCell = styled(TableCell)(({ theme }) => ({
+    [`&.${tableCellClasses.head}`]: {
+        // backgroundColor: theme.palette.common.gary,
+        color: theme.palette.common.black,
+        paddingTop: '0.2rem',
+        paddingBottom: '0.2rem'
+    },
+    [`&.${tableCellClasses.body}`]: {
+        fontSize: 14,
+        paddingTop: '0.2rem',
+        paddingBottom: '0.2rem'
+    }
+}));
+
+const fakeData = {
+    PayDraftID: 2,
+    PayMID: 2,
+    Payee: '字串',
+    InvoiceNo: '字串',
+    SubmarineCable: '字串',
+    WorkTitle: '字串',
+    CableInfo: '字串',
+    TotalFeeAmount: 208494.52,
+    Subject: '字串',
+    Address: '字串',
+    CtactPerson: '字串',
+    Tel: '字串',
+    email: '字串',
+    IssueDate: '字串',
+    IssueNo: '字串',
+    OriginalTo: '字串',
+    CBPBankAcctNo: '字串',
+    BankAcctName: '字串',
+    BankName: '字串',
+    BankAddress: '字串',
+    BankAcctNo: '字串',
+    IBAN: '字串',
+    SWIFTCode: '字串',
+    ACHNo: '字串',
+    WireRouting: '字串',
+    Status: 'TEMPORARY',
+    PayeeType: 'SUPPLIER',
+    URI: ''
+};
+
+const CorrespondenceMake = ({ isDialogOpen, handleDialogClose, payDraftID }) => {
+    const dispatch = useDispatch();
+    const [correspondenceInfo, setCorrespondenceInfo] = useState({});
     const [subject1, setSubject1] = useState(''); //主旨1
     const [subject2, setSubject2] = useState(''); //主旨2
-    const [subject3, setSubject3] = useState(''); //主旨3
     const [number, setNumber] = useState(''); //連絡電話
     const [date, setDate] = useState(''); //發文日期
     const [receipient, setRecipient] = useState(''); //受文者
     const [contact, setContact] = useState(''); //聯絡人
     const [tel, setTel] = useState(''); //連絡電話
     const [email, setEmail] = useState(''); //聯絡信箱
+    const [cableInfo, setCableInfo] = useState(''); //海纜資訊
 
-    const [acctNo, setAcctNo] = useState(''); //聯盟銀行帳號
-    const [iBAN, setIBAN] = useState(''); //受款者IBAN
-    const [supplierBank, setSupplierBank] = useState(''); //受款者銀行
-    const [branchNo, setBranchNo] = useState(''); //受款者分行
-    const [cableName, setCableName] = useState(''); //海纜資訊
-    const [wireRouting, setWireRouting] = useState(''); //Wire Routing
-    const [supplierAcctNumber, setSupplierAcctNumber] = useState(''); //受款者銀行帳號
-    const [supplierAcctName, setSupplierAcctName] = useState(''); //受款者銀行戶名
-    const [supplierSWIFTCode, setSupplierSWIFTCode] = useState(''); //受款者國際銀行代碼
-    const [supplierBankAddress, setSupplierBankAddress] = useState(''); //受款者銀行地址
-
-    const [isOne, setIsOne] = useState(false);
-
-    const itemDetailInitial = () => {
-        setPartyName([]);
-        setLBRatio('');
-        setIsEdit(false);
+    const saveToSend = () => {
+        let tmpArray = {
+            PayDraftID: payDraftID,
+            PayDraftChineseTotalFeeAmount: subject2,
+            CableInfo: cableInfo,
+            Subject: subject1,
+            Save: true
+        };
+        fetch(getPayDraftStream, { method: 'POST', body: JSON.stringify(tmpArray) })
+            .then((res) => res.json())
+            .then(() => {
+                dispatch(setMessageStateOpen({ messageStateOpen: { isOpen: true, severity: 'success', message: '送出成功' } }));
+            })
+            .catch((e) => dispatch(setMessageStateOpen({ messageStateOpen: { isOpen: true, severity: 'error', message: '送出不成功' } })));
+        handleDialogClose();
     };
 
-    const handlePrint = (v) => {
-        setIsOne(v);
-        window.print();
-    };
-
-    const StyledTableCell = styled(TableCell)(({ theme }) => ({
-        [`&.${tableCellClasses.head}`]: {
-            // backgroundColor: theme.palette.common.gary,
-            color: theme.palette.common.black,
-            paddingTop: '0.2rem',
-            paddingBottom: '0.2rem'
-        },
-        [`&.${tableCellClasses.body}`]: {
-            fontSize: 14,
-            paddingTop: '0.2rem',
-            paddingBottom: '0.2rem'
+    useEffect(() => {
+        const tmpArray = {
+            PayDraftID: payDraftID,
+            Preview: true
+        };
+        if (isDialogOpen) {
+            fetch(getPayDraftStream, { method: 'POST', body: JSON.stringify(tmpArray) })
+                .then((res) => res.json())
+                .then((data) => {
+                    setCorrespondenceInfo(data);
+                    setSubject1(data.Subject);
+                    setCableInfo(data.CableInfo);
+                    // dispatch(setMessageStateOpen({ messageStateOpen: { isOpen: true, severity: 'success', message: '送出成功' } }));
+                })
+                .catch((e) => console.log('e1=>', e));
         }
-    }));
+    }, [isDialogOpen]);
 
     return (
-        <Dialog
-            // onClose={handleDialogClose}
-            maxWidth="lg"
-            fullWidth
-            open={isDialogOpen}
-        >
+        <Dialog maxWidth="lg" fullWidth open={isDialogOpen}>
             <BootstrapDialogTitle className="no-print">製作函稿</BootstrapDialogTitle>
             <DialogContent dividers className="no-print">
-                <Grid container spacing={1} className="no-print">
+                <Grid container spacing={2} className="no-print">
                     <Grid item xs={7} sm={7} md={7} lg={7}>
-                        <MainCard title="發文基本資訊" sx={{ width: '100%' }}>
+                        <MainCard title="函稿專用文字" sx={{ width: '100%' }}>
                             <Grid container spacing={1}>
-                                <Grid item xs={2} sm={2} md={2} lg={2} display="flex" justifyContent="center" alignItems="center">
-                                    <Typography variant="h5" sx={{ fontSize: { lg: '0.5rem', xl: '0.88rem' } }}>
-                                        發文字號：
-                                    </Typography>
-                                </Grid>
-                                <Grid item xs={2} sm={2} md={2} lg={2}>
-                                    <FormControl fullWidth size="small">
-                                        <TextField
-                                            fullWidth
-                                            variant="outlined"
-                                            value={number}
-                                            size="small"
-                                            label="填寫CB種類"
-                                            onChange={(e) => setNumber(e.target.value)}
-                                        />
-                                    </FormControl>
-                                </Grid>
-                                <Grid item xs={2} sm={2} md={2} lg={2} display="flex" justifyContent="center" alignItems="center">
-                                    <Typography variant="h5" sx={{ fontSize: { lg: '0.5rem', xl: '0.88rem' } }}>
-                                        發文日期：
-                                    </Typography>
-                                </Grid>
-                                <Grid item xs={2} sm={2} md={2} lg={2}>
-                                    <TextField
-                                        fullWidth
-                                        variant="outlined"
-                                        value={date}
-                                        size="small"
-                                        label="填寫會員代號"
-                                        onChange={(e) => setDate(e.target.value)}
-                                    />
-                                </Grid>
-                                {/* <Grid item xs={3} sm={3} md={3} lg={3} xl={6} /> */}
-                                <Grid item xs={2} sm={2} md={2} lg={2} display="flex" justifyContent="center" alignItems="center">
-                                    <Typography variant="h5" sx={{ fontSize: { lg: '0.5rem', xl: '0.88rem' } }}>
-                                        受文者：
-                                    </Typography>
-                                </Grid>
-                                <Grid item xs={2} sm={2} md={2} lg={2}>
-                                    <TextField
-                                        fullWidth
-                                        variant="outlined"
-                                        value={receipient}
-                                        size="small"
-                                        label="填寫剩餘金額"
-                                        onChange={(e) => setRecipient(e.target.value)}
-                                    />
-                                </Grid>
-                                <Grid item xs={2} sm={2} md={2} lg={2} display="flex" justifyContent="center" alignItems="center">
-                                    <Typography variant="h5" sx={{ fontSize: { lg: '0.5rem', xl: '0.88rem' } }}>
-                                        聯絡人員：
-                                    </Typography>
-                                </Grid>
-                                <Grid item xs={2} sm={2} md={2} lg={2}>
-                                    <TextField
-                                        fullWidth
-                                        variant="outlined"
-                                        value={contact}
-                                        size="small"
-                                        label="填寫摘要"
-                                        onChange={(e) => setContact(e.target.value)}
-                                    />
-                                </Grid>
-                                <Grid item xs={2} sm={2} md={2} lg={2} display="flex" justifyContent="center" alignItems="center">
-                                    <Typography variant="h5" sx={{ fontSize: { lg: '0.5rem', xl: '0.88rem' } }}>
-                                        聯絡電話：
-                                    </Typography>
-                                </Grid>
-                                <Grid item xs={2} sm={2} md={2} lg={2}>
-                                    <TextField
-                                        fullWidth
-                                        variant="outlined"
-                                        value={tel}
-                                        size="small"
-                                        label="填寫摘要"
-                                        onChange={(e) => setTel(e.target.value)}
-                                    />
-                                </Grid>
-                                <Grid item xs={2} sm={2} md={2} lg={2} display="flex" justifyContent="center" alignItems="center">
-                                    <Typography variant="h5" sx={{ fontSize: { lg: '0.5rem', xl: '0.88rem' } }}>
-                                        E-mail：
-                                    </Typography>
-                                </Grid>
-                                <Grid item xs={2} sm={2} md={2} lg={2}>
-                                    <TextField
-                                        fullWidth
-                                        variant="outlined"
-                                        value={email}
-                                        size="small"
-                                        label="填寫摘要"
-                                        onChange={(e) => setEmail(e.target.value)}
-                                    />
-                                </Grid>
-                                <Grid item xs={12} sm={12} md={12} lg={12} display="flex" justifyContent="start">
-                                    <Typography variant="h5" sx={{ fontSize: { lg: '0.5rem', xl: '0.88rem' } }}>
-                                        主旨：
-                                    </Typography>
-                                </Grid>
-                                <Grid item xs={12} sm={12} md={12} lg={12} display="flex" justifyContent="center">
-                                    <RadioGroup
-                                        row
-                                        // value={isUpload}
-                                        aria-labelledby="demo-radio-buttons-group-label"
-                                        name="radio-buttons-group"
-                                        onChange={(e) => setIsDefault(e.target.value)}
-                                    >
-                                        <Grid
-                                            container
-                                            spacing={2}
-                                            // sx={{ display: 'flex', flexFlow: 'column', alignItems: 'center', justifyContent: 'center' }}
+                                <Grid container spacing={2}>
+                                    <Grid item xs={12} sm={12} md={12} lg={12} display="flex">
+                                        <Typography
+                                            variant="h5"
+                                            // onClick={() => {
+                                            //     setIsUpload(false);
+                                            // }}
+                                            sx={{
+                                                fontSize: { lg: '0.5rem', xl: '0.88rem' },
+                                                ml: { lg: '0.5rem', xl: '1.5rem' },
+                                                display: 'flex',
+                                                // justifyContent: 'center',
+                                                alignItems: 'center',
+                                                flexWrap: 'wrap'
+                                            }}
                                         >
-                                            <Grid item xs={12} sm={12} md={12} lg={12} display="flex">
-                                                {/* <Box sx={{ display: 'flex', flexFlow: 'column', alignItems: 'center', width: '100%' }}> */}
-                                                <FormControlLabel
-                                                    value={true}
-                                                    control={<Radio sx={{ '& .MuiSvgIcon-root': { fontSize: { lg: 14, xl: 20 } } }} />}
-                                                />
-                                                <Typography
-                                                    variant="h5"
-                                                    // onClick={() => {
-                                                    //     setIsUpload(false);
-                                                    // }}
-                                                    sx={{
-                                                        fontSize: { lg: '0.5rem', xl: '0.88rem' },
-                                                        ml: { lg: '0.5rem', xl: '1.5rem' },
-                                                        display: 'flex',
-                                                        // justifyContent: 'center',
-                                                        alignItems: 'center',
-                                                        flexWrap: 'wrap'
-                                                    }}
-                                                >
-                                                    請電匯CIENA JP以支付
-                                                    <TextField
-                                                        variant="outlined"
-                                                        value={subject1}
-                                                        size="small"
-                                                        label="支付項目"
-                                                        onChange={(e) => setSubject1(e.target.value)}
-                                                        sx={{
-                                                            fontSize: { lg: '0.5rem', xl: '0.88rem' },
-                                                            ml: { lg: '0.5rem', xl: '1.5rem' },
-                                                            width: '20%'
-                                                        }}
-                                                    />
-                                                    ，淨額為美金元
-                                                    <TextField
-                                                        variant="outlined"
-                                                        value={subject2}
-                                                        size="small"
-                                                        label="填寫中文金額"
-                                                        onChange={(e) => setSubject2(e.target.value)}
-                                                        sx={{
-                                                            fontSize: { lg: '0.5rem', xl: '0.88rem' },
-                                                            ml: { lg: '0.5rem', xl: '1.5rem' },
-                                                            width: '20%'
-                                                        }}
-                                                        // onChange={(e) => setLBRatio(e.target.value)}
-                                                    />
-                                                    (US$48,576.00)，請查照
-                                                </Typography>
-                                                {/* </Box> */}
-                                            </Grid>
-                                            <Grid item xs={12} sm={12} md={12} lg={12} display="flex">
-                                                <FormControlLabel
-                                                    value={false}
-                                                    control={<Radio sx={{ '& .MuiSvgIcon-root': { fontSize: { lg: 14, xl: 20 } } }} />}
-                                                />
-                                                <TextField
-                                                    fullWidth
-                                                    variant="outlined"
-                                                    value={subject3}
-                                                    size="small"
-                                                    label="自行填寫主旨"
-                                                    onChange={(e) => setSubject3(e.target.value)}
-                                                />
-                                                {/* </Box> */}
-                                            </Grid>
-                                        </Grid>
-                                    </RadioGroup>
+                                            請電匯{correspondenceInfo?.Payee}以支付
+                                            <TextField
+                                                variant="outlined"
+                                                value={subject1}
+                                                size="small"
+                                                label="支付項目"
+                                                onChange={(e) => setSubject1(e.target.value)}
+                                                sx={{
+                                                    fontSize: { lg: '0.5rem', xl: '0.88rem' },
+                                                    ml: { lg: '0.5rem', xl: '1.5rem' },
+                                                    width: '20%'
+                                                }}
+                                            />
+                                            ，淨額為美金元
+                                            <TextField
+                                                variant="outlined"
+                                                value={subject2}
+                                                size="small"
+                                                label="填寫中文金額"
+                                                onChange={(e) => setSubject2(e.target.value)}
+                                                sx={{
+                                                    fontSize: { lg: '0.5rem', xl: '0.88rem' },
+                                                    ml: { lg: '0.5rem', xl: '1.5rem' },
+                                                    width: '20%'
+                                                }}
+                                                // onChange={(e) => setLBRatio(e.target.value)}
+                                            />
+                                            (US${correspondenceInfo?.TotalFeeAmount})，請查照
+                                        </Typography>
+                                    </Grid>
                                 </Grid>
                             </Grid>
                         </MainCard>
@@ -291,156 +201,17 @@ const CorrespondenceMake = ({ isDialogOpen, handleDialogClose, listInfo }) => {
                             <Grid container spacing={1}>
                                 <Grid item xs={2} sm={2} md={2} lg={2} display="flex" justifyContent="center" alignItems="center">
                                     <Typography variant="h5" sx={{ fontSize: { lg: '0.5rem', xl: '0.88rem' } }}>
-                                        聯盟銀行帳號：
-                                    </Typography>
-                                </Grid>
-                                <Grid item xs={2} sm={2} md={2} lg={2}>
-                                    <FormControl fullWidth size="small">
-                                        <TextField
-                                            fullWidth
-                                            variant="outlined"
-                                            // disabled={listInfo.length > 0}
-                                            value={acctNo}
-                                            size="small"
-                                            label="填寫銀行帳號"
-                                            onChange={(e) => setAcctNo(e.target.value)}
-                                        />
-                                    </FormControl>
-                                </Grid>
-                                <Grid item xs={2} sm={2} md={2} lg={2} display="flex" justifyContent="center" alignItems="center">
-                                    <Typography variant="h5" sx={{ fontSize: { lg: '0.5rem', xl: '0.88rem' } }}>
-                                        受款者IBAN：
-                                    </Typography>
-                                </Grid>
-                                <Grid item xs={2} sm={2} md={2} lg={2}>
-                                    <TextField
-                                        fullWidth
-                                        variant="outlined"
-                                        value={iBAN}
-                                        size="small"
-                                        label="填寫IBAN"
-                                        onChange={(e) => setIBAN(e.target.value)}
-                                    />
-                                </Grid>
-                                {/* <Grid item xs={3} sm={3} md={3} lg={3} xl={6} /> */}
-                                <Grid item xs={2} sm={2} md={2} lg={2} display="flex" justifyContent="center" alignItems="center">
-                                    <Typography variant="h5" sx={{ fontSize: { lg: '0.5rem', xl: '0.88rem' } }}>
-                                        受款者銀行：
-                                    </Typography>
-                                </Grid>
-                                <Grid item xs={2} sm={2} md={2} lg={2}>
-                                    <TextField
-                                        fullWidth
-                                        variant="outlined"
-                                        value={supplierBank}
-                                        size="small"
-                                        label="填寫銀行"
-                                        onChange={(e) => setSupplierBank(e.target.value)}
-                                    />
-                                </Grid>
-                                <Grid item xs={2} sm={2} md={2} lg={2} display="flex" justifyContent="center" alignItems="center">
-                                    <Typography variant="h5" sx={{ fontSize: { lg: '0.5rem', xl: '0.88rem' } }}>
-                                        受款者分行：
-                                    </Typography>
-                                </Grid>
-                                <Grid item xs={2} sm={2} md={2} lg={2}>
-                                    <TextField
-                                        fullWidth
-                                        variant="outlined"
-                                        value={branchNo}
-                                        size="small"
-                                        label="填寫分行"
-                                        onChange={(e) => setBranchNo(e.target.value)}
-                                    />
-                                </Grid>
-                                <Grid item xs={2} sm={2} md={2} lg={2} display="flex" justifyContent="center" alignItems="center">
-                                    <Typography variant="h5" sx={{ fontSize: { lg: '0.5rem', xl: '0.88rem' } }}>
                                         海纜資訊：
                                     </Typography>
                                 </Grid>
-                                <Grid item xs={2} sm={2} md={2} lg={2}>
+                                <Grid item xs={4} sm={4} md={4} lg={4}>
                                     <TextField
                                         fullWidth
                                         variant="outlined"
-                                        value={cableName}
+                                        value={cableInfo}
                                         size="small"
                                         label="填寫海纜"
-                                        onChange={(e) => setCableName(e.target.value)}
-                                    />
-                                </Grid>
-                                <Grid item xs={2} sm={2} md={2} lg={2} display="flex" justifyContent="center" alignItems="center">
-                                    <Typography variant="h5" sx={{ fontSize: { lg: '0.5rem', xl: '0.88rem' } }}>
-                                        Wire Routing：
-                                    </Typography>
-                                </Grid>
-                                <Grid item xs={2} sm={2} md={2} lg={2}>
-                                    <TextField
-                                        fullWidth
-                                        variant="outlined"
-                                        value={wireRouting}
-                                        size="small"
-                                        label="填寫海纜"
-                                        onChange={(e) => setWireRouting(e.target.value)}
-                                    />
-                                </Grid>
-                                <Grid item xs={2} sm={2} md={2} lg={2} display="flex" justifyContent="center" alignItems="center">
-                                    <Typography variant="h5" sx={{ fontSize: { lg: '0.5rem', xl: '0.88rem' } }}>
-                                        受款者銀行帳號：
-                                    </Typography>
-                                </Grid>
-                                <Grid item xs={4} sm={4} md={4} lg={4}>
-                                    <TextField
-                                        fullWidth
-                                        variant="outlined"
-                                        value={supplierAcctNumber}
-                                        size="small"
-                                        label="填寫帳號"
-                                        onChange={(e) => setSupplierAcctNumber(e.target.value)}
-                                    />
-                                </Grid>
-                                <Grid item xs={2} sm={2} md={2} lg={2} display="flex" justifyContent="center" alignItems="center">
-                                    <Typography variant="h5" sx={{ fontSize: { lg: '0.5rem', xl: '0.88rem' } }}>
-                                        受款者銀行戶名：
-                                    </Typography>
-                                </Grid>
-                                <Grid item xs={4} sm={4} md={4} lg={4}>
-                                    <TextField
-                                        fullWidth
-                                        variant="outlined"
-                                        value={supplierAcctName}
-                                        size="small"
-                                        label="填寫戶名"
-                                        onChange={(e) => setSupplierAcctName(e.target.value)}
-                                    />
-                                </Grid>
-                                <Grid item xs={2} sm={2} md={2} lg={2} display="flex" justifyContent="center" alignItems="center">
-                                    <Typography variant="h5" sx={{ fontSize: { lg: '0.5rem', xl: '0.88rem' } }}>
-                                        受款者國際銀行代碼：
-                                    </Typography>
-                                </Grid>
-                                <Grid item xs={4} sm={4} md={4} lg={4}>
-                                    <TextField
-                                        fullWidth
-                                        variant="outlined"
-                                        value={supplierSWIFTCode}
-                                        size="small"
-                                        label="填寫代碼"
-                                        onChange={(e) => setSupplierSWIFTCode(e.target.value)}
-                                    />
-                                </Grid>
-                                <Grid item xs={2} sm={2} md={2} lg={2} display="flex" justifyContent="center" alignItems="center">
-                                    <Typography variant="h5" sx={{ fontSize: { lg: '0.5rem', xl: '0.88rem' } }}>
-                                        受款者銀行地址：
-                                    </Typography>
-                                </Grid>
-                                <Grid item xs={4} sm={4} md={4} lg={4}>
-                                    <TextField
-                                        fullWidth
-                                        variant="outlined"
-                                        value={supplierBankAddress}
-                                        size="small"
-                                        label="填寫地址"
-                                        onChange={(e) => setSupplierBankAddress(e.target.value)}
+                                        onChange={(e) => setCableInfo(e.target.value)}
                                     />
                                 </Grid>
                             </Grid>
@@ -448,34 +219,37 @@ const CorrespondenceMake = ({ isDialogOpen, handleDialogClose, listInfo }) => {
                     </Grid>
                     <Grid item xs={5} sm={5} md={5} lg={5}>
                         <Typography sx={{ fontFamily: 'DFKai-sb', fontWeight: 'bold' }}>
-                            <Box sx={{ fontSize: '20px', m: 1 }}>中華電信股份有限公司國際電信分公司&nbsp;&nbsp;&nbsp;函</Box>
-                            <Box sx={{ fontSize: '12px', textAlign: 'right' }}>地址：106&nbsp;台北市愛國東路31號</Box>
-                            <Box sx={{ fontSize: '12px', textAlign: 'right' }}>{`聯絡方式：${contact}(${tel})`}</Box>
-                            <Box sx={{ fontSize: '12px', textAlign: 'right' }}>{`e-mail：${email}`}</Box>
-                            <Box sx={{ fontSize: '14px' }}>{`受文者：${receipient}`}</Box>
-                            <Box sx={{ fontSize: '12px' }}>發文日期：中華民國112年01月30日</Box>
-                            <Box sx={{ fontSize: '12px' }}>{`發文字號：${number}`}</Box>
-                            <Box sx={{ fontSize: '12px' }}>速別：最速件</Box>
-                            <Box sx={{ fontSize: '12px' }}>密等及解密條件或保密期限：</Box>
-                            <Box sx={{ fontSize: '12px' }}>附件： 如文</Box>
+                            <Box sx={{ fontSize: '20px', m: 1 }}>中華電信股份有限公司國際電信分公司&nbsp;&nbsp;&nbsp;函(稿)</Box>
+                            <Box sx={{ fontSize: '14px' }}>{`受文者：${correspondenceInfo?.OriginalTo}`}</Box>
+                            <Box sx={{ fontSize: '14px' }}>&nbsp;&nbsp;&nbsp;&nbsp;</Box>
+                            <Box sx={{ fontSize: '14px' }}>&nbsp;&nbsp;&nbsp;&nbsp;</Box>
+                            <Box sx={{ fontSize: '14px' }}>&nbsp;&nbsp;&nbsp;&nbsp;</Box>
                             <Box sx={{ fontSize: '14px' }}>
-                                主旨：
-                                {isDefault === 'true' || isDefault === true
-                                    ? `請電匯CIENA JP以支付${subject1}，淨額為美金${subject2}元(US$48,576.00)，請查照。`
-                                    : subject3}
+                                主旨： 請電匯{correspondenceInfo?.Payee}以支付${subject1}，淨額為美金${subject2}元(US$$
+                                {correspondenceInfo?.TotalFeeAmount}
+                                )，請查照。
                             </Box>
                             <Box sx={{ fontSize: '14px' }}>說明：</Box>
-                            <Box sx={{ fontSize: '12px' }}>一、請貴分行自本分公司之帳戶(帳號{acctNo})匯至以下帳戶</Box>
-                            <Box sx={{ fontSize: '12px' }}>&nbsp;&nbsp;&nbsp;&nbsp;Account Name: {supplierAcctName}.</Box>
-                            <Box sx={{ fontSize: '12px' }}>&nbsp;&nbsp;&nbsp;&nbsp;Bank: {supplierBank}</Box>
-                            <Box sx={{ fontSize: '12px' }}>&nbsp;&nbsp;&nbsp;&nbsp;Address：{supplierBankAddress}</Box>
-                            <Box sx={{ fontSize: '12px' }}>&nbsp;&nbsp;&nbsp;&nbsp;Account Number: {supplierAcctNumber}</Box>
-                            <Box sx={{ fontSize: '12px' }}>&nbsp;&nbsp;&nbsp;&nbsp;IBAN: {iBAN}</Box>
-                            <Box sx={{ fontSize: '12px' }}>&nbsp;&nbsp;&nbsp;&nbsp;SWIFT: {supplierSWIFTCode}</Box>
+                            <Box sx={{ fontSize: '12px' }}>
+                                一、請貴分行自本分公司之帳戶(帳號{correspondenceInfo?.CBPBankAcctNo})匯至以下帳戶
+                            </Box>
+                            <Box sx={{ fontSize: '12px' }}>&nbsp;&nbsp;&nbsp;&nbsp;A/C Name: {correspondenceInfo?.BankAcctName}.</Box>
+                            <Box sx={{ fontSize: '12px' }}>&nbsp;&nbsp;&nbsp;&nbsp;Bank: {correspondenceInfo?.BankName}</Box>
+                            <Box sx={{ fontSize: '12px' }}>&nbsp;&nbsp;&nbsp;&nbsp;Address：{correspondenceInfo?.BankAddress}</Box>
+                            <Box sx={{ fontSize: '12px' }}>&nbsp;&nbsp;&nbsp;&nbsp;A/C Number: {correspondenceInfo?.BankAcctNo}</Box>
+                            <Box sx={{ fontSize: '12px' }}>&nbsp;&nbsp;&nbsp;&nbsp;IBAN: {correspondenceInfo?.IBAN}</Box>
+                            <Box sx={{ fontSize: '12px' }}>&nbsp;&nbsp;&nbsp;&nbsp;SWIFT: {correspondenceInfo?.SWIFTCode}</Box>
+                            <Box sx={{ fontSize: '12px' }}>&nbsp;&nbsp;&nbsp;&nbsp;ACH: {correspondenceInfo?.ACHNo}</Box>
+                            <Box sx={{ fontSize: '12px' }}>&nbsp;&nbsp;&nbsp;&nbsp;Wire/Routing: {correspondenceInfo?.WireRouting}</Box>
                             <Box sx={{ fontSize: '12px' }}>二、本款項請即時匯出，匯款時請附加說明：</Box>
-                            <Box sx={{ fontSize: '12px' }}>&nbsp;&nbsp;&nbsp;&nbsp;Invoice No.15328/15428, {cableName}, US$48,576.00</Box>
+                            <Box sx={{ fontSize: '12px' }}>
+                                &nbsp;&nbsp;&nbsp;&nbsp;Invoice No.{correspondenceInfo?.InvoiceNo}, {cableInfo}, US$
+                                {correspondenceInfo?.TotalFeeAmount}
+                            </Box>
                             <Box sx={{ fontSize: '12px' }}>三、本款項為全額到行。</Box>
-                            <Box sx={{ fontSize: '12px' }}>四、檢附貴行外幣活期存款第007-53-110022號帳戶同額美金取款憑條乙紙。</Box>
+                            <Box sx={{ fontSize: '12px' }}>
+                                四、檢附貴行外幣活期存款第{correspondenceInfo?.CBPBankAcctNo}號帳戶同額美金取款憑條乙紙。
+                            </Box>
                         </Typography>
                     </Grid>
                 </Grid>
@@ -485,90 +259,12 @@ const CorrespondenceMake = ({ isDialogOpen, handleDialogClose, listInfo }) => {
                     sx={{ mr: '0.05rem' }}
                     variant="contained"
                     onClick={() => {
-                        handlePrint(true);
+                        saveToSend();
                     }}
                 >
-                    列印函稿
-                </Button>
-                <Button
-                    sx={{ mr: '0.05rem' }}
-                    variant="contained"
-                    onClick={() => {
-                        handlePrint(false);
-                    }}
-                >
-                    列印函
-                </Button>
-                <Button
-                    sx={{ mr: '0.05rem' }}
-                    variant="contained"
-                    onClick={() => {
-                        handleDialogClose();
-                    }}
-                >
-                    關閉
+                    確認儲存
                 </Button>
             </DialogActions>
-            <Grid container spacing={1} className="no-show">
-                <Grid item xs={12} sm={12} md={12} lg={12}>
-                    <Typography sx={{ fontFamily: 'DFKai-sb', fontWeight: 'bold' }}>
-                        <Box sx={{ fontSize: '32px', m: 2 }}>
-                            中華電信股份有限公司國際電信分公司&nbsp;&nbsp;&nbsp;函{isOne ? '' : '(稿)'}
-                        </Box>
-                        <Box sx={{ fontSize: '20px', textAlign: 'right' }}>地址：106&nbsp;台北市愛國東路31號</Box>
-                        <Box sx={{ fontSize: '20px', textAlign: 'right' }}>{`聯絡方式：${contact}(${tel})`}</Box>
-                        <Box sx={{ fontSize: '20px', textAlign: 'right' }}>{`e-mail：${email}`}</Box>
-                        <Box sx={{ fontSize: '22px' }}>{`受文者：${receipient}`}</Box>
-                        <Box sx={{ fontSize: '20px' }}>發文日期：中華民國112年01月30日</Box>
-                        <Box sx={{ fontSize: '20px' }}>{`發文字號：${number}`}</Box>
-                        <Box sx={{ fontSize: '20px' }}>速別：最速件</Box>
-                        <Box sx={{ fontSize: '20px' }}>密等及解密條件或保密期限：</Box>
-                        <Box sx={{ fontSize: '20px' }}>附件： 如文</Box>
-                        <Box sx={{ fontSize: '22px' }}>
-                            主旨：
-                            {isDefault === 'true' || isDefault === true
-                                ? `請電匯CIENA JP以支付${subject1}，淨額為美金${subject2}元(US$48,576.00)，請查照。`
-                                : subject3}
-                        </Box>
-                        <Box sx={{ fontSize: '22px' }}>說明：</Box>
-                        <Box sx={{ fontSize: '20px' }}>一、請貴分行自本分公司之帳戶(帳號{acctNo})匯至以下帳戶</Box>
-                        <Box sx={{ fontSize: '20px' }}>&nbsp;&nbsp;&nbsp;&nbsp;Account Name: {supplierAcctName}.</Box>
-                        <Box sx={{ fontSize: '20px' }}>&nbsp;&nbsp;&nbsp;&nbsp;Bank: {supplierBank}</Box>
-                        <Box sx={{ fontSize: '20px' }}>&nbsp;&nbsp;&nbsp;&nbsp;Address：{supplierBankAddress}</Box>
-                        <Box sx={{ fontSize: '20px' }}>&nbsp;&nbsp;&nbsp;&nbsp;Account Number: {supplierAcctNumber}</Box>
-                        <Box sx={{ fontSize: '20px' }}>&nbsp;&nbsp;&nbsp;&nbsp;IBAN: {iBAN}</Box>
-                        <Box sx={{ fontSize: '20px' }}>&nbsp;&nbsp;&nbsp;&nbsp;SWIFT: {supplierSWIFTCode}</Box>
-                        <Box sx={{ fontSize: '20px' }}>二、本款項請即時匯出，匯款時請附加說明：</Box>
-                        <Box sx={{ fontSize: '20px' }}>&nbsp;&nbsp;&nbsp;&nbsp;Invoice No.15328/15428, {cableName}, US$48,576.00</Box>
-                        <Box sx={{ fontSize: '20px' }}>三、本款項為全額到行。</Box>
-                        <Box sx={{ fontSize: '20px' }}>四、檢附貴行外幣活期存款第007-53-110022號帳戶同額美金取款憑條乙紙。</Box>
-                        {isOne ? (
-                            ''
-                        ) : (
-                            <>
-                                <Box sx={{ fontSize: '20px' }}>&nbsp;&nbsp;</Box>
-                                <Box sx={{ fontSize: '20px' }}>分公司總經理&nbsp;&nbsp;&nbsp;吳&nbsp;O&nbsp;O</Box>
-                                <Box sx={{ fontSize: '20px' }}>主辦單位簽核：(簽核原則:由上而下，由左而右)：</Box>
-                                <Box sx={{ fontSize: '20px' }}>判後：</Box>
-                                <Box sx={{ fontSize: '20px' }}>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;國際電信分公司會計駐點</Box>
-                                <Box sx={{ fontSize: '20px' }}>&nbsp;&nbsp;</Box>
-                                <Box sx={{ fontSize: '20px' }}>&nbsp;&nbsp;</Box>
-                                <Box sx={{ fontSize: '20px' }}>&nbsp;&nbsp;</Box>
-                                <Box sx={{ fontSize: '20px' }}>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;國際電信分公司行政管理處(總務科)</Box>
-                                <Box sx={{ fontSize: '20px' }}>&nbsp;&nbsp;</Box>
-                                <Box sx={{ fontSize: '20px' }}>&nbsp;&nbsp;</Box>
-                                <Box sx={{ fontSize: '20px' }}>&nbsp;&nbsp;</Box>
-                                <Box sx={{ fontSize: '20px' }}>
-                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;決行：CBP Director((策略暨事業規劃處&nbsp;處長)
-                                </Box>
-                                <Box sx={{ fontSize: '20px' }}>&nbsp;&nbsp;</Box>
-                                <Box sx={{ fontSize: '20px' }}>&nbsp;&nbsp;</Box>
-                                <Box sx={{ fontSize: '20px' }}>&nbsp;&nbsp;</Box>
-                            </>
-                        )}
-                    </Typography>
-                </Grid>
-            </Grid>
         </Dialog>
     );
 };

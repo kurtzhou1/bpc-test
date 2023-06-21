@@ -40,25 +40,6 @@ const Information = () => {
             <Grid item xs={12}>
                 <MainCard
                     contentSX={{ py: 1, px: 0 }}
-                    // title={`${
-                    //     value == 0
-                    //         ? '海纜代號'
-                    //         : value == 1
-                    //         ? '供應商'
-                    //         : value == 2
-                    //         ? '會員'
-                    //         : value == 3
-                    //         ? '合約'
-                    //         : value == 4
-                    //         ? '海纜作業'
-                    //         : value == 5
-                    //         ? '合約種類'
-                    //         : value == 6
-                    //         ? '合約會員'
-                    //         : value == 7
-                    //         ? '合約廠商'
-                    //         : '聯盟金融帳戶'
-                    // }資料列表`}
                     title={`${value == 0 ? '海纜代號' : value == 1 ? '供應商' : value == 2 ? '會員' : '聯盟金融帳戶'}資料列表`}
                 >
                     <Box sx={{ p: 0, borderBottom: 1, borderColor: 'divider', position: 'relative' }}>
