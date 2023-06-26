@@ -52,6 +52,10 @@ const GenerateFeeAmount = () => {
         }
     };
 
+    const initList = () => {
+        setCbToCn({});
+    };
+
     //初始化查詢
     const receivableQuery = () => {
         let tmpQuery = queryApi.current;
@@ -66,6 +70,8 @@ const GenerateFeeAmount = () => {
                 console.log('e1=>', e);
             });
     };
+
+    console.log('cbToCn=>>', cbToCn);
 
     return (
         <Grid container spacing={1}>
@@ -109,6 +115,7 @@ const GenerateFeeAmount = () => {
                                         right: 0,
                                         top: 4
                                     }}
+                                    onClick={initList}
                                 >
                                     Reset
                                 </Button>
