@@ -120,8 +120,8 @@ const Correspondence = () => {
                             </Tabs>
                         </Box>
                         <TabPanel value={value} index={0}>
-                            {/* <ToEditDataList listInfo={fakeData} /> */}
-                            <ToEditDataList listInfo={listInfo} />
+                            <ToEditDataList listInfo={fakeData} />
+                            {/* <ToEditDataList listInfo={listInfo} /> */}
                         </TabPanel>
                         <TabPanel value={value} index={1}>
                             <ToEditDataList />

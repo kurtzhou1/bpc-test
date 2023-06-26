@@ -97,7 +97,7 @@ const ToEditDataList = ({ listInfo, apiQuery }) => {
             .then(() => {
                 dispatch(setMessageStateOpen({ messageStateOpen: { isOpen: true, severity: 'success', message: '送出成功' } }));
             })
-            .catch((e) => dispatch(setMessageStateOpen({ messageStateOpen: { isOpen: true, severity: 'error', message: '送出不成功' } })));
+            .catch(() => dispatch(setMessageStateOpen({ messageStateOpen: { isOpen: true, severity: 'error', message: '送出不成功' } })));
     };
     return (
         <>
@@ -115,7 +115,7 @@ const ToEditDataList = ({ listInfo, apiQuery }) => {
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {listInfo.map((row, id) => {
+                        {listInfo.map((row) => {
                             return (
                                 <TableRow key={row?.PayDraftID + row?.PayMID} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
                                     <StyledTableCell align="center">{row?.Payee}</StyledTableCell>

@@ -26,7 +26,7 @@ import CheckBoxIcon from '@mui/icons-material/CheckBox';
 
 // project import
 import MainCard from 'components/MainCard';
-import { BootstrapDialogTitle, TabPanel } from 'components/commonFunction';
+import { handleNumber, BootstrapDialogTitle, TabPanel } from 'components/commonFunction';
 
 // table
 import TableBody from '@mui/material/TableBody';
@@ -97,12 +97,6 @@ const CorrespondenceMake = ({ isDialogOpen, handleDialogClose, payDraftID }) => 
     const [correspondenceInfo, setCorrespondenceInfo] = useState({});
     const [subject1, setSubject1] = useState(''); //主旨1
     const [subject2, setSubject2] = useState(''); //主旨2
-    const [number, setNumber] = useState(''); //連絡電話
-    const [date, setDate] = useState(''); //發文日期
-    const [receipient, setRecipient] = useState(''); //受文者
-    const [contact, setContact] = useState(''); //聯絡人
-    const [tel, setTel] = useState(''); //連絡電話
-    const [email, setEmail] = useState(''); //聯絡信箱
     const [cableInfo, setCableInfo] = useState(''); //海纜資訊
 
     const saveToSend = () => {
@@ -152,14 +146,10 @@ const CorrespondenceMake = ({ isDialogOpen, handleDialogClose, payDraftID }) => 
                                     <Grid item xs={12} sm={12} md={12} lg={12} display="flex">
                                         <Typography
                                             variant="h5"
-                                            // onClick={() => {
-                                            //     setIsUpload(false);
-                                            // }}
                                             sx={{
                                                 fontSize: { lg: '0.5rem', xl: '0.88rem' },
                                                 ml: { lg: '0.5rem', xl: '1.5rem' },
                                                 display: 'flex',
-                                                // justifyContent: 'center',
                                                 alignItems: 'center',
                                                 flexWrap: 'wrap'
                                             }}
@@ -191,7 +181,7 @@ const CorrespondenceMake = ({ isDialogOpen, handleDialogClose, payDraftID }) => 
                                                 }}
                                                 // onChange={(e) => setLBRatio(e.target.value)}
                                             />
-                                            (US${correspondenceInfo?.TotalFeeAmount})，請查照
+                                            (US${handleNumber(correspondenceInfo?.TotalFeeAmount)})，請查照
                                         </Typography>
                                     </Grid>
                                 </Grid>
@@ -225,8 +215,9 @@ const CorrespondenceMake = ({ isDialogOpen, handleDialogClose, payDraftID }) => 
                             <Box sx={{ fontSize: '14px' }}>&nbsp;&nbsp;&nbsp;&nbsp;</Box>
                             <Box sx={{ fontSize: '14px' }}>&nbsp;&nbsp;&nbsp;&nbsp;</Box>
                             <Box sx={{ fontSize: '14px' }}>
-                                主旨： 請電匯{correspondenceInfo?.Payee}以支付${subject1}，淨額為美金${subject2}元(US$$
-                                {correspondenceInfo?.TotalFeeAmount}
+                                主旨： 請電匯{correspondenceInfo?.Payee}以支付${subject1}，淨額為美金${subject2}
+                                元(US$
+                                {handleNumber(correspondenceInfo?.TotalFeeAmount)}
                                 )，請查照。
                             </Box>
                             <Box sx={{ fontSize: '14px' }}>說明：</Box>
@@ -244,7 +235,7 @@ const CorrespondenceMake = ({ isDialogOpen, handleDialogClose, payDraftID }) => 
                             <Box sx={{ fontSize: '12px' }}>二、本款項請即時匯出，匯款時請附加說明：</Box>
                             <Box sx={{ fontSize: '12px' }}>
                                 &nbsp;&nbsp;&nbsp;&nbsp;Invoice No.{correspondenceInfo?.InvoiceNo}, {cableInfo}, US$
-                                {correspondenceInfo?.TotalFeeAmount}
+                                {handleNumber(correspondenceInfo?.TotalFeeAmount)}
                             </Box>
                             <Box sx={{ fontSize: '12px' }}>三、本款項為全額到行。</Box>
                             <Box sx={{ fontSize: '12px' }}>
