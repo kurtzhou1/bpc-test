@@ -91,7 +91,7 @@ const GenerateFeeAmount = () => {
                     }帳單資料列表`}
                 >
                     <Box sx={{ borderBottom: 1, borderColor: 'divider', position: 'relative' }}>
-                        <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
+                        <Tabs value={value} onChange={handleChange}>
                             <Tab label="待合併" {...a11yProps(0)} />
                             <Tab label="待抵扣" {...a11yProps(1)} />
                             <Tab label="已抵扣" {...a11yProps(2)} />

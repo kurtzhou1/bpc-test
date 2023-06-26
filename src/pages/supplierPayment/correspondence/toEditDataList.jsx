@@ -81,7 +81,7 @@ const ToEditDataList = ({ listInfo, apiQuery }) => {
             .then((blob) => {
                 const link = document.createElement('a');
                 link.href = window.URL.createObjectURL(blob);
-                link.download = `${billingNo}.docx`;
+                link.download = `付款函稿.docx`;
                 link.click();
             })
             .catch((e) => console.log('e=>', e));
