@@ -71,6 +71,12 @@ const GenerateFeeAmount = () => {
             });
     };
 
+    useEffect(() => {
+        if (value != 0) {
+            initList();
+        }
+    }, [value]);
+
     console.log('cbToCn=>>', cbToCn);
 
     return (
