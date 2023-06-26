@@ -121,17 +121,8 @@ const InvalidatedDataList = ({ listInfo, apiQuery }) => {
 
     return (
         <>
-            <Dialog
-                //  onClose={handleDialogClose}
-                maxWidth="lg"
-                fullWidth
-                open={isDialogOpen}
-            >
-                <BootstrapDialogTitle
-                //  onClose={handleDialogClose}
-                >
-                    立帳作業
-                </BootstrapDialogTitle>
+            <Dialog maxWidth="lg" fullWidth open={isDialogOpen}>
+                <BootstrapDialogTitle>立帳作業</BootstrapDialogTitle>
                 <DialogContent>
                     <TableContainer component={Paper} sx={{ maxHeight: 350 }}>
                         <Table sx={{ minWidth: 300 }} stickyHeader aria-label="sticky table">

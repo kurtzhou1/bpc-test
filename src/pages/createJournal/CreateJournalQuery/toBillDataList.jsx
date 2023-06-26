@@ -110,7 +110,7 @@ const ToBillDataList = ({ listInfo, apiQuery }) => {
         <>
             <Dialog
                 //  onClose={handleDialogClose}
-                maxWidth="lg"
+                maxWidth="xl"
                 fullWidth
                 open={isDialogOpen}
             >
@@ -154,7 +154,7 @@ const ToBillDataList = ({ listInfo, apiQuery }) => {
                                                     inputProps={{ step: '.01' }}
                                                     size="small"
                                                     type="number"
-                                                    style={{ width: '30%' }}
+                                                    style={{ width: '50%' }}
                                                     onChange={(e) => {
                                                         changeDiff(e.target.value, id);
                                                     }}

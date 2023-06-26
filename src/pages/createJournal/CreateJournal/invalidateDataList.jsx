@@ -99,7 +99,7 @@ const BilledDataList = ({ listInfo, apiQuery }) => {
         <>
             <Dialog
                 // onClose={handleDialogClose}
-                maxWidth="lg"
+                maxWidth="xl"
                 fullWidth
                 open={isDialogOpen}
             >

@@ -97,7 +97,7 @@ const BilledDataList = ({ listInfo, apiQuery }) => {
 
     return (
         <>
-            <Dialog maxWidth="lg" fullWidth open={isDialogOpen}>
+            <Dialog maxWidth="xl" fullWidth open={isDialogOpen}>
                 <BootstrapDialogTitle>立帳作業</BootstrapDialogTitle>
                 <DialogContent>
                     <TableContainer component={Paper} sx={{ maxHeight: 350 }}>
