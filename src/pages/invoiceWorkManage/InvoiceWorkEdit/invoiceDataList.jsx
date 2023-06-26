@@ -40,14 +40,6 @@ const InvoiceDataList = ({ listInfo, setAction, setModifyItem, page, setPage }) 
         setRowsPerPage(parseInt(event.target.value, 10));
         setPage(0);
     };
-    // const [anchorEl, setAnchorEl] = useState(null);
-    // const open = Boolean(anchorEl);
-    // const handleClick = (event) => {
-    //     setAnchorEl(event.currentTarget);
-    // };
-    // const handleClose = () => {
-    //     setAnchorEl(null);
-    // };
 
     const options1 = ['View', 'Validate', 'Edit', 'Delete'];
     const options2 = ['View', '作廢'];
@@ -81,9 +73,7 @@ const InvoiceDataList = ({ listInfo, setAction, setModifyItem, page, setPage }) 
                                     tmpBMArray.push(i.BillMilestone);
                                 }
                             });
-                            if (row.InvoiceWKMaster?.InvoiceNo === 'TBD') {
-                                console.log('row=>>', row);
-                            }
+                            console.log('row=>>', row.InvoiceWKMaster.InvoiceNo);
                             return (
                                 <TableRow
                                     key={row.InvoiceWKMaster?.WKMasterID + row.InvoiceWKMaster?.InvoiceNo}
@@ -141,7 +131,7 @@ const InvoiceDataList = ({ listInfo, setAction, setModifyItem, page, setPage }) 
                                                             variant="outlined"
                                                             size="small"
                                                             onClick={() => {
-                                                                setModifyItem(itemID);
+                                                                setModifyItem(row.InvoiceWKMaster?.InvoiceNo);
                                                                 setAction(option);
                                                             }}
                                                         >
@@ -166,7 +156,7 @@ const InvoiceDataList = ({ listInfo, setAction, setModifyItem, page, setPage }) 
                                                             variant="outlined"
                                                             size="small"
                                                             onClick={() => {
-                                                                setModifyItem(itemID);
+                                                                setModifyItem(row.InvoiceWKMaster?.InvoiceNo);
                                                                 setAction(option);
                                                             }}
                                                         >
@@ -191,7 +181,7 @@ const InvoiceDataList = ({ listInfo, setAction, setModifyItem, page, setPage }) 
                                                             variant="outlined"
                                                             size="small"
                                                             onClick={() => {
-                                                                setModifyItem(itemID);
+                                                                setModifyItem(row.InvoiceWKMaster?.InvoiceNo);
                                                                 setAction(option);
                                                             }}
                                                         >
@@ -213,7 +203,7 @@ const InvoiceDataList = ({ listInfo, setAction, setModifyItem, page, setPage }) 
                                                     variant="outlined"
                                                     size="small"
                                                     onClick={() => {
-                                                        setModifyItem(itemID);
+                                                        setModifyItem(row.InvoiceWKMaster?.InvoiceNo);
                                                         setAction('View');
                                                     }}
                                                 >

@@ -51,7 +51,6 @@ const InvoiceWorkManage = ({
     const [supNmList, setSupNmList] = useState([]); //供應商下拉選單
     const dispatch = useDispatch();
     const invoiceNoCheck = () => {
-        console.log('test');
         if (action !== 'View') {
             let tmpArray = {
                 InvoiceNo: invoiceNo

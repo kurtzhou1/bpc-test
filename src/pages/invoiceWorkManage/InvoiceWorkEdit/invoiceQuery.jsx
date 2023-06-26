@@ -64,9 +64,6 @@ const InvoiceQueryBlock = ({ setListInfo, queryApi, supNmList, subCableList, bil
         if (submarineCableQuery && submarineCableQuery !== '') {
             tmpQuery = tmpQuery + 'SubmarineCable=' + submarineCableQuery + '&';
         }
-        // if (partyNameQuery && partyNameQuery !== '') {
-        //     tmpQuery = tmpQuery + 'PartyName=' + partyNameQuery + '&';
-        // }
         if (invoiceNoQuery && invoiceNoQuery !== '') {
             tmpQuery = tmpQuery + 'InvoiceNo=' + invoiceNoQuery + '&';
         }

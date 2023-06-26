@@ -255,7 +255,7 @@ const InvoiceWorkManage = () => {
         listInfo.forEach((dataInfo) => {
             fetch(generateInvoice, { method: 'POST', body: JSON.stringify(dataInfo) })
                 .then((res) => res.json())
-                .then((data) => {
+                .then(() => {
                     dispatch(setMessageStateOpen({ messageStateOpen: { isOpen: true, severity: 'success', message: '送出發票成功' } }));
                     setListInfo([]);
                 })
@@ -392,7 +392,7 @@ const InvoiceWorkManage = () => {
                         </Grid>
                         <Grid item xs={12} display="flex" justifyContent="center" alignItems="center">
                             {listInfo.length > 0 ? (
-                                <Button variant="contained" onClick={sendInvoice}>
+                                <Button variant="contained" onClick={sendInvoice} sx={{ mx: 1 }}>
                                     送出發票
                                 </Button>
                             ) : (
@@ -403,7 +403,9 @@ const InvoiceWorkManage = () => {
                                 onClick={handleLink}
                                 style={{ color: '#262626', textDecoration: 'none' }}
                             >
-                                <Button variant="contained">下一頁</Button>
+                                <Button variant="contained" sx={{ mx: 1 }}>
+                                    下一頁
+                                </Button>
                             </Link>
                         </Grid>
                     </Grid>

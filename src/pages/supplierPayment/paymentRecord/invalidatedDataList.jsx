@@ -215,7 +215,6 @@ const InvalidatedDataList = ({ listInfo, apiQuery }) => {
                     </TableHead>
                     <TableBody>
                         {toBillDataInfo?.map((row, id) => {
-                            console.log('row=>>', row);
                             return (
                                 <TableRow
                                     key={row.InvoiceWKMaster?.WKMasterID + row.InvoiceWKMaster?.InvoiceNo}

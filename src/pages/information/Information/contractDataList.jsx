@@ -122,7 +122,6 @@ const ContractDataList = ({}) => {
     };
 
     const editContractsInfo = (row) => {
-        console.log('row=>>', row);
         // setEditItem(id);
         contractID.current = row.ContractID;
         setContractNameEdit(row.ContractName);

@@ -68,9 +68,10 @@ const InvoiceWorkManage = () => {
     const [feeAmount, setFeeAmount] = useState(''); //費用金額
 
     const [action, setAction] = useState('');
-    const [modifyItem, setModifyItem] = useState(-1);
+    const [modifyItem, setModifyItem] = useState('');
 
     const queryApi = useRef(queryInvoice + '/all');
+    const queryApiTemporary = queryInvoice + '/Status=TEMPORARY';
 
     const { supNmList, subCableList, bmsList } = useSelector((state) => state.dropdown); //供應商下拉選單 + 海纜名稱下拉選單
     const [listInfo, setListInfo] = useState([]);
@@ -112,6 +113,15 @@ const InvoiceWorkManage = () => {
 
     const queryInit = () => {
         fetch(queryApi.current, { method: 'GET' })
+            .then((res) => res.json())
+            .then((data) => {
+                setListInfo(data);
+            })
+            .catch((e) => console.log('e1=>', e));
+    };
+
+    const queryInitTemporary = () => {
+        fetch(queryApiTemporary, { method: 'GET' })
             .then((res) => res.json())
             .then((data) => {
                 setListInfo(data);
@@ -172,33 +182,45 @@ const InvoiceWorkManage = () => {
     useEffect(() => {
         itemInfoInitial();
         setAction('');
-        setModifyItem(-1);
+        setModifyItem('');
         firstQueryInit();
     }, []);
 
     useEffect(() => {
-        if ((modifyItem >= 0 && action === 'Edit') || (modifyItem >= 0 && action === 'View')) {
-            setSupplierName(listInfo[modifyItem].InvoiceWKMaster.SupplierName);
-            setInvoiceNo(listInfo[modifyItem].InvoiceWKMaster.InvoiceNo);
-            setSubmarineCable(listInfo[modifyItem].InvoiceWKMaster.SubmarineCable);
-            setWorkTitle(listInfo[modifyItem].InvoiceWKMaster.WorkTitle);
-            setContractType(listInfo[modifyItem].InvoiceWKMaster.ContractType);
-            setIssueDate(listInfo[modifyItem].InvoiceWKMaster.IssueDate);
-            setDueDate(listInfo[modifyItem].InvoiceWKMaster.DueDate);
-            setTotalAmount(handleNumber(listInfo[modifyItem].InvoiceWKMaster.TotalAmount));
-            setIsPro(listInfo[modifyItem].InvoiceWKMaster.IsPro);
-            setIsLiability(listInfo[modifyItem].InvoiceWKMaster.IsLiability);
-            setIsRecharge(listInfo[modifyItem].InvoiceWKMaster.IsRecharge);
-            setPartyName(listInfo[modifyItem].InvoiceWKMaster.PartyName);
-            setInvoiceDetailInfo(listInfo[modifyItem].InvoiceWKDetail);
-            wKMasterID.current = listInfo[modifyItem].InvoiceWKMaster.WKMasterID;
+        if ((modifyItem !== '' && action === 'Edit') || (modifyItem !== '' && action === 'View')) {
+            listInfo.forEach((i) => {
+                if (i.InvoiceWKMaster.InvoiceNo === modifyItem) {
+                    setSupplierName(i.InvoiceWKMaster.SupplierName);
+                    setInvoiceNo(i.InvoiceWKMaster.InvoiceNo);
+                    setSubmarineCable(i.InvoiceWKMaster.SubmarineCable);
+                    setWorkTitle(i.InvoiceWKMaster.WorkTitle);
+                    setContractType(i.InvoiceWKMaster.ContractType);
+                    setIssueDate(i.InvoiceWKMaster.IssueDate);
+                    setDueDate(i.InvoiceWKMaster.DueDate);
+                    setTotalAmount(handleNumber(i.InvoiceWKMaster.TotalAmount));
+                    setIsPro(i.InvoiceWKMaster.IsPro);
+                    setIsLiability(i.InvoiceWKMaster.IsLiability);
+                    setIsRecharge(i.InvoiceWKMaster.IsRecharge);
+                    setPartyName(i.InvoiceWKMaster.PartyName);
+                    setInvoiceDetailInfo(i.InvoiceWKDetail);
+                    wKMasterID.current = i.InvoiceWKMaster.WKMasterID;
+                }
+            });
         }
     }, [modifyItem, action]);
 
     useEffect(() => {
+        let tmpModifyItem;
+        if (action === 'Validate' || action === '作廢' || action === '退回') {
+            listInfo.forEach((i) => {
+                if (i.InvoiceWKMaster.InvoiceNo === modifyItem) {
+                    tmpModifyItem = i.InvoiceWKMaster.WKMasterID;
+                }
+            });
+        }
         if (action === 'Validate') {
             let tmpArray = {
-                WKMasterID: listInfo[modifyItem].InvoiceWKMaster.WKMasterID,
+                WKMasterID: tmpModifyItem,
                 Status: 'VALIDATED'
             };
             fetch(updateInvoice, { method: 'POST', body: JSON.stringify(tmpArray) })
@@ -207,13 +229,13 @@ const InvoiceWorkManage = () => {
                     dispatch(setMessageStateOpen({ messageStateOpen: { isOpen: true, severity: 'success', message: 'Validated成功' } }));
                     setPage(0);
                     setAction('');
-                    queryInit();
+                    queryInitTemporary();
                 })
                 .catch((e) => console.log('e1=>', e));
         }
         if (action === '作廢') {
             let tmpArray = {
-                WKMasterID: listInfo[modifyItem].InvoiceWKMaster.WKMasterID
+                WKMasterID: tmpModifyItem
             };
             fetch(afterBilled, { method: 'POST', body: JSON.stringify(tmpArray) })
                 .then((res) => res.json())
@@ -231,23 +253,10 @@ const InvoiceWorkManage = () => {
                     // queryInit();
                 })
                 .catch((e) => console.log('e1=>', e));
-            // let tmpArray = {
-            //     WKMasterID: listInfo[modifyItem].InvoiceWKMaster.WKMasterID,
-            //     Status: 'INVALID'
-            // };
-            // fetch(updateInvoice, { method: 'POST', body: JSON.stringify(tmpArray) })
-            //     .then((res) => res.json())
-            //     .then(() => {
-            //         dispatch(setMessageStateOpen({ messageStateOpen: { isOpen: true, severity: 'success', message: '作廢成功' } }));
-            //         setPage(0);
-            //         setAction('');
-            //         queryInit();
-            //     })
-            //     .catch((e) => console.log('e1=>', e));
         }
         if (action === '退回') {
             let tmpArray = {
-                WKMasterID: listInfo[modifyItem].InvoiceWKMaster.WKMasterID
+                WKMasterID: tmpModifyItem
             };
             fetch(returnToValidated, { method: 'POST', body: JSON.stringify(tmpArray) })
                 .then((res) => res.json())
@@ -260,15 +269,12 @@ const InvoiceWorkManage = () => {
                     } else if (data.ifReturn && data.hasOwnProperty('ifReturn')) {
                         dispatch(setMessageStateOpen({ messageStateOpen: { isOpen: true, severity: 'success', message: '退回成功' } }));
                     }
-                    // setPage(0);
-                    // setAction('');
-                    // queryInit();
                 })
                 .catch((e) => console.log('e1=>', e));
         }
-        if (action === 'Delete' && listInfo[modifyItem].InvoiceWKMaster.Status === 'TEMPORARY') {
+        if (action === 'Delete') {
             let tmpArray = {
-                WKMasterID: listInfo[modifyItem].InvoiceWKMaster.WKMasterID
+                WKMasterID: tmpModifyItem
             };
             fetch(deleteInvoiceWKMaster, { method: 'POST', body: JSON.stringify(tmpArray) })
                 .then((res) => res.json())
@@ -350,8 +356,14 @@ const InvoiceWorkManage = () => {
                 InvoiceWKMaster: tmpArray,
                 InvoiceWKDetail: invoiceDetailInfo
             };
+            let tmpModifyItem;
+            listInfo.forEach((i) => {
+                if (i.InvoiceWKMaster.InvoiceNo === modifyItem) {
+                    tmpModifyItem = i.InvoiceWKMaster.WKMasterID;
+                }
+            });
             let tmpWKMasterID = {
-                WKMasterID: listInfo[modifyItem].InvoiceWKMaster.WKMasterID
+                WKMasterID: tmpModifyItem
             };
             fetch(deleteInvoiceWKMaster, { method: 'POST', body: JSON.stringify(tmpWKMasterID) })
                 .then((res) => res.json())
@@ -385,7 +397,7 @@ const InvoiceWorkManage = () => {
     const cancelAdd = () => {
         itemInfoInitial();
         setAction('');
-        setModifyItem(-1);
+        setModifyItem('');
     };
 
     const handleReturnClose = () => {
