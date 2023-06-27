@@ -141,7 +141,7 @@ const Correspondence = () => {
                         </Box>
                         <TabPanel value={value} index={0}>
                             {/* <ToEditDataList listInfo={fakeData} /> */}
-                            <ToEditDataList listInfo={listInfo} />
+                            <ToEditDataList listInfo={listInfo} initQuery={initQuery} />
                         </TabPanel>
                         <TabPanel value={value} index={1}>
                             <ToEditDataList />

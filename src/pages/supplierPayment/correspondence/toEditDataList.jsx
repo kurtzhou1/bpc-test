@@ -51,7 +51,7 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
     }
 }));
 
-const ToEditDataList = ({ listInfo, apiQuery }) => {
+const ToEditDataList = ({ listInfo, initQuery }) => {
     const dispatch = useDispatch();
     const [isDialogOpen, setIsDialogOpen] = useState(false);
     const payDraftID = useRef(-1);
@@ -95,9 +95,12 @@ const ToEditDataList = ({ listInfo, apiQuery }) => {
         fetch(getPayDraftStream, { method: 'POST', body: JSON.stringify(tmpArray) })
             .then((res) => res.json())
             .then(() => {
-                dispatch(setMessageStateOpen({ messageStateOpen: { isOpen: true, severity: 'success', message: '送出成功' } }));
+                dispatch(setMessageStateOpen({ messageStateOpen: { isOpen: true, severity: 'success', message: '確認完成函稿成功' } }));
             })
-            .catch(() => dispatch(setMessageStateOpen({ messageStateOpen: { isOpen: true, severity: 'error', message: '送出不成功' } })));
+            .catch(() =>
+                dispatch(setMessageStateOpen({ messageStateOpen: { isOpen: true, severity: 'error', message: '確認完成函稿不成功' } }))
+            );
+        initQuery();
     };
     return (
         <>

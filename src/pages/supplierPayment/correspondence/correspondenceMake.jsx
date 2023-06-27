@@ -96,13 +96,13 @@ const CorrespondenceMake = ({ isDialogOpen, handleDialogClose, payDraftID }) => 
     const dispatch = useDispatch();
     const [correspondenceInfo, setCorrespondenceInfo] = useState({});
     const [subject1, setSubject1] = useState(''); //主旨1
-    const [subject2, setSubject2] = useState(''); //主旨2
+    // const [subject2, setSubject2] = useState(''); //主旨2
     const [cableInfo, setCableInfo] = useState(''); //海纜資訊
 
     const saveToSend = () => {
         let tmpArray = {
             PayDraftID: payDraftID,
-            PayDraftChineseTotalFeeAmount: subject2,
+            // PayDraftChineseTotalFeeAmount: subject2,
             CableInfo: cableInfo,
             Subject: subject1,
             Save: true
@@ -167,21 +167,7 @@ const CorrespondenceMake = ({ isDialogOpen, handleDialogClose, payDraftID }) => 
                                                     width: '20%'
                                                 }}
                                             />
-                                            ，淨額為美金元
-                                            <TextField
-                                                variant="outlined"
-                                                value={subject2}
-                                                size="small"
-                                                // label="填寫中文金額"
-                                                onChange={(e) => setSubject2(e.target.value)}
-                                                sx={{
-                                                    fontSize: { lg: '0.5rem', xl: '0.88rem' },
-                                                    ml: { lg: '0.5rem', xl: '1.5rem' },
-                                                    width: '20%'
-                                                }}
-                                                // onChange={(e) => setLBRatio(e.target.value)}
-                                            />
-                                            (US${handleNumber(correspondenceInfo?.TotalFeeAmount)})，請查照
+                                            ，淨額為美金元{correspondenceInfo?.PayDraftChineseTotalFeeAmount}(US${handleNumber(correspondenceInfo?.TotalFeeAmount)})，請查照
                                         </Typography>
                                     </Grid>
                                 </Grid>
@@ -215,7 +201,7 @@ const CorrespondenceMake = ({ isDialogOpen, handleDialogClose, payDraftID }) => 
                             <Box sx={{ fontSize: '14px' }}>&nbsp;&nbsp;&nbsp;&nbsp;</Box>
                             <Box sx={{ fontSize: '14px' }}>&nbsp;&nbsp;&nbsp;&nbsp;</Box>
                             <Box sx={{ fontSize: '14px' }}>
-                                主旨： 請電匯{correspondenceInfo?.Payee}以支付${subject1}，淨額為美金${subject2}
+                                主旨： 請電匯{correspondenceInfo?.Payee}以支付${subject1}，淨額為美金${correspondenceInfo?.PayDraftChineseTotalFeeAmount}
                                 元(US$
                                 {handleNumber(correspondenceInfo?.TotalFeeAmount)}
                                 )，請查照。
