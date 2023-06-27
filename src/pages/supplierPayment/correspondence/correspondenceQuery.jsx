@@ -47,7 +47,7 @@ const CorrespondenceQuery = ({ setListInfo, queryApi, value }) => {
     };
 
     const correspondenceQuery = () => {
-        let tmpQuery = '/Status=TEMPORARY&PayeeType=SUPPLIER&';
+        let tmpQuery = value === 0 ? '/Status=TEMPORARY&PayeeType=SUPPLIER&' : '/Status=COMPLETE&PayeeType=SUPPLIER​&';
         if (supplierName && supplierName !== '') {
             tmpQuery = tmpQuery + 'SupplierName=' + supplierName + '&';
         }
@@ -61,14 +61,7 @@ const CorrespondenceQuery = ({ setListInfo, queryApi, value }) => {
             tmpQuery = tmpQuery + 'WorkTitle=' + workTitle + '&';
         }
         if (issueDate && value === 1) {
-            tmpQuery =
-                tmpQuery +
-                'startIssueDate=' +
-                dayjs(issueDate[0]).format('YYYYMMDD') +
-                '&' +
-                'endIssueDate=' +
-                dayjs(issueDate[1]).format('YYYYMMDD') +
-                '&';
+            tmpQuery = tmpQuery + 'IssueDate=' + dayjs(issueDate).format('YYYYMMDD') + '&';
         }
         tmpQuery = tmpQuery.slice(0, -1);
         tmpQuery = queryPaydraft + tmpQuery;

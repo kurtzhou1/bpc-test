@@ -6,6 +6,8 @@ import CorrespondenceQuery from './correspondenceQuery';
 import MainCard from 'components/MainCard';
 import CorrespondenceMake from './correspondenceMake';
 import ToEditDataList from './toEditDataList';
+import EditedDataList from './editedDataList';
+
 import { TabPanel } from 'components/commonFunction';
 // material-ui
 import {
@@ -107,7 +109,7 @@ const Correspondence = () => {
     };
 
     const initQuery = () => {
-        let tmpQuery = '/Status=TEMPORARY&PayeeType=SUPPLIER';
+        let tmpQuery = value === 0 ? '/Status=TEMPORARY&PayeeType=SUPPLIER&' : '/Status=COMPLETE&PayeeType=SUPPLIER​&';
         tmpQuery = queryPaydraft + tmpQuery;
         fetch(tmpQuery, { method: 'GET' })
             .then((res) => res.json())
@@ -123,7 +125,7 @@ const Correspondence = () => {
 
     useEffect(() => {
         initQuery();
-    }, []);
+    }, [value]);
 
     return (
         <>
@@ -144,7 +146,7 @@ const Correspondence = () => {
                             <ToEditDataList listInfo={listInfo} initQuery={initQuery} />
                         </TabPanel>
                         <TabPanel value={value} index={1}>
-                            <ToEditDataList />
+                            <EditedDataList listInfo={listInfo} />
                         </TabPanel>
                     </MainCard>
                 </Grid>
