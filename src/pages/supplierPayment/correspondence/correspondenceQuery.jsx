@@ -86,9 +86,9 @@ const CorrespondenceQuery = ({ setListInfo, queryApi, value }) => {
             });
     };
 
-    useEffect(() => {
-        correspondenceQuery();
-    });
+    // useEffect(() => {
+    //     correspondenceQuery();
+    // }, []);
 
     return (
         <MainCard title="函稿查詢" sx={{ width: '100%' }}>

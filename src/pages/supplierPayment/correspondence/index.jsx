@@ -1,4 +1,4 @@
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 
 // project import
 import { handleNumber, BootstrapDialogTitle } from 'components/commonFunction';
@@ -35,7 +35,7 @@ import { alpha, styled } from '@mui/material/styles';
 
 import dayjs from 'dayjs';
 
-import { toBillDataapi, sendJounary } from 'components/apis.jsx';
+import { queryPaydraft } from 'components/apis.jsx';
 
 const fakeData = [
     {
@@ -105,6 +105,25 @@ const Correspondence = () => {
     const handleChange = (event, newValue) => {
         setValue(newValue);
     };
+
+    const initQuery = () => {
+        let tmpQuery = '/Status=TEMPORARY&PayeeType=SUPPLIER';
+        tmpQuery = queryPaydraft + tmpQuery;
+        fetch(tmpQuery, { method: 'GET' })
+            .then((res) => res.json())
+            .then((data) => {
+                if (Array.isArray(data)) {
+                    setListInfo(data);
+                }
+            })
+            .catch((e) => {
+                console.log('e1=>', e);
+            });
+    };
+
+    useEffect(() => {
+        initQuery();
+    }, []);
 
     return (
         <>

@@ -249,8 +249,7 @@ const ToPaymentDataList = ({ listInfo, cbToCn, setCbToCn, isSend, setIsSend, sup
             body: JSON.stringify(sendTmpArray)
         })
             .then((res) => res.json())
-            .then((data) => {
-                console.log('data=>>>', data);
+            .then(() => {
                 handleIsSendDialogClose();
                 setFinishList([]);
                 supplierPaymentQuery();
@@ -292,9 +291,6 @@ const ToPaymentDataList = ({ listInfo, cbToCn, setCbToCn, isSend, setIsSend, sup
             setTotalAmount(tmpTotal);
         }
     }, [isSendDialogOpen]);
-
-    console.log('toPaymentList=>>', toPaymentList);
-    console.log('paymentInfo=>>', paymentInfo);
 
     return (
         <>
