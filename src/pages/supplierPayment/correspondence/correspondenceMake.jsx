@@ -172,7 +172,7 @@ const CorrespondenceMake = ({ isDialogOpen, handleDialogClose, payDraftID }) => 
                                                 variant="outlined"
                                                 value={subject2}
                                                 size="small"
-                                                label="填寫中文金額"
+                                                // label="填寫中文金額"
                                                 onChange={(e) => setSubject2(e.target.value)}
                                                 sx={{
                                                     fontSize: { lg: '0.5rem', xl: '0.88rem' },
@@ -253,7 +253,16 @@ const CorrespondenceMake = ({ isDialogOpen, handleDialogClose, payDraftID }) => 
                         saveToSend();
                     }}
                 >
-                    確認儲存
+                    儲存
+                </Button>
+                <Button
+                    sx={{ mr: '0.05rem' }}
+                    variant="contained"
+                    onClick={() => {
+                        handleDialogClose();
+                    }}
+                >
+                    取消
                 </Button>
             </DialogActions>
         </Dialog>

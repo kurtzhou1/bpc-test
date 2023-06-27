@@ -77,7 +77,6 @@ const CorrespondenceQuery = ({ setListInfo, queryApi, value }) => {
         fetch(tmpQuery, { method: 'GET' })
             .then((res) => res.json())
             .then((data) => {
-                console.log('data=>>', data);
                 if (Array.isArray(data)) {
                     setListInfo(data);
                 }
@@ -86,6 +85,10 @@ const CorrespondenceQuery = ({ setListInfo, queryApi, value }) => {
                 console.log('e1=>', e);
             });
     };
+
+    useEffect(() => {
+        correspondenceQuery();
+    });
 
     return (
         <MainCard title="函稿查詢" sx={{ width: '100%' }}>

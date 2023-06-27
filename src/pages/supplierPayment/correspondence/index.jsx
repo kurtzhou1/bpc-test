@@ -70,6 +70,20 @@ const fakeData = [
     }
 ];
 
+const StyledTableCell = styled(TableCell)(({ theme }) => ({
+    [`&.${tableCellClasses.head}`]: {
+        // backgroundColor: theme.palette.common.gary,
+        color: theme.palette.common.black,
+        paddingTop: '0.2rem',
+        paddingBottom: '0.2rem'
+    },
+    [`&.${tableCellClasses.body}`]: {
+        fontSize: 14,
+        paddingTop: '0.2rem',
+        paddingBottom: '0.2rem'
+    }
+}));
+
 const Correspondence = () => {
     const [value, setValue] = useState(0);
     const [listInfo, setListInfo] = useState([]);
@@ -83,19 +97,6 @@ const Correspondence = () => {
     };
 
     const [isDialogOpen, setIsDialogOpen] = useState(false); //檢視
-    const StyledTableCell = styled(TableCell)(({ theme }) => ({
-        [`&.${tableCellClasses.head}`]: {
-            // backgroundColor: theme.palette.common.gary,
-            color: theme.palette.common.black,
-            paddingTop: '0.2rem',
-            paddingBottom: '0.2rem'
-        },
-        [`&.${tableCellClasses.body}`]: {
-            fontSize: 14,
-            paddingTop: '0.2rem',
-            paddingBottom: '0.2rem'
-        }
-    }));
 
     const handleDialogClose = () => {
         setIsDialogOpen(false);
@@ -120,8 +121,8 @@ const Correspondence = () => {
                             </Tabs>
                         </Box>
                         <TabPanel value={value} index={0}>
-                            <ToEditDataList listInfo={fakeData} />
-                            {/* <ToEditDataList listInfo={listInfo} /> */}
+                            {/* <ToEditDataList listInfo={fakeData} /> */}
+                            <ToEditDataList listInfo={listInfo} />
                         </TabPanel>
                         <TabPanel value={value} index={1}>
                             <ToEditDataList />
