@@ -47,7 +47,7 @@ const CorrespondenceQuery = ({ setListInfo, queryApi, value }) => {
     };
 
     const correspondenceQuery = () => {
-        let tmpQuery = value === 0 ? '/Status=TEMPORARY&PayeeType=SUPPLIER&' : '/Status=COMPLETE&PayeeType=SUPPLIER​&';
+        let tmpQuery = value === 0 ? '/Status=TEMPORARY&PayeeType=SUPPLIER&' : '/Status=COMPLETE&PayeeType=SUPPLIER&';
         if (supplierName && supplierName !== '') {
             tmpQuery = tmpQuery + 'SupplierName=' + supplierName + '&';
         }

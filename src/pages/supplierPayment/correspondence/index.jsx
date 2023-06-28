@@ -109,7 +109,7 @@ const Correspondence = () => {
     };
 
     const initQuery = () => {
-        let tmpQuery = value === 0 ? '/Status=TEMPORARY&PayeeType=SUPPLIER&' : '/Status=COMPLETE&PayeeType=SUPPLIER​&';
+        let tmpQuery = value === 0 ? '/Status=TEMPORARY&PayeeType=SUPPLIER' : '/Status=COMPLETE&PayeeType=SUPPLIER';
         tmpQuery = queryPaydraft + tmpQuery;
         fetch(tmpQuery, { method: 'GET' })
             .then((res) => res.json())
