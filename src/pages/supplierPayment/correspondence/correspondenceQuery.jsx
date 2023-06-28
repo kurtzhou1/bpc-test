@@ -61,7 +61,14 @@ const CorrespondenceQuery = ({ setListInfo, queryApi, value }) => {
             tmpQuery = tmpQuery + 'WorkTitle=' + workTitle + '&';
         }
         if (issueDate && value === 1) {
-            tmpQuery = tmpQuery + 'IssueDate=' + dayjs(issueDate).format('YYYYMMDD') + '&';
+            tmpQuery =
+                tmpQuery +
+                'startIssueDate=' +
+                dayjs(issueDate).format('YYYYMMDD') +
+                '&' +
+                'endIssueDate=' +
+                dayjs(issueDate).format('YYYYMMDD') +
+                '&';
         }
         tmpQuery = tmpQuery.slice(0, -1);
         tmpQuery = queryPaydraft + tmpQuery;
