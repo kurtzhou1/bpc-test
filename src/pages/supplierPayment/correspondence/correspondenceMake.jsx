@@ -167,7 +167,8 @@ const CorrespondenceMake = ({ isDialogOpen, handleDialogClose, payDraftID }) => 
                                                     width: '20%'
                                                 }}
                                             />
-                                            ，淨額為美金元{correspondenceInfo?.PayDraftChineseTotalFeeAmount}(US${handleNumber(correspondenceInfo?.TotalFeeAmount)})，請查照
+                                            ，淨額為美金元{correspondenceInfo?.PayDraftChineseTotalFeeAmount}(US$
+                                            {handleNumber(correspondenceInfo?.TotalFeeAmount)})，請查照
                                         </Typography>
                                     </Grid>
                                 </Grid>
@@ -201,7 +202,8 @@ const CorrespondenceMake = ({ isDialogOpen, handleDialogClose, payDraftID }) => 
                             <Box sx={{ fontSize: '14px' }}>&nbsp;&nbsp;&nbsp;&nbsp;</Box>
                             <Box sx={{ fontSize: '14px' }}>&nbsp;&nbsp;&nbsp;&nbsp;</Box>
                             <Box sx={{ fontSize: '14px' }}>
-                                主旨： 請電匯{correspondenceInfo?.Payee}以支付${subject1}，淨額為美金${correspondenceInfo?.PayDraftChineseTotalFeeAmount}
+                                主旨： 請電匯{correspondenceInfo?.Payee}以支付${subject1}，淨額為美金$
+                                {correspondenceInfo?.PayDraftChineseTotalFeeAmount}
                                 元(US$
                                 {handleNumber(correspondenceInfo?.TotalFeeAmount)}
                                 )，請查照。
