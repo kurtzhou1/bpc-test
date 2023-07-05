@@ -152,6 +152,51 @@ const SubmarineCableDataList = ({ maxHei }) => {
                     </TableRow>
                 </TableHead>
                 <TableBody>
+                    <TableRow sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
+                        <TableCell align="center">
+                            <Box
+                                sx={{
+                                    display: 'flex',
+                                    justifyContent: 'center',
+                                    '& button': { mx: { md: 0.6, lg: 1, xl: 1.8 }, p: 0, fontSize: 1 }
+                                }}
+                            >
+                                <Button color="success" variant="outlined" onClick={addPartyInfo}>
+                                    新增
+                                </Button>
+                            </Box>
+                        </TableCell>
+                        <TableCell align="center"></TableCell>
+                        <TableCell align="center">
+                            <TextField
+                                size="small"
+                                // style={{ width: '30%' }}
+                                value={cableCode}
+                                onChange={(e) => {
+                                    setCableCode(e.target.value);
+                                }}
+                            />
+                        </TableCell>
+                        <TableCell align="center">
+                            <TextField
+                                size="small"
+                                // style={{ width: '30%' }}
+                                value={cableName}
+                                onChange={(e) => {
+                                    setCableName(e.target.value);
+                                }}
+                            />
+                        </TableCell>
+                        <TableCell align="center">
+                            <TextField
+                                size="small"
+                                value={note}
+                                onChange={(e) => {
+                                    setNote(e.target.value);
+                                }}
+                            />
+                        </TableCell>
+                    </TableRow>
                     {infoList?.map((row, id) => {
                         return (
                             <TableRow
@@ -258,51 +303,6 @@ const SubmarineCableDataList = ({ maxHei }) => {
                             </TableRow>
                         );
                     })}
-                    <TableRow sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
-                        <TableCell align="center">
-                            <Box
-                                sx={{
-                                    display: 'flex',
-                                    justifyContent: 'center',
-                                    '& button': { mx: { md: 0.6, lg: 1, xl: 1.8 }, p: 0, fontSize: 1 }
-                                }}
-                            >
-                                <Button color="success" variant="outlined" onClick={addPartyInfo}>
-                                    新增
-                                </Button>
-                            </Box>
-                        </TableCell>
-                        <TableCell align="center"></TableCell>
-                        <TableCell align="center">
-                            <TextField
-                                size="small"
-                                // style={{ width: '30%' }}
-                                value={cableCode}
-                                onChange={(e) => {
-                                    setCableCode(e.target.value);
-                                }}
-                            />
-                        </TableCell>
-                        <TableCell align="center">
-                            <TextField
-                                size="small"
-                                // style={{ width: '30%' }}
-                                value={cableName}
-                                onChange={(e) => {
-                                    setCableName(e.target.value);
-                                }}
-                            />
-                        </TableCell>
-                        <TableCell align="center">
-                            <TextField
-                                size="small"
-                                value={note}
-                                onChange={(e) => {
-                                    setNote(e.target.value);
-                                }}
-                            />
-                        </TableCell>
-                    </TableRow>
                 </TableBody>
             </Table>
         </TableContainer>
