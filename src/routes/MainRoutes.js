@@ -34,6 +34,11 @@ const SupplierPayment = Loadable(lazy(() => import('pages/supplierPayment/suppli
 const Correspondence = Loadable(lazy(() => import('pages/supplierPayment/correspondence')));
 const PaymentRecord = Loadable(lazy(() => import('pages/supplierPayment/paymentRecord')));
 
+// 全域查詢
+const ResearchBill = Loadable(lazy(() => import('pages/allResearch/researchBill')));
+const ResearchInvoice = Loadable(lazy(() => import('pages/allResearch/researchInvoice')));
+const ResearchJournal = Loadable(lazy(() => import('pages/allResearch/researchJournal')));
+
 // 基本資料設定
 const Information = Loadable(lazy(() => import('pages/information/Information')));
 
@@ -186,6 +191,35 @@ const MainRoutes = {
                     element: (
                         <RequireAuth>
                             <PaymentRecord />
+                        </RequireAuth>
+                    )
+                }
+            ]
+        },
+        {
+            path: 'AllResearch',
+            children: [
+                {
+                    path: 'ResearchBill',
+                    element: (
+                        <RequireAuth>
+                            <ResearchBill />
+                        </RequireAuth>
+                    )
+                },
+                {
+                    path: 'ResearchInvoice',
+                    element: (
+                        <RequireAuth>
+                            <ResearchInvoice />
+                        </RequireAuth>
+                    )
+                },
+                {
+                    path: 'ResearchJournal',
+                    element: (
+                        <RequireAuth>
+                            <ResearchJournal />
                         </RequireAuth>
                     )
                 }

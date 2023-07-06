@@ -7,12 +7,22 @@ import creditBalanceManage from './creditBalanceManage';
 import creditNoteManage from './creditNoteManage';
 import accountsReceivable from './accountsReceivable';
 import supplierPayment from './supplierPayment';
+import allResearch from './allResearch';
 
 // ==============================|| MENU ITEMS ||============================== //
 
 const menuItems = {
     // items: [dashboard, pages, utilities, support]
-    items: [dashboard, invoiceWorkManagePage, createJournal, accountsReceivable, supplierPayment, creditBalanceManage, creditNoteManage]
+    items: [
+        dashboard,
+        invoiceWorkManagePage,
+        createJournal,
+        accountsReceivable,
+        supplierPayment,
+        creditBalanceManage,
+        creditNoteManage,
+        allResearch
+    ]
 };
 
 export default menuItems;

@@ -96,9 +96,9 @@ const WriteOffWork = ({ isDialogOpen, handleDialogClose, writeOffInfo, writeOffD
         tmpArray.forEach((i) => {
             if (i.BillDetailID === id) {
                 i.BankFees = bankFees;
-                tmpBankFees = tmpBankFees + Number(bankFees);
+                tmpBankFees = tmpBankFees + Number(bankFees.toString().replaceAll(',', ''));
             } else {
-                tmpBankFees = tmpBankFees + Number(i.BankFees);
+                tmpBankFees = tmpBankFees + Number(i.BankFees.toString().replaceAll(',', ''));
             }
         });
         bankFeesTotal.current = tmpBankFees;
@@ -111,9 +111,9 @@ const WriteOffWork = ({ isDialogOpen, handleDialogClose, writeOffInfo, writeOffD
         tmpArray.forEach((i) => {
             if (i.BillDetailID === id) {
                 i.ReceiveAmount = receiveAmount;
-                tmpreceiveAmount = tmpreceiveAmount + Number(receiveAmount);
+                tmpreceiveAmount = tmpreceiveAmount + Number(receiveAmount.toString().replaceAll(',', ''));
             } else {
-                tmpreceiveAmount = tmpreceiveAmount + Number(i.ReceiveAmount);
+                tmpreceiveAmount = tmpreceiveAmount + Number(i.ReceiveAmount.toString().replaceAll(',', ''));
             }
         });
         ReceiveAmountTotal.current = tmpreceiveAmount;
@@ -195,16 +195,27 @@ const WriteOffWork = ({ isDialogOpen, handleDialogClose, writeOffInfo, writeOffD
 
         tmpData.forEach((i) => {
             tmpAmount = 0;
-            tmpAmount = Number(i.ReceiveAmount) + Number(i.ReceivedAmount);
+            tmpAmount = i?.ReceiveAmount
+                ? Number(i.ReceiveAmount.toString().replaceAll(',', ''))
+                : 0 + i?.ReceiveAmount
+                ? Number(i.ReceivedAmount.toString().replaceAll(',', ''))
+                : 0;
             diffAmount = 0;
-            diffAmount = tmpAmount - Number(i.FeeAmount);
+            diffAmount = tmpAmount - i?.FeeAmount ? Number(i.FeeAmount.toString().replaceAll(',', '')) : 0;
             i.OverAmount = diffAmount > 0 ? diffAmount : 0;
-            i.ShortAmount =
-                Number(i?.FeeAmount) - Number(i?.ReceivedAmount) - Number(totalAmount) > 0
-                    ? Number(i?.FeeAmount) - Number(i?.ReceivedAmount) - Number(totalAmount)
-                    : 0;
-            tmpBankFees = tmpBankFees + Number(i.BankFees);
-            i.ReceivedAmount = Number(i.ReceiveAmount);
+            i.ShortAmount = i?.FeeAmount
+                ? Number(i?.FeeAmount.toString().replaceAll(',', ''))
+                : 0 - i?.ReceivedAmount
+                ? Number(i?.ReceivedAmount.toString().replaceAll(',', ''))
+                : 0 - Number(totalAmount.replaceAll(',', '')) > 0
+                ? i?.FeeAmount
+                    ? Number(i?.FeeAmount.toString().replaceAll(',', ''))
+                    : 0 - i?.ReceivedAmount
+                    ? Number(i?.ReceivedAmount.toString().replaceAll(',', ''))
+                    : 0 - Number(totalAmount.replaceAll(',', ''))
+                : 0;
+            tmpBankFees = tmpBankFees + i?.BankFees ? Number(i.BankFees.toString().replaceAll(',', '')) : 0;
+            i.ReceivedAmount = i?.ReceivedAmount ? Number(i.ReceiveAmount.toString().replaceAll(',', '')) : 0;
             // delete i.ReceiveAmount;
         });
         toWriteOffMasterInfo.Status = isComplete ? 'COMPLETE' : toWriteOffMasterInfo.Status;
@@ -213,13 +224,14 @@ const WriteOffWork = ({ isDialogOpen, handleDialogClose, writeOffInfo, writeOffD
             BillMaster: toWriteOffMasterInfo,
             BillDetail: toWriteOffDetailInfo
         };
-        fetch(sendToWriteOff, { method: 'POST', body: JSON.stringify(tmpArray) })
-            .then((res) => res.json())
-            .then(() => {
-                writeOffQuery();
-                handleClose();
-            })
-            .catch((e) => console.log('e1=>', e));
+        console.log('tmpArray=>>', tmpArray);
+        // fetch(sendToWriteOff, { method: 'POST', body: JSON.stringify(tmpArray) })
+        //     .then((res) => res.json())
+        //     .then(() => {
+        //         writeOffQuery();
+        //         handleClose();
+        //     })
+        //     .catch((e) => console.log('e1=>', e));
     };
 
     const handleClose = () => {
@@ -331,25 +343,39 @@ const WriteOffWork = ({ isDialogOpen, handleDialogClose, writeOffInfo, writeOffD
                                     </TableHead>
                                     <TableBody>
                                         {toWriteOffDetailInfo?.map((row, id) => {
-                                            totalAmount = Number(row.BankFees) + Number(row.ReceiveAmount);
-                                            tmpTotalAmount = Number(row.ReceiveAmount) + Number(row.ReceivedAmount) - Number(row.FeeAmount); //本次實收+累計實收-應繳金額
+                                            totalAmount = row?.BankFees
+                                                ? Number(row?.BankFees?.toString().replaceAll(',', ''))
+                                                : 0 + row?.ReceiveAmount
+                                                ? Number(row?.ReceiveAmount?.toString().replaceAll(',', ''))
+                                                : 0;
+                                            tmpTotalAmount = row?.ReceiveAmount
+                                                ? Number(row?.ReceiveAmount?.toString().replaceAll(',', ''))
+                                                : 0 + row?.ReceivedAmount
+                                                ? Number(row?.ReceivedAmount?.toString().replaceAll(',', ''))
+                                                : 0 - row?.FeeAmount
+                                                ? Number(row?.FeeAmount?.toString().replaceAll(',', ''))
+                                                : 0; //本次實收+累計實收-應繳金額
 
                                             //處理Total
                                             overAmount = tmpTotalAmount > 0 ? tmpTotalAmount : 0;
                                             // 短繳 本次實收+累計實收-應繳 > 0，則顯示其金額差額 5/25改
-                                            shortAmount =
-                                                // tmpTotalAmount >= 0
-                                                //     ? 0
-                                                //     : Math.abs(tmpTotalAmount) > Number(row.BankFees)
-                                                //     ? Math.abs(tmpTotalAmount)
-                                                //     : 0;
-                                                Number(row?.FeeAmount) - Number(row?.ReceivedAmount) - Number(totalAmount) > 0
-                                                    ? Number(row?.FeeAmount) - Number(row?.ReceivedAmount) - Number(totalAmount)
-                                                    : 0;
+                                            shortAmount = row?.FeeAmount
+                                                ? Number(row?.FeeAmount?.toString().replaceAll(',', ''))
+                                                : 0 - row?.ReceivedAmount
+                                                ? Number(row?.ReceivedAmount?.toString().replaceAll(',', ''))
+                                                : 0 - Number(totalAmount.replaceAll(',', '')) > 0
+                                                ? row?.FeeAmount
+                                                    ? Number(row?.FeeAmount?.toString().replaceAll(',', ''))
+                                                    : 0 - row?.ReceivedAmount
+                                                    ? Number(row?.ReceivedAmount?.toString().replaceAll(',', ''))
+                                                    : 0 - Number(totalAmount.replaceAll(',', ''))
+                                                : 0;
                                             bankFeeBalance =
                                                 tmpTotalAmount >= 0
                                                     ? 0
-                                                    : Math.abs(tmpTotalAmount) <= Number(row.BankFees)
+                                                    : Math.abs(tmpTotalAmount) <= row?.BankFees
+                                                    ? Number(row?.BankFees?.toString().replaceAll(',', ''))
+                                                    : 0
                                                     ? tmpTotalAmount
                                                     : 0;
 
@@ -365,7 +391,6 @@ const WriteOffWork = ({ isDialogOpen, handleDialogClose, writeOffInfo, writeOffD
                                             //         : shortAmount === 0 || shortAmount === row.FeeAmount
                                             //         ? 'INCOMPLETE'
                                             //         : 'PARTIAL';
-                                            console.log('row.BankFees=>>', row.BankFees, typeof row.BankFees);
                                             return (
                                                 <TableRow
                                                     key={row?.BillMasterID + row?.BillDetailID}

@@ -242,7 +242,7 @@ const Corporates = ({ maxHei }) => {
 
     const saveEditCorporatesInfo = () => {
         let tmpArray = {
-            PartyID: corpID.current,
+            CorpID: corpID.current,
             // CorpName: corpNameEdit,
             BankAcctName: bankAcctNameEdit,
             BankAcctNo: bankAcctNoEdit,
@@ -256,9 +256,10 @@ const Corporates = ({ maxHei }) => {
             Address: addressEdit,
             SubmarineCable: submarineCableEdit,
             WorkTitle: workTitleEdit,
-            BranchAddress: branchAddress
+            BranchAddress: branchAddressEdit
         };
-        console.log('123=>>', tmpArray);
+
+        console.log('123=>>', addressEdit, branchAddress, tmpArray);
         fetch(editCorporates, { method: 'POST', body: JSON.stringify(tmpArray), headers: { 'Content-Type': 'application/json' } })
             .then((res) => res.json())
             .then((data) => {
