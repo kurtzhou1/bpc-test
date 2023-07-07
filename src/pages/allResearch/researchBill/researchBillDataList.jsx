@@ -16,23 +16,24 @@ import CreditBalanceView from './creditBalanceView';
 import dayjs from 'dayjs';
 import { useEffect, useRef, useState } from 'react';
 
+const StyledTableCell = styled(TableCell)(({ theme }) => ({
+    [`&.${tableCellClasses.head}`]: {
+        // backgroundColor: theme.palette.common.gary,
+        color: theme.palette.common.black,
+        paddingTop: '0.2rem',
+        paddingBottom: '0.2rem'
+    },
+    [`&.${tableCellClasses.body}`]: {
+        fontSize: 14,
+        paddingTop: '0.2rem',
+        paddingBottom: '0.2rem'
+    }
+}));
+
 const ResearchBillDataList = ({ listInfo, setIsDialogOpen }) => {
     const [cbView, setCbview] = useState(false);
     const [cbTerminal, setCbTerminal] = useState(false);
     const viewId = useRef(-1);
-    const StyledTableCell = styled(TableCell)(({ theme }) => ({
-        [`&.${tableCellClasses.head}`]: {
-            // backgroundColor: theme.palette.common.gary,
-            color: theme.palette.common.black,
-            paddingTop: '0.2rem',
-            paddingBottom: '0.2rem'
-        },
-        [`&.${tableCellClasses.body}`]: {
-            fontSize: 14,
-            paddingTop: '0.2rem',
-            paddingBottom: '0.2rem'
-        }
-    }));
 
     const handleViewClose = () => {
         setCbview(false);

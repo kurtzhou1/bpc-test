@@ -134,9 +134,9 @@ const CreditBalanceView = ({ cbView, handleViewClose, viewId }) => {
                                 {/* <Tab label="退費紀錄" {...a11yProps(1)} /> */}
                             </Tabs>
                         </Box>
-                        <TabPanel value={value} index={0}>
+                        {/* <TabPanel value={value} index={0}>
                             <CreditBalanceDeduct cblistInfo={listInfo} />
-                        </TabPanel>
+                        </TabPanel> */}
                         {/* <TabPanel value={value} index={1}>
                             <CreditBalanceRefund cblistInfo={cblistInfo} />
                         </TabPanel> */}
