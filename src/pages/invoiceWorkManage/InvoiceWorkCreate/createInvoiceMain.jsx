@@ -256,7 +256,6 @@ const InvoiceWorkManage = ({
                             row
                             value={isLiability}
                             aria-labelledby="demo-radio-buttons-group-label"
-                            // defaultValue="female"
                             name="radio-buttons-group"
                             onChange={(e) => setIsLiability(e.target.value)}
                         >
@@ -285,7 +284,6 @@ const InvoiceWorkManage = ({
                             row
                             value={isRecharge}
                             aria-labelledby="demo-radio-buttons-group-label"
-                            defaultValue="female"
                             name="radio-buttons-group"
                             onChange={(e) => setIsRecharge(e.target.value)}
                         >

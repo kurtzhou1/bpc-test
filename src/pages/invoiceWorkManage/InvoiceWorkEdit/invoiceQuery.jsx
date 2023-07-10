@@ -194,7 +194,6 @@ const InvoiceQueryBlock = ({ setListInfo, queryApi, supNmList, subCableList, bil
                         row
                         value={invoiceStatusQuery}
                         aria-labelledby="demo-radio-buttons-group-label"
-                        // defaultValue="female"
                         name="radio-buttons-group"
                         // onChange={(e) => setInvoiceStatusQuery(e.target.value)}
                     >
@@ -314,7 +313,6 @@ const InvoiceQueryBlock = ({ setListInfo, queryApi, supNmList, subCableList, bil
                             row
                             value={isIssueDate}
                             aria-labelledby="demo-radio-buttons-group-label"
-                            // defaultValue="female"
                             name="radio-buttons-group"
                             onChange={(e) => setIsIssueDate(e.target.value)}
                         >

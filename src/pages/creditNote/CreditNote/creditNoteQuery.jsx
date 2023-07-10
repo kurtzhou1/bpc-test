@@ -122,7 +122,6 @@ const CreditBalanceQuery = ({ creditBalanceQuery }) => {
                             size="small"
                             // value={isLiability}
                             aria-labelledby="demo-radio-buttons-group-label"
-                            // defaultValue="female"
                             name="radio-buttons-group"
                             // onChange={(e) => setIsLiability(e.target.value)}
                         >
@@ -150,7 +149,6 @@ const CreditBalanceQuery = ({ creditBalanceQuery }) => {
                             row
                             // value={isLiability}
                             aria-labelledby="demo-radio-buttons-group-label"
-                            // defaultValue="female"
                             name="radio-buttons-group"
                             // onChange={(e) => setIsLiability(e.target.value)}
                         >

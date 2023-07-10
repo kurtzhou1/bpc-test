@@ -102,12 +102,12 @@ const ResearchBillQuery = ({ setListInfo, queryApi }) => {
                 {/* row1 */}
                 <Grid item xs={2} sm={2} md={1} lg={1}>
                     <Typography variant="h5" sx={{ fontSize: { lg: '0.5rem', xl: '0.88rem' } }}>
-                        供應商：
+                        會員：
                     </Typography>
                 </Grid>
                 <Grid item xs={4} sm={4} md={2} lg={2}>
                     <FormControl fullWidth size="small">
-                        <InputLabel id="demo-simple-select-label">選擇供應商</InputLabel>
+                        <InputLabel id="demo-simple-select-label">選擇會員</InputLabel>
                         <Select value={supplierName} label="供應商" onChange={(e) => setSupplierName(e.target.value)}>
                             {supNmList.map((i) => (
                                 <MenuItem key={i.SupplierName} value={i.SupplierName}>
@@ -151,7 +151,7 @@ const ResearchBillQuery = ({ setListInfo, queryApi }) => {
                 </Grid>
                 <Grid item xs={1} sm={1} md={1} lg={1}>
                     <Typography variant="h5" sx={{ fontSize: { lg: '0.5rem', xl: '0.88rem' } }}>
-                        發票號碼：
+                        帳單號碼：
                     </Typography>
                 </Grid>
                 <Grid item xs={2} sm={2} md={2} lg={2}>
@@ -161,12 +161,12 @@ const ResearchBillQuery = ({ setListInfo, queryApi }) => {
                             variant="outlined"
                             value={invoiceNo}
                             size="small"
-                            label="填寫發票號碼"
+                            label="填寫帳單號碼"
                             onChange={(e) => setInvoiceNo(e.target.value)}
                         />
                     </FormControl>
                 </Grid>
-                <Grid item xs={1} sm={1} md={1} lg={1}>
+                {/* <Grid item xs={1} sm={1} md={1} lg={1}>
                     <Typography variant="h5" sx={{ fontSize: { lg: '0.5rem', xl: '0.88rem' } }}>
                         記帳段號：
                     </Typography>
@@ -180,34 +180,14 @@ const ResearchBillQuery = ({ setListInfo, queryApi }) => {
                             <MenuItem value={'O&M'}>O&M</MenuItem>
                         </Select>
                     </FormControl>
-                </Grid>
+                </Grid> */}
                 {/* row2 */}
                 <Grid item xs={1} sm={1} md={1} lg={1}>
                     <Typography variant="h5" sx={{ fontSize: { lg: '0.5rem', xl: '0.88rem' } }}>
-                        日期條件：
+                        帳單日期：
                     </Typography>
                 </Grid>
-                <Grid item xs={8} sm={8} md={8} lg={8} display="flex" alignItems="center">
-                    <FormControl>
-                        <RadioGroup
-                            row
-                            value={isIssueDate}
-                            aria-labelledby="demo-radio-buttons-group-label"
-                            name="radio-buttons-group"
-                            onChange={(e) => setIsIssueDate(e.target.value)}
-                        >
-                            <FormControlLabel
-                                value={true}
-                                control={<Radio sx={{ '& .MuiSvgIcon-root': { fontSize: { lg: 14, xl: 20 } } }} />}
-                                label="發票日期"
-                            />
-                            <FormControlLabel
-                                value={false}
-                                control={<Radio sx={{ '& .MuiSvgIcon-root': { fontSize: { lg: 14, xl: 20 } } }} />}
-                                label="發票到期日"
-                            />
-                        </RadioGroup>
-                    </FormControl>
+                <Grid item xs={5} sm={5} md={5} lg={5} display="flex" alignItems="center">
                     <LocalizationProvider dateAdapter={AdapterDayjs} localeText={{ start: '起始日', end: '結束日' }}>
                         <DesktopDatePicker
                             inputFormat="YYYY/MM/DD"
@@ -219,7 +199,7 @@ const ResearchBillQuery = ({ setListInfo, queryApi }) => {
                         />
                     </LocalizationProvider>
                 </Grid>
-                <Grid item xs={1} sm={1} md={1} lg={1}>
+                {/* <Grid item xs={1} sm={1} md={1} lg={1}>
                     <Typography variant="h5" sx={{ fontSize: { lg: '0.5rem', xl: '0.88rem' } }}>
                         處理狀態：
                     </Typography>
@@ -230,7 +210,7 @@ const ResearchBillQuery = ({ setListInfo, queryApi }) => {
                         value={invoiceStatusQuery}
                         aria-labelledby="demo-radio-buttons-group-label"
                         name="radio-buttons-group"
-                        // onChange={(e) => setInvoiceStatusQuery(e.target.value)}
+                        onChange={(e) => setInvoiceStatusQuery(e.target.value)}
                     >
                         <FormControlLabel
                             control={
@@ -277,7 +257,7 @@ const ResearchBillQuery = ({ setListInfo, queryApi }) => {
                             label="付款中"
                         />
                     </FormGroup>
-                </Grid>
+                </Grid> */}
                 <Grid item xs={6} sm={6} md={6} lg={6} display="flex" justifyContent="end" alignItems="center">
                     <Button sx={{ mr: '0.5rem' }} variant="contained" onClick={creditBalanceQuery}>
                         查詢
