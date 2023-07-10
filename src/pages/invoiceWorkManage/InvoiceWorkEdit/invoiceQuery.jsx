@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import {
     Typography,
     Grid,
@@ -14,6 +14,7 @@ import {
     Box,
     Checkbox
 } from '@mui/material';
+import PropTypes from 'prop-types';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DateRangePicker } from '@mui/x-date-pickers-pro/DateRangePicker';
@@ -25,7 +26,7 @@ import MainCard from 'components/MainCard';
 import { queryInvoice } from 'components/apis.jsx';
 import dayjs from 'dayjs';
 
-const InvoiceQueryBlock = ({ setListInfo, queryApi, supNmList, subCableList, billmileStoneList, setAction, setPage }) => {
+const InvoiceQuery = ({ setListInfo, queryApi, supNmList, subCableList, billmileStoneList, setAction, setPage }) => {
     const [issueDate, setIssueDate] = useState([null, null]); //發票日期
     const [supplierNameQuery, setSupplierNameQuery] = useState(''); //供應商
     const [submarineCableQuery, setSubmarineCableQuery] = useState(''); //海纜名稱
@@ -358,4 +359,14 @@ const InvoiceQueryBlock = ({ setListInfo, queryApi, supNmList, subCableList, bil
     );
 };
 
-export default InvoiceQueryBlock;
+InvoiceQuery.propTypes = {
+    setListInfo: PropTypes.func,
+    queryApi: PropTypes.string,
+    supNmList: PropTypes.array,
+    subCableList: PropTypes.array,
+    billmileStoneList: PropTypes.array,
+    setAction: PropTypes.func,
+    setPage: PropTypes.func
+};
+
+export default InvoiceQuery;

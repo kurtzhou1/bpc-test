@@ -1,17 +1,6 @@
-import { useEffect, useState } from 'react';
-import {
-    Typography,
-    Grid,
-    Button,
-    FormControl,
-    InputLabel,
-    Select,
-    MenuItem,
-    Box,
-    FormGroup,
-    FormControlLabel,
-    Checkbox
-} from '@mui/material';
+import { useState } from 'react';
+import PropTypes from 'prop-types';
+import { Typography, Grid, Button, FormControl, InputLabel, Select, MenuItem } from '@mui/material';
 
 // project import
 import MainCard from 'components/MainCard';
@@ -19,10 +8,8 @@ import { queryPaydraft } from 'components/apis';
 
 // day
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import { DesktopDatePicker } from '@mui/x-date-pickers/DesktopDatePicker';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import dayjs from 'dayjs';
-import { DateRangePicker } from '@mui/x-date-pickers-pro/DateRangePicker';
 import { TextField } from '@mui/material/index';
 
 // redux
@@ -85,10 +72,6 @@ const CorrespondenceQuery = ({ setListInfo, queryApi, value }) => {
                 console.log('e1=>', e);
             });
     };
-
-    // useEffect(() => {
-    //     correspondenceQuery();
-    // }, []);
 
     return (
         <MainCard title="函稿查詢" sx={{ width: '100%' }}>
@@ -232,6 +215,12 @@ const CorrespondenceQuery = ({ setListInfo, queryApi, value }) => {
             </Grid>
         </MainCard>
     );
+};
+
+CorrespondenceQuery.propTypes = {
+    setListInfo: PropTypes.func,
+    queryApi: PropTypes.string,
+    value: PropTypes.number
 };
 
 export default CorrespondenceQuery;

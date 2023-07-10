@@ -1,7 +1,8 @@
 import { useState, useEffect } from 'react';
+import PropTypes from 'prop-types';
 
 // material-ui
-import { Typography, Grid, Button, FormControl, InputLabel, Select, MenuItem, RadioGroup, FormControlLabel, Radio } from '@mui/material';
+import { Typography, Grid, FormControl, InputLabel, Select, MenuItem, RadioGroup, FormControlLabel, Radio } from '@mui/material';
 // material-ui
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DesktopDatePicker } from '@mui/x-date-pickers/DesktopDatePicker';
@@ -364,6 +365,35 @@ const InvoiceWorkManage = ({
             </Grid>
         </MainCard>
     );
+};
+
+InvoiceWorkManage.propTypes = {
+    action: PropTypes.string,
+    supplierName: PropTypes.string,
+    setSupplierName: PropTypes.func,
+    invoiceNo: PropTypes.string,
+    setInvoiceNo: PropTypes.func,
+    submarineCable: PropTypes.string,
+    setSubmarineCable: PropTypes.func,
+    workTitle: PropTypes.string,
+    setWorkTitle: PropTypes.func,
+    contractType: PropTypes.string,
+    setContractType: PropTypes.func,
+    partyName: PropTypes.string,
+    setPartyName: PropTypes.func,
+    isRecharge: PropTypes.bool,
+    setIsRecharge: PropTypes.func,
+    isLiability: PropTypes.bool,
+    setIsLiability: PropTypes.func,
+    totalAmount: PropTypes.number,
+    setTotalAmount: PropTypes.func,
+    subCableList: PropTypes.array,
+    isPro: PropTypes.bool,
+    setIsPro: PropTypes.func,
+    dueDate: PropTypes.instanceOf(Date),
+    setDueDate: PropTypes.func,
+    issueDate: PropTypes.instanceOf(Date),
+    setIssueDate: PropTypes.func
 };
 
 export default InvoiceWorkManage;
