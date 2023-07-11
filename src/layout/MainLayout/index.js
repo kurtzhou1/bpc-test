@@ -154,7 +154,7 @@ const MainLayout = () => {
                 anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
                 // open={messageStateOpen.isOpen}
                 open={isOpenNow}
-                autoHideDuration={2000}
+                autoHideDuration={10000}
                 onClose={handleClose}
             >
                 <Alert onClose={handleClose} severity={messageStateOpen.severity} sx={{ width: '100%' }}>
