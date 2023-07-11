@@ -27,7 +27,7 @@ import { DateRangePicker } from '@mui/x-date-pickers-pro/DateRangePicker';
 import { TextField } from '@mui/material/index';
 
 // api
-import { queryCB } from 'components/apis.jsx';
+import { searchBillMasterByInvoiceWKMaster } from 'components/apis.jsx';
 
 // redux
 import { useSelector } from 'react-redux';
@@ -38,11 +38,11 @@ const ResearchBillQuery = ({ setListInfo, queryApi }) => {
     const [supplierName, setSupplierName] = useState(''); //供應商
     const [submarineCable, setSubmarineCable] = useState(''); //海纜名稱
     const [workTitle, setWorkTitle] = useState(''); //海纜作業
-    const [currAmount, setCurrAmount] = useState({ TRUE: false, FALSE: false }); //剩餘金額
+    const [billMilestone, setBillMilestone] = useState(''); // 計帳段號
     const [isIssueDate, setIsIssueDate] = useState(''); //是否為發票日期
     const [issueDate, setIssueDate] = useState(null); //發票日期
     const [invoiceNo, setInvoiceNo] = useState(''); //發票號碼
-    const { supNmList, subCableList } = useSelector((state) => state.dropdown); //供應商下拉選單 + 海纜名稱下拉選單
+    const { supNmList, subCableList, bmsList } = useSelector((state) => state.dropdown); //供應商下拉選單 + 海纜名稱下拉選單
     const [invoiceStatusQuery, setInvoiceStatusQuery] = useState({
         BILLED: false,
         COMPLETE: false,
@@ -53,9 +53,10 @@ const ResearchBillQuery = ({ setListInfo, queryApi }) => {
     }); //處理狀態
 
     const creditBalanceQuery = () => {
+        console.log('isIssueDate=>>', isIssueDate);
         let tmpQuery = '/';
         if (supplierName && supplierName !== '') {
-            tmpQuery = tmpQuery + 'PartyName=' + supplierName + '&';
+            tmpQuery = tmpQuery + 'SupplierName=' + supplierName + '&';
         }
         if (submarineCable && submarineCable !== '') {
             tmpQuery = tmpQuery + 'SubmarineCable=' + submarineCable + '&';
@@ -63,13 +64,65 @@ const ResearchBillQuery = ({ setListInfo, queryApi }) => {
         if (workTitle && workTitle !== '') {
             tmpQuery = tmpQuery + 'WorkTitle=' + workTitle + '&';
         }
-
-        console.log('currAmount=>>', currAmount, currAmount.TRUE, currAmount.FALSE);
-        if (currAmount?.TRUE && !currAmount?.FALSE) {
-            tmpQuery = tmpQuery + 'CurrAmount=true&';
+        if (billMilestone && billMilestone !== '') {
+            tmpQuery = tmpQuery + 'BillMilestone=' + billMilestone + '&';
         }
-        if (currAmount?.FALSE && !currAmount?.TRUE) {
-            tmpQuery = tmpQuery + 'CurrAmount=false&';
+        if (issueDate && isIssueDate) {
+            tmpQuery =
+                tmpQuery +
+                'startIssueDate=' +
+                dayjs(issueDate).format('YYYYMMDD') +
+                '&' +
+                'endIssueDate=' +
+                dayjs(issueDate).format('YYYYMMDD') +
+                '&';
+        }
+        if (issueDate && !isIssueDate) {
+            tmpQuery =
+                tmpQuery +
+                'startDueDate=' +
+                dayjs(issueDate).format('YYYYMMDD') +
+                '&' +
+                'endDueDate=' +
+                dayjs(issueDate).format('YYYYMMDD') +
+                '&';
+        }
+        if (
+            !(
+                invoiceStatusQuery?.TEMPORARY &&
+                invoiceStatusQuery?.VALIDATED &&
+                invoiceStatusQuery?.BILLED &&
+                invoiceStatusQuery?.PAYING &&
+                invoiceStatusQuery?.COMPLETE &&
+                invoiceStatusQuery?.INVALID
+            ) &&
+            (invoiceStatusQuery?.TEMPORARY ||
+                invoiceStatusQuery?.VALIDATED ||
+                invoiceStatusQuery?.BILLED ||
+                invoiceStatusQuery?.PAYING ||
+                invoiceStatusQuery?.COMPLETE ||
+                invoiceStatusQuery?.INVALID)
+        ) {
+            let tmpStatus = '';
+            if (invoiceStatusQuery?.TEMPORARY) {
+                tmpStatus = tmpStatus + 'Status=TEMPORARY&';
+            }
+            if (invoiceStatusQuery?.VALIDATED) {
+                tmpStatus = tmpStatus + 'Status=VALIDATED&';
+            }
+            if (invoiceStatusQuery?.BILLED) {
+                tmpStatus = tmpStatus + 'Status=BILLED&';
+            }
+            if (invoiceStatusQuery?.PAYING) {
+                tmpStatus = tmpStatus + 'Status=PAYING&';
+            }
+            if (invoiceStatusQuery?.COMPLETE) {
+                tmpStatus = tmpStatus + 'Status=COMPLETE&';
+            }
+            if (invoiceStatusQuery?.INVALID) {
+                tmpStatus = tmpStatus + 'Status=INVALID&';
+            }
+            tmpQuery = tmpQuery + tmpStatus;
         }
 
         if (tmpQuery.includes('&')) {
@@ -78,8 +131,7 @@ const ResearchBillQuery = ({ setListInfo, queryApi }) => {
             tmpQuery = tmpQuery + 'all';
         }
 
-        tmpQuery = queryCB + tmpQuery;
-        console.log('tmpQuery=>>', tmpQuery);
+        tmpQuery = searchBillMasterByInvoiceWKMaster + tmpQuery;
         queryApi.current = tmpQuery;
         fetch(tmpQuery, { method: 'GET' })
             .then((res) => res.json())
@@ -93,7 +145,7 @@ const ResearchBillQuery = ({ setListInfo, queryApi }) => {
     };
 
     const handleChange = (event) => {
-        setCurrAmount({ ...currAmount, [event.target.name]: event.target.checked });
+        setInvoiceStatusQuery({ ...invoiceStatusQuery, [event.target.name]: event.target.checked });
     };
 
     return (
@@ -151,6 +203,24 @@ const ResearchBillQuery = ({ setListInfo, queryApi }) => {
                 </Grid>
                 <Grid item xs={1} sm={1} md={1} lg={1}>
                     <Typography variant="h5" sx={{ fontSize: { lg: '0.5rem', xl: '0.88rem' } }}>
+                        計帳段號：
+                    </Typography>
+                </Grid>
+                <Grid item xs={2} sm={2} md={2} lg={2}>
+                    <FormControl fullWidth size="small">
+                        <InputLabel id="demo-simple-select-label">選擇計帳段號</InputLabel>
+                        <Select value={billMilestone} label="發票供應商" onChange={(e) => setBillMilestone(e.target.value)}>
+                            {bmsList.map((i) => (
+                                <MenuItem key={i} value={i}>
+                                    {i}
+                                </MenuItem>
+                            ))}
+                        </Select>
+                    </FormControl>
+                </Grid>
+                {/* row2 */}
+                <Grid item xs={1} sm={1} md={1} lg={1}>
+                    <Typography variant="h5" sx={{ fontSize: { lg: '0.5rem', xl: '0.88rem' } }}>
                         發票號碼：
                     </Typography>
                 </Grid>
@@ -166,22 +236,6 @@ const ResearchBillQuery = ({ setListInfo, queryApi }) => {
                         />
                     </FormControl>
                 </Grid>
-                <Grid item xs={1} sm={1} md={1} lg={1}>
-                    <Typography variant="h5" sx={{ fontSize: { lg: '0.5rem', xl: '0.88rem' } }}>
-                        記帳段號：
-                    </Typography>
-                </Grid>
-                <Grid item xs={2} sm={2} md={2} lg={2}>
-                    <FormControl fullWidth size="small">
-                        <InputLabel id="demo-simple-select-label">選擇記帳段號</InputLabel>
-                        <Select value={workTitle} label="海纜作業" onChange={(e) => setWorkTitle(e.target.value)}>
-                            <MenuItem value={'Upgrade'}>Upgrade</MenuItem>
-                            <MenuItem value={'Construction'}>Construction</MenuItem>
-                            <MenuItem value={'O&M'}>O&M</MenuItem>
-                        </Select>
-                    </FormControl>
-                </Grid>
-                {/* row2 */}
                 <Grid item xs={1} sm={1} md={1} lg={1}>
                     <Typography variant="h5" sx={{ fontSize: { lg: '0.5rem', xl: '0.88rem' } }}>
                         日期條件：

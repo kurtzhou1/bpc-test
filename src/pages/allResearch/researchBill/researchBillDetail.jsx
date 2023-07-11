@@ -66,7 +66,7 @@ const ResearchBillDetail = ({ datailInfo, isDetailShow }) => {
                 <TableHead>
                     <TableRow>
                         <StyledTableCell align="center">帳單號碼</StyledTableCell>
-                        <StyledTableCell align="center">記帳度號</StyledTableCell>
+                        <StyledTableCell align="center">計帳段號</StyledTableCell>
                         <StyledTableCell align="center">會員</StyledTableCell>
                         <StyledTableCell align="center">帳單到期日</StyledTableCell>
                         <StyledTableCell align="center">應收金額</StyledTableCell>

@@ -168,12 +168,12 @@ const ResearchBillQuery = ({ setListInfo, queryApi }) => {
                 </Grid>
                 {/* <Grid item xs={1} sm={1} md={1} lg={1}>
                     <Typography variant="h5" sx={{ fontSize: { lg: '0.5rem', xl: '0.88rem' } }}>
-                        記帳段號：
+                        計帳段號：
                     </Typography>
                 </Grid>
                 <Grid item xs={2} sm={2} md={2} lg={2}>
                     <FormControl fullWidth size="small">
-                        <InputLabel id="demo-simple-select-label">選擇記帳段號</InputLabel>
+                        <InputLabel id="demo-simple-select-label">選擇計帳段號</InputLabel>
                         <Select value={workTitle} label="海纜作業" onChange={(e) => setWorkTitle(e.target.value)}>
                             <MenuItem value={'Upgrade'}>Upgrade</MenuItem>
                             <MenuItem value={'Construction'}>Construction</MenuItem>

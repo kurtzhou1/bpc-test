@@ -26,7 +26,7 @@ import MainCard from 'components/MainCard';
 import { queryInvoice } from 'components/apis.jsx';
 import dayjs from 'dayjs';
 
-const InvoiceQuery = ({ setListInfo, queryApi, supNmList, subCableList, billmileStoneList, setAction, setPage }) => {
+const InvoiceQuery = ({ setListInfo, queryApi, supNmList, subCableList, bmsList, setAction, setPage }) => {
     const [issueDate, setIssueDate] = useState([null, null]); //發票日期
     const [supplierNameQuery, setSupplierNameQuery] = useState(''); //供應商
     const [submarineCableQuery, setSubmarineCableQuery] = useState(''); //海纜名稱
@@ -91,7 +91,6 @@ const InvoiceQuery = ({ setListInfo, queryApi, supNmList, subCableList, billmile
                 dayjs(issueDate[1]).format('YYYYMMDD') +
                 '&';
         }
-        console.log('invoiceStatusQuery=>>', invoiceStatusQuery);
         if (
             !(
                 invoiceStatusQuery?.TEMPORARY &&
@@ -276,7 +275,7 @@ const InvoiceQuery = ({ setListInfo, queryApi, supNmList, subCableList, billmile
                     <FormControl fullWidth size="small">
                         <InputLabel id="demo-simple-select-label">選擇計帳段號</InputLabel>
                         <Select value={billMilestoneQuery} label="發票供應商" onChange={(e) => setBillMilestoneQuery(e.target.value)}>
-                            {billmileStoneList.map((i) => (
+                            {bmsList.map((i) => (
                                 <MenuItem key={i} value={i}>
                                     {i}
                                 </MenuItem>
@@ -364,7 +363,7 @@ InvoiceQuery.propTypes = {
     queryApi: PropTypes.string,
     supNmList: PropTypes.array,
     subCableList: PropTypes.array,
-    billmileStoneList: PropTypes.array,
+    bmsList: PropTypes.array,
     setAction: PropTypes.func,
     setPage: PropTypes.func
 };

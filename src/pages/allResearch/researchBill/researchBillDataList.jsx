@@ -53,10 +53,10 @@ const ResearchBillDataList = ({ listInfo, setIsDetailShow }) => {
                         <StyledTableCell align="center">供應商</StyledTableCell>
                         <StyledTableCell align="center">海纜名稱</StyledTableCell>
                         <StyledTableCell align="center">海纜作業</StyledTableCell>
-                        <StyledTableCell align="center">記帳段號</StyledTableCell>
+                        <StyledTableCell align="center">計帳段號</StyledTableCell>
                         <StyledTableCell align="center">發票到期日</StyledTableCell>
                         <StyledTableCell align="center">總金額</StyledTableCell>
-                        <StyledTableCell align="center">累計實收金額</StyledTableCell>
+                        {/* <StyledTableCell align="center">累計實收金額</StyledTableCell> */}
                         <StyledTableCell align="center">累計實付金額</StyledTableCell>
                         <StyledTableCell align="center">累計減項金額</StyledTableCell>
                         <StyledTableCell align="center">Action</StyledTableCell>
@@ -73,7 +73,7 @@ const ResearchBillDataList = ({ listInfo, setIsDetailShow }) => {
                                 <StyledTableCell align="center">{row.CBType}</StyledTableCell>
                                 <StyledTableCell align="center">{row.PartyName}</StyledTableCell>
                                 <StyledTableCell align="center">{row.InvoiceNo}</StyledTableCell>
-                                <StyledTableCell align="center">{row.BillingNo}</StyledTableCell>
+                                {/* <StyledTableCell align="center">{row.BillingNo}</StyledTableCell> */}
                                 <StyledTableCell align="center">{row.WorkTitle}</StyledTableCell>
                                 <StyledTableCell align="center">{`$${handleNumber(row.CurrAmount)}`}</StyledTableCell>
                                 <StyledTableCell align="center"> {dayjs(row.CreateDate).format('YYYY/MM/DD')}</StyledTableCell>

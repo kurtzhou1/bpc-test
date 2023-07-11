@@ -436,7 +436,7 @@ const InvoiceWorkManage = () => {
                                     queryApi={queryApi}
                                     supNmList={supNmList}
                                     subCableList={subCableList}
-                                    billmileStoneList={bmsList}
+                                    bmsList={bmsList}
                                     setAction={setAction}
                                     setPage={setPage}
                                 />
