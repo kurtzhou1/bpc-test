@@ -29,7 +29,7 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
     }
 }));
 
-const ResearchBillDataList = ({ listInfo, setIsDetailShow }) => {
+const ResearchBillDataList = ({ listInfo, setDetailInfo }) => {
     const [cbView, setCbview] = useState(false);
     const [cbTerminal, setCbTerminal] = useState(false);
     const viewId = useRef(-1);
@@ -56,7 +56,6 @@ const ResearchBillDataList = ({ listInfo, setIsDetailShow }) => {
                         <StyledTableCell align="center">計帳段號</StyledTableCell>
                         <StyledTableCell align="center">發票到期日</StyledTableCell>
                         <StyledTableCell align="center">總金額</StyledTableCell>
-                        {/* <StyledTableCell align="center">累計實收金額</StyledTableCell> */}
                         <StyledTableCell align="center">累計實付金額</StyledTableCell>
                         <StyledTableCell align="center">累計減項金額</StyledTableCell>
                         <StyledTableCell align="center">Action</StyledTableCell>
@@ -66,18 +65,19 @@ const ResearchBillDataList = ({ listInfo, setIsDetailShow }) => {
                     {listInfo?.map((row, id) => {
                         return (
                             <TableRow
-                                // key={row.InvoiceWKMaster?.invoiceNo + row.InvoiceWKMaster?.supplierName + id}
+                                key={row.InvoiceWKMaster?.invoiceNo + row.InvoiceWKMaster?.supplierName}
                                 sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                             >
                                 <StyledTableCell align="center">{id + 1}</StyledTableCell>
-                                <StyledTableCell align="center">{row.CBType}</StyledTableCell>
-                                <StyledTableCell align="center">{row.PartyName}</StyledTableCell>
-                                <StyledTableCell align="center">{row.InvoiceNo}</StyledTableCell>
-                                {/* <StyledTableCell align="center">{row.BillingNo}</StyledTableCell> */}
-                                <StyledTableCell align="center">{row.WorkTitle}</StyledTableCell>
-                                <StyledTableCell align="center">{`$${handleNumber(row.CurrAmount)}`}</StyledTableCell>
-                                <StyledTableCell align="center"> {dayjs(row.CreateDate).format('YYYY/MM/DD')}</StyledTableCell>
-                                <StyledTableCell align="center">{row.Note}</StyledTableCell>
+                                <StyledTableCell align="center">{row.InvoiceWKMaster.InvoiceNo}</StyledTableCell>
+                                <StyledTableCell align="center">{row.InvoiceWKMaster.SupplierName}</StyledTableCell>
+                                <StyledTableCell align="center">{row.InvoiceWKMaster.SubmarineCable}</StyledTableCell>
+                                <StyledTableCell align="center">{row.InvoiceWKMaster.WorkTitle}</StyledTableCell>
+                                <StyledTableCell align="center">{row.InvoiceWKMaster.BillMilestone}</StyledTableCell>
+                                <StyledTableCell align="center"> {dayjs(row.InvoiceWKMaster.DueDate).format('YYYY/MM/DD')}</StyledTableCell>
+                                <StyledTableCell align="center">${handleNumber(row.InvoiceWKMaster.TotalAmount)}</StyledTableCell>
+                                <StyledTableCell align="center">${handleNumber(row.InvoiceWKMaster.PaidAmount)}</StyledTableCell>
+                                <StyledTableCell align="center">${handleNumber(row.InvoiceWKMaster.DedAmount)}</StyledTableCell>
                                 <StyledTableCell align="center">
                                     <Box
                                         sx={{
@@ -90,8 +90,7 @@ const ResearchBillDataList = ({ listInfo, setIsDetailShow }) => {
                                             color="primary"
                                             variant="outlined"
                                             onClick={() => {
-                                                setCbview(true);
-                                                viewId.current = row.CBID;
+                                                setDetailInfo(row.BillMaster);
                                             }}
                                         >
                                             檢視帳單

@@ -86,7 +86,7 @@ const DeductedWork = ({ isDeductedWorkOpen, handleDeductedClose, billDetailInfo 
             //     initData();
             //     handleDeductedClose();
             // }}
-            maxWidth="sm"
+            maxWidth="md"
             open={isDeductedWorkOpen}
         >
             <BootstrapDialogTitle>檢視已折抵帳單</BootstrapDialogTitle>

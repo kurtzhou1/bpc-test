@@ -16,7 +16,7 @@ const AllResearch = {
     type: 'group',
     children: [
         {
-            id: 'item6',
+            id: 'item7',
             title: '發票帳單全域查詢',
             type: 'collapse',
             url: '/AllResearch/ResearchBill',
@@ -24,7 +24,7 @@ const AllResearch = {
             breadcrumbs: true,
             children: [
                 {
-                    id: 'item61',
+                    id: 'item71',
                     title: '發票查帳單',
                     type: 'item',
                     url: '/AllResearch/ResearchBill',
@@ -32,7 +32,7 @@ const AllResearch = {
                     breadcrumbs: true
                 },
                 {
-                    id: 'item62',
+                    id: 'item72',
                     title: '帳單查發票',
                     type: 'item',
                     url: '/AllResearch/ResearchInvoice',
@@ -40,7 +40,7 @@ const AllResearch = {
                     breadcrumbs: true
                 },
                 {
-                    id: 'item63',
+                    id: 'item73',
                     title: '發票查立帳資訊',
                     type: 'item',
                     url: '/AllResearch/ResearchJournal',

@@ -200,11 +200,9 @@ const PaymentWork = ({ isDialogOpen, handleDialogClose, editPaymentInfo, actionN
                                                     <TableCell align="center">{row.FeeItem}</TableCell>
                                                     <TableCell align="center">{row.BillMilestone}</TableCell>
                                                     <TableCell align="center">{row.PartyName}</TableCell>
-                                                    <TableCell align="center">{`$${handleNumber(row.OrgFeeAmount.toFixed(2))}`}</TableCell>
-                                                    <TableCell align="center">{`$${handleNumber(
-                                                        row.ReceivedAmount.toFixed(2)
-                                                    )}`}</TableCell>
-                                                    <TableCell align="center">{`$${handleNumber(row.PaidAmount.toFixed(2))}`}</TableCell>
+                                                    <TableCell align="center">${handleNumber(row.OrgFeeAmount.toFixed(2))}</TableCell>
+                                                    <TableCell align="center">${handleNumber(row.ReceivedAmount.toFixed(2))}</TableCell>
+                                                    <TableCell align="center">${handleNumber(row.PaidAmount.toFixed(2))}</TableCell>
                                                     <TableCell align="center">
                                                         {toPayment > 0 ? `$${handleNumber(toPayment.toFixed(2))}` : 0}
                                                     </TableCell>

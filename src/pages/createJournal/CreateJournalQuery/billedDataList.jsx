@@ -81,12 +81,10 @@ const BilledDataList = ({ listInfo, apiQuery }) => {
         fetch(tmpQueryMaster, { method: 'GET' })
             .then((res) => res.json())
             .then((data) => {
-                console.log('總金額=>>', data);
                 totalAmount.current = data[0].TotalAmount;
                 fetch(tmpQueryDetail, { method: 'GET' })
                     .then((res) => res.json())
                     .then((data2) => {
-                        console.log('明細=>>', data);
                         setToBillDataInfo(data2);
                         setIsDialogOpen(true);
                     })

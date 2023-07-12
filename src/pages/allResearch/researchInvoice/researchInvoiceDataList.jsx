@@ -49,15 +49,14 @@ const ResearchBillDataList = ({ listInfo, setIsDetailShow }) => {
                 <TableHead>
                     <TableRow>
                         <StyledTableCell align="center">NO</StyledTableCell>
+                        <StyledTableCell align="center">帳單號碼</StyledTableCell>
                         <StyledTableCell align="center">會員</StyledTableCell>
-                        <StyledTableCell align="center">供應商</StyledTableCell>
                         <StyledTableCell align="center">海纜名稱</StyledTableCell>
                         <StyledTableCell align="center">海纜作業</StyledTableCell>
-                        <StyledTableCell align="center">發票到期日</StyledTableCell>
-                        <StyledTableCell align="center">總金額</StyledTableCell>
-                        <StyledTableCell align="center">累計實收金額</StyledTableCell>
-                        <StyledTableCell align="center">累計實付金額</StyledTableCell>
-                        <StyledTableCell align="center">累計減項金額</StyledTableCell>
+                        <StyledTableCell align="center">記帳段號</StyledTableCell>
+                        <StyledTableCell align="center">帳單到期日</StyledTableCell>
+                        <StyledTableCell align="center">應收金額</StyledTableCell>
+                        <StyledTableCell align="center">已實收金額</StyledTableCell>
                         <StyledTableCell align="center">Action</StyledTableCell>
                     </TableRow>
                 </TableHead>

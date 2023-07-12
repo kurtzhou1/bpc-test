@@ -65,13 +65,14 @@ const ResearchBillDetail = ({ datailInfo, isDetailShow }) => {
             <Table sx={{ minWidth: 300 }} stickyHeader aria-label="sticky table">
                 <TableHead>
                     <TableRow>
-                        <StyledTableCell align="center">費用項目</StyledTableCell>
-                        <StyledTableCell align="center">費用金額</StyledTableCell>
-                        <StyledTableCell align="center">會員</StyledTableCell>
-                        <StyledTableCell align="center">攤分比例</StyledTableCell>
-                        <StyledTableCell align="center">攤分後金額</StyledTableCell>
-                        <StyledTableCell align="center">調整尾差值</StyledTableCell>
-                        <StyledTableCell align="center">總費用金額</StyledTableCell>
+                        <StyledTableCell align="center">發票號碼</StyledTableCell>
+                        <StyledTableCell align="center">記帳段號</StyledTableCell>
+                        <StyledTableCell align="center">供應商</StyledTableCell>
+                        <StyledTableCell align="center">發票到期日期</StyledTableCell>
+                        <StyledTableCell align="center">總金額</StyledTableCell>
+                        <StyledTableCell align="center">累計減項金額</StyledTableCell>
+                        <StyledTableCell align="center">累計實付金額</StyledTableCell>
+                        <StyledTableCell align="center">Action</StyledTableCell>
                     </TableRow>
                 </TableHead>
                 <TableBody>

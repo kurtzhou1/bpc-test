@@ -16,7 +16,7 @@ const supplierPayment = {
     type: 'group',
     children: [
         {
-            id: 'item7',
+            id: 'item4',
             title: '廠商付款處理',
             type: 'collapse',
             url: '/SupplierPayment/SupplierPayment',
@@ -24,7 +24,7 @@ const supplierPayment = {
             breadcrumbs: true,
             children: [
                 {
-                    id: 'item71',
+                    id: 'item41',
                     title: '廠商付款處理',
                     type: 'item',
                     url: '/SupplierPayment/SupplierPayment',
@@ -32,7 +32,7 @@ const supplierPayment = {
                     breadcrumbs: true
                 },
                 {
-                    id: 'item72',
+                    id: 'item42',
                     title: '函稿製作',
                     type: 'item',
                     url: '/SupplierPayment/Correspondence',
@@ -40,7 +40,7 @@ const supplierPayment = {
                     breadcrumbs: true
                 },
                 {
-                    id: 'item73',
+                    id: 'item43',
                     title: '付款記錄查詢',
                     type: 'item',
                     url: '/SupplierPayment/PaymentRecord',

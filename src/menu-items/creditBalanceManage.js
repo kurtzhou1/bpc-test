@@ -16,7 +16,7 @@ const CreditBalanceManage = {
     type: 'group',
     children: [
         {
-            id: 'item4',
+            id: 'item5',
             title: 'CreditBalance',
             type: 'collapse',
             url: '/CreditBalance/CreditBalanceManage',
@@ -24,7 +24,7 @@ const CreditBalanceManage = {
             breadcrumbs: true,
             children: [
                 {
-                    id: 'item41',
+                    id: 'item51',
                     title: 'CreditBalance管理',
                     type: 'item',
                     url: '/CreditBalance/CreditBalanceManage',

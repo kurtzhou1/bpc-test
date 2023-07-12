@@ -16,7 +16,7 @@ const CreditNoteManage = {
     type: 'group',
     children: [
         {
-            id: 'item5',
+            id: 'item6',
             title: 'CreditNote',
             type: 'collapse',
             url: '/CreditNote/CreditNoteManage',
@@ -24,7 +24,7 @@ const CreditNoteManage = {
             breadcrumbs: true,
             children: [
                 {
-                    id: 'item51',
+                    id: 'item61',
                     title: 'CreditNote管理',
                     type: 'item',
                     url: '/CreditNote/CreditNoteManage',
