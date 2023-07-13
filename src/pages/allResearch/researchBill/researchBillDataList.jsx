@@ -65,15 +65,21 @@ const ResearchBillDataList = ({ listInfo, setDetailInfo }) => {
                     {listInfo?.map((row, id) => {
                         return (
                             <TableRow
-                                key={row.InvoiceWKMaster?.invoiceNo + row.InvoiceWKMaster?.supplierName}
+                                key={
+                                    row.InvoiceWKMaster.InvoiceNo +
+                                    row.InvoiceWKMaster?.SupplierName +
+                                    row.InvoiceWKMaster?.SubmarineCable +
+                                    row.InvoiceWKMaster?.WorkTitle +
+                                    row.InvoiceWKMaster?.BillMilestone
+                                }
                                 sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                             >
                                 <StyledTableCell align="center">{id + 1}</StyledTableCell>
-                                <StyledTableCell align="center">{row.InvoiceWKMaster.InvoiceNo}</StyledTableCell>
-                                <StyledTableCell align="center">{row.InvoiceWKMaster.SupplierName}</StyledTableCell>
-                                <StyledTableCell align="center">{row.InvoiceWKMaster.SubmarineCable}</StyledTableCell>
-                                <StyledTableCell align="center">{row.InvoiceWKMaster.WorkTitle}</StyledTableCell>
-                                <StyledTableCell align="center">{row.InvoiceWKMaster.BillMilestone}</StyledTableCell>
+                                <StyledTableCell align="center">{row.InvoiceWKMaster?.InvoiceNo}</StyledTableCell>
+                                <StyledTableCell align="center">{row.InvoiceWKMaster?.SupplierName}</StyledTableCell>
+                                <StyledTableCell align="center">{row.InvoiceWKMaster?.SubmarineCable}</StyledTableCell>
+                                <StyledTableCell align="center">{row.InvoiceWKMaster?.WorkTitle}</StyledTableCell>
+                                <StyledTableCell align="center">{row.InvoiceWKMaster?.BillMilestone}</StyledTableCell>
                                 <StyledTableCell align="center"> {dayjs(row.InvoiceWKMaster.DueDate).format('YYYY/MM/DD')}</StyledTableCell>
                                 <StyledTableCell align="center">${handleNumber(row.InvoiceWKMaster.TotalAmount)}</StyledTableCell>
                                 <StyledTableCell align="center">${handleNumber(row.InvoiceWKMaster.PaidAmount)}</StyledTableCell>

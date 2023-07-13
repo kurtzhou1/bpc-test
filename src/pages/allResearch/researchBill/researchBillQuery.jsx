@@ -34,7 +34,7 @@ import { useSelector } from 'react-redux';
 
 // ==============================|| SAMPLE PAGE ||============================== //
 
-const ResearchBillQuery = ({ setListInfo, queryApi }) => {
+const ResearchBillQuery = ({ setListInfo, setDetailInfo }) => {
     const [supplierName, setSupplierName] = useState(''); //供應商
     const [submarineCable, setSubmarineCable] = useState(''); //海纜名稱
     const [workTitle, setWorkTitle] = useState(''); //海纜作業
@@ -51,6 +51,24 @@ const ResearchBillQuery = ({ setListInfo, queryApi }) => {
         TEMPORARY: false,
         VALIDATED: false
     }); //處理狀態
+
+    const queryInit = () => {
+        setSupplierName('');
+        setSubmarineCable('');
+        setWorkTitle('');
+        setBillMilestone('');
+        setIsIssueDate('');
+        setIssueDate(null);
+        setInvoiceNo('');
+        setInvoiceStatusQuery({
+            BILLED: false,
+            COMPLETE: false,
+            INVALID: false,
+            PAYING: false,
+            TEMPORARY: false,
+            VALIDATED: false
+        });
+    };
 
     const creditBalanceQuery = () => {
         let tmpQuery = {};
@@ -160,6 +178,7 @@ const ResearchBillQuery = ({ setListInfo, queryApi }) => {
                 console.log('查詢成功=>>', data);
                 if (Array.isArray(data)) {
                     setListInfo(data);
+                    setDetailInfo([]);
                 }
             })
             .catch((e) => console.log('e1=>', e));
@@ -367,7 +386,9 @@ const ResearchBillQuery = ({ setListInfo, queryApi }) => {
                     <Button sx={{ mr: '0.5rem' }} variant="contained" onClick={creditBalanceQuery}>
                         查詢
                     </Button>
-                    <Button variant="contained">清除</Button>
+                    <Button variant="contained" onClick={queryInit}>
+                        清除
+                    </Button>
                 </Grid>
             </Grid>
         </MainCard>

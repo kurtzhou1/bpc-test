@@ -66,7 +66,7 @@ const ResearchBill = () => {
     return (
         <Grid container spacing={1}>
             <Grid item xs={12}>
-                <ResearchBillQuery setListInfo={setListInfo} partiesList={partiesList} subCableList={subCableList} queryApi={queryApi} />
+                <ResearchBillQuery setListInfo={setListInfo} setDetailInfo={setDetailInfo} />
             </Grid>
             <Grid item xs={12}>
                 <MainCard title="發票資料列表">

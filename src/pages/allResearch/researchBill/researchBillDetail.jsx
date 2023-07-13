@@ -208,6 +208,7 @@ const ResearchBillDetail = ({ datailInfo }) => {
                 if (Array.isArray(data)) {
                     let tmpAmount = 0;
                     data.forEach((i) => {
+                        console.log('i=>>', i);
                         setBillMasterInfo(i.BillMaster);
                         setBillDetailInfo(i.BillDetail);
                         i.BillDetail.forEach((row) => {
@@ -354,7 +355,7 @@ const ResearchBillDetail = ({ datailInfo }) => {
                         {datailInfo?.map((row, id) => {
                             return (
                                 <TableRow
-                                    key={row.BillingNo + row.BillMilestone + row.PartyName}
+                                    key={row?.BillingNo + row?.BillMilestone + row?.PartyName}
                                     sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                                 >
                                     <StyledTableCell align="center">{row.BillingNo}</StyledTableCell>
