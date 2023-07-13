@@ -264,7 +264,6 @@ const InvoiceWorkManage = ({
                         <RadioGroup
                             row
                             value={isPro}
-                            aria-labelledby="demo-radio-buttons-group-label"
                             name="radio-buttons-group"
                             disabled={action === 'View'}
                             onChange={(e) => setIsPro(e.target.value)}
@@ -291,13 +290,7 @@ const InvoiceWorkManage = ({
                 </Grid>
                 <Grid item xs={12} sm={6} md={4} lg={3}>
                     <FormControl>
-                        <RadioGroup
-                            row
-                            value={isLiability}
-                            aria-labelledby="demo-radio-buttons-group-label"
-                            name="radio-buttons-group"
-                            onChange={(e) => setIsLiability(e.target.value)}
-                        >
+                        <RadioGroup row value={isLiability} name="radio-buttons-group" onChange={(e) => setIsLiability(e.target.value)}>
                             <FormControlLabel
                                 value={true}
                                 disabled={action === 'View'}
@@ -321,13 +314,7 @@ const InvoiceWorkManage = ({
                 </Grid>
                 <Grid item xs={12} sm={6} md={4} lg={3}>
                     <FormControl>
-                        <RadioGroup
-                            row
-                            value={isRecharge}
-                            aria-labelledby="demo-radio-buttons-group-label"
-                            name="radio-buttons-group"
-                            onChange={(e) => setIsRecharge(e.target.value)}
-                        >
+                        <RadioGroup row value={isRecharge} name="radio-buttons-group" onChange={(e) => setIsRecharge(e.target.value)}>
                             <FormControlLabel
                                 value={true}
                                 disabled={action === 'View'}

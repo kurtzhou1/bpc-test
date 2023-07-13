@@ -53,39 +53,51 @@ const ResearchBillQuery = ({ setListInfo, queryApi }) => {
     }); //處理狀態
 
     const creditBalanceQuery = () => {
-        console.log('isIssueDate=>>', isIssueDate);
-        let tmpQuery = '/';
+        let tmpQuery = {};
         if (supplierName && supplierName !== '') {
-            tmpQuery = tmpQuery + 'SupplierName=' + supplierName + '&';
+            // tmpQuery = tmpQuery + 'SupplierName=' + supplierName + '&';
+            tmpQuery.SupplierName = supplierName;
         }
         if (submarineCable && submarineCable !== '') {
-            tmpQuery = tmpQuery + 'SubmarineCable=' + submarineCable + '&';
+            // tmpQuery = tmpQuery + 'SubmarineCable=' + submarineCable + '&';
+            tmpQuery.SubmarineCable = submarineCable;
         }
         if (workTitle && workTitle !== '') {
-            tmpQuery = tmpQuery + 'WorkTitle=' + workTitle + '&';
+            // tmpQuery = tmpQuery + 'WorkTitle=' + workTitle + '&';
+            tmpQuery.WorkTitle = workTitle;
+        }
+        if (invoiceNo && invoiceNo !== '') {
+            // tmpQuery = tmpQuery + 'BillMilestone=' + invoiceNo + '&';
+            tmpQuery.InvoiceNo = invoiceNo;
         }
         if (billMilestone && billMilestone !== '') {
-            tmpQuery = tmpQuery + 'BillMilestone=' + billMilestone + '&';
+            // tmpQuery = tmpQuery + 'BillMilestone=' + billMilestone + '&';
+            tmpQuery.BillMilestone = billMilestone;
         }
-        if (issueDate && isIssueDate) {
-            tmpQuery =
-                tmpQuery +
-                'startIssueDate=' +
-                dayjs(issueDate).format('YYYYMMDD') +
-                '&' +
-                'endIssueDate=' +
-                dayjs(issueDate).format('YYYYMMDD') +
-                '&';
+        console.log(issueDate, isIssueDate);
+        if (issueDate && isIssueDate === 'true') {
+            // tmpQuery =
+            //     tmpQuery +
+            //     'startIssueDate=' +
+            //     dayjs(issueDate).format('YYYYMMDD') +
+            //     '&' +
+            //     'endIssueDate=' +
+            //     dayjs(issueDate).format('YYYYMMDD') +
+            //     '&';
+            tmpQuery.startIssueDate = dayjs(issueDate).format('YYYYMMDD');
+            tmpQuery.endIssueDate = dayjs(issueDate).format('YYYYMMDD');
         }
-        if (issueDate && !isIssueDate) {
-            tmpQuery =
-                tmpQuery +
-                'startDueDate=' +
-                dayjs(issueDate).format('YYYYMMDD') +
-                '&' +
-                'endDueDate=' +
-                dayjs(issueDate).format('YYYYMMDD') +
-                '&';
+        if (issueDate && isIssueDate === 'false') {
+            // tmpQuery =
+            //     tmpQuery +
+            //     'startDueDate=' +
+            //     dayjs(issueDate).format('YYYYMMDD') +
+            //     '&' +
+            //     'endDueDate=' +
+            //     dayjs(issueDate).format('YYYYMMDD') +
+            //     '&';
+            tmpQuery.startDueDate = dayjs(issueDate).format('YYYYMMDD');
+            tmpQuery.endDueDate = dayjs(issueDate).format('YYYYMMDD');
         }
         if (
             !(
@@ -103,37 +115,46 @@ const ResearchBillQuery = ({ setListInfo, queryApi }) => {
                 invoiceStatusQuery?.COMPLETE ||
                 invoiceStatusQuery?.INVALID)
         ) {
-            let tmpStatus = '';
+            let tmpStatus = [];
             if (invoiceStatusQuery?.TEMPORARY) {
-                tmpStatus = tmpStatus + 'Status=TEMPORARY&';
+                // tmpStatus = tmpStatus + 'Status=TEMPORARY&';
+                tmpStatus.push('TEMPORARY');
             }
             if (invoiceStatusQuery?.VALIDATED) {
-                tmpStatus = tmpStatus + 'Status=VALIDATED&';
+                // tmpStatus = tmpStatus + 'Status=VALIDATED&';
+                tmpStatus.push('VALIDATED');
             }
             if (invoiceStatusQuery?.BILLED) {
-                tmpStatus = tmpStatus + 'Status=BILLED&';
+                // tmpStatus = tmpStatus + 'Status=BILLED&';
+                tmpStatus.push('BILLED');
             }
             if (invoiceStatusQuery?.PAYING) {
-                tmpStatus = tmpStatus + 'Status=PAYING&';
+                // tmpStatus = tmpStatus + 'Status=PAYING&';
+                tmpStatus.push('PAYING');
             }
             if (invoiceStatusQuery?.COMPLETE) {
-                tmpStatus = tmpStatus + 'Status=COMPLETE&';
+                // tmpStatus = tmpStatus + 'Status=COMPLETE&';
+                tmpStatus.push('COMPLETE');
             }
             if (invoiceStatusQuery?.INVALID) {
-                tmpStatus = tmpStatus + 'Status=INVALID&';
+                // tmpStatus = tmpStatus + 'Status=INVALID&';
+                tmpStatus.push('INVALID');
             }
-            tmpQuery = tmpQuery + tmpStatus;
+            // tmpQuery = tmpQuery + tmpStatus;
+            tmpQuery.Status = tmpStatus;
         }
 
-        if (tmpQuery.includes('&')) {
-            tmpQuery = tmpQuery.slice(0, -1);
-        } else {
-            tmpQuery = tmpQuery + 'all';
-        }
+        // if (tmpQuery.includes('&')) {
+        //     tmpQuery = tmpQuery.slice(0, -1);
+        // } else {
+        //     tmpQuery = tmpQuery + 'all';
+        // }
 
-        tmpQuery = searchBillMasterByInvoiceWKMaster + tmpQuery;
-        queryApi.current = tmpQuery;
-        fetch(tmpQuery, { method: 'GET' })
+        // tmpQuery = searchBillMasterByInvoiceWKMaster + tmpQuery;
+        // queryApi.current = tmpQuery;
+        console.log('tmpQuery=>>', tmpQuery);
+
+        fetch(searchBillMasterByInvoiceWKMaster, { method: 'POST', body: JSON.stringify(tmpQuery) })
             .then((res) => res.json())
             .then((data) => {
                 console.log('查詢成功=>>', data);
@@ -243,13 +264,7 @@ const ResearchBillQuery = ({ setListInfo, queryApi }) => {
                 </Grid>
                 <Grid item xs={8} sm={8} md={8} lg={8} display="flex" alignItems="center">
                     <FormControl>
-                        <RadioGroup
-                            row
-                            value={isIssueDate}
-                            aria-labelledby="demo-radio-buttons-group-label"
-                            name="radio-buttons-group"
-                            onChange={(e) => setIsIssueDate(e.target.value)}
-                        >
+                        <RadioGroup row value={isIssueDate} onChange={(e) => setIsIssueDate(e.target.value)}>
                             <FormControlLabel
                                 value={true}
                                 control={<Radio sx={{ '& .MuiSvgIcon-root': { fontSize: { lg: 14, xl: 20 } } }} />}
@@ -279,13 +294,7 @@ const ResearchBillQuery = ({ setListInfo, queryApi }) => {
                     </Typography>
                 </Grid>
                 <Grid item xs={5} sm={5} md={5} lg={5}>
-                    <FormGroup
-                        row
-                        value={invoiceStatusQuery}
-                        aria-labelledby="demo-radio-buttons-group-label"
-                        name="radio-buttons-group"
-                        // onChange={(e) => setInvoiceStatusQuery(e.target.value)}
-                    >
+                    <FormGroup row value={invoiceStatusQuery}>
                         <FormControlLabel
                             control={
                                 <Checkbox
@@ -313,11 +322,11 @@ const ResearchBillQuery = ({ setListInfo, queryApi }) => {
                                 <Checkbox
                                     name={'BILLED'}
                                     onChange={handleChange}
-                                    // checked={invoiceStatusQuery.BILLED}
+                                    checked={invoiceStatusQuery.BILLED}
                                     sx={{ '& .MuiSvgIcon-root': { fontSize: { lg: 14, xl: 20 } } }}
                                 />
                             }
-                            label="已產帳單"
+                            label="已立帳"
                         />
                         <FormControlLabel
                             control={
@@ -329,6 +338,28 @@ const ResearchBillQuery = ({ setListInfo, queryApi }) => {
                                 />
                             }
                             label="付款中"
+                        />
+                        <FormControlLabel
+                            control={
+                                <Checkbox
+                                    name={'COMPLETE'}
+                                    onChange={handleChange}
+                                    checked={invoiceStatusQuery.COMPLETE}
+                                    sx={{ '& .MuiSvgIcon-root': { fontSize: { lg: 14, xl: 20 } } }}
+                                />
+                            }
+                            label="完成付款結案"
+                        />
+                        <FormControlLabel
+                            control={
+                                <Checkbox
+                                    name={'INVALID'}
+                                    onChange={handleChange}
+                                    checked={invoiceStatusQuery.INVALID}
+                                    sx={{ '& .MuiSvgIcon-root': { fontSize: { lg: 14, xl: 20 } } }}
+                                />
+                            }
+                            label="作廢"
                         />
                     </FormGroup>
                 </Grid>

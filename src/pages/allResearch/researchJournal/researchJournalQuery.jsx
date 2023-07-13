@@ -189,13 +189,7 @@ const ResearchBillQuery = ({ setListInfo, queryApi }) => {
                 </Grid>
                 <Grid item xs={8} sm={8} md={8} lg={8} display="flex" alignItems="center">
                     <FormControl>
-                        <RadioGroup
-                            row
-                            value={isIssueDate}
-                            aria-labelledby="demo-radio-buttons-group-label"
-                            name="radio-buttons-group"
-                            onChange={(e) => setIsIssueDate(e.target.value)}
-                        >
+                        <RadioGroup row value={isIssueDate} onChange={(e) => setIsIssueDate(e.target.value)}>
                             <FormControlLabel
                                 value={true}
                                 control={<Radio sx={{ '& .MuiSvgIcon-root': { fontSize: { lg: 14, xl: 20 } } }} />}
@@ -228,8 +222,6 @@ const ResearchBillQuery = ({ setListInfo, queryApi }) => {
                     <FormGroup
                         row
                         value={invoiceStatusQuery}
-                        aria-labelledby="demo-radio-buttons-group-label"
-                        name="radio-buttons-group"
                         // onChange={(e) => setInvoiceStatusQuery(e.target.value)}
                     >
                         <FormControlLabel

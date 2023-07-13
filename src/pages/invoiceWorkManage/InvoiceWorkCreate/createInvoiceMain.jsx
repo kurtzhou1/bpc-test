@@ -225,13 +225,7 @@ const InvoiceWorkManage = ({
                 </Grid>
                 <Grid item xs={12} sm={6} md={3} lg={3}>
                     <FormControl>
-                        <RadioGroup
-                            row
-                            value={isPro}
-                            aria-labelledby="demo-radio-buttons-group-label"
-                            name="radio-buttons-group"
-                            onChange={(e) => setIsPro(e.target.value)}
-                        >
+                        <RadioGroup row value={isPro} name="radio-buttons-group" onChange={(e) => setIsPro(e.target.value)}>
                             <FormControlLabel
                                 value={true}
                                 control={<Radio sx={{ '& .MuiSvgIcon-root': { fontSize: { lg: 14, xl: 20 } } }} />}
@@ -252,13 +246,7 @@ const InvoiceWorkManage = ({
                 </Grid>
                 <Grid item xs={12} sm={6} md={3} lg={3}>
                     <FormControl>
-                        <RadioGroup
-                            row
-                            value={isLiability}
-                            aria-labelledby="demo-radio-buttons-group-label"
-                            name="radio-buttons-group"
-                            onChange={(e) => setIsLiability(e.target.value)}
-                        >
+                        <RadioGroup row value={isLiability} name="radio-buttons-group" onChange={(e) => setIsLiability(e.target.value)}>
                             <FormControlLabel
                                 value={true}
                                 control={<Radio sx={{ '& .MuiSvgIcon-root': { fontSize: { lg: 14, xl: 20 } } }} />}
@@ -280,13 +268,7 @@ const InvoiceWorkManage = ({
                 </Grid>
                 <Grid item xs={12} sm={6} md={3} lg={3}>
                     <FormControl>
-                        <RadioGroup
-                            row
-                            value={isRecharge}
-                            aria-labelledby="demo-radio-buttons-group-label"
-                            name="radio-buttons-group"
-                            onChange={(e) => setIsRecharge(e.target.value)}
-                        >
+                        <RadioGroup row value={isRecharge} name="radio-buttons-group" onChange={(e) => setIsRecharge(e.target.value)}>
                             <FormControlLabel
                                 value={true}
                                 control={<Radio sx={{ '& .MuiSvgIcon-root': { fontSize: { lg: 14, xl: 20 } } }} />}

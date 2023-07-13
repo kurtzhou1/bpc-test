@@ -193,7 +193,6 @@ const InvoiceQuery = ({ setListInfo, queryApi, supNmList, subCableList, bmsList,
                     <FormGroup
                         row
                         value={invoiceStatusQuery}
-                        aria-labelledby="demo-radio-buttons-group-label"
                         name="radio-buttons-group"
                         // onChange={(e) => setInvoiceStatusQuery(e.target.value)}
                     >
@@ -309,13 +308,7 @@ const InvoiceQuery = ({ setListInfo, queryApi, supNmList, subCableList, bmsList,
                         日期條件及區間：
                     </Typography>
                     <FormControl>
-                        <RadioGroup
-                            row
-                            value={isIssueDate}
-                            aria-labelledby="demo-radio-buttons-group-label"
-                            name="radio-buttons-group"
-                            onChange={(e) => setIsIssueDate(e.target.value)}
-                        >
+                        <RadioGroup row value={isIssueDate} name="radio-buttons-group" onChange={(e) => setIsIssueDate(e.target.value)}>
                             <FormControlLabel
                                 value={true}
                                 control={<Radio sx={{ '& .MuiSvgIcon-root': { fontSize: { lg: 14, xl: 20 } } }} />}

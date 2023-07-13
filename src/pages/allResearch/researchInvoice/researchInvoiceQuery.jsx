@@ -208,8 +208,6 @@ const ResearchBillQuery = ({ setListInfo, queryApi }) => {
                     <FormGroup
                         row
                         value={invoiceStatusQuery}
-                        aria-labelledby="demo-radio-buttons-group-label"
-                        name="radio-buttons-group"
                         onChange={(e) => setInvoiceStatusQuery(e.target.value)}
                     >
                         <FormControlLabel

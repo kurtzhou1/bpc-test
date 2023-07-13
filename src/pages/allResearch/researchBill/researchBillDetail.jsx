@@ -199,7 +199,9 @@ const ResearchBillDetail = ({ datailInfo }) => {
     };
 
     const viewBillDetail = (id) => {
-        let tmpQuery = queryToDecutBill + 'BillMasterID=' + id;
+        console.log('queryToDecutBill=>>', queryToDecutBill);
+        let tmpQuery = queryToDecutBill + '/BillMasterID=' + id;
+        console.log('tmpQuery=>>', tmpQuery);
         fetch(tmpQuery, { method: 'GET' })
             .then((res) => res.json())
             .then((data) => {
@@ -287,7 +289,7 @@ const ResearchBillDetail = ({ datailInfo }) => {
                                         {billDetailInfo?.map((row, id) => {
                                             return (
                                                 <TableRow
-                                                    key={row.PartyName + id}
+                                                    key={row.FeeItem + row.BillMilestone + row.PartyName + id}
                                                     sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                                                 >
                                                     <TableCell align="center">{row.FeeItem}</TableCell>
@@ -352,7 +354,7 @@ const ResearchBillDetail = ({ datailInfo }) => {
                         {datailInfo?.map((row, id) => {
                             return (
                                 <TableRow
-                                    key={row.BillingNo + row.BillMilestone}
+                                    key={row.BillingNo + row.BillMilestone + row.PartyName}
                                     sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                                 >
                                     <StyledTableCell align="center">{row.BillingNo}</StyledTableCell>

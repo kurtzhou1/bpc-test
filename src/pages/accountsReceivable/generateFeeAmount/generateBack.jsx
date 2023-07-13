@@ -138,8 +138,6 @@ const GenerateBack = ({ action, infoBack, handleBackClose, receivableQuery, edit
         //                             {/* <Radio sx={{ '& .MuiSvgIcon-root': { fontSize: { lg: 14, xl: 20 } } }} /> */}
         //                             <RadioGroup
         //                                 row
-        //                                 aria-labelledby="demo-radio-buttons-group-label"
-        //                                 name="radio-buttons-group"
         //                                 value={isDefault}
         //                                 onChange={(e) => setIsDefault(e.target.value)}
         //                             >
@@ -165,8 +163,6 @@ const GenerateBack = ({ action, infoBack, handleBackClose, receivableQuery, edit
         //                             {/* <Radio sx={{ '& .MuiSvgIcon-root': { fontSize: { lg: 14, xl: 20 } } }} /> */}
         //                             <RadioGroup
         //                                 row
-        //                                 aria-labelledby="demo-radio-buttons-group-label"
-        //                                 name="radio-buttons-group"
         //                                 value={isDefault}
         //                                 onChange={(e) => setIsDefault(e.target.value)}
         //                             >

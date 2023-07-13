@@ -170,7 +170,7 @@ const CreditBalanceQuery = ({ setListInfo, partiesList, subCableList, queryApi }
                 </Grid>
                 <Grid item xs={2} sm={2} md={2} lg={2}>
                     <FormControl row size="small">
-                        <FormGroup row size="small" value={currAmount} aria-labelledby="demo-radio-buttons-group-label">
+                        <FormGroup row size="small" value={currAmount}>
                             <FormControlLabel
                                 control={
                                     <Checkbox

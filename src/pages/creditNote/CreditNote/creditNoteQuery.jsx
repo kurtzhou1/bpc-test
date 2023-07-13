@@ -121,7 +121,7 @@ const CreditBalanceQuery = ({ creditBalanceQuery }) => {
                             row
                             size="small"
                             // value={isLiability}
-                            aria-labelledby="demo-radio-buttons-group-label"
+                             
                             name="radio-buttons-group"
                             // onChange={(e) => setIsLiability(e.target.value)}
                         >
@@ -148,7 +148,7 @@ const CreditBalanceQuery = ({ creditBalanceQuery }) => {
                         <FormGroup
                             row
                             // value={isLiability}
-                            aria-labelledby="demo-radio-buttons-group-label"
+                             
                             name="radio-buttons-group"
                             // onChange={(e) => setIsLiability(e.target.value)}
                         >
