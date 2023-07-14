@@ -70,7 +70,7 @@ const ResearchBillQuery = ({ setListInfo, setDetailInfo }) => {
         });
     };
 
-    const creditBalanceQuery = () => {
+    const billQuery = () => {
         let tmpQuery = {};
         if (supplierName && supplierName !== '') {
             // tmpQuery = tmpQuery + 'SupplierName=' + supplierName + '&';
@@ -383,7 +383,7 @@ const ResearchBillQuery = ({ setListInfo, setDetailInfo }) => {
                     </FormGroup>
                 </Grid>
                 <Grid item xs={6} sm={6} md={6} lg={6} display="flex" justifyContent="end" alignItems="center">
-                    <Button sx={{ mr: '0.5rem' }} variant="contained" onClick={creditBalanceQuery}>
+                    <Button sx={{ mr: '0.5rem' }} variant="contained" onClick={billQuery}>
                         查詢
                     </Button>
                     <Button variant="contained" onClick={queryInit}>

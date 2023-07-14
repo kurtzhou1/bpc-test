@@ -89,6 +89,7 @@ export const afterBilled = 'http://10.193.130.8:8000/api/v1/invalidInvoice/after
 export const getPayDraftStream = 'http://10.193.130.8:8000/api/v1/getPayDraftStream';
 // 全域查詢
 export const searchBillMasterByInvoiceWKMaster = 'http://10.193.130.8:8000/api/v1/searchBillMasterByInvoiceWKMaster';
+export const searchInvoiceWKMasterByBillMaster = 'http://10.193.130.8:8000/api/v1/searchInvoiceWKMasterByBillMaster';
 
 // 基本資料-Suppliers
 export const addSuppliers = 'http://10.193.130.8:8000/api/v1/Suppliers';

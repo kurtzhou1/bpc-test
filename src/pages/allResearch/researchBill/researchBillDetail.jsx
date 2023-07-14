@@ -43,7 +43,7 @@ import Paper from '@mui/material/Paper';
 import { styled } from '@mui/material/styles';
 
 // api
-import { generateReport, queryToDecutBill } from 'components/apis.jsx';
+import { queryToDecutBill } from 'components/apis.jsx';
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
     [`&.${tableCellClasses.head}`]: {
@@ -56,6 +56,12 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
         fontSize: 14,
         paddingTop: '0.2rem',
         paddingBottom: '0.2rem'
+    },
+    [`&.${tableCellClasses.body}.totalAmount`]: {
+        fontSize: 14,
+        paddingTop: '0.2rem',
+        paddingBottom: '0.2rem',
+        backgroundColor: '#CFD8DC'
     }
 }));
 
@@ -199,9 +205,7 @@ const ResearchBillDetail = ({ datailInfo }) => {
     };
 
     const viewBillDetail = (id) => {
-        console.log('queryToDecutBill=>>', queryToDecutBill);
         let tmpQuery = queryToDecutBill + '/BillMasterID=' + id;
-        console.log('tmpQuery=>>', tmpQuery);
         fetch(tmpQuery, { method: 'GET' })
             .then((res) => res.json())
             .then((data) => {
