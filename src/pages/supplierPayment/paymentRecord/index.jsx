@@ -8,6 +8,9 @@ import ToPaymentDataList from './toPaymentDataList';
 import PaymentedDataList from './paymentedDataList';
 import SupplierPaymentQuery from './supplierPaymentQuery';
 
+import { useDispatch } from 'react-redux';
+import { setMessageStateOpen } from 'store/reducers/dropdown';
+
 const fakeData = [
     {
         InvoiceWKMaster: {
@@ -400,6 +403,7 @@ const SupplierPayment = () => {
     const queryApi = useRef('/Status=PAYING');
     const [cbToCn, setCbToCn] = useState({}); //勾選合併狀態
     const [isSend, setIsSend] = useState(false);
+    const dispatch = useDispatch();
 
     const handleChange = (event, newValue) => {
         setValue(newValue);

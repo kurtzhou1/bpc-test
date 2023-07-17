@@ -36,13 +36,13 @@ const GenerateFeeTerminate = ({ infoTerminal, handleTerminalClose }) => {
     const [endNote, setEndNote] = useState([]);
 
     const terminalLiability = () => {
-        console.log('terminateInfo=>>', terminateInfo);
-        let tmpArray = {
-            LBRawID: terminateInfo.LBRawID,
-            EndDate: terminateInfo.EndDate,
-            EndNote: endNote ? endNote : ''
-        };
-        console.log('', tmpArray);
+        console.log('terminateInfo=>>');
+        // let tmpArray = {
+        //     LBRawID: terminateInfo.LBRawID,
+        //     EndDate: terminateInfo.EndDate,
+        //     EndNote: endNote ? endNote : ''
+        // };
+        // console.log('', tmpArray);
         // fetch(updateLiability, { method: 'POST', body: JSON.stringify(tmpArray) })
         //     .then((res) => res.json())
         //     .then(() => {

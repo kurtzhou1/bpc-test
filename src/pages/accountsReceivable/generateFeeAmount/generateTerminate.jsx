@@ -40,14 +40,14 @@ const GenerateFeeTerminate = ({ infoTerminal, handleTerminalClose, receivableQue
             BillMasterID: editBillMasterID,
             Note: note
         };
-        fetch(queryApi, { method: 'POST', body: JSON.stringify(tmpArray) })
-            .then((res) => res.json())
-            .then(() => {
-                dispatch(setMessageStateOpen({ messageStateOpen: { isOpen: true, severity: 'success', message: '作廢成功' } }));
-                receivableQuery();
-                handleTerminalClose();
-            })
-            .catch((e) => console.log('e1=>', e));
+        // fetch(queryApi, { method: 'POST', body: JSON.stringify(tmpArray) })
+        //     .then((res) => res.json())
+        //     .then(() => {
+        //         dispatch(setMessageStateOpen({ messageStateOpen: { isOpen: true, severity: 'success', message: '作廢成功' } }));
+        //         receivableQuery();
+        //         handleTerminalClose();
+        //     })
+        //     .catch((e) => console.log('e1=>', e));
     };
 
     return (

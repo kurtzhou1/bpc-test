@@ -43,7 +43,7 @@ const CreditBalanceQuery = ({ creditBalanceQuery }) => {
                         <Select
                             // value={supplierName}
                             label="會員"
-                            onChange={(e) => setSupplierName(e.target.value)}
+                            // onChange={(e) => setSupplierName(e.target.value)}
                         >
                             <MenuItem value={'Taiwan'}>Taiwan</MenuItem>
                             <MenuItem value={'Korean'}>Korean</MenuItem>
@@ -62,7 +62,7 @@ const CreditBalanceQuery = ({ creditBalanceQuery }) => {
                         <Select
                             // value={submarineCable}
                             label="發票供應商"
-                            onChange={(e) => setSubmarineCable(e.target.value)}
+                            // onChange={(e) => setSubmarineCable(e.target.value)}
                         >
                             <MenuItem value={'計帳段號1'}>計帳段號1</MenuItem>
                             <MenuItem value={'計帳段號2'}>計帳段號2</MenuItem>
@@ -81,7 +81,7 @@ const CreditBalanceQuery = ({ creditBalanceQuery }) => {
                         <Select
                             // value={submarineCable}
                             label="海纜名稱"
-                            onChange={(e) => setSubmarineCable(e.target.value)}
+                            // onChange={(e) => setSubmarineCable(e.target.value)}
                         >
                             <MenuItem value={'一段'}>一段</MenuItem>
                             <MenuItem value={'二段'}>二段</MenuItem>

@@ -38,55 +38,6 @@ const CreditBalanceDeduct = ({ cblistInfo }) => {
     console.log('cblistInfo=>>', cblistInfo);
     const [listInfo, setListInfo] = useState(cblistInfo);
     // const [editItem, setEditItem] = useState(NaN);
-    const [isEdit, setIsEdit] = useState(false);
-    const [value, setValue] = useState(0);
-
-    const itemDetailInitial = () => {
-        setPartyName([]);
-        setLBRatio('');
-        setIsEdit(false);
-    };
-
-    // //編輯
-    // const editlistInfoItem = () => {
-    //     let tmpArray = listInfo[editItem];
-
-    //     if (tmpArray) {
-    //         setPartyName([tmpArray?.PartyName]);
-    //         setLBRatio(tmpArray?.LbRatio);
-    //     }
-    //     setIsEdit(true);
-    // };
-
-    //新增
-    const addList = () => {
-        let tmpArray = listInfo.map((i) => i);
-        console.log('=>>', partyName);
-        let partyArray = partyName;
-        partyArray.forEach((e) => {
-            tmpArray.push({
-                BillMilestone: billMilestone,
-                PartyName: e,
-                LBRatio: lBRatio
-            });
-        });
-        setListInfo([...tmpArray]);
-        itemDetailInitial();
-    };
-
-    //刪除
-    const deletelistInfoItem = (deleteItem) => {
-        let tmpArray = listInfo.map((i) => i);
-        tmpArray.splice(deleteItem, 1);
-        setListInfo([...tmpArray]);
-    };
-
-    // useEffect(() => {
-    //     if (editItem >= 0) {
-    //         editlistInfoItem();
-    //         // setIsListEdit(true);
-    //     }
-    // }, [editItem]);
 
     const StyledTableCell = styled(TableCell)(({ theme }) => ({
         [`&.${tableCellClasses.head}`]: {

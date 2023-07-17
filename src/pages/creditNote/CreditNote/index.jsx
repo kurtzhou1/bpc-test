@@ -149,7 +149,7 @@ const CreditNote = () => {
         setEditItem(NaN);
         deletelistInfoItem(editItem);
         addLiability();
-        setIsListEdit(false);
+        // setIsListEdit(false);
         itemDetailInitial();
     };
 

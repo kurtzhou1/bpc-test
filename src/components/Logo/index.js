@@ -11,7 +11,7 @@ import config from 'config';
 
 const LogoSection = ({ sx, to }) => (
     <ButtonBase disableRipple component={Link} to={!to ? config.defaultPath : to} sx={sx}>
-        <Logo />
+        {/* <Logo /> */}
     </ButtonBase>
 );
 

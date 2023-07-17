@@ -63,7 +63,6 @@ const CreditBalanceManage = ({
     const itemDetailInitial = () => {
         setPartyName([]);
         setLBRatio('');
-        setIsEdit(false);
     };
 
     // //編輯

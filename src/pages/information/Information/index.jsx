@@ -21,7 +21,7 @@ import CBPBankAccount from './cBPBankAccount';
 const Information = () => {
     const [value, setValue] = useState(2);
     const tableH = document.getElementById('tableContainer')?.offsetTop;
-    const maxHei = screen.height - tableH - 400;
+    const maxHei = window.screen.height - tableH - 400;
 
     const handleChange = (event, newValue) => {
         setValue(newValue);
