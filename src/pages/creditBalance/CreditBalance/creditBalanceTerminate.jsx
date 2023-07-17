@@ -33,10 +33,10 @@ const CreditBalanceTerminate = ({ cbTerminal, handleTerminalClose }) => {
     const [endNote, setEndNote] = useState([]);
 
     const terminalLiability = () => {
-        console.log('terminateInfo=>>', terminateInfo);
+        // console.log('terminateInfo=>>', terminateInfo);
         let tmpArray = {
-            LBRawID: terminateInfo.LBRawID,
-            EndDate: terminateInfo.EndDate,
+            // LBRawID: terminateInfo.LBRawID,
+            // EndDate: terminateInfo.EndDate,
             EndNote: endNote ? endNote : ''
         };
         console.log('', tmpArray);
@@ -44,7 +44,7 @@ const CreditBalanceTerminate = ({ cbTerminal, handleTerminalClose }) => {
             .then((res) => res.json())
             .then(() => {
                 alert('終止成功');
-                apiQuery();
+                // apiQuery();
                 handleTerminalClose();
             })
             .catch((e) => console.log('e1=>', e));

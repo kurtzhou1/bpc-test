@@ -1,7 +1,7 @@
 import { useState, useRef } from 'react';
 
 // project import
-import { handleNumber, BootstrapDialogTitle } from 'components/commonFunction';
+import { handleNumber } from 'components/commonFunction';
 import PaymentWork from './paymentWork';
 import GenerateFeeTerminate from './generateFeeTerminate';
 // material-ui
