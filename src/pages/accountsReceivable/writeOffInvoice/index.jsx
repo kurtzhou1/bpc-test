@@ -167,7 +167,7 @@ const WriteOffInvoice = () => {
                 <WriteOffQuery setListInfo={setListInfo} queryApi={queryApi} value={value} />
             </Grid>
             <Grid item xs={12}>
-                <MainCard title={`${value == 0 ? '待銷帳' : '已銷帳'}帳單資料列表`}>
+                <MainCard title={`${value === 0 ? '待銷帳' : '已銷帳'}帳單資料列表`}>
                     <Box sx={{ borderBottom: 1, borderColor: 'divider', position: 'relative' }}>
                         <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
                             <Tab label="待銷帳" {...a11yProps(0)} />

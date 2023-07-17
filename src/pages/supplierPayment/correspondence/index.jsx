@@ -134,7 +134,7 @@ const Correspondence = () => {
                     <CorrespondenceQuery setListInfo={setListInfo} queryApi={queryApi} value={value} />
                 </Grid>
                 <Grid item xs={12}>
-                    <MainCard title={`${value == 0 ? '未編輯' : '已編輯'}資料列表`}>
+                    <MainCard title={`${value === 0 ? '未編輯' : '已編輯'}資料列表`}>
                         <Box sx={{ borderBottom: 1, borderColor: 'divider', position: 'relative' }}>
                             <Tabs value={value} onChange={handleChange}>
                                 <Tab label="未編輯" {...a11yProps(0)} />

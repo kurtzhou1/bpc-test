@@ -35,23 +35,6 @@ import { updateLiability } from 'components/apis.jsx';
 const GenerateFeeTerminate = ({ infoTerminal, handleTerminalClose }) => {
     const [endNote, setEndNote] = useState([]);
 
-    const terminalLiability = () => {
-        console.log('terminateInfo=>>', terminateInfo);
-        let tmpArray = {
-            LBRawID: terminateInfo.LBRawID,
-            EndDate: terminateInfo.EndDate,
-            EndNote: endNote ? endNote : ''
-        };
-        console.log('', tmpArray);
-        // fetch(updateLiability, { method: 'POST', body: JSON.stringify(tmpArray) })
-        //     .then((res) => res.json())
-        //     .then(() => {
-        //         apiQuery();
-        //         handleTerminalClose();
-        //     })
-        //     .catch((e) => console.log('e1=>', e));
-    };
-
     return (
         <Dialog
             // onClose={handleTerminalClose}
@@ -89,9 +72,6 @@ const GenerateFeeTerminate = ({ infoTerminal, handleTerminalClose }) => {
                 <Button
                     sx={{ mr: '0.05rem' }}
                     variant="contained"
-                    onClick={() => {
-                        terminalLiability();
-                    }}
                 >
                     確定
                 </Button>

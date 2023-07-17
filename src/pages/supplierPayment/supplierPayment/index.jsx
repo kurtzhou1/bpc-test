@@ -442,14 +442,14 @@ const SupplierPayment = () => {
                 <SupplierPaymentQuery setListInfo={setListInfo} queryApi={queryApi} value={value} />
             </Grid>
             <Grid item xs={12}>
-                <MainCard title={`${value == 0 ? '待確認' : '已確認'}資料列表`}>
+                <MainCard title={`${value === 0 ? '待確認' : '已確認'}資料列表`}>
                     <Box sx={{ borderBottom: 1, borderColor: 'divider', position: 'relative' }}>
                         <Tabs value={value} onChange={handleChange}>
                             <Tab label="待確認" {...a11yProps(0)} />
                             <Tab label="已確認" {...a11yProps(1)} />
                             {/* <Tab label="函稿" {...a11yProps(2)} /> */}
                         </Tabs>
-                        {value == 0 ? (
+                        {value === 0 ? (
                             <>
                                 <Button
                                     color="primary"
