@@ -65,12 +65,13 @@ const CreateJournal = () => {
                 <JournalQuery setListInfo={setListInfo} queryApi={queryApi} invoiceStatus={value} setPage={setPage} />
             </Grid>
             <Grid item xs={12}>
-                <MainCard title={`${value === 0 ? '尚未立帳' : value === 1 ? '已立帳' : '已作廢'}發票資料列表`}>
-                    <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
+                {/* <MainCard title={`${value === 0 ? '尚未立帳' : value === 1 ? '已立帳' : '已作廢'}發票資料列表`}> */}
+                <MainCard title="發票資料列表">    
+                    {/* <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
                         <Tabs value={value} onChange={handleChange}>
                             <Tab label="尚未立帳" {...a11yProps(0)} />
                         </Tabs>
-                    </Box>
+                    </Box> */}
                     <TabPanel value={value} index={0}>
                         <ToBillDataList listInfo={listInfo} page={page} setPage={setPage} />
                     </TabPanel>
