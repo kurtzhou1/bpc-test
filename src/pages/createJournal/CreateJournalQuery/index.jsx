@@ -18,24 +18,16 @@ import Autocomplete from '@mui/material/Autocomplete';
 
 // api
 import { queryInvoice } from 'components/apis.jsx';
-import dayjs from 'dayjs';
 
 const CreateJournal = () => {
     const [listInfo, setListInfo] = useState([]);
     const [value, setValue] = useState(0);
     const [page, setPage] = useState(0); //分頁Page
-    const isFirst = useRef(true);
     const queryApi = useRef(queryInvoice + '/all');
     const apiQuery = () => {
         let tmpQuery = '/';
 
-        if (value === '0' || value === 0) {
-            tmpQuery = tmpQuery + 'Status=' + 'VALIDATED' + '&';
-        } else if (value === '1' || value === 1) {
-            tmpQuery = tmpQuery + 'Status=' + 'BILLED' + '&';
-        } else {
-            tmpQuery = tmpQuery + 'Status=' + 'INVALID' + '&';
-        }
+        tmpQuery = tmpQuery + 'Status=' + 'all' + '&';
 
         if (tmpQuery.includes('&')) {
             tmpQuery = tmpQuery.slice(0, -1);
@@ -52,38 +44,8 @@ const CreateJournal = () => {
             .catch((e) => console.log('e1=>', e));
     };
 
-    const orderDate = (data) => {
-        data.sort((a, b) => {
-            return dayjs(b.InvoiceWKMaster.CreateDate).diff(dayjs(a.InvoiceWKMaster.CreateDate));
-        });
-    };
-
-    const firstApiQuery = () => {
-        let tmpQuery = '/';
-        tmpQuery = tmpQuery + 'Status=' + 'all' + '&';
-        if (tmpQuery.includes('&')) {
-            tmpQuery = tmpQuery.slice(0, -1);
-        }
-
-        tmpQuery = queryInvoice + tmpQuery;
-        queryApi.current = tmpQuery;
-        fetch(tmpQuery, { method: 'GET' })
-            .then((res) => res.json())
-            .then((data) => {
-                orderDate(data);
-                data = data.slice(0, 5);
-                setListInfo(data);
-                isFirst.current = false;
-            })
-            .catch((e) => console.log('e1=>', e));
-    };
-
     useEffect(() => {
-        if (isFirst.current) {
-            firstApiQuery();
-        } else {
-            apiQuery();
-        }
+        apiQuery();
     }, [value]);
 
     const a11yProps = (index) => {

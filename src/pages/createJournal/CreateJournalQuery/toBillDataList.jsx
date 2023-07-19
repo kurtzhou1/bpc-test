@@ -16,6 +16,7 @@ const ToBillDataList = ({ listInfo, page, setPage }) => {
     const [toBillDataInfo, setToBillDataInfo] = useState([]); //發票明細檔
     const totalAmount = useRef(0);
     const [rowsPerPage, setRowsPerPage] = useState(10);
+    const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - listInfo.length) : 0;
     const StyledTableCell = styled(TableCell)(({ theme }) => ({
         [`&.${tableCellClasses.head}`]: {
             // backgroundColor: theme.palette.common.gary,
@@ -118,7 +119,7 @@ const ToBillDataList = ({ listInfo, page, setPage }) => {
                     </Button>
                 </DialogActions>
             </Dialog>
-            <TableContainer component={Paper} sx={{ maxHeight: 350 }}>
+            <TableContainer component={Paper} sx={{ maxHeight: 400 }}>
                 <Table sx={{ minWidth: 300 }} stickyHeader aria-label="sticky table">
                     <TableHead>
                         <TableRow>
@@ -134,7 +135,9 @@ const ToBillDataList = ({ listInfo, page, setPage }) => {
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {listInfo?.map((row, id) => {
+                        {/* {listInfo?.map((row, id) => { */}
+                        {(rowsPerPage > 0 ? listInfo.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage) : listInfo)?.map(
+                            (row, id) => {
                             return (
                                 <TableRow
                                     key={row.InvoiceWKMaster?.WKMasterID + row.InvoiceWKMaster?.InvoiceNo + row.InvoiceWKMaster?.SupplierName}
@@ -172,6 +175,11 @@ const ToBillDataList = ({ listInfo, page, setPage }) => {
                                 </TableRow>
                             );
                         })}
+                        {emptyRows > 0 && (
+                            <TableRow style={{ height: 30 * emptyRows }}>
+                                <StyledTableCell colSpan={6} />
+                            </TableRow>
+                        )}
                     </TableBody>
                     <TableFooter>
                         <TableRow>

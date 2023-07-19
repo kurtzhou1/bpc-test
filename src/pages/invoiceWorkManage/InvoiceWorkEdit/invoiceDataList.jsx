@@ -73,7 +73,6 @@ const InvoiceDataList = ({ listInfo, setAction, setModifyItem, page, setPage }) 
                                     tmpBMArray.push(i.BillMilestone);
                                 }
                             });
-                            console.log('row=>>', row.InvoiceWKMaster.InvoiceNo);
                             return (
                                 <TableRow
                                     key={row.InvoiceWKMaster?.WKMasterID + row.InvoiceWKMaster?.InvoiceNo}
