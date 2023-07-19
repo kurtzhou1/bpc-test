@@ -6,8 +6,6 @@ import { styled } from '@mui/material/styles';
 import MainCard from 'components/MainCard';
 import JournalQuery from './journalQuery';
 import ToBillDataList from './toBillDataList';
-import BilledDataList from './billedDataList';
-import InvalidateDataList from './invalidateDataList';
 import { TabPanel } from 'components/commonFunction';
 
 // dialog
@@ -61,12 +59,7 @@ const CreateJournal = () => {
 
     const firstApiQuery = () => {
         let tmpQuery = '/';
-        // if (value === '0' || value === 0) {
-        tmpQuery = tmpQuery + 'Status=' + 'VALIDATED' + '&';
-        // } else {
-        // tmpQuery = tmpQuery + 'Status=' + 'BILLED' + '&';
-        // }
-
+        tmpQuery = tmpQuery + 'Status=' + 'all' + '&';
         if (tmpQuery.includes('&')) {
             tmpQuery = tmpQuery.slice(0, -1);
         }
@@ -113,18 +106,10 @@ const CreateJournal = () => {
                     <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
                         <Tabs value={value} onChange={handleChange}>
                             <Tab label="尚未立帳" {...a11yProps(0)} />
-                            <Tab label="已立帳" {...a11yProps(1)} />
-                            <Tab label="已作廢" {...a11yProps(2)} />
                         </Tabs>
                     </Box>
                     <TabPanel value={value} index={0}>
                         <ToBillDataList listInfo={listInfo} apiQuery={apiQuery} />
-                    </TabPanel>
-                    <TabPanel value={value} index={1}>
-                        <BilledDataList listInfo={listInfo} apiQuery={apiQuery} />
-                    </TabPanel>
-                    <TabPanel value={value} index={2}>
-                        <InvalidateDataList listInfo={listInfo} apiQuery={apiQuery} />
                     </TabPanel>
                 </MainCard>
             </Grid>

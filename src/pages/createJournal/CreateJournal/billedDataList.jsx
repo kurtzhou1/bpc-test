@@ -118,14 +118,11 @@ const BilledDataList = ({ listInfo, apiQuery }) => {
     return (
         <>
             <Dialog
-                // onClose={handleDialogClose}
                 maxWidth="xl"
                 fullWidth
                 open={isDialogOpen}
             >
-                <BootstrapDialogTitle
-                //  onClose={handleDialogClose}
-                >
+                <BootstrapDialogTitle>
                     立帳作業
                 </BootstrapDialogTitle>
                 <DialogContent>
@@ -168,9 +165,6 @@ const BilledDataList = ({ listInfo, apiQuery }) => {
                     </DialogContentText>
                 </DialogContent>
                 <DialogActions>
-                    {/* <Button sx={{ mr: '0.05rem' }} variant="contained" onClick={sendJounaryInfo}>
-                        新增
-                    </Button> */}
                     <Button sx={{ mr: '0.05rem' }} variant="contained" onClick={handleDialogClose}>
                         關閉
                     </Button>

@@ -55,10 +55,8 @@ const JournalQuery = ({ setListInfo, queryApi, invoiceStatus }) => {
                 '&';
         }
         if (invoiceStatus === '0' || invoiceStatus === 0) {
-            tmpQuery = tmpQuery + 'Status=' + 'VALIDATED' + '&';
-        } else {
-            tmpQuery = tmpQuery + 'Status=' + 'BILLED' + '&';
-        }
+            tmpQuery = tmpQuery + 'Status=' + 'all' + '&';
+        } 
 
         if (tmpQuery.includes('&')) {
             tmpQuery = tmpQuery.slice(0, -1);
@@ -72,7 +70,7 @@ const JournalQuery = ({ setListInfo, queryApi, invoiceStatus }) => {
             .then((data) => {
                 console.log('查詢成功=>>', data);
                 setListInfo(data);
-                initQuery();
+                // initQuery();
             })
             .catch((e) => console.log('e1=>', e));
     };
@@ -81,7 +79,7 @@ const JournalQuery = ({ setListInfo, queryApi, invoiceStatus }) => {
         <MainCard title="發票查詢" sx={{ width: '100%' }}>
             <Grid container display="flex" justifyContent="center" alignItems="center" spacing={2}>
                 {/* row1 */}
-                <Grid item xs={2} sm={2} md={1} lg={1}>
+                <Grid item xs={1} sm={1} md={1} lg={1}>
                     <Typography
                         textAlign="right"
                         variant="h5"
@@ -90,7 +88,7 @@ const JournalQuery = ({ setListInfo, queryApi, invoiceStatus }) => {
                         供應商：
                     </Typography>
                 </Grid>
-                <Grid item xs={4} sm={4} md={2} lg={2}>
+                <Grid item xs={2} sm={2} md={2} lg={2}>
                     <FormControl fullWidth size="small">
                         <InputLabel id="demo-simple-select-label">選擇供應商</InputLabel>
                         <Select value={supplierName} label="供應商" onChange={(e) => setSupplierName(e.target.value)}>
@@ -102,7 +100,7 @@ const JournalQuery = ({ setListInfo, queryApi, invoiceStatus }) => {
                         </Select>
                     </FormControl>
                 </Grid>
-                <Grid item xs={2} sm={2} md={2} lg={2}>
+                <Grid item xs={1} sm={1} md={1} lg={1}>
                     <Typography
                         variant="h5"
                         textAlign="right"
@@ -111,7 +109,7 @@ const JournalQuery = ({ setListInfo, queryApi, invoiceStatus }) => {
                         海纜名稱：
                     </Typography>
                 </Grid>
-                <Grid item xs={4} sm={4} md={2} lg={2}>
+                <Grid item xs={2} sm={2} md={2} lg={2}>
                     <FormControl fullWidth size="small">
                         <InputLabel id="demo-simple-select-label">選擇海纜</InputLabel>
                         <Select value={submarineCable} label="海纜" onChange={(e) => setSubmarineCable(e.target.value)}>
@@ -123,7 +121,7 @@ const JournalQuery = ({ setListInfo, queryApi, invoiceStatus }) => {
                         </Select>
                     </FormControl>
                 </Grid>
-                <Grid item xs={3} sm={3} md={2} lg={2}>
+                <Grid item xs={1} sm={1} md={1} lg={1}>
                     <Typography
                         variant="h5"
                         textAlign="right"
@@ -132,7 +130,7 @@ const JournalQuery = ({ setListInfo, queryApi, invoiceStatus }) => {
                         發票日期：
                     </Typography>
                 </Grid>
-                <Grid item xs={9} sm={9} md={3} lg={3}>
+                <Grid item xs={3} sm={3} md={3} lg={3}>
                     <LocalizationProvider dateAdapter={AdapterDayjs} localeText={{ start: '起始日', end: '結束日' }}>
                         <DateRangePicker
                             inputFormat="YYYY/MM/DD"
@@ -150,6 +148,7 @@ const JournalQuery = ({ setListInfo, queryApi, invoiceStatus }) => {
                         />
                     </LocalizationProvider>
                 </Grid>
+                <Grid item xs={2} sm={2} md={2} lg={2} />
                 <Grid item xs={12} sm={12} md={12} lg={12} display="flex" justifyContent="end" alignItems="center">
                     <Button sx={{ mr: '0.5rem' }} variant="contained" onClick={jounaryQuery}>
                         查詢

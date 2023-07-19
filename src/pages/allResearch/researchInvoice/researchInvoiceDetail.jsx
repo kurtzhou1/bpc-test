@@ -174,7 +174,7 @@ const ResearchBillDetail = ({ datailInfo }) => {
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {datailInfo?.map((row, id) => {
+                        {datailInfo?.map((row) => {
                             return (
                                 <TableRow
                                     // key={row.InvoiceWKMaster?.invoiceNo + row.InvoiceWKMaster?.supplierName + id}

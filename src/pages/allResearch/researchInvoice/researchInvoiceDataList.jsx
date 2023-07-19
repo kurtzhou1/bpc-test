@@ -202,7 +202,7 @@ const ResearchBillDataList = ({ listInfo, setDetailInfo }) => {
                         {listInfo?.map((row, id) => {
                             return (
                                 <TableRow
-                                    key={row.BillMaster.InvoiceWKMaster?.BillingNo + row.BillMaster.InvoiceWKMaster?.PartyName + id}
+                                    key={row.BillMaster?.BillingNo + row.BillMaster?.PartyName + id}
                                     sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                                 >
                                     <StyledTableCell align="center">{id + 1}</StyledTableCell>

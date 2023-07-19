@@ -59,7 +59,6 @@ const fakeData = [
 ];
 
 const ResearchInvoice = () => {
-    const { partiesList, subCableList } = useSelector((state) => state.dropdown); //供應商下拉選單 + 海纜名稱下拉選單
     const queryApi = useRef('/all');
     const [listInfo, setListInfo] = useState([]);
     const [datailInfo, setDetailInfo] = useState([]);
@@ -71,8 +70,8 @@ const ResearchInvoice = () => {
             </Grid>
             <Grid item xs={12}>
                 <MainCard title="發票資料列表">
-                    {/* <ResearchInvoiceDataList listInfo={listInfo} setIsDetailShow={setIsDetailShow} />{' '} */}
-                    <ResearchInvoiceDataList listInfo={fakeData} setDetailInfo={setDetailInfo} />
+                    <ResearchInvoiceDataList listInfo={listInfo} setDetailInfo={setDetailInfo} />
+                    {/* <ResearchInvoiceDataList listInfo={fakeData} setDetailInfo={setDetailInfo} /> */}
                 </MainCard>
             </Grid>
             <Grid item xs={12}>
