@@ -3,34 +3,16 @@ import { useState, useRef } from 'react';
 // project import
 import { handleNumber } from 'components/commonFunction';
 import PaymentWork from './paymentWork';
-import GenerateFeeTerminate from './generateFeeTerminate';
 // material-ui
-import {
-    Typography,
-    Button,
-    Table,
-    Dialog,
-    DialogContent,
-    DialogContentText,
-    Grid,
-    FormControl,
-    InputLabel,
-    Select,
-    DialogActions,
-    TextField,
-    Box
-} from '@mui/material';
+import { Button, Table, Box } from '@mui/material';
 import TableBody from '@mui/material/TableBody';
 import TableCell, { tableCellClasses } from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
-import { alpha, styled } from '@mui/material/styles';
-
+import { styled } from '@mui/material/styles';
 import dayjs from 'dayjs';
-
-import { toBillDataapi, sendJounary } from 'components/apis.jsx';
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
     [`&.${tableCellClasses.head}`]: {

@@ -20,7 +20,7 @@ import { useSelector } from 'react-redux';
 
 // ==============================|| SAMPLE PAGE ||============================== //
 
-const JournalQuery = ({ setListInfo, queryApi, invoiceStatus }) => {
+const JournalQuery = ({ setListInfo, queryApi, invoiceStatus, setPage }) => {
     const [supplierName, setSupplierName] = useState(''); //供應商
     const [submarineCable, setSubmarineCable] = useState(''); //海纜名稱
     const [issueDate, setIssueDate] = useState([null, null]); //發票日期
@@ -70,7 +70,7 @@ const JournalQuery = ({ setListInfo, queryApi, invoiceStatus }) => {
             .then((data) => {
                 console.log('查詢成功=>>', data);
                 setListInfo(data);
-                // initQuery();
+                setPage(0);
             })
             .catch((e) => console.log('e1=>', e));
     };

@@ -3,7 +3,7 @@ import { useState, useRef } from 'react';
 // project import
 import { handleNumber, BootstrapDialogTitle } from 'components/commonFunction';
 // material-ui
-import { Typography, Button, Table, Dialog, DialogContent, DialogContentText, DialogActions, TextField, Box } from '@mui/material';
+import { Typography, Button, Table, Dialog, DialogContent, DialogContentText, DialogActions, TableFooter, Box, TablePagination } from '@mui/material';
 import { TableBody, TableContainer, TableHead, TableRow, Paper } from '@mui/material';
 import TableCell, { tableCellClasses } from '@mui/material/TableCell';
 import { styled } from '@mui/material/styles';
@@ -11,10 +11,11 @@ import dayjs from 'dayjs';
 
 import {  journaryDetailView, journaryMasterView } from 'components/apis.jsx';
 
-const ToBillDataList = ({ listInfo }) => {
+const ToBillDataList = ({ listInfo, page, setPage }) => {
     const [isDialogOpen, setIsDialogOpen] = useState(false);
     const [toBillDataInfo, setToBillDataInfo] = useState([]); //發票明細檔
     const totalAmount = useRef(0);
+    const [rowsPerPage, setRowsPerPage] = useState(10);
     const StyledTableCell = styled(TableCell)(({ theme }) => ({
         [`&.${tableCellClasses.head}`]: {
             // backgroundColor: theme.palette.common.gary,
@@ -31,6 +32,15 @@ const ToBillDataList = ({ listInfo }) => {
 
     const handleDialogClose = () => {
         setIsDialogOpen(false);
+    };
+
+    const handleChangePage = (event, newPage) => {
+        setPage(newPage);
+    };
+
+    const handleChangeRowsPerPage = (event) => {
+        setRowsPerPage(parseInt(event.target.value, 10));
+        setPage(0);
     };
 
     //立帳作業檢視
@@ -163,6 +173,19 @@ const ToBillDataList = ({ listInfo }) => {
                             );
                         })}
                     </TableBody>
+                    <TableFooter>
+                        <TableRow>
+                            <TablePagination
+                                rowsPerPageOptions={[10, 15, 20, { label: 'All', value: -1 }]}
+                                colSpan={12}
+                                count={listInfo.length}
+                                rowsPerPage={rowsPerPage}
+                                page={page}
+                                onPageChange={handleChangePage}
+                                onRowsPerPageChange={handleChangeRowsPerPage}
+                            />
+                        </TableRow>
+                    </TableFooter>
                 </Table>
             </TableContainer>
         </>

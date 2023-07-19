@@ -1,33 +1,8 @@
-import { useEffect, useState, useRef } from 'react';
-import {
-    Typography,
-    Grid,
-    Button,
-    FormControl,
-    InputLabel,
-    Select,
-    MenuItem,
-    Box,
-    TextField,
-    Checkbox,
-    Autocomplete,
-    Table,
-    Tabs,
-    Tab
-} from '@mui/material';
-
-// day
-import Dialog from '@mui/material/Dialog';
-import DialogContent from '@mui/material/DialogContent';
-import DialogActions from '@mui/material/DialogActions';
-
-// autocomplete
-import CheckBoxOutlineBlankIcon from '@mui/icons-material/CheckBoxOutlineBlank';
-import CheckBoxIcon from '@mui/icons-material/CheckBox';
+import { useState, useRef } from 'react';
+import { Table } from '@mui/material';
 
 // project import
-import MainCard from 'components/MainCard';
-import { BootstrapDialogTitle, TabPanel, handleNumber } from 'components/commonFunction';
+import { handleNumber } from 'components/commonFunction';
 import dayjs from 'dayjs';
 
 // table
@@ -38,9 +13,6 @@ import TableRow from '@mui/material/TableRow';
 import TableCell, { tableCellClasses } from '@mui/material/TableCell';
 import Paper from '@mui/material/Paper';
 import { styled } from '@mui/material/styles';
-
-// api
-import { generateReport } from 'components/apis.jsx';
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
     [`&.${tableCellClasses.head}`]: {
@@ -57,9 +29,6 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
 }));
 
 const ResearchBillDetail = ({ datailInfo, isDetailShow }) => {
-    const [cbView, setCbview] = useState(false);
-    const [cbTerminal, setCbTerminal] = useState(false);
-    const viewId = useRef(-1);
 
     return (
         <TableContainer component={Paper} sx={{ maxHeight: 350 }}>

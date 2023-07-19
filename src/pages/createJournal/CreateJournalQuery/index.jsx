@@ -23,6 +23,7 @@ import dayjs from 'dayjs';
 const CreateJournal = () => {
     const [listInfo, setListInfo] = useState([]);
     const [value, setValue] = useState(0);
+    const [page, setPage] = useState(0); //分頁Page
     const isFirst = useRef(true);
     const queryApi = useRef(queryInvoice + '/all');
     const apiQuery = () => {
@@ -99,7 +100,7 @@ const CreateJournal = () => {
     return (
         <Grid container spacing={1}>
             <Grid item xs={12}>
-                <JournalQuery setListInfo={setListInfo} queryApi={queryApi} invoiceStatus={value} />
+                <JournalQuery setListInfo={setListInfo} queryApi={queryApi} invoiceStatus={value} setPage={setPage} />
             </Grid>
             <Grid item xs={12}>
                 <MainCard title={`${value === 0 ? '尚未立帳' : value === 1 ? '已立帳' : '已作廢'}發票資料列表`}>
@@ -109,7 +110,7 @@ const CreateJournal = () => {
                         </Tabs>
                     </Box>
                     <TabPanel value={value} index={0}>
-                        <ToBillDataList listInfo={listInfo} apiQuery={apiQuery} />
+                        <ToBillDataList listInfo={listInfo} page={page} setPage={setPage} />
                     </TabPanel>
                 </MainCard>
             </Grid>
