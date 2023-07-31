@@ -266,15 +266,7 @@ const BillDraftMake = ({
     }, [datailInfo]);
 
     return (
-        <Dialog
-            // onClose={() => {
-            //     itemDetailInitial();
-            //     handleDialogClose();
-            // }}
-            maxWidth="xxl"
-            fullWidth
-            open={isDialogOpen}
-        >
+        <Dialog maxWidth="xxl" fullWidth open={isDialogOpen}>
             <BootstrapDialogTitle className="no-print">產製帳單</BootstrapDialogTitle>
             <DialogContent dividers className="no-print">
                 <Grid container spacing={1} className="no-print">
@@ -290,8 +282,8 @@ const BillDraftMake = ({
                                     <FormControl fullWidth size="small">
                                         <InputLabel id="demo-simple-select-label">選擇標示</InputLabel>
                                         <Select value={logo} label="Logo" onChange={(e) => setLogo(e.target.value)}>
-                                            <MenuItem value={1}>新Logo</MenuItem>
-                                            <MenuItem value={2}>舊Logo</MenuItem>
+                                            <MenuItem value={1}>TPE Logo</MenuItem>
+                                            <MenuItem value={2}>CHT Logo</MenuItem>
                                         </Select>
                                     </FormControl>
                                 </Grid>

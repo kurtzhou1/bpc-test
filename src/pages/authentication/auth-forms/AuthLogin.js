@@ -20,7 +20,7 @@ import {
 
 // third party
 import * as Yup from 'yup';
-import { Formik } from 'formik';
+import { Formik, useFormik  } from 'formik';
 
 // project import
 import AnimateButton from 'components/@extended/AnimateButton';
@@ -29,7 +29,10 @@ import AnimateButton from 'components/@extended/AnimateButton';
 import { EyeOutlined, EyeInvisibleOutlined } from '@ant-design/icons';
 
 import { useDispatch } from 'react-redux';
-import { setIsLogin } from 'store/reducers/dropdown';
+import { setIsLogin, setMessageStateOpen } from 'store/reducers/dropdown';
+
+//api
+import { generatetoken, checktoken } from 'components/apis.jsx';
 
 // ============================|| FIREBASE - LOGIN ||============================ //
 
@@ -50,27 +53,68 @@ const AuthLogin = () => {
         event.preventDefault();
     };
 
+    const localStorageService = ( dataJWT ) => {
+        localStorage.setItem('accessToken',dataJWT.accessToken);
+        // localStorage.setItem('refreshToken',dataJWT.refreshToken);
+        // localStorage.setItem('tenant',dataJWT.tenant);
+    };
+
+    const testData = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJFdmEgQ2hhbmciLCJpZCI6ImNoYW5nX3R5IiwiZXhwIjoxNjkwMzYyODY2fQ.eu251lJgsC4rk_seD5zvUk4ZDaeIi5epBoPi6f05BlM";
+
     return (
         <>
             <Formik
                 initialValues={{
-                    email: 'user01',
-                    password: '123456',
-                    submit: null
+                    account: '',
+                    password: '',
+                    // submit: null
                 }}
                 validationSchema={Yup.object().shape({
-                    email: Yup.string().email('Must be a valid email').max(255).required('Email is required'),
+                    account: Yup.string().max(255).required('Account is required'),
                     password: Yup.string().max(255).required('Password is required')
                 })}
                 onSubmit={async (values, { setErrors, setStatus, setSubmitting }) => {
-                    try {
-                        setStatus({ success: false });
-                        setSubmitting(false);
-                    } catch (err) {
-                        setStatus({ success: false });
-                        setErrors({ submit: err.message });
-                        setSubmitting(false);
+                    console.log('values=>>', values);
+                    // let tmpObj = {
+                    //     "userid": "chang_ty", 
+                    //     "password": "chang_ty_admin"
+                    // }
+                    let tmpObj = {
+                        userid: "chang_ty", 
+                        password: "chang_ty_admin"
                     }
+                    fetch(generatetoken, {
+                        method: 'POST',
+                        body: JSON.stringify(tmpObj)
+                    })
+                    .then((data) => {
+                        console.log('data=>>', data)
+                        if(data.cbps_access_token) {
+                            localStorageService({accessToken: data.cbps_access_token});
+                            fetch(checktoken, {
+                                method: 'POST',
+                                body: JSON.stringify({
+                                    cbps_access_token: data.cbps_access_token
+                                })
+                            })
+                            .then((data) => {
+                                dispatch(setMessageStateOpen({ messageStateOpen: { isOpen: true, severity: 'success', message: `登入成功，${data.UserName}歡迎` } }));
+                            })
+                            .catch((e) =>  dispatch(setMessageStateOpen({ messageStateOpen: { isOpen: true, severity: 'error', message: '登入失敗，請重新登入' } })));
+                        } else {
+                            dispatch(setMessageStateOpen({ messageStateOpen: { isOpen: true, severity: 'error', message: '登入錯誤，請檢查帳號密碼' } }));
+                        }
+                    })
+                    .catch((e) => console.log('e1=>', e));
+                    // localStorageService({accessToken: testData});
+                    // try {
+                    //     setStatus({ success: false });
+                    //     setSubmitting(false);
+                    // } catch (err) {
+                    //     setStatus({ success: false });
+                    //     setErrors({ submit: err.message });
+                    //     setSubmitting(false);
+                    // }
                 }}
             >
                 {({ errors, handleBlur, handleChange, handleSubmit, isSubmitting, touched, values }) => (
@@ -78,21 +122,21 @@ const AuthLogin = () => {
                         <Grid container spacing={3}>
                             <Grid item xs={12}>
                                 <Stack spacing={1}>
-                                    <InputLabel htmlFor="email-login">Account</InputLabel>
+                                    <InputLabel htmlFor="account-login">Account</InputLabel>
                                     <OutlinedInput
-                                        id="email-login"
-                                        type="email"
-                                        value={values.email}
-                                        name="email"
+                                        id="account-login"
+                                        type="account"
+                                        value={values.account}
+                                        name="account"
                                         onBlur={handleBlur}
                                         onChange={handleChange}
-                                        placeholder="Enter email address"
+                                        placeholder="Enter User Account"
                                         fullWidth
-                                        error={Boolean(touched.email && errors.email)}
+                                        error={Boolean(touched.account && errors.account)}
                                     />
-                                    {touched.email && errors.email && (
-                                        <FormHelperText error id="standard-weight-helper-text-email-login">
-                                            {errors.email}
+                                    {touched.account && errors.account && (
+                                        <FormHelperText error id="standard-weight-helper-text-account-login">
+                                            {errors.account}
                                         </FormHelperText>
                                     )}
                                 </Stack>
@@ -165,7 +209,7 @@ const AuthLogin = () => {
                                         type="submit"
                                         variant="contained"
                                         color="primary"
-                                        onClick={loginNow}
+                                        // onClick={loginNow}
                                     >
                                         Login
                                     </Button>

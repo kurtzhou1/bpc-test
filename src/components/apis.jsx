@@ -1,3 +1,7 @@
+// Login
+export const generatetoken = "http://internal-cbpsAlb-1176080923.ap-northeast-1.elb.amazonaws.com/api/v1/generatetoken";
+export const checktoken = "http://internal-cbpsAlb-1176080923.ap-northeast-1.elb.amazonaws.com/api/v1/checktoken";
+
 // 共通的下拉選單
 export const submarineCableList = 'http://internal-cbpsalb-1176080923.ap-northeast-1.elb.amazonaws.com/api/v1/SubmarineCables/all'; // 海纜名稱
 export const supplierNameListForInvoice = 'http://internal-cbpsalb-1176080923.ap-northeast-1.elb.amazonaws.com/api/v1/Suppliers/'; //供應商
