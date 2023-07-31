@@ -8,6 +8,9 @@ import { Navigate } from 'react-router-dom';
 
 import { useSelector } from 'react-redux';
 
+//api
+import { checktoken } from 'components/apis.jsx';
+
 // render - dashboard
 const DashboardDefault = Loadable(lazy(() => import('pages/dashboard')));
 
@@ -55,9 +58,28 @@ const RequireAuth = ({ children }) => {
     const { isLogin } = useSelector((state) => state.dropdown);
     // let auth = localStorage.getItem('name');
     if (!isLogin) {
-        return <Navigate to="/login" replace />;
+        const getAccessToken = localStorage.getItem('accessToken');
+        if ( getAccessToken ) {
+            fetch(checktoken, {
+                method: 'POST',
+                body: JSON.stringify({
+                    cbps_access_token: getAccessToken
+                })
+            })
+            .then((data) => {
+                if ( data.UserName ) {
+                    return children;
+                } else {
+                    return <Navigate to="/login" replace />;
+                }
+            })
+            .catch((e) => {
+                return <Navigate to="/login" replace />;
+            });
+        } else {
+            return <Navigate to="/login" replace />;
+        }
     }
-
     return children;
 };
 
