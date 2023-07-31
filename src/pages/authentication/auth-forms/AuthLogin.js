@@ -99,6 +99,7 @@ const AuthLogin = () => {
                             })
                             .then((data) => {
                                 dispatch(setMessageStateOpen({ messageStateOpen: { isOpen: true, severity: 'success', message: `登入成功，${data.UserName}歡迎` } }));
+                                dispatch(setIsLogin({ isLogin: true }));
                             })
                             .catch((e) =>  dispatch(setMessageStateOpen({ messageStateOpen: { isOpen: true, severity: 'error', message: '登入失敗，請重新登入' } })));
                         } else {
