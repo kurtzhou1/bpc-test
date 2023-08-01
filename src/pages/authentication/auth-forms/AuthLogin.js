@@ -83,12 +83,9 @@ const AuthLogin = () => {
                         userid: "chang_ty", 
                         password: "chang_ty_admin"
                     }
-                    fetch(generatetoken, {
-                        method: 'POST',
-                        body: JSON.stringify(tmpObj)
-                    })
+                    fetch(generatetoken,  { method: 'POST', body: JSON.stringify(tmpObj) })
+                    .then((res) => res.json())
                     .then((data) => {
-                        console.log('data=>>', data)
                         if(data.cbps_access_token) {
                             localStorageService({accessToken: data.cbps_access_token});
                             fetch(checktoken, {
@@ -97,8 +94,9 @@ const AuthLogin = () => {
                                     cbps_access_token: data.cbps_access_token
                                 })
                             })
-                            .then((data) => {
-                                dispatch(setMessageStateOpen({ messageStateOpen: { isOpen: true, severity: 'success', message: `登入成功，${data.UserName}歡迎` } }));
+                            .then((res) => res.json())
+                            .then((data2) => {
+                                dispatch(setMessageStateOpen({ messageStateOpen: { isOpen: true, severity: 'success', message: `登入成功，${data2.UserCName}歡迎` } }));
                                 dispatch(setIsLogin({ isLogin: true }));
                             })
                             .catch((e) =>  dispatch(setMessageStateOpen({ messageStateOpen: { isOpen: true, severity: 'error', message: '登入失敗，請重新登入' } })));

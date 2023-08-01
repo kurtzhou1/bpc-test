@@ -35,6 +35,9 @@ import Switch, { SwitchProps } from '@mui/material/Switch';
 // translation
 import { useTranslation } from 'react-i18next';
 
+import { setIsLogin } from 'store/reducers/dropdown';
+import { useDispatch } from 'react-redux';
+
 // tab panel wrapper
 function TabPanel({ children, value, index, ...other }) {
     return (
@@ -65,9 +68,12 @@ const Profile = () => {
     const { drawerOpen } = menu;
     const { i18n } = useTranslation();
     const [isZh, setIsZh] = useState(true);
+    const dispatch = useDispatch();
 
     const handleLogout = async () => {
         // logout
+        dispatch(setIsLogin({ isLogin: true }));
+        localStorage.removeItem('accessToken');
     };
 
     const anchorRef = useRef(null);

@@ -10,6 +10,7 @@ import { useSelector } from 'react-redux';
 
 //api
 import { checktoken } from 'components/apis.jsx';
+import { ConstructionOutlined } from '../../node_modules/@mui/icons-material/index';
 
 // render - dashboard
 const DashboardDefault = Loadable(lazy(() => import('pages/dashboard')));
@@ -57,19 +58,25 @@ const AntIcons = Loadable(lazy(() => import('pages/components-overview/AntIcons'
 const RequireAuth = ({ children }) => {
     const { isLogin } = useSelector((state) => state.dropdown);
     // let auth = localStorage.getItem('name');
-    if (!isLogin) {
+    console.log('isLogin=>>', isLogin)
+    if ( !isLogin ) {
         const getAccessToken = localStorage.getItem('accessToken');
         if ( getAccessToken ) {
+            console.log('2=>>', getAccessToken)
             fetch(checktoken, {
                 method: 'POST',
                 body: JSON.stringify({
                     cbps_access_token: getAccessToken
                 })
             })
+            .then((res) => res.json())
             .then((data) => {
+                console.log('3=>>', data, data.UserName);
                 if ( data.UserName ) {
+                    console.log('4=>>');
                     return children;
                 } else {
+                    console.log('5=>>');
                     return <Navigate to="/login" replace />;
                 }
             })
@@ -79,6 +86,7 @@ const RequireAuth = ({ children }) => {
         } else {
             return <Navigate to="/login" replace />;
         }
+        return <Navigate to="/login" replace />;
     }
     return children;
 };
