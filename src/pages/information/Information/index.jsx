@@ -38,10 +38,10 @@ const Information = () => {
         <Grid container spacing={1} id="tableContainer">
             <h2>基本資料管理</h2>
             <Grid item xs={12}>
-                <MainCard
+                {/* <MainCard
                     contentSX={{ py: 1, px: 0 }}
                     title={`${value === 0 ? '海纜代號' : value === 1 ? '供應商' : value === 2 ? '會員' : '聯盟金融帳戶'}資料列表`}
-                >
+                > */}
                     <Box sx={{ p: 0, borderBottom: 1, borderColor: 'divider', position: 'relative' }}>
                         <Tabs value={value} onChange={handleChange}>
                             <Tab sx={{ p: 0 }} label="海纜代號" {...a11yProps(0)} />
@@ -86,7 +86,7 @@ const Information = () => {
                     <TabPanel value={value} index={3}>
                         <CBPBankAccount maxHei={maxHei} />
                     </TabPanel>
-                </MainCard>
+                {/* </MainCard> */}
             </Grid>
         </Grid>
     );
