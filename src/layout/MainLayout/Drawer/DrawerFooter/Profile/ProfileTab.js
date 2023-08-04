@@ -46,14 +46,14 @@ const ProfileTab = ({ handleLogout }) => {
                 </ListItemIcon>
                 <ListItemText primary="Billing" />
             </ListItemButton> */}
-            <Link to="/Login" style={{ color: '#262626', textDecoration: 'none' }}>
                 <ListItemButton selected={selectedIndex === 2} onClick={handleLogout}>
                         <ListItemIcon>
                             <LogoutOutlined />
                         </ListItemIcon>
+                    {/* <Link to="/login" style={{ color: '#262626', textDecoration: 'none' }}> */}
                         <ListItemText primary="Logout" />
+                    {/* </Link> */}
                 </ListItemButton>
-            </Link>
         </List>
     );
 };

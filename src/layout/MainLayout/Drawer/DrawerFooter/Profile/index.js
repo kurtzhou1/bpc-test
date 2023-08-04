@@ -72,7 +72,7 @@ const Profile = () => {
 
     const handleLogout = async () => {
         // logout
-        dispatch(setIsLogin({ isLogin: true }));
+        dispatch(setIsLogin({ isLogin: false }));
         localStorage.removeItem('accessToken');
     };
 
