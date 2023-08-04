@@ -80,8 +80,8 @@ const AuthLogin = () => {
                     //     "password": "chang_ty_admin"
                     // }
                     let tmpObj = {
-                        userid: "", 
-                        password: ""
+                        userid: values.account, 
+                        password: values.password
                     }
                     fetch(generatetoken,  { method: 'POST', body: JSON.stringify(tmpObj) })
                     .then((res) => res.json())
