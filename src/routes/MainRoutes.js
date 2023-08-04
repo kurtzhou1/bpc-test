@@ -11,6 +11,8 @@ import { useSelector } from 'react-redux';
 //api
 import { checktoken } from 'components/apis.jsx';
 import { ConstructionOutlined } from '../../node_modules/@mui/icons-material/index';
+import { useDispatch } from 'react-redux';
+import { setIsLogin } from 'store/reducers/dropdown';
 
 // render - dashboard
 const DashboardDefault = Loadable(lazy(() => import('pages/dashboard')));
@@ -57,6 +59,7 @@ const AntIcons = Loadable(lazy(() => import('pages/components-overview/AntIcons'
 // ==============================|| MAIN ROUTING ||============================== //
 const RequireAuth = ({ children }) => {
     const { isLogin } = useSelector((state) => state.dropdown);
+    const dispatch = useDispatch();
     // let auth = localStorage.getItem('name');
     console.log('isLogin=>>', isLogin)
     if ( !isLogin ) {
@@ -71,9 +74,10 @@ const RequireAuth = ({ children }) => {
             })
             .then((res) => res.json())
             .then((data) => {
-                console.log('3=>>', data, data.UserName);
-                if ( data.UserName ) {
-                    console.log('4=>>');
+                console.log('3=>>', data, data.UserCName);
+                if ( data.UserCName ) {
+                    console.log('4=>>', isLogin);
+                    dispatch(setIsLogin({ isLogin: true }));
                     return children;
                 } else {
                     console.log('5=>>');

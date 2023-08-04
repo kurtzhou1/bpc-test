@@ -59,8 +59,6 @@ const AuthLogin = () => {
         // localStorage.setItem('tenant',dataJWT.tenant);
     };
 
-    const testData = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJFdmEgQ2hhbmciLCJpZCI6ImNoYW5nX3R5IiwiZXhwIjoxNjkwMzYyODY2fQ.eu251lJgsC4rk_seD5zvUk4ZDaeIi5epBoPi6f05BlM";
-
     return (
         <>
             <Formik
