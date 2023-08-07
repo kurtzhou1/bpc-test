@@ -60,10 +60,11 @@ const AntIcons = Loadable(lazy(() => import('pages/components-overview/AntIcons'
 const RequireAuth = ({ children }) => {
     const { isLogin } = useSelector((state) => state.dropdown);
     const dispatch = useDispatch();
-    // let auth = localStorage.getItem('name');
+    const getAccessToken = localStorage.getItem('accessToken');
     console.log('isLogin=>>', isLogin)
+   
     if ( !isLogin ) {
-        const getAccessToken = localStorage.getItem('accessToken');
+    // 若沒帳號登入，從別的頁面強制登入
         if ( getAccessToken ) {
             console.log('2=>>', getAccessToken)
             fetch(checktoken, {
@@ -74,7 +75,6 @@ const RequireAuth = ({ children }) => {
             })
             .then((res) => res.json())
             .then((data) => {
-                console.log('3=>>', data, data.UserCName);
                 if ( data.UserCName ) {
                     console.log('4=>>', isLogin);
                     dispatch(setIsLogin({ isLogin: true }));
@@ -91,8 +91,30 @@ const RequireAuth = ({ children }) => {
             return <Navigate to="/login" replace />;
         }
         return <Navigate to="/login" replace />;
+    } else {
+    // 若有帳號登入，檢查Token是否到期
+        if ( getAccessToken ) {
+            fetch(checktoken, {
+                method: 'POST',
+                body: JSON.stringify({
+                    cbps_access_token: getAccessToken
+                })
+            })
+            .then((res) => res.json())
+            .then((data) => {
+                if ( data.UserCName ) {
+                    return children;
+                } else {
+                    console.log('5=>>');
+                    dispatch(setIsLogin({ isLogin: false }));
+                    return <Navigate to="/login" replace />;
+                }
+            })
+        } else {
+            dispatch(setIsLogin({ isLogin: false }));
+            return <Navigate to="/login" replace />;
+        }
     }
-    return children;
 };
 
 const MainRoutes = {
