@@ -55,8 +55,6 @@ const AuthLogin = () => {
 
     const localStorageService = ( dataJWT ) => {
         localStorage.setItem('accessToken',dataJWT.accessToken);
-        // localStorage.setItem('refreshToken',dataJWT.refreshToken);
-        // localStorage.setItem('tenant',dataJWT.tenant);
     };
 
     return (
@@ -73,14 +71,14 @@ const AuthLogin = () => {
                 })}
                 onSubmit={async (values, { setErrors, setStatus, setSubmitting }) => {
                     console.log('values=>>', values);
-                    // let tmpObj = {
-                    //     "userid": "chang_ty", 
-                    //     "password": "chang_ty_admin"
-                    // }
                     let tmpObj = {
-                        userid: values.account, 
-                        password: values.password
+                        "userid": "chang_ty", 
+                        "password": "chang_ty_admin"
                     }
+                    // let tmpObj = {
+                    //     userid: values.account, 
+                    //     password: values.password
+                    // }
                     fetch(generatetoken,  { method: 'POST', body: JSON.stringify(tmpObj) })
                     .then((res) => res.json())
                     .then((data) => {

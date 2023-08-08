@@ -57,65 +57,131 @@ const Shadow = Loadable(lazy(() => import('pages/components-overview/Shadow')));
 const AntIcons = Loadable(lazy(() => import('pages/components-overview/AntIcons')));
 
 // ==============================|| MAIN ROUTING ||============================== //
+// const RequireAuth = ({ children }) => {
+//     const { isLogin } = useSelector((state) => state.dropdown);
+//     const dispatch = useDispatch();
+//     const getAccessToken = localStorage.getItem('accessToken');
+//     console.log('isLogin=>>', isLogin)
+   
+//     if ( !isLogin ) {
+//     // 若沒帳號登入，從別的頁面強制登入
+//         if ( getAccessToken ) {
+//             console.log('2=>>', getAccessToken)
+//             fetch(checktoken, {
+//                 method: 'POST',
+//                 body: JSON.stringify({
+//                     cbps_access_token: getAccessToken
+//                 })
+//             })
+//             .then((res) => res.json())
+//             .then((data) => {
+//                 if ( data.UserCName ) {
+//                     console.log('4=>>', isLogin);
+//                     dispatch(setIsLogin({ isLogin: true }));
+//                     return children;
+//                 } else {
+//                     console.log('5=>>');
+//                     return <Navigate to="/login" replace />;
+//                 }
+//             })
+//             .catch((e) => {
+//                 return <Navigate to="/login" replace />;
+//             });
+//         } else {
+//             return <Navigate to="/login" replace />;
+//         }
+//         return <Navigate to="/login" replace />;
+//     } else {
+//     // 若有帳號登入，檢查Token是否到期
+//         if ( getAccessToken ) {
+//             fetch(checktoken, {
+//                 method: 'POST',
+//                 body: JSON.stringify({
+//                     cbps_access_token: getAccessToken
+//                 })
+//             })
+//             .then((res) => res.json())
+//             .then((data) => {
+//                 if ( data.UserCName ) {
+//                     return children;
+//                 } else {
+//                     console.log('5=>>');
+//                     dispatch(setIsLogin({ isLogin: false }));
+//                     return <Navigate to="/login" replace />;
+//                 }
+//             })
+//         } else {
+//             dispatch(setIsLogin({ isLogin: false }));
+//             return <Navigate to="/login" replace />;
+//         }
+//     }
+// };
+
 const RequireAuth = ({ children }) => {
     const { isLogin } = useSelector((state) => state.dropdown);
+    // let auth = localStorage.getItem('name');
     const dispatch = useDispatch();
     const getAccessToken = localStorage.getItem('accessToken');
     console.log('isLogin=>>', isLogin)
-   
-    if ( !isLogin ) {
-    // 若沒帳號登入，從別的頁面強制登入
-        if ( getAccessToken ) {
-            console.log('2=>>', getAccessToken)
-            fetch(checktoken, {
-                method: 'POST',
-                body: JSON.stringify({
-                    cbps_access_token: getAccessToken
-                })
-            })
-            .then((res) => res.json())
-            .then((data) => {
-                if ( data.UserCName ) {
-                    console.log('4=>>', isLogin);
-                    dispatch(setIsLogin({ isLogin: true }));
-                    return children;
-                } else {
-                    console.log('5=>>');
-                    return <Navigate to="/login" replace />;
-                }
-            })
-            .catch((e) => {
-                return <Navigate to="/login" replace />;
-            });
-        } else {
-            return <Navigate to="/login" replace />;
-        }
+    if ( !getAccessToken ) {
         return <Navigate to="/login" replace />;
     } else {
-    // 若有帳號登入，檢查Token是否到期
-        if ( getAccessToken ) {
-            fetch(checktoken, {
-                method: 'POST',
-                body: JSON.stringify({
-                    cbps_access_token: getAccessToken
-                })
+        fetch(checktoken, {
+            method: 'POST',
+            body: JSON.stringify({
+                cbps_access_token: getAccessToken
             })
-            .then((res) => res.json())
-            .then((data) => {
-                if ( data.UserCName ) {
-                    return children;
-                } else {
-                    console.log('5=>>');
-                    dispatch(setIsLogin({ isLogin: false }));
-                    return <Navigate to="/login" replace />;
-                }
-            })
-        } else {
-            dispatch(setIsLogin({ isLogin: false }));
-            return <Navigate to="/login" replace />;
-        }
+        })
+        .then((res) => res.json())
+        .then((data) => {
+            console.log('3=>>', data, data.UserCName);
+            if ( data.UserCName ) {
+                console.log('4=>>');
+                return children;
+            } else {
+                console.log('5=>>');
+                dispatch(setIsLogin({ isLogin: false }));
+                localStorage.removeItem('accessToken');
+                return <Navigate to="/login" replace />;
+            }
+        })
+        return children;
     }
+    return children;
 };
+
+// const RequireAuth = ({ children }) => {
+//     const { isLogin } = useSelector((state) => state.dropdown);
+//     // let auth = localStorage.getItem('name');
+//     console.log('isLogin=>>', isLogin)
+//     if ( !isLogin ) {
+//         const getAccessToken = localStorage.getItem('accessToken');
+//         if ( getAccessToken ) {
+//             console.log('2=>>', getAccessToken)
+//             fetch(checktoken, {
+//                 method: 'POST',
+//                 body: JSON.stringify({
+//                     cbps_access_token: getAccessToken
+//                 })
+//             })
+//             .then((res) => res.json())
+//             .then((data) => {
+//                 console.log('3=>>', data, data.UserName);
+//                 if ( data.UserName ) {
+//                     console.log('4=>>');
+//                     return children;
+//                 } else {
+//                     console.log('5=>>');
+//                     return <Navigate to="/login" replace />;
+//                 }
+//             })
+//         } else {
+//             return <Navigate to="/login" replace />;
+//         }
+//         return <Navigate to="/login" replace />;
+//     }
+//     return children;
+// };
 
 const MainRoutes = {
     path: '/',
