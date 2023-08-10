@@ -20,7 +20,7 @@ import {
 
 // third party
 import * as Yup from 'yup';
-import { Formik, useFormik  } from 'formik';
+import { Formik } from 'formik';
 
 // project import
 import AnimateButton from 'components/@extended/AnimateButton';
