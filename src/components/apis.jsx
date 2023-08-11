@@ -6,6 +6,7 @@ export const checktoken = "http://internal-cbpsAlb-1176080923.ap-northeast-1.elb
 export const submarineCableList = 'http://internal-cbpsalb-1176080923.ap-northeast-1.elb.amazonaws.com/api/v1/SubmarineCables/all'; // 海纜名稱
 export const supplierNameListForInvoice = 'http://internal-cbpsalb-1176080923.ap-northeast-1.elb.amazonaws.com/api/v1/Suppliers/'; //供應商
 export const supplierNameList = 'http://internal-cbpsalb-1176080923.ap-northeast-1.elb.amazonaws.com/api/v1/Suppliers/all'; //供應商
+export const supplierNameDropDown = 'http://internal-cbpsalb-1176080923.ap-northeast-1.elb.amazonaws.com/api/v1/Suppliers/'; //供應商有條件的
 // export const getPartiesInfoList = 'http://internal-cbpsalb-1176080923.ap-northeast-1.elb.amazonaws.com/api/v1/Parties/all'; // 會員名稱
 export const getPartiesInfoList = 'http://internal-cbpsalb-1176080923.ap-northeast-1.elb.amazonaws.com/api/v1/dropdownmenuParties'; // 會員名稱
 export const billMilestoneLiabilityList = 'http://internal-cbpsalb-1176080923.ap-northeast-1.elb.amazonaws.com/api/v1/dropdownmenuBillMilestone'; //計帳段號

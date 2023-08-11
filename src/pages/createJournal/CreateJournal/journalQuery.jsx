@@ -6,14 +6,13 @@ import MainCard from 'components/MainCard';
 
 // day
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import { DesktopDatePicker } from '@mui/x-date-pickers/DesktopDatePicker';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import dayjs from 'dayjs';
 import { DateRangePicker } from '@mui/x-date-pickers-pro/DateRangePicker';
 import { TextField } from '@mui/material/index';
 
 //api
-import { queryInvoice } from 'components/apis.jsx';
+import { queryInvoice, supplierNameDropDown } from 'components/apis.jsx';
 
 // redux
 import { useSelector } from 'react-redux';
@@ -24,7 +23,8 @@ const JournalQuery = ({ setListInfo, queryApi, invoiceStatus }) => {
     const [supplierName, setSupplierName] = useState(''); //供應商
     const [submarineCable, setSubmarineCable] = useState(''); //海纜名稱
     const [issueDate, setIssueDate] = useState([null, null]); //發票日期
-    const { supNmList, subCableList } = useSelector((state) => state.dropdown); //供應商下拉選單 + 海纜名稱下拉選單
+    const { subCableList } = useSelector((state) => state.dropdown); //海纜名稱下拉選單
+    const [supNmList, setSupNmList] = useState([]); //供應商下拉選單
 
     const initQuery = () => {
         setSupplierName('');
@@ -40,10 +40,6 @@ const JournalQuery = ({ setListInfo, queryApi, invoiceStatus }) => {
         if (submarineCable && submarineCable !== '') {
             tmpQuery = tmpQuery + 'SubmarineCable=' + submarineCable + '&';
         }
-        // if (partyName && partyName !== '') {
-        //     tmpQuery = tmpQuery + 'PartyName=' + partyName + '&';
-        // }
-
         if (issueDate[0] && issueDate[1]) {
             tmpQuery =
                 tmpQuery +
@@ -59,7 +55,6 @@ const JournalQuery = ({ setListInfo, queryApi, invoiceStatus }) => {
         } else {
             tmpQuery = tmpQuery + 'Status=' + 'BILLED' + '&';
         }
-
         if (tmpQuery.includes('&')) {
             tmpQuery = tmpQuery.slice(0, -1);
         }
@@ -70,37 +65,32 @@ const JournalQuery = ({ setListInfo, queryApi, invoiceStatus }) => {
         fetch(tmpQuery, { method: 'GET' })
             .then((res) => res.json())
             .then((data) => {
-                console.log('查詢成功=>>', data);
                 setListInfo(data);
                 initQuery();
             })
             .catch((e) => console.log('e1=>', e));
     };
 
-    console.log('supNmList=>>', supNmList);
+    useEffect(() => {
+        if (submarineCable !== ''){
+            let tmpQuery = supplierNameDropDown + 'SubmarineCable=' + submarineCable
+            fetch(tmpQuery, { method: 'GET' })
+            .then((res) => res.json())
+            .then((data) => {
+                console.log('查詢成功=>>', data);
+                if(Array.isArray(data)) {
+                    setSupNmList(data);
+                }
+            })
+            .catch((e) => console.log('e1=>', e));
+        }
+    }, [submarineCable])
 
     return (
         <MainCard title="發票查詢" sx={{ width: '100%' }}>
             <Grid container display="flex" justifyContent="center" alignItems="center" spacing={2}>
                 {/* row1 */}
                 <Grid item xs={2} sm={2} md={1} lg={1}>
-                    <Typography variant="h5" sx={{ fontSize: { lg: '0.5rem', xl: '0.88rem' }, ml: { lg: '0.5rem', xl: '1.5rem' } }}>
-                        供應商：
-                    </Typography>
-                </Grid>
-                <Grid item xs={4} sm={4} md={2} lg={2}>
-                    <FormControl fullWidth size="small">
-                        <InputLabel id="demo-simple-select-label">選擇供應商</InputLabel>
-                        <Select value={supplierName} label="供應商" onChange={(e) => setSupplierName(e.target.value)}>
-                            {supNmList.map((i) => (
-                                <MenuItem key={i.SupplierName} value={i.SupplierName}>
-                                    {i.SupplierName}
-                                </MenuItem>
-                            ))}
-                        </Select>
-                    </FormControl>
-                </Grid>
-                <Grid item xs={2} sm={2} md={2} lg={2}>
                     <Typography
                         textAlign="right"
                         variant="h5"
@@ -121,7 +111,24 @@ const JournalQuery = ({ setListInfo, queryApi, invoiceStatus }) => {
                         </Select>
                     </FormControl>
                 </Grid>
-                <Grid item xs={3} sm={3} md={2} lg={2}>
+                <Grid item xs={2} sm={2} md={1} lg={1}>
+                    <Typography variant="h5" textAlign="right" sx={{ fontSize: { lg: '0.5rem', xl: '0.88rem' }, ml: { lg: '0.5rem', xl: '1.5rem' } }}>
+                        供應商：
+                    </Typography>
+                </Grid>
+                <Grid item xs={4} sm={4} md={2} lg={2}>
+                    <FormControl fullWidth size="small">
+                        <InputLabel id="demo-simple-select-label">選擇供應商</InputLabel>
+                        <Select value={supplierName} label="供應商" onChange={(e) => setSupplierName(e.target.value)}>
+                            {supNmList.map((i) => (
+                                <MenuItem key={i.SupplierName} value={i.SupplierName}>
+                                    {i.SupplierName}
+                                </MenuItem>
+                            ))}
+                        </Select>
+                    </FormControl>
+                </Grid>
+                <Grid item xs={3} sm={3} md={1} lg={1}>
                     <Typography
                         textAlign="right"
                         variant="h5"
@@ -148,6 +155,7 @@ const JournalQuery = ({ setListInfo, queryApi, invoiceStatus }) => {
                         />
                     </LocalizationProvider>
                 </Grid>
+                <Grid item xs={2} sm={2} md={2} lg={2} />
                 <Grid item xs={12} sm={12} md={12} lg={12} display="flex" justifyContent="end" alignItems="center">
                     <Button sx={{ mr: '0.5rem' }} variant="contained" onClick={jounaryQuery}>
                         查詢
