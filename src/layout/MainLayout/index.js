@@ -87,6 +87,7 @@ const MainLayout = () => {
             fetch(supplierNameList, { method: 'GET' })
                 .then((res) => res.json())
                 .then((data) => {
+                    console.log('有沒有重複=>>', data);
                     dispatch(setSupplierNameList({ supNmList: data }));
                 })
                 .catch((e) => console.log('e1=>', e));

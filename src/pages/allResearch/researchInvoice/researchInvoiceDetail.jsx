@@ -141,7 +141,7 @@ const ResearchBillDetail = ({ datailInfo }) => {
                     <TableHead>
                         <TableRow>
                             <StyledTableCell align="center">發票號碼</StyledTableCell>
-                            <StyledTableCell align="center">記帳段號</StyledTableCell>
+                            <StyledTableCell align="center">計帳段號</StyledTableCell>
                             <StyledTableCell align="center">供應商</StyledTableCell>
                             <StyledTableCell align="center">發票到期日期</StyledTableCell>
                             <StyledTableCell align="center">總金額</StyledTableCell>

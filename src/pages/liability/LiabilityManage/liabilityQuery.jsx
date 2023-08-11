@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import {
     Typography,
     Grid,
@@ -24,19 +24,20 @@ import { DateRangePicker } from '@mui/x-date-pickers-pro/DateRangePicker';
 import { TextField } from '@mui/material/index';
 
 //api
-import { queryLiability } from 'components/apis.jsx';
+import { queryLiability, dropdownmenuBillMilestone } from 'components/apis.jsx';
 
 import PropTypes from 'prop-types';
 
 // ==============================|| SAMPLE PAGE ||============================== //
 
-const LiabilityQuery = ({ setListInfo, bmStoneList, partyList, subCableList, workTitleList, queryApi }) => {
+const LiabilityQuery = ({ setListInfo, partyList, subCableList, workTitleList, queryApi }) => {
     const [billMilestoneQuery, setBillMilestoneQuery] = useState(''); //計帳段號
     const [partyNameQuery, setPartyNameQuery] = useState(''); //會員代號
     const [createDate, setCreateDate] = useState([null, null]); //建立日期
     const [submarineCableQuery, setSubmarineCableQuery] = useState(''); //海纜名稱
     const [workTitle, setWorkTitle] = useState(''); //海纜作業
     const [invoiceStatusQuery, setInvoiceStatusQuery] = useState({ TRUE: false, FALSE: false }); //處理狀態
+    const [bmStoneList, setBmStoneList] = useState([]); //計帳段號下拉選單(需要選擇海纜名稱或海纜作業才能出現)
 
     const initQuery = () => {
         setBillMilestoneQuery('');
@@ -100,6 +101,28 @@ const LiabilityQuery = ({ setListInfo, bmStoneList, partyList, subCableList, wor
     const handleChange = (event) => {
         setInvoiceStatusQuery({ ...invoiceStatusQuery, [event.target.name]: event.target.checked });
     };
+
+    useEffect(() => {
+        let tmpArray = {};
+        if (submarineCableQuery !== '') {
+            tmpArray.SubmarineCable = submarineCableQuery;
+        }
+        if (workTitle !== '') {
+            tmpArray.WorkTitle = workTitle;
+        } 
+        if (Object.keys(tmpArray).length !== 0) {
+            console.log('tmpArray=>>', tmpArray);
+            fetch(dropdownmenuBillMilestone, { method: 'POST', body: JSON.stringify(tmpArray) })
+            .then((res) => res.json())
+            .then((data) => {
+                console.log('data抓取成功=>>', data);
+                if(Array.isArray(data)) {
+                    setBmStoneList(data);
+                }
+            })
+            .catch((e) => console.log('e1=>', e));
+        }
+    }, [submarineCableQuery, workTitle]);
 
     return (
         <MainCard title="Liability條件查詢" sx={{ width: '100%' }}>
@@ -254,7 +277,7 @@ const LiabilityQuery = ({ setListInfo, bmStoneList, partyList, subCableList, wor
 
 LiabilityQuery.propTypes = {
     setListInfo: PropTypes.func,
-    bmStoneList: PropTypes.array,
+    // bmStoneList: PropTypes.array,
     partyList: PropTypes.array,
     subCableList: PropTypes.array,
     workTitleList: PropTypes.array,

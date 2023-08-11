@@ -1,33 +1,11 @@
 import { useEffect, useState, useRef } from 'react';
-import {
-    Typography,
-    Grid,
-    Button,
-    FormControl,
-    InputLabel,
-    Select,
-    MenuItem,
-    Box,
-    IconButton,
-    TextField,
-    Checkbox,
-    Autocomplete
-} from '@mui/material';
-import CloseIcon from '@mui/icons-material/Close';
-import { styled } from '@mui/material/styles';
+import { Grid, Button } from '@mui/material';
 
 // project import
 import MainCard from 'components/MainCard';
 import LiabilityQuery from './liabilityQuery';
 import LiabilityDataList from './liabilityDataList';
 import LiabilityAdd from './liabilityAdd';
-
-// day
-import dayjs from 'dayjs';
-import Dialog from '@mui/material/Dialog';
-import DialogTitle from '@mui/material/DialogTitle';
-import DialogContent from '@mui/material/DialogContent';
-import DialogActions from '@mui/material/DialogActions';
 
 // api
 import {
@@ -62,7 +40,8 @@ const LiabilityManage = () => {
 
     const [filterList, setFilterList] = useState(listInfo);
 
-    const [bmStoneList, setBmStoneList] = useState([]); //計帳段號下拉選單
+    // const [bmStoneList, setBmStoneList] = useState([]); //計帳段號下拉選單
+    const [setBmStoneList] = useState([]); //計帳段號下拉選單
     const [partyList, setPartyList] = useState([]); //會員名稱下拉選單
     const [subCableList, setSubCableList] = useState([]); //海纜名稱下拉選單
     const [workTitleList, setWorkTitleList] = useState([]); //海纜作業下拉選單
@@ -243,7 +222,7 @@ const LiabilityManage = () => {
             <Grid item xs={12}>
                 <LiabilityQuery
                     setListInfo={setListInfo}
-                    bmStoneList={bmStoneList}
+                    // bmStoneList={bmStoneList}
                     partyList={partyList}
                     subCableList={subCableList}
                     workTitleList={workTitleList}

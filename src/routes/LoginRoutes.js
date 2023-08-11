@@ -15,10 +15,8 @@ const RequireAuth = ({ children }) => {
     const { isLogin } = useSelector((state) => state.dropdown);
     // let auth = localStorage.getItem('name');
     if (isLogin) {
-        console.log('123')
         return <Navigate to="/" replace />;
     }
-    console.log('456')
     return children;
 };
 

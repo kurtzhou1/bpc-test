@@ -138,7 +138,7 @@ const ResearchBillQuery = ({ setListInfo, setDetailInfo }) => {
                         <Select value={workTitle} label="海纜作業" onChange={(e) => setWorkTitle(e.target.value)}>
                             <MenuItem value={'Upgrade'}>Upgrade</MenuItem>
                             <MenuItem value={'Construction'}>Construction</MenuItem>
-                            <MenuItem value={'O&M'}>O&M</MenuItem>
+                            <MenuItem value={'OM'}>OM</MenuItem>
                         </Select>
                     </FormControl>
                 </Grid>

@@ -134,12 +134,9 @@ const RequireAuth = ({ children }) => {
         })
         .then((res) => res.json())
         .then((data) => {
-            console.log('3=>>', data, data.UserCName);
             if ( data.UserCName ) {
-                console.log('4=>>');
                 return children;
             } else {
-                console.log('5=>>');
                 dispatch(setIsLogin({ isLogin: false }));
                 localStorage.removeItem('accessToken');
                 return <Navigate to="/login" replace />;

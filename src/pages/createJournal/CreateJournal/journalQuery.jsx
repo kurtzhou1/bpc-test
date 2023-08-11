@@ -77,6 +77,8 @@ const JournalQuery = ({ setListInfo, queryApi, invoiceStatus }) => {
             .catch((e) => console.log('e1=>', e));
     };
 
+    console.log('supNmList=>>', supNmList);
+
     return (
         <MainCard title="發票查詢" sx={{ width: '100%' }}>
             <Grid container display="flex" justifyContent="center" alignItems="center" spacing={2}>

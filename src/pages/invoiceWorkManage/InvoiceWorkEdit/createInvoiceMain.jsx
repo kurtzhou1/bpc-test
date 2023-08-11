@@ -127,7 +127,7 @@ const InvoiceWorkManage = ({
                         >
                             <MenuItem value={'Construction'}>Construction</MenuItem>
                             <MenuItem value={'Upgrade'}>Upgrade</MenuItem>
-                            <MenuItem value={'O&M'}>O&M</MenuItem>
+                            <MenuItem value={'OM'}>OM</MenuItem>
                         </Select>
                     </FormControl>
                 </Grid>

@@ -191,7 +191,7 @@ const ResearchBillDataList = ({ listInfo, setDetailInfo }) => {
                             <StyledTableCell align="center">會員</StyledTableCell>
                             <StyledTableCell align="center">海纜名稱</StyledTableCell>
                             <StyledTableCell align="center">海纜作業</StyledTableCell>
-                            <StyledTableCell align="center">記帳段號</StyledTableCell>
+                            <StyledTableCell align="center">計帳段號</StyledTableCell>
                             <StyledTableCell align="center">帳單到期日</StyledTableCell>
                             <StyledTableCell align="center">應收金額</StyledTableCell>
                             <StyledTableCell align="center">已實收金額</StyledTableCell>

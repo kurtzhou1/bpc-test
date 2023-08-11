@@ -140,23 +140,18 @@ const ToDeductWork = ({ isDeductOpen, handleDeductClose, billDetailInfo, billMas
                 if (i.CBID === cbid) {
                     if (Number(maxValue) === 0 || Number(value) <= 0) {
                         //如果可折抵金額已經為0 或 輸入數字為負數，則回傳0
-                        console.log('11=>>', Number(currAmount));
                         resule = Number(currAmount);
                         i.TransAmount = 0;
                     } else if (Number(value) >= Number(maxValue)) {
-                        console.log('12=>>', Number(value) === Number(maxValue), Number(value), Number(maxValue));
                         resule = Number(value) === Number(maxValue) ? Number(value) : Number(maxValue);
                         i.TransAmount = Number(value) === Number(maxValue) ? Number(value) : Number(maxValue);
                     } else if (Number(value) >= Number(currAmount)) {
-                        console.log('13=>>');
                         resule = Number(currAmount);
                         i.TransAmount = Number(currAmount);
                     } else {
-                        console.log('14=>>', Number(value));
                         resule = Number(value);
                         i.TransAmount = Number(value);
                     }
-                    console.log('=>>>>>>>>>', resule);
                 }
             });
         } else {
@@ -244,8 +239,6 @@ const ToDeductWork = ({ isDeductOpen, handleDeductClose, billDetailInfo, billMas
     useEffect(() => {
         setFeeAmountTotal(orgFeeAmount.current - dedAmount.current);
     }, [dedAmount.current]);
-
-    console.log('feeAmountTotal222=>>', feeAmountTotal);
 
     return (
         <Dialog maxWidth="xxl" open={isDeductOpen}>
