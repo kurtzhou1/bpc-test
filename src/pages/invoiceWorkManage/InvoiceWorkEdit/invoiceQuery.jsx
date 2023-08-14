@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import {
     Typography,
     Grid,
@@ -23,13 +23,14 @@ import { TextField } from '@mui/material/index';
 import MainCard from 'components/MainCard';
 
 // api
-import { queryInvoice } from 'components/apis.jsx';
+import { queryInvoice, supplierNameDropDownUnique } from 'components/apis.jsx';
 import dayjs from 'dayjs';
 
-const InvoiceQuery = ({ setListInfo, queryApi, supNmList, subCableList, bmsList, setAction, setPage }) => {
+const InvoiceQuery = ({ setListInfo, queryApi, subCableList, bmsList, setAction, setPage }) => {
     const [issueDate, setIssueDate] = useState([null, null]); //發票日期
     const [supplierNameQuery, setSupplierNameQuery] = useState(''); //供應商
     const [submarineCableQuery, setSubmarineCableQuery] = useState(''); //海纜名稱
+    const [supNmList, setSupNmList] = useState([]); //供應商下拉選單
     const [invoiceStatusQuery, setInvoiceStatusQuery] = useState({
         BILLED: false,
         COMPLETE: false,
@@ -146,6 +147,17 @@ const InvoiceQuery = ({ setListInfo, queryApi, supNmList, subCableList, bmsList,
             .catch((e) => console.log('e1=>', e));
     };
 
+    useEffect(() => {
+        fetch(supplierNameDropDownUnique, { method: 'GET' })
+        .then((res) => res.json())
+        .then((data) => {
+            if(Array.isArray(data)) {
+                setSupNmList(data);
+            }
+        })
+        .catch((e) => console.log('e1=>', e));
+    }, [])
+
     return (
         <MainCard title="條件查詢">
             <Grid container display="flex" justifyContent="center" alignItems="center" spacing={1}>
@@ -160,8 +172,8 @@ const InvoiceQuery = ({ setListInfo, queryApi, supNmList, subCableList, bmsList,
                         <InputLabel id="demo-simple-select-label">選擇供應商</InputLabel>
                         <Select value={supplierNameQuery} label="發票供應商" onChange={(e) => setSupplierNameQuery(e.target.value)}>
                             {supNmList.map((i) => (
-                                <MenuItem key={i.SupplierName} value={i.SupplierName}>
-                                    {i.SupplierName}
+                                <MenuItem key={i} value={i}>
+                                    {i}
                                 </MenuItem>
                             ))}
                         </Select>

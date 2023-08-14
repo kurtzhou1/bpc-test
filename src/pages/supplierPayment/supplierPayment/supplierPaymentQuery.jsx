@@ -157,8 +157,8 @@ const SupplierPaymentQuery = ({ setListInfo, queryApi, value }) => {
                         <InputLabel>選擇供應商</InputLabel>
                         <Select value={supplierName} label="供應商" onChange={(e) => setSupplierName(e.target.value)}>
                             {supNmList.map((i) => (
-                                <MenuItem key={i.SupplierName} value={i.SupplierName}>
-                                    {i.SupplierName}
+                                <MenuItem key={i} value={i}>
+                                    {i}
                                 </MenuItem>
                             ))}
                         </Select>

@@ -12,7 +12,7 @@ import { DateRangePicker } from '@mui/x-date-pickers-pro/DateRangePicker';
 import { TextField } from '@mui/material/index';
 
 //api
-import { queryInvoice, supplierNameDropDownUnique } from 'components/apis.jsx';
+import { queryInvoice, supplierNameDropDown } from 'components/apis.jsx';
 
 // redux
 import { useSelector } from 'react-redux';
@@ -76,15 +76,19 @@ const JournalQuery = ({ setListInfo, queryApi, invoiceStatus, setPage }) => {
     };
 
     useEffect(() => {
-        fetch(supplierNameDropDownUnique, { method: 'GET' })
-        .then((res) => res.json())
-        .then((data) => {
-            if(Array.isArray(data)) {
-                setSupNmList(data);
-            }
-        })
-        .catch((e) => console.log('e1=>', e));
-    }, [])
+        if (submarineCable !== ''){
+            let tmpQuery = supplierNameDropDown + 'SubmarineCable=' + submarineCable
+            fetch(tmpQuery, { method: 'GET' })
+            .then((res) => res.json())
+            .then((data) => {
+                console.log('查詢成功=>>', data);
+                if(Array.isArray(data)) {
+                    setSupNmList(data);
+                }
+            })
+            .catch((e) => console.log('e1=>', e));
+        }
+    }, [submarineCable])
 
     return (
         <MainCard title="發票查詢" sx={{ width: '100%' }}>
@@ -125,8 +129,8 @@ const JournalQuery = ({ setListInfo, queryApi, invoiceStatus, setPage }) => {
                         <InputLabel id="demo-simple-select-label">選擇供應商</InputLabel>
                         <Select value={supplierName} label="供應商" onChange={(e) => setSupplierName(e.target.value)}>
                             {supNmList.map((i) => (
-                                <MenuItem key={i.SupplierName} value={i.SupplierName}>
-                                    {i.SupplierName}
+                                <MenuItem key={i} value={i}>
+                                    {i}
                                 </MenuItem>
                             ))}
                         </Select>
