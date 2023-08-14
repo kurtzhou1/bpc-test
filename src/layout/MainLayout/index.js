@@ -84,13 +84,13 @@ const MainLayout = () => {
         if (isLogin) {
             //下拉選單 Redux
             //供應商
-            fetch(supplierNameDropDownUnique, { method: 'GET' })
-                .then((res) => res.json())
-                .then((data) => {
-                    console.log('有沒有重複=>>', data);
-                    dispatch(setSupplierNameList({ supNmList: data }));
-                })
-                .catch((e) => console.log('e1=>', e));
+            // fetch(supplierNameDropDownUnique, { method: 'GET' })
+            //     .then((res) => res.json())
+            //     .then((data) => {
+            //         console.log('有沒有重複=>>', data);
+            //         dispatch(setSupplierNameList({ supNmList: data }));
+            //     })
+            //     .catch((e) => console.log('e1=>', e));
             //海纜名稱
             fetch(submarineCableList, { method: 'GET' })
                 .then((res) => res.json())
