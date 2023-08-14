@@ -11,7 +11,7 @@ import {
 
 // project import
 import MainCard from 'components/MainCard';
-import { querySupplierPayment } from 'components/apis';
+import { querySupplierPayment, supplierNameDropDownUnique } from 'components/apis';
 
 // day
 import dayjs from 'dayjs';
@@ -23,12 +23,13 @@ import { useSelector } from 'react-redux';
 // ==============================|| SAMPLE PAGE ||============================== //
 
 const SupplierPaymentQuery = ({ setListInfo, queryApi, value }) => {
-    const { subCableList, supNmList } = useSelector((state) => state.dropdown); //供應商下拉選單 + 海纜名稱下拉選單
+    const { subCableList } = useSelector((state) => state.dropdown); //供應商下拉選單 + 海纜名稱下拉選單
     const [issueDate, setIssueDate] = useState([null, null]); //發票日期
     const [workTitle, setWorkTitle] = useState(''); //海纜作業
     const [supplierName, setSupplierName] = useState(''); //供應商
     const [submarineCable, setSubmarineCable] = useState(''); //海纜名稱
     const [invoiceNo, setInvoiceNo] = useState(''); //發票號碼
+    const [supNmList, setSupNmList] = useState([]); //供應商下拉選單
 
     const initInfo = () => {
         setIssueDate([null, null]);
@@ -98,6 +99,17 @@ const SupplierPaymentQuery = ({ setListInfo, queryApi, value }) => {
     useEffect(() => {
         supplierPaymentQuery();
     }, [value]);
+
+    useEffect(() => {
+        fetch(supplierNameDropDownUnique, { method: 'GET' })
+        .then((res) => res.json())
+        .then((data) => {
+            if(Array.isArray(data)) {
+                setSupNmList(data);
+            }
+        })
+        .catch((e) => console.log('e1=>', e));
+    }, [])
 
     return (
         <MainCard title="發票查詢" sx={{ width: '100%' }}>

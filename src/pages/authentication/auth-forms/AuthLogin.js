@@ -101,7 +101,7 @@ const AuthLogin = () => {
                             dispatch(setMessageStateOpen({ messageStateOpen: { isOpen: true, severity: 'error', message: '登入錯誤，請檢查帳號密碼' } }));
                         }
                     })
-                    .catch((e) => console.log('e1=>', e));
+                    .catch((e) => dispatch(setMessageStateOpen({ messageStateOpen: { isOpen: true, severity: 'error', message: '登入錯誤，請檢查帳號密碼' } })));
                     // localStorageService({accessToken: testData});
                     // try {
                     //     setStatus({ success: false });

@@ -27,7 +27,7 @@ import { DateRangePicker } from '@mui/x-date-pickers-pro/DateRangePicker';
 import { TextField } from '@mui/material/index';
 
 // api
-import { queryCB } from 'components/apis.jsx';
+import { queryCB, supplierNameDropDownUnique } from 'components/apis.jsx';
 
 // redux
 import { useSelector } from 'react-redux';
@@ -42,7 +42,9 @@ const ResearchBillQuery = ({ setListInfo, queryApi }) => {
     const [isIssueDate, setIsIssueDate] = useState(''); //是否為發票日期
     const [issueDate, setIssueDate] = useState(null); //發票日期
     const [invoiceNo, setInvoiceNo] = useState(''); //發票號碼
-    const { supNmList, subCableList } = useSelector((state) => state.dropdown); //供應商下拉選單 + 海纜名稱下拉選單
+    const [billMilestone, setBillMilestone] = useState(''); // 計帳段號
+    const { subCableList, bmsList } = useSelector((state) => state.dropdown); //海纜名稱+計帳段號下拉選單
+    const [supNmList, setSupNmList] = useState([]); //供應商下拉選單
     const [invoiceStatusQuery, setInvoiceStatusQuery] = useState({
         BILLED: false,
         COMPLETE: false,
@@ -62,6 +64,9 @@ const ResearchBillQuery = ({ setListInfo, queryApi }) => {
         }
         if (workTitle && workTitle !== '') {
             tmpQuery = tmpQuery + 'WorkTitle=' + workTitle + '&';
+        }
+        if (billMilestone && billMilestone !== '') {
+            tmpQuery = tmpQuery + 'BillMilestone=' + billMilestone + '&';
         }
 
         console.log('currAmount=>>', currAmount, currAmount.TRUE, currAmount.FALSE);
@@ -95,6 +100,17 @@ const ResearchBillQuery = ({ setListInfo, queryApi }) => {
     const handleChange = (event) => {
         setCurrAmount({ ...currAmount, [event.target.name]: event.target.checked });
     };
+
+    useEffect(() => {
+        fetch(supplierNameDropDownUnique, { method: 'GET' })
+        .then((res) => res.json())
+        .then((data) => {
+            if(Array.isArray(data)) {
+                setSupNmList(data);
+            }
+        })
+        .catch((e) => console.log('e1=>', e));
+    }, [])
 
     return (
         <MainCard title="條件查詢" sx={{ width: '100%' }}>
@@ -174,10 +190,12 @@ const ResearchBillQuery = ({ setListInfo, queryApi }) => {
                 <Grid item xs={2} sm={2} md={2} lg={2}>
                     <FormControl fullWidth size="small">
                         <InputLabel id="demo-simple-select-label">選擇計帳段號</InputLabel>
-                        <Select value={workTitle} label="海纜作業" onChange={(e) => setWorkTitle(e.target.value)}>
-                            <MenuItem value={'Upgrade'}>Upgrade</MenuItem>
-                            <MenuItem value={'Construction'}>Construction</MenuItem>
-                            <MenuItem value={'OM'}>OM</MenuItem>
+                        <Select value={billMilestone} label="發票供應商" onChange={(e) => setBillMilestone(e.target.value)}>
+                            {bmsList.map((i) => (
+                                <MenuItem key={i} value={i}>
+                                    {i}
+                                </MenuItem>
+                            ))}
                         </Select>
                     </FormControl>
                 </Grid>

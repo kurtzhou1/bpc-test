@@ -16,7 +16,7 @@ import { TextField } from '@mui/material/index';
 import { activeItem } from 'store/reducers/menu';
 
 // api
-import { supplierNameListForInvoice, submarineCableList, billMilestoneList, generateInvoice } from 'components/apis.jsx';
+import { supplierNameListForInvoice, submarineCableList, billMilestoneList, generateInvoice, supplierNameDropDownUnique } from 'components/apis.jsx';
 import { handleNumber } from 'components/commonFunction';
 
 // redux
@@ -294,6 +294,14 @@ const InvoiceWorkManage = () => {
             .then((res) => res.json())
             .then((data) => {
                 setSubCableList(data);
+            })
+            .catch((e) => console.log('e1=>', e));
+        fetch(supplierNameDropDownUnique, { method: 'GET' })
+            .then((res) => res.json())
+            .then((data) => {
+                if(Array.isArray(data)) {
+                    setSupNmList(data);
+                }
             })
             .catch((e) => console.log('e1=>', e));
     }, []);

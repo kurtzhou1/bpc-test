@@ -24,13 +24,16 @@ import dayjs from 'dayjs';
 import { DateRangePicker } from '@mui/x-date-pickers-pro/DateRangePicker';
 import { TextField } from '@mui/material/index';
 
+// api
+import { supplierNameDropDownUnique } from 'components/apis.jsx';
+
 // redux
 import { useSelector } from 'react-redux';
 
 // ==============================|| SAMPLE PAGE ||============================== //
 
 const ReceivableQuery = ({ value, setListInfo, queryApi }) => {
-    const { partiesList, subCableList, supNmList } = useSelector((state) => state.dropdown); //供應商下拉選單 + 海纜名稱下拉選單
+    const { partiesList, subCableList } = useSelector((state) => state.dropdown); //供應商下拉選單 + 海纜名稱下拉選單
     const [issueDate, setIssueDate] = useState([null, null]); //發票日期
     const [workTitle, setWorkTitle] = useState(''); //海纜作業
     const [partyName, setPartyName] = useState(''); //會員代號
@@ -38,6 +41,7 @@ const ReceivableQuery = ({ value, setListInfo, queryApi }) => {
     const [submarineCable, setSubmarineCable] = useState(''); //海纜名稱
     const [invoiceNo, setInvoiceNo] = useState(''); //發票號碼
     const [billingNo, setBillingNo] = useState(''); //帳單號碼
+    const [supNmList, setSupNmList] = useState([]); //供應商下拉選單
 
     const initInfo = () => {
         setIssueDate([null, null]);
@@ -193,6 +197,17 @@ const ReceivableQuery = ({ value, setListInfo, queryApi }) => {
         initInfo();
         initQuery();
     }, [value]);
+
+    useEffect(() => {
+        fetch(supplierNameDropDownUnique, { method: 'GET' })
+        .then((res) => res.json())
+        .then((data) => {
+            if(Array.isArray(data)) {
+                setSupNmList(data);
+            }
+        })
+        .catch((e) => console.log('e1=>', e));
+    }, [])
 
     return (
         <MainCard title={`${value === 0 ? '發票' : '帳單'}查詢`} sx={{ width: '100%' }}>

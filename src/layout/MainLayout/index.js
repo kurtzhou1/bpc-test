@@ -24,7 +24,7 @@ import {
 } from 'store/reducers/dropdown';
 
 // api
-import { supplierNameList, submarineCableList, billMilestoneLiabilityList, getPartiesInfoList } from 'components/apis.jsx';
+import { supplierNameDropDownUnique, submarineCableList, billMilestoneLiabilityList, getPartiesInfoList } from 'components/apis.jsx';
 
 // ==============================|| MAIN LAYOUT ||============================== //
 
@@ -84,7 +84,7 @@ const MainLayout = () => {
         if (isLogin) {
             //下拉選單 Redux
             //供應商
-            fetch(supplierNameList, { method: 'GET' })
+            fetch(supplierNameDropDownUnique, { method: 'GET' })
                 .then((res) => res.json())
                 .then((data) => {
                     console.log('有沒有重複=>>', data);

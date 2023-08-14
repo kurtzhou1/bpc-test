@@ -1,10 +1,10 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { Typography, Grid, Button, FormControl, InputLabel, Select, MenuItem } from '@mui/material';
 
 // project import
 import MainCard from 'components/MainCard';
-import { queryPaydraft } from 'components/apis';
+import { queryPaydraft, supplierNameDropDownUnique } from 'components/apis';
 
 // day
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
@@ -23,8 +23,9 @@ const CorrespondenceQuery = ({ setListInfo, queryApi, value }) => {
     const [supplierName, setSupplierName] = useState(''); //供應商
     const [submarineCable, setSubmarineCable] = useState(''); //海纜名稱
     const [workTitle, setWorkTitle] = useState(''); //海纜作業
-    const { supNmList, subCableList } = useSelector((state) => state.dropdown); //供應商下拉選單 + 海纜名稱下拉選單
+    const { subCableList } = useSelector((state) => state.dropdown); //供應商下拉選單 + 海纜名稱下拉選單
     const [invoiceNo, setInvoiceNo] = useState(''); //發票號碼
+    const [supNmList, setSupNmList] = useState([]); //供應商下拉選單
 
     const initData = () => {
         setIssueDate(null);
@@ -73,6 +74,17 @@ const CorrespondenceQuery = ({ setListInfo, queryApi, value }) => {
                 console.log('e1=>', e);
             });
     };
+
+    useEffect(() => {
+        fetch(supplierNameDropDownUnique, { method: 'GET' })
+        .then((res) => res.json())
+        .then((data) => {
+            if(Array.isArray(data)) {
+                setSupNmList(data);
+            }
+        })
+        .catch((e) => console.log('e1=>', e));
+    }, [])
 
     return (
         <MainCard title="函稿查詢" sx={{ width: '100%' }}>

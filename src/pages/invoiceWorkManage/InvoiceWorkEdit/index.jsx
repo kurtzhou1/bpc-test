@@ -3,10 +3,6 @@ import { useEffect, useState, useRef } from 'react';
 
 // material-ui
 import { Grid, Button } from '@mui/material';
-// material-ui
-// import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-// import { DesktopDatePicker } from '@mui/x-date-pickers/DesktopDatePicker';
-// import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import dayjs from 'dayjs';
 // project import
 import MainCard from 'components/MainCard';
@@ -27,7 +23,8 @@ import {
     deleteInvoiceWKDetail,
     billMilestoneList,
     returnToValidated,
-    afterBilled
+    afterBilled,
+    supplierNameDropDownUnique
 } from 'components/apis.jsx';
 
 // redux
@@ -39,7 +36,6 @@ import { useDispatch } from 'react-redux';
 import { setMessageStateOpen } from 'store/reducers/dropdown';
 
 import { Link } from 'react-router-dom';
-import { DataObjectRounded } from '../../../../node_modules/@mui/icons-material/index';
 
 // ==============================|| SAMPLE PAGE ||============================== //
 
@@ -73,11 +69,12 @@ const InvoiceWorkManage = () => {
     const queryApi = useRef(queryInvoice + '/all');
     const queryApiTemporary = queryInvoice + '/Status=TEMPORARY';
 
-    const { supNmList, subCableList, bmsList } = useSelector((state) => state.dropdown); //供應商下拉選單 + 海纜名稱下拉選單
+    const { subCableList, bmsList } = useSelector((state) => state.dropdown); //供應商下拉選單 + 海纜名稱下拉選單
     const [listInfo, setListInfo] = useState([]);
     const [page, setPage] = useState(0); //分頁Page
 
     const [isReturnOpen, setIsReturnOpen] = useState(false);
+    const [supNmList, setSupNmList] = useState([]); //供應商下拉選單
     const returnDataList = useRef([]);
 
     const actionBack = useRef('');
@@ -184,6 +181,14 @@ const InvoiceWorkManage = () => {
         setAction('');
         setModifyItem('');
         firstQueryInit();
+        fetch(supplierNameDropDownUnique, { method: 'GET' })
+        .then((res) => res.json())
+        .then((data) => {
+            if(Array.isArray(data)) {
+                setSupNmList(data);
+            }
+        })
+        .catch((e) => console.log('e1=>', e));
     }, []);
 
     useEffect(() => {

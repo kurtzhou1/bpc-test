@@ -27,7 +27,7 @@ import { DateRangePicker } from '@mui/x-date-pickers-pro/DateRangePicker';
 import { TextField } from '@mui/material/index';
 
 // api
-import { searchBillMasterByInvoiceWKMaster } from 'components/apis.jsx';
+import { searchBillMasterByInvoiceWKMaster, supplierNameDropDownUnique } from 'components/apis.jsx';
 
 // redux
 import { useSelector } from 'react-redux';
@@ -42,7 +42,8 @@ const ResearchBillQuery = ({ setListInfo, setDetailInfo }) => {
     const [isIssueDate, setIsIssueDate] = useState(''); //是否為發票日期
     const [issueDate, setIssueDate] = useState(null); //發票日期
     const [invoiceNo, setInvoiceNo] = useState(''); //發票號碼
-    const { supNmList, subCableList, bmsList } = useSelector((state) => state.dropdown); //供應商下拉選單 + 海纜名稱下拉選單
+    const { subCableList, bmsList } = useSelector((state) => state.dropdown); //海纜名稱+計帳段號下拉選單
+    const [supNmList, setSupNmList] = useState([]); //供應商下拉選單
     const [invoiceStatusQuery, setInvoiceStatusQuery] = useState({
         BILLED: false,
         COMPLETE: false,
@@ -187,6 +188,17 @@ const ResearchBillQuery = ({ setListInfo, setDetailInfo }) => {
     const handleChange = (event) => {
         setInvoiceStatusQuery({ ...invoiceStatusQuery, [event.target.name]: event.target.checked });
     };
+
+    useEffect(() => {
+        fetch(supplierNameDropDownUnique, { method: 'GET' })
+        .then((res) => res.json())
+        .then((data) => {
+            if(Array.isArray(data)) {
+                setSupNmList(data);
+            }
+        })
+        .catch((e) => console.log('e1=>', e));
+    }, [])
 
     return (
         <MainCard title="條件查詢" sx={{ width: '100%' }}>

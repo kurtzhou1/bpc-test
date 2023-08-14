@@ -12,7 +12,7 @@ import { DateRangePicker } from '@mui/x-date-pickers-pro/DateRangePicker';
 import { TextField } from '@mui/material/index';
 
 //api
-import { queryInvoice, supplierNameDropDown } from 'components/apis.jsx';
+import { queryInvoice, supplierNameDropDownUnique } from 'components/apis.jsx';
 
 // redux
 import { useSelector } from 'react-redux';
@@ -72,19 +72,15 @@ const JournalQuery = ({ setListInfo, queryApi, invoiceStatus }) => {
     };
 
     useEffect(() => {
-        if (submarineCable !== ''){
-            let tmpQuery = supplierNameDropDown + 'SubmarineCable=' + submarineCable
-            fetch(tmpQuery, { method: 'GET' })
-            .then((res) => res.json())
-            .then((data) => {
-                console.log('查詢成功=>>', data);
-                if(Array.isArray(data)) {
-                    setSupNmList(data);
-                }
-            })
-            .catch((e) => console.log('e1=>', e));
-        }
-    }, [submarineCable])
+        fetch(supplierNameDropDownUnique, { method: 'GET' })
+        .then((res) => res.json())
+        .then((data) => {
+            if(Array.isArray(data)) {
+                setSupNmList(data);
+            }
+        })
+        .catch((e) => console.log('e1=>', e));
+    }, [])
 
     return (
         <MainCard title="發票查詢" sx={{ width: '100%' }}>
