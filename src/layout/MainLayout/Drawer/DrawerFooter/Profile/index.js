@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import { useRef, useState, useEffect } from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 // material-ui
 import { useTheme } from '@mui/material/styles';
@@ -28,15 +28,12 @@ import SettingTab from './SettingTab';
 import { styled } from '@mui/material/styles';
 
 // assets
-import avatar4 from 'assets/images/users/avatar-4.png';
 import { LogoutOutlined, SettingOutlined, UserOutlined } from '@ant-design/icons';
 import Switch, { SwitchProps } from '@mui/material/Switch';
 
 // translation
 import { useTranslation } from 'react-i18next';
-
 import { setIsLogin } from 'store/reducers/dropdown';
-import { useDispatch } from 'react-redux';
 
 // tab panel wrapper
 function TabPanel({ children, value, index, ...other }) {
@@ -65,6 +62,7 @@ function a11yProps(index) {
 const Profile = () => {
     const theme = useTheme();
     const menu = useSelector((state) => state.menu);
+    const { userInfo } = useSelector((state) => state.dropdown); //供應商下拉選單 + 海纜名稱下拉選單
     const { drawerOpen } = menu;
     const { i18n } = useTranslation();
     const [isZh, setIsZh] = useState(true);
@@ -167,8 +165,8 @@ const Profile = () => {
                 onClick={handleToggle}
             >
                 <Stack direction="row" spacing={2} alignItems="center" sx={{ p: 0.5 }}>
-                    <Avatar alt="profile user" src={avatar4} sx={{ width: 32, height: 32 }} />
-                    {drawerOpen ? <Typography variant="subtitle1">ＯＯＯ</Typography> : ''}
+                    <Avatar alt="profile user" src={userInfo?.ProfilePhotoURI} sx={{ width: 32, height: 32 }} />
+                    {drawerOpen ? <Typography variant="subtitle1">{userInfo?.UserCName}</Typography> : ''}
                 </Stack>
             </ButtonBase>
             <Popper

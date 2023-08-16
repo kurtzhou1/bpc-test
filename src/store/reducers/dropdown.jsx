@@ -9,6 +9,7 @@ const initialState = {
     subCableList: [], //海纜名稱下拉選單
     partiesList: [], //會員下拉選單
     bmsList: [], //計帳段號下拉選單
+    userInfo: { ProfilePhotoURI: '', UserCName: '' },
     messageStateOpen: { isOpen: false, severity: '', message: '' }
 };
 
@@ -21,8 +22,8 @@ const dropdown = createSlice({
         setIsLogin(state, action) {
             state.isLogin = action.payload.isLogin;
         },
-        setIsTimeout(state, action) {
-            state.isTimeout = action.payload.isTimeout;
+        setUserInfo(state, action) {
+            state.userInfo = action.payload.userInfo;
         },
         setSupplierNameList(state, action) {
             state.supNmList = action.payload.supNmList;
@@ -44,5 +45,5 @@ const dropdown = createSlice({
 
 export default dropdown.reducer;
 
-export const { setSupplierNameList, setSubmarineCableList, setPartiesList, setBillMileStoneList, setMessageStateOpen, setIsLogin, setIsTimeout } =
+export const { setSupplierNameList, setSubmarineCableList, setPartiesList, setBillMileStoneList, setMessageStateOpen, setIsLogin, setUserInfo } =
     dropdown.actions;

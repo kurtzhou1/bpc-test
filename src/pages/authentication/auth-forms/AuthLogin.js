@@ -29,7 +29,7 @@ import AnimateButton from 'components/@extended/AnimateButton';
 import { EyeOutlined, EyeInvisibleOutlined } from '@ant-design/icons';
 
 import { useDispatch } from 'react-redux';
-import { setIsLogin, setMessageStateOpen } from 'store/reducers/dropdown';
+import { setIsLogin, setMessageStateOpen, setUserInfo } from 'store/reducers/dropdown';
 
 //api
 import { generatetoken, checktoken } from 'components/apis.jsx';
@@ -37,13 +37,8 @@ import { generatetoken, checktoken } from 'components/apis.jsx';
 // ============================|| FIREBASE - LOGIN ||============================ //
 
 const AuthLogin = () => {
-    const [checked, setChecked] = React.useState(false);
     const dispatch = useDispatch();
     const [showPassword, setShowPassword] = React.useState(false);
-
-    const loginNow = () => {
-        dispatch(setIsLogin({ isLogin: true }));
-    };
 
     const handleClickShowPassword = () => {
         setShowPassword(!showPassword);
@@ -83,7 +78,6 @@ const AuthLogin = () => {
                     .then((res) => res.json())
                     .then((data) => {
                         if(data.cbps_access_token) {
-                            console.log('data.cbps_access_token=>>', data.cbps_access_token)
                             localStorageService({accessToken: data.cbps_access_token});
                             fetch(checktoken, {
                                 method: 'POST',
@@ -93,7 +87,9 @@ const AuthLogin = () => {
                             })
                             .then((res) => res.json())
                             .then((data2) => {
+                                console.log('data2=>>', data2);
                                 dispatch(setMessageStateOpen({ messageStateOpen: { isOpen: true, severity: 'success', message: `登入成功，${data2.UserCName}歡迎` } }));
+                                dispatch(setUserInfo({ userInfo: { UserCName: data2.UserCName, ProfilePhotoURI: data2.ProfilePhotoURI } }));
                                 dispatch(setIsLogin({ isLogin: true }));
                             })
                             .catch((e) =>  dispatch(setMessageStateOpen({ messageStateOpen: { isOpen: true, severity: 'error', message: '登入失敗，請重新登入' } })));
