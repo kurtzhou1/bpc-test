@@ -47,7 +47,7 @@ const InvoiceWorkManage = ({
     setIsRecharge,
     partyName,
     setPartyName,
-    subCableList
+    submarineCableList
 }) => {
     const [supNmList, setSupNmList] = useState([]); //供應商下拉選單
     const dispatch = useDispatch();
@@ -103,7 +103,7 @@ const InvoiceWorkManage = ({
                             label="發票供應商"
                             onChange={(e) => setSubmarineCable(e.target.value)}
                         >
-                            {subCableList.map((i) => (
+                            {submarineCableList.map((i) => (
                                 <MenuItem key={i.CableName} value={i.CableName}>
                                     {i.CableName}
                                 </MenuItem>
@@ -374,7 +374,7 @@ InvoiceWorkManage.propTypes = {
     setIsLiability: PropTypes.func,
     totalAmount: PropTypes.number,
     setTotalAmount: PropTypes.func,
-    subCableList: PropTypes.array,
+    submarineCableList: PropTypes.array,
     isPro: PropTypes.bool,
     setIsPro: PropTypes.func,
     dueDate: PropTypes.instanceOf(Date),

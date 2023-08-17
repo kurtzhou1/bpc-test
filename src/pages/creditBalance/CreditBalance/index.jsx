@@ -1,4 +1,4 @@
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { Grid, Button } from '@mui/material';
 // import { styled } from '@mui/material/styles';
 
@@ -8,14 +8,15 @@ import CreditBalanceQuery from './creditBalanceQuery';
 import CreditBalanceDataList from './creditBalanceDataList';
 import CreditBalanceAdd from './creditBalanceAdd';
 
-// redux
-import { useSelector } from 'react-redux';
+// api
+import { getPartiesInfoList, submarineCableInfoList } from 'components/apis';
 
 const CreditBalance = () => {
-    const { partiesList, subCableList } = useSelector((state) => state.dropdown); //供應商下拉選單 + 海纜名稱下拉選單
     const queryApi = useRef('/all');
     const [listInfo, setListInfo] = useState([]);
     const [isDialogOpen, setIsDialogOpen] = useState(false);
+    const [submarineCableList, setSubmarineCableList] = useState([]); //海纜名稱下拉選單
+    const [partiesList, setPartiesList] = useState([]); //會員下拉選單
 
     const handleDialogOpen = () => {
         setIsDialogOpen(true);
@@ -24,6 +25,23 @@ const CreditBalance = () => {
     const handleDialogClose = () => {
         setIsDialogOpen(false);
     };
+
+    useEffect(() => {
+        //海纜名稱
+        fetch(submarineCableInfoList, { method: 'GET' })
+            .then((res) => res.json())
+            .then((data) => {
+                setSubmarineCableList(data);
+            })
+            .catch((e) => console.log('e1=>', e));
+        //會員名稱
+        fetch(getPartiesInfoList, { method: 'GET' })
+            .then((res) => res.json())
+            .then((data) => {
+                setPartiesList(data);
+            })
+            .catch((e) => console.log('e1=>', e));
+    }, []);
 
     return (
         <Grid container spacing={1}>
@@ -35,13 +53,13 @@ const CreditBalance = () => {
                     handleDialogClose={handleDialogClose}
                     isDialogOpen={isDialogOpen}
                     partiesList={partiesList}
-                    subCableList={subCableList}
+                    submarineCableList={submarineCableList}
                     queryApi={queryApi.current}
                     setListInfo={setListInfo}
                 />
             </Grid>
             <Grid item xs={12}>
-                <CreditBalanceQuery setListInfo={setListInfo} partiesList={partiesList} subCableList={subCableList} queryApi={queryApi} />
+                <CreditBalanceQuery setListInfo={setListInfo} partiesList={partiesList} submarineCableList={submarineCableList} queryApi={queryApi} />
             </Grid>
             <Grid item xs={12}>
                 <MainCard title="Credit Balance資料列表">

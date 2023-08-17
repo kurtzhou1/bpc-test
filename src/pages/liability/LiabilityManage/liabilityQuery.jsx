@@ -30,7 +30,7 @@ import PropTypes from 'prop-types';
 
 // ==============================|| SAMPLE PAGE ||============================== //
 
-const LiabilityQuery = ({ setListInfo, partyList, subCableList, workTitleList, queryApi }) => {
+const LiabilityQuery = ({ setListInfo, partyList, submarineCableList, workTitleList, queryApi }) => {
     const [billMilestoneQuery, setBillMilestoneQuery] = useState(''); //計帳段號
     const [partyNameQuery, setPartyNameQuery] = useState(''); //會員代號
     const [createDate, setCreateDate] = useState([null, null]); //建立日期
@@ -144,7 +144,7 @@ const LiabilityQuery = ({ setListInfo, partyList, subCableList, workTitleList, q
                             label="填寫海纜名稱"
                             onChange={(e) => setSubmarineCableQuery(e.target.value)}
                         >
-                            {subCableList.map((i) => (
+                            {submarineCableList.map((i) => (
                                 <MenuItem key={i} value={i}>
                                     {i}
                                 </MenuItem>
@@ -279,7 +279,7 @@ LiabilityQuery.propTypes = {
     setListInfo: PropTypes.func,
     // bmStoneList: PropTypes.array,
     partyList: PropTypes.array,
-    subCableList: PropTypes.array,
+    submarineCableList: PropTypes.array,
     workTitleList: PropTypes.array,
     queryApi: PropTypes.string
 };

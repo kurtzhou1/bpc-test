@@ -5,7 +5,7 @@ import { Typography, Grid, Button, FormControl, InputLabel, Select, MenuItem } f
 import MainCard from 'components/MainCard';
 
 // api
-import { queryToDecutBill } from 'components/apis';
+import { queryToDecutBill, getPartiesInfoList, submarineCableInfoList } from 'components/apis';
 
 // redux
 import { useSelector } from 'react-redux';
@@ -13,10 +13,11 @@ import { useSelector } from 'react-redux';
 // ==============================|| SAMPLE PAGE ||============================== //
 
 const WriteOffQuery = ({ setListInfo, queryApi, value }) => {
-    const { partiesList, subCableList } = useSelector((state) => state.dropdown); //供應商下拉選單 + 海纜名稱下拉選單
     const [workTitle, setWorkTitle] = useState(''); //海纜作業
     const [partyName, setPartyName] = useState(''); //會員代號
     const [submarineCable, setSubmarineCable] = useState(''); //海纜名稱
+    const [submarineCableList, setSubmarineCableList] = useState([]); //海纜名稱下拉選單
+    const [partiesList, setPartiesList] = useState([]); //會員下拉選單
 
     const initQuery = () => {
         setWorkTitle('');
@@ -55,6 +56,23 @@ const WriteOffQuery = ({ setListInfo, queryApi, value }) => {
         writeOffQuery();
     }, [value]);
 
+    useEffect(() => {
+        //海纜名稱
+        fetch(submarineCableInfoList, { method: 'GET' })
+            .then((res) => res.json())
+            .then((data) => {
+                setSubmarineCableList(data);
+            })
+            .catch((e) => console.log('e1=>', e));
+        //會員名稱
+        fetch(getPartiesInfoList, { method: 'GET' })
+            .then((res) => res.json())
+            .then((data) => {
+                setPartiesList(data);
+            })
+            .catch((e) => console.log('e1=>', e));
+    }, []);
+
     return (
         <MainCard title="帳單查詢" sx={{ width: '100%' }}>
             <Grid container display="flex" justifyContent="center" alignItems="center" spacing={2}>
@@ -83,7 +101,7 @@ const WriteOffQuery = ({ setListInfo, queryApi, value }) => {
                     <FormControl fullWidth size="small">
                         <InputLabel id="demo-simple-select-label">選擇海纜名稱</InputLabel>
                         <Select value={submarineCable} label="海纜名稱" size="small" onChange={(e) => setSubmarineCable(e.target.value)}>
-                            {subCableList.map((i) => (
+                            {submarineCableList.map((i) => (
                                 <MenuItem key={i.CableName} value={i.CableName}>
                                     {i.CableName}
                                 </MenuItem>

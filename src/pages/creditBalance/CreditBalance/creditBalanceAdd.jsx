@@ -42,7 +42,7 @@ import { queryCB } from 'components/apis.jsx';
 import { useDispatch } from 'react-redux';
 import { setMessageStateOpen } from 'store/reducers/dropdown';
 
-const CreditBalanceAdd = ({ handleDialogClose, isDialogOpen, partiesList, subCableList, queryApi, setListInfo }) => {
+const CreditBalanceAdd = ({ handleDialogClose, isDialogOpen, partiesList, submarineCableList, queryApi, setListInfo }) => {
     const dispatch = useDispatch();
     const [cBType, setCBType] = useState(''); // CB種類
     const [partyName, setPartyName] = useState(''); //會員代號
@@ -236,7 +236,7 @@ const CreditBalanceAdd = ({ handleDialogClose, isDialogOpen, partiesList, subCab
                         <FormControl fullWidth size="small">
                             <InputLabel>選擇海纜名稱</InputLabel>
                             <Select value={submarineCable} label="海纜名稱" onChange={(e) => setSubmarineCable(e.target.value)}>
-                                {subCableList.map((i) => (
+                                {submarineCableList.map((i) => (
                                     <MenuItem key={i.CableName} value={i.CableName}>
                                         {i.CableName}
                                     </MenuItem>

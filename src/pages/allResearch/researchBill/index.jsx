@@ -1,5 +1,5 @@
-import { useState, useRef } from 'react';
-import { Grid, Button } from '@mui/material';
+import { useState } from 'react';
+import { Grid } from '@mui/material';
 // import { styled } from '@mui/material/styles';
 
 // project import
@@ -58,8 +58,6 @@ const fakeData = [
 ];
 
 const ResearchBill = () => {
-    const { partiesList, subCableList } = useSelector((state) => state.dropdown); //供應商下拉選單 + 海纜名稱下拉選單
-    const queryApi = useRef('/all');
     const [listInfo, setListInfo] = useState([]);
     const [datailInfo, setDetailInfo] = useState([]);
 
@@ -71,7 +69,6 @@ const ResearchBill = () => {
             <Grid item xs={12}>
                 <MainCard title="發票資料列表">
                     <ResearchBillDataList listInfo={listInfo} setDetailInfo={setDetailInfo} />
-                    {/* <ResearchBillDataList listInfo={fakeData}  setDetailInfo={setDetailInfo} /> */}
                 </MainCard>
             </Grid>
             <Grid item xs={12}>

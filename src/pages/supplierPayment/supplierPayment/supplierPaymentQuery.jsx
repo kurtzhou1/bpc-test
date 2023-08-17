@@ -11,19 +11,16 @@ import {
 
 // project import
 import MainCard from 'components/MainCard';
-import { querySupplierPayment, supplierNameDropDownUnique } from 'components/apis';
+import { querySupplierPayment, supplierNameDropDownUnique, submarineCableInfoList } from 'components/apis';
 
 // day
 import dayjs from 'dayjs';
 import { TextField } from '@mui/material/index';
 
-// redux
-import { useSelector } from 'react-redux';
-
 // ==============================|| SAMPLE PAGE ||============================== //
 
 const SupplierPaymentQuery = ({ setListInfo, queryApi, value }) => {
-    const { subCableList } = useSelector((state) => state.dropdown); //供應商下拉選單 + 海纜名稱下拉選單
+    const [submarineCableList, setSubmarineCableList] = useState([]); //海纜名稱下拉選單
     const [issueDate, setIssueDate] = useState([null, null]); //發票日期
     const [workTitle, setWorkTitle] = useState(''); //海纜作業
     const [supplierName, setSupplierName] = useState(''); //供應商
@@ -109,6 +106,13 @@ const SupplierPaymentQuery = ({ setListInfo, queryApi, value }) => {
             }
         })
         .catch((e) => console.log('e1=>', e));
+        //海纜名稱
+        fetch(submarineCableInfoList, { method: 'GET' })
+        .then((res) => res.json())
+        .then((data) => {
+            setSubmarineCableList(data);
+        })
+        .catch((e) => console.log('e1=>', e));
     }, [])
 
     return (
@@ -124,7 +128,7 @@ const SupplierPaymentQuery = ({ setListInfo, queryApi, value }) => {
                     <FormControl fullWidth size="small">
                         <InputLabel>選擇海纜名稱</InputLabel>
                         <Select value={submarineCable} label="海纜名稱" size="small" onChange={(e) => setSubmarineCable(e.target.value)}>
-                            {subCableList.map((i) => (
+                            {submarineCableList.map((i) => (
                                 <MenuItem key={i.CableName} value={i.CableName}>
                                     {i.CableName}
                                 </MenuItem>

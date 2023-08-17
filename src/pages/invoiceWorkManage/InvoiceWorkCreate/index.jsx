@@ -16,7 +16,7 @@ import { TextField } from '@mui/material/index';
 import { activeItem } from 'store/reducers/menu';
 
 // api
-import { supplierNameListForInvoice, submarineCableList, billMilestoneList, generateInvoice, supplierNameDropDownUnique } from 'components/apis.jsx';
+import { supplierNameListForInvoice, submarineCableInfoList, billMilestoneList, generateInvoice, supplierNameDropDownUnique } from 'components/apis.jsx';
 import { handleNumber } from 'components/commonFunction';
 
 // redux
@@ -43,7 +43,7 @@ const InvoiceWorkManage = () => {
     const [partyName, setPartyName] = useState(''); //會員名稱
 
     const [supNmList, setSupNmList] = useState([]); //供應商下拉選單
-    const [subCableList, setSubCableList] = useState([]); //海纜名稱下拉選單
+    const [submarineCableList, setSubmarineCableList] = useState([]); //海纜名稱下拉選單
     const [bmStoneList, setBmStoneList] = useState([]); //計帳段號下拉選單
 
     const [billMilestone, setBillMilestone] = useState(''); //計帳段號
@@ -274,12 +274,14 @@ const InvoiceWorkManage = () => {
             fetch(bmApi, { method: 'GET' })
                 .then((res) => res.json())
                 .then((data) => {
+                    console.log('BmStoneList=>>', data);
                     setBmStoneList(data);
                 })
                 .catch((e) => console.log('e1=>', e));
             fetch(snApi, { method: 'GET' })
                 .then((res) => res.json())
                 .then((data) => {
+                    console.log('SupNmList=>>', data);
                     setSupNmList(data);
                 })
                 .catch((e) => console.log('e1=>', e));
@@ -290,10 +292,10 @@ const InvoiceWorkManage = () => {
     }, [workTitle, submarineCable]);
 
     useEffect(() => {
-        fetch(submarineCableList, { method: 'GET' })
+        fetch(submarineCableInfoList, { method: 'GET' })
             .then((res) => res.json())
             .then((data) => {
-                setSubCableList(data);
+                setSubmarineCableList(data);
             })
             .catch((e) => console.log('e1=>', e));
         fetch(supplierNameDropDownUnique, { method: 'GET' })
@@ -347,7 +349,7 @@ const InvoiceWorkManage = () => {
                                 partyName={partyName}
                                 setPartyName={setPartyName}
                                 supNmList={supNmList}
-                                subCableList={subCableList}
+                                submarineCableList={submarineCableList}
                             />
                         </Grid>
                         {/* 右 */}

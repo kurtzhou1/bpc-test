@@ -24,7 +24,8 @@ import {
     billMilestoneList,
     returnToValidated,
     afterBilled,
-    supplierNameDropDownUnique
+    supplierNameDropDownUnique,
+    submarineCableInfoList
 } from 'components/apis.jsx';
 
 // redux
@@ -69,7 +70,8 @@ const InvoiceWorkManage = () => {
     const queryApi = useRef(queryInvoice + '/all');
     const queryApiTemporary = queryInvoice + '/Status=TEMPORARY';
 
-    const { subCableList, bmsList } = useSelector((state) => state.dropdown); //供應商下拉選單 + 海纜名稱下拉選單
+    const { bmsList } = useSelector((state) => state.dropdown); //供應商下拉選單 + 海纜名稱下拉選單
+    const [submarineCableList, setSubmarineCableList] = useState([]); //海纜名稱下拉選單
     const [listInfo, setListInfo] = useState([]);
     const [page, setPage] = useState(0); //分頁Page
 
@@ -187,6 +189,13 @@ const InvoiceWorkManage = () => {
             if(Array.isArray(data)) {
                 setSupNmList(data);
             }
+        })
+        .catch((e) => console.log('e1=>', e));
+        //海纜名稱
+        fetch(submarineCableInfoList, { method: 'GET' })
+        .then((res) => res.json())
+        .then((data) => {
+            setSubmarineCableList(data);
         })
         .catch((e) => console.log('e1=>', e));
     }, []);
@@ -440,7 +449,7 @@ const InvoiceWorkManage = () => {
                                     setListInfo={setListInfo}
                                     queryApi={queryApi}
                                     supNmList={supNmList}
-                                    subCableList={subCableList}
+                                    submarineCableList={submarineCableList}
                                     bmsList={bmsList}
                                     setAction={setAction}
                                     setPage={setPage}
@@ -497,7 +506,7 @@ const InvoiceWorkManage = () => {
                                         setIsRecharge={setIsRecharge}
                                         partyName={partyName}
                                         setPartyName={setPartyName}
-                                        subCableList={subCableList}
+                                        submarineCableList={submarineCableList}
                                         action={action}
                                     />
                                 </Grid>

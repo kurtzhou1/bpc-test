@@ -27,7 +27,7 @@ import { DateRangePicker } from '@mui/x-date-pickers-pro/DateRangePicker';
 import { TextField } from '@mui/material/index';
 
 // api
-import { searchBillMasterByInvoiceWKMaster, supplierNameDropDownUnique } from 'components/apis.jsx';
+import { searchBillMasterByInvoiceWKMaster, supplierNameDropDownUnique, submarineCableInfoList } from 'components/apis.jsx';
 
 // redux
 import { useSelector } from 'react-redux';
@@ -42,8 +42,9 @@ const ResearchBillQuery = ({ setListInfo, setDetailInfo }) => {
     const [isIssueDate, setIsIssueDate] = useState(''); //是否為發票日期
     const [issueDate, setIssueDate] = useState(null); //發票日期
     const [invoiceNo, setInvoiceNo] = useState(''); //發票號碼
-    const { subCableList, bmsList } = useSelector((state) => state.dropdown); //海纜名稱+計帳段號下拉選單
+    const { bmsList } = useSelector((state) => state.dropdown); //計帳段號下拉選單
     const [supNmList, setSupNmList] = useState([]); //供應商下拉選單
+    const [submarineCableList, setSubmarineCableList] = useState([]); //海纜名稱下拉選單
     const [invoiceStatusQuery, setInvoiceStatusQuery] = useState({
         BILLED: false,
         COMPLETE: false,
@@ -74,47 +75,26 @@ const ResearchBillQuery = ({ setListInfo, setDetailInfo }) => {
     const billQuery = () => {
         let tmpQuery = {};
         if (supplierName && supplierName !== '') {
-            // tmpQuery = tmpQuery + 'SupplierName=' + supplierName + '&';
             tmpQuery.SupplierName = supplierName;
         }
         if (submarineCable && submarineCable !== '') {
-            // tmpQuery = tmpQuery + 'SubmarineCable=' + submarineCable + '&';
             tmpQuery.SubmarineCable = submarineCable;
         }
         if (workTitle && workTitle !== '') {
-            // tmpQuery = tmpQuery + 'WorkTitle=' + workTitle + '&';
             tmpQuery.WorkTitle = workTitle;
         }
         if (invoiceNo && invoiceNo !== '') {
-            // tmpQuery = tmpQuery + 'BillMilestone=' + invoiceNo + '&';
             tmpQuery.InvoiceNo = invoiceNo;
         }
         if (billMilestone && billMilestone !== '') {
-            // tmpQuery = tmpQuery + 'BillMilestone=' + billMilestone + '&';
             tmpQuery.BillMilestone = billMilestone;
         }
         console.log(issueDate, isIssueDate);
         if (issueDate && isIssueDate === 'true') {
-            // tmpQuery =
-            //     tmpQuery +
-            //     'startIssueDate=' +
-            //     dayjs(issueDate).format('YYYYMMDD') +
-            //     '&' +
-            //     'endIssueDate=' +
-            //     dayjs(issueDate).format('YYYYMMDD') +
-            //     '&';
             tmpQuery.startIssueDate = dayjs(issueDate).format('YYYYMMDD');
             tmpQuery.endIssueDate = dayjs(issueDate).format('YYYYMMDD');
         }
         if (issueDate && isIssueDate === 'false') {
-            // tmpQuery =
-            //     tmpQuery +
-            //     'startDueDate=' +
-            //     dayjs(issueDate).format('YYYYMMDD') +
-            //     '&' +
-            //     'endDueDate=' +
-            //     dayjs(issueDate).format('YYYYMMDD') +
-            //     '&';
             tmpQuery.startDueDate = dayjs(issueDate).format('YYYYMMDD');
             tmpQuery.endDueDate = dayjs(issueDate).format('YYYYMMDD');
         }
@@ -136,42 +116,25 @@ const ResearchBillQuery = ({ setListInfo, setDetailInfo }) => {
         ) {
             let tmpStatus = [];
             if (invoiceStatusQuery?.TEMPORARY) {
-                // tmpStatus = tmpStatus + 'Status=TEMPORARY&';
                 tmpStatus.push('TEMPORARY');
             }
             if (invoiceStatusQuery?.VALIDATED) {
-                // tmpStatus = tmpStatus + 'Status=VALIDATED&';
                 tmpStatus.push('VALIDATED');
             }
             if (invoiceStatusQuery?.BILLED) {
-                // tmpStatus = tmpStatus + 'Status=BILLED&';
                 tmpStatus.push('BILLED');
             }
             if (invoiceStatusQuery?.PAYING) {
-                // tmpStatus = tmpStatus + 'Status=PAYING&';
                 tmpStatus.push('PAYING');
             }
             if (invoiceStatusQuery?.COMPLETE) {
-                // tmpStatus = tmpStatus + 'Status=COMPLETE&';
                 tmpStatus.push('COMPLETE');
             }
             if (invoiceStatusQuery?.INVALID) {
-                // tmpStatus = tmpStatus + 'Status=INVALID&';
                 tmpStatus.push('INVALID');
             }
-            // tmpQuery = tmpQuery + tmpStatus;
             tmpQuery.Status = tmpStatus;
         }
-
-        // if (tmpQuery.includes('&')) {
-        //     tmpQuery = tmpQuery.slice(0, -1);
-        // } else {
-        //     tmpQuery = tmpQuery + 'all';
-        // }
-
-        // tmpQuery = searchBillMasterByInvoiceWKMaster + tmpQuery;
-        // queryApi.current = tmpQuery;
-        console.log('tmpQuery=>>', tmpQuery);
 
         fetch(searchBillMasterByInvoiceWKMaster, { method: 'POST', body: JSON.stringify(tmpQuery) })
             .then((res) => res.json())
@@ -198,6 +161,13 @@ const ResearchBillQuery = ({ setListInfo, setDetailInfo }) => {
             }
         })
         .catch((e) => console.log('e1=>', e));
+        //海纜名稱
+        fetch(submarineCableInfoList, { method: 'GET' })
+            .then((res) => res.json())
+            .then((data) => {
+                setSubmarineCableList(data);
+            })
+            .catch((e) => console.log('e1=>', e));
     }, [])
 
     return (
@@ -230,7 +200,7 @@ const ResearchBillQuery = ({ setListInfo, setDetailInfo }) => {
                     <FormControl fullWidth size="small">
                         <InputLabel id="demo-simple-select-label">選擇海纜名稱</InputLabel>
                         <Select value={submarineCable} label="海纜名稱" onChange={(e) => setSubmarineCable(e.target.value)}>
-                            {subCableList.map((i) => (
+                            {submarineCableList.map((i) => (
                                 <MenuItem key={i.CableName} value={i.CableName}>
                                     {i.CableName}
                                 </MenuItem>

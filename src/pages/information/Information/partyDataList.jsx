@@ -10,15 +10,12 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
-import { alpha, styled } from '@mui/material/styles';
-
-import dayjs from 'dayjs';
-
-import { addParties, getPartiesAllInfo, deleteParties, editParties } from 'components/apis.jsx';
+import { styled } from '@mui/material/styles';
+import { addParties, getPartiesAllInfo, deleteParties, editParties, submarineCableInfoList } from 'components/apis.jsx';
 import { makeStyles } from '@material-ui/core/styles';
 
 // redux
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { setMessageStateOpen, setPartiesList } from 'store/reducers/dropdown';
 
 // icon
@@ -149,7 +146,7 @@ const columns4 = [
 
 const PartyDataList = ({ maxHei }) => {
     const dispatch = useDispatch();
-    const { subCableList } = useSelector((state) => state.dropdown); //海纜名稱下拉選單
+    const [submarineCableList, setSubmarineCableList] = useState([]); //海纜名稱下拉選單
     const [infoList, setInfoList] = useState([]);
     const [submarineCable, setSubmarineCable] = useState(''); //海纜名稱
     const [workTitle, setWorkTitle] = useState(''); //海纜作業
@@ -247,7 +244,7 @@ const PartyDataList = ({ maxHei }) => {
             .then((data) => {
                 if (Array.isArray(data)) {
                     setInfoList(data);
-                    dispatch(setPartiesList({ partiesList: data }));
+                    // dispatch(setPartiesList({ partiesList: data }));
                 }
             })
             .catch((e) => console.log('e1=>', e));
@@ -377,6 +374,13 @@ const PartyDataList = ({ maxHei }) => {
 
     useEffect(() => {
         queryPartiesInfo();
+        //海纜名稱
+        fetch(submarineCableInfoList, { method: 'GET' })
+        .then((res) => res.json())
+        .then((data) => {
+            setSubmarineCableList(data);
+        })
+        .catch((e) => console.log('e1=>', e));
     }, []);
 
     return (
@@ -545,7 +549,7 @@ const PartyDataList = ({ maxHei }) => {
                             <>
                                 <TableCell align="center">
                                     <Select size="small" value={submarineCable} onChange={(e) => setSubmarineCable(e.target.value)}>
-                                        {subCableList.map((i) => (
+                                        {submarineCableList.map((i) => (
                                             <MenuItem key={i.CableName} value={i.CableName}>
                                                 {i.CableName}
                                             </MenuItem>
@@ -568,7 +572,7 @@ const PartyDataList = ({ maxHei }) => {
                         ) : (
                             <TableCell align="center">
                                 <Select size="small" value={submarineCable} onChange={(e) => setSubmarineCable(e.target.value)}>
-                                    {subCableList.map((i) => (
+                                    {submarineCableList.map((i) => (
                                         <MenuItem key={i.CableName} value={i.CableName}>
                                             {i.CableName}
                                         </MenuItem>
@@ -894,7 +898,7 @@ const PartyDataList = ({ maxHei }) => {
                                                         value={submarineCableEdit}
                                                         onChange={(e) => setSubmarineCableEdit(e.target.value)}
                                                     >
-                                                        {subCableList.map((i) => (
+                                                        {submarineCableList.map((i) => (
                                                             <MenuItem key={i.CableName} value={i.CableName}>
                                                                 {i.CableName}
                                                             </MenuItem>
@@ -921,7 +925,7 @@ const PartyDataList = ({ maxHei }) => {
                                                     value={submarineCableEdit}
                                                     onChange={(e) => setSubmarineCableEdit(e.target.value)}
                                                 >
-                                                    {subCableList.map((i) => (
+                                                    {submarineCableList.map((i) => (
                                                         <MenuItem key={i.CableName} value={i.CableName}>
                                                             {i.CableName}
                                                         </MenuItem>

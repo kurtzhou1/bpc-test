@@ -15,7 +15,7 @@ import {
 
 // project import
 import MainCard from 'components/MainCard';
-import { queryToCombineInvo, queryToDecutBill, quertDeductedData } from 'components/apis';
+import { queryToCombineInvo, queryToDecutBill, quertDeductedData, getPartiesInfoList, submarineCableInfoList } from 'components/apis';
 
 // day
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
@@ -33,7 +33,6 @@ import { useSelector } from 'react-redux';
 // ==============================|| SAMPLE PAGE ||============================== //
 
 const ReceivableQuery = ({ value, setListInfo, queryApi }) => {
-    const { partiesList, subCableList } = useSelector((state) => state.dropdown); //供應商下拉選單 + 海纜名稱下拉選單
     const [issueDate, setIssueDate] = useState([null, null]); //發票日期
     const [workTitle, setWorkTitle] = useState(''); //海纜作業
     const [partyName, setPartyName] = useState(''); //會員代號
@@ -42,6 +41,8 @@ const ReceivableQuery = ({ value, setListInfo, queryApi }) => {
     const [invoiceNo, setInvoiceNo] = useState(''); //發票號碼
     const [billingNo, setBillingNo] = useState(''); //帳單號碼
     const [supNmList, setSupNmList] = useState([]); //供應商下拉選單
+    const [submarineCableList, setSubmarineCableList] = useState([]); //海纜名稱下拉選單
+    const [partiesList, setPartiesList] = useState([]); //會員下拉選單
 
     const initInfo = () => {
         setIssueDate([null, null]);
@@ -52,8 +53,6 @@ const ReceivableQuery = ({ value, setListInfo, queryApi }) => {
         setInvoiceNo('');
         setBillingNo('');
     };
-
-    console.log('value=>>', value);
 
     const initQuery = () => {
         let tmpQuery = '';
@@ -199,14 +198,29 @@ const ReceivableQuery = ({ value, setListInfo, queryApi }) => {
     }, [value]);
 
     useEffect(() => {
+        // 供應商
         fetch(supplierNameDropDownUnique, { method: 'GET' })
-        .then((res) => res.json())
-        .then((data) => {
-            if(Array.isArray(data)) {
-                setSupNmList(data);
-            }
-        })
-        .catch((e) => console.log('e1=>', e));
+            .then((res) => res.json())
+            .then((data) => {
+                if(Array.isArray(data)) {
+                    setSupNmList(data);
+                }
+            })
+            .catch((e) => console.log('e1=>', e));
+         //海纜名稱
+         fetch(submarineCableInfoList, { method: 'GET' })
+            .then((res) => res.json())
+            .then((data) => {
+                setSubmarineCableList(data);
+            })
+            .catch((e) => console.log('e1=>', e));
+        //會員名稱
+        fetch(getPartiesInfoList, { method: 'GET' })
+            .then((res) => res.json())
+            .then((data) => {
+                setPartiesList(data);
+            })
+            .catch((e) => console.log('e1=>', e));
     }, [])
 
     return (
@@ -237,7 +251,7 @@ const ReceivableQuery = ({ value, setListInfo, queryApi }) => {
                     <FormControl fullWidth size="small">
                         <InputLabel>選擇海纜名稱</InputLabel>
                         <Select value={submarineCable} label="海纜名稱" size="small" onChange={(e) => setSubmarineCable(e.target.value)}>
-                            {subCableList.map((i) => (
+                            {submarineCableList.map((i) => (
                                 <MenuItem key={i.CableName} value={i.CableName}>
                                     {i.CableName}
                                 </MenuItem>

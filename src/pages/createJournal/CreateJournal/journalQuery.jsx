@@ -12,10 +12,7 @@ import { DateRangePicker } from '@mui/x-date-pickers-pro/DateRangePicker';
 import { TextField } from '@mui/material/index';
 
 //api
-import { queryInvoice, supplierNameDropDownUnique } from 'components/apis.jsx';
-
-// redux
-import { useSelector } from 'react-redux';
+import { queryInvoice, supplierNameDropDownUnique, submarineCableInfoList } from 'components/apis.jsx';
 
 // ==============================|| SAMPLE PAGE ||============================== //
 
@@ -23,8 +20,8 @@ const JournalQuery = ({ setListInfo, queryApi, invoiceStatus }) => {
     const [supplierName, setSupplierName] = useState(''); //供應商
     const [submarineCable, setSubmarineCable] = useState(''); //海纜名稱
     const [issueDate, setIssueDate] = useState([null, null]); //發票日期
-    const { subCableList } = useSelector((state) => state.dropdown); //海纜名稱下拉選單
     const [supNmList, setSupNmList] = useState([]); //供應商下拉選單
+    const [submarineCableList, setSubmarineCableList] = useState([]); //海纜名稱下拉選單
 
     const initQuery = () => {
         setSupplierName('');
@@ -81,6 +78,13 @@ const JournalQuery = ({ setListInfo, queryApi, invoiceStatus }) => {
             }
         })
         .catch((e) => console.log('e1=>', e));
+        //海纜名稱
+        fetch(submarineCableInfoList, { method: 'GET' })
+        .then((res) => res.json())
+        .then((data) => {
+            setSubmarineCableList(data);
+        })
+        .catch((e) => console.log('e1=>', e));
     }, [])
 
     return (
@@ -100,7 +104,7 @@ const JournalQuery = ({ setListInfo, queryApi, invoiceStatus }) => {
                     <FormControl fullWidth size="small">
                         <InputLabel id="demo-simple-select-label">選擇海纜</InputLabel>
                         <Select value={submarineCable} label="海纜" onChange={(e) => setSubmarineCable(e.target.value)}>
-                            {subCableList.map((i) => (
+                            {submarineCableList.map((i) => (
                                 <MenuItem key={i.CableName} value={i.CableName}>
                                     {i.CableName}
                                 </MenuItem>

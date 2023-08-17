@@ -27,10 +27,7 @@ import { DateRangePicker } from '@mui/x-date-pickers-pro/DateRangePicker';
 import { TextField } from '@mui/material/index';
 
 // api
-import { searchInvoiceWKMasterByBillMaster } from 'components/apis.jsx';
-
-// redux
-import { useSelector } from 'react-redux';
+import { searchInvoiceWKMasterByBillMaster, submarineCableInfoList, getPartiesInfoList } from 'components/apis.jsx';
 
 // ==============================|| SAMPLE PAGE ||============================== //
 
@@ -40,7 +37,8 @@ const ResearchBillQuery = ({ setListInfo, setDetailInfo }) => {
     const [workTitle, setWorkTitle] = useState(''); //海纜作業
     const [dueDate, setDueDate] = useState(null); //發票日期
     const [billingNo, setBillingNo] = useState(''); //發票號碼
-    const { partiesList, subCableList } = useSelector((state) => state.dropdown); //供應商下拉選單 + 海纜名稱下拉選單
+    const [submarineCableList, setSubmarineCableList] = useState([]); //海纜名稱下拉選單
+    const [partiesList, setPartiesList] = useState([]); //會員下拉選單
 
     const queryInit = () => {
         setPartyName('');
@@ -68,10 +66,6 @@ const ResearchBillQuery = ({ setListInfo, setDetailInfo }) => {
             // tmpQuery = tmpQuery + 'BillMilestone=' + billingNo + '&';
             tmpQuery.BillingNo = billingNo;
         }
-        // if (billMilestone && billMilestone !== '') {
-        //     // tmpQuery = tmpQuery + 'BillMilestone=' + billMilestone + '&';
-        //     tmpQuery.BillMilestone = billMilestone;
-        // }
         if (dueDate) {
             tmpQuery.startDueDate = dayjs(dueDate).format('YYYYMMDD');
             tmpQuery.endDueDate = dayjs(dueDate).format('YYYYMMDD');
@@ -90,6 +84,23 @@ const ResearchBillQuery = ({ setListInfo, setDetailInfo }) => {
             })
             .catch((e) => console.log('e1=>', e));
     };
+
+    useEffect(() => {
+        //海纜名稱
+        fetch(submarineCableInfoList, { method: 'GET' })
+           .then((res) => res.json())
+           .then((data) => {
+               setSubmarineCableList(data);
+           })
+           .catch((e) => console.log('e1=>', e));
+       //會員名稱
+       fetch(getPartiesInfoList, { method: 'GET' })
+           .then((res) => res.json())
+           .then((data) => {
+               setPartiesList(data);
+           })
+           .catch((e) => console.log('e1=>', e));
+   }, [])
 
     return (
         <MainCard title="條件查詢" sx={{ width: '100%' }}>
@@ -119,7 +130,7 @@ const ResearchBillQuery = ({ setListInfo, setDetailInfo }) => {
                     <FormControl fullWidth size="small">
                         <InputLabel id="demo-simple-select-label">選擇海纜名稱</InputLabel>
                         <Select value={submarineCable} label="海纜名稱" onChange={(e) => setSubmarineCable(e.target.value)}>
-                            {subCableList.map((i) => (
+                            {submarineCableList.map((i) => (
                                 <MenuItem key={i.CableName} value={i.CableName}>
                                     {i.CableName}
                                 </MenuItem>

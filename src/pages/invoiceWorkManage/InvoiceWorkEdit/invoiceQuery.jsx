@@ -26,7 +26,7 @@ import MainCard from 'components/MainCard';
 import { queryInvoice, supplierNameDropDownUnique } from 'components/apis.jsx';
 import dayjs from 'dayjs';
 
-const InvoiceQuery = ({ setListInfo, queryApi, subCableList, bmsList, setAction, setPage }) => {
+const InvoiceQuery = ({ setListInfo, queryApi, submarineCableList, bmsList, setAction, setPage }) => {
     const [issueDate, setIssueDate] = useState([null, null]); //發票日期
     const [supplierNameQuery, setSupplierNameQuery] = useState(''); //供應商
     const [submarineCableQuery, setSubmarineCableQuery] = useState(''); //海纜名稱
@@ -188,7 +188,7 @@ const InvoiceQuery = ({ setListInfo, queryApi, subCableList, bmsList, setAction,
                     <FormControl fullWidth size="small">
                         <InputLabel id="demo-simple-select-label">選擇海纜</InputLabel>
                         <Select value={submarineCableQuery} label="發票供應商" onChange={(e) => setSubmarineCableQuery(e.target.value)}>
-                            {subCableList.map((i) => (
+                            {submarineCableList.map((i) => (
                                 <MenuItem key={i.CableName} value={i.CableName}>
                                     {i.CableName}
                                 </MenuItem>
@@ -367,7 +367,7 @@ InvoiceQuery.propTypes = {
     setListInfo: PropTypes.func,
     queryApi: PropTypes.string,
     supNmList: PropTypes.array,
-    subCableList: PropTypes.array,
+    submarineCableList: PropTypes.array,
     bmsList: PropTypes.array,
     setAction: PropTypes.func,
     setPage: PropTypes.func

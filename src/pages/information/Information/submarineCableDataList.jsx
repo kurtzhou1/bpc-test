@@ -14,7 +14,7 @@ import { alpha, styled } from '@mui/material/styles';
 
 import dayjs from 'dayjs';
 
-import { addSubmarineCables, submarineCableList, deleteSubmarineCables, editSubmarineCables } from 'components/apis.jsx';
+import { addSubmarineCables, submarineCableInfoList, deleteSubmarineCables, editSubmarineCables } from 'components/apis.jsx';
 
 // redux
 import { useDispatch } from 'react-redux';
@@ -73,13 +73,12 @@ const SubmarineCableDataList = ({ maxHei }) => {
     };
 
     const querySubmarineCablesInfo = () => {
-        fetch(submarineCableList, { method: 'GET' })
+        fetch(submarineCableInfoList, { method: 'GET' })
             .then((res) => res.json())
             .then((data) => {
                 console.log('取得海纜資料成功=>', data);
                 if (Array.isArray(data)) {
                     setInfoList(data);
-                    dispatch(setSubmarineCableList({ subCableList: data }));
                 }
             })
             .catch((e) => console.log('e1=>', e));

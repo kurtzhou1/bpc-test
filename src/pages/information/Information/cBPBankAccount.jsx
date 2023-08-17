@@ -14,7 +14,7 @@ import { alpha, styled } from '@mui/material/styles';
 
 import dayjs from 'dayjs';
 
-import { addCorporates, getCorporatesInfo, deleteCorporates, editCorporates } from 'components/apis.jsx';
+import { addCorporates, getCorporatesInfo, deleteCorporates, editCorporates, submarineCableInfoList } from 'components/apis.jsx';
 // redux
 import { useDispatch, useSelector } from 'react-redux';
 import { setMessageStateOpen } from 'store/reducers/dropdown';
@@ -40,7 +40,7 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
 
 const Corporates = ({ maxHei }) => {
     const dispatch = useDispatch();
-    const { subCableList } = useSelector((state) => state.dropdown); //供應商下拉選單 + 海纜名稱下拉選單
+    const [submarineCableList, setSubmarineCableList] = useState([]); //海纜名稱下拉選單
     const [infoList, setInfoList] = useState([]);
     // const [corpName, setCorpName] = useState(''); //聯盟代號
     const [acctName, setAcctName] = useState(''); //海纜作業
@@ -261,7 +261,7 @@ const Corporates = ({ maxHei }) => {
 
         fetch(editCorporates, { method: 'POST', body: JSON.stringify(tmpArray), headers: { 'Content-Type': 'application/json' } })
             .then((res) => res.json())
-            .then((data) => {
+            .then(() => {
                 dispatch(
                     setMessageStateOpen({ messageStateOpen: { isOpen: true, severity: 'success', message: '更新聯盟金融帳戶資料成功' } })
                 );
@@ -273,6 +273,13 @@ const Corporates = ({ maxHei }) => {
 
     useEffect(() => {
         queryCorporatesInfo();
+        //海纜名稱
+        fetch(submarineCableInfoList, { method: 'GET' })
+        .then((res) => res.json())
+        .then((data) => {
+            setSubmarineCableList(data);
+        })
+        .catch((e) => console.log('e1=>', e));
     }, []);
 
     return (
@@ -381,7 +388,7 @@ const Corporates = ({ maxHei }) => {
                         </TableCell> */}
                         <TableCell align="center">
                             <Select size="small" value={submarineCable} onChange={(e) => setSubmarineCable(e.target.value)}>
-                                {subCableList.map((i) => (
+                                {submarineCableList.map((i) => (
                                     <MenuItem key={i.CableName} value={i.CableName}>
                                         {i.CableName}
                                     </MenuItem>
@@ -641,7 +648,7 @@ const Corporates = ({ maxHei }) => {
                                                 value={submarineCableEdit}
                                                 onChange={(e) => setSubmarineCableEdit(e.target.value)}
                                             >
-                                                {subCableList.map((i) => (
+                                                {submarineCableList.map((i) => (
                                                     <MenuItem key={i.CableName} value={i.CableName}>
                                                         {i.CableName}
                                                     </MenuItem>

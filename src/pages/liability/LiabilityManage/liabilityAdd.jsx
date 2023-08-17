@@ -33,7 +33,7 @@ import { styled } from '@mui/material/styles';
 import { BootstrapDialogTitle } from 'components/commonFunction';
 
 // api
-import { deleteLiability, addLiabilityapi } from 'components/apis.jsx';
+import { deleteLiability, addLiabilityapi, submarineCableInfoList, getPartiesInfoList } from 'components/apis.jsx';
 
 // redux
 import { useSelector, useDispatch } from 'react-redux';
@@ -80,8 +80,8 @@ const LiabilityAdd = ({
     const dispatch = useDispatch();
     const [listInfo, setListInfo] = useState([]);
     const [splitNumber, setSplitNumber] = useState('');
-
-    const { subCableList, partiesList } = useSelector((state) => state.dropdown); //海纜名稱下拉選單
+    const [submarineCableList, setSubmarineCableList] = useState([]); //海纜名稱下拉選單
+    const [partiesList, setPartiesList] = useState([]); //會員下拉選單
 
     const icon = <CheckBoxOutlineBlankIcon fontSize="small" />;
     const checkedIcon = <CheckBoxIcon fontSize="small" />;
@@ -199,18 +199,25 @@ const LiabilityAdd = ({
         }
     };
 
+    useEffect(() => {
+        //海纜名稱
+        fetch(submarineCableInfoList, { method: 'GET' })
+            .then((res) => res.json())
+            .then((data) => {
+                setSubmarineCableList(data);
+            })
+            .catch((e) => console.log('e1=>', e));
+        //會員名稱
+        fetch(getPartiesInfoList, { method: 'GET' })
+            .then((res) => res.json())
+            .then((data) => {
+                setPartiesList(data);
+            })
+            .catch((e) => console.log('e1=>', e));
+    }, []);
+
     return (
-        <Dialog
-            // onClose={() => {
-            //     handleDialogClose();
-            //     itemDetailInitial();
-            //     setEditItem(NaN);
-            //     setListInfo([]);
-            // }}
-            maxWidth="md"
-            fullWidth
-            open={isDialogOpen}
-        >
+        <Dialog maxWidth="md" fullWidth open={isDialogOpen} >
             <BootstrapDialogTitle>
                 {dialogAction === 'Split'
                     ? `切割計費段${billMilestone}的Liabilty`
@@ -279,7 +286,7 @@ const LiabilityAdd = ({
                                 label="填寫海纜名稱"
                                 onChange={(e) => setSubmarineCable(e.target.value)}
                             >
-                                {subCableList.map((i) => (
+                                {submarineCableList.map((i) => (
                                     <MenuItem key={i.CableName} value={i.CableName}>
                                         {i.CableName}
                                     </MenuItem>

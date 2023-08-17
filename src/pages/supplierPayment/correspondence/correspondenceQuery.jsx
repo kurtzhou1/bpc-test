@@ -4,7 +4,7 @@ import { Typography, Grid, Button, FormControl, InputLabel, Select, MenuItem } f
 
 // project import
 import MainCard from 'components/MainCard';
-import { queryPaydraft, supplierNameDropDownUnique } from 'components/apis';
+import { queryPaydraft, supplierNameDropDownUnique, submarineCableInfoList } from 'components/apis';
 
 // day
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
@@ -13,9 +13,6 @@ import dayjs from 'dayjs';
 import { TextField } from '@mui/material/index';
 import { DesktopDatePicker } from '@mui/x-date-pickers/DesktopDatePicker';
 
-// redux
-import { useSelector } from 'react-redux';
-
 // ==============================|| SAMPLE PAGE ||============================== //
 
 const CorrespondenceQuery = ({ setListInfo, queryApi, value }) => {
@@ -23,7 +20,7 @@ const CorrespondenceQuery = ({ setListInfo, queryApi, value }) => {
     const [supplierName, setSupplierName] = useState(''); //供應商
     const [submarineCable, setSubmarineCable] = useState(''); //海纜名稱
     const [workTitle, setWorkTitle] = useState(''); //海纜作業
-    const { subCableList } = useSelector((state) => state.dropdown); //供應商下拉選單 + 海纜名稱下拉選單
+    const [submarineCableList, setSubmarineCableList] = useState([]); //海纜名稱下拉選單
     const [invoiceNo, setInvoiceNo] = useState(''); //發票號碼
     const [supNmList, setSupNmList] = useState([]); //供應商下拉選單
 
@@ -84,6 +81,13 @@ const CorrespondenceQuery = ({ setListInfo, queryApi, value }) => {
             }
         })
         .catch((e) => console.log('e1=>', e));
+        //海纜名稱
+        fetch(submarineCableInfoList, { method: 'GET' })
+        .then((res) => res.json())
+        .then((data) => {
+            setSubmarineCableList(data);
+        })
+        .catch((e) => console.log('e1=>', e));
     }, [])
 
     return (
@@ -116,7 +120,7 @@ const CorrespondenceQuery = ({ setListInfo, queryApi, value }) => {
                     <FormControl fullWidth size="small">
                         <InputLabel id="demo-simple-select-label">選擇海纜</InputLabel>
                         <Select value={submarineCable} label="海纜" onChange={(e) => setSubmarineCable(e.target.value)}>
-                            {subCableList.map((i) => (
+                            {submarineCableList.map((i) => (
                                 <MenuItem key={i.CableName} value={i.CableName}>
                                     {i.CableName}
                                 </MenuItem>

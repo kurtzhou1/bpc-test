@@ -29,7 +29,7 @@ import { queryCB } from 'components/apis.jsx';
 
 // ==============================|| SAMPLE PAGE ||============================== //
 
-const CreditBalanceQuery = ({ setListInfo, partiesList, subCableList, queryApi }) => {
+const CreditBalanceQuery = ({ setListInfo, partiesList, submarineCableList, queryApi }) => {
     const [partyName, setPartyName] = useState(''); //會員代號
     const [cBType, setCBType] = useState(''); //CB種類
     const [submarineCable, setSubmarineCable] = useState(''); //海纜名稱
@@ -139,7 +139,7 @@ const CreditBalanceQuery = ({ setListInfo, partiesList, subCableList, queryApi }
                     <FormControl fullWidth size="small">
                         <InputLabel id="demo-simple-select-label">選擇海纜名稱</InputLabel>
                         <Select value={submarineCable} label="海纜名稱" onChange={(e) => setSubmarineCable(e.target.value)}>
-                            {subCableList.map((i) => (
+                            {submarineCableList.map((i) => (
                                 <MenuItem key={i.CableName} value={i.CableName}>
                                     {i.CableName}
                                 </MenuItem>

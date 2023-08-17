@@ -10,15 +10,12 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
-import { alpha, styled } from '@mui/material/styles';
-
-import dayjs from 'dayjs';
-
-import { addSuppliers, supplierNameList, deleteSuppliers, editSuppliers } from 'components/apis.jsx';
+import { styled } from '@mui/material/styles';
+import { addSuppliers, supplierNameList, deleteSuppliers, editSuppliers, submarineCableInfoList } from 'components/apis.jsx';
 
 // redux
-import { useDispatch, useSelector } from 'react-redux';
-import { setMessageStateOpen, setSupplierNameList } from 'store/reducers/dropdown';
+import { useDispatch } from 'react-redux';
+import { setMessageStateOpen } from 'store/reducers/dropdown';
 
 // icon
 import DoNotDisturbOnIcon from '@mui/icons-material/DoNotDisturbOn';
@@ -26,7 +23,7 @@ import AddCircleIcon from '@mui/icons-material/AddCircle';
 
 const SupplierDataList = ({ maxHei }) => {
     const dispatch = useDispatch();
-    const { subCableList } = useSelector((state) => state.dropdown); //海纜名稱下拉選單
+    const [submarineCableList, setSubmarineCableList] = useState([]); //海纜名稱下拉選單
     const [infoList, setInfoList] = useState([]);
     const [supplierName, setSupplierName] = useState(''); //供應商
     const [bankAcctName, setBankAcctName] = useState(''); //帳號名稱
@@ -178,7 +175,7 @@ const SupplierDataList = ({ maxHei }) => {
                 console.log('取得Suppliers資料成功=>', data);
                 if (Array.isArray(data)) {
                     setInfoList(data);
-                    dispatch(setSupplierNameList({ supNmList: data }));
+                    // dispatch(setSupplierNameList({ supNmList: data }));
                 }
             })
             .catch((e) => console.log('e1=>', e));
@@ -270,6 +267,13 @@ const SupplierDataList = ({ maxHei }) => {
 
     useEffect(() => {
         querySuppliersInfo();
+        //海纜名稱
+        fetch(submarineCableInfoList, { method: 'GET' })
+        .then((res) => res.json())
+        .then((data) => {
+            setSubmarineCableList(data);
+        })
+        .catch((e) => console.log('e1=>', e));
     }, []);
 
     return (
@@ -400,7 +404,7 @@ const SupplierDataList = ({ maxHei }) => {
                             <>
                                 <TableCell align="center">
                                     <Select size="small" value={submarineCable} onChange={(e) => setSubmarineCable(e.target.value)}>
-                                        {subCableList.map((i) => (
+                                        {submarineCableList.map((i) => (
                                             <MenuItem key={i.CableName} value={i.CableName}>
                                                 {i.CableName}
                                             </MenuItem>
@@ -443,7 +447,7 @@ const SupplierDataList = ({ maxHei }) => {
                         ) : (
                             <TableCell align="center">
                                 <Select size="small" value={submarineCable} onChange={(e) => setSubmarineCable(e.target.value)}>
-                                    {subCableList.map((i) => (
+                                    {submarineCableList.map((i) => (
                                         <MenuItem key={i.CableName} value={i.CableName}>
                                             {i.CableName}
                                         </MenuItem>
@@ -681,7 +685,7 @@ const SupplierDataList = ({ maxHei }) => {
                                                         value={submarineCableEdit}
                                                         onChange={(e) => setSubmarineCableEdit(e.target.value)}
                                                     >
-                                                        {subCableList.map((i) => (
+                                                        {submarineCableList.map((i) => (
                                                             <MenuItem key={i.CableName} value={i.CableName}>
                                                                 {i.CableName}
                                                             </MenuItem>
@@ -728,7 +732,7 @@ const SupplierDataList = ({ maxHei }) => {
                                                     value={submarineCableEdit}
                                                     onChange={(e) => setSubmarineCableEdit(e.target.value)}
                                                 >
-                                                    {subCableList.map((i) => (
+                                                    {submarineCableList.map((i) => (
                                                         <MenuItem key={i.CableName} value={i.CableName}>
                                                             {i.CableName}
                                                         </MenuItem>

@@ -43,7 +43,7 @@ const LiabilityManage = () => {
     // const [bmStoneList, setBmStoneList] = useState([]); //計帳段號下拉選單
     const [setBmStoneList] = useState([]); //計帳段號下拉選單
     const [partyList, setPartyList] = useState([]); //會員名稱下拉選單
-    const [subCableList, setSubCableList] = useState([]); //海纜名稱下拉選單
+    const [submarineCableList, setSubmarineCableList] = useState([]); //海纜名稱下拉選單
     const [workTitleList, setWorkTitleList] = useState([]); //海纜作業下拉選單
     const lBRawID = useRef(0); //LBRawID
 
@@ -171,7 +171,7 @@ const LiabilityManage = () => {
         fetch(submarineCableLiabilityList, { method: 'GET' })
             .then((res) => res.json())
             .then((data) => {
-                setSubCableList(data);
+                setSubmarineCableList(data);
             })
             .catch((e) => console.log('e1=>', e));
         fetch(partiesLiabilityList, { method: 'GET' })
@@ -224,7 +224,7 @@ const LiabilityManage = () => {
                     setListInfo={setListInfo}
                     // bmStoneList={bmStoneList}
                     partyList={partyList}
-                    subCableList={subCableList}
+                    submarineCableList={submarineCableList}
                     workTitleList={workTitleList}
                     queryApi={queryApi}
                 />

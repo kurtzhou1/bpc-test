@@ -1,5 +1,5 @@
 import { useState, useRef } from 'react';
-import { Grid, Button } from '@mui/material';
+import { Grid } from '@mui/material';
 // import { styled } from '@mui/material/styles';
 
 // project import
@@ -8,11 +8,7 @@ import ResearchJournalQuery from './researchJournalQuery';
 import ResearchJournalDataList from './researchJournalDataList';
 import ResearchJournalDetail from './researchJournalDetail';
 
-// redux
-import { useSelector } from 'react-redux';
-
 const ResearchJournal = () => {
-    const { partiesList, subCableList } = useSelector((state) => state.dropdown); //供應商下拉選單 + 海纜名稱下拉選單
     const queryApi = useRef('/all');
     const [listInfo, setListInfo] = useState([]);
     const [datailInfo, setDetailInfo] = useState([]);
@@ -21,7 +17,7 @@ const ResearchJournal = () => {
     return (
         <Grid container spacing={1}>
             <Grid item xs={12}>
-                <ResearchJournalQuery setListInfo={setListInfo} partiesList={partiesList} subCableList={subCableList} queryApi={queryApi} />
+                <ResearchJournalQuery setListInfo={setListInfo} queryApi={queryApi} />
             </Grid>
             <Grid item xs={12}>
                 <MainCard title="發票資料列表">

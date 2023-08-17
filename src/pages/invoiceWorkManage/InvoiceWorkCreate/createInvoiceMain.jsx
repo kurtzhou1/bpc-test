@@ -51,7 +51,7 @@ const InvoiceWorkManage = ({
     partyName,
     setPartyName,
     supNmList,
-    subCableList
+    submarineCableList
 }) => {
     const { t } = useTranslation();
     const dispatch = useDispatch();
@@ -85,7 +85,7 @@ const InvoiceWorkManage = ({
                     <FormControl fullWidth size="small">
                         <InputLabel>選擇海纜</InputLabel>
                         <Select value={submarineCable} label="發票供應商" onChange={(e) => setSubmarineCable(e.target.value)}>
-                            {subCableList.map((i) => (
+                            {submarineCableList.map((i) => (
                                 <MenuItem key={i.CableName} value={i.CableName}>
                                     {i.CableName}
                                 </MenuItem>

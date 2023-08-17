@@ -5,9 +5,6 @@ import { createSlice } from '@reduxjs/toolkit';
 const initialState = {
     isLogin: false,
     isTimeout: false,
-    supNmList: [], //供應商下拉選單
-    subCableList: [], //海纜名稱下拉選單
-    partiesList: [], //會員下拉選單
     bmsList: [], //計帳段號下拉選單
     userInfo: { ProfilePhotoURI: '', UserCName: '' },
     messageStateOpen: { isOpen: false, severity: '', message: '' }
@@ -25,15 +22,6 @@ const dropdown = createSlice({
         setUserInfo(state, action) {
             state.userInfo = action.payload.userInfo;
         },
-        setSupplierNameList(state, action) {
-            state.supNmList = action.payload.supNmList;
-        },
-        setSubmarineCableList(state, action) {
-            state.subCableList = action.payload.subCableList;
-        },
-        setPartiesList(state, action) {
-            state.partiesList = action.payload.partiesList;
-        },
         setBillMileStoneList(state, action) {
             state.bmsList = action.payload.bmsList;
         },
@@ -45,5 +33,5 @@ const dropdown = createSlice({
 
 export default dropdown.reducer;
 
-export const { setSupplierNameList, setSubmarineCableList, setPartiesList, setBillMileStoneList, setMessageStateOpen, setIsLogin, setUserInfo } =
+export const { setBillMileStoneList, setMessageStateOpen, setIsLogin, setUserInfo } =
     dropdown.actions;
