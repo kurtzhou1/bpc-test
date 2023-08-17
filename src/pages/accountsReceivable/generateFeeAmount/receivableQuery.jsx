@@ -122,7 +122,7 @@ const ReceivableQuery = ({ value, setListInfo, queryApi }) => {
         if (invoiceNo && invoiceNo !== '' && value === 0) {
             tmpQuery = tmpQuery + 'InvoiceNo=' + invoiceNo + '&';
         }
-        if (billingNo && billingNo !== '' && value !== 0) {
+        if (billingNo && billingNo !== '') {
             tmpQuery = tmpQuery + 'BillingNo=' + billingNo + '&';
         }
         if (workTitle && workTitle !== '') {

@@ -82,7 +82,6 @@ const ResearchBillDataList = ({ listInfo, setDetailInfo }) => {
                 }
             })
             .catch((e) => console.log('e1=>', e));
-        // setIsDialogOpen(true);
     };
 
     return (
@@ -195,6 +194,7 @@ const ResearchBillDataList = ({ listInfo, setDetailInfo }) => {
                             <StyledTableCell align="center">帳單到期日</StyledTableCell>
                             <StyledTableCell align="center">應收金額</StyledTableCell>
                             <StyledTableCell align="center">已實收金額</StyledTableCell>
+                            <StyledTableCell align="center">狀態</StyledTableCell>
                             <StyledTableCell align="center">Action</StyledTableCell>
                         </TableRow>
                     </TableHead>
@@ -214,6 +214,12 @@ const ResearchBillDataList = ({ listInfo, setDetailInfo }) => {
                                     <StyledTableCell align="center"> {dayjs(row.BillMaster.DueDate).format('YYYY/MM/DD')}</StyledTableCell>
                                     <StyledTableCell align="center">${handleNumber(row.BillMaster.FeeAmountSum)}</StyledTableCell>
                                     <StyledTableCell align="center">${handleNumber(row.BillMaster.ReceivedAmountSum)}</StyledTableCell>
+                                    <StyledTableCell align="center">{row.BillMaster.Status  === 'COMPLETE'
+                                            ? '完成'
+                                            : row.BillMaster.Status === 'TO_WRITEOFF'
+                                            ? '待銷帳'
+                                            : row.BillMaster.Status === 'INITIAL'
+                                            ? '待抵扣' : '已抵扣'}</StyledTableCell>
                                     <StyledTableCell align="center">
                                         <Box
                                             sx={{

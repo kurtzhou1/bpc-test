@@ -1,14 +1,11 @@
 import { useEffect, useState } from 'react';
-import { Typography, Grid, Button, FormControl, InputLabel, Select, MenuItem } from '@mui/material';
+import { Typography, Grid, Button, FormControl, InputLabel, Select, MenuItem, TextField } from '@mui/material';
 
 // project import
 import MainCard from 'components/MainCard';
 
 // api
 import { queryToDecutBill, getPartiesInfoList, submarineCableInfoList } from 'components/apis';
-
-// redux
-import { useSelector } from 'react-redux';
 
 // ==============================|| SAMPLE PAGE ||============================== //
 
@@ -18,6 +15,7 @@ const WriteOffQuery = ({ setListInfo, queryApi, value }) => {
     const [submarineCable, setSubmarineCable] = useState(''); //海纜名稱
     const [submarineCableList, setSubmarineCableList] = useState([]); //海纜名稱下拉選單
     const [partiesList, setPartiesList] = useState([]); //會員下拉選單
+    const [billingNo, setBillingNo] = useState(''); //帳單號碼
 
     const initQuery = () => {
         setWorkTitle('');
@@ -36,9 +34,9 @@ const WriteOffQuery = ({ setListInfo, queryApi, value }) => {
         if (submarineCable && submarineCable !== '') {
             tmpQuery = tmpQuery + '&SubmarineCable=' + submarineCable;
         }
-        // if (tmpQuery.includes('&')) {
-        //     tmpQuery = tmpQuery.slice(0, -1);
-        // }
+        if (billingNo && billingNo !== '') {
+            tmpQuery = tmpQuery + '&BillingNo=' + billingNo;
+        }
         tmpQuery = queryToDecutBill + tmpQuery;
         queryApi.current = tmpQuery;
         console.log('tmpQuery=>>', tmpQuery);
@@ -124,7 +122,23 @@ const WriteOffQuery = ({ setListInfo, queryApi, value }) => {
                         </Select>
                     </FormControl>
                 </Grid>
-                <Grid item xs={3} sm={3} md={3} lg={3} />
+                <Grid item xs={1} sm={1} md={1} lg={1}>
+                            <Typography variant="h5" sx={{ fontSize: { lg: '0.5rem', xl: '0.88rem' }, ml: { lg: '0.5rem', xl: '1.5rem' } }}>
+                                帳單號碼：
+                            </Typography>
+                        </Grid>
+                        <Grid item xs={2} sm={2} md={2} lg={2}>
+                            <FormControl fullWidth size="small">
+                                <TextField
+                                    fullWidth
+                                    variant="outlined"
+                                    value={billingNo}
+                                    size="small"
+                                    label="填寫帳單號碼"
+                                    onChange={(e) => setBillingNo(e.target.value)}
+                                />
+                            </FormControl>
+                        </Grid>
                 <Grid item xs={12} sm={12} md={12} lg={12} display="flex" justifyContent="end" alignItems="center">
                     <Button sx={{ mr: '0.5rem' }} variant="contained" onClick={writeOffQuery}>
                         查詢

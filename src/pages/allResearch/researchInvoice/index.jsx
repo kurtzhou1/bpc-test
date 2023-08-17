@@ -71,7 +71,6 @@ const ResearchInvoice = () => {
             <Grid item xs={12}>
                 <MainCard title="發票資料列表">
                     <ResearchInvoiceDataList listInfo={listInfo} setDetailInfo={setDetailInfo} />
-                    {/* <ResearchInvoiceDataList listInfo={fakeData} setDetailInfo={setDetailInfo} /> */}
                 </MainCard>
             </Grid>
             <Grid item xs={12}>

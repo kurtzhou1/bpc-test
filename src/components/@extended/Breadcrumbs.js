@@ -16,10 +16,6 @@ const Breadcrumbs = ({ navigation, title, ...others }) => {
     const [main, setMain] = useState();
     const [item, setItem] = useState();
 
-    console.log('navigation=>>', navigation)
-    console.log('main=>>', main)
-    console.log('item=>>', item)
-
     // set active item state
     const getCollapse = (menu) => {
         if (menu.children) {
