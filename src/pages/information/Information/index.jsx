@@ -36,7 +36,7 @@ const Information = () => {
 
     return (
         <Grid container spacing={1} id="tableContainer">
-            <h2>基本資料管理</h2>
+            {/* <h2>基本資料管理</h2> */}
             <Grid item xs={12}>
                 {/* <MainCard
                     contentSX={{ py: 1, px: 0 }}

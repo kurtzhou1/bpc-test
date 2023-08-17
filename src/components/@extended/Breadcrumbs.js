@@ -16,6 +16,10 @@ const Breadcrumbs = ({ navigation, title, ...others }) => {
     const [main, setMain] = useState();
     const [item, setItem] = useState();
 
+    console.log('navigation=>>', navigation)
+    console.log('main=>>', main)
+    console.log('item=>>', item)
+
     // set active item state
     const getCollapse = (menu) => {
         if (menu.children) {
@@ -71,7 +75,7 @@ const Breadcrumbs = ({ navigation, title, ...others }) => {
         );
 
         // main + 標題
-        if (item.breadcrumbs !== false) {
+        if (item.breadcrumbs !== false && location.pathname !== '/information' && location.pathname !== '/Liability') {
             breadcrumbContent = (
                 <MainCard border={false} sx={{ mb: 3, bgcolor: 'transparent' }} {...others} content={false}>
                     <Grid container direction="column" justifyContent="flex-start" alignItems="flex-start" spacing={1}>

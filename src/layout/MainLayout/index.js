@@ -98,6 +98,8 @@ const MainLayout = () => {
         }
     }, [messageStateOpen.isOpen]);
 
+    console.log('navigation=>>', navigation)
+
     return (
         <Box sx={{ display: 'flex', width: '100%' }}>
             {/* <Header open={open} handleDrawerToggle={handleDrawerToggle} /> */}

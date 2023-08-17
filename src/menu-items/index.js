@@ -12,7 +12,6 @@ import allResearch from './allResearch';
 // ==============================|| MENU ITEMS ||============================== //
 
 const menuItems = {
-    // items: [dashboard, pages, utilities, support]
     items: [
         dashboard,
         invoiceWorkManagePage,
