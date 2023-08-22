@@ -170,10 +170,10 @@ const IsSendDataList = ({ dataList, receivableQuery }) => {
                                                     handleDownload(row.BillMaster.BillMasterID, row.BillMaster.URI);
                                                 }}
                                             >
-                                                下載帳單
+                                                上傳帳單
                                             </Button>
                                             <Button color="info" size="small" variant="outlined">
-                                                已進待銷
+                                                上傳附件
                                             </Button>
                                         </Box>
                                     </StyledTableCell>

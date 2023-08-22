@@ -83,7 +83,7 @@ const GenerateFeeAmount = () => {
             <Grid item xs={12}>
                 <MainCard
                     title={`${
-                        value === 0 ? '待合併' : value === 1 ? '待抵扣' : value === 2 ? '已抵扣' : value === 3 ? '已簽核' : value === 4 ? '已上傳' : '已作廢'
+                        value === 0 ? '待合併' : value === 1 ? '待抵扣' : value === 2 ? '已抵扣' : value === 3 ? '已簽核' : value === 4 ? '已寄件' : '已作廢'
                     }帳單資料列表`}
                 >
                     <Box sx={{ borderBottom: 1, borderColor: 'divider', position: 'relative' }}>
@@ -92,7 +92,7 @@ const GenerateFeeAmount = () => {
                             <Tab label="待抵扣" {...a11yProps(1)} />
                             <Tab label="已抵扣" {...a11yProps(2)} />
                             <Tab label="已簽核" {...a11yProps(3)} />
-                            <Tab label="已上傳" {...a11yProps(4)} />
+                            <Tab label="已寄件" {...a11yProps(4)} />
                             <Tab label="已作廢" {...a11yProps(5)} />
                         </Tabs>
                         {value === 0 ? (
