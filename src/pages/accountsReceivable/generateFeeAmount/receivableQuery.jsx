@@ -27,9 +27,6 @@ import { TextField } from '@mui/material/index';
 // api
 import { supplierNameDropDownUnique } from 'components/apis.jsx';
 
-// redux
-import { useSelector } from 'react-redux';
-
 // ==============================|| SAMPLE PAGE ||============================== //
 
 const ReceivableQuery = ({ value, setListInfo, queryApi }) => {
@@ -68,8 +65,7 @@ const ReceivableQuery = ({ value, setListInfo, queryApi }) => {
             if (tmpQuery.includes('&')) {
                 tmpQuery = '/' + tmpQuery.slice(0, -1);
             } else {
-                tmpQuery = tmpQuery + '/Status' + '=INITIAL';
-                //
+                tmpQuery = tmpQuery + '/Status=INITIAL';
             }
             tmpQuery = queryToDecutBill + tmpQuery;
         } else if (value === 2) {
@@ -87,6 +83,13 @@ const ReceivableQuery = ({ value, setListInfo, queryApi }) => {
             }
             tmpQuery = queryToDecutBill + tmpQuery;
         } else if (value === 4) {
+            if (tmpQuery.includes('&')) {
+                tmpQuery = '/' + tmpQuery.slice(0, -1);
+            } else {
+                tmpQuery = tmpQuery + '/IsSent=True';
+            }
+            tmpQuery = queryToDecutBill + tmpQuery;
+        } else if (value === 5) {
             if (tmpQuery.includes('&')) {
                 tmpQuery = '/' + tmpQuery.slice(0, -1);
             } else {
@@ -172,6 +175,14 @@ const ReceivableQuery = ({ value, setListInfo, queryApi }) => {
             }
             tmpQuery = queryToDecutBill + tmpQuery;
         } else if (value === 4) {
+            if (tmpQuery.includes('&')) {
+                tmpQuery = '/' + tmpQuery.slice(0, -1);
+                tmpQuery = tmpQuery + '&IsSent=True';
+            } else {
+                tmpQuery = tmpQuery + '/IsSent=True';
+            }
+            tmpQuery = queryToDecutBill + tmpQuery;
+        } else if (value === 5) {
             if (tmpQuery.includes('&')) {
                 tmpQuery = '/' + tmpQuery.slice(0, -1);
                 tmpQuery = tmpQuery + '&Status=INVALID';

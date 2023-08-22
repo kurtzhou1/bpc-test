@@ -12,7 +12,7 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
-import { styled } from '@mui/material/styles';
+import { alpha, styled } from '@mui/material/styles';
 
 import dayjs from 'dayjs';
 
@@ -37,7 +37,7 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
     }
 }));
 
-const SignedDataList = ({ dataList, receivableQuery }) => {
+const IsSendDataList = ({ dataList, receivableQuery }) => {
     const dispatch = useDispatch();
     const [infoTerminal, setInfoTerminal] = useState(false); //作廢
     const [isDeductedWorkOpen, setIsDeductedWorkOpen] = useState(false); //產製帳單
@@ -85,7 +85,6 @@ const SignedDataList = ({ dataList, receivableQuery }) => {
     const handleDeductedOpen = (data) => {
         console.log('data=>>', data);
         billDetailInfo.current = data;
-        // billMasterInfo.current = info.BillMaster;
         setIsDeductedWorkOpen(true);
     };
 
@@ -173,41 +172,8 @@ const SignedDataList = ({ dataList, receivableQuery }) => {
                                             >
                                                 下載帳單
                                             </Button>
-                                            {row.BillMaster.Status === 'TO_WRITEOFF' ? (
-                                                <Button color="secondary" size="small" variant="outlined">
-                                                    已進待銷
-                                                </Button>
-                                            ) : (
-                                                <Button
-                                                    color="info"
-                                                    size="small"
-                                                    variant="outlined"
-                                                    onClick={() => {
-                                                        toWriteOff(row.BillMaster.BillMasterID);
-                                                    }}
-                                                >
-                                                    進待銷帳
-                                                </Button>
-                                            )}
-                                            <Button
-                                                color="warning"
-                                                size="small"
-                                                variant="outlined"
-                                                onClick={() => {
-                                                    setInfoTerminal(true);
-                                                }}
-                                            >
-                                                退回
-                                            </Button>
-                                            <Button
-                                                color="error"
-                                                size="small"
-                                                variant="outlined"
-                                                onClick={() => {
-                                                    handleInfoTerminal(row.BillMaster.BillingNo, row.BillMaster.BillMasterID);
-                                                }}
-                                            >
-                                                作廢
+                                            <Button color="info" size="small" variant="outlined">
+                                                已進待銷
                                             </Button>
                                         </Box>
                                     </StyledTableCell>
@@ -221,4 +187,4 @@ const SignedDataList = ({ dataList, receivableQuery }) => {
     );
 };
 
-export default SignedDataList;
+export default IsSendDataList;
