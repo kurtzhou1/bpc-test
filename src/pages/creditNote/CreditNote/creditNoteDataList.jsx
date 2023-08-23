@@ -140,14 +140,12 @@ const CreditBalanceDataList = ({ listInfo, setIsDialogOpen, deletelistInfoItem }
                         <Table sx={{ minWidth: 300 }} stickyHeader aria-label="sticky table">
                             <TableHead>
                                 <TableRow>
-                                    {/* <StyledTableCell align="center">NO</StyledTableCell> */}
                                     <StyledTableCell align="center">CB種類</StyledTableCell>
                                     <StyledTableCell align="center">會員</StyledTableCell>
                                     <StyledTableCell align="center">發票號碼</StyledTableCell>
                                     <StyledTableCell align="center">帳單號碼</StyledTableCell>
                                     <StyledTableCell align="center">剩餘金額</StyledTableCell>
                                     <StyledTableCell align="center">摘要說明</StyledTableCell>
-                                    {/* <StyledTableCell align="center">Action</StyledTableCell> */}
                                 </TableRow>
                             </TableHead>
                             <TableBody>
@@ -159,48 +157,16 @@ const CreditBalanceDataList = ({ listInfo, setIsDialogOpen, deletelistInfoItem }
                                         >
                                             {cbToCn[id] ? (
                                                 <>
-                                                    {/* <StyledTableCell align="center">{id + 1}</StyledTableCell> */}
                                                     <StyledTableCell align="center">{row.CBType}</StyledTableCell>
                                                     <StyledTableCell align="center">{row.PartyName}</StyledTableCell>
                                                     <StyledTableCell align="center">{row.InvoiceNo}</StyledTableCell>
                                                     <StyledTableCell align="center">{row.BillingNo}</StyledTableCell>
                                                     <StyledTableCell align="center">{row.SubmarineCable}</StyledTableCell>
                                                     <StyledTableCell align="center">{`$${handleNumber(row.CurrAmount)}`}</StyledTableCell>
-                                                    {/* <StyledTableCell align="center">
-                                                        <Button
-                                                            sx={{ mr: '0.25rem' }}
-                                                            color="error"
-                                                            onClick={() => {
-                                                                setCbToCn({ ...cbToCn, [id]: false });
-                                                            }}
-                                                        >
-                                                            刪除
-                                                        </Button>
-                                                    </StyledTableCell> */}
                                                 </>
                                             ) : (
                                                 <></>
                                             )}
-                                            {/* <StyledTableCell align="center"> {dayjs(row.CreateDate).format('YYYY/MM/DD')}</StyledTableCell> */}
-                                            {/* <StyledTableCell align="center">{row.Note}</StyledTableCell> */}
-                                            {/* <StyledTableCell align="center">
-                                        <Button
-                                            color="primary"
-                                            onClick={() => {
-                                                setCbview(true);
-                                            }}
-                                        >
-                                            檢視
-                                        </Button>
-                                        <Button
-                                            color="warning"
-                                            onClick={() => {
-                                                setCbTerminal(true);
-                                            }}
-                                        >
-                                            退費
-                                        </Button>
-                                    </StyledTableCell> */}
                                         </TableRow>
                                     );
                                 })}

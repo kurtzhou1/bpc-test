@@ -12,7 +12,6 @@ import DeductedDataList from './deductedDataList';
 import SignedDataList from './signedDataList';
 import IsSendDataList from './isSendDataList';
 import InvalidatedDataList from './invalidatedDataList';
-import DraftDataList from './draftDataList';
 
 import ReceivableQuery from './receivableQuery';
 

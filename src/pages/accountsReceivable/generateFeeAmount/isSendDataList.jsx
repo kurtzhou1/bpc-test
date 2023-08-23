@@ -12,7 +12,7 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
-import { alpha, styled } from '@mui/material/styles';
+import { styled } from '@mui/material/styles';
 
 import dayjs from 'dayjs';
 
@@ -79,7 +79,6 @@ const IsSendDataList = ({ dataList, receivableQuery }) => {
 
     const handleDeductedClose = () => {
         setIsDeductedWorkOpen(false);
-        // setEditItem();
     };
 
     const handleDeductedOpen = (data) => {
@@ -174,6 +173,12 @@ const IsSendDataList = ({ dataList, receivableQuery }) => {
                                             </Button>
                                             <Button color="info" size="small" variant="outlined">
                                                 上傳附件
+                                            </Button>
+                                            <Button color="warning" size="small" variant="outlined">
+                                                下載帳單
+                                            </Button>
+                                            <Button color="error" size="small" variant="outlined">
+                                                下載附件
                                             </Button>
                                         </Box>
                                     </StyledTableCell>
