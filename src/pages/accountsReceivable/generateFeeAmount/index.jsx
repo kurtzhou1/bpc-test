@@ -1,7 +1,6 @@
 import { useEffect, useState, useRef } from 'react';
 import { Grid, Button, Box, Tabs, Tab } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
-// import { styled } from '@mui/material/styles';
 
 // project import
 import MainCard from 'components/MainCard';
@@ -131,7 +130,6 @@ const GenerateFeeAmount = () => {
                             handleDialogClose={handleDialogClose}
                             isDialogOpen={isDialogOpen}
                             dataList={listInfo}
-                            // totalCombineAmount={totalCombineAmount}
                             cbToCn={cbToCn}
                             setCbToCn={setCbToCn}
                             receivableQuery={receivableQuery}

@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react';
-import { Typography, Grid, Button, FormControl, Box, RadioGroup, FormControlLabel, Radio } from '@mui/material';
+import { Grid, Button, Box, RadioGroup, FormControlLabel, Radio } from '@mui/material';
 import { DropzoneArea } from 'mui-file-dropzone';
-// import { FileUploader } from 'react-drag-drop-files';
 
 // project
 import { BootstrapDialogTitle } from 'components/commonFunction';
@@ -12,14 +11,13 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogActions from '@mui/material/DialogActions';
 
 // api
-import { uploadFileApi } from 'components/apis.jsx';
-import MainCard from 'components/MainCard';
+import { uploadBillMasterAttachment } from 'components/apis.jsx';
 
 // redux
 import { useDispatch } from 'react-redux';
 import { setMessageStateOpen } from 'store/reducers/dropdown';
 
-const SignAndUpload = ({ isUploadOpen, handleUploadClose, billMasterID, receivableQuery }) => {
+const UploadBillMasterAttachment = ({ isUploadOpen, handleUploadClose, billMasterID, receivableQuery }) => {
     const dispatch = useDispatch();
     const [uploadFile, setUploadFile] = useState(null);
     const [isUpload, setIsUpload] = useState(false); //是否需攤分
@@ -34,7 +32,7 @@ const SignAndUpload = ({ isUploadOpen, handleUploadClose, billMasterID, receivab
 
     const handleUploadFile = () => {
         if (uploadFile.length > 0) {
-            let tmpApi = uploadFileApi + '/' + billMasterID;
+            let tmpApi = uploadBillMasterAttachment + '/' + billMasterID;
             const pdfData = new FormData();
             pdfData.append('file', uploadFile[0]);
             // data
@@ -147,4 +145,4 @@ const SignAndUpload = ({ isUploadOpen, handleUploadClose, billMasterID, receivab
     );
 };
 
-export default SignAndUpload;
+export default UploadBillMasterAttachment;

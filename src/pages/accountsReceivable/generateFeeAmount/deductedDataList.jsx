@@ -64,7 +64,6 @@ const DeductedDataList = ({ dataList, receivableQuery }) => {
 
     const handleDeductedOpen = (data) => {
         billDetailInfo.current = data;
-        // billMasterInfo.current = info.BillMaster;
         setIsDeductedWorkOpen(true);
     };
 
@@ -195,9 +194,6 @@ const DeductedDataList = ({ dataList, receivableQuery }) => {
                                                     handleDialogOpen({
                                                         BillMasterID: row.BillMaster.BillMasterID,
                                                         BillInfo: row.BillMaster
-                                                        // PONo: row.BillMaster.PONo,
-                                                        // SubmarineCable: row.BillMaster.SubmarineCable,
-                                                        // BillingNo: row.BillMaster.BillingNo
                                                     });
                                                 }}
                                             >

@@ -36,39 +36,6 @@ import dayjs from 'dayjs';
 import { useDispatch } from 'react-redux';
 import { setMessageStateOpen } from 'store/reducers/dropdown';
 
-// const fakeData = [
-//     {
-//         CBID: 1,
-//         BLDetailID: 1,
-//         WorkTitle: 'test123',
-//         InvoiceNo: 'test123',
-//         PartyName: 'CHT',
-//         LastUpdDate: '2023-03-01 00:00:00',
-//         SubmarineCable: 'test123',
-//         CBType: 'test123',
-//         BillingNo: 'test123',
-//         BillMilestone: 'test123',
-//         CurrAmount: 3333.14,
-//         CreateDate: '2023-03-0100:00:00',
-//         Note: 'test123'
-//     },
-//     {
-//         CBID: 2,
-//         BLDetailID: 2,
-//         WorkTitle: 'test456',
-//         InvoiceNo: 'test456',
-//         PartyName: 'CHT',
-//         LastUpdDate: '2023-03-02 00:00:00',
-//         SubmarineCable: 'test456',
-//         CBType: 'test456',
-//         BillingNo: 'test456',
-//         BillMilestone: 'test456',
-//         CurrAmount: 3.14,
-//         CreateDate: '2023-03-0100:00:00',
-//         Note: 'test456'
-//     }
-// ];
-
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
     [`&.${tableCellClasses.head}`]: {
         // backgroundColor: theme.palette.common.gary,

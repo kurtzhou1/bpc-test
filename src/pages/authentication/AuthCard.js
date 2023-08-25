@@ -11,7 +11,7 @@ import MainCard from 'components/MainCard';
 const AuthCard = ({ children, ...other }) => (
     <MainCard
         sx={{
-            opacity: 0.8,
+            opacity: 0.9,
             maxWidth: { xs: 400, lg: 475 },
             margin: { xs: 2.5, md: 3 },
             '& > *': {

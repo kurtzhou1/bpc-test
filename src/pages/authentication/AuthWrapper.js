@@ -5,7 +5,6 @@ import { Box, Grid, Paper, Stack } from '@mui/material';
 
 // project import
 import AuthCard from './AuthCard';
-import AuthCardT from './AuthCardT';
 import Logo from 'components/Logo';
 import AuthFooter from 'components/cards/AuthFooter';
 
@@ -34,11 +33,6 @@ const AuthWrapper = ({ children }) => (
         <Paper style={styles.paperContainer}>
             <Grid container>
                 <Grid item xs={12} display="flex" justifyContent="center" alignItems="center">
-                    <Grid item xs={12} container sx={{ position: 'absolute', width: 'auto' }}>
-                        <Grid item>
-                            <AuthCardT>{children}</AuthCardT>
-                        </Grid>
-                    </Grid>
                     <Grid item xs={12} container sx={{ position: 'absolute', width: 'auto' }}>
                         <Grid item>
                             <AuthCard>{children}</AuthCard>

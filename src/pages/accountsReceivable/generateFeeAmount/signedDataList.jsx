@@ -4,6 +4,7 @@ import { useState, useRef } from 'react';
 import { handleNumber } from 'components/commonFunction';
 import SignedDataWork from './signedDataWork';
 import GenerateTerminate from './generateTerminate';
+import UploadBillMasterAttachment from './uploadBillMasterAttachment';
 // material-ui
 import { Button, Table, Box } from '@mui/material';
 import TableBody from '@mui/material/TableBody';
@@ -41,9 +42,11 @@ const SignedDataList = ({ dataList, receivableQuery }) => {
     const dispatch = useDispatch();
     const [infoTerminal, setInfoTerminal] = useState(false); //作廢
     const [isDeductedWorkOpen, setIsDeductedWorkOpen] = useState(false); //產製帳單
+    const [isUploadOpen, setIsUploadOpen] = useState(false); //簽核
     const billDetailInfo = useRef([]);
     const editBillingNo = useRef('');
     const editBillMasterID = useRef('');
+    const billMasterID = useRef(-1);
 
     const toWriteOff = (billMasterID) => {
         let tmpData = {
@@ -79,13 +82,11 @@ const SignedDataList = ({ dataList, receivableQuery }) => {
 
     const handleDeductedClose = () => {
         setIsDeductedWorkOpen(false);
-        // setEditItem();
     };
 
     const handleDeductedOpen = (data) => {
         console.log('data=>>', data);
         billDetailInfo.current = data;
-        // billMasterInfo.current = info.BillMaster;
         setIsDeductedWorkOpen(true);
     };
 
@@ -97,6 +98,17 @@ const SignedDataList = ({ dataList, receivableQuery }) => {
         editBillingNo.current = no;
         editBillMasterID.current = id;
         setInfoTerminal(true);
+    };
+
+    const handleUploadOpen = (info) => {
+        billMasterID.current = info.BillMasterID;
+        setIsUploadOpen(true);
+    };
+
+    
+    const handleUploadClose = () => {
+        setIsUploadOpen(false);
+        billMasterID.current = -1;
     };
 
     return (
@@ -112,6 +124,12 @@ const SignedDataList = ({ dataList, receivableQuery }) => {
                 isDeductedWorkOpen={isDeductedWorkOpen}
                 handleDeductedClose={handleDeductedClose}
                 billDetailInfo={billDetailInfo.current}
+            />
+            <UploadBillMasterAttachment
+                isUploadOpen={isUploadOpen}
+                handleUploadClose={handleUploadClose}
+                billMasterID={billMasterID.current}
+                receivableQuery={receivableQuery}
             />
             <TableContainer component={Paper} sx={{ maxHeight: 350 }}>
                 <Table sx={{ minWidth: 300 }} stickyHeader aria-label="sticky table">
@@ -174,7 +192,7 @@ const SignedDataList = ({ dataList, receivableQuery }) => {
                                                 下載帳單
                                             </Button>
                                             {row.BillMaster.Status === 'TO_WRITEOFF' ? (
-                                                <Button color="secondary" size="small" variant="outlined">
+                                                <Button color="inherit" size="small" variant="outlined">
                                                     已進待銷
                                                 </Button>
                                             ) : (
@@ -189,6 +207,18 @@ const SignedDataList = ({ dataList, receivableQuery }) => {
                                                     進待銷帳
                                                 </Button>
                                             )}
+                                            <Button
+                                                color="secondary"
+                                                size="small"
+                                                variant="outlined"
+                                                onClick={() => {
+                                                    handleUploadOpen({
+                                                        BillMasterID: row.BillMaster.BillMasterID
+                                                    });
+                                                }}
+                                            >
+                                                上傳附件
+                                            </Button>
                                             <Button
                                                 color="warning"
                                                 size="small"

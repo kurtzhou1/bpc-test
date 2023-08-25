@@ -85,7 +85,7 @@ const DashboardDefault = () => {
         }
     };
 
-    return <Paper style={styles.paperContainer}>CBP 海纜帳務系統首頁</Paper>;
+    return <Paper style={styles.paperContainer}>CBP 海纜帳務系統</Paper>;
 };
 
 export default DashboardDefault;

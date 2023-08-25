@@ -58,18 +58,12 @@ const AuthLogin = () => {
                 initialValues={{
                     account: '',
                     password: '',
-                    // submit: null
                 }}
                 validationSchema={Yup.object().shape({
                     account: Yup.string().max(255).required('Account is required'),
                     password: Yup.string().max(255).required('Password is required')
                 })}
                 onSubmit={async (values, { setErrors, setStatus, setSubmitting }) => {
-                    console.log('values=>>', values);
-                    // let tmpObj = {
-                    //     "userid": "chang_ty", 
-                    //     "password": "chang_ty_admin"
-                    // }
                     let tmpObj = {
                         userid: values.account, 
                         password: values.password
@@ -98,15 +92,6 @@ const AuthLogin = () => {
                         }
                     })
                     .catch((e) => dispatch(setMessageStateOpen({ messageStateOpen: { isOpen: true, severity: 'error', message: '登入錯誤，請檢查帳號密碼' } })));
-                    // localStorageService({accessToken: testData});
-                    // try {
-                    //     setStatus({ success: false });
-                    //     setSubmitting(false);
-                    // } catch (err) {
-                    //     setStatus({ success: false });
-                    //     setErrors({ submit: err.message });
-                    //     setSubmitting(false);
-                    // }
                 }}
             >
                 {({ errors, handleBlur, handleChange, handleSubmit, isSubmitting, touched, values }) => (
@@ -167,25 +152,6 @@ const AuthLogin = () => {
                                     )}
                                 </Stack>
                             </Grid>
-                            {/* <Grid item xs={12} sx={{ mt: -1 }}>
-                                <Stack direction="row" justifyContent="space-between" alignItems="center" spacing={2}>
-                                    <FormControlLabel
-                                        control={
-                                            <Checkbox
-                                                checked={checked}
-                                                onChange={(event) => setChecked(event.target.checked)}
-                                                name="checked"
-                                                color="primary"
-                                                size="small"
-                                            />
-                                        }
-                                        label={<Typography variant="h6">Keep me sign in</Typography>}
-                                    />
-                                    <Link variant="h6" component={RouterLink} to="" color="text.primary">
-                                        Forgot Password?
-                                    </Link>
-                                </Stack>
-                            </Grid> */}
                             {errors.submit && (
                                 <Grid item xs={12}>
                                     <FormHelperText error>{errors.submit}</FormHelperText>
