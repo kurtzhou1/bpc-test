@@ -53,7 +53,7 @@ export const checkInvoiceNo = 'http://internal-cbpsalb-1176080923.ap-northeast-1
 
 // 應收帳款管理
 export const uploadFileApi = 'http://internal-cbpsalb-1176080923.ap-northeast-1.elb.amazonaws.com/api/v1/uploadSignedBillMaster';
-export const uploadBillMasterAttachment = 'http://internal-cbpsAlb-1176080923.ap-northeast-1.elb.amazonaws.com/api/v1/uploadBillMasterAttachment/';
+export const uploadBillMasterAttachment = 'http://internal-cbpsAlb-1176080923.ap-northeast-1.elb.amazonaws.com/api/v1/uploadBillMasterAttachment';
 
 // CB
 export const queryCB = 'http://internal-cbpsalb-1176080923.ap-northeast-1.elb.amazonaws.com/api/v1/CreditBalance';
