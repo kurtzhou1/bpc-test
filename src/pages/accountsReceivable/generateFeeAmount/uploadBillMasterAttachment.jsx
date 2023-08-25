@@ -113,7 +113,7 @@ const UploadBillMasterAttachment = ({ isUploadOpen, handleUploadClose, billMaste
                             </Grid> */}
                         <Grid item xs={12} sm={12} md={12} lg={12} display="flex">
                             <Box sx={{ display: 'flex', flexFlow: 'column', alignItems: 'center', width: '100%' }}>
-                                <DropzoneArea onChange={handleUploadChange} acceptedFiles={['.pdf']} />
+                                <DropzoneArea onChange={handleUploadChange} acceptedFiles={['.zip']} />
                                 <FormControlLabel
                                     value={true}
                                     control={<Radio sx={{ '& .MuiSvgIcon-root': { fontSize: { lg: 14, xl: 20 } } }} />}
