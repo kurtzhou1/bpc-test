@@ -17,7 +17,7 @@ import { uploadBillMasterAttachment } from 'components/apis.jsx';
 import { useDispatch } from 'react-redux';
 import { setMessageStateOpen } from 'store/reducers/dropdown';
 
-const UploadBillMasterAttachment = ({ isUploadOpen, handleUploadClose, billMasterID, receivableQuery }) => {
+const UploadBillMasterAttachment = ({ isUploadOpen, handleUploadClose, receivableQuery }) => {
     const dispatch = useDispatch();
     const [uploadFile, setUploadFile] = useState(null);
     const [isUpload, setIsUpload] = useState(false); //是否需攤分
@@ -32,7 +32,7 @@ const UploadBillMasterAttachment = ({ isUploadOpen, handleUploadClose, billMaste
 
     const handleUploadFile = () => {
         if (uploadFile.length > 0) {
-            let tmpApi = uploadBillMasterAttachment + '/' + billMasterID;
+            let tmpApi = uploadBillMasterAttachment + '/' ;
             const pdfData = new FormData();
             pdfData.append('file', uploadFile[0]);
             // data
@@ -67,13 +67,8 @@ const UploadBillMasterAttachment = ({ isUploadOpen, handleUploadClose, billMaste
     }, [uploadFile]);
 
     return (
-        <Dialog
-            maxWidth="xs"
-            fullWidth
-            open={isUploadOpen}
-        >
-            <BootstrapDialogTitle
-            >
+        <Dialog maxWidth="xs" fullWidth open={isUploadOpen}>
+            <BootstrapDialogTitle>
                 簽核作業
             </BootstrapDialogTitle>
             <DialogContent dividers>
@@ -87,7 +82,7 @@ const UploadBillMasterAttachment = ({ isUploadOpen, handleUploadClose, billMaste
                     <Grid container spacing={2} display="flex" justifyContent="center" alignItems="center">
                         <Grid item xs={12} sm={12} md={12} lg={12} display="flex">
                             <Box sx={{ display: 'flex', flexFlow: 'column', alignItems: 'center', width: '100%' }}>
-                                <DropzoneArea onChange={handleUploadChange} acceptedFiles={['.zip']} />
+                                <DropzoneArea onChange={handleUploadChange} />
                                 <FormControlLabel
                                     value={true}
                                     control={<Radio sx={{ '& .MuiSvgIcon-root': { fontSize: { lg: 14, xl: 20 } } }} />}

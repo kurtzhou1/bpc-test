@@ -12,7 +12,7 @@ const UploadManage = () => {
         <Box sx={{ display: 'flex' }}>
             <Box sx={{ flexShrink: 0, ml: drawerOpen ? 0 : 0 }}>
                 <IconButton disableRipple color="secondary" sx={{ color: 'text.primary' }}>
-                    <Link to="/uploadManage" style={{ color: '#262626', textDecoration: 'none' }}>
+                    <Link to="/UploadManage" style={{ color: '#262626', textDecoration: 'none' }}>
                         <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                             <UploadOutlined />
                             {drawerOpen ? <ListItemText sx={{ flexShrink: 0, ml: 0.5 }}>上傳檔案管理</ListItemText> : ''}

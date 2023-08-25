@@ -22,9 +22,6 @@ const InvoiceWorkManageCreate = Loadable(lazy(() => import('pages/invoiceWorkMan
 const InvoiceWorkManageEdit = Loadable(lazy(() => import('pages/invoiceWorkManage/InvoiceWorkEdit')));
 // const CreateJournal = Loadable(lazy(() => import('pages/createJournal')));
 
-// Liability
-const LiabilityManage = Loadable(lazy(() => import('pages/liability/LiabilityManage')));
-
 // 立帳管理
 const CreateJournal = Loadable(lazy(() => import('pages/createJournal/CreateJournal')));
 const JournalQuery = Loadable(lazy(() => import('pages/createJournal/CreateJournalQuery')));
@@ -49,77 +46,20 @@ const ResearchJournal = Loadable(lazy(() => import('pages/allResearch/researchJo
 
 // 基本資料設定
 const Information = Loadable(lazy(() => import('pages/information/Information')));
+// Liability
+const LiabilityManage = Loadable(lazy(() => import('pages/liability/LiabilityManage')));
+// 上傳資料管理
+const UploadManage = Loadable(lazy(() => import('pages/uploadManage/UploadManage')));
 
 // render - utilities
-const Typography = Loadable(lazy(() => import('pages/components-overview/Typography')));
-const Color = Loadable(lazy(() => import('pages/components-overview/Color')));
-const Shadow = Loadable(lazy(() => import('pages/components-overview/Shadow')));
-const AntIcons = Loadable(lazy(() => import('pages/components-overview/AntIcons')));
+// const Typography = Loadable(lazy(() => import('pages/components-overview/Typography')));
+// const Shadow = Loadable(lazy(() => import('pages/components-overview/Shadow')));
+// const AntIcons = Loadable(lazy(() => import('pages/components-overview/AntIcons')));
 
 // ==============================|| MAIN ROUTING ||============================== //
-// const RequireAuth = ({ children }) => {
-//     const { isLogin } = useSelector((state) => state.dropdown);
-//     const dispatch = useDispatch();
-//     const getAccessToken = localStorage.getItem('accessToken');
-//     console.log('isLogin=>>', isLogin)
-   
-//     if ( !isLogin ) {
-//     // 若沒帳號登入，從別的頁面強制登入
-//         if ( getAccessToken ) {
-//             console.log('2=>>', getAccessToken)
-//             fetch(checktoken, {
-//                 method: 'POST',
-//                 body: JSON.stringify({
-//                     cbps_access_token: getAccessToken
-//                 })
-//             })
-//             .then((res) => res.json())
-//             .then((data) => {
-//                 if ( data.UserCName ) {
-//                     console.log('4=>>', isLogin);
-//                     dispatch(setIsLogin({ isLogin: true }));
-//                     return children;
-//                 } else {
-//                     console.log('5=>>');
-//                     return <Navigate to="/login" replace />;
-//                 }
-//             })
-//             .catch((e) => {
-//                 return <Navigate to="/login" replace />;
-//             });
-//         } else {
-//             return <Navigate to="/login" replace />;
-//         }
-//         return <Navigate to="/login" replace />;
-//     } else {
-//     // 若有帳號登入，檢查Token是否到期
-//         if ( getAccessToken ) {
-//             fetch(checktoken, {
-//                 method: 'POST',
-//                 body: JSON.stringify({
-//                     cbps_access_token: getAccessToken
-//                 })
-//             })
-//             .then((res) => res.json())
-//             .then((data) => {
-//                 if ( data.UserCName ) {
-//                     return children;
-//                 } else {
-//                     console.log('5=>>');
-//                     dispatch(setIsLogin({ isLogin: false }));
-//                     return <Navigate to="/login" replace />;
-//                 }
-//             })
-//         } else {
-//             dispatch(setIsLogin({ isLogin: false }));
-//             return <Navigate to="/login" replace />;
-//         }
-//     }
-// };
 
 const RequireAuth = ({ children }) => {
     const { isLogin } = useSelector((state) => state.dropdown);
-    // let auth = localStorage.getItem('name');
     const dispatch = useDispatch();
     const getAccessToken = localStorage.getItem('accessToken');
     console.log('isLogin=>>', isLogin)
@@ -361,8 +301,12 @@ const MainRoutes = {
             )
         },
         {
-            path: 'color',
-            element: <Color />
+            path: 'UploadManage',
+            element: (
+                <RequireAuth>
+                    <UploadManage />
+                </RequireAuth>
+            )
         },
         {
             path: 'dashboard',
@@ -373,22 +317,17 @@ const MainRoutes = {
                 }
             ]
         },
-        {
-            path: 'shadow',
-            element: <Shadow />
-        },
-        {
-            path: 'typography',
-            element: <Typography />
-        },
-        {
-            path: 'icons/ant',
-            element: <AntIcons />
-        }
-
         // {
-        //     path: 'CreateJournal',
-        //     element: <CreateJournal />
+        //     path: 'shadow',
+        //     element: <Shadow />
+        // },
+        // {
+        //     path: 'typography',
+        //     element: <Typography />
+        // },
+        // {
+        //     path: 'icons/ant',
+        //     element: <AntIcons />
         // }
     ]
 };
