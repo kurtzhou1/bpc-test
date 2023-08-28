@@ -220,8 +220,12 @@ const CreateInvoiceDetail = ({
                                 <TableRow>
                                     <StyledTableCell align="center">費用項目</StyledTableCell>
                                     <StyledTableCell align="center">計帳段號</StyledTableCell>
-                                    <StyledTableCell align="center">費用項目</StyledTableCell>
-                                    <StyledTableCell align="center">Action</StyledTableCell>
+                                    <StyledTableCell align="center">費用金額</StyledTableCell>
+                                    {action !== 'View' ? (
+                                        <StyledTableCell align="center">Action</StyledTableCell>
+                                    ) : (
+                                        ''
+                                    )}
                                 </TableRow>
                             </TableHead>
                             <TableBody>
@@ -235,30 +239,28 @@ const CreateInvoiceDetail = ({
                                         </StyledTableCell>
                                         <StyledTableCell align="center">{row.BillMilestone}</StyledTableCell>
                                         <StyledTableCell align="center">{handleNumber(row.FeeAmount)}</StyledTableCell>
-                                        <StyledTableCell align="center">
-                                            {action !== 'View' ? (
-                                                <>
-                                                    <Button
-                                                        color="primary"
-                                                        onClick={() => {
-                                                            itemDetailEdit(id);
-                                                        }}
-                                                    >
-                                                        編輯
-                                                    </Button>
-                                                    <Button
-                                                        color="error"
-                                                        onClick={() => {
-                                                            itemDetailDelete(id);
-                                                        }}
-                                                    >
-                                                        刪除
-                                                    </Button>
-                                                </>
+                                        {action !== 'View' ? (
+                                            <StyledTableCell align="center">
+                                                <Button
+                                                    color="primary"
+                                                    onClick={() => {
+                                                        itemDetailEdit(id);
+                                                    }}
+                                                >
+                                                    編輯
+                                                </Button>
+                                                <Button
+                                                    color="error"
+                                                    onClick={() => {
+                                                        itemDetailDelete(id);
+                                                    }}
+                                                >
+                                                    刪除
+                                                </Button>
+                                            </StyledTableCell>
                                             ) : (
-                                                ''
-                                            )}
-                                        </StyledTableCell>
+                                            ''
+                                        )}
                                     </TableRow>
                                 ))}
                             </TableBody>
