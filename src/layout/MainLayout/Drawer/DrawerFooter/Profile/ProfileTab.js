@@ -50,9 +50,9 @@ const ProfileTab = ({ handleLogout }) => {
                         <ListItemIcon>
                             <LogoutOutlined />
                         </ListItemIcon>
-                    {/* <Link to="/login" style={{ color: '#262626', textDecoration: 'none' }}> */}
+                    <Link to="/login" style={{ color: '#262626', textDecoration: 'none' }}>
                         <ListItemText primary="Logout" />
-                    {/* </Link> */}
+                    </Link>
                 </ListItemButton>
         </List>
     );

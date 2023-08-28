@@ -156,7 +156,7 @@ const BillDraftMake = ({
     const totalAmount = useRef(0);
     const [issueDate, setIssueDate] = useState(issueDateDefault); //發票日期
     const [dueDate, setDueDate] = useState(dueDateDefault); //發票日期
-    const [logo, setLogo] = useState(1);
+    const [logo, setLogo] = useState(2);
 
     const [subject1, setSubject1] = useState(''); //主旨1
     // const [subject2, setSubject2] = useState(''); //主旨2

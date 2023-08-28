@@ -122,7 +122,6 @@ const CreditBalanceQuery = ({ creditBalanceQuery }) => {
                             size="small"
                             // value={isLiability}
                              
-                            name="radio-buttons-group"
                             // onChange={(e) => setIsLiability(e.target.value)}
                         >
                             <FormControlLabel
@@ -149,7 +148,6 @@ const CreditBalanceQuery = ({ creditBalanceQuery }) => {
                             row
                             // value={isLiability}
                              
-                            name="radio-buttons-group"
                             // onChange={(e) => setIsLiability(e.target.value)}
                         >
                             <FormControlLabel
