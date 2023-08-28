@@ -202,12 +202,7 @@ const InvoiceQuery = ({ setListInfo, queryApi, submarineCableList, bmsList, setA
                     </Typography>
                 </Grid>
                 <Grid item xs={12} sm={2} md={5} lg={5}>
-                    <FormGroup
-                        row
-                        value={invoiceStatusQuery}
-                        name="radio-buttons-group"
-                        // onChange={(e) => setInvoiceStatusQuery(e.target.value)}
-                    >
+                    <FormGroup row value={invoiceStatusQuery}>
                         <FormControlLabel
                             control={
                                 <Checkbox
@@ -320,7 +315,7 @@ const InvoiceQuery = ({ setListInfo, queryApi, submarineCableList, bmsList, setA
                         日期條件及區間：
                     </Typography>
                     <FormControl>
-                        <RadioGroup row value={isIssueDate} name="radio-buttons-group" onChange={(e) => setIsIssueDate(e.target.value)}>
+                        <RadioGroup row value={isIssueDate}onChange={(e) => setIsIssueDate(e.target.value)}>
                             <FormControlLabel
                                 value={true}
                                 control={<Radio sx={{ '& .MuiSvgIcon-root': { fontSize: { lg: 14, xl: 20 } } }} />}

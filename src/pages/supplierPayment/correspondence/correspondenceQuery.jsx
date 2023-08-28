@@ -172,8 +172,6 @@ const CorrespondenceQuery = ({ setListInfo, queryApi, value }) => {
                             row
                             size="small"
                             // value={isLiability}
-                             
-                            name="radio-buttons-group"
                             // onChange={(e) => setIsLiability(e.target.value)}
                         >
                             <FormControlLabel

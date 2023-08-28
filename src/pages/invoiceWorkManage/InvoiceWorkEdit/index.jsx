@@ -54,6 +54,7 @@ const InvoiceWorkManage = () => {
     const [isPro, setIsPro] = useState(false); //是否為Pro-forma
     const [isLiability, setIsLiability] = useState(true); //是否需攤分
     const [isRecharge, setIsRecharge] = useState(false); //是否為短腳補收
+    const [isCreditMemo, setIsCreditMemo] = useState(false); //是否為短腳補收
     const [partyName, setPartyName] = useState(''); //會員代號
     const wKMasterID = useRef(); //工作檔ID
 
@@ -94,6 +95,7 @@ const InvoiceWorkManage = () => {
         setIsPro(false);
         setIsLiability(true);
         setIsRecharge(false);
+        setIsCreditMemo(false);
         setPartyName('');
         setInvoiceDetailInfo([]);
     };
@@ -153,6 +155,7 @@ const InvoiceWorkManage = () => {
         Status,
         IsPro,
         IsRecharge,
+        IsCreditMemo,
         IsLiability,
         TotalAmount
     ) => {
@@ -169,6 +172,7 @@ const InvoiceWorkManage = () => {
             Status,
             IsPro,
             IsRecharge,
+            IsCreditMemo,
             IsLiability,
             TotalAmount
         };
@@ -215,6 +219,7 @@ const InvoiceWorkManage = () => {
                     setIsPro(i.InvoiceWKMaster.IsPro);
                     setIsLiability(i.InvoiceWKMaster.IsLiability);
                     setIsRecharge(i.InvoiceWKMaster.IsRecharge);
+                    setIsCreditMemo(i.InvoiceWKMaster.IsCreditMemo);
                     setPartyName(i.InvoiceWKMaster.PartyName);
                     setInvoiceDetailInfo(i.InvoiceWKDetail);
                     wKMasterID.current = i.InvoiceWKMaster.WKMasterID;
@@ -363,6 +368,7 @@ const InvoiceWorkManage = () => {
                 'TEMPORARY',
                 isPro === 'true' || isPro === true ? true : false,
                 isRecharge === 'true' || isRecharge === true ? true : false,
+                isCreditMemo === 'true' || isCreditMemo === true ? true : false,
                 isLiability === 'true' || isLiability === true ? true : false,
                 Number(totalAmount.toString().replaceAll(',', '')).toFixed(2)
             );
@@ -504,6 +510,8 @@ const InvoiceWorkManage = () => {
                                         setIsLiability={setIsLiability}
                                         isRecharge={isRecharge}
                                         setIsRecharge={setIsRecharge}
+                                        isCreditMemo={isCreditMemo}
+                                        setIsCreditMemo={setIsCreditMemo}
                                         partyName={partyName}
                                         setPartyName={setPartyName}
                                         submarineCableList={submarineCableList}

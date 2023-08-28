@@ -40,6 +40,7 @@ const InvoiceWorkManage = () => {
     const [isPro, setIsPro] = useState(false); //是否為Pro-forma
     const [isLiability, setIsLiability] = useState(true); //是否需攤分
     const [isRecharge, setIsRecharge] = useState(false); //是否為短腳補收
+    const [isCreditMemo, setIsCreditMemo] = useState(false); //是否為短腳補收
     const [partyName, setPartyName] = useState(''); //會員名稱
 
     const [supNmList, setSupNmList] = useState([]); //供應商下拉選單
@@ -68,6 +69,7 @@ const InvoiceWorkManage = () => {
         setIsPro(false);
         setIsLiability(true);
         setIsRecharge(false);
+        setIsCreditMemo(false);
         setPartyName('');
         setInvoiceDetailInfo([]);
         itemDetailInitial();
@@ -91,6 +93,7 @@ const InvoiceWorkManage = () => {
         Status,
         IsPro,
         IsRecharge,
+        IsCreditMemo,
         IsLiability,
         TotalAmount
     ) => {
@@ -106,6 +109,7 @@ const InvoiceWorkManage = () => {
             Status,
             IsPro,
             IsRecharge,
+            IsCreditMemo,
             IsLiability,
             TotalAmount
         };
@@ -167,6 +171,7 @@ const InvoiceWorkManage = () => {
                 'TEMPORARY',
                 isPro === 'true' || isPro === true ? true : false,
                 isRecharge === 'true' || isRecharge === true ? true : false,
+                isCreditMemo === 'true' || isCreditMemo === true ? true : false,
                 isLiability === 'true' || isLiability === true ? true : false,
                 Number(totalAmount.toString().replaceAll(',', '')).toFixed(2)
             );
@@ -203,6 +208,7 @@ const InvoiceWorkManage = () => {
             setIsPro(tmpArray?.InvoiceWKMaster.IsPro);
             setIsLiability(tmpArray?.InvoiceWKMaster.IsLiability);
             setIsRecharge(tmpArray?.InvoiceWKMaster.IsRecharge);
+            setIsCreditMemo(tmpArray?.InvoiceWKMaster.IsCreditMemo);
             setPartyName(tmpArray?.InvoiceWKMaster.PartyName);
             setInvoiceDetailInfo(tmpArray?.InvoiceWKDetail);
             setEditItem(editItem);
@@ -228,6 +234,7 @@ const InvoiceWorkManage = () => {
                 'TEMPORARY',
                 isPro === 'true' || isPro === true ? true : false,
                 isRecharge === 'true' || isRecharge === true ? true : false,
+                isCreditMemo === 'true' || isCreditMemo === true ? true : false,
                 isLiability === 'true' || isLiability === true ? true : false,
                 Number(totalAmount.toString().replaceAll(',', '')).toFixed(2)
             );
@@ -346,6 +353,8 @@ const InvoiceWorkManage = () => {
                                 setIsLiability={setIsLiability}
                                 isRecharge={isRecharge}
                                 setIsRecharge={setIsRecharge}
+                                isCreditMemo={isCreditMemo}
+                                setIsCreditMemo={setIsCreditMemo}
                                 partyName={partyName}
                                 setPartyName={setPartyName}
                                 supNmList={supNmList}

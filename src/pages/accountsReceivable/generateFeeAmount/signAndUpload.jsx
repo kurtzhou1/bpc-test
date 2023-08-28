@@ -83,13 +83,7 @@ const SignAndUpload = ({ isUploadOpen, handleUploadClose, billMasterID, receivab
             <DialogContent dividers>
                 {/* 第二階段優化 */}
                 {/* <FormControl row> */}
-                <RadioGroup
-                    row
-                    value={isUpload}
-                    aria-labelledby="demo-radio-buttons-group-label"
-                    name="radio-buttons-group"
-                    onChange={(e) => setIsUpload(e.target.value)}
-                >
+                <RadioGroup row value={isUpload} onChange={(e) => setIsUpload(e.target.value)}>
                     <Grid container spacing={2} display="flex" justifyContent="center" alignItems="center">
                         {/* <Grid item xs={6} sm={6} md={6} lg={6} display="flex">
                                 <Box sx={{ display: 'flex', flexFlow: 'column', alignItems: 'center', width: '100%' }}>

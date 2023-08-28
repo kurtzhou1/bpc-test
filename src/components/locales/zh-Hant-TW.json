@@ -9,5 +9,6 @@
     "Due Date":"發票到期日",
     "Is Pro Forma":"是否為Pro-Forma",
     "Is Liability":"是否需攤分",
-    "Is Recharge":"是否短繳補收"
+    "Is Recharge":"是否短繳補收",
+    "Is Credit Memo": "是否為Credit Memo"
 }

@@ -236,7 +236,7 @@ const LiabilityQuery = ({ setListInfo, partyList, submarineCableList, workTitleL
                 </Grid>
                 <Grid item xs={4} sm={4} md={2} lg={2}>
                     {/* <FormControl> */}
-                    <FormGroup row value={invoiceStatusQuery} name="radio-buttons-group">
+                    <FormGroup row value={invoiceStatusQuery}>
                         <FormControlLabel
                             control={
                                 <Checkbox

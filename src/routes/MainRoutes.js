@@ -12,38 +12,29 @@ import { useSelector } from 'react-redux';
 import { checktoken } from 'components/apis.jsx';
 import { ConstructionOutlined } from '../../node_modules/@mui/icons-material/index';
 import { useDispatch } from 'react-redux';
-import { setIsLogin } from 'store/reducers/dropdown';
-
+import { setIsLogin, setUserInfo } from 'store/reducers/dropdown';
 // render - dashboard
 const DashboardDefault = Loadable(lazy(() => import('pages/dashboard')));
-
 // 發票工作管理
 const InvoiceWorkManageCreate = Loadable(lazy(() => import('pages/invoiceWorkManage/InvoiceWorkCreate')));
 const InvoiceWorkManageEdit = Loadable(lazy(() => import('pages/invoiceWorkManage/InvoiceWorkEdit')));
-// const CreateJournal = Loadable(lazy(() => import('pages/createJournal')));
-
 // 立帳管理
 const CreateJournal = Loadable(lazy(() => import('pages/createJournal/CreateJournal')));
 const JournalQuery = Loadable(lazy(() => import('pages/createJournal/CreateJournalQuery')));
-
 // Credit Balance
 const CreditBalance = Loadable(lazy(() => import('pages/creditBalance/CreditBalance')));
-
 // Credit Note
 const CreditNote = Loadable(lazy(() => import('pages/creditNote/CreditNote')));
-
 // 應收帳款管理
 const GenerateFeeAmount = Loadable(lazy(() => import('pages/accountsReceivable/generateFeeAmount')));
 const WriteOffInvoice = Loadable(lazy(() => import('pages/accountsReceivable/writeOffInvoice')));
 const SupplierPayment = Loadable(lazy(() => import('pages/supplierPayment/supplierPayment')));
 const Correspondence = Loadable(lazy(() => import('pages/supplierPayment/correspondence')));
 const PaymentRecord = Loadable(lazy(() => import('pages/supplierPayment/paymentRecord')));
-
 // 全域查詢
 const ResearchBill = Loadable(lazy(() => import('pages/allResearch/researchBill')));
 const ResearchInvoice = Loadable(lazy(() => import('pages/allResearch/researchInvoice')));
 const ResearchJournal = Loadable(lazy(() => import('pages/allResearch/researchJournal')));
-
 // 基本資料設定
 const Information = Loadable(lazy(() => import('pages/information/Information')));
 // Liability
@@ -74,7 +65,9 @@ const RequireAuth = ({ children }) => {
         })
         .then((res) => res.json())
         .then((data) => {
+            console.log('data=>>', data);
             if ( data.UserCName ) {
+                // dispatch(setUserInfo({ userInfo: { UserCName: data.UserCName, ProfilePhotoURI: data.ProfilePhotoURI } }));
                 return children;
             } else {
                 dispatch(setIsLogin({ isLogin: false }));
@@ -84,41 +77,7 @@ const RequireAuth = ({ children }) => {
         })
         return children;
     }
-    return children;
 };
-
-// const RequireAuth = ({ children }) => {
-//     const { isLogin } = useSelector((state) => state.dropdown);
-//     // let auth = localStorage.getItem('name');
-//     console.log('isLogin=>>', isLogin)
-//     if ( !isLogin ) {
-//         const getAccessToken = localStorage.getItem('accessToken');
-//         if ( getAccessToken ) {
-//             console.log('2=>>', getAccessToken)
-//             fetch(checktoken, {
-//                 method: 'POST',
-//                 body: JSON.stringify({
-//                     cbps_access_token: getAccessToken
-//                 })
-//             })
-//             .then((res) => res.json())
-//             .then((data) => {
-//                 console.log('3=>>', data, data.UserName);
-//                 if ( data.UserName ) {
-//                     console.log('4=>>');
-//                     return children;
-//                 } else {
-//                     console.log('5=>>');
-//                     return <Navigate to="/login" replace />;
-//                 }
-//             })
-//         } else {
-//             return <Navigate to="/login" replace />;
-//         }
-//         return <Navigate to="/login" replace />;
-//     }
-//     return children;
-// };
 
 const MainRoutes = {
     path: '/',

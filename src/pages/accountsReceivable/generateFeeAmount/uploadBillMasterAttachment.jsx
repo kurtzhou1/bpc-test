@@ -77,13 +77,7 @@ const UploadBillMasterAttachment = ({ isUploadOpen, handleUploadClose, billMaste
                 簽核作業
             </BootstrapDialogTitle>
             <DialogContent dividers>
-                <RadioGroup
-                    row
-                    value={isUpload}
-                    aria-labelledby="demo-radio-buttons-group-label"
-                    name="radio-buttons-group"
-                    onChange={(e) => setIsUpload(e.target.value)}
-                >
+                <RadioGroup row value={isUpload} onChange={(e) => setIsUpload(e.target.value)}>
                     <Grid container spacing={2} display="flex" justifyContent="center" alignItems="center">
                         <Grid item xs={12} sm={12} md={12} lg={12} display="flex">
                             <Box sx={{ display: 'flex', flexFlow: 'column', alignItems: 'center', width: '100%' }}>
