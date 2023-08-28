@@ -167,7 +167,6 @@ const AuthLogin = () => {
                                         type="submit"
                                         variant="contained"
                                         color="primary"
-                                        // onClick={loginNow}
                                     >
                                         Login
                                     </Button>
