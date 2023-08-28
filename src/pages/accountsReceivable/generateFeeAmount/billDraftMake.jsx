@@ -6,12 +6,7 @@ import {
     FormControl,
     Box,
     TextField,
-    Checkbox,
     Table,
-    Tab,
-    RadioGroup,
-    FormControlLabel,
-    Radio,
     TableCell,
     Paper,
     InputLabel,
@@ -30,13 +25,9 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import dayjs from 'dayjs';
 
-// autocomplete
-import CheckBoxOutlineBlankIcon from '@mui/icons-material/CheckBoxOutlineBlank';
-import CheckBoxIcon from '@mui/icons-material/CheckBox';
-
 // project import
 import MainCard from 'components/MainCard';
-import { BootstrapDialogTitle, TabPanel, handleNumber } from 'components/commonFunction';
+import { BootstrapDialogTitle, handleNumber } from 'components/commonFunction';
 
 // table
 import TableBody from '@mui/material/TableBody';
@@ -50,8 +41,8 @@ import { styled } from '@mui/material/styles';
 import './styles.css';
 
 import { generateBillData, contactUser } from 'components/apis.jsx';
-import Logo1 from 'assets/images/logo1.png';
-import Logo2 from 'assets/images/logo2.gif';
+import Logo1 from 'assets/images/logo1.gif';
+import Logo2 from 'assets/images/logo2.png';
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
     [`&.${tableCellClasses.head}`]: {
