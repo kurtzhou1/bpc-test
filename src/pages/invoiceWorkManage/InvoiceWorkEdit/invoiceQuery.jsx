@@ -223,18 +223,18 @@ const InvoiceQuery = ({ setListInfo, queryApi, submarineCableList, bmsList, setA
                                     sx={{ '& .MuiSvgIcon-root': { fontSize: { lg: 14, xl: 20 } } }}
                                 />
                             }
-                            label="Validated"
+                            label="未立帳"
                         />
                         <FormControlLabel
                             control={
                                 <Checkbox
                                     name={'BILLED'}
                                     onChange={handleChange}
-                                    // checked={invoiceStatusQuery.BILLED}
+                                    checked={invoiceStatusQuery.BILLED}
                                     sx={{ '& .MuiSvgIcon-root': { fontSize: { lg: 14, xl: 20 } } }}
                                 />
                             }
-                            label="BILLED"
+                            label="已立帳"
                         />
                         <FormControlLabel
                             control={
@@ -245,7 +245,7 @@ const InvoiceQuery = ({ setListInfo, queryApi, submarineCableList, bmsList, setA
                                     sx={{ '& .MuiSvgIcon-root': { fontSize: { lg: 14, xl: 20 } } }}
                                 />
                             }
-                            label="PAYING"
+                            label="付款中"
                         />
                         <FormControlLabel
                             control={
@@ -256,7 +256,7 @@ const InvoiceQuery = ({ setListInfo, queryApi, submarineCableList, bmsList, setA
                                     sx={{ '& .MuiSvgIcon-root': { fontSize: { lg: 14, xl: 20 } } }}
                                 />
                             }
-                            label="COMPLETE"
+                            label="已結案"
                         />
                         <FormControlLabel
                             control={
@@ -267,7 +267,7 @@ const InvoiceQuery = ({ setListInfo, queryApi, submarineCableList, bmsList, setA
                                     sx={{ '& .MuiSvgIcon-root': { fontSize: { lg: 14, xl: 20 } } }}
                                 />
                             }
-                            label="INVALID"
+                            label="已作廢"
                         />
                     </FormGroup>
                 </Grid>
