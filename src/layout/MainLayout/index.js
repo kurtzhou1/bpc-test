@@ -83,7 +83,7 @@ const MainLayout = () => {
     useEffect(() => {
         let tmpTest = 'https://iam-qa.cht.com.tw/auth/realms/B2E/protocol/openid-connect/auth';
         let tmpData = {
-            client_id: 'chtapp',
+            client_id: 'mDAS',
             redirect_uri: 'http://internal-cbpsAlbFrontend-1323185980.ap-northeast-1.elb.amazonaws.com',
             response_type: 'code',
             state: 'sessionID@client_ip',
