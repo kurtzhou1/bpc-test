@@ -79,6 +79,25 @@ const MainLayout = () => {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [drawerOpen]);
 
+
+    useEffect(() => {
+        let tmpTest = 'https://iam-qa.cht.com.tw/auth/realms/B2E/protocol/openid-connect/auth';
+        let tmpData = {
+            client_id: 'chtapp',
+            redirect_uri: 'http://internal-cbpsAlbFrontend-1323185980.ap-northeast-1.elb.amazonaws.com',
+            response_type: 'code',
+            state: 'sessionID@client_ip',
+            nonce: 'zzzzzzzzzzzz',
+            scope: 'ldap',
+        }
+        fetch(tmpTest, { method: 'POST', body: JSON.stringify(tmpData) })
+        .then((res) => res.json())
+        .then((data) => {
+            console.log('data抓取成功=>>', data);
+        })
+        .catch((e) => console.log('e1=>', e));
+    }, []);
+
     useEffect(() => {
         if (isLogin) {
             //下拉選單 Redux
