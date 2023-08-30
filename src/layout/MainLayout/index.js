@@ -87,7 +87,7 @@ const MainLayout = () => {
             redirect_uri: 'http://internal-cbpsAlbFrontend-1323185980.ap-northeast-1.elb.amazonaws.com',
             response_type: 'code',
             state: 'sessionID@client_ip',
-            nonce: 'zzzzzzzzzzzz',
+            nonce: 'zzzzzz19zzzz',
             scope: 'ldap',
         }
         fetch(tmpTest, { method: 'POST', body: JSON.stringify(tmpData) })
