@@ -88,13 +88,13 @@ const MainLayout = () => {
             response_type: 'code',
             scope: 'ldap',
         }
-        let formBody = [];
-        for (let property in tmpData) {
-            var encodedKey = encodeURIComponent(property);
-            var encodedValue = encodeURIComponent(tmpData[property]);
-            formBody.push(encodedKey + "=" + encodedValue);
-        }
-        formBody = formBody.join("&");
+        // let formBody = [];
+        // for (let property in tmpData) {
+        //     var encodedKey = encodeURIComponent(property);
+        //     var encodedValue = encodeURIComponent(tmpData[property]);
+        //     formBody.push(encodedKey + "=" + encodedValue);
+        // }
+        // formBody = formBody.join("&");
         fetch(tmpTest, { method: 'GET', body: JSON.stringify(tmpData) })
             .then((res) => res.json())
             .then((data) => {
