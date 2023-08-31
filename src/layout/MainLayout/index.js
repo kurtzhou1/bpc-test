@@ -88,7 +88,14 @@ const MainLayout = () => {
             response_type: 'code',
             scope: 'ldap',
         }
-        fetch(tmpTest, { method: 'POST', body: JSON.stringify(tmpData), headers: { 'Content-Type': 'application/x-www-form-urlencoded' } })
+        let formBody = [];
+        for (let property in tmpData) {
+            var encodedKey = encodeURIComponent(property);
+            var encodedValue = encodeURIComponent(tmpData[property]);
+            formBody.push(encodedKey + "=" + encodedValue);
+        }
+        formBody = formBody.join("&");
+        fetch(tmpTest, { method: 'POST', body: JSON.stringify(formBody), headers: { 'Content-Type': 'application/x-www-form-urlencoded' } })
             .then((res) => res.json())
             .then((data) => {
                 console.log('data抓取成功=>>', data);
