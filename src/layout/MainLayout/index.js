@@ -83,19 +83,17 @@ const MainLayout = () => {
     useEffect(() => {
         let tmpTest = 'https://iam-qa.cht.com.tw/auth/realms/B2E/protocol/openid-connect/auth';
         let tmpData = {
-            client_id: 'mDAS',
+            client_id: 'CBPS.QA.I',
             redirect_uri: 'http://internal-cbpsAlbFrontend-1323185980.ap-northeast-1.elb.amazonaws.com',
             response_type: 'code',
-            state: 'sessionID@client_ip',
-            nonce: 'zzzzzz19zzzz',
             scope: 'ldap',
         }
-        fetch(tmpTest, { method: 'POST', body: JSON.stringify(tmpData) })
-        .then((res) => res.json())
-        .then((data) => {
-            console.log('data抓取成功=>>', data);
-        })
-        .catch((e) => console.log('e1=>', e));
+        fetch(tmpTest, { method: 'POST', body: JSON.stringify(tmpData), headers: { 'Content-Type': 'application/x-www-form-urlencoded' } })
+            .then((res) => res.json())
+            .then((data) => {
+                console.log('data抓取成功=>>', data);
+            })
+            .catch((e) => console.log('e1=>', e));
     }, []);
 
     useEffect(() => {
