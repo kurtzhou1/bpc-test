@@ -95,7 +95,7 @@ const MainLayout = () => {
             formBody.push(encodedKey + "=" + encodedValue);
         }
         formBody = formBody.join("&");
-        fetch(tmpTest, { method: 'POST', body: JSON.stringify(formBody), headers: { 'Content-Type': 'application/x-www-form-urlencoded' } })
+        fetch(tmpTest, { method: 'GET', body: JSON.stringify(tmpData) })
             .then((res) => res.json())
             .then((data) => {
                 console.log('data抓取成功=>>', data);
