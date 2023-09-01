@@ -95,7 +95,8 @@ const MainLayout = () => {
         //     formBody.push(encodedKey + "=" + encodedValue);
         // }
         // formBody = formBody.join("&");
-        fetch(tmpTest, { method: 'GET', body: JSON.stringify(tmpData) })
+        // fetch(tmpTest, { method: 'GET', body: JSON.stringify(tmpData) })
+        fetch(tmpTest, { method: 'GET' })
             .then((res) => res.json())
             .then((data) => {
                 console.log('data抓取成功=>>', data);
