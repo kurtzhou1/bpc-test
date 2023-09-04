@@ -39,7 +39,7 @@ const CreditBalanceQuery = ({ creditBalanceQuery }) => {
                 </Grid>
                 <Grid item xs={2} sm={2} md={2} lg={2}>
                     <FormControl fullWidth size="small">
-                        <InputLabel id="demo-simple-select-label">選擇會員</InputLabel>
+                        <InputLabel>選擇會員</InputLabel>
                         <Select
                             // value={supplierName}
                             label="會員"
@@ -58,7 +58,7 @@ const CreditBalanceQuery = ({ creditBalanceQuery }) => {
                 </Grid>
                 <Grid item xs={2} sm={2} md={2} lg={2}>
                     <FormControl fullWidth size="small">
-                        <InputLabel id="demo-simple-select-label">選擇CB種類</InputLabel>
+                        <InputLabel>選擇CB種類</InputLabel>
                         <Select
                             // value={submarineCable}
                             label="發票供應商"
@@ -77,7 +77,7 @@ const CreditBalanceQuery = ({ creditBalanceQuery }) => {
                 </Grid>
                 <Grid item xs={2} sm={2} md={2} lg={2}>
                     <FormControl fullWidth size="small">
-                        <InputLabel id="demo-simple-select-label">選擇海纜名稱</InputLabel>
+                        <InputLabel>選擇海纜名稱</InputLabel>
                         <Select
                             // value={submarineCable}
                             label="海纜名稱"
@@ -96,7 +96,7 @@ const CreditBalanceQuery = ({ creditBalanceQuery }) => {
                 </Grid>
                 <Grid item xs={2} sm={2} md={2} lg={2}>
                     <FormControl fullWidth size="small">
-                        <InputLabel id="demo-simple-select-label">選擇海纜作業</InputLabel>
+                        <InputLabel>選擇海纜作業</InputLabel>
                         <Select
                          
                             // value={submarineCable}

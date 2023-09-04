@@ -10,8 +10,6 @@ import TableCell, { tableCellClasses } from '@mui/material/TableCell';
 import { TableContainer, TableHead, TableBody, TableFooter, TableRow, Paper, TablePagination } from '@mui/material';
 import { styled } from '@mui/material/styles';
 
-//<InfoCircleOutlined />
-import { InfoCircleOutlined } from '@ant-design/icons';
 import dayjs from 'dayjs';
 
 const InvoiceDataList = ({ listInfo, setAction, setModifyItem, page, setPage }) => {
@@ -44,6 +42,8 @@ const InvoiceDataList = ({ listInfo, setAction, setModifyItem, page, setPage }) 
     const options1 = ['View', 'Validate', 'Edit', 'Delete'];
     const options2 = ['View', '作廢'];
     const options3 = ['View', '作廢', '退回'];
+
+    console.log('listInfo=>>', listInfo);
 
     return (
         <TableContainer component={Paper} sx={{ maxHeight: 640 }}>

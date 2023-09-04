@@ -271,7 +271,7 @@ const BillDraftMake = ({
                                 </Grid>
                                 <Grid item xs={4} sm={4} md={4} lg={4}>
                                     <FormControl fullWidth size="small">
-                                        <InputLabel id="demo-simple-select-label">選擇標示</InputLabel>
+                                        <InputLabel>選擇標示</InputLabel>
                                         <Select value={logo} label="Logo" onChange={(e) => setLogo(e.target.value)}>
                                             <MenuItem value={1}>CHT Logo</MenuItem>
                                             <MenuItem value={2}>TPE Logo</MenuItem>
@@ -285,7 +285,7 @@ const BillDraftMake = ({
                                 </Grid>
                                 <Grid item xs={4} sm={4} md={4} lg={4}>
                                     <FormControl fullWidth size="small">
-                                        <InputLabel id="demo-simple-select-label">選擇聯絡窗口</InputLabel>
+                                        <InputLabel>選擇聯絡窗口</InputLabel>
                                         <Select value={contact} label="會員" onChange={(e) => setContact(e.target.value)}>
                                             {contactList.map((i) => (
                                                 <MenuItem key={i.UserName} value={i.UserID}>

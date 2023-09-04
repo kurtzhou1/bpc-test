@@ -202,7 +202,7 @@ const LiabilityQuery = ({ setListInfo, partyList, submarineCableList, workTitleL
                 </Grid>
                 <Grid item xs={4} sm={4} md={2} lg={2} xl={2}>
                     <FormControl fullWidth size="small">
-                        <InputLabel id="demo-simple-select-label">選擇計帳段號</InputLabel>
+                        <InputLabel>選擇計帳段號</InputLabel>
                         <Select value={billMilestoneQuery} label="計帳段號" onChange={(e) => setBillMilestoneQuery(e.target.value)}>
                             {bmStoneList?.map((i) => (
                                 <MenuItem key={i} value={i}>
@@ -219,7 +219,7 @@ const LiabilityQuery = ({ setListInfo, partyList, submarineCableList, workTitleL
                 </Grid>
                 <Grid item xs={4} sm={4} md={2} lg={2} xl={2}>
                     <FormControl fullWidth size="small">
-                        <InputLabel id="demo-simple-select-label">選擇會員</InputLabel>
+                        <InputLabel>選擇會員</InputLabel>
                         <Select value={partyNameQuery} label="會員代號" onChange={(e) => setPartyNameQuery(e.target.value)}>
                             {partyList.map((i) => (
                                 <MenuItem key={i} value={i}>

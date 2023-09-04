@@ -25,11 +25,11 @@ import {
     returnToValidated,
     afterBilled,
     supplierNameDropDownUnique,
-    submarineCableInfoList
+    submarineCableInfoList,
+    billMilestoneLiabilityList
 } from 'components/apis.jsx';
 
 // redux
-import { useSelector } from 'react-redux';
 import { activeItem } from 'store/reducers/menu';
 
 // redux
@@ -57,7 +57,7 @@ const InvoiceWorkManage = () => {
     const [isCreditMemo, setIsCreditMemo] = useState(false); //是否為短腳補收
     const [partyName, setPartyName] = useState(''); //會員代號
     const wKMasterID = useRef(); //工作檔ID
-
+    const [bmsList, setBmsList] = useState([]); //計帳段號下拉選單
     const [bmStoneList, setBmStoneList] = useState([]); //計帳段號下拉選單
     // const [queryBmStoneList, setQueryBmStoneList] = useState([]); //條件查詢的計帳段號下拉選單
 
@@ -71,7 +71,6 @@ const InvoiceWorkManage = () => {
     const queryApi = useRef(queryInvoice + '/all');
     const queryApiTemporary = queryInvoice + '/Status=TEMPORARY';
 
-    const { bmsList } = useSelector((state) => state.dropdown); //供應商下拉選單 + 海纜名稱下拉選單
     const [submarineCableList, setSubmarineCableList] = useState([]); //海纜名稱下拉選單
     const [listInfo, setListInfo] = useState([]);
     const [page, setPage] = useState(0); //分頁Page
@@ -197,17 +196,24 @@ const InvoiceWorkManage = () => {
         .catch((e) => console.log('e1=>', e));
         //海纜名稱
         fetch(submarineCableInfoList, { method: 'GET' })
-        .then((res) => res.json())
-        .then((data) => {
-            setSubmarineCableList(data);
-        })
-        .catch((e) => console.log('e1=>', e));
+            .then((res) => res.json())
+            .then((data) => {
+                setSubmarineCableList(data);
+            })
+            .catch((e) => console.log('e1=>', e));
+        fetch(billMilestoneLiabilityList, { method: 'GET' })
+            .then((res) => res.json())
+            .then((data) => {
+                setBmsList(data);
+            })
+            .catch((e) => console.log('e1=>', e));
     }, []);
 
     useEffect(() => {
         if ((modifyItem !== '' && action === 'Edit') || (modifyItem !== '' && action === 'View')) {
             listInfo.forEach((i) => {
                 if (i.InvoiceWKMaster.InvoiceNo === modifyItem) {
+                    console.log(i.InvoiceWKMaster.IsPro, i.InvoiceWKMaster.IsLiability, i.InvoiceWKMaster.IsCreditMemo)
                     setSupplierName(i.InvoiceWKMaster.SupplierName);
                     setInvoiceNo(i.InvoiceWKMaster.InvoiceNo);
                     setSubmarineCable(i.InvoiceWKMaster.SubmarineCable);

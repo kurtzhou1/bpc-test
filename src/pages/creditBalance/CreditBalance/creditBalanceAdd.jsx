@@ -138,7 +138,7 @@ const CreditBalanceAdd = ({ handleDialogClose, isDialogOpen, partiesList, submar
                     </Grid>
                     <Grid item xs={2} sm={2} md={2} lg={2}>
                         <FormControl fullWidth size="small">
-                            <InputLabel id="demo-simple-select-label">選擇CB種類</InputLabel>
+                            <InputLabel>選擇CB種類</InputLabel>
                             <Select value={cBType} label="填寫海纜作業" onChange={(e) => setCBType(e.target.value)}>
                                 <MenuItem value={'MWG'}>MWG</MenuItem>
                                 <MenuItem value={'重溢繳'}>重溢繳</MenuItem>
@@ -170,7 +170,7 @@ const CreditBalanceAdd = ({ handleDialogClose, isDialogOpen, partiesList, submar
                     </Grid>
                     <Grid item xs={2} sm={2} md={2} lg={2}>
                         <FormControl fullWidth size="small">
-                            <InputLabel id="demo-simple-select-label">選擇會員</InputLabel>
+                            <InputLabel>選擇會員</InputLabel>
                             <Select value={partyName} label="會員" onChange={(e) => setPartyName(e.target.value)}>
                                 {partiesList.map((i) => (
                                     <MenuItem value={i}>{i}</MenuItem>

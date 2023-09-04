@@ -75,8 +75,8 @@ const InvoiceWorkManage = ({
         }
     };
 
-    console.log('supplierName=>>', supplierName);
-    console.log('supNmList=>>', supNmList);
+    console.log('isPro=>>', isPro);
+    console.log('isLiability=>>', isLiability);
 
     useEffect(() => {
         if (workTitle && submarineCable) {

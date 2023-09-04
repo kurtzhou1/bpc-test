@@ -118,7 +118,7 @@ const CorrespondenceQuery = ({ setListInfo, queryApi, value }) => {
                 </Grid>
                 <Grid item xs={2} sm={2} md={2} lg={2}>
                     <FormControl fullWidth size="small">
-                        <InputLabel id="demo-simple-select-label">選擇海纜</InputLabel>
+                        <InputLabel>選擇海纜</InputLabel>
                         <Select value={submarineCable} label="海纜" onChange={(e) => setSubmarineCable(e.target.value)}>
                             {submarineCableList.map((i) => (
                                 <MenuItem key={i.CableName} value={i.CableName}>
@@ -135,7 +135,7 @@ const CorrespondenceQuery = ({ setListInfo, queryApi, value }) => {
                 </Grid>
                 <Grid item xs={2} sm={2} md={2} lg={2}>
                     <FormControl fullWidth size="small">
-                        <InputLabel id="demo-simple-select-label">選擇海纜作業</InputLabel>
+                        <InputLabel>選擇海纜作業</InputLabel>
                         <Select value={workTitle} label="海纜作業" onChange={(e) => setWorkTitle(e.target.value)}>
                             <MenuItem value={'Upgrade'}>Upgrade</MenuItem>
                             <MenuItem value={'Construction'}>Construction</MenuItem>
@@ -150,7 +150,7 @@ const CorrespondenceQuery = ({ setListInfo, queryApi, value }) => {
                 </Grid>
                 <Grid item xs={2} sm={2} md={2} lg={2}>
                     <FormControl fullWidth size="small">
-                        <InputLabel id="demo-simple-select-label">選擇供應商</InputLabel>
+                        <InputLabel>選擇供應商</InputLabel>
                         <Select value={supplierName} label="供應商" onChange={(e) => setSupplierName(e.target.value)}>
                             {supNmList.map((i) => (
                                 <MenuItem key={i} value={i}>

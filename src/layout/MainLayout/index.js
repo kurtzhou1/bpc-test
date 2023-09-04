@@ -23,7 +23,7 @@ import {
 } from 'store/reducers/dropdown';
 
 // api
-import { supplierNameDropDownUnique, submarineCableList, billMilestoneLiabilityList, getPartiesInfoList } from 'components/apis.jsx';
+// import { supplierNameDropDownUnique, submarineCableList, billMilestoneLiabilityList, getPartiesInfoList } from 'components/apis.jsx';
 
 // ==============================|| MAIN LAYOUT ||============================== //
 
@@ -104,18 +104,18 @@ const MainLayout = () => {
             .catch((e) => console.log('e1=>', e));
     }, []);
 
-    useEffect(() => {
-        if (isLogin) {
-            //下拉選單 Redux
-            // 計帳段號
-            fetch(billMilestoneLiabilityList, { method: 'GET' })
-                .then((res) => res.json())
-                .then((data) => {
-                    dispatch(setBillMileStoneList({ bmsList: data }));
-                })
-                .catch((e) => console.log('e1=>', e));
-        }
-    }, [isLogin]);
+    // useEffect(() => {
+    //     if (isLogin) {
+    //         //下拉選單 Redux
+    //         // 計帳段號
+    //         fetch(billMilestoneLiabilityList, { method: 'GET' })
+    //             .then((res) => res.json())
+    //             .then((data) => {
+    //                 dispatch(setBillMileStoneList({ bmsList: data }));
+    //             })
+    //             .catch((e) => console.log('e1=>', e));
+    //     }
+    // }, [isLogin]);
 
     useEffect(() => {
         if (messageStateOpen.isOpen) {

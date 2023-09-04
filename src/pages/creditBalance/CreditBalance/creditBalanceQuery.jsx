@@ -104,7 +104,7 @@ const CreditBalanceQuery = ({ setListInfo, partiesList, submarineCableList, quer
                 </Grid>
                 <Grid item xs={2} sm={2} md={2} lg={2}>
                     <FormControl fullWidth size="small">
-                        <InputLabel id="demo-simple-select-label">選擇會員</InputLabel>
+                        <InputLabel>選擇會員</InputLabel>
                         <Select value={partyName} label="會員" onChange={(e) => setPartyName(e.target.value)}>
                             {partiesList.map((i) => (
                                 <MenuItem value={i}>{i}</MenuItem>
@@ -119,7 +119,7 @@ const CreditBalanceQuery = ({ setListInfo, partiesList, submarineCableList, quer
                 </Grid>
                 <Grid item xs={2} sm={2} md={2} lg={2}>
                     <FormControl fullWidth size="small">
-                        <InputLabel id="demo-simple-select-label">選擇CB種類</InputLabel>
+                        <InputLabel>選擇CB種類</InputLabel>
                         <Select value={cBType} label="發票供應商" onChange={(e) => setCBType(e.target.value)}>
                             {/* <MenuItem value={'一般'}>一般</MenuItem> */}
                             <MenuItem value={'MWG'}>MWG</MenuItem>
@@ -137,7 +137,7 @@ const CreditBalanceQuery = ({ setListInfo, partiesList, submarineCableList, quer
                 </Grid>
                 <Grid item xs={2} sm={2} md={2} lg={2}>
                     <FormControl fullWidth size="small">
-                        <InputLabel id="demo-simple-select-label">選擇海纜名稱</InputLabel>
+                        <InputLabel>選擇海纜名稱</InputLabel>
                         <Select value={submarineCable} label="海纜名稱" onChange={(e) => setSubmarineCable(e.target.value)}>
                             {submarineCableList.map((i) => (
                                 <MenuItem key={i.CableName} value={i.CableName}>
@@ -154,7 +154,7 @@ const CreditBalanceQuery = ({ setListInfo, partiesList, submarineCableList, quer
                 </Grid>
                 <Grid item xs={2} sm={2} md={2} lg={2}>
                     <FormControl fullWidth size="small">
-                        <InputLabel id="demo-simple-select-label">選擇海纜作業</InputLabel>
+                        <InputLabel>選擇海纜作業</InputLabel>
                         <Select value={workTitle} label="海纜作業" onChange={(e) => setWorkTitle(e.target.value)}>
                             <MenuItem value={'Upgrade'}>Upgrade</MenuItem>
                             <MenuItem value={'Construction'}>Construction</MenuItem>

@@ -169,7 +169,7 @@ const InvoiceQuery = ({ setListInfo, queryApi, submarineCableList, bmsList, setA
                 </Grid>
                 <Grid item xs={12} sm={2} md={2} lg={2}>
                     <FormControl fullWidth size="small">
-                        <InputLabel id="demo-simple-select-label">選擇供應商</InputLabel>
+                        <InputLabel>選擇供應商</InputLabel>
                         <Select value={supplierNameQuery} label="發票供應商" onChange={(e) => setSupplierNameQuery(e.target.value)}>
                             {supNmList.map((i) => (
                                 <MenuItem key={i} value={i}>
@@ -186,7 +186,7 @@ const InvoiceQuery = ({ setListInfo, queryApi, submarineCableList, bmsList, setA
                 </Grid>
                 <Grid item xs={12} sm={2} md={2} lg={2}>
                     <FormControl fullWidth size="small">
-                        <InputLabel id="demo-simple-select-label">選擇海纜</InputLabel>
+                        <InputLabel>選擇海纜</InputLabel>
                         <Select value={submarineCableQuery} label="發票供應商" onChange={(e) => setSubmarineCableQuery(e.target.value)}>
                             {submarineCableList.map((i) => (
                                 <MenuItem key={i.CableName} value={i.CableName}>
@@ -279,7 +279,7 @@ const InvoiceQuery = ({ setListInfo, queryApi, submarineCableList, bmsList, setA
                 </Grid>
                 <Grid item xs={12} sm={2} md={2} lg={2}>
                     <FormControl fullWidth size="small">
-                        <InputLabel id="demo-simple-select-label">選擇計帳段號</InputLabel>
+                        <InputLabel>選擇計帳段號</InputLabel>
                         <Select value={billMilestoneQuery} label="發票供應商" onChange={(e) => setBillMilestoneQuery(e.target.value)}>
                             {bmsList.map((i) => (
                                 <MenuItem key={i} value={i}>
