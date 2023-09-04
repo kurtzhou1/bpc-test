@@ -61,6 +61,8 @@ const ResearchBill = () => {
     const [listInfo, setListInfo] = useState([]);
     const [datailInfo, setDetailInfo] = useState([]);
 
+    console.log('listInfo=>>', listInfo);
+
     return (
         <Grid container spacing={1}>
             <Grid item xs={12}>

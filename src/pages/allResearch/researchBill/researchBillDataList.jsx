@@ -43,6 +43,8 @@ const ResearchBillDataList = ({ listInfo, setDetailInfo }) => {
         setCbTerminal(false);
     };
 
+    console.log('listInfo222=>>', listInfo);
+
     return (
         <TableContainer component={Paper} sx={{ maxHeight: 350 }}>
             <Table sx={{ minWidth: 300 }} stickyHeader aria-label="sticky table">
@@ -63,14 +65,14 @@ const ResearchBillDataList = ({ listInfo, setDetailInfo }) => {
                 </TableHead>
                 <TableBody>
                     {listInfo?.map((row, id) => {
+                        console.log('row=>>', row)
                         return (
                             <TableRow
                                 key={
                                     row.InvoiceWKMaster.InvoiceNo +
                                     row.InvoiceWKMaster?.SupplierName +
                                     row.InvoiceWKMaster?.SubmarineCable +
-                                    row.InvoiceWKMaster?.WorkTitle +
-                                    row.InvoiceWKMaster?.BillMilestone
+                                    row.InvoiceWKMaster?.TotalAmount
                                 }
                                 sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                             >
