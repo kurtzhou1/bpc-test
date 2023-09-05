@@ -50,7 +50,7 @@ const ToWriteOffDataList = ({ listInfo, writeOffQuery }) => {
         setIsDialogOpen(true);
     };
 
-    console.log('listInfo=>>', listInfo);
+    console.log('listInfo456=>>', listInfo);
 
     return (
         <>
@@ -89,7 +89,7 @@ const ToWriteOffDataList = ({ listInfo, writeOffQuery }) => {
                                 }
                             });
                             return (
-                                <TableRow key={row.WKMasterID + row.InvoiceNo} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
+                                <TableRow key={row?.BillMaster?.BillingNo + row?.BillMaster?.PartyName} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
                                     <StyledTableCell align="center">{id + 1}</StyledTableCell>
                                     <StyledTableCell align="center">{row?.BillMaster?.SubmarineCable}</StyledTableCell>
                                     <StyledTableCell align="center">{row?.BillMaster?.WorkTitle}</StyledTableCell>

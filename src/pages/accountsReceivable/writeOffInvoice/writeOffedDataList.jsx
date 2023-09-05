@@ -46,7 +46,7 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
 }));
 
 const WriteOffedDataList = ({ listInfo }) => {
-    console.log('listInfo=>>', listInfo);
+    console.log('listInfo123=>>', listInfo);
     let tmpBMArray = [];
     const [isDialogOpen, setIsDialogOpen] = useState(false); //檢視
     const writeOffInfo = useRef({});
@@ -101,7 +101,7 @@ const WriteOffedDataList = ({ listInfo }) => {
                             });
                             return (
                                 <TableRow
-                                    key={row.InvoiceWKMaster?.WKMasterID + row.InvoiceWKMaster?.InvoiceNo}
+                                    key={row.InvoiceWKMaster?.PartyName + row.InvoiceWKMaster?.BillingNo + row.InvoiceWKMaster?.BankFees}
                                     sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                                 >
                                     <StyledTableCell align="center">{id + 1}</StyledTableCell>
