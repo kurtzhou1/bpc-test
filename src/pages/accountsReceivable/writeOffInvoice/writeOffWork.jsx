@@ -348,27 +348,26 @@ const WriteOffWork = ({ isDialogOpen, handleDialogClose, writeOffInfo, writeOffD
                                                 : 0 + row?.ReceiveAmount
                                                 ? Number(row?.ReceiveAmount?.toString().replaceAll(',', ''))
                                                 : 0;
-                                            tmpTotalAmount = row?.ReceiveAmount
+                                            tmpTotalAmount = ( row?.ReceiveAmount
                                                 ? Number(row?.ReceiveAmount?.toString().replaceAll(',', ''))
                                                 : 0 + row?.ReceivedAmount
                                                 ? Number(row?.ReceivedAmount?.toString().replaceAll(',', ''))
-                                                : 0 - row?.FeeAmount
+                                                : 0 ) - row?.FeeAmount
                                                 ? Number(row?.FeeAmount?.toString().replaceAll(',', ''))
                                                 : 0; //本次實收+累計實收-應繳金額
-
                                             //處理Total
                                             overAmount = tmpTotalAmount > 0 ? tmpTotalAmount : 0;
                                             // 短繳 本次實收+累計實收-應繳 > 0，則顯示其金額差額 5/25改
-                                            shortAmount = row?.FeeAmount
+                                            shortAmount = (row?.FeeAmount
                                                 ? Number(row?.FeeAmount?.toString().replaceAll(',', ''))
                                                 : 0 - row?.ReceivedAmount
                                                 ? Number(row?.ReceivedAmount?.toString().replaceAll(',', ''))
-                                                : 0 - Number(totalAmount.replaceAll(',', '')) > 0
-                                                ? row?.FeeAmount
+                                                : 0 - Number(totalAmount.replaceAll(',', ''))) > 0
+                                                ? (row?.FeeAmount
                                                     ? Number(row?.FeeAmount?.toString().replaceAll(',', ''))
                                                     : 0 - row?.ReceivedAmount
                                                     ? Number(row?.ReceivedAmount?.toString().replaceAll(',', ''))
-                                                    : 0 - Number(totalAmount.replaceAll(',', ''))
+                                                    : 0 - Number(totalAmount.replaceAll(',', '')))
                                                 : 0;
                                             bankFeeBalance =
                                                 tmpTotalAmount >= 0
@@ -393,7 +392,7 @@ const WriteOffWork = ({ isDialogOpen, handleDialogClose, writeOffInfo, writeOffD
                                             //         : 'PARTIAL';
                                             return (
                                                 <TableRow
-                                                    key={row?.BillMasterID + row?.BillDetailID}
+                                                    key={id + row?.InvoiceNo + row?.FeeItem + row?.OrgFeeAmount}
                                                     sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                                                 >
                                                     <TableCell align="center" sx={{ fontSize: '0.1rem', minWidth: 75 }}>
@@ -464,7 +463,7 @@ const WriteOffWork = ({ isDialogOpen, handleDialogClose, writeOffInfo, writeOffD
                                                     {/* 重溢繳 */}
                                                     {/* 重溢繳 : 本次實收+累計實收-應繳 > 0，則顯示其金額差額 */}
                                                     <TableCell sx={{ fontSize: '0.1rem' }} align="center">
-                                                        {tmpTotalAmount > 0 ? handleNumber(tmpTotalAmount.toFixed(2)) : '0.00'}
+                                                        {action === 'view' ? row.OverAmount : tmpTotalAmount > 0 ? handleNumber(tmpTotalAmount.toFixed(2)) : '0.00'}
                                                     </TableCell>
                                                     {/* 短繳 */}
                                                     {/* 短繳：本次實收+累計實收-應繳 (應該是負值或0) 取正值 跟 手續費比，如果大於 則顯示此正值的金額(顯示的金額不用減掉手續費) */}
@@ -476,7 +475,7 @@ const WriteOffWork = ({ isDialogOpen, handleDialogClose, writeOffInfo, writeOffD
                                                             ? handleNumber(Math.abs(tmpTotalAmount).toFixed(2))
                                                             : '0.00'} */}
                                                         {/* 5/25以後 */}
-                                                        {handleNumber(shortAmount.toFixed(2))}
+                                                        {action === 'view' ? row.ShortAmount : handleNumber(shortAmount.toFixed(2))}
                                                     </TableCell>
                                                     {/* 手續費差額 */}
                                                     {/* 手續費差額：本次實收+累計實收-應繳 (應該是負值或0) 取正值 跟 手續費比 ，如果小於等於則顯示正值的金額(顯示的金額不用減掉手續費) */}
