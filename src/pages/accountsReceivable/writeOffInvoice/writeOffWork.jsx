@@ -207,12 +207,12 @@ const WriteOffWork = ({ isDialogOpen, handleDialogClose, writeOffInfo, writeOffD
                 ? Number(i?.FeeAmount.toString().replaceAll(',', ''))
                 : 0 - i?.ReceivedAmount
                 ? Number(i?.ReceivedAmount.toString().replaceAll(',', ''))
-                : 0 - Number(totalAmount.replaceAll(',', '')) > 0
+                : 0 - Number(totalAmount.toString().replaceAll(',', '')) > 0
                 ? i?.FeeAmount
                     ? Number(i?.FeeAmount.toString().replaceAll(',', ''))
                     : 0 - i?.ReceivedAmount
                     ? Number(i?.ReceivedAmount.toString().replaceAll(',', ''))
-                    : 0 - Number(totalAmount.replaceAll(',', ''))
+                    : 0 - Number(totalAmount.toString().replaceAll(',', ''))
                 : 0;
             tmpBankFees = tmpBankFees + i?.BankFees ? Number(i.BankFees.toString().replaceAll(',', '')) : 0;
             i.ReceivedAmount = i?.ReceivedAmount ? Number(i.ReceiveAmount.toString().replaceAll(',', '')) : 0;
@@ -343,31 +343,31 @@ const WriteOffWork = ({ isDialogOpen, handleDialogClose, writeOffInfo, writeOffD
                                     </TableHead>
                                     <TableBody>
                                         {toWriteOffDetailInfo?.map((row, id) => {
-                                            totalAmount = row?.BankFees
+                                            totalAmount = (row?.BankFees
                                                 ? Number(row?.BankFees?.toString().replaceAll(',', ''))
-                                                : 0 + row?.ReceiveAmount
+                                                : 0) + (row?.ReceiveAmount
                                                 ? Number(row?.ReceiveAmount?.toString().replaceAll(',', ''))
-                                                : 0;
-                                            tmpTotalAmount = ( row?.ReceiveAmount
+                                                : 0);
+                                            tmpTotalAmount = (row?.ReceiveAmount
                                                 ? Number(row?.ReceiveAmount?.toString().replaceAll(',', ''))
-                                                : 0 + row?.ReceivedAmount
+                                                : 0) + (row?.ReceivedAmount
                                                 ? Number(row?.ReceivedAmount?.toString().replaceAll(',', ''))
-                                                : 0 ) - row?.FeeAmount
+                                                : 0 ) - (row?.FeeAmount
                                                 ? Number(row?.FeeAmount?.toString().replaceAll(',', ''))
-                                                : 0; //本次實收+累計實收-應繳金額
+                                                : 0); //本次實收+累計實收-應繳金額 > 0 則顯示金額
                                             //處理Total
                                             overAmount = tmpTotalAmount > 0 ? tmpTotalAmount : 0;
                                             // 短繳 本次實收+累計實收-應繳 > 0，則顯示其金額差額 5/25改
                                             shortAmount = (row?.FeeAmount
                                                 ? Number(row?.FeeAmount?.toString().replaceAll(',', ''))
-                                                : 0 - row?.ReceivedAmount
+                                                : 0) - (row?.ReceivedAmount
                                                 ? Number(row?.ReceivedAmount?.toString().replaceAll(',', ''))
-                                                : 0 - Number(totalAmount.replaceAll(',', ''))) > 0
+                                                : 0) - Number(totalAmount.toString().replaceAll(',', '')) > 0
                                                 ? (row?.FeeAmount
                                                     ? Number(row?.FeeAmount?.toString().replaceAll(',', ''))
-                                                    : 0 - row?.ReceivedAmount
+                                                    : 0) - (row?.ReceivedAmount
                                                     ? Number(row?.ReceivedAmount?.toString().replaceAll(',', ''))
-                                                    : 0 - Number(totalAmount.replaceAll(',', '')))
+                                                    : 0) - Number(totalAmount.toString().replaceAll(',', ''))
                                                 : 0;
                                             bankFeeBalance =
                                                 tmpTotalAmount >= 0
@@ -379,8 +379,8 @@ const WriteOffWork = ({ isDialogOpen, handleDialogClose, writeOffInfo, writeOffD
                                                     : 0;
 
                                             tmpTotal = tmpTotal + totalAmount;
-                                            tmpOverAmount = tmpOverAmount + overAmount; //溢繳
-                                            tmpShortAmount = tmpShortAmount + shortAmount; //短繳加總
+                                            tmpOverAmount = tmpOverAmount + (action === 'view' ? row.OverAmount : overAmount); //溢繳
+                                            tmpShortAmount = tmpShortAmount + (action === 'view' ? row.ShortAmount : shortAmount); //短繳加總
                                             // tmpBankFeeBalance = tmpBankFeeBalance + bankFeeBalance; //手續費差額(負值)
                                             // tmpStatus =
                                             //     overAmount > 0
