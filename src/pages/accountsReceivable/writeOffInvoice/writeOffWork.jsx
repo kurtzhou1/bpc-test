@@ -220,8 +220,8 @@ const WriteOffWork = ({ isDialogOpen, handleDialogClose, writeOffInfo, writeOffD
                     : 0) - Number(tmpTotalAmount.toString().replaceAll(',', ''))
                 : 0;
             tmpBankFees = tmpBankFees + (i?.BankFees ? Number(i.BankFees.toString().replaceAll(',', '')) : 0);
-            i.ReceivedAmount = (i?.ReceivedAmount ? Number(i.ReceiveAmount.toString().replaceAll(',', '')) : 0);
-            // delete i.ReceiveAmount;
+            i.ReceivedAmount = i?.ReceiveAmount ? Number(i.ReceiveAmount.toString().replaceAll(',', '')) : 0;
+            //如果使用者有輸入本次實收，則替換ReceiveAmount變成ReceivedAmount 9/7
         });
         toWriteOffMasterInfo.Status = isComplete ? 'COMPLETE' : toWriteOffMasterInfo.Status;
         toWriteOffMasterInfo.BankFees = tmpBankFees;
@@ -229,14 +229,14 @@ const WriteOffWork = ({ isDialogOpen, handleDialogClose, writeOffInfo, writeOffD
             BillMaster: toWriteOffMasterInfo,
             BillDetail: toWriteOffDetailInfo
         };
-        console.log('tmpArray=>>', tmpArray);
-        fetch(sendToWriteOff, { method: 'POST', body: JSON.stringify(tmpArray) })
-            .then((res) => res.json())
-            .then(() => {
-                writeOffQuery();
-                handleClose();
-            })
-            .catch((e) => console.log('e1=>', e));
+        console.log('tmpArray2=>>', tmpArray);
+        // fetch(sendToWriteOff, { method: 'POST', body: JSON.stringify(tmpArray) })
+        //     .then((res) => res.json())
+        //     .then(() => {
+        //         writeOffQuery();
+        //         handleClose();
+        //     })
+        //     .catch((e) => console.log('e1=>', e));
     };
 
     const handleClose = () => {
