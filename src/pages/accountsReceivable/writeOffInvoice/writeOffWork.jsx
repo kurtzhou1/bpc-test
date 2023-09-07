@@ -229,14 +229,14 @@ const WriteOffWork = ({ isDialogOpen, handleDialogClose, writeOffInfo, writeOffD
             BillMaster: toWriteOffMasterInfo,
             BillDetail: toWriteOffDetailInfo
         };
-        console.log('tmpArray2=>>', tmpArray);
-        // fetch(sendToWriteOff, { method: 'POST', body: JSON.stringify(tmpArray) })
-        //     .then((res) => res.json())
-        //     .then(() => {
-        //         writeOffQuery();
-        //         handleClose();
-        //     })
-        //     .catch((e) => console.log('e1=>', e));
+        console.log('tmpArray3=>>', tmpArray);
+        fetch(sendToWriteOff, { method: 'POST', body: JSON.stringify(tmpArray) })
+            .then((res) => res.json())
+            .then(() => {
+                writeOffQuery();
+                handleClose();
+            })
+            .catch((e) => console.log('e1=>', e));
     };
 
     const handleClose = () => {
