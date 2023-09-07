@@ -50,8 +50,6 @@ const ToWriteOffDataList = ({ listInfo, writeOffQuery }) => {
         setIsDialogOpen(true);
     };
 
-    console.log('listInfo456=>>', listInfo);
-
     return (
         <>
             <WriteOffWork

@@ -55,11 +55,6 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
     }
 }));
 
-const styles = (theme) => ({
-    root: {
-        overflowX: 'auto'
-    }
-});
 
 const WriteOffWork = ({ isDialogOpen, handleDialogClose, writeOffInfo, writeOffDetail, writeOffQuery, action }) => {
     const [toWriteOffMasterInfo, setToWriteOffMasterInfo] = useState({}); //帳單明細檔
@@ -191,31 +186,41 @@ const WriteOffWork = ({ isDialogOpen, handleDialogClose, writeOffInfo, writeOffD
         let tmpData = toWriteOffDetailInfo?.map((i) => i);
         let tmpBankFees = 0;
         let tmpAmount = 0;
+        let tmpTotalAmount = 0;
         let diffAmount = 0;
 
         tmpData.forEach((i) => {
+            // 重溢繳處理
             tmpAmount = 0;
-            tmpAmount = i?.ReceiveAmount
+            tmpAmount = (i?.ReceiveAmount
                 ? Number(i.ReceiveAmount.toString().replaceAll(',', ''))
-                : 0 + i?.ReceiveAmount
+                : 0) + (i?.ReceivedAmount
                 ? Number(i.ReceivedAmount.toString().replaceAll(',', ''))
-                : 0;
+                : 0); //本次實收+累計實收
             diffAmount = 0;
-            diffAmount = tmpAmount - i?.FeeAmount ? Number(i.FeeAmount.toString().replaceAll(',', '')) : 0;
+            diffAmount = tmpAmount - (i?.FeeAmount ? Number(i.FeeAmount.toString().replaceAll(',', '')) : 0); //本次實收+累計實收-應繳 > 0，則顯示其金額差額
             i.OverAmount = diffAmount > 0 ? diffAmount : 0;
-            i.ShortAmount = i?.FeeAmount
+
+            // 短繳處理
+            tmpTotalAmount = 0;
+            tmpTotalAmount = (i?.BankFees
+                ? Number(i?.BankFees?.toString().replaceAll(',', ''))
+                : 0) + (i?.ReceiveAmount
+                ? Number(i?.ReceiveAmount?.toString().replaceAll(',', ''))
+                : 0);
+            i.ShortAmount = (i?.FeeAmount
                 ? Number(i?.FeeAmount.toString().replaceAll(',', ''))
-                : 0 - i?.ReceivedAmount
+                : 0) - (i?.ReceivedAmount
                 ? Number(i?.ReceivedAmount.toString().replaceAll(',', ''))
-                : 0 - Number(totalAmount.toString().replaceAll(',', '')) > 0
-                ? i?.FeeAmount
+                : 0) - Number(tmpTotalAmount.toString().replaceAll(',', '')) > 0
+                ? (i?.FeeAmount
                     ? Number(i?.FeeAmount.toString().replaceAll(',', ''))
-                    : 0 - i?.ReceivedAmount
+                    : 0) - (i?.ReceivedAmount
                     ? Number(i?.ReceivedAmount.toString().replaceAll(',', ''))
-                    : 0 - Number(totalAmount.toString().replaceAll(',', ''))
+                    : 0) - Number(tmpTotalAmount.toString().replaceAll(',', ''))
                 : 0;
-            tmpBankFees = tmpBankFees + i?.BankFees ? Number(i.BankFees.toString().replaceAll(',', '')) : 0;
-            i.ReceivedAmount = i?.ReceivedAmount ? Number(i.ReceiveAmount.toString().replaceAll(',', '')) : 0;
+            tmpBankFees = tmpBankFees + (i?.BankFees ? Number(i.BankFees.toString().replaceAll(',', '')) : 0);
+            i.ReceivedAmount = (i?.ReceivedAmount ? Number(i.ReceiveAmount.toString().replaceAll(',', '')) : 0);
             // delete i.ReceiveAmount;
         });
         toWriteOffMasterInfo.Status = isComplete ? 'COMPLETE' : toWriteOffMasterInfo.Status;
@@ -463,7 +468,7 @@ const WriteOffWork = ({ isDialogOpen, handleDialogClose, writeOffInfo, writeOffD
                                                     {/* 重溢繳 */}
                                                     {/* 重溢繳 : 本次實收+累計實收-應繳 > 0，則顯示其金額差額 */}
                                                     <TableCell sx={{ fontSize: '0.1rem' }} align="center">
-                                                        {action === 'view' ? row.OverAmount : tmpTotalAmount > 0 ? handleNumber(tmpTotalAmount.toFixed(2)) : '0.00'}
+                                                        {action === 'view' ? row.OverAmount : (tmpTotalAmount > 0 ? handleNumber(tmpTotalAmount.toFixed(2)) : '0.00')}
                                                     </TableCell>
                                                     {/* 短繳 */}
                                                     {/* 短繳：本次實收+累計實收-應繳 (應該是負值或0) 取正值 跟 手續費比，如果大於 則顯示此正值的金額(顯示的金額不用減掉手續費) */}
@@ -477,34 +482,6 @@ const WriteOffWork = ({ isDialogOpen, handleDialogClose, writeOffInfo, writeOffD
                                                         {/* 5/25以後 */}
                                                         {action === 'view' ? row.ShortAmount : handleNumber(shortAmount.toFixed(2))}
                                                     </TableCell>
-                                                    {/* 手續費差額 */}
-                                                    {/* 手續費差額：本次實收+累計實收-應繳 (應該是負值或0) 取正值 跟 手續費比 ，如果小於等於則顯示正值的金額(顯示的金額不用減掉手續費) */}
-                                                    {/* {action === 'view' ? (
-                                                        ''
-                                                    ) : (
-                                                        <TableCell sx={{ fontSize: '0.1rem' }} align="center">
-                                                            {tmpTotalAmount >= 0
-                                                                ? '0.00'
-                                                                : Math.abs(tmpTotalAmount) <= Number(row.BankFees)
-                                                                ? handleNumber(Math.abs(tmpTotalAmount).toFixed(2))
-                                                                : '0.00'}
-                                                        </TableCell>
-                                                    )} */}
-                                                    {/* 短繳原因 */}
-                                                    {/* {action === 'view' ? (
-                                                        ''
-                                                    ) : (
-                                                        <TableCell sx={{ fontSize: '0.1rem' }} align="center">
-                                                            <TextField
-                                                                size="small"
-                                                                sx={{ minWidth: 75 }}
-                                                                value={row.ShortOverReason}
-                                                                onChange={(e) => {
-                                                                    changeShortOverReason(e.target.value, row.BillDetailID);
-                                                                }}
-                                                            />
-                                                        </TableCell>
-                                                    )} */}
                                                     <TableCell sx={{ fontSize: '0.1rem' }} align="center">
                                                         {action === 'view' ? (
                                                             row.ReceiveDate
@@ -604,20 +581,8 @@ const WriteOffWork = ({ isDialogOpen, handleDialogClose, writeOffInfo, writeOffD
                                             <StyledTableCell className="totalAmount" align="center">
                                                 {handleNumber(tmpShortAmount.toFixed(2))}
                                             </StyledTableCell>
-                                            {/* {action === 'view' ? (
-                                                ''
-                                            ) : (
-                                                <StyledTableCell className="totalAmount" align="center">
-                                                    {handleNumber(Math.abs(tmpBankFeeBalance).toFixed(2))}
-                                                </StyledTableCell>
-                                            )} */}
                                             <StyledTableCell className="totalAmount" align="center"></StyledTableCell>
                                             <StyledTableCell className="totalAmount" align="center"></StyledTableCell>
-                                            {/* {action === 'view' ? (
-                                                ''
-                                            ) : (
-                                                <StyledTableCell className="totalAmount" align="center"></StyledTableCell>
-                                            )} */}
                                             {action === 'view' ? (
                                                 ''
                                             ) : (
