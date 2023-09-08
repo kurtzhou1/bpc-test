@@ -140,7 +140,6 @@ const ToDeductWork = ({ isDeductOpen, handleDeductClose, billDetailInfo, billMas
     const saveDeduct = () => {
         let tmpFeeAmount = 0;
         let deductAmount = 0;
-        console.log('billDetailInfo=>>', billDetailInfo);
         let tmpArrayFiliter = tmpDeductArray.current.filter((i) => i.BillDetailID === editItem.current);
         console.log('tmpArrayFiliter=>>', tmpArrayFiliter);
         let tmpArray = tmpDeductArray.current.map((i) => i);

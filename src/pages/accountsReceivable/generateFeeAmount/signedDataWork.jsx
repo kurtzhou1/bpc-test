@@ -53,7 +53,6 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
 }));
 
 const SignedDataWork = ({ isDeductedWorkOpen, handleDeductedClose, billDetailInfo }) => {
-    console.log('billDetailInfo=>>', billDetailInfo);
     let feeAmount = useRef(0); // 總費用金額加總(上)
     let dedAmount = useRef(0); //總折抵資料加總(上)
     const [dataList, setDataList] = useState([]);

@@ -14,48 +14,12 @@ import { styled } from '@mui/material/styles';
 
 import dayjs from 'dayjs';
 
-import { journaryDetailView, journaryMasterView, updateInvoice, updateInvoiceMaster } from 'components/apis.jsx';
+import { journaryDetailView, journaryMasterView } from 'components/apis.jsx';
 
-const BilledDataList = ({ listInfo, apiQuery }) => {
+const BilledDataList = ({ listInfo }) => {
     const [isDialogOpen, setIsDialogOpen] = useState(false);
     const [toBillDataInfo, setToBillDataInfo] = useState([]); //發票明細檔
     const totalAmount = useRef(0);
-    const fakeData = [
-        {
-            WKDetailID: 1,
-            InvDetailID: 1,
-            PartyName: 'DHT',
-            SubmarineCable: 'SJC2',
-            WorkTitle: 'Construction',
-            FeeItem: 'BM9a Sea...',
-            LBRatio: 3.5714285714,
-            Difference: 0.0,
-            InvMasterID: 1,
-            WKMasterID: 1,
-            InvoiceNo: 'DT0170168-1',
-            SupplierName: 'NEC',
-            BillMilestone: 'BM9a',
-            FeeAmountPre: 1288822.32,
-            FeeAmountPost: 46029.37
-        },
-        {
-            WKDetailID: 1,
-            InvDetailID: 1,
-            PartyName: 'DHT',
-            SubmarineCable: 'SJC2',
-            WorkTitle: 'Construction',
-            FeeItem: 'BM9a Sea...',
-            LBRatio: 3.5714285714,
-            Difference: 0.0,
-            InvMasterID: 1,
-            WKMasterID: 1,
-            InvoiceNo: 'DT0170168-1',
-            SupplierName: 'NEC',
-            BillMilestone: 'BM9a',
-            FeeAmountPre: 1288822.32,
-            FeeAmountPost: 46029.37
-        }
-    ];
     const StyledTableCell = styled(TableCell)(({ theme }) => ({
         [`&.${tableCellClasses.head}`]: {
             // backgroundColor: theme.palette.common.gary,
@@ -95,15 +59,8 @@ const BilledDataList = ({ listInfo, apiQuery }) => {
 
     return (
         <>
-            <Dialog
-                // onClose={handleDialogClose}
-                maxWidth="xl"
-                fullWidth
-                open={isDialogOpen}
-            >
-                <BootstrapDialogTitle
-                //  onClose={handleDialogClose}
-                >
+            <Dialog maxWidth="xl" fullWidth open={isDialogOpen}>
+                <BootstrapDialogTitle>
                     立帳作業
                 </BootstrapDialogTitle>
                 <DialogContent>
@@ -121,7 +78,7 @@ const BilledDataList = ({ listInfo, apiQuery }) => {
                                 </TableRow>
                             </TableHead>
                             <TableBody>
-                                {toBillDataInfo?.map((row, id) => {
+                                {toBillDataInfo?.map((row) => {
                                     let afterDiff = row.FeeAmountPost + row.Difference;
                                     return (
                                         <TableRow
@@ -146,9 +103,6 @@ const BilledDataList = ({ listInfo, apiQuery }) => {
                     </DialogContentText>
                 </DialogContent>
                 <DialogActions>
-                    {/* <Button sx={{ mr: '0.05rem' }} variant="contained" onClick={sendJounaryInfo}>
-                        新增
-                    </Button> */}
                     <Button sx={{ mr: '0.05rem' }} variant="contained" onClick={handleDialogClose}>
                         關閉
                     </Button>
@@ -173,7 +127,7 @@ const BilledDataList = ({ listInfo, apiQuery }) => {
                         {listInfo?.map((row, id) => {
                             return (
                                 <TableRow
-                                    // key={row.InvoiceWKMaster?.invoiceNo + row.InvoiceWKMaster?.supplierName + id}
+                                    key={row.InvoiceWKMaster?.InvoiceNo + row.InvoiceWKMaster?.SupplierName}
                                     sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                                 >
                                     <StyledTableCell align="center">{id + 1}</StyledTableCell>

@@ -254,6 +254,7 @@ const WriteOffWork = ({ isDialogOpen, handleDialogClose, writeOffInfo, writeOffD
         overAmountTotal.current = 0; //重溢繳
         bankFeesLessTotal.current = 0;
         shortAmountTotal.current = 0;
+        setIsComplete(false);
     };
 
     useEffect(() => {
@@ -268,7 +269,7 @@ const WriteOffWork = ({ isDialogOpen, handleDialogClose, writeOffInfo, writeOffD
             <DialogContent>
                 <Grid container spacing={1} display="flex" justifyContent="center" alignItems="center" sx={{ fontSize: 10 }}>
                     <Grid item xs={12} sm={12} md={12} lg={12}>
-                        <Grid container spacing={1} display="flex" justifyContent="center" alignItems="center" sx={{ fontSize: 10 }}>
+                        <Grid container spacing={0} display="flex" justifyContent="center" alignItems="center" sx={{ fontSize: 10 }}>
                             <Grid item xs={1} sm={1} md={1} lg={1}>
                                 <Typography
                                     variant="h5"
@@ -323,8 +324,8 @@ const WriteOffWork = ({ isDialogOpen, handleDialogClose, writeOffInfo, writeOffD
                     </Grid>
                     <Grid item xs={12} sm={12} md={12} lg={12}>
                         <MainCard title="帳單明細列表">
-                            <TableContainer component={Paper}>
-                                <Table stickyHeader sx={{ minWidth: 1000 }}>
+                            <TableContainer component={Paper} sx={{ maxHeight: window.screen.height * 0.5 }}>
+                                <Table stickyHeader>
                                     <TableHead>
                                         <TableRow>
                                             <StyledTableCell align="center">發票號碼</StyledTableCell>
@@ -336,7 +337,7 @@ const WriteOffWork = ({ isDialogOpen, handleDialogClose, writeOffInfo, writeOffD
                                             <StyledTableCell align="center">累計實收</StyledTableCell>
                                             {action === 'view' ? '' : <StyledTableCell align="center">手續費</StyledTableCell>}
                                             {action === 'view' ? '' : <StyledTableCell align="center">本次實收</StyledTableCell>}
-                                            {action === 'view' ? '' : <StyledTableCell align="center">總金額(含手續費)</StyledTableCell>}
+                                            {action === 'view' ? '' : <StyledTableCell align="center">本次實收總金額(含手續費)</StyledTableCell>}
                                             <StyledTableCell align="center">重溢繳</StyledTableCell>
                                             <StyledTableCell align="center">短繳</StyledTableCell>
                                             {/* {action === 'view' ? '' : <StyledTableCell align="center">手續費差額</StyledTableCell>} */}

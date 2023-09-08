@@ -63,7 +63,7 @@ const JournalQuery = ({ setListInfo, queryApi, invoiceStatus }) => {
             .then((res) => res.json())
             .then((data) => {
                 setListInfo(data);
-                initQuery();
+                // initQuery();
             })
             .catch((e) => console.log('e1=>', e));
     };
