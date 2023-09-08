@@ -23,16 +23,10 @@ const CreateJournal = () => {
     const [listInfo, setListInfo] = useState([]);
     const [value, setValue] = useState(0);
     const [page, setPage] = useState(0); //分頁Page
-    const queryApi = useRef(queryInvoice + '/all');
+    const queryApi = useRef('');
     const apiQuery = () => {
         let tmpQuery = '/';
-
-        tmpQuery = tmpQuery + 'Status=' + 'all' + '&';
-
-        if (tmpQuery.includes('&')) {
-            tmpQuery = tmpQuery.slice(0, -1);
-        }
-
+        tmpQuery = tmpQuery + 'Status=BILLED&Status=PAYING&Status=COMPLETE';
         tmpQuery = queryInvoice + tmpQuery;
         queryApi.current = tmpQuery;
         fetch(tmpQuery, { method: 'GET' })
