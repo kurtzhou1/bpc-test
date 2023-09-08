@@ -19,7 +19,7 @@ export const billMilestoneList = 'http://internal-cbpsalb-1176080923.ap-northeas
 // 產生發票工作檔
 export const generateInvoice = 'http://internal-cbpsalb-1176080923.ap-northeast-1.elb.amazonaws.com/api/v1/generateInvoiceWKMaster&InvoiceWKDetail';
 
-// 查詢發票工作檔
+// 查詢發票工作主檔
 export const queryInvoice = 'http://internal-cbpsalb-1176080923.ap-northeast-1.elb.amazonaws.com/api/v1/getInvoiceWKMaster&InvoiceWKDetail';
 
 // 更新工作檔狀態

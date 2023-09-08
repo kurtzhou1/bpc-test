@@ -81,7 +81,13 @@ const MainLayout = () => {
 
 
     useEffect(() => {
-        let tmpTest = 'https://iam-qa.cht.com.tw/auth/realms/B2E/protocol/openid-connect/auth';
+        let tmpTest = 'https://iam-qa.cht.com.tw/auth/realms/B2E/protocol/openid-connect/auth?client_id=CBPS.QA.I&response_type=code&redirect_uri=http://internal-cbpsAlbFrontend-1323185980.ap-northeast-1.elb.amazonaws.com';
+        fetch(tmpTest, { method: 'GET' })
+        .then((res) => res.json())
+        .then((data) => {
+            console.log('data抓取成功=>>', data);
+        })
+        .catch((e) => console.log('e1=>', e));
         let tmpData = {
             client_id: 'CBPS.QA.I',
             redirect_uri: 'http://internal-cbpsAlbFrontend-1323185980.ap-northeast-1.elb.amazonaws.com',
@@ -96,12 +102,7 @@ const MainLayout = () => {
         // }
         // formBody = formBody.join("&");
         // fetch(tmpTest, { method: 'GET', body: JSON.stringify(tmpData) })
-        fetch(tmpTest, { method: 'GET' })
-            .then((res) => res.json())
-            .then((data) => {
-                console.log('data抓取成功=>>', data);
-            })
-            .catch((e) => console.log('e1=>', e));
+       
     }, []);
 
     // useEffect(() => {

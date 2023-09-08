@@ -30,17 +30,13 @@ const JournalQuery = ({ setListInfo, queryApi, invoiceStatus, setPage }) => {
     };
 
     const jounaryQuery = () => {
-        let tmpQuery = '/';
+        let tmpQuery = '/​';
         if (supplierName && supplierName !== '') {
             tmpQuery = tmpQuery + 'SupplierName=' + supplierName + '&';
         }
         if (submarineCable && submarineCable !== '') {
             tmpQuery = tmpQuery + 'SubmarineCable=' + submarineCable + '&';
         }
-        // if (partyName && partyName !== '') {
-        //     tmpQuery = tmpQuery + 'PartyName=' + partyName + '&';
-        // }
-
         if (issueDate[0] && issueDate[1]) {
             tmpQuery =
                 tmpQuery +
@@ -52,12 +48,12 @@ const JournalQuery = ({ setListInfo, queryApi, invoiceStatus, setPage }) => {
                 '&';
         }
         if (invoiceStatus === '0' || invoiceStatus === 0) {
-            tmpQuery = tmpQuery + 'Status=' + 'all' + '&';
+            tmpQuery = tmpQuery + 'Status=BILLED&Status=PAYING&Status=COMPLETE';
         } 
 
-        if (tmpQuery.includes('&')) {
-            tmpQuery = tmpQuery.slice(0, -1);
-        }
+        // if (tmpQuery.includes('&')) {
+        //     tmpQuery = tmpQuery.slice(0, -1);
+        // }
 
         tmpQuery = queryInvoice + tmpQuery;
         queryApi.current = tmpQuery;
