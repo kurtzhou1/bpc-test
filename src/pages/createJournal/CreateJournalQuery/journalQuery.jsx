@@ -30,7 +30,7 @@ const JournalQuery = ({ setListInfo, queryApi, invoiceStatus, setPage }) => {
     };
 
     const jounaryQuery = () => {
-        let tmpQuery = '/​';
+        let tmpQuery = '/';
         if (supplierName && supplierName !== '') {
             tmpQuery = tmpQuery + 'SupplierName=' + supplierName + '&';
         }
