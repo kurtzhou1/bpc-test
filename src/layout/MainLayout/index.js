@@ -86,7 +86,8 @@ const MainLayout = () => {
 
 
     useEffect(() => {
-        authorize();
+        // haha
+        // authorize();
         // let tmpData = {
         //     client_id: 'CBPS.QA.I',
         //     redirect_uri: 'http://internal-cbpsAlbFrontend-1323185980.ap-northeast-1.elb.amazonaws.com',
