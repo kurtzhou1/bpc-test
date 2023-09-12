@@ -80,13 +80,31 @@ const MainLayout = () => {
     }, [drawerOpen]);
 
     const authorize = () => {
-        let tmpTest = 'https://iam-qa.cht.com.tw/auth/realms/B2E/protocol/openid-connect/auth?client_id=CBPS.QA.I&response_type=code&redirect_uri=http://internal-cbpsAlbFrontend-1323185980.ap-northeast-1.elb.amazonaws.com';
+        let tmpTest = 'https://iam-qa.cht.com.tw/auth/realms/B2E/protocol/openid-connect/token';
         window.location = tmpTest;
     }
 
+    let tmpTest = 'https://iam-qa.cht.com.tw/auth/realms/B2E/protocol/openid-connect/token';
+    const testUrl = 'http://internal-cbpsalbfrontend-1323185980.ap-northeast-1.elb.amazonaws.com/?session_state=73d3b4b8-c96f-4130-82fb-e51256c3ad42&code=a2cff859-082c-4715-9153-18dcbe98c40a.73d3b4b8-c96f-4130-82fb-e51256c3ad42.4d93c876-915e-4ed3-bd09-968595f302c8'
 
     useEffect(() => {
         // haha
+        if (testUrl.indexOf !== -1) {
+            const accessCode = window.location.href.split('code=')[1];
+            let tmpArray = {
+                client_id: 'CBPS.QA.I',
+                redirect_uri: 'http://internal-cbpsAlbFrontend-1323185980.ap-northeast-1.elb.amazonaws.com',
+                code: accessCode,
+                grant_type: 'authorization_code',
+            }
+            console.log('=>>>', tmpArray);
+            fetch(tmpTest, { method: 'POST', body: JSON.stringify(tmpArray), headers: { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' } })
+                .then((res) => res.json())
+                .then((data) => {
+                    console.log('回傳=>>>>', data);
+                })
+                .catch((e) => console.log('e1=>', e));
+        }
         // authorize();
         // let tmpData = {
         //     client_id: 'CBPS.QA.I',
