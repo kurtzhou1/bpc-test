@@ -22,9 +22,6 @@ import {
     setMessageStateOpen
 } from 'store/reducers/dropdown';
 
-// api
-// import { supplierNameDropDownUnique, submarineCableList, billMilestoneLiabilityList, getPartiesInfoList } from 'components/apis.jsx';
-
 // ==============================|| MAIN LAYOUT ||============================== //
 
 const MainLayout = () => {
@@ -119,22 +116,7 @@ const MainLayout = () => {
         //     formBody.push(encodedKey + "=" + encodedValue);
         // }
         // formBody = formBody.join("&");
-        // fetch(tmpTest, { method: 'GET', body: JSON.stringify(tmpData) })
-       
     }, []);
-
-    // useEffect(() => {
-    //     if (isLogin) {
-    //         //下拉選單 Redux
-    //         // 計帳段號
-    //         fetch(billMilestoneLiabilityList, { method: 'GET' })
-    //             .then((res) => res.json())
-    //             .then((data) => {
-    //                 dispatch(setBillMileStoneList({ bmsList: data }));
-    //             })
-    //             .catch((e) => console.log('e1=>', e));
-    //     }
-    // }, [isLogin]);
 
     useEffect(() => {
         if (messageStateOpen.isOpen) {

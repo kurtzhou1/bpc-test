@@ -59,7 +59,6 @@ const BilledDataList = ({ listInfo, apiQuery }) => {
     };
 
     const billDataViewInvalid = (WKMasterID) => {
-        // updateInvoice, updateInvoiceMaster
         let tmpArray = {
             WKMasterID: WKMasterID,
             Status: 'INVALID'

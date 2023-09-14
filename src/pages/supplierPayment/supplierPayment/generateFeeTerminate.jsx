@@ -29,9 +29,6 @@ import DialogActions from '@mui/material/DialogActions';
 import CheckBoxOutlineBlankIcon from '@mui/icons-material/CheckBoxOutlineBlank';
 import CheckBoxIcon from '@mui/icons-material/CheckBox';
 
-// api
-import { updateLiability } from 'components/apis.jsx';
-
 const GenerateFeeTerminate = ({ infoTerminal, handleTerminalClose }) => {
     const [endNote, setEndNote] = useState([]);
 

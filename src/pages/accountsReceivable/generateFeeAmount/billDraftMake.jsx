@@ -202,14 +202,14 @@ const BillDraftMake = ({
     useEffect(() => {
         if (isDialogOpen) {
             let tmpAmount = 0;
-            let tmpData = {
+            let tmpArray = {
                 BillMasterID: billMasterID,
                 UserID: 'chang_ty',
                 GetTemplate: true
             };
             setIssueDate(issueDateDefault);
             setDueDate(dueDateDefault);
-            fetch(generateBillData, { method: 'POST', body: JSON.stringify(tmpData) })
+            fetch(generateBillData, { method: 'POST', body: JSON.stringify(tmpArray) })
                 .then((res) => res.json())
                 .then((data) => {
                     console.log('data抓取成功=>>', data);

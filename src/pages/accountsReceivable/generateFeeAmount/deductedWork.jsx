@@ -2,7 +2,7 @@ import { useState, useRef, useEffect } from 'react';
 
 // project import
 import { handleNumber, BootstrapDialogTitle } from 'components/commonFunction';
-import { queryCB, sendDuctInfo } from 'components/apis';
+import { sendDuctInfo } from 'components/apis';
 import MainCard from 'components/MainCard';
 // material-ui
 import {

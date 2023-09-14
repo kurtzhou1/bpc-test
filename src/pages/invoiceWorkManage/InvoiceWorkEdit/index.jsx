@@ -68,8 +68,9 @@ const InvoiceWorkManage = () => {
     const [action, setAction] = useState('');
     const [modifyItem, setModifyItem] = useState('');
 
-    const queryApi = useRef(queryInvoice + '/all');
-    const queryApiTemporary = queryInvoice + '/Status=TEMPORARY';
+    const queryApi = useRef({});
+    const queryApiTemporary = {Status:['TEMPORARY']};
+    // const queryApiTemporary = queryInvoice + '/Status=TEMPORARY';
 
     const [submarineCableList, setSubmarineCableList] = useState([]); //海纜名稱下拉選單
     const [listInfo, setListInfo] = useState([]);
@@ -112,7 +113,7 @@ const InvoiceWorkManage = () => {
     };
 
     const queryInit = () => {
-        fetch(queryApi.current, { method: 'GET' })
+        fetch(queryInvoice, { method: 'POST', body: JSON.stringify(queryApi) })
             .then((res) => res.json())
             .then((data) => {
                 setListInfo(data);
@@ -121,7 +122,7 @@ const InvoiceWorkManage = () => {
     };
 
     const queryInitTemporary = () => {
-        fetch(queryApiTemporary, { method: 'GET' })
+        fetch(queryInvoice, { method: 'POST', body: JSON.stringify(queryApiTemporary) })
             .then((res) => res.json())
             .then((data) => {
                 setListInfo(data);
@@ -130,8 +131,7 @@ const InvoiceWorkManage = () => {
     };
 
     const firstQueryInit = () => {
-        let tmpQuery = queryInvoice + '/Status=TEMPORARY';
-        fetch(tmpQuery, { method: 'GET' })
+        fetch(queryInvoice, { method: 'POST', body: JSON.stringify(queryApiTemporary) })
             .then((res) => res.json())
             .then((data) => {
                 orderDate(data);
@@ -273,9 +273,6 @@ const InvoiceWorkManage = () => {
                     } else if (data.ifReturn && data.hasOwnProperty('ifReturn')) {
                         dispatch(setMessageStateOpen({ messageStateOpen: { isOpen: true, severity: 'success', message: '作廢成功' } }));
                     }
-                    // setPage(0);
-                    // setAction('');
-                    // queryInit();
                 })
                 .catch((e) => console.log('e1=>', e));
         }
