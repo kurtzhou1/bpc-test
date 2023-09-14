@@ -242,7 +242,7 @@ const InvoiceQuery = ({ setListInfo, queryApi, submarineCableList, bmsList, setA
                                     sx={{ '& .MuiSvgIcon-root': { fontSize: { lg: 14, xl: 20 } } }}
                                 />
                             }
-                            label="未立帳"
+                            label="待立帳"
                         />
                         <FormControlLabel
                             control={
