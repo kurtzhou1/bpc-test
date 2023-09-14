@@ -273,7 +273,7 @@ const ResearchBillQuery = ({ setListInfo, queryApi }) => {
                                     sx={{ '& .MuiSvgIcon-root': { fontSize: { lg: 14, xl: 20 } } }}
                                 />
                             }
-                            label="Validated"
+                            label="待立帳"
                         />
                         <FormControlLabel
                             control={
