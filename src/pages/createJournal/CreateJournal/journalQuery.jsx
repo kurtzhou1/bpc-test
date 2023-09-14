@@ -30,36 +30,45 @@ const JournalQuery = ({ setListInfo, queryApi, invoiceStatus }) => {
     };
 
     const jounaryQuery = () => {
-        let tmpQuery = '/';
+     // let tmpQuery = '/';
+     let tmpArray = {};
         if (supplierName && supplierName !== '') {
-            tmpQuery = tmpQuery + 'SupplierName=' + supplierName + '&';
+            // tmpQuery = tmpQuery + 'SupplierName=' + supplierName + '&';
+            tmpArray.SupplierName = supplierName;
         }
         if (submarineCable && submarineCable !== '') {
-            tmpQuery = tmpQuery + 'SubmarineCable=' + submarineCable + '&';
+            // tmpQuery = tmpQuery + 'SubmarineCable=' + submarineCable + '&';
+            tmpArray.SubmarineCable = submarineCable;
         }
         if (issueDate[0] && issueDate[1]) {
-            tmpQuery =
-                tmpQuery +
-                'startCreateDate=' +
-                dayjs(issueDate[0]).format('YYYYMMDD') +
-                '&' +
-                'endCreateDate=' +
-                dayjs(issueDate[1]).format('YYYYMMDD') +
-                '&';
+            // tmpQuery =
+            //     tmpQuery +
+            //     'startCreateDate=' +
+            //     dayjs(issueDate[0]).format('YYYYMMDD') +
+            //     '&' +
+            //     'endCreateDate=' +
+            //     dayjs(issueDate[1]).format('YYYYMMDD') +
+            //     '&';
+            tmpArray.CreateDate = {
+                start: dayjs(issueDate[0]).format('YYYYMMDD'),
+                end: dayjs(issueDate[1]).format('YYYYMMDD')
+            }
         }
+        let tmpStatus = [];
         if (invoiceStatus === '0' || invoiceStatus === 0) {
-            tmpQuery = tmpQuery + 'Status=' + 'VALIDATED' + '&';
+            // tmpQuery = tmpQuery + 'Status=' + 'VALIDATED' + '&';
+            tmpStatus.push("VALIDATED");
         } else {
-            tmpQuery = tmpQuery + 'Status=' + 'BILLED' + '&';
+            // tmpQuery = tmpQuery + 'Status=' + 'BILLED' + '&';
+            tmpStatus.push("BILLED");
         }
-        if (tmpQuery.includes('&')) {
-            tmpQuery = tmpQuery.slice(0, -1);
-        }
-
-        tmpQuery = queryInvoice + tmpQuery;
-        queryApi.current = tmpQuery;
-        console.log('立帳發票查詢=>>', tmpQuery);
-        fetch(tmpQuery, { method: 'GET' })
+        // if (tmpQuery.includes('&')) {
+        //     tmpQuery = tmpQuery.slice(0, -1);
+        // }
+        // tmpArray = queryInvoice + tmpQuery;
+        queryApi.current = tmpArray;
+        console.log('tmpQuery=>>', tmpArray);
+        fetch(queryInvoice, { method: 'POST', body: JSON.stringify(tmpArray) })
             .then((res) => res.json())
             .then((data) => {
                 setListInfo(data);

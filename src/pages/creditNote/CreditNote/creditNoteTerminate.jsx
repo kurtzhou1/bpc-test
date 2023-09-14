@@ -23,9 +23,6 @@ import DialogActions from '@mui/material/DialogActions';
 import CheckBoxOutlineBlankIcon from '@mui/icons-material/CheckBoxOutlineBlank';
 import CheckBoxIcon from '@mui/icons-material/CheckBox';
 
-// api
-import { updateLiability } from 'components/apis.jsx';
-
 // project
 import { BootstrapDialogTitle } from 'components/commonFunction';
 
@@ -33,21 +30,7 @@ const CreditBalanceTerminate = ({ cbTerminal, handleTerminalClose }) => {
     const [endNote, setEndNote] = useState([]);
 
     const terminalLiability = () => {
-        console.log('terminateInfo=>>', terminateInfo);
-        let tmpArray = {
-            LBRawID: terminateInfo.LBRawID,
-            EndDate: terminateInfo.EndDate,
-            EndNote: endNote ? endNote : ''
-        };
-        console.log('', tmpArray);
-        fetch(updateLiability, { method: 'POST', body: JSON.stringify(tmpArray) })
-            .then((res) => res.json())
-            .then(() => {
-                alert('終止成功');
-                apiQuery();
-                handleTerminalClose();
-            })
-            .catch((e) => console.log('e1=>', e));
+        console.log('terminateInfo=>>');
     };
 
     return (

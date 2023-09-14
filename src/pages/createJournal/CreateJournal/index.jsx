@@ -1,6 +1,5 @@
 import { useEffect, useState, useRef } from 'react';
-import { Grid, Button, FormControl, InputLabel, Select, MenuItem, Box, TextField, Checkbox, Tabs, Tab } from '@mui/material';
-import { styled } from '@mui/material/styles';
+import { Grid, Box, Tabs, Tab } from '@mui/material';
 
 // project import
 import MainCard from 'components/MainCard';
@@ -10,41 +9,37 @@ import BilledDataList from './billedDataList';
 import InvalidateDataList from './invalidateDataList';
 import { TabPanel } from 'components/commonFunction';
 
-// dialog
-import Dialog from '@mui/material/Dialog';
-import DialogContent from '@mui/material/DialogContent';
-import DialogActions from '@mui/material/DialogActions';
-
-//icon
-import Autocomplete from '@mui/material/Autocomplete';
-
 // api
 import { queryInvoice } from 'components/apis.jsx';
-import dayjs from 'dayjs';
+// import dayjs from 'dayjs';
 
 const CreateJournal = () => {
     const [listInfo, setListInfo] = useState([]);
     const [value, setValue] = useState(0);
-    const isFirst = useRef(true);
-    const queryApi = useRef(queryInvoice + '/all');
+    // const isFirst = useRef(true);
+    const queryApi = useRef({});
     const apiQuery = () => {
-        let tmpQuery = '/';
-
+        // let tmpQuery = '/';
+        let tmpArray = {};
+        let tmpStatus = [];
         if (value === '0' || value === 0) {
-            tmpQuery = tmpQuery + 'Status=' + 'VALIDATED' + '&';
+            // tmpQuery = tmpQuery + 'Status=' + 'VALIDATED' + '&';
+            tmpStatus.push('VALIDATED');
         } else if (value === '1' || value === 1) {
-            tmpQuery = tmpQuery + 'Status=' + 'BILLED' + '&';
+            // tmpQuery = tmpQuery + 'Status=' + 'BILLED' + '&';
+            tmpStatus.push('BILLED');
         } else {
-            tmpQuery = tmpQuery + 'Status=' + 'INVALID' + '&';
+            // tmpQuery = tmpQuery + 'Status=' + 'INVALID' + '&';
+            tmpStatus.push('INVALID');
         }
-
-        if (tmpQuery.includes('&')) {
-            tmpQuery = tmpQuery.slice(0, -1);
-        }
-
-        tmpQuery = queryInvoice + tmpQuery;
-        queryApi.current = tmpQuery;
-        fetch(tmpQuery, { method: 'GET' })
+        tmpArray.Status = tmpStatus;
+        queryApi.current = tmpStatus;
+        // if (tmpQuery.includes('&')) {
+        //     tmpQuery = tmpQuery.slice(0, -1);
+        // }
+        // tmpQuery = queryInvoice + tmpQuery;
+        console.log('tmpArray=>>', tmpArray);
+        fetch(queryInvoice, { method: 'POST', body: JSON.stringify(tmpArray) })
             .then((res) => res.json())
             .then((data) => {
                 console.log('查詢成功=>>', data);
@@ -53,43 +48,35 @@ const CreateJournal = () => {
             .catch((e) => console.log('e1=>', e));
     };
 
-    const orderDate = (data) => {
-        data.sort((a, b) => {
-            return dayjs(b.InvoiceWKMaster.CreateDate).diff(dayjs(a.InvoiceWKMaster.CreateDate));
-        });
-    };
+    // const orderDate = (data) => {
+    //     data.sort((a, b) => {
+    //         return dayjs(b.InvoiceWKMaster.CreateDate).diff(dayjs(a.InvoiceWKMaster.CreateDate));
+    //     });
+    // };
 
-    const firstApiQuery = () => {
-        let tmpQuery = '/';
-        // if (value === '0' || value === 0) {
-        tmpQuery = tmpQuery + 'Status=' + 'VALIDATED' + '&';
-        // } else {
-        // tmpQuery = tmpQuery + 'Status=' + 'BILLED' + '&';
-        // }
+    // const firstApiQuery = () => {
+    //     let tmpQuery = '/';
+    //     tmpQuery = tmpQuery + 'Status=' + 'VALIDATED' + '&';
 
-        if (tmpQuery.includes('&')) {
-            tmpQuery = tmpQuery.slice(0, -1);
-        }
+    //     if (tmpQuery.includes('&')) {
+    //         tmpQuery = tmpQuery.slice(0, -1);
+    //     }
 
-        tmpQuery = queryInvoice + tmpQuery;
-        queryApi.current = tmpQuery;
-        fetch(tmpQuery, { method: 'GET' })
-            .then((res) => res.json())
-            .then((data) => {
-                orderDate(data);
-                data = data.slice(0, 5);
-                setListInfo(data);
-                isFirst.current = false;
-            })
-            .catch((e) => console.log('e1=>', e));
-    };
+    //     tmpQuery = queryInvoice + tmpQuery;
+    //     queryApi.current = tmpQuery;
+    //     fetch(tmpQuery, { method: 'GET' })
+    //         .then((res) => res.json())
+    //         .then((data) => {
+    //             orderDate(data);
+    //             data = data.slice(0, 5);
+    //             setListInfo(data);
+    //             isFirst.current = false;
+    //         })
+    //         .catch((e) => console.log('e1=>', e));
+    // };
 
     useEffect(() => {
-        if (isFirst.current) {
-            firstApiQuery();
-        } else {
-            apiQuery();
-        }
+        apiQuery();
     }, [value]);
 
     const a11yProps = (index) => {

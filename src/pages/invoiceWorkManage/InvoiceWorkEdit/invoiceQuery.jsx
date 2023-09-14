@@ -59,38 +59,51 @@ const InvoiceQuery = ({ setListInfo, queryApi, submarineCableList, bmsList, setA
     };
 
     const invoiceQuery = () => {
-        let tmpQuery = '/';
+        // let tmpQuery = '/';
+        let tmpArray = {};
         if (supplierNameQuery && supplierNameQuery !== '') {
-            tmpQuery = tmpQuery + 'SupplierName=' + supplierNameQuery + '&';
+            // tmpQuery = tmpQuery + 'SupplierName=' + supplierNameQuery + '&';
+            tmpArray.SupplierName = supplierNameQuery;
         }
         if (submarineCableQuery && submarineCableQuery !== '') {
-            tmpQuery = tmpQuery + 'SubmarineCable=' + submarineCableQuery + '&';
+            // tmpQuery = tmpQuery + 'SubmarineCable=' + submarineCableQuery + '&';
+            tmpArray.SubmarineCable = submarineCableQuery;
         }
         if (invoiceNoQuery && invoiceNoQuery !== '') {
-            tmpQuery = tmpQuery + 'InvoiceNo=' + invoiceNoQuery + '&';
+            // tmpQuery = tmpQuery + 'InvoiceNo=' + invoiceNoQuery + '&';
+            tmpArray.InvoiceNo = invoiceNoQuery;
         }
         if (billMilestoneQuery && billMilestoneQuery !== '') {
-            tmpQuery = tmpQuery + 'BillMilestone=' + billMilestoneQuery + '&';
+            // tmpQuery = tmpQuery + 'BillMilestone=' + billMilestoneQuery + '&';
+            tmpArray.BillMilestone = billMilestoneQuery;
         }
         if (isIssueDate === 'true') {
-            tmpQuery =
-                tmpQuery +
-                'startIssueDate=' +
-                dayjs(issueDate[0]).format('YYYYMMDD') +
-                '&' +
-                'endIssueDate=' +
-                dayjs(issueDate[1]).format('YYYYMMDD') +
-                '&';
+            // tmpQuery =
+            //     tmpQuery +
+            //     'startIssueDate=' +
+            //     dayjs(issueDate[0]).format('YYYYMMDD') +
+            //     '&' +
+            //     'endIssueDate=' +
+            //     dayjs(issueDate[1]).format('YYYYMMDD') +
+            //     '&';
+            tmpArray.IssueDate = {
+                start: dayjs(issueDate[0]).format('YYYYMMDD'),
+                end: dayjs(issueDate[1]).format('YYYYMMDD')
+            }
         }
         if (isIssueDate === 'false') {
-            tmpQuery =
-                tmpQuery +
-                'startDueDate=' +
-                dayjs(issueDate[0]).format('YYYYMMDD') +
-                '&' +
-                'endDueDate=' +
-                dayjs(issueDate[1]).format('YYYYMMDD') +
-                '&';
+            // tmpQuery =
+            //     tmpQuery +
+            //     'startDueDate=' +
+            //     dayjs(issueDate[0]).format('YYYYMMDD') +
+            //     '&' +
+            //     'endDueDate=' +
+            //     dayjs(issueDate[1]).format('YYYYMMDD') +
+            //     '&';
+            tmpArray.DueDate = {
+                start: dayjs(issueDate[0]).format('YYYYMMDD'),
+                end: dayjs(issueDate[1]).format('YYYYMMDD')
+            }
         }
         if (
             !(
@@ -108,36 +121,42 @@ const InvoiceQuery = ({ setListInfo, queryApi, submarineCableList, bmsList, setA
                 invoiceStatusQuery?.COMPLETE ||
                 invoiceStatusQuery?.INVALID)
         ) {
-            let tmpStatus = '';
+            let tmpStatus = [];
             if (invoiceStatusQuery?.TEMPORARY) {
-                tmpStatus = tmpStatus + 'Status=TEMPORARY&';
+                // tmpStatus = tmpStatus + 'Status=TEMPORARY&';
+                tmpStatus.push("TEMPORARY");
             }
             if (invoiceStatusQuery?.VALIDATED) {
-                tmpStatus = tmpStatus + 'Status=VALIDATED&';
+                // tmpStatus = tmpStatus + 'Status=VALIDATED&';
+                tmpStatus.push("VALIDATED");
             }
             if (invoiceStatusQuery?.BILLED) {
-                tmpStatus = tmpStatus + 'Status=BILLED&';
+                // tmpStatus = tmpStatus + 'Status=BILLED&';
+                tmpStatus.push("BILLED");
             }
             if (invoiceStatusQuery?.PAYING) {
-                tmpStatus = tmpStatus + 'Status=PAYING&';
+                // tmpStatus = tmpStatus + 'Status=PAYING&';
+                tmpStatus.push("PAYING");
             }
             if (invoiceStatusQuery?.COMPLETE) {
-                tmpStatus = tmpStatus + 'Status=COMPLETE&';
+                // tmpStatus = tmpStatus + 'Status=COMPLETE&';
+                tmpStatus.push("COMPLETE");
             }
             if (invoiceStatusQuery?.INVALID) {
-                tmpStatus = tmpStatus + 'Status=INVALID&';
+                // tmpStatus = tmpStatus + 'Status=INVALID&';
+                tmpStatus.push("INVALID");
             }
-            tmpQuery = tmpQuery + tmpStatus;
+            tmpArray.Status = tmpStatus;
         }
-        if (tmpQuery.includes('&')) {
-            tmpQuery = tmpQuery.slice(0, -1);
-        } else {
-            tmpQuery = tmpQuery + 'all';
-        }
-        tmpQuery = queryInvoice + tmpQuery;
-        queryApi.current = tmpQuery;
-        console.log('tmpQuery=>>', tmpQuery);
-        fetch(tmpQuery, { method: 'GET' })
+        // if (tmpQuery.includes('&')) {
+        //     tmpQuery = tmpQuery.slice(0, -1);
+        // } else {
+        //     tmpQuery = tmpQuery + 'all';
+        // }
+        // tmpQuery = queryInvoice + tmpQuery;
+        queryApi.current = tmpArray;
+        console.log('tmpQuery=>>', tmpArray);
+        fetch(queryInvoice, { method: 'POST', body: JSON.stringify(tmpArray) })
             .then((res) => res.json())
             .then((data) => {
                 setPage(0);

@@ -30,35 +30,38 @@ const JournalQuery = ({ setListInfo, queryApi, invoiceStatus, setPage }) => {
     };
 
     const jounaryQuery = () => {
-        let tmpQuery = '/';
+        // let tmpQuery = '/';
+        let tmpArray = {};
         if (supplierName && supplierName !== '') {
-            tmpQuery = tmpQuery + 'SupplierName=' + supplierName + '&';
+            // tmpQuery = tmpQuery + 'SupplierName=' + supplierName + '&';
+            tmpArray.SupplierName = supplierName;
         }
         if (submarineCable && submarineCable !== '') {
-            tmpQuery = tmpQuery + 'SubmarineCable=' + submarineCable + '&';
+            // tmpQuery = tmpQuery + 'SubmarineCable=' + submarineCable + '&';
+            tmpArray.SubmarineCable = submarineCable;
         }
         if (issueDate[0] && issueDate[1]) {
-            tmpQuery =
-                tmpQuery +
-                'startCreateDate=' +
-                dayjs(issueDate[0]).format('YYYYMMDD') +
-                '&' +
-                'endCreateDate=' +
-                dayjs(issueDate[1]).format('YYYYMMDD') +
-                '&';
+            // tmpQuery =
+            //     tmpQuery +
+            //     'startCreateDate=' +
+            //     dayjs(issueDate[0]).format('YYYYMMDD') +
+            //     '&' +
+            //     'endCreateDate=' +
+            //     dayjs(issueDate[1]).format('YYYYMMDD') +
+            //     '&';
+            tmpArray.CreateDate = {
+                start: dayjs(issueDate[0]).format('YYYYMMDD'),
+                end: dayjs(issueDate[1]).format('YYYYMMDD')
+            }
         }
         if (invoiceStatus === '0' || invoiceStatus === 0) {
-            tmpQuery = tmpQuery + 'Status=BILLED&Status=PAYING&Status=COMPLETE';
+            // tmpQuery = tmpQuery + 'Status=BILLED&Status=PAYING&Status=COMPLETE';
+            tmpArray.Status = ['BILLED', 'PAYING', 'COMPLETE'];
         } 
-
-        // if (tmpQuery.includes('&')) {
-        //     tmpQuery = tmpQuery.slice(0, -1);
-        // }
-
-        tmpQuery = queryInvoice + tmpQuery;
-        queryApi.current = tmpQuery;
-        console.log('立帳發票查詢=>>', tmpQuery);
-        fetch(tmpQuery, { method: 'GET' })
+        // tmpQuery = queryInvoice + tmpQuery;
+        queryApi.current = tmpArray;
+        console.log('立帳發票查詢=>>', tmpArray);
+        fetch(queryInvoice, { method: 'POST', body: JSON.stringify(tmpArray) })
             .then((res) => res.json())
             .then((data) => {
                 console.log('查詢成功=>>', data);

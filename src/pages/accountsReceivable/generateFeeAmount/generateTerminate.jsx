@@ -29,25 +29,11 @@ import DialogActions from '@mui/material/DialogActions';
 import CheckBoxOutlineBlankIcon from '@mui/icons-material/CheckBoxOutlineBlank';
 import CheckBoxIcon from '@mui/icons-material/CheckBox';
 
-// api
-import { updateLiability } from 'components/apis.jsx';
-
 const GenerateFeeTerminate = ({ infoTerminal, handleTerminalClose, receivableQuery, editBillingNo, editBillMasterID }) => {
     const [note, setNote] = useState('');
 
     const terminalBill = () => {
-        let tmpArray = {
-            BillMasterID: editBillMasterID,
-            Note: note
-        };
-        // fetch(queryApi, { method: 'POST', body: JSON.stringify(tmpArray) })
-        //     .then((res) => res.json())
-        //     .then(() => {
-        //         dispatch(setMessageStateOpen({ messageStateOpen: { isOpen: true, severity: 'success', message: '作廢成功' } }));
-        //         receivableQuery();
-        //         handleTerminalClose();
-        //     })
-        //     .catch((e) => console.log('e1=>', e));
+        console.log('尚未開發');
     };
 
     return (
