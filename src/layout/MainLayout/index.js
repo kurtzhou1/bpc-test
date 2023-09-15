@@ -82,11 +82,10 @@ const MainLayout = () => {
     }
 
     let tmpTest = 'https://iam-qa.cht.com.tw/auth/realms/B2E/protocol/openid-connect/token';
-    const testUrl = 'http://internal-cbpsalbfrontend-1323185980.ap-northeast-1.elb.amazonaws.com/?session_state=73d3b4b8-c96f-4130-82fb-e51256c3ad42&code=a2cff859-082c-4715-9153-18dcbe98c40a.73d3b4b8-c96f-4130-82fb-e51256c3ad42.4d93c876-915e-4ed3-bd09-968595f302c8'
 
     useEffect(() => {
         // haha
-        if (testUrl.indexOf !== -1) {
+        if (window.location.href.indexOf('code') !== -1) {
             const accessCode = window.location.href.split('code=')[1];
             let tmpArray = {
                 client_id: 'CBPS.QA.I',
@@ -95,7 +94,7 @@ const MainLayout = () => {
                 grant_type: 'authorization_code',
             }
             console.log('=>>>', tmpArray);
-            fetch(tmpTest, { method: 'POST', body: JSON.stringify(tmpArray), headers: { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' } })
+            fetch(tmpTest, { method: 'POST', body: JSON.stringify(tmpArray), headers: { 'Content-Type': 'application/x-www-form-urlencoded' } })
                 .then((res) => res.json())
                 .then((data) => {
                     console.log('回傳=>>>>', data);
