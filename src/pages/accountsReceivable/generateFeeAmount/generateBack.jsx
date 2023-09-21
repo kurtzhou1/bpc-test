@@ -64,7 +64,7 @@ const GenerateBack = ({ action, infoBack, handleBackClose, receivableQuery, edit
         fetch(queryApi, { method: 'POST', body: JSON.stringify(tmpArray) })
             .then((res) => res.json())
             .then(() => {
-                dispatch(setMessageStateOpen({ messageStateOpen: { isOpen: true, severity: 'success', message: '退回成功' } }));
+                dispatch(setMessageStateOpen({ messageStateOpen: { isOpen: true, severity: 'success', message: '新增提醒成功' } }));
                 receivableQuery();
                 handleBackClose();
             })

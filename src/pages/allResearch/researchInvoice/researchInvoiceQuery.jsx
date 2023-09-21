@@ -32,7 +32,7 @@ import { searchInvoiceWKMasterByBillMaster, submarineCableInfoList, getPartiesIn
 // ==============================|| SAMPLE PAGE ||============================== //
 
 const ResearchBillQuery = ({ setListInfo, setDetailInfo }) => {
-    const [partyName, setPartyName] = useState(''); //會員代號
+    const [partyName, setPartyName] = useState(''); //會員名稱
     const [submarineCable, setSubmarineCable] = useState(''); //海纜名稱
     const [workTitle, setWorkTitle] = useState(''); //海纜作業
     const [dueDate, setDueDate] = useState(null); //發票日期

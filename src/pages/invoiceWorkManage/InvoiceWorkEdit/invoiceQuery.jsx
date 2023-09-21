@@ -39,7 +39,7 @@ const InvoiceQuery = ({ setListInfo, queryApi, submarineCableList, bmsList, setA
         TEMPORARY: false,
         VALIDATED: false
     }); //處理狀態
-    // const [partyNameQuery, setPartyNameQuery] = useState(''); //會員代號
+    // const [partyNameQuery, setPartyNameQuery] = useState(''); //會員名稱
     const [billMilestoneQuery, setBillMilestoneQuery] = useState(''); //計帳段號
     const [invoiceNoQuery, setInvoiceNoQuery] = useState(''); //發票號碼
     const [isIssueDate, setIsIssueDate] = useState(''); //是否為發票日期

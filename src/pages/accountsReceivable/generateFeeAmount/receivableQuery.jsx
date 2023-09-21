@@ -32,7 +32,7 @@ import { supplierNameDropDownUnique } from 'components/apis.jsx';
 const ReceivableQuery = ({ value, setListInfo, queryApi }) => {
     const [issueDate, setIssueDate] = useState([null, null]); //發票日期
     const [workTitle, setWorkTitle] = useState(''); //海纜作業
-    const [partyName, setPartyName] = useState(''); //會員代號
+    const [partyName, setPartyName] = useState(''); //會員名稱
     const [supplierName, setSupplierName] = useState(''); //供應商
     const [submarineCable, setSubmarineCable] = useState(''); //海纜名稱
     const [invoiceNo, setInvoiceNo] = useState(''); //發票號碼

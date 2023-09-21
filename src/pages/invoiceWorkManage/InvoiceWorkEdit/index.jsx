@@ -55,7 +55,7 @@ const InvoiceWorkManage = () => {
     const [isLiability, setIsLiability] = useState(true); //是否需攤分
     const [isRecharge, setIsRecharge] = useState(false); //是否為短腳補收
     const [isCreditMemo, setIsCreditMemo] = useState(false); //是否為短腳補收
-    const [partyName, setPartyName] = useState(''); //會員代號
+    const [partyName, setPartyName] = useState(''); //會員名稱
     const wKMasterID = useRef(); //工作檔ID
     const [bmsList, setBmsList] = useState([]); //計帳段號下拉選單
     const [bmStoneList, setBmStoneList] = useState([]); //計帳段號下拉選單
@@ -210,7 +210,7 @@ const InvoiceWorkManage = () => {
     }, []);
 
     useEffect(() => {
-        if ((modifyItem !== '' && action === 'Edit') || (modifyItem !== '' && action === 'View')) {
+        if ((modifyItem !== '' && action === '編輯') || (modifyItem !== '' && action === '檢視')) {
             listInfo.forEach((i) => {
                 if (i.InvoiceWKMaster.InvoiceNo === modifyItem) {
                     console.log(i.InvoiceWKMaster.IsPro, i.InvoiceWKMaster.IsLiability, i.InvoiceWKMaster.IsCreditMemo)
@@ -236,14 +236,14 @@ const InvoiceWorkManage = () => {
 
     useEffect(() => {
         let tmpModifyItem;
-        if (action === 'Validate' || action === '作廢' || action === '退回') {
+        if (action === '待立帳' || action === '作廢' || action === '退回') {
             listInfo.forEach((i) => {
                 if (i.InvoiceWKMaster.InvoiceNo === modifyItem) {
                     tmpModifyItem = i.InvoiceWKMaster.WKMasterID;
                 }
             });
         }
-        if (action === 'Validate') {
+        if (action === '待立帳') {
             let tmpArray = {
                 WKMasterID: tmpModifyItem,
                 Status: 'VALIDATED'
@@ -294,7 +294,7 @@ const InvoiceWorkManage = () => {
                 })
                 .catch((e) => console.log('e1=>', e));
         }
-        if (action === 'Delete') {
+        if (action === '刪除') {
             let tmpArray = {
                 WKMasterID: tmpModifyItem
             };
@@ -484,7 +484,7 @@ const InvoiceWorkManage = () => {
                         </Grid>
                     </MainCard>
                 </Grid>
-                {action === 'Edit' || action === 'View' ? (
+                {action === '編輯' || action === '檢視' ? (
                     <Grid item xs={12}>
                         <MainCard sx={{ width: '100%' }}>
                             <Grid container display="flex" spacing={2}>
@@ -537,7 +537,7 @@ const InvoiceWorkManage = () => {
                                         setFeeAmount={setFeeAmount}
                                     />
                                 </Grid>
-                                {action === 'Edit' ? (
+                                {action === '編輯' ? (
                                     <Grid item xs={12} display="flex" justifyContent="center" alignItems="center">
                                         <Button variant="contained" onClick={addInvoiceInfo} sx={{ mx: 1 }}>
                                             儲存編輯

@@ -41,11 +41,8 @@ const Information = Loadable(lazy(() => import('pages/information/Information'))
 const LiabilityManage = Loadable(lazy(() => import('pages/liability/LiabilityManage')));
 // 上傳資料管理
 const UploadManage = Loadable(lazy(() => import('pages/uploadManage/UploadManage')));
-
-// render - utilities
-// const Typography = Loadable(lazy(() => import('pages/components-overview/Typography')));
-// const Shadow = Loadable(lazy(() => import('pages/components-overview/Shadow')));
-// const AntIcons = Loadable(lazy(() => import('pages/components-overview/AntIcons')));
+// 通知管理
+const Notification = Loadable(lazy(() => import('pages/notification/Notification')));
 
 // ==============================|| MAIN ROUTING ||============================== //
 
@@ -264,6 +261,14 @@ const MainRoutes = {
             element: (
                 <RequireAuth>
                     <UploadManage />
+                </RequireAuth>
+            )
+        },
+        {
+            path: 'Notification',
+            element: (
+                <RequireAuth>
+                    <Notification />
                 </RequireAuth>
             )
         },

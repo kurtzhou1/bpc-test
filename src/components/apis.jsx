@@ -99,11 +99,8 @@ export const addCorporates = 'http://internal-cbpsalb-1176080923.ap-northeast-1.
 export const deleteCorporates = 'http://internal-cbpsalb-1176080923.ap-northeast-1.elb.amazonaws.com/api/v1/deleteCorporates';
 export const editCorporates = 'http://internal-cbpsalb-1176080923.ap-northeast-1.elb.amazonaws.com/api/v1/updateCorporates';
 
-// 基本資料-SuppliersByContract haha
-// export const getSuppliersByContractInfo = 'http://internal-cbpsalb-1176080923.ap-northeast-1.elb.amazonaws.com/api/v1/SuppliersByContract/all';
-// export const addSuppliersByContract = 'http://internal-cbpsalb-1176080923.ap-northeast-1.elb.amazonaws.com/api/v1/SuppliersByContract';
-// export const deleteSuppliersByContract = 'http://internal-cbpsalb-1176080923.ap-northeast-1.elb.amazonaws.com/api/v1/deleteSuppliersByContract';
-// export const editSuppliersByContract = 'http://internal-cbpsalb-1176080923.ap-northeast-1.elb.amazonaws.com/api/v1/updateSuppliersByContract';
+// 通知
+export const addBillNotifyRule = 'http://internal-cbpsAlb-1176080923.ap-northeast-1.elb.amazonaws.com/api/v1/Notification/BillMaster/addBillNotifyRule';
 
 
 // GET

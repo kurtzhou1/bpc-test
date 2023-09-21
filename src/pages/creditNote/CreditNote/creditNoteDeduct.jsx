@@ -42,7 +42,7 @@ import { styled } from '@mui/material/styles';
 
 const CreditBalanceDeduct = ({ cblistInfo }) => {
     console.log('cblistInfo=>>', cblistInfo);
-    const [partyName, setPartyName] = useState(''); //會員代號
+    const [partyName, setPartyName] = useState(''); //會員名稱
     const [cBType, setCBType] = useState(''); //CB種類
     const [submarineCable, setSubmarineCable] = useState(''); //海纜名稱
     const [workTitle, setWorkTitle] = useState(''); //海纜作業

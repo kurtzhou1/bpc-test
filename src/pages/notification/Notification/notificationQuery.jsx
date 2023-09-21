@@ -30,7 +30,7 @@ import PropTypes from 'prop-types';
 
 // ==============================|| SAMPLE PAGE ||============================== //
 
-const LiabilityQuery = ({ setListInfo, partyList, submarineCableList, workTitleList, queryApi }) => {
+const LiabilityQuery = ({ setListInfo, partiesList, submarineCableList, workTitleList, value, queryApi }) => {
     const [billMilestoneQuery, setBillMilestoneQuery] = useState(''); //計帳段號
     const [partyNameQuery, setPartyNameQuery] = useState(''); //會員名稱
     const [createDate, setCreateDate] = useState([null, null]); //建立日期
@@ -38,6 +38,7 @@ const LiabilityQuery = ({ setListInfo, partyList, submarineCableList, workTitleL
     const [workTitle, setWorkTitle] = useState(''); //海纜作業
     const [invoiceStatusQuery, setInvoiceStatusQuery] = useState({ TRUE: false, FALSE: false }); //處理狀態
     const [bmStoneList, setBmStoneList] = useState([]); //計帳段號下拉選單(需要選擇海纜名稱或海纜作業才能出現)
+    const [enRule, setEnRule] = useState(''); //發票號碼
 
     const initQuery = () => {
         setBillMilestoneQuery('');
@@ -72,7 +73,6 @@ const LiabilityQuery = ({ setListInfo, partyList, submarineCableList, workTitleL
                 dayjs(createDate[1]).format('YYYYMMDD') +
                 '&';
         }
-        // End = 'true' || 'false' || 'all'
         console.log('invoiceStatusQuery=>>', invoiceStatusQuery);
         if (invoiceStatusQuery?.TRUE && !invoiceStatusQuery?.FALSE) {
             tmpQuery = tmpQuery + 'End=true&';
@@ -125,7 +125,7 @@ const LiabilityQuery = ({ setListInfo, partyList, submarineCableList, workTitleL
     }, [submarineCableQuery, workTitle]);
 
     return (
-        <MainCard title="Liability條件查詢" sx={{ width: '100%' }}>
+        <MainCard title="條件查詢" sx={{ width: '100%' }}>
             <Grid container display="flex" justifyContent="center" alignItems="center" spacing={2}>
                 {/* row1 */}
                 <Grid item xs={2} sm={2} md={1} lg={1} display="flex">
@@ -173,47 +173,6 @@ const LiabilityQuery = ({ setListInfo, partyList, submarineCableList, workTitleL
                 </Grid>
                 <Grid item xs={2} sm={2} md={1} lg={1} xl={1}>
                     <Typography variant="h5" sx={{ fontSize: { lg: '0.5rem', xl: '0.88rem' }, ml: { lg: '0.5rem', xl: '1.5rem' } }}>
-                        建立日期：
-                    </Typography>
-                </Grid>
-                <Grid item xs={10} sm={10} md={5} lg={5} xl={5}>
-                    <LocalizationProvider dateAdapter={AdapterDayjs} localeText={{ start: '起始日', end: '結束日' }}>
-                        <DateRangePicker
-                            inputFormat="YYYY/MM/DD"
-                            value={createDate}
-                            onChange={(e) => {
-                                setCreateDate(e);
-                            }}
-                            renderInput={(startProps, endProps) => (
-                                <>
-                                    <TextField fullWidth size="small" {...startProps} />
-                                    <Box sx={{ mx: 1 }}> to </Box>
-                                    <TextField fullWidth size="small" {...endProps} />
-                                </>
-                            )}
-                        />
-                    </LocalizationProvider>
-                </Grid>
-                {/* row2 */}
-                <Grid item xs={2} sm={2} md={1} lg={1} xl={1}>
-                    <Typography variant="h5" sx={{ fontSize: { lg: '0.5rem', xl: '0.88rem' }, ml: { lg: '0.5rem', xl: '1.5rem' } }}>
-                        計帳段號：
-                    </Typography>
-                </Grid>
-                <Grid item xs={4} sm={4} md={2} lg={2} xl={2}>
-                    <FormControl fullWidth size="small">
-                        <InputLabel>選擇計帳段號</InputLabel>
-                        <Select value={billMilestoneQuery} label="計帳段號" onChange={(e) => setBillMilestoneQuery(e.target.value)}>
-                            {bmStoneList?.map((i) => (
-                                <MenuItem key={i} value={i}>
-                                    {i}
-                                </MenuItem>
-                            ))}
-                        </Select>
-                    </FormControl>
-                </Grid>
-                <Grid item xs={2} sm={2} md={1} lg={1} xl={1}>
-                    <Typography variant="h5" sx={{ fontSize: { lg: '0.5rem', xl: '0.88rem' }, ml: { lg: '0.5rem', xl: '1.5rem' } }}>
                         會員名稱：
                     </Typography>
                 </Grid>
@@ -221,7 +180,7 @@ const LiabilityQuery = ({ setListInfo, partyList, submarineCableList, workTitleL
                     <FormControl fullWidth size="small">
                         <InputLabel>選擇會員</InputLabel>
                         <Select value={partyNameQuery} label="會員名稱" onChange={(e) => setPartyNameQuery(e.target.value)}>
-                            {partyList.map((i) => (
+                            {partiesList.map((i) => (
                                 <MenuItem key={i} value={i}>
                                     {i}
                                 </MenuItem>
@@ -231,38 +190,23 @@ const LiabilityQuery = ({ setListInfo, partyList, submarineCableList, workTitleL
                 </Grid>
                 <Grid item xs={2} sm={2} md={1} lg={1}>
                     <Typography variant="h5" sx={{ fontSize: { lg: '0.5rem', xl: '0.88rem' }, ml: { lg: '0.5rem', xl: '1.5rem' } }}>
-                        終止狀態：
+                        規則英文名稱：
                     </Typography>
                 </Grid>
                 <Grid item xs={4} sm={4} md={2} lg={2}>
-                    {/* <FormControl> */}
-                    <FormGroup row value={invoiceStatusQuery}>
-                        <FormControlLabel
-                            control={
-                                <Checkbox
-                                    name={'TRUE'}
-                                    onChange={handleChange}
-                                    checked={invoiceStatusQuery.TRUE}
-                                    sx={{ '& .MuiSvgIcon-root': { fontSize: { lg: 14, xl: 20 } } }}
-                                />
-                            }
-                            label="終止"
+                    <FormControl fullWidth size="small">
+                        <TextField
+                            fullWidth
+                            variant="outlined"
+                            value={enRule}
+                            size="small"
+                            label="填寫規則名稱"
+                            onChange={(e) => setEnRule(e.target.value)}
                         />
-                        <FormControlLabel
-                            control={
-                                <Checkbox
-                                    name={'FALSE'}
-                                    onChange={handleChange}
-                                    checked={invoiceStatusQuery.FALSE}
-                                    sx={{ '& .MuiSvgIcon-root': { fontSize: { lg: 14, xl: 20 } } }}
-                                />
-                            }
-                            label="未終止"
-                        />
-                    </FormGroup>
-                    {/* </FormControl> */}
+                    </FormControl>
                 </Grid>
-                <Grid item xs={6} sm={6} md={3} lg={3} display="flex" justifyContent="end" alignItems="center">
+                {/* row2 */}
+                <Grid item xs={12} sm={12} md={12} lg={12} display="flex" justifyContent="end" alignItems="center">
                     <Button sx={{ mr: '0.5rem' }} variant="contained" onClick={liabilityQuery}>
                         查詢
                     </Button>
@@ -278,7 +222,7 @@ const LiabilityQuery = ({ setListInfo, partyList, submarineCableList, workTitleL
 LiabilityQuery.propTypes = {
     setListInfo: PropTypes.func,
     // bmStoneList: PropTypes.array,
-    partyList: PropTypes.array,
+    partiesList: PropTypes.array,
     submarineCableList: PropTypes.array,
     workTitleList: PropTypes.array,
     queryApi: PropTypes.string

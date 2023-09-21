@@ -39,11 +39,9 @@ const InvoiceDataList = ({ listInfo, setAction, setModifyItem, page, setPage }) 
         setPage(0);
     };
 
-    const options1 = ['View', 'Validate', 'Edit', 'Delete'];
-    const options2 = ['View', '作廢'];
-    const options3 = ['View', '作廢', '退回'];
-
-    console.log('listInfo=>>', listInfo);
+    const options1 = ['檢視', '待立帳', '編輯', '刪除'];
+    const options2 = ['檢視', '作廢'];
+    const options3 = ['檢視', '作廢', '退回'];
 
     return (
         <TableContainer component={Paper} sx={{ maxHeight: 640 }}>
@@ -118,11 +116,11 @@ const InvoiceDataList = ({ listInfo, setAction, setModifyItem, page, setPage }) 
                                                     return (
                                                         <Button
                                                             color={
-                                                                option === 'View'
+                                                                option === '檢視'
                                                                     ? 'primary'
-                                                                    : option === 'Validate'
+                                                                    : option === '待立帳'
                                                                     ? 'success'
-                                                                    : option === 'Edit'
+                                                                    : option === '編輯'
                                                                     ? 'warning'
                                                                     : 'error'
                                                             }
@@ -150,7 +148,7 @@ const InvoiceDataList = ({ listInfo, setAction, setModifyItem, page, setPage }) 
                                                 {options2.map((option) => {
                                                     return (
                                                         <Button
-                                                            color={option === 'View' ? 'primary' : 'error'}
+                                                            color={option === '檢視' ? 'primary' : 'error'}
                                                             key={option}
                                                             variant="outlined"
                                                             size="small"
@@ -175,7 +173,7 @@ const InvoiceDataList = ({ listInfo, setAction, setModifyItem, page, setPage }) 
                                                 {options3.map((option) => {
                                                     return (
                                                         <Button
-                                                            color={option === 'View' ? 'primary' : option === '作廢' ? 'error' : 'info'}
+                                                            color={option === '檢視' ? 'primary' : option === '作廢' ? 'error' : 'info'}
                                                             key={option}
                                                             variant="outlined"
                                                             size="small"
@@ -203,10 +201,10 @@ const InvoiceDataList = ({ listInfo, setAction, setModifyItem, page, setPage }) 
                                                     size="small"
                                                     onClick={() => {
                                                         setModifyItem(row.InvoiceWKMaster?.InvoiceNo);
-                                                        setAction('View');
+                                                        setAction('檢視');
                                                     }}
                                                 >
-                                                    {'View'}
+                                                    {'檢視'}
                                                 </Button>
                                             </Box>
                                         )}

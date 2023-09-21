@@ -91,10 +91,17 @@ const MainLayout = () => {
                 client_id: 'CBPS.QA.I',
                 redirect_uri: 'http://internal-cbpsAlbFrontend-1323185980.ap-northeast-1.elb.amazonaws.com',
                 code: accessCode,
-                grant_type: 'authorization_code',
+                grant_type: 'authorization_code'
             }
-            console.log('=>>>', tmpArray);
-            fetch(tmpTest, { method: 'POST', body: JSON.stringify(tmpArray), headers: { 'Content-Type': 'application/x-www-form-urlencoded' } })
+            const searchParams = new URLSearchParams(tmpArray);
+            console.log('searchParams=>>', searchParams);
+            fetch(tmpTest, { 
+                method: 'POST', 
+                body: searchParams, 
+                headers: { 
+                  'Content-Type': 'application/x-www-form-urlencoded', 
+                } 
+            })
                 .then((res) => res.json())
                 .then((data) => {
                     console.log('回傳=>>>>', data);

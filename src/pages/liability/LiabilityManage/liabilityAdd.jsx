@@ -36,7 +36,7 @@ import { BootstrapDialogTitle } from 'components/commonFunction';
 import { deleteLiability, addLiabilityapi, submarineCableInfoList, getPartiesInfoList } from 'components/apis.jsx';
 
 // redux
-import { useSelector, useDispatch } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { setMessageStateOpen } from 'store/reducers/dropdown';
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
@@ -268,7 +268,6 @@ const LiabilityAdd = ({
                             />
                         </Grid>
                     )}
-
                     <Grid item xs={2} sm={2} md={2} lg={2} display="flex" justifyContent="center">
                         <Typography variant="h5" sx={{ fontSize: { lg: '0.5rem', xl: '0.88rem' }, ml: { lg: '0.5rem', xl: '1.5rem' } }}>
                             海纜名稱：

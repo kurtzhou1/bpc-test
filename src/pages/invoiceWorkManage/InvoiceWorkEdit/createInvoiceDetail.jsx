@@ -119,7 +119,7 @@ const CreateInvoiceDetail = ({
     }, []);
 
     return (
-        <MainCard title={`${action === 'Edit' ? '編輯' : ''}發票明細檔`} sx={{ height: '100%' }}>
+        <MainCard title={`${action === '編輯' ? '編輯' : ''}發票明細檔`} sx={{ height: '100%' }}>
             <Grid container display="flex" justifyContent="center" alignItems="center" spacing={1}>
                 {/* row1 */}
                 <Grid item xs={12} sm={6} md={2} lg={2}>
@@ -129,12 +129,12 @@ const CreateInvoiceDetail = ({
                 </Grid>
                 <Grid item xs={12} sm={6} md={4} lg={4}>
                     <FormControl fullWidth>
-                        <InputLabel size="small" id="billMilestone" disabled={action === 'View'}>
+                        <InputLabel size="small" id="billMilestone" disabled={action === '編輯'}>
                             選擇計帳段號
                         </InputLabel>
                         <Select
                             value={billMilestone}
-                            disabled={action === 'View'}
+                            disabled={action === '編輯'}
                             label="發票供應商"
                             size="small"
                             onChange={(e) => setBillMilestone(e.target.value)}
@@ -157,7 +157,7 @@ const CreateInvoiceDetail = ({
                         fullWidth
                         variant="outlined"
                         value={feeAmount}
-                        disabled={action === 'View'}
+                        disabled={action === '編輯'}
                         // type="number"
                         size="small"
                         label="填寫費用金額"
@@ -181,7 +181,7 @@ const CreateInvoiceDetail = ({
                                 required
                                 value={feeItem}
                                 placeholder="填寫費用項目"
-                                disabled={action === 'View'}
+                                disabled={action === '編輯'}
                                 minRows={2}
                                 maxRows={2}
                                 onChange={(e) => setFeeItem(e.target.value)}
@@ -189,7 +189,7 @@ const CreateInvoiceDetail = ({
                         </CssVarsProvider>
                     </StyledEngineProvider>
                 </Grid>
-                {action !== 'View' ? (
+                {action !== '編輯' ? (
                     <Grid item xs={12} sm={12} md={12} lg={12} display="flex" justifyContent="end" alignItems="center">
                         {isEdit ? (
                             <Button sx={{ mr: '0.25rem' }} variant="contained" onClick={itemDetailSave}>
@@ -221,7 +221,7 @@ const CreateInvoiceDetail = ({
                                     <StyledTableCell align="center">費用項目</StyledTableCell>
                                     <StyledTableCell align="center">計帳段號</StyledTableCell>
                                     <StyledTableCell align="center">費用金額</StyledTableCell>
-                                    {action !== 'View' ? (
+                                    {action !== '編輯' ? (
                                         <StyledTableCell align="center">Action</StyledTableCell>
                                     ) : (
                                         ''
@@ -239,7 +239,7 @@ const CreateInvoiceDetail = ({
                                         </StyledTableCell>
                                         <StyledTableCell align="center">{row.BillMilestone}</StyledTableCell>
                                         <StyledTableCell align="center">{handleNumber(row.FeeAmount)}</StyledTableCell>
-                                        {action !== 'View' ? (
+                                        {action !== '編輯' ? (
                                             <StyledTableCell align="center">
                                                 <Button
                                                     color="primary"

@@ -45,7 +45,7 @@ import { setMessageStateOpen } from 'store/reducers/dropdown';
 const CreditBalanceAdd = ({ handleDialogClose, isDialogOpen, partiesList, submarineCableList, queryApi, setListInfo }) => {
     const dispatch = useDispatch();
     const [cBType, setCBType] = useState(''); // CB種類
-    const [partyName, setPartyName] = useState(''); //會員代號
+    const [partyName, setPartyName] = useState(''); //會員名稱
     const [currAmount, setCurrAmount] = useState(''); // 剩餘金額
     const [note, setNote] = useState(''); // 摘要
     const [invoiceNo, setInvoiceNo] = useState(''); // 發票號碼
@@ -82,7 +82,7 @@ const CreditBalanceAdd = ({ handleDialogClose, isDialogOpen, partiesList, submar
             return false;
         }
         if (partyName === '') {
-            dispatch(setMessageStateOpen({ messageStateOpen: { isOpen: true, severity: 'error', message: '請選擇會員代號' } }));
+            dispatch(setMessageStateOpen({ messageStateOpen: { isOpen: true, severity: 'error', message: '請選擇會員名稱' } }));
             return false;
         }
         if (submarineCable === '') {
@@ -165,7 +165,7 @@ const CreditBalanceAdd = ({ handleDialogClose, isDialogOpen, partiesList, submar
                     </Grid>
                     <Grid item xs={2} sm={2} md={2} lg={2} display="flex" justifyContent="center">
                         <Typography variant="h5" sx={{ fontSize: { lg: '0.5rem', xl: '0.88rem' }, ml: { lg: '0.5rem', xl: '1.5rem' } }}>
-                            會員代號：
+                            會員名稱：
                         </Typography>
                     </Grid>
                     <Grid item xs={2} sm={2} md={2} lg={2}>

@@ -153,7 +153,7 @@ const CreditBalanceManage = ({
                     </Grid>
                     <Grid item xs={3} sm={3} md={3} lg={3} display="flex" justifyContent="center">
                         <Typography variant="h5" sx={{ fontSize: { lg: '0.5rem', xl: '0.88rem' }, ml: { lg: '0.5rem', xl: '1.5rem' } }}>
-                            會員代號：
+                            會員名稱：
                         </Typography>
                     </Grid>
                     <Grid item xs={3} sm={3} md={3} lg={3}>
@@ -162,7 +162,7 @@ const CreditBalanceManage = ({
                             variant="outlined"
                             value={partyName}
                             size="small"
-                            label="填寫會員代號"
+                            label="填寫會員名稱"
                             onChange={(e) => setPartyName(e.target.value)}
                         />
                     </Grid>

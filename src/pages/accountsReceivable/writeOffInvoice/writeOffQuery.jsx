@@ -11,7 +11,7 @@ import { queryToDecutBill, getPartiesInfoList, submarineCableInfoList } from 'co
 
 const WriteOffQuery = ({ setListInfo, queryApi, value }) => {
     const [workTitle, setWorkTitle] = useState(''); //海纜作業
-    const [partyName, setPartyName] = useState(''); //會員代號
+    const [partyName, setPartyName] = useState(''); //會員名稱
     const [submarineCable, setSubmarineCable] = useState(''); //海纜名稱
     const [submarineCableList, setSubmarineCableList] = useState([]); //海纜名稱下拉選單
     const [partiesList, setPartiesList] = useState([]); //會員下拉選單

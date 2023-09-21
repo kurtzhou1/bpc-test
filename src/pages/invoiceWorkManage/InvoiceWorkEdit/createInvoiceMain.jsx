@@ -54,7 +54,7 @@ const InvoiceWorkManage = ({
     const [supNmList, setSupNmList] = useState([]); //供應商下拉選單
     const dispatch = useDispatch();
     const invoiceNoCheck = () => {
-        if (action !== 'View') {
+        if (action !== '檢視') {
             let tmpArray = {
                 InvoiceNo: invoiceNo
             };
@@ -103,7 +103,7 @@ const InvoiceWorkManage = ({
                     <FormControl fullWidth size="small">
                         <InputLabel>選擇海纜</InputLabel>
                         <Select
-                            disabled={action === 'View'}
+                            disabled={action === '檢視'}
                             value={submarineCable}
                             label="發票供應商"
                             onChange={(e) => setSubmarineCable(e.target.value)}
@@ -125,7 +125,7 @@ const InvoiceWorkManage = ({
                     <FormControl fullWidth size="small">
                         <InputLabel>選擇海纜作業</InputLabel>
                         <Select
-                            disabled={action === 'View'}
+                            disabled={action === '檢視'}
                             value={workTitle}
                             label="填寫海纜作業"
                             onChange={(e) => setWorkTitle(e.target.value)}
@@ -148,7 +148,7 @@ const InvoiceWorkManage = ({
                         <Select
                             value={supplierName}
                             label="發票供應商"
-                            disabled={action === 'View'}
+                            disabled={action === '檢視'}
                             onChange={(e) => setSupplierName(e.target.value)}
                         >
                             {supNmList.map((i) => (
@@ -168,7 +168,7 @@ const InvoiceWorkManage = ({
                     <TextField
                         fullWidth
                         variant="outlined"
-                        disabled={action === 'View'}
+                        disabled={action === '檢視'}
                         value={invoiceNo}
                         size="small"
                         label="發票號碼"
@@ -190,7 +190,7 @@ const InvoiceWorkManage = ({
                     <FormControl fullWidth size="small">
                         <InputLabel>選擇合約種類</InputLabel>
                         <Select
-                            disabled={action === 'View'}
+                            disabled={action === '檢視'}
                             value={contractType}
                             label="發票供應商"
                             onChange={(e) => setContractType(e.target.value)}
@@ -211,7 +211,7 @@ const InvoiceWorkManage = ({
                             <DesktopDatePicker
                                 inputFormat="YYYY/MM/DD"
                                 value={issueDate}
-                                disabled={action === 'View'}
+                                disabled={action === '檢視'}
                                 onChange={(e) => {
                                     setIssueDate(e);
                                 }}
@@ -229,7 +229,7 @@ const InvoiceWorkManage = ({
                 <Grid item xs={12} sm={6} md={4} lg={4}>
                     <TextField
                         value={totalAmount}
-                        disabled={action === 'View'}
+                        disabled={action === '檢視'}
                         fullWidth
                         variant="outlined"
                         size="small"
@@ -251,7 +251,7 @@ const InvoiceWorkManage = ({
                             <DesktopDatePicker
                                 inputFormat="YYYY/MM/DD"
                                 value={dueDate}
-                                disabled={action === 'View'}
+                                disabled={action === '檢視'}
                                 onChange={(e) => setDueDate(e)}
                                 renderInput={(params) => <TextField size="small" {...params} />}
                             />
@@ -270,18 +270,18 @@ const InvoiceWorkManage = ({
                             row
                             value={isPro}
                         
-                            disabled={action === 'View'}
+                            disabled={action === '檢視'}
                             onChange={(e) => setIsPro(e.target.value)}
                         >
                             <FormControlLabel
                                 value={true}
-                                disabled={action === 'View'}
+                                disabled={action === '檢視'}
                                 control={<Radio sx={{ '& .MuiSvgIcon-root': { fontSize: { lg: 14, xl: 20 } } }} />}
                                 label="Y"
                             />
                             <FormControlLabel
                                 value={false}
-                                disabled={action === 'View'}
+                                disabled={action === '檢視'}
                                 control={<Radio sx={{ '& .MuiSvgIcon-root': { fontSize: { lg: 14, xl: 20 } } }} />}
                                 label="N"
                             />
@@ -298,13 +298,13 @@ const InvoiceWorkManage = ({
                         <RadioGroup row value={isCreditMemo} onChange={(e) => setIsCreditMemo(e.target.value)}>
                             <FormControlLabel
                                 value={true}
-                                disabled={action === 'View'}
+                                disabled={action === '檢視'}
                                 control={<Radio sx={{ '& .MuiSvgIcon-root': { fontSize: { lg: 14, xl: 20 } } }} />}
                                 label="Y"
                             />
                             <FormControlLabel
                                 value={false}
-                                disabled={action === 'View'}
+                                disabled={action === '檢視'}
                                 control={<Radio sx={{ '& .MuiSvgIcon-root': { fontSize: { lg: 14, xl: 20 } } }} />}
                                 label="N"
                             />
@@ -322,13 +322,13 @@ const InvoiceWorkManage = ({
                         <RadioGroup row value={isRecharge} onChange={(e) => setIsRecharge(e.target.value)}>
                             <FormControlLabel
                                 value={true}
-                                disabled={action === 'View'}
+                                disabled={action === '檢視'}
                                 control={<Radio sx={{ '& .MuiSvgIcon-root': { fontSize: { lg: 14, xl: 20 } } }} />}
                                 label="Y"
                             />
                             <FormControlLabel
                                 value={false}
-                                disabled={action === 'View'}
+                                disabled={action === '檢視'}
                                 control={<Radio sx={{ '& .MuiSvgIcon-root': { fontSize: { lg: 14, xl: 20 } } }} />}
                                 label="N"
                             />
@@ -345,13 +345,13 @@ const InvoiceWorkManage = ({
                         <RadioGroup row value={isLiability} onChange={(e) => setIsLiability(e.target.value)}>
                             <FormControlLabel
                                 value={true}
-                                disabled={action === 'View'}
+                                disabled={action === '檢視'}
                                 control={<Radio sx={{ '& .MuiSvgIcon-root': { fontSize: { lg: 14, xl: 20 } } }} />}
                                 label="攤分"
                             />
                             <FormControlLabel
                                 value={false}
-                                disabled={action === 'View'}
+                                disabled={action === '檢視'}
                                 control={<Radio sx={{ '& .MuiSvgIcon-root': { fontSize: { lg: 14, xl: 20 } } }} />}
                                 label="不攤分"
                             />
@@ -369,7 +369,7 @@ const InvoiceWorkManage = ({
                         <TextField
                             value={partyName}
                             variant="outlined"
-                            disabled={action === 'View'}
+                            disabled={action === '檢視'}
                             size="small"
                             label="不須攤分請填寫名稱"
                             onChange={(e) => setPartyName(e.target.value)}
