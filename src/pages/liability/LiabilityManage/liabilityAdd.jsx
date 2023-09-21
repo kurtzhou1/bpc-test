@@ -1,4 +1,4 @@
-import { useEffect, useState, useRef } from 'react';
+import { useEffect, useState } from 'react';
 import {
     Typography,
     Grid,
@@ -7,7 +7,6 @@ import {
     InputLabel,
     Select,
     MenuItem,
-    Box,
     TextField,
     Checkbox,
     Autocomplete,
@@ -24,7 +23,7 @@ import CheckBoxOutlineBlankIcon from '@mui/icons-material/CheckBoxOutlineBlank';
 import CheckBoxIcon from '@mui/icons-material/CheckBox';
 
 // table
-import { TableBody, TableHead, TableContainer, TableFooter, TableRow } from '@mui/material';
+import { TableBody, TableHead, TableContainer, TableRow } from '@mui/material';
 import TableCell, { tableCellClasses } from '@mui/material/TableCell';
 import Paper from '@mui/material/Paper';
 import { styled } from '@mui/material/styles';

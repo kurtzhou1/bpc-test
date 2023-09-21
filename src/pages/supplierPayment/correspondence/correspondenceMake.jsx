@@ -102,7 +102,6 @@ const CorrespondenceMake = ({ isDialogOpen, handleDialogClose, payDraftID }) => 
     const saveToSend = () => {
         let tmpArray = {
             PayDraftID: payDraftID,
-            // PayDraftChineseTotalFeeAmount: subject2,
             CableInfo: cableInfo,
             Subject: subject1,
             Save: true

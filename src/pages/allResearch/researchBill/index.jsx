@@ -69,12 +69,12 @@ const ResearchBill = () => {
                 <ResearchBillQuery setListInfo={setListInfo} setDetailInfo={setDetailInfo} />
             </Grid>
             <Grid item xs={12}>
-                <MainCard title="發票資料列表">
+                <MainCard title="發票列表">
                     <ResearchBillDataList listInfo={listInfo} setDetailInfo={setDetailInfo} />
                 </MainCard>
             </Grid>
             <Grid item xs={12}>
-                <MainCard title="帳單明細列表">
+                <MainCard title="帳單列表">
                     <ResearchBillDetail datailInfo={datailInfo} />
                 </MainCard>
             </Grid>

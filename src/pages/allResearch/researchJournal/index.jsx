@@ -20,12 +20,12 @@ const ResearchJournal = () => {
                 <ResearchJournalQuery setListInfo={setListInfo} queryApi={queryApi} />
             </Grid>
             <Grid item xs={12}>
-                <MainCard title="發票資料列表">
+                <MainCard title="發票列表">
                     <ResearchJournalDataList listInfo={listInfo} setIsDetailShow={setIsDetailShow} />
                 </MainCard>
             </Grid>
             <Grid item xs={12}>
-                <MainCard title="帳單明細列表">
+                <MainCard title="立帳資料">
                     <ResearchJournalDetail datailInfo={datailInfo} isDetailShow={isDetailShow} />
                 </MainCard>
             </Grid>

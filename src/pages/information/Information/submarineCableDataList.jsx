@@ -1,7 +1,6 @@
 import { useState, useRef, useEffect } from 'react';
 
 // project import
-import { handleNumber } from 'components/commonFunction';
 // material-ui
 import { Button, Table, TextField, Box } from '@mui/material';
 import TableBody from '@mui/material/TableBody';
@@ -10,9 +9,7 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
-import { alpha, styled } from '@mui/material/styles';
-
-import dayjs from 'dayjs';
+import { styled } from '@mui/material/styles';
 
 import { addSubmarineCables, submarineCableInfoList, deleteSubmarineCables, editSubmarineCables } from 'components/apis.jsx';
 
