@@ -148,7 +148,7 @@ const RuleAdd = ({
     }
 
     const addRule = () => {
-        if (value === 1) {
+        if (value === 0) {
             if (infoCheck()) {
                 let tmpArray = {
                     RuleName: ruleName,
@@ -172,7 +172,7 @@ const RuleAdd = ({
                     })
                     .catch((e) => console.log('e1=>', e));
             }
-        } else if (value === 2) {
+        } else if (value === 1) {
             let tmpListInfo = listInfo;
             delete tmpListInfo.id
             let tmpArray = {
@@ -184,7 +184,7 @@ const RuleAdd = ({
                     Days1BeforeDue: Number(days1BeforeDue),
                     Days2BeforeDue: Number(days2BeforeDue),
                     DaysAfterDue: Number(daysAfterDue),
-                    CCList: emailList,
+                    // CCList: emailList,
                     Email: sendType.isEmail ? true : false,
                     Web: sendType.isWeb ? true : false,
                     NotifyTarget: notifyTarget,
