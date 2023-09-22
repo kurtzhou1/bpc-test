@@ -395,7 +395,7 @@ const Corporates = ({ maxHei }) => {
                             <Select size="small" value={workTitle} label="填寫海纜作業" onChange={(e) => setWorkTitle(e.target.value)}>
                                 <MenuItem value={'Upgrade'}>Upgrade</MenuItem>
                                 <MenuItem value={'Construction'}>Construction</MenuItem>
-                                <MenuItem value={'OM'}>OM</MenuItem>
+                                <MenuItem value={'O&M'}>O&M</MenuItem>
                             </Select>
                         </TableCell>
                         <TableCell align="center">
@@ -660,7 +660,7 @@ const Corporates = ({ maxHei }) => {
                                             >
                                                 <MenuItem value={'Upgrade'}>Upgrade</MenuItem>
                                                 <MenuItem value={'Construction'}>Construction</MenuItem>
-                                                <MenuItem value={'OM'}>OM</MenuItem>
+                                                <MenuItem value={'O&M'}>O&M</MenuItem>
                                             </Select>
                                         </TableCell>
                                         <TableCell align="center">

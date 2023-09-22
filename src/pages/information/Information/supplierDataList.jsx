@@ -420,7 +420,7 @@ const SupplierDataList = ({ maxHei }) => {
                                     >
                                         <MenuItem value={'Upgrade'}>Upgrade</MenuItem>
                                         <MenuItem value={'Construction'}>Construction</MenuItem>
-                                        <MenuItem value={'OM'}>OM</MenuItem>
+                                        <MenuItem value={'O&M'}>O&M</MenuItem>
                                     </Select>
                                 </TableCell>
                                 <TableCell align="center">
@@ -701,7 +701,7 @@ const SupplierDataList = ({ maxHei }) => {
                                                     >
                                                         <MenuItem value={'Upgrade'}>Upgrade</MenuItem>
                                                         <MenuItem value={'Construction'}>Construction</MenuItem>
-                                                        <MenuItem value={'OM'}>OM</MenuItem>
+                                                        <MenuItem value={'O&M'}>O&M</MenuItem>
                                                     </Select>
                                                 </TableCell>
                                                 <TableCell align="center">

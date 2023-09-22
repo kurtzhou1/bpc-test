@@ -387,15 +387,6 @@ const WriteOffWork = ({ isDialogOpen, handleDialogClose, writeOffInfo, writeOffD
                                             tmpTotal = tmpTotal + totalAmount;
                                             tmpOverAmount = tmpOverAmount + (action === 'view' ? row.OverAmount : overAmount); //溢繳
                                             tmpShortAmount = tmpShortAmount + (action === 'view' ? row.ShortAmount : shortAmount); //短繳加總
-                                            // tmpBankFeeBalance = tmpBankFeeBalance + bankFeeBalance; //手續費差額(負值)
-                                            // tmpStatus =
-                                            //     overAmount > 0
-                                            //         ? 'OVER'
-                                            //         : Math.abs(bankFeeBalance) > 0
-                                            //         ? 'BANK_FEE'
-                                            //         : shortAmount === 0 || shortAmount === row.FeeAmount
-                                            //         ? 'INCOMPLETE'
-                                            //         : 'PARTIAL';
                                             return (
                                                 <TableRow
                                                     key={id + row?.InvoiceNo + row?.FeeItem + row?.OrgFeeAmount}
@@ -528,7 +519,6 @@ const WriteOffWork = ({ isDialogOpen, handleDialogClose, writeOffInfo, writeOffD
                                                             >
                                                                 <MenuItem value={'OK'}>正常繳款</MenuItem>
                                                                 <MenuItem value={'OVER'}>重溢繳</MenuItem>
-                                                                <MenuItem value={'BANK_FEE'}>補手續費</MenuItem>
                                                                 <MenuItem value={'PARTIAL'}>部分收款</MenuItem>
                                                                 <MenuItem value={'INCOMPLETE'}>尚未收款</MenuItem>
                                                             </Select>

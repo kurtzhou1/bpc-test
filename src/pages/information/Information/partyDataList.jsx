@@ -565,7 +565,7 @@ const PartyDataList = ({ maxHei }) => {
                                     >
                                         <MenuItem value={'Upgrade'}>Upgrade</MenuItem>
                                         <MenuItem value={'Construction'}>Construction</MenuItem>
-                                        <MenuItem value={'OM'}>OM</MenuItem>
+                                        <MenuItem value={'O&M'}>O&M</MenuItem>
                                     </Select>
                                 </TableCell>
                             </>
@@ -914,7 +914,7 @@ const PartyDataList = ({ maxHei }) => {
                                                     >
                                                         <MenuItem value={'Upgrade'}>Upgrade</MenuItem>
                                                         <MenuItem value={'Construction'}>Construction</MenuItem>
-                                                        <MenuItem value={'OM'}>OM</MenuItem>
+                                                        <MenuItem value={'O&M'}>O&M</MenuItem>
                                                     </Select>
                                                 </TableCell>
                                             </>
