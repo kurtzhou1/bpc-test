@@ -175,7 +175,8 @@ const RuleAdd = ({
         } else if (value === 1) {
             let tmpListInfo = listInfo;
             tmpListInfo.forEach((i) => {
-                delete i.id
+                delete i.id;
+                i.CCList = [];
             });
             console.log('tmpListInfo=>>', tmpListInfo);
             let tmpArray = {
@@ -187,7 +188,6 @@ const RuleAdd = ({
                     Days1BeforeDue: Number(days1BeforeDue),
                     Days2BeforeDue: Number(days2BeforeDue),
                     DaysAfterDue: Number(daysAfterDue),
-                    CCList: [],
                     Email: sendType.isEmail ? true : false,
                     Web: sendType.isWeb ? true : false,
                     NotifyTarget: notifyTarget,
