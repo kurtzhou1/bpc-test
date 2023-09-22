@@ -310,38 +310,25 @@ const RuleAdd = ({
                             </Select>
                         </FormControl>
                     </Grid>
-                    <Grid item xs={3} sm={3} md={3} lg={3} display="flex" justifyContent="end">
-                        <Typography variant="h5">
-                            會員名稱：
-                        </Typography>
-                    </Grid>
-                    <Grid item xs={3} sm={3} md={3} lg={3} xl={3}>
-                        <FormControl fullWidth size="small">
-                            <InputLabel>選擇會員</InputLabel>
-                            <Select value={partyName} label="會員名稱" onChange={(e) => setPartyName(e.target.value)}>
-                                {partiesList.map((i) => (
-                                    <MenuItem key={i} value={i}>
-                                        {i}
-                                    </MenuItem>
-                                ))}
-                            </Select>
-                        </FormControl>
-                    </Grid>
-                    <Grid item xs={3} sm={3} md={3} lg={3}>
-                        <Typography variant="h5" display="flex" justifyContent="end">
-                            到期日之前的第一門檻天數：
-                        </Typography>
-                    </Grid>
-                    <Grid item xs={3} sm={3} md={3} lg={3}>
-                        <TextField
-                            fullWidth
-                            variant="outlined"
-                            value={days1BeforeDue}
-                            size="small"
-                            label="填寫數字"
-                            onChange={(e) => setDays1BeforeDue(e.target.value)} 
-                        />
-                    </Grid>
+                    {value === 0 ? (
+                    <>
+                        <Grid item xs={3} sm={3} md={3} lg={3}>
+                            <Typography variant="h5" display="flex" justifyContent="end">
+                                到期日之前的第一門檻天數：
+                            </Typography>
+                        </Grid>
+                        <Grid item xs={3} sm={3} md={3} lg={3}>
+                            <TextField
+                                fullWidth
+                                variant="outlined"
+                                value={days1BeforeDue}
+                                size="small"
+                                label="填寫數字"
+                                onChange={(e) => setDays1BeforeDue(e.target.value)} 
+                            />
+                        </Grid>
+                    </>
+                    ):''}
                     <Grid item xs={3} sm={3} md={3} lg={3}>
                         <Typography variant="h5" display="flex" justifyContent="end">
                             到期日之前的第二門檻天數：
@@ -448,7 +435,7 @@ const RuleAdd = ({
                                     </Select>
                                 </FormControl>
                             </Grid>
-                            <Grid item xs={3} sm={3} md={3} lg={3} display="flex" justifyContent="end">
+                            {/* <Grid item xs={3} sm={3} md={3} lg={3} display="flex" justifyContent="end">
                                 <Typography variant="h5">
                                     帳單到期日：
                                 </Typography>
@@ -464,7 +451,7 @@ const RuleAdd = ({
                                     />
                                     </LocalizationProvider>
                                 </FormControl>
-                            </Grid>
+                            </Grid> */}
                         </>
                         )
                     }
