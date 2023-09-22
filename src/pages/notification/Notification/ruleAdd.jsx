@@ -184,7 +184,7 @@ const RuleAdd = ({
                     Days1BeforeDue: Number(days1BeforeDue),
                     Days2BeforeDue: Number(days2BeforeDue),
                     DaysAfterDue: Number(daysAfterDue),
-                    // CCList: emailList,
+                    CCList: [],
                     Email: sendType.isEmail ? true : false,
                     Web: sendType.isWeb ? true : false,
                     NotifyTarget: notifyTarget,
