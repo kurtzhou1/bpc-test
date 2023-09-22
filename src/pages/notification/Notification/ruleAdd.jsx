@@ -148,7 +148,7 @@ const RuleAdd = ({
     }
 
     const addRule = () => {
-        if (value === 0) {
+        if (value === 1) {
             if (infoCheck()) {
                 let tmpArray = {
                     RuleName: ruleName,
@@ -172,25 +172,25 @@ const RuleAdd = ({
                     })
                     .catch((e) => console.log('e1=>', e));
             }
-        } else if (value === 1) {
+        } else if (value === 2) {
+            let tmpListInfo = listInfo;
+            delete tmpListInfo.id
             let tmpArray = {
                 SysInvNotifyRule:{
                     RuleName: ruleName,
-                    ruleCNameame: ruleCName,
+                    RuleCName: ruleCName,
                     SubmarineCable: submarineCable,
                     WorkTitle: workTitle,
-                    PartyName: partyName,
-                    Days1BeforeDue: days1BeforeDue,
-                    Days2BeforeDue: days2BeforeDue,
-                    DaysAfterDue: daysAfterDue,
+                    Days1BeforeDue: Number(days1BeforeDue),
+                    Days2BeforeDue: Number(days2BeforeDue),
+                    DaysAfterDue: Number(daysAfterDue),
                     CCList: emailList,
                     Email: sendType.isEmail ? true : false,
                     Web: sendType.isWeb ? true : false,
                     NotifyTarget: notifyTarget,
-                    DueDate: dueDate,
                     SMS: sendType.isSMS ? true : false
                 },
-                SysInvNotifyRecipient:listInfo
+                SysInvNotifyRecipients:tmpListInfo
             }
             fetch(addSysInvNotifyRule, { method: 'POST', body: JSON.stringify(tmpArray) })
             .then((res) => res.json())
@@ -312,23 +312,40 @@ const RuleAdd = ({
                     </Grid>
                     {value === 0 ? (
                     <>
-                        <Grid item xs={3} sm={3} md={3} lg={3}>
-                            <Typography variant="h5" display="flex" justifyContent="end">
-                                到期日之前的第一門檻天數：
+                        <Grid item xs={3} sm={3} md={3} lg={3} display="flex" justifyContent="end">
+                            <Typography variant="h5">
+                                會員名稱：
                             </Typography>
                         </Grid>
-                        <Grid item xs={3} sm={3} md={3} lg={3}>
-                            <TextField
-                                fullWidth
-                                variant="outlined"
-                                value={days1BeforeDue}
-                                size="small"
-                                label="填寫數字"
-                                onChange={(e) => setDays1BeforeDue(e.target.value)} 
-                            />
+                        <Grid item xs={3} sm={3} md={3} lg={3} xl={3}>
+                            <FormControl fullWidth size="small">
+                                <InputLabel>選擇會員</InputLabel>
+                                <Select value={partyName} label="會員名稱" onChange={(e) => setPartyName(e.target.value)}>
+                                    {partiesList.map((i) => (
+                                        <MenuItem key={i} value={i}>
+                                            {i}
+                                        </MenuItem>
+                                    ))}
+                                </Select>
+                            </FormControl>
                         </Grid>
                     </>
                     ):''}
+                    <Grid item xs={3} sm={3} md={3} lg={3}>
+                        <Typography variant="h5" display="flex" justifyContent="end">
+                            到期日之前的第一門檻天數：
+                        </Typography>
+                    </Grid>
+                    <Grid item xs={3} sm={3} md={3} lg={3}>
+                        <TextField
+                            fullWidth
+                            variant="outlined"
+                            value={days1BeforeDue}
+                            size="small"
+                            label="填寫數字"
+                            onChange={(e) => setDays1BeforeDue(e.target.value)} 
+                        />
+                    </Grid>
                     <Grid item xs={3} sm={3} md={3} lg={3}>
                         <Typography variant="h5" display="flex" justifyContent="end">
                             到期日之前的第二門檻天數：
