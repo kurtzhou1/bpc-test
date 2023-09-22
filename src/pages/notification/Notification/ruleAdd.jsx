@@ -120,7 +120,7 @@ const RuleAdd = ({
             dispatch(setMessageStateOpen({ messageStateOpen: { isOpen: true, severity: 'error', message: '請輸入規則中文名稱' } }));
             return false;
         }
-        if (partyName === '') {
+        if (partyName === ''&& value === 0 ) {
             dispatch(setMessageStateOpen({ messageStateOpen: { isOpen: true, severity: 'error', message: '請選擇會員名稱' } }));
             return false;
         }
