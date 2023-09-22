@@ -148,7 +148,7 @@ const RuleAdd = ({
     }
 
     const addRule = () => {
-        if (value === 1) {
+        if (value === 0) {
             if (infoCheck()) {
                 let tmpArray = {
                     RuleName: ruleName,
@@ -172,7 +172,7 @@ const RuleAdd = ({
                     })
                     .catch((e) => console.log('e1=>', e));
             }
-        } else if (value === 2) {
+        } else if (value === 1) {
             let tmpArray = {
                 SysInvNotifyRule:{
                     RuleName: ruleName,
