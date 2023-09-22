@@ -174,7 +174,10 @@ const RuleAdd = ({
             }
         } else if (value === 1) {
             let tmpListInfo = listInfo;
-            delete tmpListInfo.id
+            tmpListInfo.forEach((i) => {
+                delete i.id
+            });
+            console.log('tmpListInfo=>>', tmpListInfo);
             let tmpArray = {
                 SysInvNotifyRule:{
                     RuleName: ruleName,
