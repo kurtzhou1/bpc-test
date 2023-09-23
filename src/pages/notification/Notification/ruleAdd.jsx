@@ -152,7 +152,7 @@ const RuleAdd = ({
             if (infoCheck()) {
                 let tmpArray = {
                     RuleName: ruleName,
-                    ruleCNameame: ruleCName,
+                    RuleCName: ruleCName,
                     SubmarineCable: submarineCable,
                     WorkTitle: workTitle,
                     PartyName: partyName,
