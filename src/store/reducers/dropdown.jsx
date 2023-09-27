@@ -6,6 +6,7 @@ const initialState = {
     isLogin: false,
     isTimeout: false,
     bmsList: [], //計帳段號下拉選單
+    loginInInfo: { EmployeeNumber: '', Email: '', Name: ''},
     userInfo: { ProfilePhotoURI: '', UserCName: '' },
     messageStateOpen: { isOpen: false, severity: '', message: '' }
 };
@@ -19,11 +20,11 @@ const dropdown = createSlice({
         setIsLogin(state, action) {
             state.isLogin = action.payload.isLogin;
         },
+        setLoginInInfo(state, action) {
+            state.loginInInfo = action.payload.loginInInfo;
+        },
         setUserInfo(state, action) {
             state.userInfo = action.payload.userInfo;
-        },
-        setBillMileStoneList(state, action) {
-            state.bmsList = action.payload.bmsList;
         },
         setMessageStateOpen(state, action) {
             state.messageStateOpen = action.payload.messageStateOpen;
@@ -33,5 +34,5 @@ const dropdown = createSlice({
 
 export default dropdown.reducer;
 
-export const { setBillMileStoneList, setMessageStateOpen, setIsLogin, setUserInfo } =
+export const { setMessageStateOpen, setIsLogin, setUserInfo, setLoginInInfo } =
     dropdown.actions;

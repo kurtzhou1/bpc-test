@@ -1,6 +1,7 @@
 import { useEffect, useState, forwardRef, useRef } from 'react';
 import { Outlet } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
+import jwt_decode from "jwt-decode";
 
 // material-ui
 import { useTheme } from '@mui/material/styles';
@@ -15,12 +16,10 @@ import Breadcrumbs from 'components/@extended/Breadcrumbs';
 
 // types
 import { openDrawer } from 'store/reducers/menu';
-import {
-    setSubmarineCableList,
-    setPartiesList,
-    setBillMileStoneList,
-    setMessageStateOpen
-} from 'store/reducers/dropdown';
+import { setMessageStateOpen } from 'store/reducers/dropdown';
+
+// redux
+import { setLoginInInfo, setIsLogin } from 'store/reducers/dropdown';
 
 // ==============================|| MAIN LAYOUT ||============================== //
 
@@ -76,10 +75,6 @@ const MainLayout = () => {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [drawerOpen]);
 
-    const authorize = () => {
-        let tmpTest = 'https://iam-qa.cht.com.tw/auth/realms/B2E/protocol/openid-connect/token';
-        window.location = tmpTest;
-    }
 
     let tmpTest = 'https://iam-qa.cht.com.tw/auth/realms/B2E/protocol/openid-connect/token';
 
@@ -94,7 +89,7 @@ const MainLayout = () => {
                 grant_type: 'authorization_code'
             }
             const searchParams = new URLSearchParams(tmpArray);
-            console.log('searchParams=>>', searchParams);
+            console.log('searchParams=>>', accessCode);
             fetch(tmpTest, { 
                 method: 'POST', 
                 body: searchParams, 
@@ -104,24 +99,19 @@ const MainLayout = () => {
             })
                 .then((res) => res.json())
                 .then((data) => {
-                    console.log('回傳=>>>>', data);
+                    console.log('data=>>>>', data.access_token);
+                    if(data.access_token) {
+                        dispatch(setLoginInInfo({ 
+                            loginInInfo: { EmployeeNumber: jwt_decode(data.access_token).employeeNumber, 
+                            Email: jwt_decode(data.access_token).email, 
+                            Name: jwt_decode(data.access_token).name
+                        }}));
+                        localStorage.setItem('refreshToken',data.refreshToken);
+                        dispatch(setIsLogin({ isLogin: true }));
+                    }
                 })
                 .catch((e) => console.log('e1=>', e));
         }
-        // authorize();
-        // let tmpData = {
-        //     client_id: 'CBPS.QA.I',
-        //     redirect_uri: 'http://internal-cbpsAlbFrontend-1323185980.ap-northeast-1.elb.amazonaws.com',
-        //     response_type: 'code',
-        //     scope: 'ldap',
-        // }
-        // let formBody = [];
-        // for (let property in tmpData) {
-        //     var encodedKey = encodeURIComponent(property);
-        //     var encodedValue = encodeURIComponent(tmpData[property]);
-        //     formBody.push(encodedKey + "=" + encodedValue);
-        // }
-        // formBody = formBody.join("&");
     }, []);
 
     useEffect(() => {

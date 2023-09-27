@@ -13,7 +13,6 @@ const AuthLogin = Loadable(lazy(() => import('pages/authentication/Login')));
 
 const RequireAuth = ({ children }) => {
     const { isLogin } = useSelector((state) => state.dropdown);
-    // let auth = localStorage.getItem('name');
     if (isLogin) {
         return <Navigate to="/" replace />;
     }

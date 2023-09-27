@@ -9,7 +9,7 @@ import { Navigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 
 //api
-import { checktoken } from 'components/apis.jsx';
+import { ssoUrl, checktoken } from 'components/apis.jsx';
 import { ConstructionOutlined } from '../../node_modules/@mui/icons-material/index';
 import { useDispatch } from 'react-redux';
 import { setIsLogin, setUserInfo } from 'store/reducers/dropdown';
@@ -49,31 +49,36 @@ const Notification = Loadable(lazy(() => import('pages/notification/Notification
 const RequireAuth = ({ children }) => {
     const { isLogin } = useSelector((state) => state.dropdown);
     const dispatch = useDispatch();
-    const getAccessToken = localStorage.getItem('accessToken');
+    // const getAccessToken = localStorage.getItem('accessToken');
     console.log('isLogin=>>', isLogin)
-    if ( !getAccessToken ) {
-        return <Navigate to="/login" replace />;
-    } else {
-        fetch(checktoken, {
-            method: 'POST',
-            body: JSON.stringify({
-                cbps_access_token: getAccessToken
-            })
-        })
-        .then((res) => res.json())
-        .then((data) => {
-            console.log('data=>>', data);
-            if ( data.UserCName ) {
-                // dispatch(setUserInfo({ userInfo: { UserCName: data.UserCName, ProfilePhotoURI: data.ProfilePhotoURI } }));
-                return children;
-            } else {
-                dispatch(setIsLogin({ isLogin: false }));
-                localStorage.removeItem('accessToken');
-                return <Navigate to="/login" replace />;
-            }
-        })
+    // if ( !getAccessToken ) {
+    //     return <Navigate to="/login" replace />;
+    // } else {
+    //     fetch(checktoken, {
+    //         method: 'POST',
+    //         body: JSON.stringify({
+    //             cbps_access_token: getAccessToken
+    //         })
+    //     })
+    //     .then((res) => res.json())
+    //     .then((data) => {
+    //         console.log('data=>>', data);
+    //         if ( data.UserCName ) {
+    //             return children;
+    //         } else {
+    //             dispatch(setIsLogin({ isLogin: false }));
+    //             localStorage.removeItem('accessToken');
+    //             return <Navigate to="/login" replace />;
+    //         }
+    //     })
+    //     return children;
+    // }
+    if (isLogin) {
         return children;
+    } else {
+        return window.location.replace(ssoUrl);
     }
+    // return children;
 };
 
 const MainRoutes = {

@@ -1,3 +1,5 @@
+export const ssoUrl = 'https://iam-qa.cht.com.tw/auth/realms/B2E/protocol/openid-connect/auth?client_id=CBPS.QA.I&response_type=code&redirect_uri=http://internal-cbpsAlbFrontend-1323185980.ap-northeast-1.elb.amazonaws.com&scope=ldap';
+
 // Login
 export const generatetoken = "http://internal-cbpsAlb-1176080923.ap-northeast-1.elb.amazonaws.com/api/v1/generatetoken";
 export const checktoken = "http://internal-cbpsAlb-1176080923.ap-northeast-1.elb.amazonaws.com/api/v1/checktoken";
@@ -84,17 +86,17 @@ export const addContracts = 'http://internal-cbpsalb-1176080923.ap-northeast-1.e
 export const deleteContracts = 'http://internal-cbpsalb-1176080923.ap-northeast-1.elb.amazonaws.com/api/v1/deleteContracts';
 export const editContracts = 'http://internal-cbpsalb-1176080923.ap-northeast-1.elb.amazonaws.com/api/v1/updateContracts';
 
-// 基本資料-SubmarineCables haha
+// 基本資料-SubmarineCables
 export const addSubmarineCables = 'http://internal-cbpsalb-1176080923.ap-northeast-1.elb.amazonaws.com/api/v1/SubmarineCables';
 export const deleteSubmarineCables = 'http://internal-cbpsalb-1176080923.ap-northeast-1.elb.amazonaws.com/api/v1/deleteSubmarineCables';
 export const editSubmarineCables = 'http://internal-cbpsalb-1176080923.ap-northeast-1.elb.amazonaws.com/api/v1/updateSubmarineCables';
 
-// 基本資料-PartiesByContract haha顆顆
+// 基本資料-PartiesByContract
 export const addPartiesByContract = 'http://internal-cbpsalb-1176080923.ap-northeast-1.elb.amazonaws.com/api/v1/PartiesByContract';
 export const deletePartiesByContract = 'http://internal-cbpsalb-1176080923.ap-northeast-1.elb.amazonaws.com/api/v1/deletePartiesByContract';
 export const editPartiesByContract = 'http://internal-cbpsalb-1176080923.ap-northeast-1.elb.amazonaws.com/api/v1/updatePartiesByContract';
 
-// 基本資料-Corporates haha
+// 基本資料-Corporates
 export const addCorporates = 'http://internal-cbpsalb-1176080923.ap-northeast-1.elb.amazonaws.com/api/v1/Corporates';
 export const deleteCorporates = 'http://internal-cbpsalb-1176080923.ap-northeast-1.elb.amazonaws.com/api/v1/deleteCorporates';
 export const editCorporates = 'http://internal-cbpsalb-1176080923.ap-northeast-1.elb.amazonaws.com/api/v1/updateCorporates';
