@@ -142,7 +142,7 @@ const Information = () => {
                         <MemberBillDataList listInfo={listInfo}  />
                     </TabPanel>
                     <TabPanel value={value} index={1}>
-                        <InvoiceNotificationDataList listInfo={fakeData} partiesList={partiesList} submarineCableList={submarineCableList} />
+                        <InvoiceNotificationDataList listInfo={listInfo} partiesList={partiesList} submarineCableList={submarineCableList} />
                     </TabPanel>
                     <TabPanel value={value} index={2}>
                         <BillNotificationDataList listInfo={listInfo} />
