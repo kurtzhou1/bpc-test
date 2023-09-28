@@ -24,105 +24,50 @@ import { DateRangePicker } from '@mui/x-date-pickers-pro/DateRangePicker';
 import { TextField } from '@mui/material/index';
 
 //api
-import { queryLiability, dropdownmenuBillMilestone } from 'components/apis.jsx';
+import { queryLiability, getSysInvNotifyRule } from 'components/apis.jsx';
 
 import PropTypes from 'prop-types';
 
 // ==============================|| SAMPLE PAGE ||============================== //
 
-const LiabilityQuery = ({ setListInfo, partiesList, submarineCableList, workTitleList, value, queryApi }) => {
-    const [billMilestoneQuery, setBillMilestoneQuery] = useState(''); //計帳段號
-    const [partyNameQuery, setPartyNameQuery] = useState(''); //會員名稱
-    const [createDate, setCreateDate] = useState([null, null]); //建立日期
+const NotificationQuery = ({ setListInfo, partiesList, submarineCableList, value, queryApi }) => {
     const [submarineCableQuery, setSubmarineCableQuery] = useState(''); //海纜名稱
     const [workTitle, setWorkTitle] = useState(''); //海纜作業
-    const [invoiceStatusQuery, setInvoiceStatusQuery] = useState({ TRUE: false, FALSE: false }); //處理狀態
-    const [bmStoneList, setBmStoneList] = useState([]); //計帳段號下拉選單(需要選擇海纜名稱或海纜作業才能出現)
-    const [enRule, setEnRule] = useState(''); //發票號碼
+    const [partyNameQuery, setPartyNameQuery] = useState(''); //會員名稱
+    const [ruleName, setRuleName] = useState('');
+    const [ruleCName, setRuleCName] = useState('');
 
     const initQuery = () => {
-        setBillMilestoneQuery('');
         setPartyNameQuery('');
-        setCreateDate([null, null]);
         setSubmarineCableQuery('');
         setWorkTitle('');
-        setInvoiceStatusQuery({ TRUE: false, FALSE: false });
+        setRuleName('');
+        setRuleCName('');
     };
 
     const liabilityQuery = () => {
-        let tmpQuery = '/';
-        if (billMilestoneQuery && billMilestoneQuery !== '') {
-            tmpQuery = tmpQuery + 'BillMilestone=' + billMilestoneQuery + '&';
+        let tmpArray = {};
+        if (submarineCableQuery !== '' || workTitle !== '' || ruleName !== '' || ruleCName !== '') {
+            tmpArray = {
+                SubmarineCableQuery: submarineCableQuery,
+                WorkTitle: workTitle,
+                RuleName: ruleName,
+                RuleCName: ruleCName
+            };
         }
-        if (partyNameQuery && partyNameQuery !== '') {
-            tmpQuery = tmpQuery + 'PartyName=' + partyNameQuery + '&';
-        }
-        if (submarineCableQuery && submarineCableQuery !== '') {
-            tmpQuery = tmpQuery + 'SubmarineCable=' + submarineCableQuery + '&';
-        }
-        if (workTitle && workTitle !== '') {
-            tmpQuery = tmpQuery + 'WorkTitle=' + workTitle + '&';
-        }
-        if (createDate[0] && createDate[1]) {
-            tmpQuery =
-                tmpQuery +
-                'startCreateDate=' +
-                dayjs(createDate[0]).format('YYYYMMDD') +
-                '&' +
-                'endCreateDate=' +
-                dayjs(createDate[1]).format('YYYYMMDD') +
-                '&';
-        }
-        console.log('invoiceStatusQuery=>>', invoiceStatusQuery);
-        if (invoiceStatusQuery?.TRUE && !invoiceStatusQuery?.FALSE) {
-            tmpQuery = tmpQuery + 'End=true&';
-        }
-        if (invoiceStatusQuery?.FALSE && !invoiceStatusQuery?.TRUE) {
-            tmpQuery = tmpQuery + 'End=false&';
-        }
-
-        if (tmpQuery.includes('&')) {
-            tmpQuery = tmpQuery.slice(0, -1);
-        } else {
-            tmpQuery = tmpQuery + 'all';
-        }
-
-        tmpQuery = queryLiability + tmpQuery;
-        queryApi.current = tmpQuery;
-        fetch(tmpQuery, { method: 'GET' })
+        console.log('tmpArray=>>', tmpArray);
+        fetch(getSysInvNotifyRule, { method: 'POST', body: JSON.stringify(tmpArray) })
             .then((res) => res.json())
             .then((data) => {
-                console.log('查詢成功=>>', data);
                 setListInfo(data);
+                initQuery();
             })
             .catch((e) => console.log('e1=>', e));
-    };
-
-    const handleChange = (event) => {
-        setInvoiceStatusQuery({ ...invoiceStatusQuery, [event.target.name]: event.target.checked });
     };
 
     useEffect(() => {
-        let tmpArray = {};
-        if (submarineCableQuery !== '') {
-            tmpArray.SubmarineCable = submarineCableQuery;
-        }
-        if (workTitle !== '') {
-            tmpArray.WorkTitle = workTitle;
-        } 
-        if (Object.keys(tmpArray).length !== 0) {
-            console.log('tmpArray=>>', tmpArray);
-            fetch(dropdownmenuBillMilestone, { method: 'POST', body: JSON.stringify(tmpArray) })
-            .then((res) => res.json())
-            .then((data) => {
-                console.log('data抓取成功=>>', data);
-                if(Array.isArray(data)) {
-                    setBmStoneList(data);
-                }
-            })
-            .catch((e) => console.log('e1=>', e));
-        }
-    }, [submarineCableQuery, workTitle]);
+        initQuery();
+    }, [value]);
 
     return (
         <MainCard title="條件查詢" sx={{ width: '100%' }}>
@@ -163,31 +108,33 @@ const LiabilityQuery = ({ setListInfo, partiesList, submarineCableList, workTitl
                             選擇海纜作業
                         </InputLabel>
                         <Select size="small" value={workTitle} label="填寫海纜作業" onChange={(e) => setWorkTitle(e.target.value)}>
-                            {workTitleList.map((i) => (
-                                <MenuItem key={i} value={i}>
-                                    {i}
-                                </MenuItem>
-                            ))}
+                            <MenuItem value={'Upgrade'}>Upgrade</MenuItem>
+                            <MenuItem value={'Construction'}>Construction</MenuItem>
+                            <MenuItem value={'O&M'}>O&M</MenuItem>
                         </Select>
                     </FormControl>
                 </Grid>
-                <Grid item xs={2} sm={2} md={1} lg={1} xl={1}>
-                    <Typography variant="h5" sx={{ fontSize: { lg: '0.5rem', xl: '0.88rem' }, ml: { lg: '0.5rem', xl: '1.5rem' } }}>
-                        會員名稱：
-                    </Typography>
-                </Grid>
-                <Grid item xs={4} sm={4} md={2} lg={2} xl={2}>
-                    <FormControl fullWidth size="small">
-                        <InputLabel>選擇會員</InputLabel>
-                        <Select value={partyNameQuery} label="會員名稱" onChange={(e) => setPartyNameQuery(e.target.value)}>
-                            {partiesList.map((i) => (
-                                <MenuItem key={i} value={i}>
-                                    {i}
-                                </MenuItem>
-                            ))}
-                        </Select>
-                    </FormControl>
-                </Grid>
+                {value === 0 ? (
+                <>
+                    <Grid item xs={2} sm={2} md={1} lg={1} xl={1}>
+                        <Typography variant="h5" sx={{ fontSize: { lg: '0.5rem', xl: '0.88rem' }, ml: { lg: '0.5rem', xl: '1.5rem' } }}>
+                            會員名稱：
+                        </Typography>
+                    </Grid>
+                    <Grid item xs={4} sm={4} md={2} lg={2} xl={2}>
+                        <FormControl fullWidth size="small">
+                            <InputLabel>選擇會員</InputLabel>
+                            <Select value={partyNameQuery} label="會員名稱" onChange={(e) => setPartyNameQuery(e.target.value)}>
+                                {partiesList.map((i) => (
+                                    <MenuItem key={i} value={i}>
+                                        {i}
+                                    </MenuItem>
+                                ))}
+                            </Select>
+                        </FormControl>
+                    </Grid>
+                </>
+                ) : ''}
                 <Grid item xs={2} sm={2} md={1} lg={1}>
                     <Typography variant="h5" sx={{ fontSize: { lg: '0.5rem', xl: '0.88rem' }, ml: { lg: '0.5rem', xl: '1.5rem' } }}>
                         規則英文名稱：
@@ -198,13 +145,34 @@ const LiabilityQuery = ({ setListInfo, partiesList, submarineCableList, workTitl
                         <TextField
                             fullWidth
                             variant="outlined"
-                            value={enRule}
+                            value={ruleName}
                             size="small"
                             label="填寫規則名稱"
-                            onChange={(e) => setEnRule(e.target.value)}
+                            onChange={(e) => setRuleName(e.target.value)}
                         />
                     </FormControl>
                 </Grid>
+                {value === 1 ? (
+                <>
+                    <Grid item xs={2} sm={2} md={1} lg={1} xl={1}>
+                        <Typography variant="h5" sx={{ fontSize: { lg: '0.5rem', xl: '0.88rem' }, ml: { lg: '0.5rem', xl: '1.5rem' } }}>
+                            規則中文名稱：
+                        </Typography>
+                    </Grid>
+                    <Grid item xs={4} sm={4} md={2} lg={2}>
+                    <FormControl fullWidth size="small">
+                        <TextField
+                            fullWidth
+                            variant="outlined"
+                            value={ruleCName}
+                            size="small"
+                            label="填寫規則名稱"
+                            onChange={(e) => setRuleCName(e.target.value)}
+                        />
+                    </FormControl>
+                </Grid>
+                </>
+                ) : ''}
                 {/* row2 */}
                 <Grid item xs={12} sm={12} md={12} lg={12} display="flex" justifyContent="end" alignItems="center">
                     <Button sx={{ mr: '0.5rem' }} variant="contained" onClick={liabilityQuery}>
@@ -219,7 +187,7 @@ const LiabilityQuery = ({ setListInfo, partiesList, submarineCableList, workTitl
     );
 };
 
-LiabilityQuery.propTypes = {
+NotificationQuery.propTypes = {
     setListInfo: PropTypes.func,
     // bmStoneList: PropTypes.array,
     partiesList: PropTypes.array,
@@ -228,4 +196,4 @@ LiabilityQuery.propTypes = {
     queryApi: PropTypes.string
 };
 
-export default LiabilityQuery;
+export default NotificationQuery;

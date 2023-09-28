@@ -1,6 +1,7 @@
 // import { useState } from 'react';
 
 // project import
+import RuleAdd from './ruleAdd';
 
 // material-ui
 import { Typography, Button, Table, Box } from '@mui/material';
@@ -11,18 +12,13 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import { styled } from '@mui/material/styles';
-
 import dayjs from 'dayjs';
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 
-const UploadDataList = () => {
-    const [dialogTerminate, setDialogTerminate] = useState(false);
-    const [terminateInfo, setTerminateInfo] = useState({});
-    const listInfo = [];
-
-    const handleDialogClose = () => {
-        setDialogTerminate(false);
-    };
+const InvoiceNotificationDataList = ({ listInfo, partiesList, submarineCableList }) => {
+    const [isDialogOpen, setIsDialogOpen] = useState(false);
+    const [editData, setEditData] = useState({})
+    const actionName = useRef('');
 
     const StyledTableCell = styled(TableCell)(({ theme }) => ({
         [`&.${tableCellClasses.head}`]: {
@@ -38,15 +34,44 @@ const UploadDataList = () => {
         }
     }));
 
+    const handleAddRuleClose = () => {
+        setIsDialogOpen(false);
+    };
+
+    const handleView = (row) => {
+        actionName.current = 'View';
+        setIsDialogOpen(true);
+        setEditData(row);
+    }
+
     return (
-        <>
-            <TableContainer component={Paper} sx={{ maxHeight: 350 }}>
+        <>     
+            <RuleAdd
+                isDialogOpen={isDialogOpen}
+                handleAddRuleClose={handleAddRuleClose}
+                value={1}
+                partiesList={partiesList}
+                submarineCableList={submarineCableList}
+                editData={editData}
+                action={actionName.current}
+            />
+            <TableContainer component={Paper}>
                 <Table sx={{ minWidth: 300 }} stickyHeader aria-label="sticky table">
                     <TableHead>
                         <TableRow>
                             <StyledTableCell align="center">NO</StyledTableCell>
-                            <StyledTableCell align="center">檔案名稱</StyledTableCell>
-                            <StyledTableCell align="center">上傳日期</StyledTableCell>
+                            <StyledTableCell align="center">規則英文名稱</StyledTableCell>
+                            <StyledTableCell align="center">規則中文名稱</StyledTableCell>
+                            <StyledTableCell align="center">海纜名稱</StyledTableCell>
+                            <StyledTableCell align="center">海纜作業</StyledTableCell>
+                            <StyledTableCell align="center">提醒對象種類</StyledTableCell>
+                            <StyledTableCell align="center">到期日</StyledTableCell>
+                            <StyledTableCell align="center">到期日之前的第一門檻天數</StyledTableCell>
+                            <StyledTableCell align="center">到期日之前的第二門檻天數</StyledTableCell>
+                            <StyledTableCell align="center">到期日之後的門檻天數</StyledTableCell>
+                            <StyledTableCell align="center">是否以Email通知</StyledTableCell>
+                            <StyledTableCell align="center">是否以Web通知</StyledTableCell>
+                            <StyledTableCell align="center">是否以SMS通知</StyledTableCell>
                             <StyledTableCell align="center">Action</StyledTableCell>
                         </TableRow>
                     </TableHead>
@@ -54,14 +79,24 @@ const UploadDataList = () => {
                         {listInfo?.map((row, id) => {
                             return (
                                 <TableRow
-                                    key={row.BillMilestone + row.PartyName + row.SubmarineCable}
+                                    key={row.SysInvNotifyRule.RuleName + row.SysInvNotifyRule.RuleCName}
                                     sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                                 >
                                     <StyledTableCell align="center">{id + 1}</StyledTableCell>
-                                    <StyledTableCell align="center">{row.SubmarineCable}</StyledTableCell>
+                                    <StyledTableCell align="center">{row.SysInvNotifyRule.RuleName}</StyledTableCell>
+                                    <StyledTableCell align="center">{row.SysInvNotifyRule.RuleCName}</StyledTableCell>
+                                    <StyledTableCell align="center">{row.SysInvNotifyRule.SubmarineCable}</StyledTableCell>
+                                    <StyledTableCell align="center">{row.SysInvNotifyRule.WorkTitle}</StyledTableCell>
+                                    <StyledTableCell align="center">{row.SysInvNotifyRule.NotifyTarget}</StyledTableCell>
                                     <StyledTableCell align="center">
-                                        {row.EndDate ? dayjs(row.EndDate).format('YYYY/MM/DD') : ''}
+                                        {dayjs(row.SysInvNotifyRule.ColumnName).format('YYYY/MM/DD')}
                                     </StyledTableCell>
+                                    <StyledTableCell align="center">{row.SysInvNotifyRule.Days1BeforeDue}</StyledTableCell>
+                                    <StyledTableCell align="center">{row.SysInvNotifyRule.Days2BeforeDue}</StyledTableCell>
+                                    <StyledTableCell align="center">{row.SysInvNotifyRule.DaysAfterDue}</StyledTableCell>
+                                    <StyledTableCell align="center">{row.SysInvNotifyRule.Email ? '√' : ''}</StyledTableCell>
+                                    <StyledTableCell align="center">{row.SysInvNotifyRule.Web ? '√' : ''}</StyledTableCell>
+                                    <StyledTableCell align="center">{row.SysInvNotifyRule.SMS ? '√' : ''}</StyledTableCell>
                                     <StyledTableCell align="center">
                                         <Box
                                             sx={{
@@ -70,20 +105,28 @@ const UploadDataList = () => {
                                                 '& button': { mx: { sm: 0.3, md: 0.3, lg: 0.6, xl: 1.5 }, p: 0, fontSize: 1 }
                                             }}
                                         >
+                                             <Button
+                                                color="success"
+                                                variant="outlined"
+                                                onClick={() => handleView(row)}
+                                            >
+                                                    檢視
+                                            </Button>
+                                            <Button
+                                                color="primary"
+                                                variant="outlined"
+                                                onClick={() => {
+                                                    actionName.current = 'Edit';
+                                                    setIsDialogOpen(true);
+                                                }}
+                                            >
+                                                    編輯
+                                            </Button>
                                             <Button
                                                 color="error"
                                                 variant="outlined"
-                                                onClick={() => {
-                                                    setDialogTerminate(true);
-                                                    setTerminateInfo({
-                                                        BillMilestone: row.BillMilestone,
-                                                        PartyName: row.PartyName,
-                                                        LBRawID: row.LBRawID,
-                                                        EndDate: dayjs(new Date()).format('YYYY-MM-DD HH:mm:ss')
-                                                    });
-                                                }}
                                             >
-                                                    下載
+                                                    刪除
                                             </Button>
                                         </Box>
                                     </StyledTableCell>
@@ -97,4 +140,4 @@ const UploadDataList = () => {
     );
 };
 
-export default UploadDataList;
+export default InvoiceNotificationDataList;

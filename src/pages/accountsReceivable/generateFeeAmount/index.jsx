@@ -68,7 +68,7 @@ const GenerateFeeAmount = () => {
     };
 
     useEffect(() => {
-        if (value != 0) {
+        if (value !== 0) {
             initList();
         }
     }, [value]);

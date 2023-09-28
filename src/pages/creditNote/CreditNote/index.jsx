@@ -187,7 +187,7 @@ const CreditNote = () => {
             <Grid item xs={12}>
                 <MainCard title="Credit Note資料列表">
                     <Box sx={{ borderBottom: 1, borderColor: 'divider', position: 'relative' }}>
-                        <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
+                        <Tabs value={value} onChange={handleChange} >
                             <Tab label="CB轉CN" {...a11yProps(0)} />
                             <Tab label="CN列表" {...a11yProps(1)} />
                         </Tabs>

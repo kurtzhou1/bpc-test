@@ -219,7 +219,7 @@ const CreditBalanceView = ({ cbView, handleViewClose, listInfo }) => {
                     <Grid item xs={12} sm={12} md={12} lg={12}>
                         <MainCard title="Credit Balance" sx={{ width: '100%' }}>
                             <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-                                <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
+                                <Tabs value={value} onChange={handleChange} >
                                     <Tab label="CB抵扣紀錄" {...a11yProps(0)} />
                                     <Tab label="退費紀錄" {...a11yProps(1)} />
                                 </Tabs>

@@ -43,7 +43,7 @@ const WriteOffInvoice = () => {
             <Grid item xs={12}>
                 <MainCard title={`${value === 0 ? '待銷帳' : '已銷帳'}帳單資料列表`}>
                     <Box sx={{ borderBottom: 1, borderColor: 'divider', position: 'relative' }}>
-                        <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
+                        <Tabs value={value} onChange={handleChange} >
                             <Tab label="待銷帳" {...a11yProps(0)} />
                             <Tab label="已銷帳" {...a11yProps(1)} />
                         </Tabs>

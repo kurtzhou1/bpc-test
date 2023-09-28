@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import {
     Typography,
     Grid,
@@ -59,6 +59,8 @@ const RuleAdd = ({
     value,
     partiesList,
     submarineCableList,
+    editData,
+    action,
     apiQuery
 }) => {
     const dispatch = useDispatch();
@@ -75,10 +77,14 @@ const RuleAdd = ({
     const [submarineCable, setSubmarineCable] = useState('');
     const [workTitle, setWorkTitle] = useState('');
     const [dueDate, setDueDate] = useState(new Date()); //到期日
-    const [listInfo, setListInfo] = useState([]);
+    const [sysInvNotifyRecipients, setSysInvNotifyRecipients] = useState([]);
     const [recipientName, setRecipientName] = useState('');
     const [email, setEmail] = useState('');
     const [mobile, setMobile] = useState('');
+    const [recipientNameEdit, setRecipientNameEdit] = useState('');
+    const [emailEdit, setEmailEdit] = useState('');
+    const [mobileEdit, setMobileEdit] = useState('');
+    const [editNumber, setEditNumber] = useState(-1);
 
     const [sendType, setSendType] = useState({
         isWeb: false,
@@ -90,6 +96,7 @@ const RuleAdd = ({
         setRuleName('');
         setRuleCName('');
         setPartyName('');
+        setWorkTitle('');
         setSubmarineCable('');
         setDays1BeforeDue(0);
         setDays2BeforeDue(0);
@@ -101,17 +108,27 @@ const RuleAdd = ({
             isWeb: false,
             isEmail: false,
             isSMS: false
-        })
+        });
+        setSysInvNotifyRecipients([]);
+        setRecipientNameEdit('');
+        setEmailEdit('');
+        setMobileEdit('');
+        setEditNumber(-1);
     };
 
     const itemInitial = () => {
         setRecipientName('');
         setEmail('');
         setMobile('');
-    }
+    };
+
+    const itemInitialEdit = () => {
+        setRecipientNameEdit('');
+        setEmailEdit('');
+        setMobileEdit('');
+    };
 
     const infoCheck = () => {
-        console.log(partyName, partyName === '')
         if (ruleName === '') {
             dispatch(setMessageStateOpen({ messageStateOpen: { isOpen: true, severity: 'error', message: '請輸入規則英文名稱' } }));
             return false;
@@ -173,11 +190,7 @@ const RuleAdd = ({
                     .catch((e) => console.log('e1=>', e));
             }
         } else if (value === 1) {
-            let tmpListInfo = listInfo;
-            tmpListInfo.forEach((i) => {
-                delete i.id;
-                i.CCList = [];
-            });
+            let tmpListInfo = sysInvNotifyRecipients;
             console.log('tmpListInfo=>>', tmpListInfo);
             let tmpArray = {
                 SysInvNotifyRule:{
@@ -207,35 +220,81 @@ const RuleAdd = ({
     }
 
     const addInfoList = () => {
-        const maxID = Math.max(...listInfo.map(p => p.id));
         let tmpArray = {
-            id: maxID + 1,
             RecipientName: recipientName,
             Email: email,
             Mobile: mobile
         }
-        setListInfo(listInfo=> [...listInfo, tmpArray]);
+        setSysInvNotifyRecipients(sysInvNotifyRecipients=> [...sysInvNotifyRecipients, tmpArray]);
         itemInitial();
     }
 
     const delInfoList = (id) => {
-        setListInfo(listInfo.filter(i => i.id !== id))
+        setSysInvNotifyRecipients(sysInvNotifyRecipients.filter((i,index) => index !== id))
     }
 
     const copyInfoList = (info) => {
-        const maxID = Math.max(...listInfo.map(p => p.id));
         let tmpArray = {
-            id: maxID + 1,
             RecipientName: info.RecipientName,
             Email: info.Email,
             Mobile: info.Mobile
         }
-        setListInfo(listInfo=> [...listInfo, tmpArray]);
+        setSysInvNotifyRecipients(sysInvNotifyRecipients=> [...sysInvNotifyRecipients, tmpArray]);
+    }
+
+    const editInfoList = (info, id) => {
+        console.log('info, id=>>', info, id);
+        setEditNumber(id);
+        setRecipientNameEdit(info.RecipientName);
+        setEmailEdit(info.Email);
+        setMobileEdit(info.Mobile);
+    }
+
+    const saveInfoList = () => {
+        let tmpArray = JSON.parse(JSON.stringify(sysInvNotifyRecipients));
+        tmpArray.forEach((i, index) => {
+            if(index === editNumber) {
+                i.RecipientName = recipientNameEdit;
+                i.Email = emailEdit;
+                i.Mobile = mobileEdit;
+            }
+        })
+        setSysInvNotifyRecipients(tmpArray);
+        setEditNumber(-1);
+    };
+
+    const cancelSave = () => {
+        setEditNumber(-1);
+        itemInitialEdit();
     }
 
     const handleChange = (event) => {
         setSendType({ ...sendType, [event.target.name]: event.target.checked });
     };
+
+    useEffect(() => {
+        if(action !== 'Add' && isDialogOpen && value === 1) {
+            console.log('editData=>>', editData);
+            setRuleName(editData.SysInvNotifyRule.RuleName);
+            setRuleCName(editData.SysInvNotifyRule.RuleCName);
+            setWorkTitle(editData.SysInvNotifyRule.WorkTitle);
+            setSubmarineCable(editData.SysInvNotifyRule.SubmarineCable);
+            setDays1BeforeDue(editData.SysInvNotifyRule.Days1BeforeDue);
+            setDays2BeforeDue(editData.SysInvNotifyRule.Days2BeforeDue);
+            setDaysAfterDue(editData.SysInvNotifyRule.DaysAfterDue);
+            setNotifyTarget(editData.SysInvNotifyRule.NotifyTarget);
+            setSysInvNotifyRecipients(editData.SysInvNotifyRecipients);
+            setSendType({
+                isWeb: editData.SysInvNotifyRule.Web,
+                isEmail: editData.SysInvNotifyRule.Email,
+                isSMS: editData.SysInvNotifyRule.SMS
+            });
+            setEmailList([]);
+            setPartyName('');
+            setEmailText('');
+            setDueDate(new Date());
+        }
+    }, [action, isDialogOpen])
 
     return (
         <Dialog maxWidth="sm" fullWidth open={isDialogOpen} >
@@ -254,6 +313,7 @@ const RuleAdd = ({
                             fullWidth
                             variant="outlined"
                             value={ruleName}
+                            disabled={action === 'View'}
                             size="small"
                             label="填寫英文名稱"
                             onChange={(e) => setRuleName(e.target.value)} 
@@ -269,6 +329,7 @@ const RuleAdd = ({
                             fullWidth
                             variant="outlined"
                             value={ruleCName}
+                            disabled={action === 'View'}
                             size="small"
                             label="填寫中文名稱"
                             onChange={(e) => setRuleCName(e.target.value)} 
@@ -282,7 +343,13 @@ const RuleAdd = ({
                     <Grid item xs={3} sm={3} md={3} lg={3}>
                         <FormControl fullWidth size="small">
                             <InputLabel>選擇海纜名稱</InputLabel>
-                            <Select value={submarineCable} label="海纜名稱" size="small" onChange={(e) => setSubmarineCable(e.target.value)}>
+                            <Select 
+                                value={submarineCable} 
+                                label="海纜名稱" 
+                                size="small" 
+                                onChange={(e) => setSubmarineCable(e.target.value)} 
+                                disabled={action === 'View'}
+                            >
                                 {submarineCableList.map((i) => (
                                     <MenuItem key={i} value={i}>
                                         {i}
@@ -306,6 +373,7 @@ const RuleAdd = ({
                                 value={workTitle}
                                 label="填寫海纜作業"
                                 onChange={(e) => setWorkTitle(e.target.value)}
+                                disabled={action === 'View'}
                             >
                                 <MenuItem value={'Construction'}>Construction</MenuItem>
                                 <MenuItem value={'Upgrade'}>Upgrade</MenuItem>
@@ -323,7 +391,12 @@ const RuleAdd = ({
                         <Grid item xs={3} sm={3} md={3} lg={3} xl={3}>
                             <FormControl fullWidth size="small">
                                 <InputLabel>選擇會員</InputLabel>
-                                <Select value={partyName} label="會員名稱" onChange={(e) => setPartyName(e.target.value)}>
+                                <Select 
+                                    value={partyName} 
+                                    label="會員名稱"
+                                    onChange={(e) => setPartyName(e.target.value)} 
+                                    disabled={action === 'View'}
+                                >
                                     {partiesList.map((i) => (
                                         <MenuItem key={i} value={i}>
                                             {i}
@@ -346,7 +419,8 @@ const RuleAdd = ({
                             value={days1BeforeDue}
                             size="small"
                             label="填寫數字"
-                            onChange={(e) => setDays1BeforeDue(e.target.value)} 
+                            onChange={(e) => setDays1BeforeDue(e.target.value)}
+                            disabled={action === 'View'}
                         />
                     </Grid>
                     <Grid item xs={3} sm={3} md={3} lg={3}>
@@ -362,6 +436,7 @@ const RuleAdd = ({
                             size="small"
                             label="填寫數字"
                             onChange={(e) => setDays2BeforeDue(e.target.value)} 
+                            disabled={action === 'View'}
                         />
                     </Grid>
                     <Grid item xs={3} sm={3} md={3} lg={3}>
@@ -377,6 +452,7 @@ const RuleAdd = ({
                             size="small"
                             label="填寫數字"
                             onChange={(e) => setDaysAfterDue(e.target.value)} 
+                            disabled={action === 'View'}
                         />
                     </Grid>
                     {value === 0 ? (
@@ -394,6 +470,7 @@ const RuleAdd = ({
                                     size="small"
                                     label="填寫email"
                                     onChange={(e) => setEmailText(e.target.value)} 
+                                    disabled={action === 'View'}
                                 />
                             </Grid>
                             <Grid item xs={1} sm={1} md={1} lg={1} display="flex" alignItems="center" justifyContent="start">
@@ -419,6 +496,7 @@ const RuleAdd = ({
                                             if (!isOpen) setIsOpen(true);
                                         }
                                     }}
+                                    disabled={action === 'View'}
                                     onClose={() => setIsOpen(false)}
                                     options={emailList}
                                     value={emailList}
@@ -449,29 +527,13 @@ const RuleAdd = ({
                                         value={notifyTarget}
                                         label="填寫對象種類"
                                         onChange={(e) => setNotifyTarget(e.target.value)}
+                                        disabled={action === 'View'}
                                     >
                                         <MenuItem value={'CBP'}>CBP</MenuItem>
                                         <MenuItem value={'OP'}>OP</MenuItem>
                                     </Select>
                                 </FormControl>
                             </Grid>
-                            {/* <Grid item xs={3} sm={3} md={3} lg={3} display="flex" justifyContent="end">
-                                <Typography variant="h5">
-                                    帳單到期日：
-                                </Typography>
-                            </Grid>
-                            <Grid item xs={3} sm={3} md={3} lg={3}>
-                                <FormControl>
-                                    <LocalizationProvider dateAdapter={AdapterDayjs}>
-                                    <DesktopDatePicker
-                                        inputFormat="YYYY/MM/DD"
-                                        value={dueDate}
-                                        onChange={(e) => setDueDate(e)}
-                                        renderInput={(params) => <TextField size="small" {...params} />}
-                                    />
-                                    </LocalizationProvider>
-                                </FormControl>
-                            </Grid> */}
                         </>
                         )
                     }
@@ -484,6 +546,7 @@ const RuleAdd = ({
                                         onChange={handleChange}
                                         checked={sendType.isWeb}
                                         sx={{ '& .MuiSvgIcon-root': { fontSize: { lg: 20, xl: 24 } } }}
+                                        disabled={action === 'View'}
                                     />
                                 }
                                 label={<Typography variant="h5" >以Web通知</Typography>}
@@ -495,6 +558,7 @@ const RuleAdd = ({
                                         onChange={handleChange}
                                         checked={sendType.isEmail}
                                         sx={{ '& .MuiSvgIcon-root': { fontSize: { lg: 20, xl: 24 } } }}
+                                        disabled={action === 'View'}
                                     />
                                 }
                                 label={<Typography variant="h5" >以Email通知</Typography>}
@@ -507,6 +571,7 @@ const RuleAdd = ({
                                         onChange={handleChange}
                                         checked={sendType.isSMS}
                                         sx={{ '& .MuiSvgIcon-root': { fontSize: { lg: 20, xl: 24 } } }}
+                                        disabled={action === 'View'}
                                     />
                                 }
                                 label={<Typography variant="h5" >以SMS通知</Typography>}
@@ -528,6 +593,7 @@ const RuleAdd = ({
                                         </TableRow>
                                     </TableHead>
                                     <TableBody>
+                                        {action !== 'View' ? (
                                         <TableRow sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
                                             <TableCell align="center">
                                                 <Box
@@ -575,32 +641,95 @@ const RuleAdd = ({
                                                 />
                                             </TableCell>
                                         </TableRow>
-                                        {listInfo?.map((row, id) => {
+                                        ) : ''}
+                                        {sysInvNotifyRecipients?.map((row, id) => {
+                                            console.log(id, editNumber)
                                             return (
                                                 <TableRow
                                                     // key={row.InvoiceWKMaster?.invoiceNo + row.InvoiceWKMaster?.supplierName + id}
                                                     sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-                                                >
-                                                     <StyledTableCell align="center">
-                                                     <Box
-                                                        sx={{
+                                                >   {id === editNumber ? (
+                                                    <>
+                                                    <StyledTableCell align="center">
+                                                        {action !== 'View' ? (
+                                                        <Box
+                                                            sx={{
                                                             display: 'flex',
                                                             justifyContent: 'center',
                                                             '& button': { mx: { md: 0.6, lg: 1, xl: 1.8 }, p: 0, fontSize: 1 }
-                                                        }}
-                                                    >
-                                                        <Button color="primary" variant="outlined" onClick={() => copyInfoList(row)}>
-                                                            複製
-                                                        </Button>
-                                                        <Button color="error" variant="outlined" onClick={() => delInfoList(row.id)}>
-                                                            刪除
-                                                        </Button>
-                                                    </Box>
+                                                            }}
+                                                        >
+                                                            <Button color="success" variant="outlined" onClick={() => saveInfoList()}>
+                                                                儲存
+                                                            </Button>
+                                                            <Button color="primary" variant="outlined" onClick={() => cancelSave()}>
+                                                                取消
+                                                            </Button>
+                                                          
+                                                        </Box>
+                                                        ):('')}
                                                     </StyledTableCell>
                                                     <StyledTableCell align="center">{notifyTarget}</StyledTableCell>
-                                                    <StyledTableCell align="center">{row.RecipientName}</StyledTableCell>
-                                                    <StyledTableCell align="center">{row.Email}</StyledTableCell>
-                                                    <StyledTableCell align="center">{row.Mobile}</StyledTableCell>
+                                                    <TableCell align="center">
+                                                    <TextField
+                                                        size="small"
+                                                        // style={{ width: '30%' }}
+                                                        value={recipientNameEdit}
+                                                        onChange={(e) => {
+                                                            setRecipientNameEdit(e.target.value);
+                                                        }}
+                                                    />
+                                                    </TableCell>
+                                                    <TableCell align="center">
+                                                        <TextField
+                                                            size="small"
+                                                            // style={{ width: '30%' }}
+                                                            value={emailEdit}
+                                                            onChange={(e) => {
+                                                                setEmailEdit(e.target.value);
+                                                            }}
+                                                        />
+                                                    </TableCell>
+                                                    <TableCell align="center">
+                                                        <TextField
+                                                            size="small"
+                                                            value={mobileEdit}
+                                                            onChange={(e) => {
+                                                                setMobileEdit(e.target.value);
+                                                            }}
+                                                        />
+                                                    </TableCell>
+                                                </>
+                                                ):(
+                                                    <>
+                                                        <StyledTableCell align="center">
+                                                            {action !== 'View' ? (
+                                                            <Box
+                                                                sx={{
+                                                                display: 'flex',
+                                                                justifyContent: 'center',
+                                                                '& button': { mx: { md: 0.6, lg: 1, xl: 1.8 }, p: 0, fontSize: 1 }
+                                                                }}
+                                                            >
+                                                                <Button color="success" variant="outlined" onClick={() => copyInfoList(row)}>
+                                                                    複製
+                                                                </Button>
+                                                                <Button color="primary" variant="outlined" onClick={() => editInfoList(row, id)}>
+                                                                    編輯
+                                                                </Button>
+                                                                <Button color="error" variant="outlined" onClick={() => delInfoList(id)}>
+                                                                    刪除
+                                                                </Button>
+                                                            </Box>
+                                                            ):('')}
+                                                        </StyledTableCell>
+                                                        <StyledTableCell align="center">{notifyTarget}</StyledTableCell>
+                                                        <StyledTableCell align="center">{row.RecipientName}</StyledTableCell>
+                                                        <StyledTableCell align="center">{row.Email}</StyledTableCell>
+                                                        <StyledTableCell align="center">{row.Mobile}</StyledTableCell>
+                                                    </>
+                                                )}
+                                                   
                                                 </TableRow>
                                             );
                                         })}
@@ -629,6 +758,7 @@ const RuleAdd = ({
                     onClick={() => {
                         handleAddRuleClose();
                         formInitial();
+                        cancelSave();
                     }}
                 >
                     關閉
