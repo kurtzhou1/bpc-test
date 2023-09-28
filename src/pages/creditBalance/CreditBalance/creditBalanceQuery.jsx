@@ -37,6 +37,15 @@ const CreditBalanceQuery = ({ setListInfo, partiesList, submarineCableList, quer
     const [currAmount, setCurrAmount] = useState({ TRUE: false, FALSE: false }); //剩餘金額
     const [createDate, setCreateDate] = useState([null, null]); //建立日期
 
+    const initQuery = () => {
+        setPartyName('');
+        setCBType('');
+        setSubmarineCable('');
+        setWorkTitle('');
+        setCurrAmount({ TRUE: false, FALSE: false });
+        setCreateDate([null, null]);
+    }
+
     const creditBalanceQuery = () => {
         let tmpQuery = '/';
         if (partyName && partyName !== '') {
@@ -223,7 +232,7 @@ const CreditBalanceQuery = ({ setListInfo, partiesList, submarineCableList, quer
                     <Button sx={{ mr: '0.5rem' }} variant="contained" onClick={creditBalanceQuery}>
                         查詢
                     </Button>
-                    <Button variant="contained">清除</Button>
+                    <Button variant="contained" onClick={initQuery}>清除</Button>
                 </Grid>
             </Grid>
         </MainCard>
