@@ -16,24 +16,34 @@ import { queryInvoice } from 'components/apis.jsx';
 const CreateJournal = () => {
     const [listInfo, setListInfo] = useState([]);
     const [value, setValue] = useState(0);
+    const [supplierName, setSupplierName] = useState(''); //供應商
+    const [submarineCable, setSubmarineCable] = useState(''); //海纜名稱
+    const [issueDate, setIssueDate] = useState([null, null]); //發票日期
     // const isFirst = useRef(true);
     const queryApi = useRef({});
+    const initQuery = () => {
+        setSupplierName('');
+        setSubmarineCable('');
+        setIssueDate([null, null]);
+    };
+
     const apiQuery = () => {
         // let tmpQuery = '/';
+        initQuery();
         let tmpArray = {};
-        let tmpStatus = [];
         if (value === '0' || value === 0) {
             // tmpQuery = tmpQuery + 'Status=' + 'VALIDATED' + '&';
-            tmpStatus.push('VALIDATED');
+            tmpArray.status = 'VALIDATED';
         } else if (value === '1' || value === 1) {
             // tmpQuery = tmpQuery + 'Status=' + 'BILLED' + '&';
-            tmpStatus.push('BILLED');
+            tmpArray.status = 'BILLED';
         } else {
             // tmpQuery = tmpQuery + 'Status=' + 'INVALID' + '&';
-            tmpStatus.push('INVALID');
+            tmpArray.status = 'INVALID';
         }
-        tmpArray.Status = tmpStatus;
-        queryApi.current = tmpStatus;
+        if (Object.keys(queryApi.current).length === 0) {
+            tmpArray = queryApi.current;
+        }
         // if (tmpQuery.includes('&')) {
         //     tmpQuery = tmpQuery.slice(0, -1);
         // }
@@ -93,7 +103,17 @@ const CreateJournal = () => {
     return (
         <Grid container spacing={1}>
             <Grid item xs={12}>
-                <JournalQuery setListInfo={setListInfo} queryApi={queryApi} invoiceStatus={value} />
+                <JournalQuery 
+                    setListInfo={setListInfo}
+                    queryApi={queryApi}invoiceStatus={value}
+                    supplierName={supplierName}
+                    setSupplierName={setSupplierName}
+                    submarineCable={submarineCable}
+                    setSubmarineCable={setSubmarineCable}
+                    issueDate={issueDate}
+                    setIssueDate={setIssueDate}
+                    initQuery={initQuery}
+                />
             </Grid>
             <Grid item xs={12}>
                 <MainCard title={`${value === 0 ? '尚未立帳' : value === 1 ? '已立帳' : '已作廢'}發票資料列表`}>

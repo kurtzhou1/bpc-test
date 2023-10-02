@@ -127,7 +127,7 @@ const BilledDataList = ({ listInfo }) => {
                         {listInfo?.map((row, id) => {
                             return (
                                 <TableRow
-                                    key={row.InvoiceWKMaster?.InvoiceNo + row.InvoiceWKMaster?.SupplierName}
+                                    key={row.InvoiceWKMaster?.InvoiceNo + row.InvoiceWKMaster?.SupplierName + row.InvoiceWKMaster.TotalAmount}
                                     sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                                 >
                                     <StyledTableCell align="center">{id + 1}</StyledTableCell>

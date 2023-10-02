@@ -16,18 +16,9 @@ import { queryInvoice, supplierNameDropDownUnique, submarineCableInfoList } from
 
 // ==============================|| SAMPLE PAGE ||============================== //
 
-const JournalQuery = ({ setListInfo, queryApi, invoiceStatus }) => {
-    const [supplierName, setSupplierName] = useState(''); //供應商
-    const [submarineCable, setSubmarineCable] = useState(''); //海纜名稱
-    const [issueDate, setIssueDate] = useState([null, null]); //發票日期
+const JournalQuery = ({ setListInfo, queryApi, invoiceStatus, supplierName, setSupplierName, submarineCable, setSubmarineCable, issueDate, setIssueDate, initQuery }) => {
     const [supNmList, setSupNmList] = useState([]); //供應商下拉選單
     const [submarineCableList, setSubmarineCableList] = useState([]); //海纜名稱下拉選單
-
-    const initQuery = () => {
-        setSupplierName('');
-        setSubmarineCable('');
-        setIssueDate([null, null]);
-    };
 
     const jounaryQuery = () => {
      // let tmpQuery = '/';
@@ -41,31 +32,20 @@ const JournalQuery = ({ setListInfo, queryApi, invoiceStatus }) => {
             tmpArray.SubmarineCable = submarineCable;
         }
         if (issueDate[0] && issueDate[1]) {
-            // tmpQuery =
-            //     tmpQuery +
-            //     'startCreateDate=' +
-            //     dayjs(issueDate[0]).format('YYYYMMDD') +
-            //     '&' +
-            //     'endCreateDate=' +
-            //     dayjs(issueDate[1]).format('YYYYMMDD') +
-            //     '&';
             tmpArray.CreateDate = {
                 start: dayjs(issueDate[0]).format('YYYYMMDD'),
                 end: dayjs(issueDate[1]).format('YYYYMMDD')
             }
         }
-        let tmpStatus = [];
         if (invoiceStatus === '0' || invoiceStatus === 0) {
             // tmpQuery = tmpQuery + 'Status=' + 'VALIDATED' + '&';
-            tmpStatus.push("VALIDATED");
-        } else {
+            tmpArray.Status = "VALIDATED";
+        } else if (invoiceStatus === '1' || invoiceStatus === 1) {
             // tmpQuery = tmpQuery + 'Status=' + 'BILLED' + '&';
-            tmpStatus.push("BILLED");
+            tmpArray.Status = "BILLED";
+        } else {
+            tmpArray.Status = 'INVALID';
         }
-        // if (tmpQuery.includes('&')) {
-        //     tmpQuery = tmpQuery.slice(0, -1);
-        // }
-        // tmpArray = queryInvoice + tmpQuery;
         queryApi.current = tmpArray;
         console.log('tmpQuery=>>', tmpArray);
         fetch(queryInvoice, { method: 'POST', body: JSON.stringify(tmpArray) })
