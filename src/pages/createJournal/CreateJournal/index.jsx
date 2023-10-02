@@ -29,25 +29,17 @@ const CreateJournal = () => {
 
     const apiQuery = () => {
         // let tmpQuery = '/';
-        initQuery();
         let tmpArray = {};
         if (value === '0' || value === 0) {
             // tmpQuery = tmpQuery + 'Status=' + 'VALIDATED' + '&';
-            tmpArray.status = 'VALIDATED';
+            tmpArray.Status = 'VALIDATED';
         } else if (value === '1' || value === 1) {
             // tmpQuery = tmpQuery + 'Status=' + 'BILLED' + '&';
-            tmpArray.status = 'BILLED';
+            tmpArray.Status = 'BILLED';
         } else {
             // tmpQuery = tmpQuery + 'Status=' + 'INVALID' + '&';
-            tmpArray.status = 'INVALID';
+            tmpArray.Status = 'INVALID';
         }
-        if (Object.keys(queryApi.current).length === 0) {
-            tmpArray = queryApi.current;
-        }
-        // if (tmpQuery.includes('&')) {
-        //     tmpQuery = tmpQuery.slice(0, -1);
-        // }
-        // tmpQuery = queryInvoice + tmpQuery;
         console.log('tmpArray=>>', tmpArray);
         fetch(queryInvoice, { method: 'POST', body: JSON.stringify(tmpArray) })
             .then((res) => res.json())
@@ -86,6 +78,7 @@ const CreateJournal = () => {
     // };
 
     useEffect(() => {
+        initQuery();
         apiQuery();
     }, [value]);
 
