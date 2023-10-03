@@ -73,7 +73,7 @@ const RequireAuth = ({ children }) => {
     //     })
     //     return children;
     // }
-    if (isLogin || window.location.host.includes('localhost')) {
+    if (isLogin || !window.location.host.includes('localhost')) {
         return children;
     } else {
         return window.location.replace(ssoUrl);
