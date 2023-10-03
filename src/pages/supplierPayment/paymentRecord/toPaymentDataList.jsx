@@ -484,7 +484,7 @@ const ToPaymentDataList = ({ listInfo, cbToCn, setCbToCn, isSend, setIsSend, sup
                         <TableRow>
                             <StyledTableCell align="center"></StyledTableCell>
                             <StyledTableCell align="center">NO</StyledTableCell>
-                            <StyledTableCell align="center">發票代碼</StyledTableCell>
+                            <StyledTableCell align="center">發票號碼</StyledTableCell>
                             <StyledTableCell align="center">供應商</StyledTableCell>
                             <StyledTableCell align="center">海纜名稱</StyledTableCell>
                             <StyledTableCell align="center">海纜作業</StyledTableCell>
