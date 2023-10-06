@@ -15,7 +15,9 @@ import { styled } from '@mui/material/styles';
 import dayjs from 'dayjs';
 import { useRef, useState } from 'react';
 
-const InvoiceNotificationDataList = ({ listInfo, partiesList, submarineCableList }) => {
+import { getSysInvNotifyRule } from 'components/apis.jsx';
+
+const InvoiceNotificationDataList = ({ listInfo, partiesList, submarineCableList, initQuery }) => {
     const [isDialogOpen, setIsDialogOpen] = useState(false);
     const [editData, setEditData] = useState({})
     const actionName = useRef('');
@@ -39,7 +41,22 @@ const InvoiceNotificationDataList = ({ listInfo, partiesList, submarineCableList
     };
 
     const handleView = (row) => {
+        // let tmpArray = {
+        //     RuleID: id
+        // }
+        // fetch(getSysInvNotifyRule, { method: 'POST', body: JSON.stringify(tmpArray) })
+        // .then((res) => res.json())
+        // .then((data) => {
+        //     console.log('=>>', data);
+        // })
+        // .catch((e) => console.log('e1=>', e));
         actionName.current = 'View';
+        setIsDialogOpen(true);
+        setEditData(row);
+    }
+
+    const handleEdit = (row) => {
+        actionName.current = 'Edit';
         setIsDialogOpen(true);
         setEditData(row);
     }
@@ -54,6 +71,7 @@ const InvoiceNotificationDataList = ({ listInfo, partiesList, submarineCableList
                 submarineCableList={submarineCableList}
                 editData={editData}
                 action={actionName.current}
+                initQuery={initQuery}
             />
             <TableContainer component={Paper}>
                 <Table sx={{ minWidth: 300 }} stickyHeader aria-label="sticky table">
@@ -115,10 +133,7 @@ const InvoiceNotificationDataList = ({ listInfo, partiesList, submarineCableList
                                             <Button
                                                 color="primary"
                                                 variant="outlined"
-                                                onClick={() => {
-                                                    actionName.current = 'Edit';
-                                                    setIsDialogOpen(true);
-                                                }}
+                                                onClick={() => handleEdit(row)}
                                             >
                                                     編輯
                                             </Button>

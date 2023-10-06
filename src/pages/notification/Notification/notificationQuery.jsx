@@ -24,7 +24,7 @@ import { DateRangePicker } from '@mui/x-date-pickers-pro/DateRangePicker';
 import { TextField } from '@mui/material/index';
 
 //api
-import { queryLiability, getSysInvNotifyRule } from 'components/apis.jsx';
+import { getSysInvNotifyRule } from 'components/apis.jsx';
 
 import PropTypes from 'prop-types';
 
@@ -45,7 +45,7 @@ const NotificationQuery = ({ setListInfo, partiesList, submarineCableList, value
         setRuleCName('');
     };
 
-    const liabilityQuery = () => {
+    const notificationQuery = () => {
         let tmpArray = {};
         if (submarineCableQuery !== '' || workTitle !== '' || ruleName !== '' || ruleCName !== '') {
             tmpArray = {
@@ -55,7 +55,6 @@ const NotificationQuery = ({ setListInfo, partiesList, submarineCableList, value
                 RuleCName: ruleCName
             };
         }
-        console.log('tmpArray=>>', tmpArray);
         fetch(getSysInvNotifyRule, { method: 'POST', body: JSON.stringify(tmpArray) })
             .then((res) => res.json())
             .then((data) => {
@@ -172,10 +171,10 @@ const NotificationQuery = ({ setListInfo, partiesList, submarineCableList, value
                     </FormControl>
                 </Grid>
                 </>
-                ) : ''}
+                ) : <Grid item md={3} />}
                 {/* row2 */}
                 <Grid item xs={12} sm={12} md={12} lg={12} display="flex" justifyContent="end" alignItems="center">
-                    <Button sx={{ mr: '0.5rem' }} variant="contained" onClick={liabilityQuery}>
+                    <Button sx={{ mr: '0.5rem' }} variant="contained" onClick={notificationQuery}>
                         查詢
                     </Button>
                     <Button variant="contained" onClick={initQuery}>

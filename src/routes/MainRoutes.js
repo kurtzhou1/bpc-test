@@ -50,7 +50,6 @@ const RequireAuth = ({ children }) => {
     const { isLogin } = useSelector((state) => state.dropdown);
     const dispatch = useDispatch();
     // const getAccessToken = localStorage.getItem('accessToken');
-    console.log('isLogin=>>', isLogin)
     // if ( !getAccessToken ) {
     //     return <Navigate to="/login" replace />;
     // } else {
@@ -73,6 +72,7 @@ const RequireAuth = ({ children }) => {
     //     })
     //     return children;
     // }
+    console.log('isLogin=>>', isLogin || !window.location.host.includes('localhost'))
     if (isLogin || !window.location.host.includes('localhost')) {
         return children;
     } else {

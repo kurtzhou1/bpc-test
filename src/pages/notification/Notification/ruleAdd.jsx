@@ -25,7 +25,7 @@ import DialogActions from '@mui/material/DialogActions';
 import { BootstrapDialogTitle } from 'components/commonFunction';
 
 // api
-import { addBillNotifyRule, addSysInvNotifyRule } from 'components/apis.jsx';
+import { addBillNotifyRule, addSysInvNotifyRule, updateSysInvNotifyRule } from 'components/apis.jsx';
 
 // redux
 import { useDispatch } from 'react-redux';
@@ -53,7 +53,7 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
     }
 }));
 
-const RuleAdd = ({
+const   RuleAdd = ({
     isDialogOpen,
     handleAddRuleClose,
     value,
@@ -61,7 +61,7 @@ const RuleAdd = ({
     submarineCableList,
     editData,
     action,
-    apiQuery
+    initQuery
 }) => {
     const dispatch = useDispatch();
     const [ruleName, setRuleName] = useState('');
@@ -110,8 +110,11 @@ const RuleAdd = ({
             isSMS: false
         });
         setSysInvNotifyRecipients([]);
+        setRecipientName('');
         setRecipientNameEdit('');
+        setEmail('');
         setEmailEdit('');
+        setMobile('');
         setMobileEdit('');
         setEditNumber(-1);
     };
@@ -154,7 +157,6 @@ const RuleAdd = ({
 
     const addList = (v) => {
         const emailRule = /^([a-zA-Z0-9_\.\-\+])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
-        console.log(v);
         if(emailRule.test(v)) {
             setEmailList(emailList=> [...emailList, v]);
             setEmailText('');
@@ -190,32 +192,66 @@ const RuleAdd = ({
                     .catch((e) => console.log('e1=>', e));
             }
         } else if (value === 1) {
-            let tmpListInfo = sysInvNotifyRecipients;
-            console.log('tmpListInfo=>>', tmpListInfo);
-            let tmpArray = {
-                SysInvNotifyRule:{
-                    RuleName: ruleName,
-                    RuleCName: ruleCName,
-                    SubmarineCable: submarineCable,
-                    WorkTitle: workTitle,
-                    Days1BeforeDue: Number(days1BeforeDue),
-                    Days2BeforeDue: Number(days2BeforeDue),
-                    DaysAfterDue: Number(daysAfterDue),
-                    Email: sendType.isEmail ? true : false,
-                    Web: sendType.isWeb ? true : false,
-                    NotifyTarget: notifyTarget,
-                    SMS: sendType.isSMS ? true : false
-                },
-                SysInvNotifyRecipients:tmpListInfo
+            if (action === 'Add') {
+                let tmpListInfo = sysInvNotifyRecipients;
+                let tmpArray = {
+                    SysInvNotifyRule:{
+                        RuleName: ruleName,
+                        RuleCName: ruleCName,
+                        SubmarineCable: submarineCable,
+                        WorkTitle: workTitle,
+                        Days1BeforeDue: Number(days1BeforeDue),
+                        Days2BeforeDue: Number(days2BeforeDue),
+                        DaysAfterDue: Number(daysAfterDue),
+                        Email: sendType.isEmail ? true : false,
+                        Web: sendType.isWeb ? true : false,
+                        NotifyTarget: notifyTarget,
+                        SMS: sendType.isSMS ? true : false
+                    },
+                    SysInvNotifyRecipients:tmpListInfo
+                }
+                console.log('Add_tmpArray=>>', tmpArray)
+                fetch(addSysInvNotifyRule, { method: 'POST', body: JSON.stringify(tmpArray) })
+                    .then((res) => res.json())
+                    .then(() => {
+                        dispatch(setMessageStateOpen({ messageStateOpen: { isOpen: true, severity: 'success', message: '新增規則成功' } }));
+                        handleAddRuleClose();
+                        formInitial();
+                        initQuery();
+                    })
+                    .catch((e) => console.log('e1=>', e));
+            } else if (action === 'Edit'){
+                let tmpListInfo = sysInvNotifyRecipients;
+                let tmpArray = {
+                    SysInvNotifyRule:{
+                        RuleID: editData.SysInvNotifyRule.RuleID,
+                        RuleName: ruleName,
+                        RuleCName: ruleCName,
+                        SubmarineCable: submarineCable,
+                        WorkTitle: workTitle,
+                        Days1BeforeDue: Number(days1BeforeDue),
+                        Days2BeforeDue: Number(days2BeforeDue),
+                        DaysAfterDue: Number(daysAfterDue),
+                        Email: sendType.isEmail ? true : false,
+                        Web: sendType.isWeb ? true : false,
+                        NotifyTarget: notifyTarget,
+                        SMS: sendType.isSMS ? true : false
+                    },
+                    SysInvNotifyRecipients:tmpListInfo
+                }
+                console.log('Edit=>>', editData);
+                console.log('Edit_tmpArray=>>', tmpArray);
+                fetch(updateSysInvNotifyRule, { method: 'POST', body: JSON.stringify(tmpArray) })
+                    .then((res) => res.json())
+                    .then(() => {
+                        dispatch(setMessageStateOpen({ messageStateOpen: { isOpen: true, severity: 'success', message: '編輯規則成功' } }));
+                        handleAddRuleClose();
+                        formInitial();
+                        initQuery();
+                    })
+                    .catch((e) => console.log('e1=>', e));
             }
-            fetch(addSysInvNotifyRule, { method: 'POST', body: JSON.stringify(tmpArray) })
-            .then((res) => res.json())
-            .then(() => {
-                dispatch(setMessageStateOpen({ messageStateOpen: { isOpen: true, severity: 'success', message: '新增規則成功' } }));
-                handleAddRuleClose();
-                formInitial();
-            })
-            .catch((e) => console.log('e1=>', e));
+    
         }
     }
 
@@ -243,7 +279,6 @@ const RuleAdd = ({
     }
 
     const editInfoList = (info, id) => {
-        console.log('info, id=>>', info, id);
         setEditNumber(id);
         setRecipientNameEdit(info.RecipientName);
         setEmailEdit(info.Email);
@@ -274,7 +309,6 @@ const RuleAdd = ({
 
     useEffect(() => {
         if(action !== 'Add' && isDialogOpen && value === 1) {
-            console.log('editData=>>', editData);
             setRuleName(editData.SysInvNotifyRule.RuleName);
             setRuleCName(editData.SysInvNotifyRule.RuleCName);
             setWorkTitle(editData.SysInvNotifyRule.WorkTitle);
@@ -643,7 +677,6 @@ const RuleAdd = ({
                                         </TableRow>
                                         ) : ''}
                                         {sysInvNotifyRecipients?.map((row, id) => {
-                                            console.log(id, editNumber)
                                             return (
                                                 <TableRow
                                                     // key={row.InvoiceWKMaster?.invoiceNo + row.InvoiceWKMaster?.supplierName + id}

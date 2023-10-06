@@ -17,10 +17,7 @@ import {
     billMilestoneLiabilityList,
     submarineCableLiabilityList,
     partiesLiabilityList,
-    workTitleLiabilityList,
-    queryLiability,
-    compareLiability,
-    updateLiability
+    getSysInvNotifyRule
 } from 'components/apis.jsx';
 
 const fakeData = [
@@ -84,6 +81,19 @@ const Information = () => {
         setValue(newValue);
     };
 
+    const initQuery = () => {
+        let tmpArray = {};
+        if (value === 1 || value === '1'){
+            fetch(getSysInvNotifyRule, { method: 'POST', body: JSON.stringify(tmpArray) })
+            .then((res) => res.json())
+            .then((data) => {
+                console.log('initQuery=>>', data);
+                setListInfo(data);
+            })
+            .catch((e) => console.log('e1=>', e));
+        }
+    }
+
     useEffect(() => {
         fetch(billMilestoneLiabilityList, { method: 'GET' })
             .then((res) => res.json())
@@ -104,6 +114,10 @@ const Information = () => {
             })
             .catch((e) => console.log('e1=>', e));
     }, []);
+
+    useEffect(() => {
+        initQuery();
+    }, [value])
 
     return (
         <Grid container spacing={1}>
@@ -142,7 +156,7 @@ const Information = () => {
                         <MemberBillDataList listInfo={listInfo}  />
                     </TabPanel>
                     <TabPanel value={value} index={1}>
-                        <InvoiceNotificationDataList listInfo={listInfo} partiesList={partiesList} submarineCableList={submarineCableList} />
+                        <InvoiceNotificationDataList listInfo={listInfo} partiesList={partiesList} submarineCableList={submarineCableList} initQuery={initQuery} />
                     </TabPanel>
                     <TabPanel value={value} index={2}>
                         <BillNotificationDataList listInfo={listInfo} />
