@@ -20,6 +20,7 @@ import { setMessageStateOpen } from 'store/reducers/dropdown';
 
 // redux
 import { setLoginInInfo, setIsLogin } from 'store/reducers/dropdown';
+import dayjs from 'dayjs';
 
 // ==============================|| MAIN LAYOUT ||============================== //
 
@@ -106,12 +107,12 @@ const MainLayout = () => {
                             Email: jwt_decode(data.access_token).email, 
                             Name: jwt_decode(data.access_token).name
                         }}));
-                        localStorage.setItem('refreshToken',data.refreshToken);
-                        dispatch(setIsLogin({ isLogin: true }));
+                        localStorage.setItem('expireTime',dayjs().add(31, 'minute'));
                     }
                 })
                 .catch((e) => console.log('e1=>', e));
         }
+        // localStorage.setItem('expireTime',dayjs().add(31, 'minute'));
     }, []);
 
     useEffect(() => {

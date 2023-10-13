@@ -132,6 +132,7 @@ const Information = () => {
                     partiesList={partiesList}
                     submarineCableList={submarineCableList}
                     action={'Add'}
+                    initQuery={initQuery}
                 />
             </Grid>
             <Grid item xs={12}>

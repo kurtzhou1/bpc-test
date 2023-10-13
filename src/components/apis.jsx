@@ -106,6 +106,7 @@ export const addBillNotifyRule = 'http://internal-cbpsAlb-1176080923.ap-northeas
 export const addSysInvNotifyRule = 'http://internal-cbpsAlb-1176080923.ap-northeast-1.elb.amazonaws.com/api/v1/Notification/InvoiceWKMaster/addSysInvNotifyRule&SysInvNotifyRecipients';
 export const getSysInvNotifyRule = 'http://internal-cbpsAlb-1176080923.ap-northeast-1.elb.amazonaws.com/api/v1/Notification/InvoiceWKMaster/getSysInvNotifyRule&SysInvNotifyRecipients';
 export const updateSysInvNotifyRule = 'http://internal-cbpsAlb-1176080923.ap-northeast-1.elb.amazonaws.com/api/v1/Notification/InvoiceWKMaster/updateSysInvNotifyRule&SysInvNotifyRecipients';
+export const deleteSysInvNotifyRule = 'http://internal-cbpsAlb-1176080923.ap-northeast-1.elb.amazonaws.com/api/v1/Notification/InvoiceWKMaster/deleteSysInvNotifyRule';
 
 // GET
 export const supplierNameListForInvoice = 'http://internal-cbpsalb-1176080923.ap-northeast-1.elb.amazonaws.com/api/v1/Suppliers/'; //供應商

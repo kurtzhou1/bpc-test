@@ -13,6 +13,7 @@ import { ssoUrl, checktoken } from 'components/apis.jsx';
 import { ConstructionOutlined } from '../../node_modules/@mui/icons-material/index';
 import { useDispatch } from 'react-redux';
 import { setIsLogin, setUserInfo } from 'store/reducers/dropdown';
+import dayjs from 'dayjs';
 // render - dashboard
 const DashboardDefault = Loadable(lazy(() => import('pages/dashboard')));
 // 發票工作管理
@@ -47,9 +48,8 @@ const Notification = Loadable(lazy(() => import('pages/notification/Notification
 // ==============================|| MAIN ROUTING ||============================== //
 
 const RequireAuth = ({ children }) => {
-    const { isLogin } = useSelector((state) => state.dropdown);
     const dispatch = useDispatch();
-    // const getAccessToken = localStorage.getItem('accessToken');
+    const getAccessToken = localStorage.getItem('expireTime');
     // if ( !getAccessToken ) {
     //     return <Navigate to="/login" replace />;
     // } else {
@@ -72,8 +72,9 @@ const RequireAuth = ({ children }) => {
     //     })
     //     return children;
     // }
-    console.log('isLogin=>>', isLogin || !window.location.host.includes('localhost'))
-    if (isLogin || !window.location.host.includes('localhost')) {
+    console.log(window.location.host.includes('localhost'), '???=>>>', dayjs(getAccessToken).diff(new Date(), 'minute'),dayjs(getAccessToken).diff(new Date(), 'minute') > 0);
+    
+    if (window.location.host.includes('localhost') || dayjs(getAccessToken).diff(new Date(), 'minute') > 0) {
         return children;
     } else {
         return window.location.replace(ssoUrl);

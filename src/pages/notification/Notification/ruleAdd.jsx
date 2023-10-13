@@ -30,9 +30,6 @@ import { addBillNotifyRule, addSysInvNotifyRule, updateSysInvNotifyRule } from '
 // redux
 import { useDispatch } from 'react-redux';
 import { setMessageStateOpen } from 'store/reducers/dropdown';
-import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import { DesktopDatePicker } from '@mui/x-date-pickers/DesktopDatePicker';
-import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 
 import { TableBody, TableHead, TableContainer, TableRow } from '@mui/material';
 import TableCell, { tableCellClasses } from '@mui/material/TableCell';
@@ -239,8 +236,6 @@ const   RuleAdd = ({
                     },
                     SysInvNotifyRecipients:tmpListInfo
                 }
-                console.log('Edit=>>', editData);
-                console.log('Edit_tmpArray=>>', tmpArray);
                 fetch(updateSysInvNotifyRule, { method: 'POST', body: JSON.stringify(tmpArray) })
                     .then((res) => res.json())
                     .then(() => {

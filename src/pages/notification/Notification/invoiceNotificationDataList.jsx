@@ -15,12 +15,17 @@ import { styled } from '@mui/material/styles';
 import dayjs from 'dayjs';
 import { useRef, useState } from 'react';
 
-import { getSysInvNotifyRule } from 'components/apis.jsx';
+// redux
+import { useDispatch } from 'react-redux';
+import { setMessageStateOpen } from 'store/reducers/dropdown';
+
+import { deleteSysInvNotifyRule } from 'components/apis.jsx';
 
 const InvoiceNotificationDataList = ({ listInfo, partiesList, submarineCableList, initQuery }) => {
     const [isDialogOpen, setIsDialogOpen] = useState(false);
     const [editData, setEditData] = useState({})
     const actionName = useRef('');
+    const dispatch = useDispatch();
 
     const StyledTableCell = styled(TableCell)(({ theme }) => ({
         [`&.${tableCellClasses.head}`]: {
@@ -59,6 +64,20 @@ const InvoiceNotificationDataList = ({ listInfo, partiesList, submarineCableList
         actionName.current = 'Edit';
         setIsDialogOpen(true);
         setEditData(row);
+    }
+
+    const handleDelete = (id) => {
+        console.log('id=>>', id);
+        let tmpArray = {
+            RuleID: id
+        }
+        fetch(deleteSysInvNotifyRule, { method: 'POST', body: JSON.stringify(tmpArray) })
+        .then((res) => res.json())
+        .then(() => {
+            dispatch(setMessageStateOpen({ messageStateOpen: { isOpen: true, severity: 'success', message: '刪除成功' } }));
+            initQuery();
+        })
+        .catch((e) => console.log('e1=>', e));
     }
 
     return (
@@ -140,6 +159,7 @@ const InvoiceNotificationDataList = ({ listInfo, partiesList, submarineCableList
                                             <Button
                                                 color="error"
                                                 variant="outlined"
+                                                onClick={() => handleDelete(row.SysInvNotifyRule.RuleID)}
                                             >
                                                     刪除
                                             </Button>
