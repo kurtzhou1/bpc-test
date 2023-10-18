@@ -1,4 +1,4 @@
-import { useState, useRef } from 'react';
+import { useState, useEffect } from 'react';
 import { Grid, Box, Tabs, Tab } from '@mui/material';
 // import { styled } from '@mui/material/styles';
 
@@ -8,10 +8,15 @@ import MainCard from 'components/MainCard';
 import ToWriteOffDataList from './toWriteOffDataList';
 import WriteOffedDataList from './writeOffedDataList';
 import WriteOffQuery from './writeOffQuery';
+import { useDispatch } from 'react-redux';
+import { setMessageStateOpen } from 'store/reducers/dropdown';
+
+// api
+import { queryToDecutBill } from 'components/apis';
 
 const WriteOffInvoice = () => {
     const [value, setValue] = useState(0);
-    const queryApi = useRef('/Status=TO_WRITEOFF');
+    const dispatch = useDispatch();
     const handleChange = (event, newValue) => {
         setValue(newValue);
     };
@@ -24,21 +29,32 @@ const WriteOffInvoice = () => {
     };
 
     const [listInfo, setListInfo] = useState([]);
-    const writeOffQuery = () => {
-        fetch(queryApi.current, { method: 'GET' })
+    const writeOffInitQuery = () => {
+        let tmpQuery = queryToDecutBill + (value === 0 ? '/Status=TO_WRITEOFF' : '/Status=COMPLETE');
+        fetch(tmpQuery, { method: 'GET' })
             .then((res) => res.json())
             .then((data) => {
-                setListInfo(data);
+                console.log('456=>>', data);
+                if (Array.isArray(data)) {
+                    setListInfo(data);
+                } else {
+                    setListInfo([]);
+                    dispatch(setMessageStateOpen({ messageStateOpen: { isOpen: true, severity: 'error', message: '查無資料' } }));
+                }
             })
             .catch((e) => {
                 console.log('e1=>', e);
             });
     };
 
+    useEffect(() => {
+        writeOffInitQuery();
+    }, [value]);
+
     return (
         <Grid container spacing={1}>
             <Grid item xs={12}>
-                <WriteOffQuery setListInfo={setListInfo} queryApi={queryApi} value={value} />
+                <WriteOffQuery setListInfo={setListInfo} value={value} />
             </Grid>
             <Grid item xs={12}>
                 <MainCard title={`${value === 0 ? '待銷帳' : '已銷帳'}帳單資料列表`}>
@@ -49,12 +65,10 @@ const WriteOffInvoice = () => {
                         </Tabs>
                     </Box>
                     <TabPanel value={value} index={0}>
-                        {/* <ToWriteOffDataList listInfo={listInfo} writeOffQuery={writeOffQuery} /> */}
-                        <ToWriteOffDataList listInfo={listInfo} writeOffQuery={writeOffQuery} />
+                        <ToWriteOffDataList listInfo={listInfo} writeOffInitQuery={writeOffInitQuery} />
                     </TabPanel>
                     <TabPanel value={value} index={1}>
                         <WriteOffedDataList listInfo={listInfo} />
-                        {/* <WriteOffedDataList listInfo={fakeData} /> */}
                     </TabPanel>
                 </MainCard>
             </Grid>

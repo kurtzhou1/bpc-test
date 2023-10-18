@@ -3,55 +3,66 @@ import { Typography, Grid, Button, FormControl, InputLabel, Select, MenuItem, Te
 
 // project import
 import MainCard from 'components/MainCard';
+import { useDispatch } from 'react-redux';
+import { setMessageStateOpen } from 'store/reducers/dropdown';
 
 // api
-import { queryToDecutBill, getPartiesInfoList, submarineCableInfoList } from 'components/apis';
+import { queryToDecutBill, getPartiesInfoList, submarineCableInfoList, getWriteOffDetail } from 'components/apis';
+
 
 // ==============================|| SAMPLE PAGE ||============================== //
 
-const WriteOffQuery = ({ setListInfo, queryApi, value }) => {
+const WriteOffQuery = ({ setListInfo, value }) => {
     const [workTitle, setWorkTitle] = useState(''); //海纜作業
     const [partyName, setPartyName] = useState(''); //會員名稱
     const [submarineCable, setSubmarineCable] = useState(''); //海纜名稱
     const [submarineCableList, setSubmarineCableList] = useState([]); //海纜名稱下拉選單
     const [partiesList, setPartiesList] = useState([]); //會員下拉選單
     const [billingNo, setBillingNo] = useState(''); //帳單號碼
+    const dispatch = useDispatch();
 
     const initQuery = () => {
         setWorkTitle('');
         setPartyName('');
         setSubmarineCable('');
+        setBillingNo('');
     };
 
     const writeOffQuery = () => {
-        let tmpQuery = value === 0 ? '/Status=TO_WRITEOFF' : '/Status=COMPLETE';
+        let tmpObject = {};     
+        tmpObject.Status = value === 0 ? 'TO_WRITEOFF' : 'COMPLETE';
         if (workTitle && workTitle !== '') {
-            tmpQuery = tmpQuery + '&WorkTitle=' + workTitle;
+            // tmpQuery = tmpQuery + '&WorkTitle=' + workTitle;
+            tmpObject.WorkTitle = workTitle;
         }
         if (partyName && partyName !== '') {
-            tmpQuery = tmpQuery + '&PartyName=' + partyName;
+            // tmpQuery = tmpQuery + '&PartyName=' + partyName;
+            tmpObject.PartyName = partyName;
         }
         if (submarineCable && submarineCable !== '') {
-            tmpQuery = tmpQuery + '&SubmarineCable=' + submarineCable;
+            // tmpQuery = tmpQuery + '&SubmarineCable=' + submarineCable;
+            tmpObject.SubmarineCable = submarineCable;
         }
         if (billingNo && billingNo !== '') {
-            tmpQuery = tmpQuery + '&BillingNo=' + billingNo;
+            // tmpQuery = tmpQuery + '&BillingNo=' + billingNo;
+            tmpObject.BillingNo = billingNo;
         }
-        tmpQuery = queryToDecutBill + tmpQuery;
-        queryApi.current = tmpQuery;
-        console.log('tmpQuery=>>', tmpQuery);
-        fetch(tmpQuery, { method: 'GET' })
+        console.log('tmpQuery=>>', tmpObject);
+        fetch(getWriteOffDetail, { method: 'POST', body: JSON.stringify(tmpObject) })
             .then((res) => res.json())
             .then((data) => {
-                setListInfo(data);
+                if (Array.isArray(data)) {
+                    setListInfo(data);
+                } else {
+                    setListInfo([]);
+                    dispatch(setMessageStateOpen({ messageStateOpen: { isOpen: true, severity: 'error', message: '查無資料' } }));
+                }
             })
-            .catch((e) => {
-                console.log('e1=>', e);
-            });
+            .catch((e) => console.log('e1=>', e));
     };
 
     useEffect(() => {
-        writeOffQuery();
+        initQuery();
     }, [value]);
 
     useEffect(() => {

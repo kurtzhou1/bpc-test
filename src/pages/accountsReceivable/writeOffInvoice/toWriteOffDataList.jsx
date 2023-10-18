@@ -3,6 +3,8 @@ import { useState, useRef } from 'react';
 // project import
 import WriteOffWork from './writeOffWork';
 import { handleNumber } from 'components/commonFunction';
+import { useDispatch } from 'react-redux';
+import { setMessageStateOpen } from 'store/reducers/dropdown';
 
 // material-ui
 import { Button, Table, Box } from '@mui/material';
@@ -14,6 +16,9 @@ import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import { styled } from '@mui/material/styles';
 import dayjs from 'dayjs';
+
+// api
+import { getWriteOffDetail, submitWriteOff, completeWriteOff } from 'components/apis';
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
     [`&.${tableCellClasses.head}`]: {
@@ -30,12 +35,13 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
     }
 }));
 
-const ToWriteOffDataList = ({ listInfo, writeOffQuery }) => {
-    const [isDialogOpen, setIsDialogOpen] = useState(false); //折抵作業
+const ToWriteOffDataList = ({ listInfo, writeOffInitQuery }) => {
+    const [isDialogOpen, setIsDialogOpen] = useState(true); //折抵作業
     const writeOffInfo = useRef({});
     // const writeOffDetail = useRef([]);
     const [writeOffDetail, setWriteOffDetail] = useState([]);
     let tmpBMArray = [];
+    const dispatch = useDispatch();
 
     const handleDialogClose = () => {
         writeOffInfo.current = {};
@@ -50,6 +56,50 @@ const ToWriteOffDataList = ({ listInfo, writeOffQuery }) => {
         setIsDialogOpen(true);
     };
 
+    const handleWriteOff = (id) => {
+        let tmpQuery = getWriteOffDetail + '/BillMasterID=' + id;
+        fetch(tmpQuery, { method: 'GET' })
+            .then((res) => res.json())
+            .then((data) => {
+                console.log('銷帳作業=>>', data);
+                if (Array.isArray(data)) {
+                    setWriteOffDetail(data);
+                    setIsDialogOpen(true);
+                }
+            })
+            .catch((e) => {
+                console.log('e1=>', e);
+            });
+    };
+
+    const sendWriteOffWork = (info) => {
+        let tmpArray = {};
+        tmpArray = {
+            BillMaster: info.BillMaster
+        };
+        console.log('tmpArray=>>', tmpArray);
+        fetch(submitWriteOff, { method: 'POST', body: JSON.stringify(tmpArray) })
+        .then((res) => res.json())
+        .then(() => {
+            dispatch(setMessageStateOpen({ messageStateOpen: { isOpen: true, severity: 'success', message: '銷帳紀錄送出成功' } }));
+            writeOffInitQuery();
+        })
+        .catch((e) => console.log('e1=>', e));
+    };
+
+    const handleFinish = (id) => {
+        let tmpQuery = completeWriteOff + '/BillMasterID=' + id;
+        fetch(tmpQuery, { method: 'GET' })
+            .then((res) => res.json())
+            .then(() => {
+                 dispatch(setMessageStateOpen({ messageStateOpen: { isOpen: true, severity: 'success', message: '完成銷帳成功' } }));
+                 writeOffInitQuery();
+            })
+            .catch((e) => {
+                console.log('e1=>', e);
+            });
+    }
+
     return (
         <>
             <WriteOffWork
@@ -57,7 +107,7 @@ const ToWriteOffDataList = ({ listInfo, writeOffQuery }) => {
                 handleDialogClose={handleDialogClose}
                 writeOffInfo={writeOffInfo.current}
                 writeOffDetail={writeOffDetail}
-                writeOffQuery={writeOffQuery}
+                writeOffInitQuery={writeOffInitQuery}
                 action="writeOff"
             />
             <TableContainer component={Paper} sx={{ maxHeight: 350 }}>
@@ -108,10 +158,32 @@ const ToWriteOffDataList = ({ listInfo, writeOffQuery }) => {
                                                 size="small"
                                                 variant="outlined"
                                                 onClick={() => {
-                                                    handleDialogOpen(row);
+                                                    handleWriteOff(row.BillMaster.BillMasterID);
+                                                    // handleDialogOpen(row);
                                                 }}
                                             >
                                                 銷帳作業
+                                            </Button>
+                                            <Button
+                                                color="success"
+                                                size="small"
+                                                variant="outlined"
+                                                onClick={() => {
+                                                    sendWriteOffWork(row);
+                                                }}
+                                            >
+                                                銷帳紀錄送出
+                                            </Button>
+                                            <Button
+                                                color="primary"
+                                                size="small"
+                                                variant="outlined"
+                                                onClick={() => {
+                                                    handleFinish(row.BillMaster.BillMasterID);
+                                                    // handleDialogOpen(row);
+                                                }}
+                                            >
+                                                完成銷帳
                                             </Button>
                                         </Box>
                                     </StyledTableCell>

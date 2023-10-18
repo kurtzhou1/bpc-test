@@ -60,22 +60,22 @@ const InvoiceQuery = ({ setListInfo, queryApi, submarineCableList, bmsList, setA
 
     const invoiceQuery = () => {
         // let tmpQuery = '/';
-        let tmpArray = {};
+        let tmpObject = {};
         if (supplierNameQuery && supplierNameQuery !== '') {
             // tmpQuery = tmpQuery + 'SupplierName=' + supplierNameQuery + '&';
-            tmpArray.SupplierName = supplierNameQuery;
+            tmpObject.SupplierName = supplierNameQuery;
         }
         if (submarineCableQuery && submarineCableQuery !== '') {
             // tmpQuery = tmpQuery + 'SubmarineCable=' + submarineCableQuery + '&';
-            tmpArray.SubmarineCable = submarineCableQuery;
+            tmpObject.SubmarineCable = submarineCableQuery;
         }
         if (invoiceNoQuery && invoiceNoQuery !== '') {
             // tmpQuery = tmpQuery + 'InvoiceNo=' + invoiceNoQuery + '&';
-            tmpArray.InvoiceNo = invoiceNoQuery;
+            tmpObject.InvoiceNo = invoiceNoQuery;
         }
         if (billMilestoneQuery && billMilestoneQuery !== '') {
             // tmpQuery = tmpQuery + 'BillMilestone=' + billMilestoneQuery + '&';
-            tmpArray.BillMilestone = billMilestoneQuery;
+            tmpObject.BillMilestone = billMilestoneQuery;
         }
         if (isIssueDate === 'true') {
             // tmpQuery =
@@ -86,7 +86,7 @@ const InvoiceQuery = ({ setListInfo, queryApi, submarineCableList, bmsList, setA
             //     'endIssueDate=' +
             //     dayjs(issueDate[1]).format('YYYYMMDD') +
             //     '&';
-            tmpArray.IssueDate = {
+            tmpObject.IssueDate = {
                 start: dayjs(issueDate[0]).format('YYYYMMDD'),
                 end: dayjs(issueDate[1]).format('YYYYMMDD')
             }
@@ -100,7 +100,7 @@ const InvoiceQuery = ({ setListInfo, queryApi, submarineCableList, bmsList, setA
             //     'endDueDate=' +
             //     dayjs(issueDate[1]).format('YYYYMMDD') +
             //     '&';
-            tmpArray.DueDate = {
+            tmpObject.DueDate = {
                 start: dayjs(issueDate[0]).format('YYYYMMDD'),
                 end: dayjs(issueDate[1]).format('YYYYMMDD')
             }
@@ -146,7 +146,7 @@ const InvoiceQuery = ({ setListInfo, queryApi, submarineCableList, bmsList, setA
                 // tmpStatus = tmpStatus + 'Status=INVALID&';
                 tmpStatus.push("INVALID");
             }
-            tmpArray.Status = tmpStatus;
+            tmpObject.Status = tmpStatus;
         }
         // if (tmpQuery.includes('&')) {
         //     tmpQuery = tmpQuery.slice(0, -1);
@@ -154,9 +154,9 @@ const InvoiceQuery = ({ setListInfo, queryApi, submarineCableList, bmsList, setA
         //     tmpQuery = tmpQuery + 'all';
         // }
         // tmpQuery = queryInvoice + tmpQuery;
-        queryApi.current = tmpArray;
-        console.log('tmpQuery=>>', tmpArray);
-        fetch(queryInvoice, { method: 'POST', body: JSON.stringify(tmpArray) })
+        queryApi.current = tmpObject;
+        console.log('tmpQuery=>>', tmpObject);
+        fetch(queryInvoice, { method: 'POST', body: JSON.stringify(tmpObject) })
             .then((res) => res.json())
             .then((data) => {
                 setPage(0);

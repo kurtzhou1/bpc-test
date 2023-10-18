@@ -62,9 +62,7 @@ const IsSendDataList = ({ dataList, receivableQuery }) => {
     const handleDownload = (billMasterID, url) => {
         let tmpApi = downBM + '/' + billMasterID;
         const tmpArray = url.split('/');
-        fetch(tmpApi, {
-            method: 'GET'
-        })
+        fetch(tmpApi, { method: 'GET' })
             .then((res) => {
                 return res.blob();
             })

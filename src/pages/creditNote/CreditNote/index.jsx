@@ -75,7 +75,7 @@ const CreditNote = () => {
         }
     ];
 
-    const [listInfo, setListInfo] = useState(fakeData);
+    const [listInfo, setListInfo] = useState([]);
     const [isDialogOpen, setIsDialogOpen] = useState(false);
     const [dialogAction, setDialogAction] = useState('');
 
@@ -163,24 +163,6 @@ const CreditNote = () => {
 
     return (
         <Grid container spacing={1}>
-            {/* <Grid item xs={12} display="flex" justifyContent="right">
-                <Button sx={{ mr: '0.25rem' }} variant="contained" onClick={handleDialogOpen}>
-                    + 新增Credit Balance
-                </Button>
-                <CreditNoteAdd
-                    handleDialogClose={handleDialogClose}
-                    addLiability={addLiability}
-                    saveEdit={saveEdit}
-                    partyName={partyName}
-                    setPartyName={setPartyName}
-                    isDialogOpen={isDialogOpen}
-                    billMilestone={billMilestone}
-                    setBillMilestone={setBillMilestone}
-                    dialogAction={dialogAction}
-                    lBRatio={lBRatio}
-                    setLBRatio={setLBRatio}
-                />
-            </Grid> */}
             <Grid item xs={12}>
                 <CreditNoteQuery creditNoteQuery={creditNoteQuery} />
             </Grid>

@@ -90,7 +90,7 @@ const MainLayout = () => {
                 grant_type: 'authorization_code'
             }
             const searchParams = new URLSearchParams(tmpArray);
-            console.log('searchParams=>>', accessCode);
+            console.log('searchParams2=>>', accessCode);
             fetch(tmpTest, { 
                 method: 'POST', 
                 body: searchParams, 

@@ -58,10 +58,10 @@ const GenerateBack = ({ action, infoBack, handleBackClose, receivableQuery, edit
 
     const backBill = () => {
         const queryApi = action === 'toDeduct' ? beforeDuction : afterDeduction;
-        let tmpArray = {
+        let tmpObject = {
             BillMasterID: editBillMasterID
         };
-        fetch(queryApi, { method: 'POST', body: JSON.stringify(tmpArray) })
+        fetch(queryApi, { method: 'POST', body: JSON.stringify(tmpObject) })
             .then((res) => res.json())
             .then(() => {
                 dispatch(setMessageStateOpen({ messageStateOpen: { isOpen: true, severity: 'success', message: '新增提醒成功' } }));
