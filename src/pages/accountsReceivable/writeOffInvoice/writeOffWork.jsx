@@ -75,10 +75,9 @@ const WriteOffWork = ({ isDialogOpen, handleDialogClose, writeOffInfo, writeOffD
                 let tmpBRAmount = Number(i.ReceiveAmount.toString().replaceAll(',', '')) + Number(bankFee.toString().replaceAll(',', ''));
                 i.BankFee = bankFee;
                 i.BRAmount = tmpBRAmount;
-                i.OverAmount = (tmpBRAmount + Number(i.ReceivedAmount.toString().replaceAll(',', ''))) - Number(i.FeeAmount.toString().replaceAll(',', ''))
+                i.OverAmount = (i.ReceiveAmount + Number(i.ReceivedAmount.toString().replaceAll(',', ''))) - Number(i.FeeAmount.toString().replaceAll(',', ''))
                     <= 0 ? 0 : 
-                (tmpBRAmount + Number(i.ReceivedAmount.toString().replaceAll(',', ''))) - Number(i.FeeAmount.toString().replaceAll(',', ''));
-                console.log('???=>>', Number(i.FeeAmount.toString().replaceAll(',', '')) -  Number(i.ReceivedAmount.toString().replaceAll(',', '')) -  Number(i.BankFees.toString().replaceAll(',', '')) - tmpBRAmount)
+                (i.ReceiveAmount + Number(i.ReceivedAmount.toString().replaceAll(',', ''))) - Number(i.FeeAmount.toString().replaceAll(',', ''));
                 i.ShortAmount = Number(i.FeeAmount.toString().replaceAll(',', '')) -  Number(i.ReceivedAmount.toString().replaceAll(',', '')) -  Number(i.BankFees.toString().replaceAll(',', '')) - tmpBRAmount
                     <= 0 ? 0 :
                 Number(i.FeeAmount.toString().replaceAll(',', '')) -  Number(i.ReceivedAmount.toString().replaceAll(',', '')) -  Number(i.BankFees.toString().replaceAll(',', '')) - tmpBRAmount;
@@ -97,9 +96,9 @@ const WriteOffWork = ({ isDialogOpen, handleDialogClose, writeOffInfo, writeOffD
                 let tmpBRAmount = Number(i.BankFee.toString().replaceAll(',', '')) + Number(receiveAmount.toString().replaceAll(',', ''));
                 i.ReceiveAmount = receiveAmount;
                 i.BRAmount = tmpBRAmount;
-                i.OverAmount = (tmpBRAmount + Number(i.ReceivedAmount.toString().replaceAll(',', ''))) - Number(i.FeeAmount.toString().replaceAll(',', '')) 
+                i.OverAmount = (receiveAmount + Number(i.ReceivedAmount.toString().replaceAll(',', ''))) - Number(i.FeeAmount.toString().replaceAll(',', '')) 
                     <= 0 ? 0 : 
-                (tmpBRAmount + Number(i.ReceivedAmount.toString().replaceAll(',', ''))) - Number(i.FeeAmount.toString().replaceAll(',', ''));
+                (receiveAmount + Number(i.ReceivedAmount.toString().replaceAll(',', ''))) - Number(i.FeeAmount.toString().replaceAll(',', ''));
                 i.ShortAmount = Number(i.FeeAmount.toString().replaceAll(',', '')) -  Number(i.ReceivedAmount.toString().replaceAll(',', '')) -  Number(i.BankFees.toString().replaceAll(',', '')) - tmpBRAmount
                     <= 0 ? 0 :
                 Number(i.FeeAmount.toString().replaceAll(',', '')) -  Number(i.ReceivedAmount.toString().replaceAll(',', '')) -  Number(i.BankFees.toString().replaceAll(',', '')) - tmpBRAmount;
@@ -159,12 +158,16 @@ const WriteOffWork = ({ isDialogOpen, handleDialogClose, writeOffInfo, writeOffD
             // i.BankFees = 0; //累積手續費
             i.BankFee = 0; //本次手續費
             i.BRAmount = 0; //總金額
-            i.OverAmount = 0; //重溢繳
+            // i.ShortAmount = 0; //短繳
+            // i.OverAmount = 0; //重溢繳
             tmpOrgFeeAmountTotal = tmpOrgFeeAmountTotal + i.OrgFeeAmount;
             tmpDedAmountTotal = tmpDedAmountTotal + i.DedAmount;
             tmpFeeAmountTotal = tmpFeeAmountTotal + i.FeeAmount;
             tmpReceivedAmountTotal = tmpReceivedAmountTotal + i.ReceivedAmount;
             tmpBankFeesTotal = tmpBankFeesTotal + i.BankFees;
+            i.OverAmount = Number(i.ReceivedAmount.toString().replaceAll(',', '')) - Number(i.FeeAmount.toString().replaceAll(',', '')) 
+                <= 0 ? 0 : 
+            Number(i.ReceivedAmount.toString().replaceAll(',', '')) - Number(i.FeeAmount.toString().replaceAll(',', ''));
             i.ShortAmount = Number(i.FeeAmount.toString().replaceAll(',', '')) -  Number(i.ReceivedAmount.toString().replaceAll(',', '')) -  Number(i.BankFees.toString().replaceAll(',', ''))
                 <= 0 ? 0 :
             Number(i.FeeAmount.toString().replaceAll(',', '')) -  Number(i.ReceivedAmount.toString().replaceAll(',', '')) -  Number(i.BankFees.toString().replaceAll(',', ''));
