@@ -55,6 +55,7 @@ export const updateBM = 'http://internal-cbpsalb-1176080923.ap-northeast-1.elb.a
 // 銷帳
 export const sendToWriteOff = 'http://internal-cbpsalb-1176080923.ap-northeast-1.elb.amazonaws.com/api/v1/BillMaster&BillDetail/toWriteOff';
 export const getWriteOffDetail = 'http://internal-cbpsalb-1176080923.ap-northeast-1.elb.amazonaws.com/api/v1/getWriteOffDetail';
+export const getBillMasterBillDetail = 'http://internal-cbpsalb-1176080923.ap-northeast-1.elb.amazonaws.com/api/v1/getBillMaster&BillDetail';
 export const saveWriteOff = 'http://internal-cbpsalb-1176080923.ap-northeast-1.elb.amazonaws.com/api/v1/WriteOffDetail/saveWriteOff';
 export const submitWriteOff = 'http://internal-cbpsalb-1176080923.ap-northeast-1.elb.amazonaws.com/api/v1/BillMaster&BillDetail/submitWriteOff';
 export const completeWriteOff = 'http://internal-cbpsalb-1176080923.ap-northeast-1.elb.amazonaws.com/api/v1/completeWriteOff';

@@ -7,7 +7,7 @@ import { useDispatch } from 'react-redux';
 import { setMessageStateOpen } from 'store/reducers/dropdown';
 
 // api
-import { queryToDecutBill, getPartiesInfoList, submarineCableInfoList, getWriteOffDetail } from 'components/apis';
+import { queryToDecutBill, getPartiesInfoList, submarineCableInfoList, getBillMasterBillDetail } from 'components/apis';
 
 
 // ==============================|| SAMPLE PAGE ||============================== //
@@ -48,7 +48,7 @@ const WriteOffQuery = ({ setListInfo, value }) => {
             tmpObject.BillingNo = billingNo;
         }
         console.log('tmpQuery=>>', tmpObject);
-        fetch(getWriteOffDetail, { method: 'POST', body: JSON.stringify(tmpObject) })
+        fetch(getBillMasterBillDetail, { method: 'POST', body: JSON.stringify(tmpObject) })
             .then((res) => res.json())
             .then((data) => {
                 if (Array.isArray(data)) {
