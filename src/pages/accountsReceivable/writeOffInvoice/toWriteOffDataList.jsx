@@ -36,7 +36,7 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
 }));
 
 const ToWriteOffDataList = ({ listInfo, writeOffInitQuery }) => {
-    const [isDialogOpen, setIsDialogOpen] = useState(true); //折抵作業
+    const [isDialogOpen, setIsDialogOpen] = useState(false); //折抵作業
     const writeOffInfo = useRef({});
     // const writeOffDetail = useRef([]);
     const [writeOffDetail, setWriteOffDetail] = useState([]);
