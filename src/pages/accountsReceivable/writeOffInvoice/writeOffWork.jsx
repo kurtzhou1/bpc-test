@@ -155,7 +155,7 @@ const WriteOffWork = ({ isDialogOpen, handleDialogClose, writeOffInfo, writeOffD
         let tmpBankFeesTotal = 0; //累計手續費
         tmpArray.forEach((i) => {
             i.ReceiveAmount = 0; //本次實收
-            // i.BankFees = 0; //累積手續費
+            i.BankFees = 0; //累積手續費
             i.BankFee = 0; //本次手續費
             i.BRAmount = 0; //總金額
             // i.ShortAmount = 0; //短繳
@@ -347,7 +347,7 @@ const WriteOffWork = ({ isDialogOpen, handleDialogClose, writeOffInfo, writeOffD
                                                                 sx={{ minWidth: 75 }}
                                                                 size="small"
                                                                 fullWidth
-                                                                value={handleNumber(row.BankFee)}
+                                                                value={handleNumber(row.BankFee.toFixed(2))}
                                                                 // type="number"
                                                                 onChange={(e) => changeBankFee(e.target.value, row.BillDetailID)}
                                                             />
@@ -362,7 +362,7 @@ const WriteOffWork = ({ isDialogOpen, handleDialogClose, writeOffInfo, writeOffD
                                                                 // inputProps={{ step: '.01' }}
                                                                 sx={{ minWidth: 75 }}
                                                                 size="small"
-                                                                value={handleNumber(row.ReceiveAmount)}
+                                                                value={handleNumber(row?.ReceiveAmount.toFixed(2))}
                                                                 // type="number"
                                                                 onChange={(e) => {
                                                                     changeReceiveAmount(e.target.value, row.BillDetailID);

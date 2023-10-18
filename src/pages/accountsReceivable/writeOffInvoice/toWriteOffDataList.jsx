@@ -158,8 +158,8 @@ const ToWriteOffDataList = ({ listInfo, writeOffInitQuery }) => {
                                                 size="small"
                                                 variant="outlined"
                                                 onClick={() => {
-                                                    handleWriteOff(row.BillMaster.BillMasterID);
-                                                    // handleDialogOpen(row);
+                                                    // handleWriteOff(row.BillMaster.BillMasterID);
+                                                    handleDialogOpen(row);
                                                 }}
                                             >
                                                 銷帳作業
