@@ -96,9 +96,9 @@ const WriteOffWork = ({ isDialogOpen, handleDialogClose, writeOffInfo, writeOffD
                 let tmpBRAmount = Number(i.BankFee.toString().replaceAll(',', '')) + Number(receiveAmount.toString().replaceAll(',', ''));
                 i.ReceiveAmount = receiveAmount;
                 i.BRAmount = tmpBRAmount;
-                i.OverAmount = (receiveAmount + Number(i.ReceivedAmount.toString().replaceAll(',', ''))) - Number(i.FeeAmount.toString().replaceAll(',', '')) 
+                i.OverAmount = (Number(receiveAmount.toString().replaceAll(',', '')) + Number(i.ReceivedAmount.toString().replaceAll(',', ''))) - Number(i.FeeAmount.toString().replaceAll(',', '')) 
                     <= 0 ? 0 : 
-                (receiveAmount + Number(i.ReceivedAmount.toString().replaceAll(',', ''))) - Number(i.FeeAmount.toString().replaceAll(',', ''));
+                (Number(receiveAmount.toString().replaceAll(',', '')) + Number(i.ReceivedAmount.toString().replaceAll(',', ''))) - Number(i.FeeAmount.toString().replaceAll(',', ''));
                 i.ShortAmount = Number(i.FeeAmount.toString().replaceAll(',', '')) -  Number(i.ReceivedAmount.toString().replaceAll(',', '')) -  Number(i.BankFees.toString().replaceAll(',', '')) - tmpBRAmount
                     <= 0 ? 0 :
                 Number(i.FeeAmount.toString().replaceAll(',', '')) -  Number(i.ReceivedAmount.toString().replaceAll(',', '')) -  Number(i.BankFees.toString().replaceAll(',', '')) - tmpBRAmount;
@@ -136,10 +136,10 @@ const WriteOffWork = ({ isDialogOpen, handleDialogClose, writeOffInfo, writeOffD
                 console.log('status=>>', status);
                 if(status === 'OK'){
                     tmpChangeState = Number(i.ReceiveAmount.toString().replaceAll(',', '')) + Number(i.ShortAmount.toString().replaceAll(',', ''));
-                    i.ReceiveAmount = tmpChangeState;
+                    i.ReceiveAmount = tmpChangeState.toFixed(2);
                     i.ShortAmount = Number(i.FeeAmount.toString().replaceAll(',', '')) - Number(i.ReceivedAmount.toString().replaceAll(',', '')) - Number(i.BankFees.toString().replaceAll(',', '')) - tmpChangeState
                       <= 0 ? 0 :
-                    Number(i.FeeAmount.toString().replaceAll(',', '')) - Number(i.ReceivedAmount.toString().replaceAll(',', '')) - Number(i.BankFees.toString().replaceAll(',', '')) - tmpChangeState;
+                    (Number(i.FeeAmount.toString().replaceAll(',', '')) - Number(i.ReceivedAmount.toString().replaceAll(',', '')) - Number(i.BankFees.toString().replaceAll(',', '')) - tmpChangeState).toFixed(2);
                 }
             }
         });
@@ -155,7 +155,7 @@ const WriteOffWork = ({ isDialogOpen, handleDialogClose, writeOffInfo, writeOffD
         let tmpBankFeesTotal = 0; //累計手續費
         tmpArray.forEach((i) => {
             i.ReceiveAmount = 0; //本次實收
-            i.BankFees = 0; //累積手續費
+            // i.BankFees = 0; //累積手續費(暫時)
             i.BankFee = 0; //本次手續費
             i.BRAmount = 0; //總金額
             // i.ShortAmount = 0; //短繳
@@ -347,7 +347,7 @@ const WriteOffWork = ({ isDialogOpen, handleDialogClose, writeOffInfo, writeOffD
                                                                 sx={{ minWidth: 75 }}
                                                                 size="small"
                                                                 fullWidth
-                                                                value={handleNumber(row.BankFee.toFixed(2))}
+                                                                value={handleNumber(row.BankFee)}
                                                                 // type="number"
                                                                 onChange={(e) => changeBankFee(e.target.value, row.BillDetailID)}
                                                             />
@@ -362,7 +362,7 @@ const WriteOffWork = ({ isDialogOpen, handleDialogClose, writeOffInfo, writeOffD
                                                                 // inputProps={{ step: '.01' }}
                                                                 sx={{ minWidth: 75 }}
                                                                 size="small"
-                                                                value={handleNumber(row?.ReceiveAmount.toFixed(2))}
+                                                                value={handleNumber(row.ReceiveAmount)}
                                                                 // type="number"
                                                                 onChange={(e) => {
                                                                     changeReceiveAmount(e.target.value, row.BillDetailID);
