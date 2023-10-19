@@ -309,39 +309,39 @@ const WriteOffWork = ({ isDialogOpen, handleDialogClose, writeOffInfo, writeOffD
                                                     key={id + row?.InvoiceNo + row?.FeeItem + row?.OrgFeeAmount}
                                                     sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                                                 >
-                                                    <TableCell align="center" sx={{ fontSize: '0.1rem', minWidth: 75 }}>
+                                                    <TableCell align="center" sx={{ minWidth: 75 }}>
                                                         {row?.InvoiceNo}
                                                     </TableCell>
-                                                    <TableCell align="center" sx={{ fontSize: '0.1rem', minWidth: 75 }}>
+                                                    <TableCell align="center" sx={{ minWidth: 75 }}>
                                                         {row?.FeeItem}
                                                     </TableCell>
-                                                    <TableCell align="center" sx={{ fontSize: '0.1rem', minWidth: 75 }}>
+                                                    <TableCell align="center" sx={{ minWidth: 75 }}>
                                                         {row?.BillMilestone}
                                                     </TableCell>
-                                                    <TableCell sx={{ fontSize: '0.1rem' }} align="center">
+                                                    <TableCell align="center">
                                                         {handleNumber(row?.OrgFeeAmount.toFixed(2))}
                                                     </TableCell>
                                                     {/* 折抵 */}
-                                                    <TableCell sx={{ fontSize: '0.1rem' }} align="center">
+                                                    <TableCell align="center">
                                                         {handleNumber(row?.DedAmount.toFixed(2))}
                                                     </TableCell>
                                                     {/* 應繳 */}
-                                                    <TableCell sx={{ fontSize: '0.1rem' }} align="center">
+                                                    <TableCell align="center">
                                                         {handleNumber(row?.FeeAmount.toFixed(2))}
                                                     </TableCell>
                                                     {/* 累計實收 */}
-                                                    <TableCell sx={{ fontSize: '0.1rem' }} align="center">
+                                                    <TableCell align="center">
                                                         {handleNumber(row?.ReceivedAmount.toFixed(2))}
                                                     </TableCell>
                                                     {/* 累計手續費 */}
-                                                    <TableCell sx={{ fontSize: '0.1rem' }} align="center">
+                                                    <TableCell align="center">
                                                         {handleNumber(row?.BankFees.toFixed(2))}
                                                     </TableCell>
                                                     {/* 本次手續費 */}
                                                     {action === 'view' ? (
                                                         ''
                                                     ) : (
-                                                        <TableCell sx={{ fontSize: '0.1rem' }} align="center">
+                                                        <TableCell align="center">
                                                             <TextField
                                                                 // inputProps={{ step: '.01' }}
                                                                 sx={{ minWidth: 75 }}
@@ -357,7 +357,7 @@ const WriteOffWork = ({ isDialogOpen, handleDialogClose, writeOffInfo, writeOffD
                                                     {action === 'view' ? (
                                                         ''
                                                     ) : (
-                                                        <TableCell sx={{ fontSize: '0.1rem' }} align="center">
+                                                        <TableCell align="center">
                                                             <TextField
                                                                 // inputProps={{ step: '.01' }}
                                                                 sx={{ minWidth: 75 }}
@@ -374,19 +374,19 @@ const WriteOffWork = ({ isDialogOpen, handleDialogClose, writeOffInfo, writeOffD
                                                     {action === 'view' ? (
                                                         ''
                                                     ) : (
-                                                        <TableCell sx={{ fontSize: '0.1rem' }} align="center">
+                                                        <TableCell align="center">
                                                             {handleNumber(row?.BRAmount.toFixed(2))}
                                                         </TableCell>
                                                     )}
                                                     {/* 重溢繳 */}
                                                     {/* 重溢繳 : 本次實收+累計實收-應繳 > 0，則顯示其金額差額 */}
-                                                    <TableCell sx={{ fontSize: '0.1rem' }} align="center">
+                                                    <TableCell align="center">
                                                         {handleNumber(row?.OverAmount.toFixed(2))}
                                                     </TableCell>
                                                     {/* 短繳 */}
                                                     {/* 短繳：本次實收+累計實收-應繳 (應該是負值或0) 取正值 跟 手續費比，如果大於 則顯示此正值的金額(顯示的金額不用減掉手續費) */}
                                                     {/* 短繳：應繳金額-累計實收金額-總金額(含手續費)  5/25以後 */}
-                                                    <TableCell sx={{ fontSize: '0.1rem' }} align="center">
+                                                    <TableCell align="center">
                                                         {/* {tmpTotalAmount >= 0
                                                             ? '0.00'
                                                             : Math.abs(tmpTotalAmount) > Number(row.BankFees)
@@ -395,7 +395,7 @@ const WriteOffWork = ({ isDialogOpen, handleDialogClose, writeOffInfo, writeOffD
                                                         {/* 5/25以後 */}
                                                         {handleNumber(row?.ShortAmount.toFixed(2))}
                                                     </TableCell>
-                                                    <TableCell sx={{ fontSize: '0.1rem' }} align="center">
+                                                    <TableCell align="center">
                                                         {action === 'view' ? (
                                                             row.ReceiveDate
                                                         ) : (
@@ -414,7 +414,7 @@ const WriteOffWork = ({ isDialogOpen, handleDialogClose, writeOffInfo, writeOffD
                                                             </LocalizationProvider>
                                                         )}
                                                     </TableCell>
-                                                    <TableCell sx={{ fontSize: '0.1rem' }} align="center">
+                                                    <TableCell align="center">
                                                         {action === 'view' ? (
                                                             row.Note
                                                         ) : (
@@ -431,7 +431,7 @@ const WriteOffWork = ({ isDialogOpen, handleDialogClose, writeOffInfo, writeOffD
                                                     {action === 'view' ? (
                                                         ''
                                                     ) : (
-                                                        <TableCell sx={{ fontSize: '0.1rem' }} align="center">
+                                                        <TableCell align="center">
                                                             <Select
                                                                 // value={tmpStatus}
                                                                 value={row.Status}

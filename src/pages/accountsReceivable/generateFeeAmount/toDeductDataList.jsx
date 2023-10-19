@@ -2,13 +2,13 @@ import { useState, useRef } from 'react';
 
 // project import
 import DeductWork from './toDeductWork';
-import { handleNumber } from 'components/commonFunction';
+import { useStyles } from 'components/commonFunction';
 import MainCard from 'components/MainCard';
 import GenerateTerminate from './generateTerminate';
 import GenerateBack from './generateBack';
 
 // material-ui
-import { Button, Table, Dialog, Box } from '@mui/material';
+import { Button, Table, Box } from '@mui/material';
 import TableBody from '@mui/material/TableBody';
 import TableCell, { tableCellClasses } from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
@@ -31,7 +31,8 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
 const ToGenerateDataList = ({ dataList, receivableQuery }) => {
     const [isDeductOpen, setIsDeductOpen] = useState(false); //檢視、折抵作業
     const [isDialogOpen, setIsDialogOpen] = useState(false); //檢視帳單
-    const [isDeductWorkOpen, setIsDeductWorkOpen] = useState(false); //作廢
+    const classes = useStyles();
+    // const [isDeductWorkOpen, setIsDeductWorkOpen] = useState(false); //作廢
     const [infoBack, setInfoBack] = useState(false); //退回
     const billMasterInfo = useRef([]);
     const billDetailInfo = useRef([]);
@@ -147,6 +148,7 @@ const ToGenerateDataList = ({ dataList, receivableQuery }) => {
                                                 color="success"
                                                 size="small"
                                                 variant="outlined"
+                                                className={classes.buttonFontSize}
                                                 onClick={() => {
                                                     handleDeductOpen('view', {
                                                         BillDetail: row.BillDetail,
@@ -159,6 +161,7 @@ const ToGenerateDataList = ({ dataList, receivableQuery }) => {
                                             </Button>
                                             <Button
                                                 color="primary"
+                                                className={classes.buttonFontSize}
                                                 size="small"
                                                 variant="outlined"
                                                 onClick={() => {
@@ -173,6 +176,7 @@ const ToGenerateDataList = ({ dataList, receivableQuery }) => {
                                             </Button>
                                             <Button
                                                 color="info"
+                                                className={classes.buttonFontSize}
                                                 size="small"
                                                 variant="outlined"
                                                 onClick={() => {
@@ -183,6 +187,7 @@ const ToGenerateDataList = ({ dataList, receivableQuery }) => {
                                             </Button>
                                             <Button
                                                 color="warning"
+                                                className={classes.buttonFontSize}
                                                 size="small"
                                                 variant="outlined"
                                                 onClick={() => {
@@ -193,6 +198,7 @@ const ToGenerateDataList = ({ dataList, receivableQuery }) => {
                                             </Button>
                                             <Button
                                                 color="error"
+                                                className={classes.buttonFontSize}
                                                 size="small"
                                                 variant="outlined"
                                                 onClick={() => {

@@ -205,7 +205,7 @@ const PaymentWork = ({ isDialogOpen, handleDialogClose, editPaymentInfo, actionN
                                                         {toPayment > 0 ? `$${handleNumber(toPayment.toFixed(2))}` : 0}
                                                     </TableCell>
                                                     {actionName === 'toPayment' ? (
-                                                        <TableCell sx={{ fontSize: '0.1rem' }} align="center">
+                                                        <TableCell align="center">
                                                             <TextField
                                                                 size="small"
                                                                 sx={{ minWidth: 75 }}
@@ -216,7 +216,7 @@ const PaymentWork = ({ isDialogOpen, handleDialogClose, editPaymentInfo, actionN
                                                             />
                                                         </TableCell>
                                                     ) : (
-                                                        <TableCell sx={{ fontSize: '0.1rem' }} align="center">
+                                                        <TableCell align="center">
                                                             <TableCell align="center">{row.Note}</TableCell>
                                                         </TableCell>
                                                     )}

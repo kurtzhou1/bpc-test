@@ -1,36 +1,16 @@
 import { useState, useRef, useEffect } from 'react';
 
 // project import
-import { handleNumber, BootstrapDialogTitle } from 'components/commonFunction';
-import { sendDuctInfo } from 'components/apis';
-import MainCard from 'components/MainCard';
+import { handleNumber, BootstrapDialogTitle, useStyles } from 'components/commonFunction';
 // material-ui
-import {
-    Typography,
-    Button,
-    Table,
-    Dialog,
-    DialogContent,
-    DialogContentText,
-    Grid,
-    FormControl,
-    InputLabel,
-    Select,
-    DialogActions,
-    TextField
-} from '@mui/material';
+import { Button, Table, Dialog, DialogContent, Grid, DialogActions } from '@mui/material';
 import TableBody from '@mui/material/TableBody';
 import TableCell, { tableCellClasses } from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
-import { alpha, styled } from '@mui/material/styles';
-import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import { DesktopDatePicker } from '@mui/x-date-pickers/DesktopDatePicker';
-import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-
-import dayjs from 'dayjs';
+import { styled } from '@mui/material/styles';
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
     [`&.${tableCellClasses.head}`]: {
@@ -55,6 +35,7 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
 const SignedDataWork = ({ isDeductedWorkOpen, handleDeductedClose, billDetailInfo }) => {
     let feeAmount = useRef(0); // 總費用金額加總(上)
     let dedAmount = useRef(0); //總折抵資料加總(上)
+    const classes = useStyles();
     const [dataList, setDataList] = useState([]);
 
     const initData = () => {
@@ -146,6 +127,7 @@ const SignedDataWork = ({ isDeductedWorkOpen, handleDeductedClose, billDetailInf
                 <Button
                     sx={{ mr: '0.05rem' }}
                     variant="contained"
+                    className={classes.buttonFontSize}
                     onClick={() => {
                         initData();
                         handleDeductedClose();
