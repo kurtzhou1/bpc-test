@@ -80,7 +80,6 @@ const WriteOffWork = ({ isDialogOpen, handleDialogClose, writeOffInfo, writeOffD
                 i.ShortAmount = Number(i.FeeAmount.toString().replaceAll(',', '')) -  Number(i.ReceivedAmount.toString().replaceAll(',', '')) -  Number(i.BankFees.toString().replaceAll(',', '')) - tmpBRAmount
                     <= 0 ? 0 :
                 Number(i.FeeAmount.toString().replaceAll(',', '')) -  Number(i.ReceivedAmount.toString().replaceAll(',', '')) -  Number(i.BankFees.toString().replaceAll(',', '')) - tmpBRAmount;
-            } else {
             }
         });
         // console.log('tmpArray=>>', tmpArray);
@@ -136,9 +135,10 @@ const WriteOffWork = ({ isDialogOpen, handleDialogClose, writeOffInfo, writeOffD
                 if(status === 'OK'){
                     tmpChangeState = Number(i.ReceiveAmount.toString().replaceAll(',', '')) + Number(i.ShortAmount.toString().replaceAll(',', ''));
                     i.ReceiveAmount = tmpChangeState.toFixed(2);
+                    i.BRAmount = tmpChangeState + Number(i.BankFee.toString().replaceAll(',', ''));
                     i.ShortAmount = Number(i.FeeAmount.toString().replaceAll(',', '')) - Number(i.ReceivedAmount.toString().replaceAll(',', '')) - Number(i.BankFees.toString().replaceAll(',', '')) - tmpChangeState
                       <= 0 ? 0 :
-                    (Number(i.FeeAmount.toString().replaceAll(',', '')) - Number(i.ReceivedAmount.toString().replaceAll(',', '')) - Number(i.BankFees.toString().replaceAll(',', '')) - tmpChangeState).toFixed(2);
+                    Number(i.FeeAmount.toString().replaceAll(',', '')) - Number(i.ReceivedAmount.toString().replaceAll(',', '')) - Number(i.BankFees.toString().replaceAll(',', '')) - tmpChangeState;
                 }
             }
         });
@@ -154,7 +154,7 @@ const WriteOffWork = ({ isDialogOpen, handleDialogClose, writeOffInfo, writeOffD
         let tmpBankFeesTotal = 0; //累計手續費
         tmpArray.forEach((i) => {
             i.ReceiveAmount = 0; //本次實收
-            // i.BankFees = 0; //累積手續費(暫時)
+            i.BankFees = 0; //累積手續費(暫時)
             i.BankFee = 0; //本次手續費
             i.BRAmount = 0; //總金額
             // i.ShortAmount = 0; //短繳
