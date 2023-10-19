@@ -153,10 +153,10 @@ const WriteOffWork = ({ isDialogOpen, handleDialogClose, writeOffInfo, writeOffD
         let tmpReceivedAmountTotal = 0; //累計費用
         let tmpBankFeesTotal = 0; //累計手續費
         tmpArray.forEach((i) => {
-            i.ReceiveAmount = 0; //本次實收
+            // i.ReceiveAmount = 0; //本次實收(暫時)
             // i.BankFees = 0; //累積手續費(暫時)
-            i.BankFee = 0; //本次手續費
-            i.BRAmount = 0; //總金額
+            // i.BankFee = 0; //本次手續費(暫時)
+            // i.BRAmount = 0; //總金額(暫時)
             // i.ShortAmount = 0; //短繳
             // i.OverAmount = 0; //重溢繳
             tmpOrgFeeAmountTotal = tmpOrgFeeAmountTotal + i.OrgFeeAmount;
@@ -164,12 +164,13 @@ const WriteOffWork = ({ isDialogOpen, handleDialogClose, writeOffInfo, writeOffD
             tmpFeeAmountTotal = tmpFeeAmountTotal + i.FeeAmount;
             tmpReceivedAmountTotal = tmpReceivedAmountTotal + i.ReceivedAmount;
             tmpBankFeesTotal = tmpBankFeesTotal + i.BankFees;
-            i.OverAmount = Number(i.ReceivedAmount.toString().replaceAll(',', '')) - Number(i.FeeAmount.toString().replaceAll(',', '')) 
+            i.OverAmount = (Number(i.ReceiveAmount.toString().replaceAll(',', '')) + Number(i.ReceivedAmount.toString().replaceAll(',', ''))) - Number(i.FeeAmount.toString().replaceAll(',', '')) 
                 <= 0 ? 0 : 
-            Number(i.ReceivedAmount.toString().replaceAll(',', '')) - Number(i.FeeAmount.toString().replaceAll(',', ''));
-            i.ShortAmount = Number(i.FeeAmount.toString().replaceAll(',', '')) -  Number(i.ReceivedAmount.toString().replaceAll(',', '')) -  Number(i.BankFees.toString().replaceAll(',', ''))
+            (Number(i.ReceiveAmount.toString().replaceAll(',', '')) + Number(i.ReceivedAmount.toString().replaceAll(',', ''))) - Number(i.FeeAmount.toString().replaceAll(',', ''));
+            
+            i.ShortAmount = Number(i.FeeAmount.toString().replaceAll(',', '')) -  Number(i.ReceivedAmount.toString().replaceAll(',', '')) -  Number(i.BankFees.toString().replaceAll(',', '')) - Number(i.BRAmount.toString().replaceAll(',', ''))
                 <= 0 ? 0 :
-            Number(i.FeeAmount.toString().replaceAll(',', '')) -  Number(i.ReceivedAmount.toString().replaceAll(',', '')) -  Number(i.BankFees.toString().replaceAll(',', ''));
+            Number(i.FeeAmount.toString().replaceAll(',', '')) -  Number(i.ReceivedAmount.toString().replaceAll(',', '')) -  Number(i.BankFees.toString().replaceAll(',', '')) - Number(i.BRAmount.toString().replaceAll(',', ''));
         });
         orgFeeAmountTotal.current = tmpOrgFeeAmountTotal; //原始費用
         dedAmountTotal.current = tmpDedAmountTotal; //折扣
