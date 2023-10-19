@@ -1,6 +1,7 @@
 import DialogTitle from '@mui/material/DialogTitle';
 import { IconButton, Box, Typography } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
+import { makeStyles } from '@material-ui/core/styles';
 
 // 數字格式化
 export const handleNumber = (value) => {
@@ -53,3 +54,9 @@ export const TabPanel = (props) => {
         </div>
     );
 };
+
+export const useStyles = makeStyles((theme) => ({
+    buttonFontSize: {
+      fontSize: '12px !important'
+    },
+  }));

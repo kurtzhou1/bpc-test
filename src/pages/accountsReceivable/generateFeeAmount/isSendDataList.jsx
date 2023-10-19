@@ -1,7 +1,7 @@
 import { useState, useRef } from 'react';
 
 // project import
-import { handleNumber } from 'components/commonFunction';
+import { handleNumber, useStyles } from 'components/commonFunction';
 import SignedDataWork from './signedDataWork';
 import GenerateTerminate from './generateTerminate';
 // material-ui
@@ -44,7 +44,7 @@ const IsSendDataList = ({ dataList, receivableQuery }) => {
     const billDetailInfo = useRef([]);
     const editBillingNo = useRef('');
     const editBillMasterID = useRef('');
-
+    const classes = useStyles();
     const toWriteOff = (billMasterID) => {
         let tmpData = {
             BillMasterID: billMasterID,
@@ -151,6 +151,7 @@ const IsSendDataList = ({ dataList, receivableQuery }) => {
                                         >
                                             <Button
                                                 color="success"
+                                                className={classes.buttonFontSize}
                                                 size="small"
                                                 variant="outlined"
                                                 onClick={() => {
@@ -161,6 +162,7 @@ const IsSendDataList = ({ dataList, receivableQuery }) => {
                                             </Button>
                                             <Button
                                                 color="primary"
+                                                className={classes.buttonFontSize}
                                                 size="small"
                                                 variant="outlined"
                                                 onClick={() => {
@@ -169,13 +171,13 @@ const IsSendDataList = ({ dataList, receivableQuery }) => {
                                             >
                                                 上傳帳單
                                             </Button>
-                                            <Button color="info" size="small" variant="outlined">
+                                            <Button color="info" size="small" variant="outlined" className={classes.buttonFontSize}>
                                                 上傳附件
                                             </Button>
-                                            <Button color="warning" size="small" variant="outlined">
+                                            <Button color="warning" size="small" variant="outlined" className={classes.buttonFontSize}>
                                                 下載帳單
                                             </Button>
-                                            <Button color="error" size="small" variant="outlined">
+                                            <Button color="error" size="small" variant="outlined" className={classes.buttonFontSize}>
                                                 下載附件
                                             </Button>
                                         </Box>

@@ -7,7 +7,7 @@ import { useDispatch } from 'react-redux';
 import { setMessageStateOpen } from 'store/reducers/dropdown';
 
 // api
-import { queryToDecutBill, getPartiesInfoList, submarineCableInfoList, getBillMasterBillDetail } from 'components/apis';
+import { getPartiesInfoList, submarineCableInfoList, getBillMasterBillDetail } from 'components/apis';
 
 
 // ==============================|| SAMPLE PAGE ||============================== //

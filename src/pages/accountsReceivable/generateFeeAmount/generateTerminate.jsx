@@ -1,37 +1,17 @@
 import { useState } from 'react';
-import {
-    Typography,
-    Grid,
-    Button,
-    FormControl,
-    InputLabel,
-    Select,
-    MenuItem,
-    Box,
-    TextField,
-    Checkbox,
-    Autocomplete,
-    Table,
-    FormControlLabel,
-    RadioGroup,
-    Radio
-} from '@mui/material';
+import { Typography, Grid, Button, TextField } from '@mui/material';
 
 // project
-import { BootstrapDialogTitle } from 'components/commonFunction';
+import { BootstrapDialogTitle, useStyles } from 'components/commonFunction';
 
 // day
 import Dialog from '@mui/material/Dialog';
 import DialogContent from '@mui/material/DialogContent';
 import DialogActions from '@mui/material/DialogActions';
 
-// autocomplete
-import CheckBoxOutlineBlankIcon from '@mui/icons-material/CheckBoxOutlineBlank';
-import CheckBoxIcon from '@mui/icons-material/CheckBox';
-
-const GenerateFeeTerminate = ({ infoTerminal, handleTerminalClose, receivableQuery, editBillingNo, editBillMasterID }) => {
+const GenerateFeeTerminate = ({ infoTerminal, handleTerminalClose, editBillingNo }) => {
     const [note, setNote] = useState('');
-
+    const classes = useStyles();
     const terminalBill = () => {
         console.log('尚未開發');
     };
@@ -64,14 +44,14 @@ const GenerateFeeTerminate = ({ infoTerminal, handleTerminalClose, receivableQue
                 <Button
                     sx={{ mr: '0.05rem' }}
                     variant="contained"
+                    className={classes.buttonFontSize}
                     onClick={() => {
                         terminalBill();
                     }}
                 >
                     確定
                 </Button>
-
-                <Button sx={{ mr: '0.05rem' }} variant="contained" onClick={handleTerminalClose}>
+                <Button sx={{ mr: '0.05rem' }} variant="contained" onClick={handleTerminalClose} className={classes.buttonFontSize}>
                     關閉
                 </Button>
             </DialogActions>

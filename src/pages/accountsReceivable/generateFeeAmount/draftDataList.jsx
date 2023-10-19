@@ -1,35 +1,21 @@
 import { useState, useRef } from 'react';
 
 // project import
-import { handleNumber, BootstrapDialogTitle } from 'components/commonFunction';
+import { useStyles } from 'components/commonFunction';
 import BillDraftMake from './billDraftMake';
 // import DeductWork from './deductWork';
 import GenerateFeeTerminate from './generateTerminate';
 import SignAndUpload from './signAndUpload';
 import GenerateBack from './generateBack';
 // material-ui
-import {
-    Typography,
-    Button,
-    Table,
-    Dialog,
-    DialogContent,
-    DialogContentText,
-    Grid,
-    FormControl,
-    InputLabel,
-    Select,
-    DialogActions,
-    TextField,
-    Box
-} from '@mui/material';
+import { Button, Table, Box } from '@mui/material';
 import TableBody from '@mui/material/TableBody';
 import TableCell, { tableCellClasses } from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
-import { alpha, styled } from '@mui/material/styles';
+import { styled } from '@mui/material/styles';
 
 import dayjs from 'dayjs';
 
@@ -42,6 +28,8 @@ const DraftDataList = ({ dataList }) => {
     const [uploadOpen, setUploadOpen] = useState(false); //上傳
     const [infoBack, setInfoBack] = useState(false); //退回
     const [currentAmount, setCurrentAmount] = useState(''); //目前金額
+    const classes = useStyles();
+
     const StyledTableCell = styled(TableCell)(({ theme }) => ({
         [`&.${tableCellClasses.head}`]: {
             // backgroundColor: theme.palette.common.gary,
@@ -134,6 +122,7 @@ const DraftDataList = ({ dataList }) => {
                                                 color="success"
                                                 size="small"
                                                 variant="outlined"
+                                                className={classes.buttonFontSize}
                                                 onClick={() => {
                                                     handleDialogOpen('viewDeducted', {
                                                         PartyName: row.PartyName,
@@ -149,6 +138,7 @@ const DraftDataList = ({ dataList }) => {
                                                 color="primary"
                                                 size="small"
                                                 variant="outlined"
+                                                className={classes.buttonFontSize}
                                                 onClick={() => {
                                                     setUploadOpen(true);
                                                 }}
@@ -159,6 +149,7 @@ const DraftDataList = ({ dataList }) => {
                                                 color="warning"
                                                 size="small"
                                                 variant="outlined"
+                                                className={classes.buttonFontSize}
                                                 onClick={() => {
                                                     setInfoBack(true);
                                                 }}
@@ -169,6 +160,7 @@ const DraftDataList = ({ dataList }) => {
                                                 color="error"
                                                 size="small"
                                                 variant="outlined"
+                                                className={classes.buttonFontSize}
                                                 onClick={() => {
                                                     setInfoTerminal(true);
                                                 }}
