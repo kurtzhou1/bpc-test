@@ -1,7 +1,7 @@
 import { useState, useRef, useEffect } from 'react';
 
 // project import
-import { handleNumber, BootstrapDialogTitle, useStyles } from 'components/commonFunction';
+import { handleNumber, BootstrapDialogTitle } from 'components/commonFunction';
 // material-ui
 import {
     Button,
@@ -40,7 +40,6 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
 }));
 
 const DeductedWork = ({ isDeductedWorkOpen, handleDeductedClose, billDetailInfo }) => {
-    const classes = useStyles();
     let feeAmount = useRef(0); // 總費用金額加總(上)
     let dedAmount = useRef(0); //總折抵資料加總(上)
     const [dataList, setDataList] = useState([]);
@@ -131,7 +130,6 @@ const DeductedWork = ({ isDeductedWorkOpen, handleDeductedClose, billDetailInfo 
                 <Button
                     sx={{ mr: '0.05rem' }}
                     variant="contained"
-                    className={classes.buttonFontSize}
                     onClick={() => {
                         initData();
                         handleDeductedClose();

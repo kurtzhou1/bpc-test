@@ -3,7 +3,7 @@ import { Grid, Button, Box, Tabs, Tab } from '@mui/material';
 
 // project import
 import MainCard from 'components/MainCard';
-import { TabPanel, useStyles } from 'components/commonFunction';
+import { TabPanel } from 'components/commonFunction';
 import ToCombineDataList from './toCombineDataList';
 import ToDeductDataList from './toDeductDataList';
 import DeductedDataList from './deductedDataList';
@@ -28,7 +28,7 @@ const GenerateFeeAmount = () => {
         setListInfo([]);
         setValue(newValue);
     };
-    const classes = useStyles();
+    
     const a11yProps = (index) => {
         return {
             id: `simple-tab-${index}`,
@@ -97,7 +97,7 @@ const GenerateFeeAmount = () => {
                                 <Button
                                     color="primary"
                                     variant="contained"
-                                    className={classes.buttonFontSize}
+                                    
                                     sx={{
                                         position: 'absolute',
                                         right: 80,
@@ -111,7 +111,7 @@ const GenerateFeeAmount = () => {
                                 </Button>
                                 <Button
                                     variant="contained"
-                                    className={classes.buttonFontSize}
+                                    
                                     sx={{
                                         position: 'absolute',
                                         right: 0,

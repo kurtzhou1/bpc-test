@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { Typography, Grid, Button, TextField } from '@mui/material';
 
 // project
-import { BootstrapDialogTitle, useStyles } from 'components/commonFunction';
+import { BootstrapDialogTitle } from 'components/commonFunction';
 
 // day
 import Dialog from '@mui/material/Dialog';
@@ -11,7 +11,7 @@ import DialogActions from '@mui/material/DialogActions';
 
 const GenerateFeeTerminate = ({ infoTerminal, handleTerminalClose, editBillingNo }) => {
     const [note, setNote] = useState('');
-    const classes = useStyles();
+    
     const terminalBill = () => {
         console.log('尚未開發');
     };
@@ -44,14 +44,13 @@ const GenerateFeeTerminate = ({ infoTerminal, handleTerminalClose, editBillingNo
                 <Button
                     sx={{ mr: '0.05rem' }}
                     variant="contained"
-                    className={classes.buttonFontSize}
                     onClick={() => {
                         terminalBill();
                     }}
                 >
                     確定
                 </Button>
-                <Button sx={{ mr: '0.05rem' }} variant="contained" onClick={handleTerminalClose} className={classes.buttonFontSize}>
+                <Button sx={{ mr: '0.05rem' }} variant="contained" onClick={handleTerminalClose} c>
                     關閉
                 </Button>
             </DialogActions>

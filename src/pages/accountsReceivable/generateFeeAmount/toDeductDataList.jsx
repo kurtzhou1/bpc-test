@@ -2,7 +2,6 @@ import { useState, useRef } from 'react';
 
 // project import
 import DeductWork from './toDeductWork';
-import { useStyles } from 'components/commonFunction';
 import MainCard from 'components/MainCard';
 import GenerateTerminate from './generateTerminate';
 import GenerateBack from './generateBack';
@@ -31,7 +30,7 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
 const ToGenerateDataList = ({ dataList, receivableQuery }) => {
     const [isDeductOpen, setIsDeductOpen] = useState(false); //檢視、折抵作業
     const [isDialogOpen, setIsDialogOpen] = useState(false); //檢視帳單
-    const classes = useStyles();
+    
     // const [isDeductWorkOpen, setIsDeductWorkOpen] = useState(false); //作廢
     const [infoBack, setInfoBack] = useState(false); //退回
     const billMasterInfo = useRef([]);
@@ -143,12 +142,12 @@ const ToGenerateDataList = ({ dataList, receivableQuery }) => {
                                     <StyledTableCell align="center">{row.BillDetail ? row.BillDetail.length : 0}</StyledTableCell>
                                     <StyledTableCell align="center">{row.BillMaster.IsPro === 1 ? '是' : '否'}</StyledTableCell>
                                     <StyledTableCell align="center">
-                                        <Box sx={{ display: 'flex', justifyContent: 'center', '& button': { mx: 0.2, p: 0, fontSize: 1 } }}>
+                                        <Box sx={{ display: 'flex', justifyContent: 'center', '& button': { mx: 0.2, p: 0 } }}>
                                             <Button
                                                 color="success"
                                                 size="small"
                                                 variant="outlined"
-                                                className={classes.buttonFontSize}
+                                                
                                                 onClick={() => {
                                                     handleDeductOpen('view', {
                                                         BillDetail: row.BillDetail,
@@ -161,7 +160,7 @@ const ToGenerateDataList = ({ dataList, receivableQuery }) => {
                                             </Button>
                                             <Button
                                                 color="primary"
-                                                className={classes.buttonFontSize}
+                                                
                                                 size="small"
                                                 variant="outlined"
                                                 onClick={() => {
@@ -176,7 +175,7 @@ const ToGenerateDataList = ({ dataList, receivableQuery }) => {
                                             </Button>
                                             <Button
                                                 color="info"
-                                                className={classes.buttonFontSize}
+                                                
                                                 size="small"
                                                 variant="outlined"
                                                 onClick={() => {
@@ -187,7 +186,7 @@ const ToGenerateDataList = ({ dataList, receivableQuery }) => {
                                             </Button>
                                             <Button
                                                 color="warning"
-                                                className={classes.buttonFontSize}
+                                                
                                                 size="small"
                                                 variant="outlined"
                                                 onClick={() => {
@@ -198,7 +197,7 @@ const ToGenerateDataList = ({ dataList, receivableQuery }) => {
                                             </Button>
                                             <Button
                                                 color="error"
-                                                className={classes.buttonFontSize}
+                                                
                                                 size="small"
                                                 variant="outlined"
                                                 onClick={() => {

@@ -1,7 +1,7 @@
 import { Button, Grid, Typography } from '@mui/material';
 
 // project
-import { BootstrapDialogTitle, useStyles } from 'components/commonFunction';
+import { BootstrapDialogTitle } from 'components/commonFunction';
 
 // day
 import Dialog from '@mui/material/Dialog';
@@ -18,7 +18,6 @@ import { setMessageStateOpen } from 'store/reducers/dropdown';
 
 const GenerateBack = ({ action, infoBack, handleBackClose, receivableQuery, editBillingNo, editBillMasterID }) => {
     const dispatch = useDispatch();
-    const classes = useStyles();
     const backBill = () => {
         const queryApi = action === 'toDeduct' ? beforeDuction : afterDeduction;
         let tmpObject = {
@@ -51,14 +50,13 @@ const GenerateBack = ({ action, infoBack, handleBackClose, receivableQuery, edit
                 <Button
                     sx={{ mr: '0.05rem' }}
                     variant="contained"
-                    className={classes.buttonFontSize}
                     onClick={() => {
                         backBill();
                     }}
                 >
                     確定
                 </Button>
-                <Button sx={{ mr: '0.05rem' }} variant="contained" className={classes.buttonFontSize} onClick={handleBackClose}>
+                <Button sx={{ mr: '0.05rem' }} variant="contained" onClick={handleBackClose}>
                     關閉
                 </Button>
             </DialogActions>

@@ -54,9 +54,3 @@ export const TabPanel = (props) => {
         </div>
     );
 };
-
-export const useStyles = makeStyles((theme) => ({
-    buttonFontSize: {
-      fontSize: '12px !important'
-    },
-  }));

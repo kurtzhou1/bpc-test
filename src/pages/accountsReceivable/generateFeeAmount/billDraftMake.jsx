@@ -27,7 +27,7 @@ import dayjs from 'dayjs';
 
 // project import
 import MainCard from 'components/MainCard';
-import { BootstrapDialogTitle, handleNumber, useStyles } from 'components/commonFunction';
+import { BootstrapDialogTitle, handleNumber } from 'components/commonFunction';
 
 // table
 import TableBody from '@mui/material/TableBody';
@@ -148,7 +148,6 @@ const BillDraftMake = ({
     const [issueDate, setIssueDate] = useState(issueDateDefault); //發票日期
     const [dueDate, setDueDate] = useState(dueDateDefault); //發票日期
     const [logo, setLogo] = useState(1);
-    const classes = useStyles();
     const [subject1, setSubject1] = useState(''); //主旨1
     // const [subject2, setSubject2] = useState(''); //主旨2
     const [subject3, setSubject3] = useState(''); //主旨3
@@ -524,7 +523,6 @@ const BillDraftMake = ({
                 <Button
                     sx={{ mr: '0.05rem' }}
                     variant="contained"
-                    className={classes.buttonFontSize}
                     // disabled={action === 'toDeduct'}
                     onClick={() => {
                         clearDetail();
@@ -535,7 +533,6 @@ const BillDraftMake = ({
                 <Button
                     sx={{ mr: '0.05rem' }}
                     variant="contained"
-                    className={classes.buttonFontSize}
                     // disabled={action === 'toDeduct'}
                     onClick={() => {
                         // window.print();
@@ -547,7 +544,6 @@ const BillDraftMake = ({
                 <Button
                     sx={{ mr: '0.05rem' }}
                     variant="contained"
-                    className={classes.buttonFontSize}
                     onClick={() => {
                         handleDialogClose();
                         itemDetailInitial();

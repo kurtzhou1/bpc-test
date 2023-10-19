@@ -2,7 +2,7 @@ import { useState, useRef } from 'react';
 
 // project import
 import WriteOffWork from './writeOffWork';
-import { handleNumber, useStyles } from 'components/commonFunction';
+import { handleNumber } from 'components/commonFunction';
 import { useDispatch } from 'react-redux';
 import { setMessageStateOpen } from 'store/reducers/dropdown';
 
@@ -38,7 +38,7 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
 
 
 const ToWriteOffDataList = ({ listInfo, writeOffInitQuery }) => {
-    const classes = useStyles();
+    
     const [isDialogOpen, setIsDialogOpen] = useState(false); //折抵作業
     const writeOffInfo = useRef({});
     // const writeOffDetail = useRef([]);
@@ -155,10 +155,10 @@ const ToWriteOffDataList = ({ listInfo, writeOffInitQuery }) => {
                                     <StyledTableCell align="center">{handleNumber(row?.BillMaster?.FeeAmountSum)}</StyledTableCell>
                                     <StyledTableCell align="center">{handleNumber(row?.BillMaster?.BankFees)}</StyledTableCell>
                                     <StyledTableCell align="center">
-                                        <Box sx={{ display: 'flex', justifyContent: 'center', '& button': { mx: 1, p: 0, fontSize: 1 } }}>
+                                        <Box sx={{ display: 'flex', justifyContent: 'center', '& button': { mx: 1, p: 0 } }}>
                                             <Button
                                                 color="primary"
-                                                className={classes.buttonFontSize}
+                                                // 
                                                 size="small"
                                                 variant="outlined"
                                                 sx={{fontSize: '12px'}}
@@ -171,7 +171,7 @@ const ToWriteOffDataList = ({ listInfo, writeOffInitQuery }) => {
                                             </Button>
                                             <Button
                                                 color="success"
-                                                className={classes.buttonFontSize}
+                                                // 
                                                 size="small"
                                                 variant="outlined"
                                                 onClick={() => {
@@ -182,7 +182,7 @@ const ToWriteOffDataList = ({ listInfo, writeOffInitQuery }) => {
                                             </Button>
                                             <Button
                                                 color="info"
-                                                className={classes.buttonFontSize}
+                                                // 
                                                 size="small"
                                                 variant="outlined"
                                                 onClick={() => {

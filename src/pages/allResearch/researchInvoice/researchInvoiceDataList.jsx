@@ -225,7 +225,7 @@ const ResearchBillDataList = ({ listInfo, setDetailInfo }) => {
                                             sx={{
                                                 display: 'flex',
                                                 justifyContent: 'center',
-                                                '& button': { mx: { md: 0.7, lg: 0.7, xl: 1.5 }, p: 0, fontSize: 1 }
+                                                '& button': { mx: { md: 0.7, lg: 0.7, xl: 1.5 }, p: 0 }
                                             }}
                                         >
                                             <Button

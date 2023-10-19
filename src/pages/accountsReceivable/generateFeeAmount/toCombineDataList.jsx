@@ -1,7 +1,7 @@
 import { useState, useRef, useEffect } from 'react';
 
 // project import
-import { handleNumber, BootstrapDialogTitle, useStyles } from 'components/commonFunction';
+import { handleNumber, BootstrapDialogTitle } from 'components/commonFunction';
 import { combineInvo, isBillNoCheckOK, invoCombine, generateBillNoCovert } from 'components/apis';
 // material-ui
 import {
@@ -58,7 +58,7 @@ const ToCombineDataList = ({ handleDialogClose, isDialogOpen, dataList, cbToCn, 
     const billingNoOld = useRef('');
     const sendComBineData = useRef({}); //按下合併帳單時送出的資料
     const totalAmount = useRef(0);
-    const classes = useStyles();
+    
     let tmpBMArray = [];
 
     const handleChange = (event) => {
@@ -261,7 +261,7 @@ const ToCombineDataList = ({ handleDialogClose, isDialogOpen, dataList, cbToCn, 
                             />
                         </Grid>
                         <Grid item xs={0} sm={0} md={1} lg={1} display="flex" justifyContent="start" alignItems="center">
-                            <Button sx={{ ml: '0.rem' }} variant="contained" size="small" onClick={billNoGenerate} className={classes.buttonFontSize}>
+                            <Button sx={{ ml: '0.rem' }} variant="contained" size="small" onClick={billNoGenerate} >
                                 自動產生
                             </Button>
                         </Grid>
@@ -313,10 +313,10 @@ const ToCombineDataList = ({ handleDialogClose, isDialogOpen, dataList, cbToCn, 
                     </Grid>
                 </DialogContent>
                 <DialogActions>
-                    <Button sx={{ mr: '0.05rem' }} variant="contained" onClick={handleCombine} className={classes.buttonFontSize}>
+                    <Button sx={{ mr: '0.05rem' }} variant="contained" onClick={handleCombine} >
                         合併
                     </Button>
-                    <Button sx={{ mr: '0.05rem' }} variant="contained" onClick={handleCancel} className={classes.buttonFontSize}>
+                    <Button sx={{ mr: '0.05rem' }} variant="contained" onClick={handleCancel} >
                         關閉
                     </Button>
                 </DialogActions>

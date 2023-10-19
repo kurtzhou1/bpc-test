@@ -4,7 +4,7 @@ import { DropzoneArea } from 'mui-file-dropzone';
 // import { FileUploader } from 'react-drag-drop-files';
 
 // project
-import { BootstrapDialogTitle, useStyles } from 'components/commonFunction';
+import { BootstrapDialogTitle } from 'components/commonFunction';
 
 // day
 import Dialog from '@mui/material/Dialog';
@@ -25,7 +25,7 @@ const SignAndUpload = ({ isUploadOpen, handleUploadClose, billMasterID, receivab
     const [isUpload, setIsUpload] = useState(false); //是否需攤分
     const [displayName, setDisplayName] = useState([]);
     // const fileTypes = ['PDF', 'PNG'];
-    const classes = useStyles();
+    
     const handleUploadChange = (file) => {
         setUploadFile(file);
         if (file.length > 0) {
@@ -128,14 +128,14 @@ const SignAndUpload = ({ isUploadOpen, handleUploadClose, billMasterID, receivab
                 <Button
                     sx={{ mr: '0.05rem' }}
                     variant="contained"
-                    className={classes.buttonFontSize}
+                    
                     onClick={() => {
                         handleUploadFile();
                     }}
                 >
                     確定
                 </Button>
-                <Button sx={{ mr: '0.05rem' }} variant="contained" onClick={handleUploadClose} className={classes.buttonFontSize}>
+                <Button sx={{ mr: '0.05rem' }} variant="contained" onClick={handleUploadClose} >
                     關閉
                 </Button>
             </DialogActions>

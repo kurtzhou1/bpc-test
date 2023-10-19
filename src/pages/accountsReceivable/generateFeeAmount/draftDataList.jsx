@@ -1,7 +1,6 @@
 import { useState, useRef } from 'react';
 
 // project import
-import { useStyles } from 'components/commonFunction';
 import BillDraftMake from './billDraftMake';
 // import DeductWork from './deductWork';
 import GenerateFeeTerminate from './generateTerminate';
@@ -28,7 +27,6 @@ const DraftDataList = ({ dataList }) => {
     const [uploadOpen, setUploadOpen] = useState(false); //上傳
     const [infoBack, setInfoBack] = useState(false); //退回
     const [currentAmount, setCurrentAmount] = useState(''); //目前金額
-    const classes = useStyles();
 
     const StyledTableCell = styled(TableCell)(({ theme }) => ({
         [`&.${tableCellClasses.head}`]: {
@@ -115,14 +113,13 @@ const DraftDataList = ({ dataList }) => {
                                             sx={{
                                                 display: 'flex',
                                                 justifyContent: 'center',
-                                                '& button': { mx: { sm: 0.3, md: 0.3, lg: 0.6, xl: 1.5 }, p: 0, fontSize: 1 }
+                                                '& button': { mx: { sm: 0.3, md: 0.3, lg: 0.6, xl: 1.5 }, p: 0 }
                                             }}
                                         >
                                             <Button
                                                 color="success"
                                                 size="small"
                                                 variant="outlined"
-                                                className={classes.buttonFontSize}
                                                 onClick={() => {
                                                     handleDialogOpen('viewDeducted', {
                                                         PartyName: row.PartyName,
@@ -138,7 +135,6 @@ const DraftDataList = ({ dataList }) => {
                                                 color="primary"
                                                 size="small"
                                                 variant="outlined"
-                                                className={classes.buttonFontSize}
                                                 onClick={() => {
                                                     setUploadOpen(true);
                                                 }}
@@ -149,7 +145,6 @@ const DraftDataList = ({ dataList }) => {
                                                 color="warning"
                                                 size="small"
                                                 variant="outlined"
-                                                className={classes.buttonFontSize}
                                                 onClick={() => {
                                                     setInfoBack(true);
                                                 }}
@@ -160,7 +155,6 @@ const DraftDataList = ({ dataList }) => {
                                                 color="error"
                                                 size="small"
                                                 variant="outlined"
-                                                className={classes.buttonFontSize}
                                                 onClick={() => {
                                                     setInfoTerminal(true);
                                                 }}

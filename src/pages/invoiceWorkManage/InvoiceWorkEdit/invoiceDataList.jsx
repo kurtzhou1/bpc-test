@@ -109,7 +109,7 @@ const InvoiceDataList = ({ listInfo, setAction, setModifyItem, page, setPage }) 
                                                 sx={{
                                                     display: 'flex',
                                                     justifyContent: 'center',
-                                                    '& button': { mx: { md: 0.1, lg: 0.1, xl: 1 }, p: 0, fontSize: 1 }
+                                                    '& button': { mx: { md: 0.1, lg: 0.1, xl: 1 }, p: 0 }
                                                 }}
                                             >
                                                 {options1.map((option) => {
@@ -142,7 +142,7 @@ const InvoiceDataList = ({ listInfo, setAction, setModifyItem, page, setPage }) 
                                                 sx={{
                                                     display: 'flex',
                                                     justifyContent: 'center',
-                                                    '& button': { mx: { md: 0.2, lg: 0.2, xl: 1 }, p: 0, fontSize: 1 }
+                                                    '& button': { mx: { md: 0.2, lg: 0.2, xl: 1 }, p: 0 }
                                                 }}
                                             >
                                                 {options2.map((option) => {
@@ -167,7 +167,7 @@ const InvoiceDataList = ({ listInfo, setAction, setModifyItem, page, setPage }) 
                                                 sx={{
                                                     display: 'flex',
                                                     justifyContent: 'center',
-                                                    '& button': { mx: { md: 0.2, lg: 0.2, xl: 1 }, p: 0, fontSize: 1 }
+                                                    '& button': { mx: { md: 0.2, lg: 0.2, xl: 1 }, p: 0 }
                                                 }}
                                             >
                                                 {options3.map((option) => {
@@ -192,7 +192,7 @@ const InvoiceDataList = ({ listInfo, setAction, setModifyItem, page, setPage }) 
                                                 sx={{
                                                     display: 'flex',
                                                     justifyContent: 'center',
-                                                    '& button': { mx: { md: 0.2, lg: 0.2, xl: 1 }, p: 0, fontSize: 1 }
+                                                    '& button': { mx: { md: 0.2, lg: 0.2, xl: 1 }, p: 0 }
                                                 }}
                                             >
                                                 <Button

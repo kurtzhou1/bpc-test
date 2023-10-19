@@ -1,7 +1,7 @@
 import { useState, useRef, useEffect } from 'react';
 
 // project import
-import { handleNumber, BootstrapDialogTitle, useStyles } from 'components/commonFunction';
+import { handleNumber, BootstrapDialogTitle } from 'components/commonFunction';
 import { queryCB, sendDuctInfo } from 'components/apis';
 import MainCard from 'components/MainCard';
 // material-ui
@@ -59,7 +59,7 @@ const ToDeductWork = ({ isDeductOpen, handleDeductClose, billDetailInfo, billMas
     let dedAmount = useRef(0); //總折抵資料加總(上)
     const [feeAmountTotal, setFeeAmountTotal] = useState(0); //總金額加總(上)
     const editItem = useRef(''); //當前編輯明細項目
-    const classes = useStyles();
+    
     const initData = () => {
         setTmpCBArray([]);
         tmpDeductArray.current = [];
@@ -314,7 +314,7 @@ const ToDeductWork = ({ isDeductOpen, handleDeductClose, billDetailInfo, billMas
                                                         <TableCell align="center">
                                                             <Button
                                                                 color="primary"
-                                                                className={classes.buttonFontSize}
+                                                                
                                                                 variant={editItem.current === row.BillDetailID ? 'contained' : 'outlined'}
                                                                 size="small"
                                                                 onClick={() => {
@@ -444,7 +444,7 @@ const ToDeductWork = ({ isDeductOpen, handleDeductClose, billDetailInfo, billMas
                                     <Grid item xs={12} sm={12} md={12} lg={12} display="flex" justifyContent="end">
                                         <Button
                                             color="primary"
-                                            className={classes.buttonFontSize}
+                                            
                                             variant="contained"
                                             size="small"
                                             sx={{ ml: '0.5rem', mt: '0.5rem' }}
@@ -467,10 +467,10 @@ const ToDeductWork = ({ isDeductOpen, handleDeductClose, billDetailInfo, billMas
             <DialogActions>
                 {actionName === 'deduct' ? (
                     <>
-                        <Button sx={{ mr: '0.05rem' }} variant="contained" onClick={sendDuctWork} className={classes.buttonFontSize}>
+                        <Button sx={{ mr: '0.05rem' }} variant="contained" onClick={sendDuctWork} >
                             送出
                         </Button>
-                        <Button sx={{ mr: '0.05rem' }} variant="contained" onClick={handleReset} className={classes.buttonFontSize}>
+                        <Button sx={{ mr: '0.05rem' }} variant="contained" onClick={handleReset} >
                             Reset
                         </Button>
                     </>
@@ -480,7 +480,7 @@ const ToDeductWork = ({ isDeductOpen, handleDeductClose, billDetailInfo, billMas
                 <Button
                     sx={{ mr: '0.05rem' }}
                     variant="contained"
-                    className={classes.buttonFontSize}
+                    
                     onClick={() => {
                         initData();
                         setIsDeductWorkOpen(false);

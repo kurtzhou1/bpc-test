@@ -3,7 +3,7 @@ import { Grid, Button, Box, RadioGroup, FormControlLabel, Radio } from '@mui/mat
 import { DropzoneArea } from 'mui-file-dropzone';
 
 // project
-import { BootstrapDialogTitle, useStyles } from 'components/commonFunction';
+import { BootstrapDialogTitle } from 'components/commonFunction';
 
 // day
 import Dialog from '@mui/material/Dialog';
@@ -19,7 +19,7 @@ import { setMessageStateOpen } from 'store/reducers/dropdown';
 
 const UploadBillMasterAttachment = ({ isUploadOpen, handleUploadClose, billMasterID, receivableQuery }) => {
     const dispatch = useDispatch();
-    const classes = useStyles();
+    
     const [uploadFile, setUploadFile] = useState(null);
     const [isUpload, setIsUpload] = useState(false); //是否需攤分
     const [displayName, setDisplayName] = useState([]);
@@ -99,14 +99,14 @@ const UploadBillMasterAttachment = ({ isUploadOpen, handleUploadClose, billMaste
                 <Button
                     sx={{ mr: '0.05rem' }}
                     variant="contained"
-                    className={classes.buttonFontSize}
+                    
                     onClick={() => {
                         handleUploadFile();
                     }}
                 >
                     確定
                 </Button>
-                <Button sx={{ mr: '0.05rem' }} variant="contained" onClick={handleUploadClose} className={classes.buttonFontSize}>
+                <Button sx={{ mr: '0.05rem' }} variant="contained" onClick={handleUploadClose} >
                     關閉
                 </Button>
             </DialogActions>

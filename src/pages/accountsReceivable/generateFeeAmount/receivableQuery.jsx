@@ -13,7 +13,6 @@ import {
 // project import
 import MainCard from 'components/MainCard';
 import { queryToCombineInvo, queryToDecutBill, quertDeductedData, getPartiesInfoList, submarineCableInfoList } from 'components/apis';
-import { useStyles } from 'components/commonFunction';
 // day
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
@@ -37,7 +36,7 @@ const ReceivableQuery = ({ value, setListInfo, queryApi }) => {
     const [supNmList, setSupNmList] = useState([]); //供應商下拉選單
     const [submarineCableList, setSubmarineCableList] = useState([]); //海纜名稱下拉選單
     const [partiesList, setPartiesList] = useState([]); //會員下拉選單
-    const classes = useStyles();
+    
     const initInfo = () => {
         setIssueDate([null, null]);
         setWorkTitle('');
@@ -374,10 +373,10 @@ const ReceivableQuery = ({ value, setListInfo, queryApi }) => {
                     justifyContent="end"
                     alignItems="center"
                 >
-                    <Button sx={{ mr: '0.5rem' }} variant="contained" onClick={receivableQuery} className={classes.buttonFontSize}>
+                    <Button sx={{ mr: '0.5rem' }} variant="contained" onClick={receivableQuery} >
                         查詢
                     </Button>
-                    <Button variant="contained" onClick={initInfo} className={classes.buttonFontSize}>
+                    <Button variant="contained" onClick={initInfo} >
                         清除
                     </Button>
                 </Grid>

@@ -1,7 +1,7 @@
 import { useState, useRef } from 'react';
 
 // project import
-import { handleNumber, useStyles } from 'components/commonFunction';
+import { handleNumber } from 'components/commonFunction';
 import SignedDataWork from './signedDataWork';
 import GenerateTerminate from './generateTerminate';
 import UploadBillMasterAttachment from './uploadBillMasterAttachment';
@@ -47,7 +47,7 @@ const SignedDataList = ({ dataList, receivableQuery }) => {
     const editBillingNo = useRef('');
     const editBillMasterID = useRef('');
     const billMasterID = useRef(-1);
-    const classes = useStyles();
+    
     const toWriteOff = (billMasterID) => {
         let tmpData = {
             BillMasterID: billMasterID,
@@ -168,14 +168,14 @@ const SignedDataList = ({ dataList, receivableQuery }) => {
                                             sx={{
                                                 display: 'flex',
                                                 justifyContent: 'center',
-                                                '& button': { mx: { sm: 0.2, md: 0.2, lg: 0.2, xl: 1 }, p: 0, fontSize: 1 }
+                                                '& button': { mx: { sm: 0.2, md: 0.2, lg: 0.2, xl: 1 }, p: 0 }
                                             }}
                                         >
                                             <Button
                                                 color="success"
                                                 size="small"
                                                 variant="outlined"
-                                                className={classes.buttonFontSize}
+                                                
                                                 onClick={() => {
                                                     handleDeductedOpen(row.BillDetail);
                                                 }}
@@ -186,7 +186,7 @@ const SignedDataList = ({ dataList, receivableQuery }) => {
                                                 color="primary"
                                                 size="small"
                                                 variant="outlined"
-                                                className={classes.buttonFontSize}
+                                                
                                                 onClick={() => {
                                                     handleDownload(row.BillMaster.BillMasterID, row.BillMaster.URI);
                                                 }}
@@ -194,7 +194,7 @@ const SignedDataList = ({ dataList, receivableQuery }) => {
                                                 下載帳單
                                             </Button>
                                             {row.BillMaster.Status === 'TO_WRITEOFF' ? (
-                                                <Button color="inherit" size="small" variant="outlined" className={classes.buttonFontSize}>
+                                                <Button color="inherit" size="small" variant="outlined" >
                                                     已進待銷
                                                 </Button>
                                             ) : (
@@ -202,7 +202,7 @@ const SignedDataList = ({ dataList, receivableQuery }) => {
                                                     color="info"
                                                     size="small"
                                                     variant="outlined"
-                                                    className={classes.buttonFontSize}
+                                                    
                                                     onClick={() => {
                                                         toWriteOff(row.BillMaster.BillMasterID);
                                                     }}
@@ -214,7 +214,7 @@ const SignedDataList = ({ dataList, receivableQuery }) => {
                                                 color="secondary"
                                                 size="small"
                                                 variant="outlined"
-                                                className={classes.buttonFontSize}
+                                                
                                                 onClick={() => {
                                                     handleUploadOpen({
                                                         BillMasterID: row.BillMaster.BillMasterID
@@ -227,7 +227,7 @@ const SignedDataList = ({ dataList, receivableQuery }) => {
                                                 color="warning"
                                                 size="small"
                                                 variant="outlined"
-                                                className={classes.buttonFontSize}
+                                                
                                                 onClick={() => {
                                                     setInfoTerminal(true);
                                                 }}
@@ -237,7 +237,7 @@ const SignedDataList = ({ dataList, receivableQuery }) => {
                                             <Button
                                                 color="error"
                                                 size="small"
-                                                className={classes.buttonFontSize}
+                                                
                                                 variant="outlined"
                                                 onClick={() => {
                                                     handleInfoTerminal(row.BillMaster.BillingNo, row.BillMaster.BillMasterID);

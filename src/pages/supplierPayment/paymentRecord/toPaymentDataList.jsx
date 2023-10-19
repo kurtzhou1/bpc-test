@@ -544,7 +544,7 @@ const ToPaymentDataList = ({ listInfo, cbToCn, setCbToCn, isSend, setIsSend, sup
                                     {/* <StyledTableCell align="center">{handleNumber(tmpPayAmount.toFixed(2))}</StyledTableCell> */}
                                     <StyledTableCell align="center">{handleNumber(row.PayAmount.toFixed(2))}</StyledTableCell>
                                     <StyledTableCell align="center">
-                                        <Box sx={{ display: 'flex', justifyContent: 'center', '& button': { mx: 1, p: 0, fontSize: 1 } }}>
+                                        <Box sx={{ display: 'flex', justifyContent: 'center', '& button': { mx: 1, p: 0 } }}>
                                             <Button
                                                 color="primary"
                                                 size="small"

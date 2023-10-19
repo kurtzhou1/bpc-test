@@ -158,7 +158,7 @@ const ToBillDataList = ({ listInfo, page, setPage }) => {
                                             sx={{
                                                 display: 'flex',
                                                 justifyContent: 'center',
-                                                '& button': { mx: { sm: 0.3, md: 0.3, lg: 0.6, xl: 1.5 }, p: 0, fontSize: 1 }
+                                                '& button': { mx: { sm: 0.3, md: 0.3, lg: 0.6, xl: 1.5 }, p: 0 }
                                             }}
                                         >
                                             <Button

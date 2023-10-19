@@ -1,7 +1,6 @@
 import { useState, useRef } from 'react';
 
 // project import
-import { useStyles } from 'components/commonFunction';
 import DeductedWork from './deductedWork';
 import GenerateTerminate from './generateTerminate';
 import GenerateBack from './generateBack';
@@ -40,7 +39,6 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
 
 const DeductedDataList = ({ dataList, receivableQuery }) => {
     const billMaster = useRef({});
-    const classes = useStyles();
     const [isDialogOpen, setIsDialogOpen] = useState(false); //檢視
     const [isDeductedWorkOpen, setIsDeductedWorkOpen] = useState(false); //產製帳單
     const [isUploadOpen, setIsUploadOpen] = useState(false); //簽核
@@ -164,10 +162,9 @@ const DeductedDataList = ({ dataList, receivableQuery }) => {
                                     <StyledTableCell align="center">{row.data ? row.data.length : 0}</StyledTableCell>
                                     {/* <StyledTableCell align="center">{row.BillMaster.FeeAmountSum}</StyledTableCell> */}
                                     <StyledTableCell align="center">
-                                        <Box sx={{ display: 'flex', justifyContent: 'center', '& button': { mx: 0.2, p: 0, fontSize: 1 } }}>
+                                        <Box sx={{ display: 'flex', justifyContent: 'center', '& button': { mx: 0.2, p: 0 } }}>
                                             <Button
                                                 color="success"
-                                                className={classes.buttonFontSize}
                                                 size="small"
                                                 variant="outlined"
                                                 onClick={() => {
@@ -178,7 +175,6 @@ const DeductedDataList = ({ dataList, receivableQuery }) => {
                                             </Button>
                                             <Button
                                                 color="primary"
-                                                className={classes.buttonFontSize}
                                                 size="small"
                                                 variant="outlined"
                                                 onClick={() => {
@@ -192,7 +188,6 @@ const DeductedDataList = ({ dataList, receivableQuery }) => {
                                             </Button>
                                             <Button
                                                 color="info"
-                                                className={classes.buttonFontSize}
                                                 size="small"
                                                 variant="outlined"
                                                 onClick={() => {
@@ -205,7 +200,6 @@ const DeductedDataList = ({ dataList, receivableQuery }) => {
                                             </Button>
                                             <Button
                                                 color="warning"
-                                                className={classes.buttonFontSize}
                                                 size="small"
                                                 variant="outlined"
                                                 onClick={() => {
@@ -216,7 +210,6 @@ const DeductedDataList = ({ dataList, receivableQuery }) => {
                                             </Button>
                                             <Button
                                                 color="error"
-                                                className={classes.buttonFontSize}
                                                 size="small"
                                                 variant="outlined"
                                                 onClick={() => {

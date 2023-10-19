@@ -175,7 +175,7 @@ const GeneratedDataList = ({}) => {
                                                 sx={{
                                                     display: 'flex',
                                                     justifyContent: 'center',
-                                                    '& button': { mx: { md: 0.6, lg: 1, xl: 1.8 }, p: 0, fontSize: 1 }
+                                                    '& button': { mx: { md: 0.6, lg: 1, xl: 1.8 }, p: 0 }
                                                 }}
                                             >
                                                 <Button
@@ -245,7 +245,7 @@ const GeneratedDataList = ({}) => {
                                                 sx={{
                                                     display: 'flex',
                                                     justifyContent: 'center',
-                                                    '& button': { mx: { md: 0.6, lg: 1, xl: 1.8 }, p: 0, fontSize: 1 }
+                                                    '& button': { mx: { md: 0.6, lg: 1, xl: 1.8 }, p: 0 }
                                                 }}
                                             >
                                                 <Button
@@ -320,7 +320,7 @@ const GeneratedDataList = ({}) => {
                                 sx={{
                                     display: 'flex',
                                     justifyContent: 'center',
-                                    '& button': { mx: { md: 0.6, lg: 1, xl: 1.8 }, p: 0, fontSize: 1 }
+                                    '& button': { mx: { md: 0.6, lg: 1, xl: 1.8 }, p: 0 }
                                 }}
                             >
                                 <Button color="success" variant="outlined" onClick={addPartyInfo}>

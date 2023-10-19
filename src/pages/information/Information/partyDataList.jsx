@@ -37,15 +37,15 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
     }
 }));
 
-const useStyles = makeStyles({
-    sticky: {
-        position: 'sticky',
-        left: 0,
-        background: 'white',
-        boxShadow: '0.5px 2px 5px grey',
-        zIndex: 100
-    }
-});
+// const useStyles = makeStyles({
+//     sticky: {
+//         position: 'sticky',
+//         left: 0,
+//         background: 'white',
+//         boxShadow: '0.5px 2px 5px grey',
+//         zIndex: 100
+//     }
+// });
 
 const columns1 = [
     { id: '海纜名稱', label: '海纜名稱', align: 'center' },
