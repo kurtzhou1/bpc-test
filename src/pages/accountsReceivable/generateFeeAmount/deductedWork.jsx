@@ -1,8 +1,7 @@
 import { useState, useRef, useEffect } from 'react';
 
 // project import
-import { handleNumber, BootstrapDialogTitle } from 'components/commonFunction';
-import { useStyles } from 'components/apis';
+import { handleNumber, BootstrapDialogTitle, useStyles } from 'components/commonFunction';
 // material-ui
 import {
     Button,
