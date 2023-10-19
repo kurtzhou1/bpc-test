@@ -38,7 +38,6 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
         color: theme.palette.common.black,
         paddingTop: '0.1rem',
         paddingBottom: '0.1rem',
-        fontSize: '0.05rem',
         overflowX: 'auto',
         minWidth: '100%'
     },
