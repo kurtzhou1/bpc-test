@@ -136,9 +136,9 @@ const WriteOffWork = ({ isDialogOpen, handleDialogClose, writeOffInfo, writeOffD
                     tmpChangeState = Number(i.ReceiveAmount.toString().replaceAll(',', '')) + Number(i.ShortAmount.toString().replaceAll(',', ''));
                     i.ReceiveAmount = tmpChangeState.toFixed(2);
                     i.BRAmount = tmpChangeState + Number(i.BankFee.toString().replaceAll(',', ''));
-                    i.ShortAmount = Number(i.FeeAmount.toString().replaceAll(',', '')) - Number(i.ReceivedAmount.toString().replaceAll(',', '')) - Number(i.BankFees.toString().replaceAll(',', '')) - tmpChangeState
+                    i.ShortAmount = Number(i.FeeAmount.toString().replaceAll(',', '')) - Number(i.ReceivedAmount.toString().replaceAll(',', '')) - Number(i.BankFees.toString().replaceAll(',', '')) - tmpChangeState -  Number(i.BankFee.toString().replaceAll(',', ''))
                       <= 0 ? 0 :
-                    Number(i.FeeAmount.toString().replaceAll(',', '')) - Number(i.ReceivedAmount.toString().replaceAll(',', '')) - Number(i.BankFees.toString().replaceAll(',', '')) - tmpChangeState;
+                    Number(i.FeeAmount.toString().replaceAll(',', '')) - Number(i.ReceivedAmount.toString().replaceAll(',', '')) - Number(i.BankFees.toString().replaceAll(',', '')) - tmpChangeState - Number(i.BankFee.toString().replaceAll(',', ''));
                 }
             }
         });
@@ -156,7 +156,7 @@ const WriteOffWork = ({ isDialogOpen, handleDialogClose, writeOffInfo, writeOffD
             // i.ReceiveAmount = 0; //本次實收(暫時)
             // i.BankFees = 0; //累積手續費(暫時)
             // i.BankFee = 0; //本次手續費(暫時)
-            // i.BRAmount = 0; //總金額(暫時)
+            i.BRAmount = 0; //總金額(暫時)
             // i.ShortAmount = 0; //短繳
             // i.OverAmount = 0; //重溢繳
             tmpOrgFeeAmountTotal = tmpOrgFeeAmountTotal + i.OrgFeeAmount;
