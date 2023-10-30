@@ -155,8 +155,8 @@ const WriteOffWork = ({ isDialogOpen, handleDialogClose, writeOffInfo, writeOffD
         if(action === 'view') {
             tmpArray.forEach((i) => {
                 i.ReceiveAmount = 0; //本次實收(暫時)
-                // i.BankFees = 0; //累積手續費(暫時)
                 i.BankFee = 0; //本次手續費(暫時)
+                // i.BankFees = 0; //累積手續費(暫時)
                 // i.BRAmount = 0; //總金額(暫時)
                 // i.ShortAmount = 0; //短繳
                 // i.OverAmount = 0; //重溢繳
@@ -165,8 +165,10 @@ const WriteOffWork = ({ isDialogOpen, handleDialogClose, writeOffInfo, writeOffD
                 tmpFeeAmountTotal = tmpFeeAmountTotal + i.FeeAmount;
                 tmpReceivedAmountTotal = tmpReceivedAmountTotal + i.ReceivedAmount;
                 tmpBankFeesTotal = tmpBankFeesTotal + i.BankFees;
-                console.log(i.ReceiveAmount);
-                console.log(i.ReceivedAmount)
+                console.log('1', i.FeeAmount);
+                console.log('2', i.ReceivedAmount)
+                console.log('3', i.BankFees)
+                console.log('4', i.BRAmount)
                 i.OverAmount = (Number(i.ReceiveAmount.toString().replaceAll(',', '')) + Number(i.ReceivedAmount.toString().replaceAll(',', ''))) - Number(i.FeeAmount.toString().replaceAll(',', '')) 
                     <= 0 ? 0 : 
                 (Number(i.ReceiveAmount.toString().replaceAll(',', '')) + Number(i.ReceivedAmount.toString().replaceAll(',', ''))) - Number(i.FeeAmount.toString().replaceAll(',', ''));
