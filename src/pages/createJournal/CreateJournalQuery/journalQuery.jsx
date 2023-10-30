@@ -94,11 +94,11 @@ const JournalQuery = ({ setListInfo, queryApi, invoiceStatus, setPage }) => {
         <MainCard title="發票查詢" sx={{ width: '100%' }}>
             <Grid container display="flex" justifyContent="center" alignItems="center" spacing={2}>
                 {/* row1 */}
-                <Grid item xs={1} sm={1} md={1} lg={1}>
+                <Grid item sm={1} md={1} lg={1}>
                     <Typography
                         variant="h5"
                         textAlign="right"
-                        sx={{ fontSize: { lg: '0.5rem', xl: '0.88rem' }, ml: { lg: '0.5rem', xl: '1.5rem' } }}
+                        sx={{ fontSize: { lg: '0.7rem' ,xl: '0.88rem' }, ml: { lg: '0.5rem', xl: '1.5rem' } }}
                     >
                         海纜名稱：
                     </Typography>
@@ -115,11 +115,11 @@ const JournalQuery = ({ setListInfo, queryApi, invoiceStatus, setPage }) => {
                         </Select>
                     </FormControl>
                 </Grid>
-                <Grid item xs={1} sm={1} md={1} lg={1}>
+                <Grid item sm={1} md={1} lg={1}>
                     <Typography
                         textAlign="right"
                         variant="h5"
-                        sx={{ fontSize: { lg: '0.5rem', xl: '0.88rem' }, ml: { lg: '0.5rem', xl: '1.5rem' } }}
+                        sx={{ fontSize: { lg: '0.7rem' ,xl: '0.88rem' }, ml: { lg: '0.5rem', xl: '1.5rem' } }}
                     >
                         供應商：
                     </Typography>
@@ -137,11 +137,11 @@ const JournalQuery = ({ setListInfo, queryApi, invoiceStatus, setPage }) => {
                     </FormControl>
                 </Grid>
               
-                <Grid item xs={1} sm={1} md={1} lg={1}>
+                <Grid item sm={1} md={1} lg={1}>
                     <Typography
                         variant="h5"
                         textAlign="right"
-                        sx={{ fontSize: { lg: '0.5rem', xl: '0.88rem' }, ml: { lg: '0.5rem', xl: '1.5rem' } }}
+                        sx={{ fontSize: { lg: '0.7rem' ,xl: '0.88rem' }, ml: { lg: '0.5rem', xl: '1.5rem' } }}
                     >
                         發票日期：
                     </Typography>

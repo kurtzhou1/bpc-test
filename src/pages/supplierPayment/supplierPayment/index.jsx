@@ -1,4 +1,4 @@
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { Grid, Button, Box, Tabs, Tab } from '@mui/material';
 
 // project import
@@ -10,6 +10,8 @@ import SupplierPaymentQuery from './supplierPaymentQuery';
 
 import { useDispatch } from 'react-redux';
 import { setMessageStateOpen } from 'store/reducers/dropdown';
+
+import { querySupplierPayment } from 'components/apis';
 
 const SupplierPayment = () => {
     const [value, setValue] = useState(0);
@@ -31,13 +33,20 @@ const SupplierPayment = () => {
 
     const [listInfo, setListInfo] = useState([]);
     const supplierPaymentQuery = () => {
-        fetch(queryApi.current, { method: 'GET' })
+        let tmpQuery = querySupplierPayment;
+        if (value === 0) {
+            tmpQuery = tmpQuery + '/Status=PAYING';
+        } else if (value === 1) {
+            tmpQuery = tmpQuery + '/Status=COMPLETE';
+        }
+        fetch(tmpQuery, { method: 'GET' })
             .then((res) => res.json())
             .then((data) => {
                 setListInfo(data);
             })
             .catch((e) => {
-                console.log('e1=>', e);
+                setListInfo([]);
+                dispatch(setMessageStateOpen({ messageStateOpen: { isOpen: true, severity: 'error', message: '查無資料' } }));
             });
     };
 
@@ -48,6 +57,10 @@ const SupplierPayment = () => {
             dispatch(setMessageStateOpen({ messageStateOpen: { isOpen: true, severity: 'error', message: '請至少勾選一筆發票項目' } }));
         }
     };
+
+    useEffect(() => {
+        supplierPaymentQuery();
+    }, [value]);
 
     return (
         <Grid container spacing={1}>
@@ -60,7 +73,6 @@ const SupplierPayment = () => {
                         <Tabs value={value} onChange={handleChange}>
                             <Tab label="待確認" {...a11yProps(0)} />
                             <Tab label="已確認" {...a11yProps(1)} />
-                            {/* <Tab label="函稿" {...a11yProps(2)} /> */}
                         </Tabs>
                         {value === 0 ? (
                             <>
@@ -84,7 +96,6 @@ const SupplierPayment = () => {
                         )}
                     </Box>
                     <TabPanel value={value} index={0}>
-                        {/* <ToPaymentDataList listInfo={listInfo} /> */}
                         <ToPaymentDataList
                             listInfo={listInfo}
                             cbToCn={cbToCn}
@@ -97,9 +108,6 @@ const SupplierPayment = () => {
                     <TabPanel value={value} index={1}>
                         <PaymentedDataList listInfo={listInfo} />
                     </TabPanel>
-                    {/* <TabPanel value={value} index={2}>
-                        <InvalidatedDataList />
-                    </TabPanel> */}
                 </MainCard>
             </Grid>
         </Grid>

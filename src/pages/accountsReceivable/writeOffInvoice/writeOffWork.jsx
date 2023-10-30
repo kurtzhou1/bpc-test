@@ -152,33 +152,66 @@ const WriteOffWork = ({ isDialogOpen, handleDialogClose, writeOffInfo, writeOffD
         let tmpFeeAmountTotal = 0; //應收
         let tmpReceivedAmountTotal = 0; //累計費用
         let tmpBankFeesTotal = 0; //累計手續費
-        tmpArray.forEach((i) => {
-            // i.ReceiveAmount = 0; //本次實收(暫時)
-            // i.BankFees = 0; //累積手續費(暫時)
-            // i.BankFee = 0; //本次手續費(暫時)
-            // i.BRAmount = 0; //總金額(暫時)
-            // i.ShortAmount = 0; //短繳
-            // i.OverAmount = 0; //重溢繳
-            tmpOrgFeeAmountTotal = tmpOrgFeeAmountTotal + i.OrgFeeAmount;
-            tmpDedAmountTotal = tmpDedAmountTotal + i.DedAmount;
-            tmpFeeAmountTotal = tmpFeeAmountTotal + i.FeeAmount;
-            tmpReceivedAmountTotal = tmpReceivedAmountTotal + i.ReceivedAmount;
-            tmpBankFeesTotal = tmpBankFeesTotal + i.BankFees;
-            i.OverAmount = (Number(i.ReceiveAmount.toString().replaceAll(',', '')) + Number(i.ReceivedAmount.toString().replaceAll(',', ''))) - Number(i.FeeAmount.toString().replaceAll(',', '')) 
-                <= 0 ? 0 : 
-            (Number(i.ReceiveAmount.toString().replaceAll(',', '')) + Number(i.ReceivedAmount.toString().replaceAll(',', ''))) - Number(i.FeeAmount.toString().replaceAll(',', ''));
-            
-            i.ShortAmount = Number(i.FeeAmount.toString().replaceAll(',', '')) -  Number(i.ReceivedAmount.toString().replaceAll(',', '')) -  Number(i.BankFees.toString().replaceAll(',', '')) - Number(i.BRAmount.toString().replaceAll(',', ''))
-                <= 0 ? 0 :
-            Number(i.FeeAmount.toString().replaceAll(',', '')) -  Number(i.ReceivedAmount.toString().replaceAll(',', '')) -  Number(i.BankFees.toString().replaceAll(',', '')) - Number(i.BRAmount.toString().replaceAll(',', ''));
-        });
-        orgFeeAmountTotal.current = tmpOrgFeeAmountTotal; //原始費用
-        dedAmountTotal.current = tmpDedAmountTotal; //折扣
-        feeAmountTotal.current = tmpFeeAmountTotal; //應收
-        receivedAmountTotal.current = tmpReceivedAmountTotal; //累計費用
-        bankFeesTotal.current = tmpBankFeesTotal; //累計手續費
-        setToWriteOffDetailInfo(tmpArray);
-        // setToWriteOffMasterInfo(writeOffInfo);
+        if(action === 'view') {
+            tmpArray.forEach((i) => {
+                i.ReceiveAmount = 0; //本次實收(暫時)
+                // i.BankFees = 0; //累積手續費(暫時)
+                i.BankFee = 0; //本次手續費(暫時)
+                // i.BRAmount = 0; //總金額(暫時)
+                // i.ShortAmount = 0; //短繳
+                // i.OverAmount = 0; //重溢繳
+                tmpOrgFeeAmountTotal = tmpOrgFeeAmountTotal + i.OrgFeeAmount;
+                tmpDedAmountTotal = tmpDedAmountTotal + i.DedAmount;
+                tmpFeeAmountTotal = tmpFeeAmountTotal + i.FeeAmount;
+                tmpReceivedAmountTotal = tmpReceivedAmountTotal + i.ReceivedAmount;
+                tmpBankFeesTotal = tmpBankFeesTotal + i.BankFees;
+                console.log(i.ReceiveAmount);
+                console.log(i.ReceivedAmount)
+                i.OverAmount = (Number(i.ReceiveAmount.toString().replaceAll(',', '')) + Number(i.ReceivedAmount.toString().replaceAll(',', ''))) - Number(i.FeeAmount.toString().replaceAll(',', '')) 
+                    <= 0 ? 0 : 
+                (Number(i.ReceiveAmount.toString().replaceAll(',', '')) + Number(i.ReceivedAmount.toString().replaceAll(',', ''))) - Number(i.FeeAmount.toString().replaceAll(',', ''));
+                
+                i.ShortAmount = Number(i.FeeAmount.toString().replaceAll(',', '')) -  Number(i.ReceivedAmount.toString().replaceAll(',', '')) -  Number(i.BankFees.toString().replaceAll(',', '')) - Number(i.BRAmount.toString().replaceAll(',', ''))
+                    <= 0 ? 0 :
+                Number(i.FeeAmount.toString().replaceAll(',', '')) -  Number(i.ReceivedAmount.toString().replaceAll(',', '')) -  Number(i.BankFees.toString().replaceAll(',', '')) - Number(i.BRAmount.toString().replaceAll(',', ''));
+            });
+            orgFeeAmountTotal.current = tmpOrgFeeAmountTotal; //原始費用
+            dedAmountTotal.current = tmpDedAmountTotal; //折扣
+            feeAmountTotal.current = tmpFeeAmountTotal; //應收
+            receivedAmountTotal.current = tmpReceivedAmountTotal; //累計費用
+            bankFeesTotal.current = tmpBankFeesTotal; //累計手續費
+            setToWriteOffDetailInfo(tmpArray);
+        } else {
+            tmpArray.forEach((i) => {
+                // i.ReceiveAmount = 0; //本次實收(暫時)
+                // i.BankFees = 0; //累積手續費(暫時)
+                // i.BankFee = 0; //本次手續費(暫時)
+                // i.BRAmount = 0; //總金額(暫時)
+                // i.ShortAmount = 0; //短繳
+                // i.OverAmount = 0; //重溢繳
+                tmpOrgFeeAmountTotal = tmpOrgFeeAmountTotal + i.OrgFeeAmount;
+                tmpDedAmountTotal = tmpDedAmountTotal + i.DedAmount;
+                tmpFeeAmountTotal = tmpFeeAmountTotal + i.FeeAmount;
+                tmpReceivedAmountTotal = tmpReceivedAmountTotal + i.ReceivedAmount;
+                tmpBankFeesTotal = tmpBankFeesTotal + i.BankFees;
+                console.log(i.ReceiveAmount);
+                console.log(i.ReceivedAmount)
+                i.OverAmount = (Number(i.ReceiveAmount.toString().replaceAll(',', '')) + Number(i.ReceivedAmount.toString().replaceAll(',', ''))) - Number(i.FeeAmount.toString().replaceAll(',', '')) 
+                    <= 0 ? 0 : 
+                (Number(i.ReceiveAmount.toString().replaceAll(',', '')) + Number(i.ReceivedAmount.toString().replaceAll(',', ''))) - Number(i.FeeAmount.toString().replaceAll(',', ''));
+                
+                i.ShortAmount = Number(i.FeeAmount.toString().replaceAll(',', '')) -  Number(i.ReceivedAmount.toString().replaceAll(',', '')) -  Number(i.BankFees.toString().replaceAll(',', '')) - Number(i.BRAmount.toString().replaceAll(',', ''))
+                    <= 0 ? 0 :
+                Number(i.FeeAmount.toString().replaceAll(',', '')) -  Number(i.ReceivedAmount.toString().replaceAll(',', '')) -  Number(i.BankFees.toString().replaceAll(',', '')) - Number(i.BRAmount.toString().replaceAll(',', ''));
+            });
+            orgFeeAmountTotal.current = tmpOrgFeeAmountTotal; //原始費用
+            dedAmountTotal.current = tmpDedAmountTotal; //折扣
+            feeAmountTotal.current = tmpFeeAmountTotal; //應收
+            receivedAmountTotal.current = tmpReceivedAmountTotal; //累計費用
+            bankFeesTotal.current = tmpBankFeesTotal; //累計手續費
+            setToWriteOffDetailInfo(tmpArray);
+        }
+   
     };
 
     const saveData = () => {
@@ -219,10 +252,10 @@ const WriteOffWork = ({ isDialogOpen, handleDialogClose, writeOffInfo, writeOffD
                 <Grid container spacing={1} display="flex" justifyContent="center" alignItems="center" sx={{ fontSize: 10 }}>
                     <Grid item xs={12} sm={12} md={12} lg={12}>
                         <Grid container spacing={0} display="flex" justifyContent="center" alignItems="center" sx={{ fontSize: 10 }}>
-                            <Grid item xs={1} sm={1} md={1} lg={1}>
+                            <Grid item sm={1} md={1} lg={1}>
                                 <Typography
                                     variant="h5"
-                                    sx={{ fontSize: { lg: '0.5rem', xl: '0.88rem' }, ml: { lg: '0.5rem', xl: '1.5rem' } }}
+                                    sx={{ fontSize: { lg: '0.7rem' ,xl: '0.88rem' }, ml: { lg: '0.5rem', xl: '1.5rem' } }}
                                 >
                                     會員：
                                 </Typography>
@@ -230,10 +263,10 @@ const WriteOffWork = ({ isDialogOpen, handleDialogClose, writeOffInfo, writeOffD
                             <Grid item xs={2} sm={2} md={2} lg={2}>
                                 <TextField value={writeOffInfo?.PartyName} fullWidth disabled={true} variant="outlined" size="small" />
                             </Grid>
-                            <Grid item xs={1} sm={1} md={1} lg={1}>
+                            <Grid item sm={1} md={1} lg={1}>
                                 <Typography
                                     variant="h5"
-                                    sx={{ fontSize: { lg: '0.5rem', xl: '0.88rem' }, ml: { lg: '0.5rem', xl: '1.5rem' } }}
+                                    sx={{ fontSize: { lg: '0.7rem' ,xl: '0.88rem' }, ml: { lg: '0.5rem', xl: '1.5rem' } }}
                                 >
                                     發票截止日期：
                                 </Typography>
@@ -247,10 +280,10 @@ const WriteOffWork = ({ isDialogOpen, handleDialogClose, writeOffInfo, writeOffD
                                     size="small"
                                 />
                             </Grid>
-                            <Grid item xs={1} sm={1} md={1} lg={1}>
+                            <Grid item sm={1} md={1} lg={1}>
                                 <Typography
                                     variant="h5"
-                                    sx={{ fontSize: { lg: '0.5rem', xl: '0.88rem' }, ml: { lg: '0.5rem', xl: '1.5rem' } }}
+                                    sx={{ fontSize: { lg: '0.7rem' ,xl: '0.88rem' }, ml: { lg: '0.5rem', xl: '1.5rem' } }}
                                 >
                                     海纜名稱：
                                 </Typography>
@@ -258,10 +291,10 @@ const WriteOffWork = ({ isDialogOpen, handleDialogClose, writeOffInfo, writeOffD
                             <Grid item xs={2} sm={2} md={2} lg={2}>
                                 <TextField value={writeOffInfo?.SubmarineCable} fullWidth disabled={true} variant="outlined" size="small" />
                             </Grid>
-                            <Grid item xs={1} sm={1} md={1} lg={1}>
+                            <Grid item sm={1} md={1} lg={1}>
                                 <Typography
                                     variant="h5"
-                                    sx={{ fontSize: { lg: '0.5rem', xl: '0.88rem' }, ml: { lg: '0.5rem', xl: '1.5rem' } }}
+                                    sx={{ fontSize: { lg: '0.7rem' ,xl: '0.88rem' }, ml: { lg: '0.5rem', xl: '1.5rem' } }}
                                 >
                                     海纜作業：
                                 </Typography>
@@ -297,8 +330,6 @@ const WriteOffWork = ({ isDialogOpen, handleDialogClose, writeOffInfo, writeOffD
                                     </TableHead>
                                     <TableBody>
                                         {toWriteOffDetailInfo?.map((row, id) => {
-                                            // console.log('row=>>', row);
-                                            console.log('tmpBankFee=>>>>>>>', tmpBankFee, row.BankFee);
                                             tmpBankFee = tmpBankFee + Number(row.BankFee.toString().replaceAll(',', ''));//本次手續費
                                             tmpreceiveAmount = tmpreceiveAmount + Number(row.ReceiveAmount.toString().replaceAll(',', '')); //本次實收
                                             tmpTotal = tmpTotal + row.BRAmount; //實收加總

@@ -211,7 +211,7 @@ const ToDeductWork = ({ isDeductOpen, handleDeductClose, billDetailInfo, billMas
                                 <Grid item xs={2} sm={2} md={2} lg={2}>
                                     <Typography
                                         variant="h5"
-                                        sx={{ fontSize: { lg: '0.5rem', xl: '0.88rem' }, ml: { lg: '0.5rem', xl: '1.5rem' } }}
+                                        sx={{ fontSize: { lg: '0.7rem' ,xl: '0.88rem' }, ml: { lg: '0.5rem', xl: '1.5rem' } }}
                                     >
                                         會員：
                                     </Typography>
@@ -222,7 +222,7 @@ const ToDeductWork = ({ isDeductOpen, handleDeductClose, billDetailInfo, billMas
                                 <Grid item xs={2} sm={2} md={2} lg={2}>
                                     <Typography
                                         variant="h5"
-                                        sx={{ fontSize: { lg: '0.5rem', xl: '0.88rem' }, ml: { lg: '0.5rem', xl: '1.5rem' } }}
+                                        sx={{ fontSize: { lg: '0.7rem' ,xl: '0.88rem' }, ml: { lg: '0.5rem', xl: '1.5rem' } }}
                                     >
                                         帳單截止日期：
                                     </Typography>
@@ -241,7 +241,7 @@ const ToDeductWork = ({ isDeductOpen, handleDeductClose, billDetailInfo, billMas
                                 <Grid item xs={2} sm={2} md={2} lg={2}>
                                     <Typography
                                         variant="h5"
-                                        sx={{ fontSize: { lg: '0.5rem', xl: '0.88rem' }, ml: { lg: '0.5rem', xl: '1.5rem' } }}
+                                        sx={{ fontSize: { lg: '0.7rem' ,xl: '0.88rem' }, ml: { lg: '0.5rem', xl: '1.5rem' } }}
                                     >
                                         海纜名稱：
                                     </Typography>
@@ -258,7 +258,7 @@ const ToDeductWork = ({ isDeductOpen, handleDeductClose, billDetailInfo, billMas
                                 <Grid item xs={2} sm={2} md={2} lg={2}>
                                     <Typography
                                         variant="h5"
-                                        sx={{ fontSize: { lg: '0.5rem', xl: '0.88rem' }, ml: { lg: '0.5rem', xl: '1.5rem' } }}
+                                        sx={{ fontSize: { lg: '0.7rem' ,xl: '0.88rem' }, ml: { lg: '0.5rem', xl: '1.5rem' } }}
                                     >
                                         海纜作業：
                                     </Typography>

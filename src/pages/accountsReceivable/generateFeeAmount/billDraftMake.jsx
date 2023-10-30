@@ -264,7 +264,7 @@ const BillDraftMake = ({
                         <MainCard title="聯絡窗口及主管資訊" sx={{ width: '100%' }}>
                             <Grid container spacing={1}>
                                 <Grid item xs={2} sm={2} md={2} lg={2} display="flex" justifyContent="center" alignItems="center">
-                                    <Typography variant="h5" sx={{ fontSize: { lg: '0.5rem', xl: '0.88rem' } }}>
+                                    <Typography variant="h5" sx={{ fontSize: { lg: '0.7rem' ,xl: '0.88rem' } }}>
                                         標示：
                                     </Typography>
                                 </Grid>
@@ -278,7 +278,7 @@ const BillDraftMake = ({
                                     </FormControl>
                                 </Grid>
                                 <Grid item xs={2} sm={2} md={2} lg={2} display="flex" justifyContent="center" alignItems="center">
-                                    <Typography variant="h5" sx={{ fontSize: { lg: '0.5rem', xl: '0.88rem' } }}>
+                                    <Typography variant="h5" sx={{ fontSize: { lg: '0.7rem' ,xl: '0.88rem' } }}>
                                         窗口人員：
                                     </Typography>
                                 </Grid>
@@ -299,7 +299,7 @@ const BillDraftMake = ({
                         <MainCard title="帳單資訊" sx={{ width: '100%' }}>
                             <Grid container spacing={1} display="flex">
                                 <Grid item xs={12} sm={12} md={12} lg={12} display="flex" justifyContent="start">
-                                    <Typography variant="h5" sx={{ fontSize: { lg: '0.5rem', xl: '0.88rem' } }}>
+                                    <Typography variant="h5" sx={{ fontSize: { lg: '0.7rem' ,xl: '0.88rem' } }}>
                                         主旨：
                                     </Typography>
                                 </Grid>
@@ -317,7 +317,7 @@ const BillDraftMake = ({
                                     </Grid>
                                 </Grid>
                                 <Grid item xs={12} sm={12} md={12} lg={12} display="flex" justifyContent="start">
-                                    <Typography variant="h5" sx={{ fontSize: { lg: '0.5rem', xl: '0.88rem' } }}>
+                                    <Typography variant="h5" sx={{ fontSize: { lg: '0.7rem' ,xl: '0.88rem' } }}>
                                         帳單種類：
                                     </Typography>
                                 </Grid>
@@ -334,7 +334,7 @@ const BillDraftMake = ({
                                     </Grid>
                                 </Grid>
                                 <Grid item xs={2} sm={2} md={2} lg={2} display="flex" justifyContent="center" alignItems="center">
-                                    <Typography variant="h5" sx={{ fontSize: { lg: '0.5rem', xl: '0.88rem' } }}>
+                                    <Typography variant="h5" sx={{ fontSize: { lg: '0.7rem' ,xl: '0.88rem' } }}>
                                         開立日期：
                                     </Typography>
                                 </Grid>
@@ -353,7 +353,7 @@ const BillDraftMake = ({
                                     </FormControl>
                                 </Grid>
                                 <Grid item xs={2} sm={2} md={2} lg={2} display="flex" justifyContent="center" alignItems="center">
-                                    <Typography variant="h5" sx={{ fontSize: { lg: '0.5rem', xl: '0.88rem' } }}>
+                                    <Typography variant="h5" sx={{ fontSize: { lg: '0.7rem' ,xl: '0.88rem' } }}>
                                         到期日期：
                                     </Typography>
                                 </Grid>

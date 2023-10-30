@@ -44,8 +44,6 @@ const CreditBalanceDataList = ({ listInfo, setIsDialogOpen }) => {
         setCbTerminal(false);
     };
 
-    console.log('listInfo=>>', listInfo);
-
     return (
         <>
             <TableContainer component={Paper} sx={{ maxHeight: 350 }}>

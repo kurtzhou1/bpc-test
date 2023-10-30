@@ -206,7 +206,7 @@ const ToCombineDataList = ({ handleDialogClose, isDialogOpen, dataList, cbToCn, 
                 <DialogContent>
                     <Grid container spacing={1} display="flex" justifyContent="center" alignItems="center">
                         <Grid item xs={6} sm={3} md={2} lg={2} display="flex" justifyContent="center" alignItems="center">
-                            <Typography variant="h5" sx={{ fontSize: { lg: '0.5rem', xl: '0.88rem' } }}>
+                            <Typography variant="h5" sx={{ fontSize: { lg: '0.7rem' ,xl: '0.88rem' } }}>
                                 帳單到期日期：
                             </Typography>
                         </Grid>
@@ -225,7 +225,7 @@ const ToCombineDataList = ({ handleDialogClose, isDialogOpen, dataList, cbToCn, 
                             </FormControl>
                         </Grid>
                         <Grid item xs={6} sm={3} md={1} lg={1} display="flex" justifyContent="center" alignItems="center">
-                            <Typography variant="h5" sx={{ fontSize: { lg: '0.5rem', xl: '0.88rem' } }}>
+                            <Typography variant="h5" sx={{ fontSize: { lg: '0.7rem' ,xl: '0.88rem' } }}>
                                 PO號碼：
                             </Typography>
                         </Grid>
@@ -243,7 +243,7 @@ const ToCombineDataList = ({ handleDialogClose, isDialogOpen, dataList, cbToCn, 
                             />
                         </Grid>
                         <Grid item xs={6} sm={3} md={2} lg={2} display="flex" justifyContent="center" alignItems="center">
-                            <Typography variant="h5" sx={{ fontSize: { lg: '0.5rem', xl: '0.88rem' } }}>
+                            <Typography variant="h5" sx={{ fontSize: { lg: '0.7rem' ,xl: '0.88rem' } }}>
                                 帳單號碼：
                             </Typography>
                         </Grid>

@@ -84,7 +84,7 @@ const JournalQuery = ({ setListInfo, queryApi, invoiceStatus, supplierName, setS
                     <Typography
                         textAlign="right"
                         variant="h5"
-                        sx={{ fontSize: { lg: '0.5rem', xl: '0.88rem' } }}
+                        sx={{ fontSize: { lg: '0.7rem' ,xl: '0.88rem' } }}
                     >
                         海纜名稱：
                     </Typography>
@@ -102,7 +102,7 @@ const JournalQuery = ({ setListInfo, queryApi, invoiceStatus, supplierName, setS
                     </FormControl>
                 </Grid>
                 <Grid item xs={2} sm={2} md={1} lg={1}>
-                    <Typography variant="h5" textAlign="right" sx={{ fontSize: { lg: '0.5rem', xl: '0.88rem' } }}>
+                    <Typography variant="h5" textAlign="right" sx={{ fontSize: { lg: '0.7rem' ,xl: '0.88rem' } }}>
                         供應商：
                     </Typography>
                 </Grid>
@@ -122,7 +122,7 @@ const JournalQuery = ({ setListInfo, queryApi, invoiceStatus, supplierName, setS
                     <Typography
                         textAlign="right"
                         variant="h5"
-                        sx={{ fontSize: { lg: '0.5rem', xl: '0.88rem' } }}
+                        sx={{ fontSize: { lg: '0.7rem' ,xl: '0.88rem' } }}
                     >
                         發票日期：
                     </Typography>

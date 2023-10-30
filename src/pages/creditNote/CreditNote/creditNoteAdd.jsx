@@ -134,7 +134,7 @@ const CreditBalanceManage = ({
             <DialogContent dividers>
                 <Grid container spacing={1} display="flex" justifyContent="center" alignItems="center">
                     <Grid item xs={3} sm={3} md={3} lg={3} display="flex" justifyContent="center">
-                        <Typography variant="h5" sx={{ fontSize: { lg: '0.5rem', xl: '0.88rem' }, ml: { lg: '0.5rem', xl: '1.5rem' } }}>
+                        <Typography variant="h5" sx={{ fontSize: { lg: '0.7rem' ,xl: '0.88rem' }, ml: { lg: '0.5rem', xl: '1.5rem' } }}>
                             CB種類：
                         </Typography>
                     </Grid>
@@ -152,7 +152,7 @@ const CreditBalanceManage = ({
                         </FormControl>
                     </Grid>
                     <Grid item xs={3} sm={3} md={3} lg={3} display="flex" justifyContent="center">
-                        <Typography variant="h5" sx={{ fontSize: { lg: '0.5rem', xl: '0.88rem' }, ml: { lg: '0.5rem', xl: '1.5rem' } }}>
+                        <Typography variant="h5" sx={{ fontSize: { lg: '0.7rem' ,xl: '0.88rem' }, ml: { lg: '0.5rem', xl: '1.5rem' } }}>
                             會員名稱：
                         </Typography>
                     </Grid>
@@ -168,7 +168,7 @@ const CreditBalanceManage = ({
                     </Grid>
                     {/* <Grid item xs={3} sm={3} md={3} lg={3} xl={6} /> */}
                     <Grid item xs={3} sm={3} md={3} lg={3} display="flex" justifyContent="center">
-                        <Typography variant="h5" sx={{ fontSize: { lg: '0.5rem', xl: '0.88rem' }, ml: { lg: '0.5rem', xl: '1.5rem' } }}>
+                        <Typography variant="h5" sx={{ fontSize: { lg: '0.7rem' ,xl: '0.88rem' }, ml: { lg: '0.5rem', xl: '1.5rem' } }}>
                             剩餘金額：
                         </Typography>
                     </Grid>
@@ -183,7 +183,7 @@ const CreditBalanceManage = ({
                         />
                     </Grid>
                     <Grid item xs={3} sm={3} md={3} lg={3} display="flex" justifyContent="center">
-                        <Typography variant="h5" sx={{ fontSize: { lg: '0.5rem', xl: '0.88rem' }, ml: { lg: '0.5rem', xl: '1.5rem' } }}>
+                        <Typography variant="h5" sx={{ fontSize: { lg: '0.7rem' ,xl: '0.88rem' }, ml: { lg: '0.5rem', xl: '1.5rem' } }}>
                             摘要：
                         </Typography>
                     </Grid>
@@ -199,7 +199,7 @@ const CreditBalanceManage = ({
                     </Grid>
                     {/* <Grid item xs={3} sm={3} md={3} lg={3} xl={6} /> */}
                     <Grid item xs={3} sm={3} md={3} lg={3} display="flex" justifyContent="center">
-                        <Typography variant="h5" sx={{ fontSize: { lg: '0.5rem', xl: '0.88rem' }, ml: { lg: '0.5rem', xl: '1.5rem' } }}>
+                        <Typography variant="h5" sx={{ fontSize: { lg: '0.7rem' ,xl: '0.88rem' }, ml: { lg: '0.5rem', xl: '1.5rem' } }}>
                             發票號碼：
                         </Typography>
                     </Grid>
@@ -214,7 +214,7 @@ const CreditBalanceManage = ({
                         />
                     </Grid>
                     <Grid item xs={3} sm={3} md={3} lg={3} display="flex" justifyContent="center">
-                        <Typography variant="h5" sx={{ fontSize: { lg: '0.5rem', xl: '0.88rem' }, ml: { lg: '0.5rem', xl: '1.5rem' } }}>
+                        <Typography variant="h5" sx={{ fontSize: { lg: '0.7rem' ,xl: '0.88rem' }, ml: { lg: '0.5rem', xl: '1.5rem' } }}>
                             帳單號碼：
                         </Typography>
                     </Grid>
@@ -230,7 +230,7 @@ const CreditBalanceManage = ({
                     </Grid>
                     {/* <Grid item xs={3} sm={3} md={3} lg={3} xl={6} /> */}
                     <Grid item xs={3} sm={3} md={3} lg={3} display="flex" justifyContent="center">
-                        <Typography variant="h5" sx={{ fontSize: { lg: '0.5rem', xl: '0.88rem' }, ml: { lg: '0.5rem', xl: '1.5rem' } }}>
+                        <Typography variant="h5" sx={{ fontSize: { lg: '0.7rem' ,xl: '0.88rem' }, ml: { lg: '0.5rem', xl: '1.5rem' } }}>
                             海纜名稱：
                         </Typography>
                     </Grid>
@@ -245,7 +245,7 @@ const CreditBalanceManage = ({
                         />
                     </Grid>
                     <Grid item xs={3} sm={3} md={3} lg={3} display="flex" justifyContent="center">
-                        <Typography variant="h5" sx={{ fontSize: { lg: '0.5rem', xl: '0.88rem' }, ml: { lg: '0.5rem', xl: '1.5rem' } }}>
+                        <Typography variant="h5" sx={{ fontSize: { lg: '0.7rem' ,xl: '0.88rem' }, ml: { lg: '0.5rem', xl: '1.5rem' } }}>
                             海纜作業：
                         </Typography>
                     </Grid>

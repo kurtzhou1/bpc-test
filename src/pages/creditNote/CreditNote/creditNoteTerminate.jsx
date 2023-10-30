@@ -49,7 +49,7 @@ const CreditBalanceTerminate = ({ cbTerminal, handleTerminalClose }) => {
                 <Grid container spacing={1} display="flex" justifyContent="center" alignItems="center">
                     {/* row3 */}
                     <Grid item xs={12} sm={12} md={12} lg={12} display="flex">
-                        <Typography variant="h5" sx={{ fontSize: { lg: '0.5rem', xl: '0.88rem' }, ml: { lg: '0.5rem', xl: '1.5rem' } }}>
+                        <Typography variant="h5" sx={{ fontSize: { lg: '0.7rem' ,xl: '0.88rem' }, ml: { lg: '0.5rem', xl: '1.5rem' } }}>
                             {/* {`是否確定刪除${terminateInfo.BillMilestone}、${terminateInfo.PartyName}的Credit Balance資料`} */}
                             {`是否確定終止此Credit Balance資料`}
                         </Typography>

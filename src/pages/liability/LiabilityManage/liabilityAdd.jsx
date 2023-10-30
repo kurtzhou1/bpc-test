@@ -227,7 +227,7 @@ const LiabilityAdd = ({
             <DialogContent dividers>
                 <Grid container spacing={1} display="flex" justifyContent="center" alignItems="center">
                     <Grid item xs={2} sm={2} md={2} lg={2} display="flex" justifyContent="center">
-                        <Typography variant="h5" sx={{ fontSize: { lg: '0.5rem', xl: '0.88rem' }, ml: { lg: '0.5rem', xl: '1.5rem' } }}>
+                        <Typography variant="h5" sx={{ fontSize: { lg: '0.7rem' ,xl: '0.88rem' }, ml: { lg: '0.5rem', xl: '1.5rem' } }}>
                             計帳段號：
                         </Typography>
                     </Grid>
@@ -268,7 +268,7 @@ const LiabilityAdd = ({
                         </Grid>
                     )}
                     <Grid item xs={2} sm={2} md={2} lg={2} display="flex" justifyContent="center">
-                        <Typography variant="h5" sx={{ fontSize: { lg: '0.5rem', xl: '0.88rem' }, ml: { lg: '0.5rem', xl: '1.5rem' } }}>
+                        <Typography variant="h5" sx={{ fontSize: { lg: '0.7rem' ,xl: '0.88rem' }, ml: { lg: '0.5rem', xl: '1.5rem' } }}>
                             海纜名稱：
                         </Typography>
                     </Grid>
@@ -293,7 +293,7 @@ const LiabilityAdd = ({
                         </FormControl>
                     </Grid>
                     <Grid item xs={2} sm={2} md={2} lg={2} display="flex" justifyContent="center">
-                        <Typography variant="h5" sx={{ fontSize: { lg: '0.5rem', xl: '0.88rem' }, ml: { lg: '0.5rem', xl: '1.5rem' } }}>
+                        <Typography variant="h5" sx={{ fontSize: { lg: '0.7rem' ,xl: '0.88rem' }, ml: { lg: '0.5rem', xl: '1.5rem' } }}>
                             海纜作業：
                         </Typography>
                     </Grid>
@@ -316,7 +316,7 @@ const LiabilityAdd = ({
                         </FormControl>
                     </Grid>
                     <Grid item xs={2} sm={2} md={2} lg={2} display="flex" justifyContent="center">
-                        <Typography variant="h5" sx={{ fontSize: { lg: '0.5rem', xl: '0.88rem' }, ml: { lg: '0.5rem', xl: '1.5rem' } }}>
+                        <Typography variant="h5" sx={{ fontSize: { lg: '0.7rem' ,xl: '0.88rem' }, ml: { lg: '0.5rem', xl: '1.5rem' } }}>
                             攤分比例：
                         </Typography>
                     </Grid>
@@ -332,7 +332,7 @@ const LiabilityAdd = ({
                         />
                     </Grid>
                     <Grid item xs={2} sm={2} md={2} lg={2} display="flex" justifyContent="center">
-                        <Typography variant="h5" sx={{ fontSize: { lg: '0.5rem', xl: '0.88rem' }, ml: { lg: '0.5rem', xl: '1.5rem' } }}>
+                        <Typography variant="h5" sx={{ fontSize: { lg: '0.7rem' ,xl: '0.88rem' }, ml: { lg: '0.5rem', xl: '1.5rem' } }}>
                             會員名稱：
                         </Typography>
                     </Grid>
@@ -361,7 +361,7 @@ const LiabilityAdd = ({
                     </Grid>
                     {/* row3 */}
                     <Grid item xs={2} sm={2} md={2} lg={2} display="flex" justifyContent="center">
-                        <Typography variant="h5" sx={{ fontSize: { lg: '0.5rem', xl: '0.88rem' }, ml: { lg: '0.5rem', xl: '1.5rem' } }}>
+                        <Typography variant="h5" sx={{ fontSize: { lg: '0.7rem' ,xl: '0.88rem' }, ml: { lg: '0.5rem', xl: '1.5rem' } }}>
                             備註：
                         </Typography>
                     </Grid>
@@ -378,7 +378,7 @@ const LiabilityAdd = ({
                     </Grid>
                     <Grid item xs={2} sm={2} md={2} lg={2} display="flex" justifyContent="center">
                         {dialogAction === 'Edit' ? (
-                            <Typography variant="h5" sx={{ fontSize: { lg: '0.5rem', xl: '0.88rem' }, ml: { lg: '0.5rem', xl: '1.5rem' } }}>
+                            <Typography variant="h5" sx={{ fontSize: { lg: '0.7rem' ,xl: '0.88rem' }, ml: { lg: '0.5rem', xl: '1.5rem' } }}>
                                 異動原因：
                             </Typography>
                         ) : (

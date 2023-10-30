@@ -44,7 +44,6 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
 }));
 
 const WriteOffedDataList = ({ listInfo }) => {
-    console.log('listInfo=>>', listInfo);
     let tmpBMArray = [];
     const [isDialogOpen, setIsDialogOpen] = useState(false); //檢視
     const writeOffInfo = useRef({});

@@ -32,8 +32,8 @@ const CreditBalanceQuery = ({ creditBalanceQuery }) => {
         <MainCard title="Credit Note查詢" sx={{ width: '100%' }}>
             <Grid container display="flex" justifyContent="center" alignItems="center" spacing={2}>
                 {/* row1 */}
-                <Grid item xs={1} sm={1} md={1} lg={1}>
-                    <Typography variant="h5" sx={{ fontSize: { lg: '0.5rem', xl: '0.88rem' }, ml: { lg: '0.5rem', xl: '1.5rem' } }}>
+                <Grid item sm={1} md={1} lg={1}>
+                    <Typography variant="h5" sx={{ fontSize: { lg: '0.7rem' ,xl: '0.88rem' }, ml: { lg: '0.5rem', xl: '1.5rem' } }}>
                         會員：
                     </Typography>
                 </Grid>
@@ -51,8 +51,8 @@ const CreditBalanceQuery = ({ creditBalanceQuery }) => {
                         </Select>
                     </FormControl>
                 </Grid>
-                <Grid item xs={1} sm={1} md={1} lg={1}>
-                    <Typography variant="h5" sx={{ fontSize: { lg: '0.5rem', xl: '0.88rem' }, ml: { lg: '0.5rem', xl: '1.5rem' } }}>
+                <Grid item sm={1} md={1} lg={1}>
+                    <Typography variant="h5" sx={{ fontSize: { lg: '0.7rem' ,xl: '0.88rem' }, ml: { lg: '0.5rem', xl: '1.5rem' } }}>
                         計帳段號：
                     </Typography>
                 </Grid>
@@ -70,8 +70,8 @@ const CreditBalanceQuery = ({ creditBalanceQuery }) => {
                         </Select>
                     </FormControl>
                 </Grid>
-                <Grid item xs={1} sm={1} md={1} lg={1}>
-                    <Typography variant="h5" sx={{ fontSize: { lg: '0.5rem', xl: '0.88rem' }, ml: { lg: '0.5rem', xl: '1.5rem' } }}>
+                <Grid item sm={1} md={1} lg={1}>
+                    <Typography variant="h5" sx={{ fontSize: { lg: '0.7rem' ,xl: '0.88rem' }, ml: { lg: '0.5rem', xl: '1.5rem' } }}>
                         海纜：
                     </Typography>
                 </Grid>
@@ -89,8 +89,8 @@ const CreditBalanceQuery = ({ creditBalanceQuery }) => {
                         </Select>
                     </FormControl>
                 </Grid>
-                {/* <Grid item xs={1} sm={1} md={1} lg={1}>
-                    <Typography variant="h5" sx={{ fontSize: { lg: '0.5rem', xl: '0.88rem' }, ml: { lg: '0.5rem', xl: '1.5rem' } }}>
+                {/* <Grid item sm={1} md={1} lg={1}>
+                    <Typography variant="h5" sx={{ fontSize: { lg: '0.7rem' ,xl: '0.88rem' }, ml: { lg: '0.5rem', xl: '1.5rem' } }}>
                         海纜作業：
                     </Typography>
                 </Grid>
@@ -111,7 +111,7 @@ const CreditBalanceQuery = ({ creditBalanceQuery }) => {
                 </Grid> */}
                 {/* row2 */}
                 {/* <Grid item xs={1} sm={1} md={1} lg={1} display="flex" alignItems="center">
-                    <Typography variant="h5" sx={{ fontSize: { lg: '0.5rem', xl: '0.88rem' }, ml: { lg: '0rem', xl: '0rem' } }}>
+                    <Typography variant="h5" sx={{ fontSize: { lg: '0.7rem' ,xl: '0.88rem' }, ml: { lg: '0rem', xl: '0rem' } }}>
                         剩餘金額：
                     </Typography>
                 </Grid>
@@ -138,7 +138,7 @@ const CreditBalanceQuery = ({ creditBalanceQuery }) => {
                     </FormControl>
                 </Grid>
                 <Grid item xs={1} sm={1} md={1} lg={1} display="flex" alignItems="center">
-                    <Typography variant="h5" sx={{ fontSize: { lg: '0.5rem', xl: '0.88rem' }, ml: { lg: '0rem', xl: '0rem' } }}>
+                    <Typography variant="h5" sx={{ fontSize: { lg: '0.7rem' ,xl: '0.88rem' }, ml: { lg: '0rem', xl: '0rem' } }}>
                         退費紀錄：
                     </Typography>
                 </Grid>
@@ -163,8 +163,8 @@ const CreditBalanceQuery = ({ creditBalanceQuery }) => {
                         </FormGroup>
                     </FormControl>
                 </Grid>
-                <Grid item xs={1} sm={1} md={1} lg={1}>
-                    <Typography variant="h5" sx={{ fontSize: { lg: '0.5rem', xl: '0.88rem' }, ml: { lg: '0.5rem', xl: '1.5rem' } }}>
+                <Grid item sm={1} md={1} lg={1}>
+                    <Typography variant="h5" sx={{ fontSize: { lg: '0.7rem' ,xl: '0.88rem' }, ml: { lg: '0.5rem', xl: '1.5rem' } }}>
                         建立日期：
                     </Typography>
                 </Grid>

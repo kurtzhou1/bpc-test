@@ -132,7 +132,7 @@ const CreditBalanceAdd = ({ handleDialogClose, isDialogOpen, partiesList, submar
             <DialogContent dividers>
                 <Grid container spacing={1} display="flex" justifyContent="center" alignItems="center">
                     <Grid item xs={2} sm={2} md={2} lg={2} display="flex" justifyContent="center">
-                        <Typography variant="h5" sx={{ fontSize: { lg: '0.5rem', xl: '0.88rem' }, ml: { lg: '0.5rem', xl: '1.5rem' } }}>
+                        <Typography variant="h5" sx={{ fontSize: { lg: '0.7rem' ,xl: '0.88rem' }, ml: { lg: '0.5rem', xl: '1.5rem' } }}>
                             CB種類：
                         </Typography>
                     </Grid>
@@ -149,7 +149,7 @@ const CreditBalanceAdd = ({ handleDialogClose, isDialogOpen, partiesList, submar
                         </FormControl>
                     </Grid>
                     <Grid item xs={2} sm={2} md={2} lg={2} display="flex" justifyContent="center">
-                        <Typography variant="h5" sx={{ fontSize: { lg: '0.5rem', xl: '0.88rem' }, ml: { lg: '0.5rem', xl: '1.5rem' } }}>
+                        <Typography variant="h5" sx={{ fontSize: { lg: '0.7rem' ,xl: '0.88rem' }, ml: { lg: '0.5rem', xl: '1.5rem' } }}>
                             摘要：
                         </Typography>
                     </Grid>
@@ -164,7 +164,7 @@ const CreditBalanceAdd = ({ handleDialogClose, isDialogOpen, partiesList, submar
                         />
                     </Grid>
                     <Grid item xs={2} sm={2} md={2} lg={2} display="flex" justifyContent="center">
-                        <Typography variant="h5" sx={{ fontSize: { lg: '0.5rem', xl: '0.88rem' }, ml: { lg: '0.5rem', xl: '1.5rem' } }}>
+                        <Typography variant="h5" sx={{ fontSize: { lg: '0.7rem' ,xl: '0.88rem' }, ml: { lg: '0.5rem', xl: '1.5rem' } }}>
                             會員名稱：
                         </Typography>
                     </Grid>
@@ -180,7 +180,7 @@ const CreditBalanceAdd = ({ handleDialogClose, isDialogOpen, partiesList, submar
                     </Grid>
                     {/* <Grid item xs={2} sm={2} md={2} lg={2} xl={6} /> */}
                     <Grid item xs={2} sm={2} md={2} lg={2} display="flex" justifyContent="center">
-                        <Typography variant="h5" sx={{ fontSize: { lg: '0.5rem', xl: '0.88rem' }, ml: { lg: '0.5rem', xl: '1.5rem' } }}>
+                        <Typography variant="h5" sx={{ fontSize: { lg: '0.7rem' ,xl: '0.88rem' }, ml: { lg: '0.5rem', xl: '1.5rem' } }}>
                             剩餘金額：
                         </Typography>
                     </Grid>
@@ -197,7 +197,7 @@ const CreditBalanceAdd = ({ handleDialogClose, isDialogOpen, partiesList, submar
 
                     {/* <Grid item xs={2} sm={2} md={2} lg={2} xl={6} /> */}
                     <Grid item xs={2} sm={2} md={2} lg={2} display="flex" justifyContent="center">
-                        <Typography variant="h5" sx={{ fontSize: { lg: '0.5rem', xl: '0.88rem' }, ml: { lg: '0.5rem', xl: '1.5rem' } }}>
+                        <Typography variant="h5" sx={{ fontSize: { lg: '0.7rem' ,xl: '0.88rem' }, ml: { lg: '0.5rem', xl: '1.5rem' } }}>
                             發票號碼：
                         </Typography>
                     </Grid>
@@ -212,7 +212,7 @@ const CreditBalanceAdd = ({ handleDialogClose, isDialogOpen, partiesList, submar
                         />
                     </Grid>
                     <Grid item xs={2} sm={2} md={2} lg={2} display="flex" justifyContent="center">
-                        <Typography variant="h5" sx={{ fontSize: { lg: '0.5rem', xl: '0.88rem' }, ml: { lg: '0.5rem', xl: '1.5rem' } }}>
+                        <Typography variant="h5" sx={{ fontSize: { lg: '0.7rem' ,xl: '0.88rem' }, ml: { lg: '0.5rem', xl: '1.5rem' } }}>
                             帳單號碼：
                         </Typography>
                     </Grid>
@@ -228,7 +228,7 @@ const CreditBalanceAdd = ({ handleDialogClose, isDialogOpen, partiesList, submar
                     </Grid>
                     {/* <Grid item xs={2} sm={2} md={2} lg={2} xl={6} /> */}
                     <Grid item xs={2} sm={2} md={2} lg={2} display="flex" justifyContent="center">
-                        <Typography variant="h5" sx={{ fontSize: { lg: '0.5rem', xl: '0.88rem' }, ml: { lg: '0.5rem', xl: '1.5rem' } }}>
+                        <Typography variant="h5" sx={{ fontSize: { lg: '0.7rem' ,xl: '0.88rem' }, ml: { lg: '0.5rem', xl: '1.5rem' } }}>
                             海纜名稱：
                         </Typography>
                     </Grid>
@@ -245,7 +245,7 @@ const CreditBalanceAdd = ({ handleDialogClose, isDialogOpen, partiesList, submar
                         </FormControl>
                     </Grid>
                     <Grid item xs={2} sm={2} md={2} lg={2} display="flex" justifyContent="center">
-                        <Typography variant="h5" sx={{ fontSize: { lg: '0.5rem', xl: '0.88rem' }, ml: { lg: '0.5rem', xl: '1.5rem' } }}>
+                        <Typography variant="h5" sx={{ fontSize: { lg: '0.7rem' ,xl: '0.88rem' }, ml: { lg: '0.5rem', xl: '1.5rem' } }}>
                             海纜作業：
                         </Typography>
                     </Grid>
@@ -260,7 +260,7 @@ const CreditBalanceAdd = ({ handleDialogClose, isDialogOpen, partiesList, submar
                         </FormControl>
                     </Grid>
                     <Grid item xs={2} sm={2} md={2} lg={2} display="flex" justifyContent="center">
-                        <Typography variant="h5" sx={{ fontSize: { lg: '0.5rem', xl: '0.88rem' }, ml: { lg: '0.5rem', xl: '1.5rem' } }}>
+                        <Typography variant="h5" sx={{ fontSize: { lg: '0.7rem' ,xl: '0.88rem' }, ml: { lg: '0.5rem', xl: '1.5rem' } }}>
                             計帳段號：
                         </Typography>
                     </Grid>

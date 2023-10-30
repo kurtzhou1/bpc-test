@@ -95,7 +95,7 @@ const SignAndUpload = ({ isUploadOpen, handleUploadClose, billMasterID, receivab
                                                 setIsUpload(false);
                                             }}
                                             sx={{
-                                                fontSize: { lg: '0.5rem', xl: '0.88rem' },
+                                                fontSize: { lg: '0.55rem' ,xl: '0.88rem' },
                                                 ml: { lg: '0.5rem', xl: '1.5rem' }
                                             }}
                                         >

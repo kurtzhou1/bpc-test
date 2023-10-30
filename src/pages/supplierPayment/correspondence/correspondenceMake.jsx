@@ -146,7 +146,7 @@ const CorrespondenceMake = ({ isDialogOpen, handleDialogClose, payDraftID }) => 
                                         <Typography
                                             variant="h5"
                                             sx={{
-                                                fontSize: { lg: '0.5rem', xl: '0.88rem' },
+                                                fontSize: { lg: '0.55rem' ,xl: '0.88rem' },
                                                 ml: { lg: '0.5rem', xl: '1.5rem' },
                                                 display: 'flex',
                                                 alignItems: 'center',
@@ -161,7 +161,7 @@ const CorrespondenceMake = ({ isDialogOpen, handleDialogClose, payDraftID }) => 
                                                 label="支付項目"
                                                 onChange={(e) => setSubject1(e.target.value)}
                                                 sx={{
-                                                    fontSize: { lg: '0.5rem', xl: '0.88rem' },
+                                                    fontSize: { lg: '0.55rem' ,xl: '0.88rem' },
                                                     ml: { lg: '0.5rem', xl: '1.5rem' },
                                                     width: '20%'
                                                 }}
@@ -176,7 +176,7 @@ const CorrespondenceMake = ({ isDialogOpen, handleDialogClose, payDraftID }) => 
                         <MainCard title="說明" sx={{ width: '100%' }}>
                             <Grid container spacing={1}>
                                 <Grid item xs={2} sm={2} md={2} lg={2} display="flex" justifyContent="center" alignItems="center">
-                                    <Typography variant="h5" sx={{ fontSize: { lg: '0.5rem', xl: '0.88rem' } }}>
+                                    <Typography variant="h5" sx={{ fontSize: { lg: '0.7rem' ,xl: '0.88rem' } }}>
                                         海纜資訊：
                                     </Typography>
                                 </Grid>

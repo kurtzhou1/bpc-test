@@ -106,8 +106,8 @@ const ResearchBillQuery = ({ setListInfo, setDetailInfo }) => {
         <MainCard title="條件查詢" sx={{ width: '100%' }}>
             <Grid container display="flex" alignItems="center" spacing={2}>
                 {/* row1 */}
-                <Grid item xs={1} sm={1} md={1} lg={1}>
-                    <Typography variant="h5" sx={{ fontSize: { lg: '0.5rem', xl: '0.88rem' } }}>
+                <Grid item sm={1} md={1} lg={1}>
+                    <Typography variant="h5" sx={{ fontSize: { lg: '0.7rem' ,xl: '0.88rem' } }}>
                         會員：
                     </Typography>
                 </Grid>
@@ -121,8 +121,8 @@ const ResearchBillQuery = ({ setListInfo, setDetailInfo }) => {
                         </Select>
                     </FormControl>
                 </Grid>
-                <Grid item xs={1} sm={1} md={1} lg={1}>
-                    <Typography variant="h5" sx={{ fontSize: { lg: '0.5rem', xl: '0.88rem' } }}>
+                <Grid item sm={1} md={1} lg={1}>
+                    <Typography variant="h5" sx={{ fontSize: { lg: '0.7rem' ,xl: '0.88rem' } }}>
                         海纜名稱：
                     </Typography>
                 </Grid>
@@ -138,8 +138,8 @@ const ResearchBillQuery = ({ setListInfo, setDetailInfo }) => {
                         </Select>
                     </FormControl>
                 </Grid>
-                <Grid item xs={1} sm={1} md={1} lg={1}>
-                    <Typography variant="h5" sx={{ fontSize: { lg: '0.5rem', xl: '0.88rem' } }}>
+                <Grid item sm={1} md={1} lg={1}>
+                    <Typography variant="h5" sx={{ fontSize: { lg: '0.7rem' ,xl: '0.88rem' } }}>
                         海纜作業：
                     </Typography>
                 </Grid>
@@ -153,8 +153,8 @@ const ResearchBillQuery = ({ setListInfo, setDetailInfo }) => {
                         </Select>
                     </FormControl>
                 </Grid>
-                <Grid item xs={1} sm={1} md={1} lg={1}>
-                    <Typography variant="h5" sx={{ fontSize: { lg: '0.5rem', xl: '0.88rem' } }}>
+                <Grid item sm={1} md={1} lg={1}>
+                    <Typography variant="h5" sx={{ fontSize: { lg: '0.7rem' ,xl: '0.88rem' } }}>
                         帳單號碼：
                     </Typography>
                 </Grid>
@@ -171,8 +171,8 @@ const ResearchBillQuery = ({ setListInfo, setDetailInfo }) => {
                     </FormControl>
                 </Grid>
                 {/* row2 */}
-                <Grid item xs={1} sm={1} md={1} lg={1}>
-                    <Typography variant="h5" sx={{ fontSize: { lg: '0.5rem', xl: '0.88rem' } }}>
+                <Grid item sm={1} md={1} lg={1}>
+                    <Typography variant="h5" sx={{ fontSize: { lg: '0.7rem' ,xl: '0.88rem' } }}>
                         帳單日期：
                     </Typography>
                 </Grid>

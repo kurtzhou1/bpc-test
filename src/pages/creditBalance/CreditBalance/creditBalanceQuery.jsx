@@ -106,8 +106,8 @@ const CreditBalanceQuery = ({ setListInfo, partiesList, submarineCableList, quer
         <MainCard title="餘額查詢" sx={{ width: '100%' }}>
             <Grid container display="flex" alignItems="center" spacing={2}>
                 {/* row1 */}
-                <Grid item xs={1} sm={1} md={1} lg={1}>
-                    <Typography variant="h5" sx={{ fontSize: { lg: '0.5rem', xl: '0.88rem' } }}>
+                <Grid item sm={1} md={1} lg={1}>
+                    <Typography variant="h5" sx={{ fontSize: { lg: '0.7rem' ,xl: '0.88rem' } }}>
                         會員：
                     </Typography>
                 </Grid>
@@ -121,8 +121,8 @@ const CreditBalanceQuery = ({ setListInfo, partiesList, submarineCableList, quer
                         </Select>
                     </FormControl>
                 </Grid>
-                <Grid item xs={1} sm={1} md={1} lg={1}>
-                    <Typography variant="h5" sx={{ fontSize: { lg: '0.5rem', xl: '0.88rem' } }}>
+                <Grid item sm={1} md={1} lg={1}>
+                    <Typography variant="h5" sx={{ fontSize: { lg: '0.7rem' ,xl: '0.88rem' } }}>
                         CB種類：
                     </Typography>
                 </Grid>
@@ -139,8 +139,8 @@ const CreditBalanceQuery = ({ setListInfo, partiesList, submarineCableList, quer
                         </Select>
                     </FormControl>
                 </Grid>
-                <Grid item xs={1} sm={1} md={1} lg={1}>
-                    <Typography variant="h5" sx={{ fontSize: { lg: '0.5rem', xl: '0.88rem' } }}>
+                <Grid item sm={1} md={1} lg={1}>
+                    <Typography variant="h5" sx={{ fontSize: { lg: '0.7rem' ,xl: '0.88rem' } }}>
                         海纜名稱：
                     </Typography>
                 </Grid>
@@ -156,8 +156,8 @@ const CreditBalanceQuery = ({ setListInfo, partiesList, submarineCableList, quer
                         </Select>
                     </FormControl>
                 </Grid>
-                <Grid item xs={1} sm={1} md={1} lg={1}>
-                    <Typography variant="h5" sx={{ fontSize: { lg: '0.5rem', xl: '0.88rem' } }}>
+                <Grid item sm={1} md={1} lg={1}>
+                    <Typography variant="h5" sx={{ fontSize: { lg: '0.7rem' ,xl: '0.88rem' } }}>
                         海纜作業：
                     </Typography>
                 </Grid>
@@ -173,7 +173,7 @@ const CreditBalanceQuery = ({ setListInfo, partiesList, submarineCableList, quer
                 </Grid>
                 {/* row2 */}
                 <Grid item xs={2} sm={2} md={1} lg={1} display="flex">
-                    <Typography variant="h5" sx={{ fontSize: { lg: '0.5rem', xl: '0.88rem' }, ml: { lg: '0rem', xl: '0rem' } }}>
+                    <Typography variant="h5" sx={{ fontSize: { lg: '0.7rem' ,xl: '0.88rem' }, ml: { lg: '0rem', xl: '0rem' } }}>
                         剩餘金額：
                     </Typography>
                 </Grid>
@@ -206,7 +206,7 @@ const CreditBalanceQuery = ({ setListInfo, partiesList, submarineCableList, quer
                     </FormControl>
                 </Grid>
                 <Grid item xs={2} sm={2} md={1} lg={1}>
-                    <Typography variant="h5" sx={{ fontSize: { lg: '0.5rem', xl: '0.88rem' } }}>
+                    <Typography variant="h5" sx={{ fontSize: { lg: '0.7rem' ,xl: '0.88rem' } }}>
                         建立日期：
                     </Typography>
                 </Grid>

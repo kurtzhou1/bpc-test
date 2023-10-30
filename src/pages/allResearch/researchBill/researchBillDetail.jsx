@@ -252,7 +252,7 @@ const ResearchBillDetail = ({ datailInfo }) => {
                 <DialogContent>
                     <Grid container spacing={1} display="flex" justifyContent="center" alignItems="center">
                         <Grid item xs={2} sm={2} md={2} lg={2} display="flex" justifyContent="center" alignItems="center">
-                            <Typography variant="h5" sx={{ fontSize: { lg: '0.5rem', xl: '0.88rem' } }}>
+                            <Typography variant="h5" sx={{ fontSize: { lg: '0.7rem' ,xl: '0.88rem' } }}>
                                 帳單號碼：
                             </Typography>
                         </Grid>
@@ -260,7 +260,7 @@ const ResearchBillDetail = ({ datailInfo }) => {
                             <TextField value={billMasterInfo.BillingNo} fullWidth variant="outlined" size="small" disabled />
                         </Grid>
                         <Grid item xs={2} sm={2} md={2} lg={2} display="flex" justifyContent="center" alignItems="center">
-                            <Typography variant="h5" sx={{ fontSize: { lg: '0.5rem', xl: '0.88rem' } }}>
+                            <Typography variant="h5" sx={{ fontSize: { lg: '0.7rem' ,xl: '0.88rem' } }}>
                                 帳單到期日：
                             </Typography>
                         </Grid>

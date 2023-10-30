@@ -120,7 +120,7 @@ const CreditBalanceDataList = ({ listInfo, setIsDialogOpen, deletelistInfoItem }
             </Grid>
             <Grid item xs={6}>
                 <MainCard title="新增Credit Balance">
-                    <Typography variant="h5" size="small" sx={{ fontSize: { lg: '0.5rem', xl: '0.88rem' } }}>
+                    <Typography variant="h5" size="small" sx={{ fontSize: { lg: '0.7rem' ,xl: '0.88rem' } }}>
                         摘要說明：
                     </Typography>
                     <StyledEngineProvider injectFirst>
