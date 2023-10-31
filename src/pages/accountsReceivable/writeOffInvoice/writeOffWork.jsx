@@ -49,6 +49,93 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
     }
 }));
 
+const fakeData = [
+    {
+      "BillMasterID": 5,
+      "WriteOffDetailID": 18,
+      "ReceivedAmount": 960.0,
+      "Note": null,
+      "InvoiceNo": "CHT-NCPUPG2022.B-230418",
+      "BankFees": 10.0,
+      "Status": "OVER",
+      "FeeItem": "CBP Handling Fee_NCP Upgrade 2022.B BM0",
+      "BankFee": 0.0,
+      "BillMilestone": "2022.B_BM0",
+      "ReceiveAmount": 0.0,
+      "OrgFeeAmount": 951.32,
+      "BRAmount": 0.0,
+      "DedAmount": 0.0,
+      "OverAmount": 8.68,
+      "FeeAmount": 951.32,
+      "ShortAmount": 0.0,
+      "BillDetailID": 18,
+      "ReceiveDate": "2023-10-18T10:45:00"
+    },
+    {
+      "BillMasterID": 5,
+      "WriteOffDetailID": 19,
+      "ReceivedAmount": 14635.0,
+      "Note": null,
+      "InvoiceNo": "88561",
+      "BankFees": 185.0,
+      "Status": "OVER",
+      "FeeItem": "BM0: Contract Agreement",
+      "BankFee": 0.0,
+      "BillMilestone": "2022.B_BM0",
+      "ReceiveAmount": 0.0,
+      "OrgFeeAmount": 14629.94,
+      "BRAmount": 0.0,
+      "DedAmount": 0.0,
+      "OverAmount": 5.06,
+      "FeeAmount": 14629.94,
+      "ShortAmount": 0.0,
+      "BillDetailID": 19,
+      "ReceiveDate": "2023-10-18T12:30:00"
+    },
+    {
+      "BillMasterID": 5,
+      "WriteOffDetailID": 20,
+      "ReceivedAmount": 27035.2,
+      "Note": null,
+      "InvoiceNo": "504893",
+      "BankFees": 200.0,
+      "Status": "OK",
+      "FeeItem": "BM0: Contract Agreement",
+      "BankFee": 0.0,
+      "BillMilestone": "2022.B_BM0",
+      "ReceiveAmount": 0.0,
+      "OrgFeeAmount": 27135.2,
+      "BRAmount": 0.0,
+      "DedAmount": 0.0,
+      "OverAmount": 0.0,
+      "FeeAmount": 27135.2,
+      "ShortAmount": 0.0,
+      "BillDetailID": 20,
+      "ReceiveDate": "2023-10-18T10:45:00"
+    },
+    {
+      "BillMasterID": 5,
+      "WriteOffDetailID": 21,
+      "ReceivedAmount": 2176.09,
+      "Note": null,
+      "InvoiceNo": "16150",
+      "BankFees": 53.0,
+      "Status": "OK",
+      "FeeItem": "BM0: Contract Agreement",
+      "BankFee": 0.0,
+      "BillMilestone": "2022.B_BM0",
+      "ReceiveAmount": 0.0,
+      "OrgFeeAmount": 2204.09,
+      "BRAmount": 0.0,
+      "DedAmount": 0.0,
+      "OverAmount": 0.0,
+      "FeeAmount": 2204.09,
+      "ShortAmount": 0.0,
+      "BillDetailID": 21,
+      "ReceiveDate": "2023-10-18T12:30:00"
+    }
+  ]
+
 
 const WriteOffWork = ({ isDialogOpen, handleDialogClose, writeOffInfo, writeOffDetail, writeOffInitQuery, action }) => {
     // const [toWriteOffMasterInfo, setToWriteOffMasterInfo] = useState({}); //帳單明細檔
@@ -74,7 +161,10 @@ const WriteOffWork = ({ isDialogOpen, handleDialogClose, writeOffInfo, writeOffD
                 let tmpBRAmount = Number(i.ReceiveAmount.toString().replaceAll(',', '')) + Number(bankFee.toString().replaceAll(',', ''));
                 i.BankFee = bankFee;
                 i.BRAmount = tmpBRAmount;
-                i.OverAmount = (i.ReceiveAmount + Number(i.ReceivedAmount.toString().replaceAll(',', ''))) - Number(i.FeeAmount.toString().replaceAll(',', ''))
+                console.log('i.ReceiveAmount=>>', i.ReceiveAmount);
+                console.log('i.ReceivedAmount=>>', i.ReceivedAmount);
+                console.log('i.FeeAmount=>>', i.FeeAmount);
+                i.OverAmount = (Number(i.ReceiveAmount.toString().replaceAll(',', '')) + Number(i.ReceivedAmount.toString().replaceAll(',', ''))) - Number(i.FeeAmount.toString().replaceAll(',', ''))
                     <= 0 ? 0 : 
                 (i.ReceiveAmount + Number(i.ReceivedAmount.toString().replaceAll(',', ''))) - Number(i.FeeAmount.toString().replaceAll(',', ''));
                 i.ShortAmount = Number(i.FeeAmount.toString().replaceAll(',', '')) -  Number(i.ReceivedAmount.toString().replaceAll(',', '')) -  Number(i.BankFees.toString().replaceAll(',', '')) - tmpBRAmount
@@ -146,7 +236,10 @@ const WriteOffWork = ({ isDialogOpen, handleDialogClose, writeOffInfo, writeOffD
     };
 
     const initData = () => {
-        let tmpArray = JSON.parse(JSON.stringify(writeOffDetail));
+        // let tmpArray = JSON.parse(JSON.stringify(writeOffDetail));
+        // haha
+        let tmpArray = JSON.parse(JSON.stringify(fakeData));
+        console.log('tmpArray=>>', tmpArray);
         let tmpOrgFeeAmountTotal = 0; //原始費用
         let tmpDedAmountTotal = 0; //折扣
         let tmpFeeAmountTotal = 0; //應收
@@ -192,8 +285,6 @@ const WriteOffWork = ({ isDialogOpen, handleDialogClose, writeOffInfo, writeOffD
                 tmpFeeAmountTotal = tmpFeeAmountTotal + i.FeeAmount;
                 tmpReceivedAmountTotal = tmpReceivedAmountTotal + i.ReceivedAmount;
                 tmpBankFeesTotal = tmpBankFeesTotal + i.BankFees;
-                console.log(i.ReceiveAmount);
-                console.log(i.ReceivedAmount)
                 i.OverAmount = (Number(i.ReceiveAmount.toString().replaceAll(',', '')) + Number(i.ReceivedAmount.toString().replaceAll(',', ''))) - Number(i.FeeAmount.toString().replaceAll(',', '')) 
                     <= 0 ? 0 : 
                 (Number(i.ReceiveAmount.toString().replaceAll(',', '')) + Number(i.ReceivedAmount.toString().replaceAll(',', ''))) - Number(i.FeeAmount.toString().replaceAll(',', ''));
@@ -209,7 +300,6 @@ const WriteOffWork = ({ isDialogOpen, handleDialogClose, writeOffInfo, writeOffD
             bankFeesTotal.current = tmpBankFeesTotal; //累計手續費
             setToWriteOffDetailInfo(tmpArray);
         }
-   
     };
 
     const saveData = () => {
@@ -238,9 +328,11 @@ const WriteOffWork = ({ isDialogOpen, handleDialogClose, writeOffInfo, writeOffD
     };
 
     useEffect(() => {
-        if (writeOffDetail?.length > 0 && isDialogOpen) {
-            initData();
-        }
+        initData();
+        // haha
+        // if (writeOffDetail?.length > 0 && isDialogOpen) {
+        //     initData();
+        // }
     }, [writeOffDetail, isDialogOpen]);
 
     return (

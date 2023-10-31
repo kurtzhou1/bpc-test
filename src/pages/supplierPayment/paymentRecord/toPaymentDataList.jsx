@@ -167,10 +167,30 @@ const ToPaymentDataList = ({ listInfo, cbToCn, setCbToCn, isSend, setIsSend, sup
     const [totalAmount, setTotalAmount] = useState(0);
     const payAmount = useRef(0);
 
+    // const handleChange = (event, supplierName) => {
+    //     console.log('supplierName=>>', supplierName);
+    //     console.log('currentSupplierName.current=>>', currentSupplierName.current);
+    //     console.log('event.target.checked=>>', event.target.checked);
+    //     if (currentSupplierName.current === supplierName || currentSupplierName.current === '') {
+    //         if (event.target.checked && (currentSupplierName.current === supplierName || currentSupplierName.current === '')) {
+    //             currentSupplierName.current = supplierName;
+    //             setCbToCn({ ...cbToCn, [event.target.value]: event.target.checked });
+    //         } else {
+    //             setCbToCn({ ...cbToCn, [event.target.value]: event.target.checked });
+    //             if (Object.values(cbToCn).filter((i) => i).length === 1) {
+    //                 currentSupplierName.current = '';
+    //             }
+    //         }
+    //     }
+    // };
+
     const handleChange = (event, supplierName) => {
+        console.log('supplierName=>>', supplierName);
+        console.log('currentSupplierName.current=>>', currentSupplierName.current);
+        console.log('event.target.checked=>>', event.target.checked);
         if (currentSupplierName.current === supplierName || currentSupplierName.current === '') {
             if (event.target.checked && (currentSupplierName.current === supplierName || currentSupplierName.current === '')) {
-                currentSupplierName.current = supplierName;
+                currentSupplierName.current = '';
                 setCbToCn({ ...cbToCn, [event.target.value]: event.target.checked });
             } else {
                 setCbToCn({ ...cbToCn, [event.target.value]: event.target.checked });
@@ -180,6 +200,8 @@ const ToPaymentDataList = ({ listInfo, cbToCn, setCbToCn, isSend, setIsSend, sup
             }
         }
     };
+
+    console.log('cbToCn=>>', cbToCn);
 
     const handleListChange = (event) => {
         console.log('event=>>', event);
@@ -293,9 +315,6 @@ const ToPaymentDataList = ({ listInfo, cbToCn, setCbToCn, isSend, setIsSend, sup
         }
     }, [isSendDialogOpen]);
 
-    console.log('toPaymentList=>>', toPaymentList);
-    console.log('paymentInfo=>>', paymentInfo);
-
     return (
         <>
             <PaymentWork
@@ -400,87 +419,6 @@ const ToPaymentDataList = ({ listInfo, cbToCn, setCbToCn, isSend, setIsSend, sup
             <TableContainer component={Paper} sx={{ maxHeight: 400 }}>
                 <Table sx={{ minWidth: 300 }} stickyHeader aria-label="sticky table">
                     <TableHead>
-                        {/* <TableRow>
-                            <StyledTableCell align="center" colSpan={3}></StyledTableCell>
-                            <StyledTableCell align="center" colSpan={isColumn2Open ? 4 : 1}>
-                                <Button
-                                    onClick={() => {
-                                        setIsColumn2Open(!isColumn2Open);
-                                    }}
-                                >
-                                    {isColumn2Open ? <DoNotDisturbOnIcon /> : <AddCircleIcon />}
-                                </Button>
-                                {isColumn2Open ? '供應商發票' : ''}
-                            </StyledTableCell>
-                            <StyledTableCell align="center" colSpan={isColumn3Open ? 8 : 1}>
-                                <Button
-                                    onClick={() => {
-                                        setIsColumn3Open(!isColumn3Open);
-                                    }}
-                                >
-                                    {isColumn3Open ? <DoNotDisturbOnIcon /> : <AddCircleIcon />}
-                                </Button>
-                                {isColumn3Open ? '會員帳單明細與付款資訊' : ''}
-                            </StyledTableCell>
-                            <StyledTableCell align="center" colSpan={isColumn4Open ? 3 : 1}>
-                                <Button
-                                    onClick={() => {
-                                        setIsColumn4Open(!isColumn4Open);
-                                    }}
-                                >
-                                    {isColumn4Open ? <DoNotDisturbOnIcon /> : <AddCircleIcon />}
-                                </Button>
-                                {isColumn4Open ? '匯出金額給供應商' : ''}
-                            </StyledTableCell>
-                        </TableRow>
-                        <TableRow>
-                            {columns1.map((column) => {
-                                return (
-                                    <StyledTableCell key={column.id} align={column.align} className={column.className}>
-                                        {column.label}
-                                    </StyledTableCell>
-                                );
-                            })}
-                            {isColumn2Open ? (
-                                columns2.map((column) => {
-                                    return (
-                                        <StyledTableCell key={column.id} align={column.align}>
-                                            {column.label}
-                                        </StyledTableCell>
-                                    );
-                                })
-                            ) : (
-                                <StyledTableCell key={columns2[0].id} align={columns2[0].align}>
-                                    {columns2[0].label}
-                                </StyledTableCell>
-                            )}
-                            {isColumn3Open ? (
-                                columns3.map((column) => {
-                                    return (
-                                        <StyledTableCell key={column.id} align={column.align}>
-                                            {column.label}
-                                        </StyledTableCell>
-                                    );
-                                })
-                            ) : (
-                                <StyledTableCell key={columns3[0].id} align={columns3[0].align}>
-                                    {columns3[0].label}
-                                </StyledTableCell>
-                            )}
-                            {isColumn4Open ? (
-                                columns4.map((column) => {
-                                    return (
-                                        <StyledTableCell key={column.id} align={column.align}>
-                                            {column.label}
-                                        </StyledTableCell>
-                                    );
-                                })
-                            ) : (
-                                <StyledTableCell key={columns4[0].id} align={columns4[0].align}>
-                                    {columns4[0].label}
-                                </StyledTableCell>
-                            )}
-                        </TableRow> */}
                         <TableRow>
                             <StyledTableCell align="center"></StyledTableCell>
                             <StyledTableCell align="center">NO</StyledTableCell>
@@ -499,18 +437,10 @@ const ToPaymentDataList = ({ listInfo, cbToCn, setCbToCn, isSend, setIsSend, sup
                     </TableHead>
                     <TableBody>
                         {toPaymentList?.map((row, id) => {
-                            // tmpBMArray = [];
-                            // let tmpPayAmount = 0;
                             row.PayAmount = 0;
                             row.BillDetailList.forEach((i) => {
-                                // tmpPayAmount = tmpPayAmount + (i.PayAmount ? i.PayAmount : 0);
                                 row.PayAmount = row.PayAmount + (i.PayAmount ? i.PayAmount : 0);
                             });
-                            // row?.BillDetailList.forEach((i) => {
-                            //     if (!tmpBMArray.includes(i.BillMilestone)) {
-                            //         tmpBMArray.push(i.BillMilestone);
-                            //     }
-                            // });
                             return (
                                 <TableRow
                                     key={row?.InvoiceWKMaster?.WKMasterID + row?.InvoiceWKMaster?.InvoiceNo}
