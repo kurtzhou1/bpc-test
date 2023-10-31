@@ -165,10 +165,6 @@ const WriteOffWork = ({ isDialogOpen, handleDialogClose, writeOffInfo, writeOffD
                 tmpFeeAmountTotal = tmpFeeAmountTotal + i.FeeAmount;
                 tmpReceivedAmountTotal = tmpReceivedAmountTotal + i.ReceivedAmount;
                 tmpBankFeesTotal = tmpBankFeesTotal + i.BankFees;
-                console.log('1', i.FeeAmount);
-                console.log('2', i.ReceivedAmount)
-                console.log('3', i.BankFees)
-                console.log('4', i.BRAmount)
                 i.OverAmount = (Number(i.ReceiveAmount.toString().replaceAll(',', '')) + Number(i.ReceivedAmount.toString().replaceAll(',', ''))) - Number(i.FeeAmount.toString().replaceAll(',', '')) 
                     <= 0 ? 0 : 
                 (Number(i.ReceiveAmount.toString().replaceAll(',', '')) + Number(i.ReceivedAmount.toString().replaceAll(',', ''))) - Number(i.FeeAmount.toString().replaceAll(',', ''));
@@ -327,7 +323,7 @@ const WriteOffWork = ({ isDialogOpen, handleDialogClose, writeOffInfo, writeOffD
                                             <StyledTableCell align="center">短繳</StyledTableCell>
                                             <StyledTableCell align="center">收款日期</StyledTableCell>
                                             <StyledTableCell align="center">摘要說明</StyledTableCell>
-                                            {action === 'view' ? '' : <StyledTableCell align="center">收費狀態</StyledTableCell>}
+                                            <StyledTableCell align="center">收費狀態</StyledTableCell>
                                         </TableRow>
                                     </TableHead>
                                     <TableBody>
@@ -461,23 +457,19 @@ const WriteOffWork = ({ isDialogOpen, handleDialogClose, writeOffInfo, writeOffD
                                                             />
                                                         )}
                                                     </TableCell>
-                                                    {action === 'view' ? (
-                                                        ''
-                                                    ) : (
-                                                        <TableCell align="center">
-                                                            <Select
-                                                                // value={tmpStatus}
-                                                                value={row.Status}
-                                                                label="會員"
-                                                                onChange={(e) => changeState(e.target.value, row.BillDetailID)}
-                                                            >
-                                                                <MenuItem value={'OK'}>正常繳款</MenuItem>
-                                                                <MenuItem value={'OVER'}>重溢繳</MenuItem>
-                                                                <MenuItem value={'PARTIAL'}>部分收款</MenuItem>
-                                                                <MenuItem value={'INCOMPLETE'}>尚未收款</MenuItem>
-                                                            </Select>
-                                                        </TableCell>
-                                                    )}
+                                                    <TableCell align="center">
+                                                        <Select
+                                                            disabled={action === 'view'}
+                                                            value={row.Status}
+                                                            label="會員"
+                                                            onChange={(e) => changeState(e.target.value, row.BillDetailID)}
+                                                        >
+                                                            <MenuItem value={'OK'}>正常繳款</MenuItem>
+                                                            <MenuItem value={'OVER'}>重溢繳</MenuItem>
+                                                            <MenuItem value={'PARTIAL'}>部分收款</MenuItem>
+                                                            <MenuItem value={'INCOMPLETE'}>尚未收款</MenuItem>
+                                                        </Select>
+                                                    </TableCell>
                                                 </TableRow>
                                             );
                                         })}
@@ -531,11 +523,7 @@ const WriteOffWork = ({ isDialogOpen, handleDialogClose, writeOffInfo, writeOffD
                                             </StyledTableCell>
                                             <StyledTableCell className="totalAmount" align="center"></StyledTableCell>
                                             <StyledTableCell className="totalAmount" align="center"></StyledTableCell>
-                                            {action === 'view' ? (
-                                                ''
-                                            ) : (
-                                                <StyledTableCell className="totalAmount" align="center"></StyledTableCell>
-                                            )}
+                                            <StyledTableCell className="totalAmount" align="center"></StyledTableCell>
                                         </TableRow>
                                     </TableBody>
                                 </Table>
