@@ -115,35 +115,37 @@ const RequireAuth = ({ children }) => {
     if (window.location.host.includes('localhost') || dayjs(getExpireTime).diff(new Date(), 'minute') > 0) {
         return children;
     } else if((window.location.href.indexOf('code') !== -1)) {
-        const accessCode = window.location.href.split('code=')[1];
-        let tmpArray = {
-            client_id: 'CBPS.QA.I',
-            redirect_uri: 'http://internal-cbpsAlbFrontend-1323185980.ap-northeast-1.elb.amazonaws.com',
-            code: accessCode,
-            grant_type: 'authorization_code'
-        }
-        const searchParams = new URLSearchParams(tmpArray);
-        console.log('searchParams2=>>', accessCode);
-        fetch(tmpTest, { 
-            method: 'POST', 
-            body: searchParams, 
-            headers: { 
-                'Content-Type': 'application/x-www-form-urlencoded', 
-            } 
-        })
-            .then((res) => res.json())
-            .then((data) => {
-                console.log('data=>>>>', data.access_token);
-                if(data.access_token) {
-                    dispatch(setLoginInInfo({ 
-                        loginInInfo: { EmployeeNumber: jwt_decode(data.access_token).employeeNumber, 
-                        Email: jwt_decode(data.access_token).email, 
-                        Name: jwt_decode(data.access_token).name
-                    }}));
-                    localStorage.setItem('expireTime',dayjs().add(31, 'minute'));
-                }
+        if (!getExpireTime) {
+            const accessCode = window.location.href.split('code=')[1];
+            let tmpArray = {
+                client_id: 'CBPS.QA.I',
+                redirect_uri: 'http://internal-cbpsAlbFrontend-1323185980.ap-northeast-1.elb.amazonaws.com',
+                code: accessCode,
+                grant_type: 'authorization_code'
+            }
+            const searchParams = new URLSearchParams(tmpArray);
+            console.log('searchParams2=>>', accessCode);
+            fetch(tmpTest, { 
+                method: 'POST', 
+                body: searchParams, 
+                headers: { 
+                    'Content-Type': 'application/x-www-form-urlencoded', 
+                } 
             })
-            .catch((e) => console.log('e1=>', e));
+                .then((res) => res.json())
+                .then((data) => {
+                    console.log('data=>>>>', data.access_token);
+                    if(data.access_token) {
+                        dispatch(setLoginInInfo({ 
+                            loginInInfo: { EmployeeNumber: jwt_decode(data.access_token).employeeNumber, 
+                            Email: jwt_decode(data.access_token).email, 
+                            Name: jwt_decode(data.access_token).name
+                        }}));
+                        localStorage.setItem('expireTime',dayjs().add(31, 'minute'));
+                    }
+                })
+                .catch((e) => console.log('e1=>', e));
+        }
         return children;
     } else {
         return window.location.replace(ssoUrl);
