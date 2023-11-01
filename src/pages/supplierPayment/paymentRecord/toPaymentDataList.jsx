@@ -160,37 +160,17 @@ const ToPaymentDataList = ({ listInfo, cbToCn, setCbToCn, isSend, setIsSend, sup
     const invoiceNoEdit = useRef('');
     const dueDateEdit = useRef('');
     const [finishList, setFinishList] = useState({}); //完成付款結案
-    const currentSupplierName = useRef('');
+    const currentSupplierName = useRef(''); //相同的才能打勾
     const [paymentInfo, setPaymentInfo] = useState([]); //付款資訊
     const paidAmount = useRef(0);
     // const totalAmount = useRef(0);
     const [totalAmount, setTotalAmount] = useState(0);
     const payAmount = useRef(0);
 
-    // const handleChange = (event, supplierName) => {
-    //     console.log('supplierName=>>', supplierName);
-    //     console.log('currentSupplierName.current=>>', currentSupplierName.current);
-    //     console.log('event.target.checked=>>', event.target.checked);
-    //     if (currentSupplierName.current === supplierName || currentSupplierName.current === '') {
-    //         if (event.target.checked && (currentSupplierName.current === supplierName || currentSupplierName.current === '')) {
-    //             currentSupplierName.current = supplierName;
-    //             setCbToCn({ ...cbToCn, [event.target.value]: event.target.checked });
-    //         } else {
-    //             setCbToCn({ ...cbToCn, [event.target.value]: event.target.checked });
-    //             if (Object.values(cbToCn).filter((i) => i).length === 1) {
-    //                 currentSupplierName.current = '';
-    //             }
-    //         }
-    //     }
-    // };
-
     const handleChange = (event, supplierName) => {
-        console.log('supplierName=>>', supplierName);
-        console.log('currentSupplierName.current=>>', currentSupplierName.current);
-        console.log('event.target.checked=>>', event.target.checked);
         if (currentSupplierName.current === supplierName || currentSupplierName.current === '') {
             if (event.target.checked && (currentSupplierName.current === supplierName || currentSupplierName.current === '')) {
-                currentSupplierName.current = '';
+                currentSupplierName.current = supplierName;
                 setCbToCn({ ...cbToCn, [event.target.value]: event.target.checked });
             } else {
                 setCbToCn({ ...cbToCn, [event.target.value]: event.target.checked });

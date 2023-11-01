@@ -255,6 +255,8 @@ const ToPaymentDataList = ({ listInfo, cbToCn, setCbToCn, isSend, setIsSend, sup
                                             <StyledTableCell align="center">發票到期日</StyledTableCell>
                                             <StyledTableCell align="center">總金額</StyledTableCell>
                                             <StyledTableCell align="center">累計實付金額</StyledTableCell>
+                                            <StyledTableCell align="center">本次減項金額</StyledTableCell>
+                                            <StyledTableCell align="center">累計減項金額</StyledTableCell>
                                             <StyledTableCell align="center">本次付款金額</StyledTableCell>
                                             <StyledTableCell align="center">完成付款結案</StyledTableCell>
                                         </TableRow>
@@ -279,6 +281,14 @@ const ToPaymentDataList = ({ listInfo, cbToCn, setCbToCn, isSend, setIsSend, sup
                                                     )}`}</TableCell>
                                                     <TableCell align="center">{`$${handleNumber(
                                                         row?.InvoiceWKMaster?.PaidAmount?.toFixed(2)
+                                                    )}`}</TableCell>
+                                                    {/* 本次減項金額 */}
+                                                          <TableCell align="center">{`$${handleNumber(
+                                                        row?.InvoiceWKMaster?.NewDedAmount?.toFixed(2)
+                                                    )}`}</TableCell>
+                                                    {/* 累計減項金額 */}
+                                                          <TableCell align="center">{`$${handleNumber(
+                                                        row?.InvoiceWKMaster?.DedAmount?.toFixed(2)
                                                     )}`}</TableCell>
                                                     <TableCell align="center">{`$${handleNumber(row?.PayAmount?.toFixed(2))}`}</TableCell>
                                                     <TableCell align="center">
@@ -340,6 +350,7 @@ const ToPaymentDataList = ({ listInfo, cbToCn, setCbToCn, isSend, setIsSend, sup
                             <StyledTableCell align="center">發票到期日</StyledTableCell>
                             <StyledTableCell align="center">總金額</StyledTableCell>
                             <StyledTableCell align="center">累計實收金額</StyledTableCell>
+                            {/* haha */}
                             {/* <StyledTableCell align="center">累計實付金額</StyledTableCell>
                             <StyledTableCell align="center">累計減項金額</StyledTableCell> */}
                             <StyledTableCell align="center">本次減項金額</StyledTableCell>
@@ -383,6 +394,7 @@ const ToPaymentDataList = ({ listInfo, cbToCn, setCbToCn, isSend, setIsSend, sup
                                     <StyledTableCell align="center">
                                         {handleNumber(row?.InvoiceWKMaster?.PaidAmount.toFixed(2))}
                                     </StyledTableCell>
+                                    {/* haha */}
                                     {/* <StyledTableCell align="center">
                                         {handleNumber(row?.InvoiceWKMaster?.DedAmount.toFixed(2))}
                                     </StyledTableCell>

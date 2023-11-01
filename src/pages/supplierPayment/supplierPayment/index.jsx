@@ -88,7 +88,7 @@ const SupplierPayment = () => {
                                         sendPaymentData();
                                     }}
                                 >
-                                    付款送出(進入函稿)
+                                    付款送出
                                 </Button>
                             </>
                         ) : (

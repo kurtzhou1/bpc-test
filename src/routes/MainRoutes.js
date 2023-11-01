@@ -114,8 +114,8 @@ const RequireAuth = ({ children }) => {
     
     if (window.location.host.includes('localhost') || dayjs(getExpireTime).diff(new Date(), 'minute') > 0) {
         return children;
-    } else if((window.location.href.indexOf('code') !== -1)) {
-        if (!getExpireTime) {
+    } else if((window.location.href.indexOf('code') !== -1) && !getExpireTime) {
+        // if (!getExpireTime) {
             const accessCode = window.location.href.split('code=')[1];
             let tmpArray = {
                 client_id: 'CBPS.QA.I',
@@ -142,11 +142,13 @@ const RequireAuth = ({ children }) => {
                             Name: jwt_decode(data.access_token).name
                         }}));
                         localStorage.setItem('expireTime',dayjs().add(31, 'minute'));
+                        return children;
+                    } else {
+                        return window.location.replace(ssoUrl);
                     }
                 })
                 .catch((e) => console.log('e1=>', e));
-        }
-        return children;
+        // }
     } else {
         return window.location.replace(ssoUrl);
     }
