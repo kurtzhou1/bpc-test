@@ -85,7 +85,7 @@ const ToPaymentDataList = ({ listInfo, cbToCn, setCbToCn, isSend, setIsSend, sup
     };
 
     const handleDialogOpen = (receivedAmountSum, paidAmount, info, invoiceNo, dueDate) => {
-        if (receivedAmountSum <= paidAmount) {
+        if (receivedAmountSum > paidAmount) {
             editPaymentInfo.current = info;
             invoiceNoEdit.current = invoiceNo;
             dueDateEdit.current = dueDate;

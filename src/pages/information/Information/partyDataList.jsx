@@ -28,12 +28,12 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
         color: theme.palette.common.black,
         paddingTop: '0rem',
         paddingBottom: '0rem',
-        fontSize: '0.3rem'
+        fontSize: '0.7rem'
     },
     [`&.${tableCellClasses.body}`]: {
         paddingTop: '0.1rem',
         paddingBottom: '0.1rem',
-        fontSize: '0.3rem'
+        fontSize: '0.7rem'
     }
 }));
 
@@ -533,7 +533,7 @@ const PartyDataList = ({ maxHei }) => {
                                     display: 'flex',
                                     flexFlow: isColumn2Open ? 'column' : 'row',
                                     justifyContent: 'center',
-                                    '& button': { mx: { md: 0.6, lg: 1, xl: 1.8 }, my: 0.2, p: 0, fontSize: 1 }
+                                    '& button': { mx: { md: 0.6, lg: 1, xl: 1.8 }, my: 0.2, p: 0 }
                                 }}
                             >
                                 <Button color="primary" variant="outlined" onClick={addPartyInfo}>
@@ -793,7 +793,7 @@ const PartyDataList = ({ maxHei }) => {
                                                     display: 'flex',
                                                     flexFlow: isColumn2Open ? 'column' : 'row',
                                                     justifyContent: 'center',
-                                                    '& button': { mx: { md: 0.1, lg: 0.1, xl: 0.3 }, my: 0.2, p: 0, fontSize: 1 }
+                                                    '& button': { mx: { md: 0.1, lg: 0.1, xl: 0.3 }, my: 0.2, p: 0 }
                                                 }}
                                             >
                                                 <Button

@@ -47,12 +47,14 @@ const SubmarineCableDataList = ({ maxHei }) => {
             // backgroundColor: theme.palette.common.gary,
             color: theme.palette.common.black,
             paddingTop: '0.2rem',
-            paddingBottom: '0.2rem'
+            paddingBottom: '0.2rem',
+            fontSize: '0.7rem'
         },
         [`&.${tableCellClasses.body}`]: {
             fontSize: 14,
             paddingTop: '0.2rem',
-            paddingBottom: '0.2rem'
+            paddingBottom: '0.2rem',
+            fontSize: '0.7rem'
         }
     }));
 

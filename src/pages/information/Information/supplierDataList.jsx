@@ -60,11 +60,13 @@ const SupplierDataList = ({ maxHei }) => {
             // backgroundColor: theme.palette.common.gary,
             color: theme.palette.common.black,
             padding: '0rem',
-            fontSize: '0.2rem'
+            fontSize: '0.2rem',
+            fontSize: '0.7rem'
         },
         [`&.${tableCellClasses.body}`]: {
             padding: '0.5rem',
-            fontSize: '0.2rem'
+            fontSize: '0.2rem',
+            fontSize: '0.7rem'
         }
     }));
 
