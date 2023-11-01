@@ -85,7 +85,7 @@ const ResearchBillDetail = ({ datailInfo }) => {
                     <Grid container spacing={1} display="flex" justifyContent="center" alignItems="center">
                         <Grid item xs={12} sm={12} md={12} lg={12}>
                             <TableContainer component={Paper} sx={{ maxHeight: 350 }}>
-                                <Table sx={{ minWidth: 300 }} stickyHeader aria-label="sticky table">
+                                <Table sx={{ minWidth: 300 }} stickyHeader >
                                     <TableHead>
                                         <TableRow>
                                             <StyledTableCell align="center">費用項目</StyledTableCell>
@@ -137,7 +137,7 @@ const ResearchBillDetail = ({ datailInfo }) => {
                 </DialogActions>
             </Dialog>
             <TableContainer component={Paper} sx={{ maxHeight: 350 }}>
-                <Table sx={{ minWidth: 300 }} stickyHeader aria-label="sticky table">
+                <Table sx={{ minWidth: 300 }} stickyHeader >
                     <TableHead>
                         <TableRow>
                             <StyledTableCell align="center">發票號碼</StyledTableCell>

@@ -35,7 +35,7 @@ const ReturnDataList = ({ isReturnOpen, handleReturnClose, returnDataList, actio
                 <Grid container spacing={1} display="flex" justifyContent="center" alignItems="center">
                     <Grid item xs={12} sm={12} md={12} lg={12}>
                         <TableContainer component={Paper} sx={{ maxHeight: 640 }}>
-                            <Table sx={{ minWidth: 300 }} stickyHeader aria-label="sticky table">
+                            <Table sx={{ minWidth: 300 }} stickyHeader >
                                 <TableHead>
                                     <TableRow>
                                         <StyledTableCell align="center">NO</StyledTableCell>

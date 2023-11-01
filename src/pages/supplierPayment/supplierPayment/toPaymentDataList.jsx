@@ -84,6 +84,25 @@ const ToPaymentDataList = ({ listInfo, cbToCn, setCbToCn, isSend, setIsSend, sup
         setFinishList({ ...finishList, [event.target.value]: event.target.checked });
     };
 
+    const handleDialogOpen = (receivedAmountSum, paidAmount, info, invoiceNo, dueDate) => {
+        if (receivedAmountSum <= paidAmount) {
+            editPaymentInfo.current = info;
+            invoiceNoEdit.current = invoiceNo;
+            dueDateEdit.current = dueDate;
+            setIsDialogOpen(true);
+            actionName.current = 'toPayment';
+        } else {
+            dispatch(setMessageStateOpen({ messageStateOpen: { isOpen: true, severity: 'error', message: '累計實收金額必須多於累計實付' } }));
+        }
+    };
+
+    const handleDialogClose = () => {
+        editPaymentInfo.current = [];
+        invoiceNoEdit.current = '';
+        setIsDialogOpen(false);
+        actionName.current = '';
+    };
+
     const handleDedDialogOpen = (info, invoiceNo, dueDate) => {
         editCMList.current = info;
         invoiceNoEdit.current = invoiceNo;
@@ -93,28 +112,9 @@ const ToPaymentDataList = ({ listInfo, cbToCn, setCbToCn, isSend, setIsSend, sup
     };
 
     const handleDedDialogClose = () => {
-        editPaymentInfo.current = [];
+        editCMList.current = [];
         invoiceNoEdit.current = '';
-        setIsDialogOpen(false);
-        actionName.current = '';
-    };
-
-    const handleDialogOpen = (receivedAmountSum, paidAmount, info, invoiceNo, dueDate) => {
-        // if (receivedAmountSum <= paidAmount) {
-            editPaymentInfo.current = info;
-            invoiceNoEdit.current = invoiceNo;
-            dueDateEdit.current = dueDate;
-            setIsDialogOpen(true);
-            actionName.current = 'toPayment';
-        // } else {
-        //     dispatch(setMessageStateOpen({ messageStateOpen: { isOpen: true, severity: 'error', message: '累計實收金額必須多於累計實付' } }));
-        // }
-    };
-
-    const handleDialogClose = () => {
-        editPaymentInfo.current = [];
-        invoiceNoEdit.current = '';
-        setIsDialogOpen(false);
+        setIsDedDialogOpen(false);
         actionName.current = '';
     };
 
@@ -244,7 +244,7 @@ const ToPaymentDataList = ({ listInfo, cbToCn, setCbToCn, isSend, setIsSend, sup
                     <Grid container spacing={1} display="flex" justifyContent="center" alignItems="center">
                         <Grid item xs={12} sm={12} md={12} lg={12}>
                             <TableContainer component={Paper} sx={{ maxHeight: 350 }}>
-                                <Table sx={{ minWidth: 300 }} stickyHeader aria-label="sticky table">
+                                <Table sx={{ minWidth: 300 }} stickyHeader >
                                     <TableHead>
                                         <TableRow>
                                             <StyledTableCell align="center">No</StyledTableCell>
@@ -338,7 +338,7 @@ const ToPaymentDataList = ({ listInfo, cbToCn, setCbToCn, isSend, setIsSend, sup
                 </DialogActions>
             </Dialog>
             <TableContainer component={Paper} sx={{ maxHeight: 400 }}>
-                <Table sx={{ minWidth: 300 }} stickyHeader aria-label="sticky table">
+                <Table sx={{ minWidth: 300 }} stickyHeader >
                     <TableHead>
                         <TableRow>
                             <StyledTableCell align="center"></StyledTableCell>

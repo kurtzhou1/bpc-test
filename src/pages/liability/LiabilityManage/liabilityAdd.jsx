@@ -416,7 +416,7 @@ const LiabilityAdd = ({
                     {dialogAction !== 'Edit' ? (
                         <Grid item xs={12} sm={12} md={12} lg={12}>
                             <TableContainer component={Paper} sx={{ maxHeight: 350 }}>
-                                <Table sx={{ minWidth: 300 }} stickyHeader aria-label="sticky table">
+                                <Table sx={{ minWidth: 300 }} stickyHeader >
                                     <TableHead>
                                         <TableRow>
                                             <StyledTableCell align="center">計帳段號</StyledTableCell>

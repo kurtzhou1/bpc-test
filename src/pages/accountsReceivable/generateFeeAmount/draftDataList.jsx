@@ -73,7 +73,7 @@ const DraftDataList = ({ dataList }) => {
             <SignAndUpload uploadOpen={uploadOpen} handUploadClose={handUploadClose} />
             <BillDraftMake isDialogOpen={isDialogOpen} handleDialogClose={handleDialogClose} />
             <TableContainer component={Paper} sx={{ maxHeight: 350 }}>
-                <Table sx={{ minWidth: 300 }} stickyHeader aria-label="sticky table">
+                <Table sx={{ minWidth: 300 }} stickyHeader >
                     <TableHead>
                         <TableRow>
                             <StyledTableCell align="center">NO</StyledTableCell>

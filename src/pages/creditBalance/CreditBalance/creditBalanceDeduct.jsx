@@ -57,7 +57,7 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
 const CreditBalanceDeduct = ({ cblistInfo }) => {
     return (
         <TableContainer component={Paper} sx={{ maxHeight: 350 }}>
-            <Table sx={{ minWidth: 300 }} stickyHeader aria-label="sticky table">
+            <Table sx={{ minWidth: 300 }} stickyHeader >
                 <TableHead>
                     <TableRow>
                         <StyledTableCell align="center">NO</StyledTableCell>

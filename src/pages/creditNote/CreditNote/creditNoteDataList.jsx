@@ -54,7 +54,7 @@ const CreditBalanceDataList = ({ listInfo, setIsDialogOpen, deletelistInfoItem }
         <Grid container spacing={1}>
             <Grid item xs={6}>
                 <TableContainer component={Paper} sx={{ maxHeight: 350 }}>
-                    <Table sx={{ minWidth: 300 }} stickyHeader aria-label="sticky table">
+                    <Table sx={{ minWidth: 300 }} stickyHeader >
                         <TableHead>
                             <TableRow>
                                 <StyledTableCell align="center"></StyledTableCell>
@@ -137,7 +137,7 @@ const CreditBalanceDataList = ({ listInfo, setIsDialogOpen, deletelistInfoItem }
                         </CssVarsProvider>
                     </StyledEngineProvider>
                     <TableContainer component={Paper} sx={{ maxHeight: 350, mt: 1 }}>
-                        <Table sx={{ minWidth: 300 }} stickyHeader aria-label="sticky table">
+                        <Table sx={{ minWidth: 300 }} stickyHeader >
                             <TableHead>
                                 <TableRow>
                                     <StyledTableCell align="center">CB種類</StyledTableCell>

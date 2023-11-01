@@ -312,7 +312,7 @@ const ToPaymentDataList = ({ listInfo, cbToCn, setCbToCn, isSend, setIsSend, sup
                     <Grid container spacing={1} display="flex" justifyContent="center" alignItems="center">
                         <Grid item xs={12} sm={12} md={12} lg={12}>
                             <TableContainer component={Paper} sx={{ maxHeight: 350 }}>
-                                <Table sx={{ minWidth: 300 }} stickyHeader aria-label="sticky table">
+                                <Table sx={{ minWidth: 300 }} stickyHeader >
                                     <TableHead>
                                         <TableRow>
                                             <StyledTableCell align="center">No</StyledTableCell>
@@ -397,7 +397,7 @@ const ToPaymentDataList = ({ listInfo, cbToCn, setCbToCn, isSend, setIsSend, sup
                 </DialogActions>
             </Dialog>
             <TableContainer component={Paper} sx={{ maxHeight: 400 }}>
-                <Table sx={{ minWidth: 300 }} stickyHeader aria-label="sticky table">
+                <Table sx={{ minWidth: 300 }} stickyHeader >
                     <TableHead>
                         <TableRow>
                             <StyledTableCell align="center"></StyledTableCell>

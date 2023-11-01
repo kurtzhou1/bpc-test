@@ -45,7 +45,7 @@ const InvoiceDataList = ({ listInfo, setAction, setModifyItem, page, setPage }) 
 
     return (
         <TableContainer component={Paper} sx={{ maxHeight: 640 }}>
-            <Table sx={{ minWidth: 300 }} stickyHeader aria-label="sticky table">
+            <Table sx={{ minWidth: 300 }} stickyHeader >
                 <TableHead>
                     <TableRow>
                         <StyledTableCell align="center">NO</StyledTableCell>

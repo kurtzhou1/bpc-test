@@ -32,7 +32,7 @@ const InvoiceDataList = ({ listInfo, setEditItem, deletelistInfoItem }) => {
 
     return (
         <TableContainer component={Paper} sx={{ maxHeight: 350 }}>
-            <Table sx={{ minWidth: 300 }} stickyHeader aria-label="sticky table">
+            <Table sx={{ minWidth: 300 }} stickyHeader >
                 <TableHead>
                     <TableRow>
                         <StyledTableCell align="center">發票號碼</StyledTableCell>

@@ -76,7 +76,7 @@ const ToBillDataList = ({ listInfo, page, setPage }) => {
                 </BootstrapDialogTitle>
                 <DialogContent>
                     <TableContainer component={Paper} sx={{ maxHeight: 350 }}>
-                        <Table sx={{ minWidth: 300 }} stickyHeader aria-label="sticky table">
+                        <Table sx={{ minWidth: 300 }} stickyHeader >
                             <TableHead>
                                 <TableRow>
                                     <StyledTableCell align="center">費用項目</StyledTableCell>
@@ -120,7 +120,7 @@ const ToBillDataList = ({ listInfo, page, setPage }) => {
                 </DialogActions>
             </Dialog>
             <TableContainer component={Paper} sx={{ maxHeight: 400 }}>
-                <Table sx={{ minWidth: 300 }} stickyHeader aria-label="sticky table">
+                <Table sx={{ minWidth: 300 }} stickyHeader >
                     <TableHead>
                         <TableRow>
                             <StyledTableCell align="center">NO</StyledTableCell>

@@ -434,7 +434,7 @@ const BillDraftMake = ({
                             </Box>
                             <Box>
                                 <TableContainer component={Paper}>
-                                    <Table sx={{ minWidth: 300 }} stickyHeader aria-label="sticky table">
+                                    <Table sx={{ minWidth: 300 }} stickyHeader >
                                         <TableHead>
                                             <TableRow>
                                                 <StyledTableCell className="theTopFirst">Supplier</StyledTableCell>

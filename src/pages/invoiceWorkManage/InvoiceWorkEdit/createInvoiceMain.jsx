@@ -288,7 +288,7 @@ const InvoiceWorkManage = ({
                         </RadioGroup>
                     </FormControl>
                 </Grid>
-                <Grid item xs={12} sm={6} md={4} lg={3}>
+                {/* <Grid item xs={12} sm={6} md={4} lg={3}>
                     <Typography variant="h5" sx={{ fontSize: { lg: '0.7rem' ,xl: '0.88rem' }, ml: { lg: '0rem', xl: '1.5rem' } }}>
                         是否為Credit Memo：
                     </Typography>
@@ -310,7 +310,7 @@ const InvoiceWorkManage = ({
                             />
                         </RadioGroup>
                     </FormControl>
-                </Grid>
+                </Grid> */}
                 {/* row6 */}
                 <Grid item xs={12} sm={6} md={4} lg={3}>
                     <Typography variant="h5" sx={{ fontSize: { lg: '0.7rem' ,xl: '0.88rem' }, ml: { lg: '0rem', xl: '1.5rem' } }}>
@@ -358,6 +358,7 @@ const InvoiceWorkManage = ({
                         </RadioGroup>
                     </FormControl>
                 </Grid>
+                <Grid item xs={12} sm={6} md={6} lg={6} />
                 {/* row7 */}
                 <Grid item xs={12} sm={6} md={3} lg={2}>
                     <Typography variant="h5" sx={{ fontSize: { lg: '0.7rem' ,xl: '0.88rem' }, ml: { lg: '0rem', xl: '1.5rem' } }}>

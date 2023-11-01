@@ -385,7 +385,7 @@ const PartyDataList = ({ maxHei }) => {
 
     return (
         <TableContainer id="tableContainer" component={Paper} sx={{ maxHeight: maxHei }}>
-            <Table stickyHeader aria-label="sticky table">
+            <Table stickyHeader >
                 <TableHead>
                     <TableRow></TableRow>
                     <TableRow>

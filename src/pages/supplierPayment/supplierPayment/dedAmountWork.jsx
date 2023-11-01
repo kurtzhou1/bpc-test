@@ -36,20 +36,12 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
     }
 }));
 
-const DedAmountWork = ({ isDedDialogOpen, handleDedDialogClose, editCMList, actionName, invoiceNo, dueDate, saveDedAmountEdit }) => {
+const DedAmountWork = ({ isDedDialogOpen, handleDedDialogClose, editCMList, invoiceNo, dueDate, saveDedAmountEdit }) => {
     console.log('editCMList=>>>', editCMList);
     const [cmListInfo, setCMListInfo] = useState([]); //帳單明細檔
-    const orgfeeAmountTotal = useRef(0); //應收金額
-    const receivedAmountTotal = useRef(0); //已實收金額
-    const paidAmountTotal = useRef(0); //已實付金額
-    const toPaymentAmountTotal = useRef(0); //未付款金額
-    const dedAmountTotal = useRef(0); //此次折抵金額
+    const dedAmountTotal = useRef(0); //折抵金額
 
     const initData = () => {
-        orgfeeAmountTotal.current = 0;
-        receivedAmountTotal.current = 0;
-        paidAmountTotal.current = 0;
-        toPaymentAmountTotal.current = 0;
         dedAmountTotal.current = 0;
     }
 
@@ -68,7 +60,6 @@ const DedAmountWork = ({ isDedDialogOpen, handleDedDialogClose, editCMList, acti
     };
 
     const handleSaveEdit = () => {
-    
         let tmpArray = cmListInfo.map((i) => i);
         tmpArray.forEach((i) => {
             i.DedAmount = i.DedAmount ? i.DedAmount : i.CurrAmount;
@@ -98,7 +89,7 @@ const DedAmountWork = ({ isDedDialogOpen, handleDedDialogClose, editCMList, acti
 
     return (
         <Dialog maxWidth="xxl" open={isDedDialogOpen}>
-            <BootstrapDialogTitle>{actionName === 'toPayment' ? '收款明細與編輯付款資訊' : '收款明細與付款資訊'}</BootstrapDialogTitle>
+            <BootstrapDialogTitle>發票金額減項列表</BootstrapDialogTitle>
             <DialogContent>
                 <Grid container spacing={1} display="flex" justifyContent="center" alignItems="center" sx={{ fontSize: 10 }}>
                     <Grid item xs={12} sm={12} md={12} lg={12}>
@@ -139,7 +130,7 @@ const DedAmountWork = ({ isDedDialogOpen, handleDedDialogClose, editCMList, acti
                     <Grid item xs={12} sm={12} md={12} lg={12}>
                         <MainCard title="帳單明細列表">
                             <TableContainer component={Paper} sx={{ maxHeight: 350 }}>
-                                <Table sx={{ minWidth: 300 }} stickyHeader aria-label="sticky table">
+                                <Table sx={{ minWidth: 300 }} stickyHeader >
                                     <TableHead>
                                         <TableRow>
                                             <StyledTableCell align="center">來源發票號碼</StyledTableCell>
@@ -151,16 +142,10 @@ const DedAmountWork = ({ isDedDialogOpen, handleDedDialogClose, editCMList, acti
                                             <StyledTableCell align="center">可折抵金額</StyledTableCell>
                                             <StyledTableCell align="center">摘要說明</StyledTableCell>
                                             <StyledTableCell align="center">折抵金額</StyledTableCell>
-                                            {actionName === 'toPayment' ? (
-                                                <StyledTableCell align="center">此次付款金額</StyledTableCell>
-                                            ) : (
-                                                ''
-                                            )}
                                         </TableRow>
                                     </TableHead>
                                     <TableBody>
                                         {cmListInfo?.map((row) => {
-                                            let toPayment = row.OrgFeeAmount - row.PaidAmount; //未付款金額
                                             return (
                                                 <TableRow
                                                     key={row.InvoiceNo + row?.BillMasterID + row?.BillDetailID}
@@ -174,29 +159,25 @@ const DedAmountWork = ({ isDedDialogOpen, handleDedDialogClose, editCMList, acti
                                                     <TableCell align="center">{row.CMType}</TableCell>
                                                     <TableCell align="center">{row.CurrAmount}</TableCell>
                                                     <TableCell align="center">{row.Note}</TableCell>
-                                                    <TableCell align="center">
+                                                    {/* <TableCell align="center">
                                                         {toPayment > 0 ? `$${handleNumber(toPayment.toFixed(2))}` : 0}
+                                                    </TableCell> */}
+                                                    <TableCell align="center">
+                                                        <TextField
+                                                            size="small"
+                                                            inputProps={{ step: '.01' }}
+                                                            sx={{ minWidth: 75 }}
+                                                            value={
+                                                                row.DedAmount
+                                                                    ? row.DedAmount
+                                                                    : row.CurrAmount
+                                                            }
+                                                            type="number"
+                                                            onChange={(e) => {
+                                                                changeDedAmount(e.target.value, row.InvoiceNo);
+                                                            }}
+                                                        />
                                                     </TableCell>
-                                                    {actionName === 'toPayment' ? (
-                                                        <TableCell align="center">
-                                                            <TextField
-                                                                size="small"
-                                                                inputProps={{ step: '.01' }}
-                                                                sx={{ minWidth: 75 }}
-                                                                value={
-                                                                    row.DedAmount
-                                                                        ? row.DedAmount
-                                                                        : row.CurrAmount
-                                                                }
-                                                                type="number"
-                                                                onChange={(e) => {
-                                                                    changeDedAmount(e.target.value, row.InvoiceNo);
-                                                                }}
-                                                            />
-                                                        </TableCell>
-                                                    ) : (
-                                                        ''
-                                                    )}
                                                 </TableRow>
                                             );
                                         })}
@@ -207,26 +188,13 @@ const DedAmountWork = ({ isDedDialogOpen, handleDedDialogClose, editCMList, acti
                                             <StyledTableCell className="totalAmount" align="center" />
                                             <StyledTableCell className="totalAmount" align="center" />
                                             <StyledTableCell className="totalAmount" align="center" />
-                                            <StyledTableCell className="totalAmount" align="center">
-                                                {handleNumber(orgfeeAmountTotal.current.toFixed(2))}
-                                            </StyledTableCell>
-                                            <StyledTableCell className="totalAmount" align="center">
-                                                {handleNumber(receivedAmountTotal.current.toFixed(2))}
-                                            </StyledTableCell>
-                                            <StyledTableCell className="totalAmount" align="center">
-                                                {handleNumber(paidAmountTotal.current.toFixed(2))}
-                                            </StyledTableCell>
-                                            <StyledTableCell className="totalAmount" align="center">
-                                                {handleNumber(toPaymentAmountTotal.current.toFixed(2))}
-                                            </StyledTableCell>
                                             <StyledTableCell className="totalAmount" align="center" />
-                                            {actionName === 'toPayment' ? (
-                                                <StyledTableCell className="totalAmount" align="center">
-                                                    {handleNumber(dedAmountTotal.current.toFixed(2))}
-                                                </StyledTableCell>
-                                            ) : (
-                                                ''
-                                            )}
+                                            <StyledTableCell className="totalAmount" align="center" />
+                                            <StyledTableCell className="totalAmount" align="center" />
+                                            <StyledTableCell className="totalAmount" align="center" />
+                                            <StyledTableCell className="totalAmount" align="center">
+                                                {handleNumber(dedAmountTotal.current.toFixed(2))}
+                                            </StyledTableCell>
                                         </TableRow>
                                     </TableBody>
                                 </Table>
@@ -236,42 +204,29 @@ const DedAmountWork = ({ isDedDialogOpen, handleDedDialogClose, editCMList, acti
                 </Grid>
             </DialogContent>
             <DialogActions>
-                {actionName === 'toPayment' ? (
-                    <>
-                        <Button
-                            sx={{ mr: '0.05rem' }}
-                            variant="contained"
-                            onClick={() => {
-                                handleSaveEdit();
-                                initData();
-                            }}
-                        >
-                            儲存
-                        </Button>
-                        <Button
-                            sx={{ mr: '0.05rem' }}
-                            variant="contained"
-                            onClick={() => {
-                                handleDedDialogClose();
-                                handleTmpSaveEdit();
-                                initData();
-                            }}
-                        >
-                            關閉
-                        </Button>
-                    </>
-                ) : (
+                <>
+                    <Button
+                        sx={{ mr: '0.05rem' }}
+                        variant="contained"
+                        onClick={() => {
+                            handleSaveEdit();
+                            initData();
+                        }}
+                    >
+                        儲存
+                    </Button>
                     <Button
                         sx={{ mr: '0.05rem' }}
                         variant="contained"
                         onClick={() => {
                             handleDedDialogClose();
+                            handleTmpSaveEdit();
                             initData();
                         }}
                     >
                         關閉
                     </Button>
-                )}
+                </>
             </DialogActions>
         </Dialog>
     );

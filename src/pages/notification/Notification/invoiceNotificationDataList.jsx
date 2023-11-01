@@ -93,7 +93,7 @@ const InvoiceNotificationDataList = ({ listInfo, partiesList, submarineCableList
                 initQuery={initQuery}
             />
             <TableContainer component={Paper}>
-                <Table sx={{ minWidth: 300 }} stickyHeader aria-label="sticky table">
+                <Table sx={{ minWidth: 300 }} stickyHeader >
                     <TableHead>
                         <TableRow>
                             <StyledTableCell align="center">NO</StyledTableCell>

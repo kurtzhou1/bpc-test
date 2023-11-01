@@ -117,7 +117,7 @@ const ResearchBillDataList = ({ listInfo, setDetailInfo }) => {
                         </Grid>
                         <Grid item xs={12} sm={12} md={12} lg={12}>
                             <TableContainer component={Paper} sx={{ maxHeight: 350 }}>
-                                <Table sx={{ minWidth: 300 }} stickyHeader aria-label="sticky table">
+                                <Table sx={{ minWidth: 300 }} stickyHeader >
                                     <TableHead>
                                         <TableRow>
                                             <StyledTableCell align="center">費用項目</StyledTableCell>
@@ -182,7 +182,7 @@ const ResearchBillDataList = ({ listInfo, setDetailInfo }) => {
                 </DialogActions>
             </Dialog>
             <TableContainer component={Paper} sx={{ maxHeight: 350 }}>
-                <Table sx={{ minWidth: 300 }} stickyHeader aria-label="sticky table">
+                <Table sx={{ minWidth: 300 }} stickyHeader >
                     <TableHead>
                         <TableRow>
                             <StyledTableCell align="center">NO</StyledTableCell>

@@ -280,7 +280,7 @@ const Corporates = ({ maxHei }) => {
 
     return (
         <TableContainer component={Paper} sx={{ maxHeight: maxHei }}>
-            <Table sx={{ minWidth: 300 }} stickyHeader aria-label="sticky table">
+            <Table sx={{ minWidth: 300 }} stickyHeader >
                 <TableHead>
                     <TableRow sx={{ fontSize: '50px' }}>
                         <StyledTableCell align="center">Action</StyledTableCell>
