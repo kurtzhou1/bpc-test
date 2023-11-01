@@ -159,9 +159,6 @@ const DedAmountWork = ({ isDedDialogOpen, handleDedDialogClose, editCMList, invo
                                                     <TableCell align="center">{row.CMType}</TableCell>
                                                     <TableCell align="center">{row.CurrAmount}</TableCell>
                                                     <TableCell align="center">{row.Note}</TableCell>
-                                                    {/* <TableCell align="center">
-                                                        {toPayment > 0 ? `$${handleNumber(toPayment.toFixed(2))}` : 0}
-                                                    </TableCell> */}
                                                     <TableCell align="center">
                                                         <TextField
                                                             size="small"

@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Typography, Grid, Button, FormControl, InputLabel, Select, MenuItem, Box, Checkbox, FormGroup } from '@mui/material';
+import { Typography, Grid, Button, FormControl, InputLabel, Select, MenuItem, Box } from '@mui/material';
 
 // project import
 import MainCard from 'components/MainCard';
@@ -59,21 +59,21 @@ const JournalQuery = ({ setListInfo, queryApi, invoiceStatus, supplierName, setS
 
     useEffect(() => {
         fetch(supplierNameDropDownUnique, { method: 'GET' })
-        .then((res) => res.json())
-        .then((data) => {
-            console.log('data=>>', data);
-            if(Array.isArray(data)) {
-                setSupNmList(data);
-            }
-        })
+            .then((res) => res.json())
+            .then((data) => {
+                console.log('data=>>', data);
+                if(Array.isArray(data)) {
+                    setSupNmList(data);
+                }
+            })
         .catch((e) => console.log('e1=>', e));
         //海纜名稱
         fetch(submarineCableInfoList, { method: 'GET' })
-        .then((res) => res.json())
-        .then((data) => {
-            setSubmarineCableList(data);
-        })
-        .catch((e) => console.log('e1=>', e));
+            .then((res) => res.json())
+            .then((data) => {
+                setSubmarineCableList(data);
+            })
+            .catch((e) => console.log('e1=>', e));
     }, [])
 
     return (

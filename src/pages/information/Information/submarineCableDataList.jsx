@@ -2,7 +2,7 @@ import { useState, useRef, useEffect } from 'react';
 
 // project import
 // material-ui
-import { Button, Table, TextField, Box } from '@mui/material';
+import { Button, Table, TextField, Box, Grid, Typography, FormControl, InputLabel, Select, MenuItem } from '@mui/material';
 import TableBody from '@mui/material/TableBody';
 import TableCell, { tableCellClasses } from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
@@ -15,7 +15,7 @@ import { addSubmarineCables, submarineCableInfoList, deleteSubmarineCables, edit
 
 // redux
 import { useDispatch } from 'react-redux';
-import { setMessageStateOpen, setSubmarineCableList } from 'store/reducers/dropdown';
+import { setMessageStateOpen } from 'store/reducers/dropdown';
 
 const SubmarineCableDataList = ({ maxHei }) => {
     const dispatch = useDispatch();
@@ -138,172 +138,174 @@ const SubmarineCableDataList = ({ maxHei }) => {
     }, []);
 
     return (
-        <TableContainer component={Paper} sx={{ maxHeight: maxHei }}>
-            <Table sx={{ minWidth: 300 }} stickyHeader >
-                <TableHead>
-                    <TableRow>
-                        <StyledTableCell align="center">Action</StyledTableCell>
-                        <StyledTableCell align="center">NO</StyledTableCell>
-                        <StyledTableCell align="center">代碼</StyledTableCell>
-                        <StyledTableCell align="center">海纜名稱</StyledTableCell>
-                        <StyledTableCell align="center">摘要</StyledTableCell>
-                    </TableRow>
-                </TableHead>
-                <TableBody>
-                    <TableRow sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
-                        <TableCell align="center">
-                            <Box
-                                sx={{
-                                    display: 'flex',
-                                    justifyContent: 'center',
-                                    '& button': { mx: { md: 0.6, lg: 1, xl: 1.8 }, p: 0 }
-                                }}
-                            >
-                                <Button color="success" variant="outlined" onClick={addPartyInfo}>
-                                    新增
-                                </Button>
-                            </Box>
-                        </TableCell>
-                        <TableCell align="center"></TableCell>
-                        <TableCell align="center">
-                            <TextField
-                                size="small"
-                                // style={{ width: '30%' }}
-                                value={cableCode}
-                                onChange={(e) => {
-                                    setCableCode(e.target.value);
-                                }}
-                            />
-                        </TableCell>
-                        <TableCell align="center">
-                            <TextField
-                                size="small"
-                                // style={{ width: '30%' }}
-                                value={cableName}
-                                onChange={(e) => {
-                                    setCableName(e.target.value);
-                                }}
-                            />
-                        </TableCell>
-                        <TableCell align="center">
-                            <TextField
-                                size="small"
-                                value={note}
-                                onChange={(e) => {
-                                    setNote(e.target.value);
-                                }}
-                            />
-                        </TableCell>
-                    </TableRow>
-                    {infoList?.map((row, id) => {
-                        return (
-                            <TableRow
-                                // key={row.InvoiceWKMaster?.WKMasterID + row.InvoiceWKMaster?.InvoiceNo}
-                                sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-                            >
-                                {row.CableID !== cableIDEdit.current ? (
-                                    <>
-                                        <StyledTableCell align="center">
-                                            <Box
-                                                sx={{
-                                                    display: 'flex',
-                                                    justifyContent: 'center',
-                                                    '& button': { mx: { md: 0.6, lg: 1, xl: 1.8 }, p: 0 }
-                                                }}
-                                            >
-                                                <Button
-                                                    color="primary"
-                                                    variant="outlined"
-                                                    onClick={() => {
-                                                        editPartyInfo(row);
+        <>
+            <TableContainer component={Paper} sx={{ maxHeight: maxHei }}>
+                <Table sx={{ minWidth: 300 }} stickyHeader >
+                    <TableHead>
+                        <TableRow>
+                            <StyledTableCell align="center">Action</StyledTableCell>
+                            <StyledTableCell align="center">NO</StyledTableCell>
+                            <StyledTableCell align="center">代碼</StyledTableCell>
+                            <StyledTableCell align="center">海纜名稱</StyledTableCell>
+                            <StyledTableCell align="center">摘要</StyledTableCell>
+                        </TableRow>
+                    </TableHead>
+                    <TableBody>
+                        <TableRow sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
+                            <TableCell align="center">
+                                <Box
+                                    sx={{
+                                        display: 'flex',
+                                        justifyContent: 'center',
+                                        '& button': { mx: { md: 0.6, lg: 1, xl: 1.8 }, p: 0 }
+                                    }}
+                                >
+                                    <Button color="success" variant="outlined" onClick={addPartyInfo}>
+                                        新增
+                                    </Button>
+                                </Box>
+                            </TableCell>
+                            <TableCell align="center"></TableCell>
+                            <TableCell align="center">
+                                <TextField
+                                    size="small"
+                                    // style={{ width: '30%' }}
+                                    value={cableCode}
+                                    onChange={(e) => {
+                                        setCableCode(e.target.value);
+                                    }}
+                                />
+                            </TableCell>
+                            <TableCell align="center">
+                                <TextField
+                                    size="small"
+                                    // style={{ width: '30%' }}
+                                    value={cableName}
+                                    onChange={(e) => {
+                                        setCableName(e.target.value);
+                                    }}
+                                />
+                            </TableCell>
+                            <TableCell align="center">
+                                <TextField
+                                    size="small"
+                                    value={note}
+                                    onChange={(e) => {
+                                        setNote(e.target.value);
+                                    }}
+                                />
+                            </TableCell>
+                        </TableRow>
+                        {infoList?.map((row, id) => {
+                            return (
+                                <TableRow
+                                    // key={row.InvoiceWKMaster?.WKMasterID + row.InvoiceWKMaster?.InvoiceNo}
+                                    sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                                >
+                                    {row.CableID !== cableIDEdit.current ? (
+                                        <>
+                                            <StyledTableCell align="center">
+                                                <Box
+                                                    sx={{
+                                                        display: 'flex',
+                                                        justifyContent: 'center',
+                                                        '& button': { mx: { md: 0.6, lg: 1, xl: 1.8 }, p: 0 }
                                                     }}
                                                 >
-                                                    編輯
-                                                </Button>
-                                                <Button
-                                                    color="error"
-                                                    variant="outlined"
-                                                    onClick={() => {
-                                                        deletePartyInfo(row);
+                                                    <Button
+                                                        color="primary"
+                                                        variant="outlined"
+                                                        onClick={() => {
+                                                            editPartyInfo(row);
+                                                        }}
+                                                    >
+                                                        編輯
+                                                    </Button>
+                                                    <Button
+                                                        color="error"
+                                                        variant="outlined"
+                                                        onClick={() => {
+                                                            deletePartyInfo(row);
+                                                        }}
+                                                    >
+                                                        刪除
+                                                    </Button>
+                                                </Box>
+                                            </StyledTableCell>
+                                            <StyledTableCell align="center">{id + 1}</StyledTableCell>
+                                            <StyledTableCell align="center">{row.CableCode}</StyledTableCell>
+                                            <StyledTableCell align="center">{row.CableName}</StyledTableCell>
+                                            <StyledTableCell align="center">{row.Note}</StyledTableCell>
+                                        </>
+                                    ) : (
+                                        <>
+                                            <StyledTableCell align="center">
+                                                <Box
+                                                    sx={{
+                                                        display: 'flex',
+                                                        justifyContent: 'center',
+                                                        '& button': { mx: { md: 0.6, lg: 1, xl: 1.8 }, p: 0 }
                                                     }}
                                                 >
-                                                    刪除
-                                                </Button>
-                                            </Box>
-                                        </StyledTableCell>
-                                        <StyledTableCell align="center">{id + 1}</StyledTableCell>
-                                        <StyledTableCell align="center">{row.CableCode}</StyledTableCell>
-                                        <StyledTableCell align="center">{row.CableName}</StyledTableCell>
-                                        <StyledTableCell align="center">{row.Note}</StyledTableCell>
-                                    </>
-                                ) : (
-                                    <>
-                                        <StyledTableCell align="center">
-                                            <Box
-                                                sx={{
-                                                    display: 'flex',
-                                                    justifyContent: 'center',
-                                                    '& button': { mx: { md: 0.6, lg: 1, xl: 1.8 }, p: 0 }
-                                                }}
-                                            >
-                                                <Button
-                                                    color="primary"
-                                                    variant="outlined"
-                                                    onClick={() => {
-                                                        saveEditPartyInfo();
+                                                    <Button
+                                                        color="primary"
+                                                        variant="outlined"
+                                                        onClick={() => {
+                                                            saveEditPartyInfo();
+                                                        }}
+                                                    >
+                                                        儲存
+                                                    </Button>
+                                                    <Button
+                                                        color="error"
+                                                        variant="outlined"
+                                                        onClick={() => {
+                                                            editInfoInit();
+                                                        }}
+                                                    >
+                                                        關閉
+                                                    </Button>
+                                                </Box>
+                                            </StyledTableCell>
+                                            <TableCell align="center">{id + 1}</TableCell>
+                                            <TableCell align="center">
+                                                <TextField
+                                                    size="small"
+                                                    // style={{ width: '30%' }}
+                                                    value={cableCodeEdit}
+                                                    onChange={(e) => {
+                                                        setCableCodeEdit(e.target.value);
                                                     }}
-                                                >
-                                                    儲存
-                                                </Button>
-                                                <Button
-                                                    color="error"
-                                                    variant="outlined"
-                                                    onClick={() => {
-                                                        editInfoInit();
+                                                />
+                                            </TableCell>
+                                            <TableCell align="center">
+                                                <TextField
+                                                    size="small"
+                                                    // style={{ width: '30%' }}
+                                                    value={cableNameEdit}
+                                                    onChange={(e) => {
+                                                        setCableNameEdit(e.target.value);
                                                     }}
-                                                >
-                                                    關閉
-                                                </Button>
-                                            </Box>
-                                        </StyledTableCell>
-                                        <TableCell align="center">{id + 1}</TableCell>
-                                        <TableCell align="center">
-                                            <TextField
-                                                size="small"
-                                                // style={{ width: '30%' }}
-                                                value={cableCodeEdit}
-                                                onChange={(e) => {
-                                                    setCableCodeEdit(e.target.value);
-                                                }}
-                                            />
-                                        </TableCell>
-                                        <TableCell align="center">
-                                            <TextField
-                                                size="small"
-                                                // style={{ width: '30%' }}
-                                                value={cableNameEdit}
-                                                onChange={(e) => {
-                                                    setCableNameEdit(e.target.value);
-                                                }}
-                                            />
-                                        </TableCell>
-                                        <TableCell align="center">
-                                            <TextField
-                                                size="small"
-                                                value={noteEdit}
-                                                onChange={(e) => {
-                                                    setNoteEdit(e.target.value);
-                                                }}
-                                            />
-                                        </TableCell>
-                                    </>
-                                )}
-                            </TableRow>
-                        );
-                    })}
-                </TableBody>
-            </Table>
-        </TableContainer>
+                                                />
+                                            </TableCell>
+                                            <TableCell align="center">
+                                                <TextField
+                                                    size="small"
+                                                    value={noteEdit}
+                                                    onChange={(e) => {
+                                                        setNoteEdit(e.target.value);
+                                                    }}
+                                                />
+                                            </TableCell>
+                                        </>
+                                    )}
+                                </TableRow>
+                            );
+                        })}
+                    </TableBody>
+                </Table>
+            </TableContainer>
+        </>
     );
 };
 

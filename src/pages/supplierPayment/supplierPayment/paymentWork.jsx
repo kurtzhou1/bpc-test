@@ -59,21 +59,21 @@ const PaymentWork = ({ isDialogOpen, handleDialogClose, editPaymentInfo, actionN
         payAmountTotal.current = 0;
     }
 
-    const changeNote = (note, billMasterID, billDetailID) => {
+    const changeNote = (note, invDetailID) => {
         let tmpArray = toPaymentDetailInfo.map((i) => i);
         tmpArray.forEach((i) => {
-            if (i.BillMasterID === billMasterID && i.BillDetailID === billDetailID) {
+            if (i.InvDetailID === invDetailID) {
                 i.Note = note;
             }
         });
         setToPaymentDetailInfo(tmpArray);
     };
 
-    const changePayAmount = (payment, billMasterID, billDetailID) => {
+    const changePayAmount = (payment, invDetailID) => {
         payAmountTotal.current = 0;
         let tmpArray = toPaymentDetailInfo.map((i) => i);
         tmpArray.forEach((i) => {
-            if (i.BillMasterID === billMasterID && i.BillDetailID === billDetailID) {
+            if (i.InvDetailID === invDetailID) {
                 i.PayAmount = Number(payment);
             }
             payAmountTotal.current =
@@ -212,7 +212,7 @@ const PaymentWork = ({ isDialogOpen, handleDialogClose, editPaymentInfo, actionN
                                                                 sx={{ minWidth: 75 }}
                                                                 value={row.Note}
                                                                 onChange={(e) => {
-                                                                    changeNote(e.target.value, row.BillMasterID, row.BillDetailID);
+                                                                    changeNote(e.target.value, row.InvDetailID);
                                                                 }}
                                                             />
                                                         </TableCell>
@@ -234,7 +234,7 @@ const PaymentWork = ({ isDialogOpen, handleDialogClose, editPaymentInfo, actionN
                                                                 }
                                                                 type="number"
                                                                 onChange={(e) => {
-                                                                    changePayAmount(e.target.value, row.BillMasterID, row.BillDetailID);
+                                                                    changePayAmount(e.target.value, row.InvDetailID);
                                                                 }}
                                                             />
                                                         </TableCell>

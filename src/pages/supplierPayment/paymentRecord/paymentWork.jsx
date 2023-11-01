@@ -50,21 +50,21 @@ const PaymentWork = ({ isDialogOpen, handleDialogClose, editPaymentInfo, actionN
     const toPaymentAmountTotal = useRef(0); //未付款金額
     const payAmountTotal = useRef(0); //此次付款金額
 
-    const changeNote = (note, invDetailID) => {
+    const changeNote = (note, billMasterID, billDetailID) => {
         let tmpArray = toPaymentDetailInfo.map((i) => i);
         tmpArray.forEach((i) => {
-            if (i.InvDetailID === invDetailID) {
+            if (i.BillMasterID === billMasterID && i.BillDetailID === billDetailID) {
                 i.Note = note;
             }
         });
         setToPaymentDetailInfo(tmpArray);
     };
 
-    const changePayAmount = (payment, invDetailID) => {
+    const changePayAmount = (payment, billMasterID, billDetailID) => {
         payAmountTotal.current = 0;
         let tmpArray = toPaymentDetailInfo.map((i) => i);
         tmpArray.forEach((i) => {
-            if (i.BillMasterID === invDetailID) {
+            if (i.BillMasterID === billMasterID && i.BillDetailID === billDetailID) {
                 i.PayAmount = Number(payment);
             }
             payAmountTotal.current =
@@ -167,7 +167,7 @@ const PaymentWork = ({ isDialogOpen, handleDialogClose, editPaymentInfo, actionN
                     <Grid item xs={12} sm={12} md={12} lg={12}>
                         <MainCard title="帳單明細列表">
                             <TableContainer component={Paper} sx={{ maxHeight: 350 }}>
-                                <Table sx={{ minWidth: 300 }} stickyHeader >
+                                <Table sx={{ minWidth: 300 }} stickyHeader aria-label="sticky table">
                                     <TableHead>
                                         <TableRow>
                                             <StyledTableCell align="center">帳單號碼</StyledTableCell>
@@ -213,7 +213,7 @@ const PaymentWork = ({ isDialogOpen, handleDialogClose, editPaymentInfo, actionN
                                                                 sx={{ minWidth: 75 }}
                                                                 value={row.Note}
                                                                 onChange={(e) => {
-                                                                    changeNote(e.target.value, row.InvDetailID);
+                                                                    changeNote(e.target.value, row.BillMasterID, row.BillDetailID);
                                                                 }}
                                                             />
                                                         </TableCell>
@@ -235,7 +235,7 @@ const PaymentWork = ({ isDialogOpen, handleDialogClose, editPaymentInfo, actionN
                                                                 }
                                                                 type="number"
                                                                 onChange={(e) => {
-                                                                    changePayAmount(e.target.value, row.InvDetailID);
+                                                                    changePayAmount(e.target.value, row.BillMasterID, row.BillDetailID);
                                                                 }}
                                                             />
                                                         </TableCell>
