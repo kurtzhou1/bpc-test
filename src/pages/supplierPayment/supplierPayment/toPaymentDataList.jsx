@@ -129,11 +129,13 @@ const ToPaymentDataList = ({ listInfo, cbToCn, setCbToCn, isSend, setIsSend, sup
         handleDialogClose();
     };
 
-    const saveDedAmountEdit = (info) => {
+    const saveDedAmountEdit = (info, dedAmountTotal) => {
         let tmpArray = toPaymentList.map((i) => i);
         tmpArray.forEach((i) => {
+            console.log(i.InvoiceWKMaster.InvoiceNo, invoiceNoEdit.current)
             if (i.InvoiceWKMaster.InvoiceNo === invoiceNoEdit.current) {
-                i.BillDetailList = info;
+                i.CMList = info;
+                i.InvoiceWKMaster.NewDedAmount = dedAmountTotal;
             }
         });
         setToPaymentList(tmpArray);
@@ -350,7 +352,6 @@ const ToPaymentDataList = ({ listInfo, cbToCn, setCbToCn, isSend, setIsSend, sup
                             <StyledTableCell align="center">發票到期日</StyledTableCell>
                             <StyledTableCell align="center">總金額</StyledTableCell>
                             <StyledTableCell align="center">累計實收金額</StyledTableCell>
-                            {/* haha */}
                             <StyledTableCell align="center">累計實付金額</StyledTableCell>
                             <StyledTableCell align="center">累計減項金額</StyledTableCell>
                             <StyledTableCell align="center">本次減項金額</StyledTableCell>
@@ -394,10 +395,10 @@ const ToPaymentDataList = ({ listInfo, cbToCn, setCbToCn, isSend, setIsSend, sup
                                     <StyledTableCell align="center">
                                         {handleNumber(row?.InvoiceWKMaster?.PaidAmount.toFixed(2))}
                                     </StyledTableCell>
-                                    {/* haha */}
                                     <StyledTableCell align="center">
                                         {handleNumber(row?.InvoiceWKMaster?.DedAmount.toFixed(2))}
                                     </StyledTableCell>
+                                    {/* 本次減項金額 */}
                                     <StyledTableCell align="center">
                                         {handleNumber(row?.InvoiceWKMaster?.NewDedAmount.toFixed(2))}
                                     </StyledTableCell>

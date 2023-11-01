@@ -37,7 +37,6 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
 }));
 
 const DedAmountWork = ({ isDedDialogOpen, handleDedDialogClose, editCMList, invoiceNo, dueDate, saveDedAmountEdit }) => {
-    console.log('editCMList=>>>', editCMList);
     const [cmListInfo, setCMListInfo] = useState([]); //帳單明細檔
     const dedAmountTotal = useRef(0); //折抵金額
 
@@ -64,7 +63,7 @@ const DedAmountWork = ({ isDedDialogOpen, handleDedDialogClose, editCMList, invo
         tmpArray.forEach((i) => {
             i.DedAmount = i.DedAmount ? i.DedAmount : i.CurrAmount;
         });
-        saveDedAmountEdit(tmpArray);
+        saveDedAmountEdit(tmpArray, dedAmountTotal.current);
     };
 
     const handleTmpSaveEdit = () => {
@@ -73,15 +72,10 @@ const DedAmountWork = ({ isDedDialogOpen, handleDedDialogClose, editCMList, invo
 
     useEffect(() => {
         let tmpArray = JSON.parse(JSON.stringify(editCMList));
-        // tmpArray.forEach((i) => {
-        //     // i.DedAmount = i.DedAmount ? i.DedAmount : Number(i.ReceivedAmount - i.PaidAmount);
-        //     orgfeeAmountTotal.current = orgfeeAmountTotal.current + i.OrgFeeAmount;
-        //     receivedAmountTotal.current = receivedAmountTotal.current + i.ReceivedAmount;
-        //     paidAmountTotal.current = paidAmountTotal.current + i.PaidAmount;
-        //     toPaymentAmountTotal.current =
-        //         toPaymentAmountTotal.current + (i.OrgFeeAmount - i.PaidAmount > 0 ? i.OrgFeeAmount - i.PaidAmount : 0);
-        //     dedAmountTotal.current = dedAmountTotal.current + (i.DedAmount ? i.DedAmount : Number(i.ReceivedAmount - i.PaidAmount));
-        // });
+        tmpArray.forEach((i) => {
+            console.log(i.DedAmount, i.ReceivedAmount, i.PaidAmount)
+            dedAmountTotal.current = dedAmountTotal.current + Number(i.CurrAmount);
+        });
         if (isDedDialogOpen) {
             setCMListInfo(tmpArray);
         }
@@ -217,7 +211,7 @@ const DedAmountWork = ({ isDedDialogOpen, handleDedDialogClose, editCMList, invo
                         variant="contained"
                         onClick={() => {
                             handleDedDialogClose();
-                            handleTmpSaveEdit();
+                            // handleTmpSaveEdit();
                             initData();
                         }}
                     >
