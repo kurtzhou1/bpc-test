@@ -140,6 +140,7 @@ const DedAmountWork = ({ isDedDialogOpen, handleDedDialogClose, editCMList, invo
                                     </TableHead>
                                     <TableBody>
                                         {cmListInfo?.map((row) => {
+                                            let tmpDedAmount =   row.DedAmount ? row.DedAmount : row.CurrAmount;
                                             return (
                                                 <TableRow
                                                     key={row.InvoiceNo + row?.BillMasterID + row?.BillDetailID}
@@ -158,11 +159,7 @@ const DedAmountWork = ({ isDedDialogOpen, handleDedDialogClose, editCMList, invo
                                                             size="small"
                                                             inputProps={{ step: '.01' }}
                                                             sx={{ minWidth: 75 }}
-                                                            value={
-                                                                row.DedAmount
-                                                                    ? row.DedAmount
-                                                                    : row.CurrAmount
-                                                            }
+                                                            value={handleNumber(tmpDedAmount.toFixed(2))}
                                                             type="number"
                                                             onChange={(e) => {
                                                                 changeDedAmount(e.target.value, row.InvoiceNo);

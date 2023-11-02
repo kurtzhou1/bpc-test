@@ -155,7 +155,6 @@ const PaymentWork = ({ isDialogOpen, handleDialogClose, editPaymentInfo, actionN
                                     disabled={true}
                                     variant="outlined"
                                     size="small"
-                                    // type="number"
                                 />
                             </Grid>
                             <Grid item xs={2} sm={2} md={2} lg={2}>
@@ -170,7 +169,6 @@ const PaymentWork = ({ isDialogOpen, handleDialogClose, editPaymentInfo, actionN
                                     disabled={true}
                                     variant="outlined"
                                     size="small"
-                                    // type="number"
                                 />
                             </Grid>
                             <Grid item xs={5} sm={5} md={5} lg={5} />
@@ -201,6 +199,7 @@ const PaymentWork = ({ isDialogOpen, handleDialogClose, editPaymentInfo, actionN
                                     <TableBody>
                                         {toPaymentDetailInfo?.map((row) => {
                                             let toPayment = row.OrgFeeAmount - row.PaidAmount; //未付款金額
+                                            let tmpPayAmount = row.PayAmount ? row.PayAmount : Number(row.ReceivedAmount) - Number(row.PaidAmount);
                                             return (
                                                 <TableRow
                                                     key={row.BillingNo + row?.FeeItem + row?.PartyName}
@@ -238,12 +237,7 @@ const PaymentWork = ({ isDialogOpen, handleDialogClose, editPaymentInfo, actionN
                                                                 size="small"
                                                                 inputProps={{ step: '.01' }}
                                                                 sx={{ minWidth: 75 }}
-                                                                value={
-                                                                    row.PayAmount
-                                                                        ? row.PayAmount
-                                                                        : Number(row.ReceivedAmount - row.PaidAmount)
-                                                                }
-                                                                type="number"
+                                                                value={handleNumber(tmpPayAmount.toFixed(2))}
                                                                 onChange={(e) => {
                                                                     changePayAmount(e.target.value, row.InvDetailID);
                                                                 }}
