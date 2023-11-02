@@ -131,7 +131,7 @@ const DedAmountWork = ({ isDedDialogOpen, handleDedDialogClose, editCMList, invo
                                             <StyledTableCell align="center">供應商</StyledTableCell>
                                             <StyledTableCell align="center">海纜名稱</StyledTableCell>
                                             <StyledTableCell align="center">海纜作業</StyledTableCell>
-                                            <StyledTableCell align="center">記帳段號</StyledTableCell>
+                                            {/* <StyledTableCell align="center">記帳段號</StyledTableCell> */}
                                             <StyledTableCell align="center">CM種類</StyledTableCell>
                                             <StyledTableCell align="center">可折抵金額</StyledTableCell>
                                             <StyledTableCell align="center">摘要說明</StyledTableCell>
@@ -149,7 +149,7 @@ const DedAmountWork = ({ isDedDialogOpen, handleDedDialogClose, editCMList, invo
                                                     <TableCell align="center">{row?.SupplierName}</TableCell>
                                                     <TableCell align="center">{row?.SubmarineCable}</TableCell>
                                                     <TableCell align="center">{row.WorkTitle}</TableCell>
-                                                    <TableCell align="center">{row.BillMilestone}</TableCell>
+                                                    {/* <TableCell align="center">{row.BillMilestone}</TableCell> */}
                                                     <TableCell align="center">{row.CMType}</TableCell>
                                                     <TableCell align="center">{row.CurrAmount}</TableCell>
                                                     <TableCell align="center">{row.Note}</TableCell>
@@ -177,7 +177,7 @@ const DedAmountWork = ({ isDedDialogOpen, handleDedDialogClose, editCMList, invo
                                                 Total
                                             </StyledTableCell>
                                             <StyledTableCell className="totalAmount" align="center" />
-                                            <StyledTableCell className="totalAmount" align="center" />
+                                            {/* <StyledTableCell className="totalAmount" align="center" /> */}
                                             <StyledTableCell className="totalAmount" align="center" />
                                             <StyledTableCell className="totalAmount" align="center" />
                                             <StyledTableCell className="totalAmount" align="center" />
