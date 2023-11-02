@@ -120,6 +120,17 @@ const PaymentWork = ({ isDialogOpen, handleDialogClose, editPaymentInfo, actionN
                 toPaymentAmountTotal.current + (i.OrgFeeAmount - i.PaidAmount > 0 ? i.OrgFeeAmount - i.PaidAmount : 0);
             payAmountTotal.current = payAmountTotal.current + (i.PayAmount ? i.PayAmount : Number(i.ReceivedAmount - i.PaidAmount));
         });
+        tmpArray.sort((a, b) => {
+            let aBillingNo = a.BillingNo.toUpperCase();
+            let bBillingNo = b.BillingNo.toUpperCase();
+            if (aBillingNo < bBillingNo) {
+                return -1;
+            }
+            if (aBillingNo > bBillingNo) {
+                return 1;
+            }
+            return 0;
+        })
         if (isDialogOpen) {
             setToPaymentDetailInfo(tmpArray);
         }
@@ -192,7 +203,7 @@ const PaymentWork = ({ isDialogOpen, handleDialogClose, editPaymentInfo, actionN
                                             let toPayment = row.OrgFeeAmount - row.PaidAmount; //未付款金額
                                             return (
                                                 <TableRow
-                                                    key={row.BillingNo + row?.FeeItem + row?.BillMilestone}
+                                                    key={row.BillingNo + row?.FeeItem + row?.PartyName}
                                                     sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                                                 >
                                                     <TableCell align="center">{row?.BillingNo}</TableCell>
