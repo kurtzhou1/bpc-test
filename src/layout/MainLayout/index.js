@@ -114,8 +114,8 @@ const MainLayout = () => {
                                                         })
                                                 );
                                                 localStorage.setItem('expireTime', dayjs().add(31, 'minute'));
-                                        } else {
-                                                window.location.replace(ssoUrl);
+                                                // } else {
+                                                //         window.location.replace(ssoUrl);
                                         }
                                 })
                                 .catch((e) => console.log('e1=>', e));
