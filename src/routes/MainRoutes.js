@@ -116,7 +116,8 @@ const RequireAuth = ({ children }) => {
         if (window.location.host.includes('localhost') || dayjs(getExpireTime).diff(new Date(), 'minute') > 0 || isLogin) {
                 // if (isLogin || dayjs(getExpireTime).diff(new Date(), 'minute') > 0) {
                 return children;
-        } else if (window.location.href.indexOf('code') !== -1 && !getExpireTime) {
+        } else if (window.location.href.indexOf('code') !== -1) {
+                // } else if (window.location.href.indexOf('code') !== -1 && !getExpireTime) {
                 // if (!getExpireTime) {
                 const accessCode = window.location.href.split('code=')[1];
                 let tmpArray = {
@@ -136,7 +137,7 @@ const RequireAuth = ({ children }) => {
                 })
                         .then((res) => res.json())
                         .then((data) => {
-                                console.log('data=>>>>', data.access_token);
+                                console.log('datahaha2=>>>>', data.access_token);
                                 if (data.access_token) {
                                         dispatch(
                                                 setLoginInInfo({

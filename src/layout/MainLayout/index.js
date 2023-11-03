@@ -102,7 +102,7 @@ const MainLayout = () => {
                         })
                                 .then((res) => res.json())
                                 .then((data) => {
-                                        console.log('data=>>>>', data.access_token);
+                                        console.log('datahaha1=>>>>', data.access_token);
                                         if (data.access_token) {
                                                 dispatch(
                                                         setLoginInInfo({
