@@ -127,7 +127,7 @@ const RequireAuth = ({ children }) => {
                         grant_type: 'authorization_code'
                 };
                 const searchParams = new URLSearchParams(tmpArray);
-                console.log('searchParams2=>>', accessCode);
+                console.log('searchParamshaha1=>>', accessCode);
                 fetch(tmpTest, {
                         method: 'POST',
                         body: searchParams,
