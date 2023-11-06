@@ -76,6 +76,7 @@ export const getPayDraftStream = 'http://internal-cbpsalb-1176080923.ap-northeas
 // 全域查詢
 export const searchBillMasterByInvoiceWKMaster = 'http://internal-cbpsalb-1176080923.ap-northeast-1.elb.amazonaws.com/api/v1/searchBillMasterByInvoiceWKMaster';
 export const searchInvoiceWKMasterByBillMaster = 'http://internal-cbpsalb-1176080923.ap-northeast-1.elb.amazonaws.com/api/v1/searchInvoiceWKMasterByBillMaster';
+export const searchInvoiceWKMasterIsBilled = 'http://internal-cbpsalb-1176080923.ap-northeast-1.elb.amazonaws.com/api/v1/searchInvoiceWKMasterIsBilled';
 
 // 基本資料-Suppliers
 export const addSuppliers = 'http://internal-cbpsalb-1176080923.ap-northeast-1.elb.amazonaws.com/api/v1/Suppliers';

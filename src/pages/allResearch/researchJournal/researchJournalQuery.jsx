@@ -7,7 +7,6 @@ import {
     InputLabel,
     Select,
     MenuItem,
-    Box,
     Radio,
     FormGroup,
     RadioGroup,
@@ -22,12 +21,11 @@ import MainCard from 'components/MainCard';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DesktopDatePicker } from '@mui/x-date-pickers/DesktopDatePicker';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import dayjs from 'dayjs';
-import { DateRangePicker } from '@mui/x-date-pickers-pro/DateRangePicker';
 import { TextField } from '@mui/material/index';
+import dayjs from 'dayjs';
 
 // api
-import { queryCB, supplierNameDropDownUnique, submarineCableInfoList, billMilestoneLiabilityList } from 'components/apis.jsx';
+import { searchInvoiceWKMasterIsBilled, supplierNameDropDownUnique, submarineCableInfoList, billMilestoneLiabilityList } from 'components/apis.jsx';
 
 // ==============================|| SAMPLE PAGE ||============================== //
 
@@ -35,68 +33,98 @@ const ResearchBillQuery = ({ setListInfo, queryApi }) => {
     const [supplierName, setSupplierName] = useState(''); //供應商
     const [submarineCable, setSubmarineCable] = useState(''); //海纜名稱
     const [workTitle, setWorkTitle] = useState(''); //海纜作業
-    const [currAmount, setCurrAmount] = useState({ TRUE: false, FALSE: false }); //剩餘金額
-    const [isIssueDate, setIsIssueDate] = useState(''); //是否為發票日期
-    const [issueDate, setIssueDate] = useState(null); //發票日期
     const [invoiceNo, setInvoiceNo] = useState(''); //發票號碼
     const [billMilestone, setBillMilestone] = useState(''); // 計帳段號
+    const [isIssueDate, setIsIssueDate] = useState(''); //是否為發票日期
+    const [issueDate, setIssueDate] = useState(null); //發票日期
     const [supNmList, setSupNmList] = useState([]); //供應商下拉選單
     const [submarineCableList, setSubmarineCableList] = useState([]); //海纜名稱下拉選單
     const [bmsList, setBmsList] = useState([]); //計帳段號下拉選單
-    const [invoiceStatusQuery, setInvoiceStatusQuery] = useState({
+    const [invoiceStatus, setInvoiceStatus] = useState({
         BILLED: false,
-        COMPLETE: false,
-        INVALID: false,
         PAYING: false,
         TEMPORARY: false,
         VALIDATED: false
     }); //處理狀態
 
-    const creditBalanceQuery = () => {
-        let tmpQuery = '/';
-        if (supplierName && supplierName !== '') {
-            tmpQuery = tmpQuery + 'PartyName=' + supplierName + '&';
-        }
-        if (submarineCable && submarineCable !== '') {
-            tmpQuery = tmpQuery + 'SubmarineCable=' + submarineCable + '&';
-        }
-        if (workTitle && workTitle !== '') {
-            tmpQuery = tmpQuery + 'WorkTitle=' + workTitle + '&';
-        }
-        if (billMilestone && billMilestone !== '') {
-            tmpQuery = tmpQuery + 'BillMilestone=' + billMilestone + '&';
-        }
+    const initQuery = () => {
+        setIssueDate([null, null]);
+        setSupplierName('');
+        setSubmarineCable('');
+        setWorkTitle('');
+        setInvoiceStatus({ BILLED: false, PAYING: false, TEMPORARY: false, VALIDATED: false });
+        setBillMilestone('');
+        setInvoiceNo('');
+        setIsIssueDate('');
+    };
 
-        console.log('currAmount=>>', currAmount, currAmount.TRUE, currAmount.FALSE);
-        if (currAmount?.TRUE && !currAmount?.FALSE) {
-            tmpQuery = tmpQuery + 'CurrAmount=true&';
-        }
-        if (currAmount?.FALSE && !currAmount?.TRUE) {
-            tmpQuery = tmpQuery + 'CurrAmount=false&';
-        }
-
-        if (tmpQuery.includes('&')) {
-            tmpQuery = tmpQuery.slice(0, -1);
-        } else {
-            tmpQuery = tmpQuery + 'all';
-        }
-
-        tmpQuery = queryCB + tmpQuery;
-        console.log('tmpQuery=>>', tmpQuery);
-        queryApi.current = tmpQuery;
-        fetch(tmpQuery, { method: 'GET' })
-            .then((res) => res.json())
-            .then((data) => {
-                console.log('查詢成功=>>', data);
-                if (Array.isArray(data)) {
-                    setListInfo(data);
-                }
-            })
-            .catch((e) => console.log('e1=>', e));
+    const journalQuery = () => {
+      // let tmpQuery = '/';
+      let tmpObject = {};
+      if (supplierName && supplierName !== '') {
+          tmpObject.SupplierName = supplierName;
+      }
+      if (submarineCable && submarineCable !== '') {
+          tmpObject.SubmarineCable = submarineCable;
+      }
+      if (workTitle && workTitle !== '') {
+        tmpObject.WorkTitle = workTitle;
+    }
+      if (invoiceNo && invoiceNo !== '') {
+          tmpObject.InvoiceNo = invoiceNo;
+      }
+      if (billMilestone && billMilestone !== '') {
+          tmpObject.BillMilestone = billMilestone;
+      }
+      if (isIssueDate === 'true') {
+          tmpObject.IssueDate = dayjs(issueDate).format('YYYYMMDD')
+      }
+      if (isIssueDate === 'false') {
+          tmpObject.DueDate = dayjs(issueDate).format('YYYYMMDD')
+      }
+      if (
+          !(
+              invoiceStatus?.TEMPORARY &&
+              invoiceStatus?.VALIDATED &&
+              invoiceStatus?.BILLED &&
+              invoiceStatus?.PAYING
+          ) &&
+          (invoiceStatus?.TEMPORARY ||
+              invoiceStatus?.VALIDATED ||
+              invoiceStatus?.BILLED ||
+              invoiceStatus?.PAYING)
+      ) {
+          let tmpStatus = [];
+          if (invoiceStatus?.TEMPORARY) {
+              // tmpStatus = tmpStatus + 'Status=TEMPORARY&';
+              tmpStatus.push("TEMPORARY");
+          }
+          if (invoiceStatus?.VALIDATED) {
+              // tmpStatus = tmpStatus + 'Status=VALIDATED&';
+              tmpStatus.push("VALIDATED");
+          }
+          if (invoiceStatus?.BILLED) {
+              // tmpStatus = tmpStatus + 'Status=BILLED&';
+              tmpStatus.push("BILLED");
+          }
+          if (invoiceStatus?.PAYING) {
+              // tmpStatus = tmpStatus + 'Status=PAYING&';
+              tmpStatus.push("PAYING");
+          }
+          tmpObject.Status = tmpStatus;
+      }
+      queryApi.current = tmpObject;
+      console.log('tmpQuery=>>', tmpObject);
+      fetch(searchInvoiceWKMasterIsBilled, { method: 'POST', body: JSON.stringify(tmpObject) })
+          .then((res) => res.json())
+          .then((data) => {
+              setListInfo(data);
+          })
+          .catch((e) => console.log('e1=>', e));
     };
 
     const handleChange = (event) => {
-        setCurrAmount({ ...currAmount, [event.target.name]: event.target.checked });
+        setInvoiceStatus({ ...invoiceStatus, [event.target.name]: event.target.checked });
     };
 
     useEffect(() => {
@@ -128,7 +156,7 @@ const ResearchBillQuery = ({ setListInfo, queryApi }) => {
             <Grid container display="flex" alignItems="center" spacing={2}>
                 {/* row1 */}
                 <Grid item xs={2} sm={2} md={1} lg={1}>
-                    <Typography variant="h5" sx={{ fontSize: { lg: '0.7rem' ,xl: '0.88rem' } }}>
+                    <Typography sx={{ fontWeight: 'bold' ,fontSize: { lg: '0.7rem' ,xl: '0.88rem' } }}>
                         供應商：
                     </Typography>
                 </Grid>
@@ -145,7 +173,7 @@ const ResearchBillQuery = ({ setListInfo, queryApi }) => {
                     </FormControl>
                 </Grid>
                 <Grid item sm={1} md={1} lg={1}>
-                    <Typography variant="h5" sx={{ fontSize: { lg: '0.7rem' ,xl: '0.88rem' } }}>
+                    <Typography sx={{ fontWeight: 'bold' ,fontSize: { lg: '0.7rem' ,xl: '0.88rem' } }}>
                         海纜名稱：
                     </Typography>
                 </Grid>
@@ -162,7 +190,7 @@ const ResearchBillQuery = ({ setListInfo, queryApi }) => {
                     </FormControl>
                 </Grid>
                 <Grid item sm={1} md={1} lg={1}>
-                    <Typography variant="h5" sx={{ fontSize: { lg: '0.7rem' ,xl: '0.88rem' } }}>
+                    <Typography sx={{ fontWeight: 'bold' ,fontSize: { lg: '0.7rem' ,xl: '0.88rem' } }}>
                         海纜作業：
                     </Typography>
                 </Grid>
@@ -177,7 +205,7 @@ const ResearchBillQuery = ({ setListInfo, queryApi }) => {
                     </FormControl>
                 </Grid>
                 <Grid item sm={1} md={1} lg={1}>
-                    <Typography variant="h5" sx={{ fontSize: { lg: '0.7rem' ,xl: '0.88rem' } }}>
+                    <Typography sx={{ fontWeight: 'bold' ,fontSize: { lg: '0.7rem' ,xl: '0.88rem' } }}>
                         發票號碼：
                     </Typography>
                 </Grid>
@@ -194,7 +222,7 @@ const ResearchBillQuery = ({ setListInfo, queryApi }) => {
                     </FormControl>
                 </Grid>
                 <Grid item sm={1} md={1} lg={1}>
-                    <Typography variant="h5" sx={{ fontSize: { lg: '0.7rem' ,xl: '0.88rem' } }}>
+                    <Typography sx={{ fontWeight: 'bold' ,fontSize: { lg: '0.7rem' ,xl: '0.88rem' } }}>
                         計帳段號：
                     </Typography>
                 </Grid>
@@ -212,7 +240,7 @@ const ResearchBillQuery = ({ setListInfo, queryApi }) => {
                 </Grid>
                 {/* row2 */}
                 <Grid item sm={1} md={1} lg={1}>
-                    <Typography variant="h5" sx={{ fontSize: { lg: '0.7rem' ,xl: '0.88rem' } }}>
+                    <Typography sx={{ fontWeight: 'bold' ,fontSize: { lg: '0.7rem' ,xl: '0.88rem' } }}>
                         日期條件：
                     </Typography>
                 </Grid>
@@ -243,22 +271,22 @@ const ResearchBillQuery = ({ setListInfo, queryApi }) => {
                     </LocalizationProvider>
                 </Grid>
                 <Grid item sm={1} md={1} lg={1}>
-                    <Typography variant="h5" sx={{ fontSize: { lg: '0.7rem' ,xl: '0.88rem' } }}>
+                    <Typography sx={{ fontWeight: 'bold' ,fontSize: { lg: '0.7rem' ,xl: '0.88rem' } }}>
                         處理狀態：
                     </Typography>
                 </Grid>
                 <Grid item xs={5} sm={5} md={5} lg={5}>
                     <FormGroup
                         row
-                        value={invoiceStatusQuery}
-                        // onChange={(e) => setInvoiceStatusQuery(e.target.value)}
+                        value={invoiceStatus}
+                        // onChange={(e) => setInvoiceStatus(e.target.value)}
                     >
                         <FormControlLabel
                             control={
                                 <Checkbox
                                     name={'TEMPORARY'}
                                     onChange={handleChange}
-                                    checked={invoiceStatusQuery.TEMPORARY}
+                                    checked={invoiceStatus.TEMPORARY}
                                     sx={{ '& .MuiSvgIcon-root': { fontSize: { lg: 14, xl: 20 } } }}
                                 />
                             }
@@ -269,7 +297,7 @@ const ResearchBillQuery = ({ setListInfo, queryApi }) => {
                                 <Checkbox
                                     name={'VALIDATED'}
                                     onChange={handleChange}
-                                    checked={invoiceStatusQuery.VALIDATED}
+                                    checked={invoiceStatus.VALIDATED}
                                     sx={{ '& .MuiSvgIcon-root': { fontSize: { lg: 14, xl: 20 } } }}
                                 />
                             }
@@ -280,7 +308,7 @@ const ResearchBillQuery = ({ setListInfo, queryApi }) => {
                                 <Checkbox
                                     name={'BILLED'}
                                     onChange={handleChange}
-                                    // checked={invoiceStatusQuery.BILLED}
+                                    // checked={invoiceStatus.BILLED}
                                     sx={{ '& .MuiSvgIcon-root': { fontSize: { lg: 14, xl: 20 } } }}
                                 />
                             }
@@ -291,7 +319,7 @@ const ResearchBillQuery = ({ setListInfo, queryApi }) => {
                                 <Checkbox
                                     name={'PAYING'}
                                     onChange={handleChange}
-                                    checked={invoiceStatusQuery.PAYING}
+                                    checked={invoiceStatus.PAYING}
                                     sx={{ '& .MuiSvgIcon-root': { fontSize: { lg: 14, xl: 20 } } }}
                                 />
                             }
@@ -300,10 +328,10 @@ const ResearchBillQuery = ({ setListInfo, queryApi }) => {
                     </FormGroup>
                 </Grid>
                 <Grid item xs={6} sm={6} md={6} lg={6} display="flex" justifyContent="end" alignItems="center">
-                    <Button sx={{ mr: '0.5rem' }} variant="contained" onClick={creditBalanceQuery}>
+                    <Button sx={{ mr: '0.5rem' }} variant="contained" onClick={journalQuery}>
                         查詢
                     </Button>
-                    <Button variant="contained">清除</Button>
+                    <Button variant="contained" onClick={initQuery}>清除</Button>
                 </Grid>
             </Grid>
         </MainCard>
