@@ -10,7 +10,7 @@ import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import { styled } from '@mui/material/styles';
 
-import { addCorporates, getCorporatesInfo, deleteCorporates, editCorporates, submarineCableInfoList } from 'components/apis.jsx';
+import { corporates, getCorporatesInfo, deleteCorporates, editCorporates, submarineCableInfoList } from 'components/apis.jsx';
 // redux
 import { useDispatch } from 'react-redux';
 import { setMessageStateOpen } from 'store/reducers/dropdown';
@@ -34,10 +34,10 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
     }
 }));
 
-const Corporates = ({ maxHei }) => {
+const Corporates = ({ maxHei, infoList, setInfoList }) => {
     const dispatch = useDispatch();
     const [submarineCableList, setSubmarineCableList] = useState([]); //海纜名稱下拉選單
-    const [infoList, setInfoList] = useState([]);
+    // const [infoList, setInfoList] = useState([]);
     // const [corpName, setCorpName] = useState(''); //聯盟代號
     const [acctName, setAcctName] = useState(''); //海纜作業
     const [bankAcctNo, setBankAcctNo] = useState(''); //會員名稱
@@ -193,7 +193,7 @@ const Corporates = ({ maxHei }) => {
             BranchAddress: branchAddress
         };
         console.log('', tmpArray);
-        fetch(addCorporates, { method: 'POST', body: JSON.stringify(tmpArray), headers: { 'Content-Type': 'application/json' } })
+        fetch(corporates, { method: 'POST', body: JSON.stringify(tmpArray), headers: { 'Content-Type': 'application/json' } })
             .then((res) => res.json())
             .then(() => {
                 dispatch(

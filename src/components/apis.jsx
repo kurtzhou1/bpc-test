@@ -78,13 +78,16 @@ export const searchBillMasterByInvoiceWKMaster = 'http://internal-cbpsalb-117608
 export const searchInvoiceWKMasterByBillMaster = 'http://internal-cbpsalb-1176080923.ap-northeast-1.elb.amazonaws.com/api/v1/searchInvoiceWKMasterByBillMaster';
 export const searchInvoiceWKMasterIsBilled = 'http://internal-cbpsalb-1176080923.ap-northeast-1.elb.amazonaws.com/api/v1/searchInvoiceWKMasterIsBilled';
 
+// 基本資料搜尋
+// export const SubmarineCables = 'http://internal-cbpsalb-1176080923.ap-northeast-1.elb.amazonaws.com/api/v1/SubmarineCables';
+
 // 基本資料-Suppliers
-export const addSuppliers = 'http://internal-cbpsalb-1176080923.ap-northeast-1.elb.amazonaws.com/api/v1/Suppliers';
+export const suppliers = 'http://internal-cbpsalb-1176080923.ap-northeast-1.elb.amazonaws.com/api/v1/Suppliers';
 export const deleteSuppliers = 'http://internal-cbpsalb-1176080923.ap-northeast-1.elb.amazonaws.com/api/v1/deleteSuppliers';
 export const editSuppliers = 'http://internal-cbpsalb-1176080923.ap-northeast-1.elb.amazonaws.com/api/v1/updateSuppliers';
 
 // 基本資料-Parties
-export const addParties = 'http://internal-cbpsalb-1176080923.ap-northeast-1.elb.amazonaws.com/api/v1/Parties';
+export const parties = 'http://internal-cbpsalb-1176080923.ap-northeast-1.elb.amazonaws.com/api/v1/Parties';
 export const deleteParties = 'http://internal-cbpsalb-1176080923.ap-northeast-1.elb.amazonaws.com/api/v1/deleteParties';
 export const editParties = 'http://internal-cbpsalb-1176080923.ap-northeast-1.elb.amazonaws.com/api/v1/updateParties';
 
@@ -94,7 +97,7 @@ export const deleteContracts = 'http://internal-cbpsalb-1176080923.ap-northeast-
 export const editContracts = 'http://internal-cbpsalb-1176080923.ap-northeast-1.elb.amazonaws.com/api/v1/updateContracts';
 
 // 基本資料-SubmarineCables
-export const addSubmarineCables = 'http://internal-cbpsalb-1176080923.ap-northeast-1.elb.amazonaws.com/api/v1/SubmarineCables';
+export const submarineCables = 'http://internal-cbpsalb-1176080923.ap-northeast-1.elb.amazonaws.com/api/v1/SubmarineCables';
 export const deleteSubmarineCables = 'http://internal-cbpsalb-1176080923.ap-northeast-1.elb.amazonaws.com/api/v1/deleteSubmarineCables';
 export const editSubmarineCables = 'http://internal-cbpsalb-1176080923.ap-northeast-1.elb.amazonaws.com/api/v1/updateSubmarineCables';
 
@@ -104,7 +107,7 @@ export const deletePartiesByContract = 'http://internal-cbpsalb-1176080923.ap-no
 export const editPartiesByContract = 'http://internal-cbpsalb-1176080923.ap-northeast-1.elb.amazonaws.com/api/v1/updatePartiesByContract';
 
 // 基本資料-Corporates
-export const addCorporates = 'http://internal-cbpsalb-1176080923.ap-northeast-1.elb.amazonaws.com/api/v1/Corporates';
+export const corporates = 'http://internal-cbpsalb-1176080923.ap-northeast-1.elb.amazonaws.com/api/v1/Corporates';
 export const deleteCorporates = 'http://internal-cbpsalb-1176080923.ap-northeast-1.elb.amazonaws.com/api/v1/deleteCorporates';
 export const editCorporates = 'http://internal-cbpsalb-1176080923.ap-northeast-1.elb.amazonaws.com/api/v1/updateCorporates';
 

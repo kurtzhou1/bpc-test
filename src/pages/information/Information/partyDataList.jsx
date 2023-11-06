@@ -11,7 +11,7 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import { styled } from '@mui/material/styles';
-import { addParties, getPartiesAllInfo, deleteParties, editParties, submarineCableInfoList } from 'components/apis.jsx';
+import { parties, getPartiesAllInfo, deleteParties, editParties, submarineCableInfoList } from 'components/apis.jsx';
 import { makeStyles } from '@material-ui/core/styles';
 
 // redux
@@ -144,10 +144,10 @@ const columns4 = [
     }
 ];
 
-const PartyDataList = ({ maxHei }) => {
+const PartyDataList = ({ maxHei, infoList, setInfoList }) => {
     const dispatch = useDispatch();
     const [submarineCableList, setSubmarineCableList] = useState([]); //海纜名稱下拉選單
-    const [infoList, setInfoList] = useState([]);
+    // const [infoList, setInfoList] = useState([]);
     const [submarineCable, setSubmarineCable] = useState(''); //海纜名稱
     const [workTitle, setWorkTitle] = useState(''); //海纜作業
     const [code, setCode] = useState(''); //代碼
@@ -273,7 +273,7 @@ const PartyDataList = ({ maxHei }) => {
             BankAddress: bankAddress
         };
         console.log('', tmpArray);
-        fetch(addParties, { method: 'POST', body: JSON.stringify(tmpArray), headers: { 'Content-Type': 'application/json' } })
+        fetch(parties, { method: 'POST', body: JSON.stringify(tmpArray), headers: { 'Content-Type': 'application/json' } })
             .then((res) => res.json())
             .then(() => {
                 dispatch(setMessageStateOpen({ messageStateOpen: { isOpen: true, severity: 'success', message: '新增會員資料成功' } }));

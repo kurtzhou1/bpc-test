@@ -17,7 +17,7 @@ import { alpha, styled } from '@mui/material/styles';
 
 import dayjs from 'dayjs';
 
-import { addCorporates, getCorporatesInfo, deleteCorporates, editCorporates } from 'components/apis.jsx';
+import { corporates, getCorporatesInfo, deleteCorporates, editCorporates } from 'components/apis.jsx';
 
 // redux
 import { useDispatch } from 'react-redux';
@@ -95,7 +95,7 @@ const GeneratedDataList = ({}) => {
             CreateDate: dayjs(createDate).format('YYYY-MM-DD HH:mm:ss')
         };
         console.log('', tmpArray);
-        fetch(addCorporates, { method: 'POST', body: JSON.stringify(tmpArray), headers: { 'Content-Type': 'application/json' } })
+        fetch(corporates, { method: 'POST', body: JSON.stringify(tmpArray), headers: { 'Content-Type': 'application/json' } })
             .then((res) => res.json())
             .then(() => {
                 dispatch(setMessageStateOpen({ messageStateOpen: { isOpen: true, severity: 'success', message: '新增聯盟資料成功' } }));

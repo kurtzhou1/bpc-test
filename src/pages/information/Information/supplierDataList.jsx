@@ -11,7 +11,7 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import { styled } from '@mui/material/styles';
-import { addSuppliers, supplierNameList, deleteSuppliers, editSuppliers, submarineCableInfoList } from 'components/apis.jsx';
+import { suppliers, supplierNameList, deleteSuppliers, editSuppliers, submarineCableInfoList } from 'components/apis.jsx';
 
 // redux
 import { useDispatch } from 'react-redux';
@@ -21,10 +21,10 @@ import { setMessageStateOpen } from 'store/reducers/dropdown';
 import DoNotDisturbOnIcon from '@mui/icons-material/DoNotDisturbOn';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 
-const SupplierDataList = ({ maxHei }) => {
+const SupplierDataList = ({ maxHei, infoList, setInfoList }) => {
     const dispatch = useDispatch();
     const [submarineCableList, setSubmarineCableList] = useState([]); //海纜名稱下拉選單
-    const [infoList, setInfoList] = useState([]);
+    // const [infoList, setInfoList] = useState([]);
     const [supplierName, setSupplierName] = useState(''); //供應商
     const [bankAcctName, setBankAcctName] = useState(''); //帳號名稱
     const [bankAcctNo, setBankAcctNo] = useState(''); //銀行帳號
@@ -200,7 +200,7 @@ const SupplierDataList = ({ maxHei }) => {
             SubmarineCable: submarineCable,
             WorkTitle: workTitle
         };
-        fetch(addSuppliers, { method: 'POST', body: JSON.stringify(tmpArray), headers: { 'Content-Type': 'application/json' } })
+        fetch(suppliers, { method: 'POST', body: JSON.stringify(tmpArray), headers: { 'Content-Type': 'application/json' } })
             .then((res) => res.json())
             .then(() => {
                 dispatch(setMessageStateOpen({ messageStateOpen: { isOpen: true, severity: 'success', message: '新增供應商資料成功' } }));

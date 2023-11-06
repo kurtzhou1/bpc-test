@@ -11,13 +11,13 @@ import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import { styled } from '@mui/material/styles';
 
-import { addSubmarineCables, submarineCableInfoList, deleteSubmarineCables, editSubmarineCables } from 'components/apis.jsx';
+import { submarineCables, submarineCableInfoList, deleteSubmarineCables, editSubmarineCables } from 'components/apis.jsx';
 
 // redux
 import { useDispatch } from 'react-redux';
 import { setMessageStateOpen } from 'store/reducers/dropdown';
 
-const SubmarineCableDataList = ({ maxHei }) => {
+const SubmarineCableDataList = ({ maxHei, infoList, setInfoList }) => {
     const dispatch = useDispatch();
     const fakeData = [
         {
@@ -33,7 +33,7 @@ const SubmarineCableDataList = ({ maxHei }) => {
             Note: '+888'
         }
     ];
-    const [infoList, setInfoList] = useState(fakeData);
+    // const [infoList, setInfoList] = useState(fakeData);
     const [cableName, setCableName] = useState(''); //海纜名稱
     const [cableCode, setCableCode] = useState(''); //代碼
     const [note, setNote] = useState(''); //摘要
@@ -89,7 +89,7 @@ const SubmarineCableDataList = ({ maxHei }) => {
             CableName: cableName,
             Note: note
         };
-        fetch(addSubmarineCables, { method: 'POST', body: JSON.stringify(tmpArray), headers: { 'Content-Type': 'application/json' } })
+        fetch(submarineCables, { method: 'POST', body: JSON.stringify(tmpArray), headers: { 'Content-Type': 'application/json' } })
             .then((res) => res.json())
             .then(() => {
                 dispatch(setMessageStateOpen({ messageStateOpen: { isOpen: true, severity: 'success', message: '新增海纜資料成功' } }));

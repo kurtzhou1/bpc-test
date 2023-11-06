@@ -79,7 +79,6 @@ const ToCombineDataList = ({ handleDialogClose, isDialogOpen, dataList, cbToCn, 
         let tmpArray = {
             BillingNo: billingNoOld.current
         };
-        console.log('', tmpArray);
         fetch(generateBillNoCovert, {
             method: 'POST',
             body: JSON.stringify(tmpArray)
