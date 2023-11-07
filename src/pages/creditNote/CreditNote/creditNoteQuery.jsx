@@ -26,7 +26,7 @@ import { TextField } from '@mui/material/index';
 
 // ==============================|| SAMPLE PAGE ||============================== //
 
-const CreditBalanceQuery = ({ creditBalanceQuery }) => {
+const CreditBalanceQuery = ({ creditBalanceQuery, queryInit }) => {
     const [issueDate, setIssueDate] = useState([null, null]); //發票日期
     return (
         <MainCard title="Credit Note查詢" sx={{ width: '100%' }}>
@@ -190,7 +190,7 @@ const CreditBalanceQuery = ({ creditBalanceQuery }) => {
                     <Button sx={{ mr: '0.5rem' }} variant="contained" onClick={CreditBalanceQuery}>
                         查詢
                     </Button>
-                    <Button variant="contained">清除</Button>
+                    <Button variant="contained" onClick={queryInit}>清除</Button>
                 </Grid>
             </Grid>
         </MainCard>

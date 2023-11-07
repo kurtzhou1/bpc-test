@@ -173,7 +173,7 @@ const CreditNote = () => {
     return (
         <Grid container spacing={1}>
             <Grid item xs={12}>
-                <CreditNoteQuery creditNoteQuery={creditNoteQuery} />
+                <CreditNoteQuery creditNoteQuery={creditNoteQuery} queryInit={queryInit} />
             </Grid>
             <Grid item xs={12}>
                 <MainCard title="Credit Note資料列表">
