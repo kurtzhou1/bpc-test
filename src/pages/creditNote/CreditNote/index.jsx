@@ -5,9 +5,14 @@ import { Grid, Button, IconButton, Box, Tabs, Tab } from '@mui/material';
 // project import
 import MainCard from 'components/MainCard';
 import CreditNoteQuery from './creditNoteQuery';
+
+
+import CreditBalanceToCN from './creditBalanceToCN';
 import CreditNoteDataList from './creditNoteDataList';
 import CreditNoteAdd from './creditNoteAdd';
 import { TabPanel } from 'components/commonFunction';
+
+import { creditNote } from 'components/apis';
 
 // day
 // import Dialog from '@mui/material/Dialog';
@@ -17,11 +22,9 @@ import { TabPanel } from 'components/commonFunction';
 
 const CreditNote = () => {
     const [value, setValue] = useState(0);
-
     const handleChange = (event, newValue) => {
         setValue(newValue);
     };
-
     const a11yProps = (index) => {
         return {
             id: `simple-tab-${index}`,
@@ -30,63 +33,69 @@ const CreditNote = () => {
     };
     const fakeData = [
         {
-            CBType: 'MWG1',
-            PartyName: 'CHT',
-            InvoiceNo: '234567',
-            BillingNo: '12345',
-            SubmarineCable: 'SJC',
-            WorkTitle: 'Upgrade',
-            CurrAmount: 1234,
-            CreateDate: '2023-01-01 12:12:!2',
-            Note: '測試'
+            "CNNo": "CN03UP-KT2310261124",
+            "CNType": "REFUND",
+            "WorkTitle": "Upgrade",
+            "CurrAmount": 2124379.0,
+            "Note": "str",
+            "SubmarineCable": "TPE",
+            "CNID": 1,
+            "PartyName": "KT",
+            "IssueDate": "2023-10-26T11:24:24",
+            "URI": 'https://s.yimg.com/ny/api/res/1.2/Mnp9nKRJPk.7t9nY86k58Q--/YXBwaWQ9aGlnaGxhbmRlcjt3PTk2MDtoPTU0MDtjZj13ZWJw/https://media.zenfs.com/zh-tw/ebc.net.tw/4fe3286ffeb7b42a9365bd897a0a459f'
         },
         {
-            CBType: 'MWG2',
-            PartyName: 'CHT',
-            InvoiceNo: '234567',
-            BillingNo: '12345',
-            SubmarineCable: 'SJC',
-            WorkTitle: 'Upgrade',
-            CurrAmount: 1234,
-            CreateDate: '2023-01-01 12:12:!2',
-            Note: '測試'
-        },
-        {
-            CBType: 'MWG3',
-            PartyName: 'CHT',
-            InvoiceNo: '234567',
-            BillingNo: '12345',
-            SubmarineCable: 'SJC',
-            WorkTitle: 'Upgrade',
-            CurrAmount: 1234,
-            CreateDate: '2023-01-01 12:12:!2',
-            Note: '測試'
-        },
-        {
-            CBType: 'MWG4',
-            PartyName: 'CHT',
-            InvoiceNo: '234567',
-            BillingNo: '12345',
-            SubmarineCable: 'SJC',
-            WorkTitle: 'Upgrade',
-            CurrAmount: 1234,
-            CreateDate: '2023-01-01 12:12:!2',
-            Note: '測試'
+            "CNNo": "CN03UP-KT2310261124",
+            "CNType": "REFUND",
+            "WorkTitle": "Upgrade",
+            "CurrAmount": 2124379.0,
+            "Note": "str",
+            "SubmarineCable": "TPE",
+            "CNID": 1,
+            "PartyName": "KT",
+            "IssueDate": "2023-10-26T11:24:24",
+            "URI": "s3://xxx/xxx/xxx"
         }
     ];
 
-    const [listInfo, setListInfo] = useState([]);
+    const [listInfo, setListInfo] = useState(fakeData);
     const [isDialogOpen, setIsDialogOpen] = useState(false);
     const [dialogAction, setDialogAction] = useState('');
-
-    const [billMilestone, setBillMilestone] = useState(''); //計帳段號
-    const [partyName, setPartyName] = useState([]); //會員名稱
+  
     const [lBRatio, setLBRatio] = useState(''); //攤分比例
     const [editItem, setEditItem] = useState(NaN);
     const [modifyNote, setModifyNote] = useState('');
 
+    const [submarineCable, setSubmarineCable] = useState(''); //海纜名稱
+    const [billMilestone, setBillMilestone] = useState(''); //計帳段號
+    const [partyName, setPartyName] = useState([]); //會員名稱
+
+    const queryInit = () => {
+        setSubmarineCable('');
+        setBillMilestone('');
+        setPartyName('');
+    }
+
     const creditNoteQuery = () => {
-        console.log('CreditNoteQueryFunction');
+        let tmpQuery = creditNote + 'view';
+        let tmpObject = {}
+        if (submarineCable && submarineCable !== '') {
+            tmpObject.SubmarineCable = submarineCable;
+        }
+        if (billMilestone && billMilestone !== '') {
+            tmpObject.BillMilestone = billMilestone;
+        }
+        if (partyName && partyName !== '') {
+            tmpObject.PartyName = partyName;
+        }
+        fetch(tmpQuery, { method: 'POST', body: JSON.stringify(tmpObject) })
+            .then((res) => res.json())
+            .then((data) => {
+                if (Array.isArray(data)){
+                    setListInfo(data);
+                }
+            })
+            .catch((e) => console.log('e1=>', e));
     };
 
     const handleDialogOpen = () => {
@@ -175,7 +184,7 @@ const CreditNote = () => {
                         </Tabs>
                     </Box>
                     <TabPanel value={value} index={0}>
-                        <CreditNoteDataList
+                        <CreditBalanceToCN
                             listInfo={listInfo}
                             setDialogAction={setDialogAction}
                             setIsDialogOpen={setIsDialogOpen}

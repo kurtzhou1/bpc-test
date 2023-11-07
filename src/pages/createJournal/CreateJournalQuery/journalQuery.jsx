@@ -31,14 +31,14 @@ const JournalQuery = ({ setListInfo, queryApi, invoiceStatus, setPage }) => {
 
     const jounaryQuery = () => {
         // let tmpQuery = '/';
-        let tmpArray = {};
+        let tmpObject = {};
         if (supplierName && supplierName !== '') {
             // tmpQuery = tmpQuery + 'SupplierName=' + supplierName + '&';
-            tmpArray.SupplierName = supplierName;
+            tmpObject.SupplierName = supplierName;
         }
         if (submarineCable && submarineCable !== '') {
             // tmpQuery = tmpQuery + 'SubmarineCable=' + submarineCable + '&';
-            tmpArray.SubmarineCable = submarineCable;
+            tmpObject.SubmarineCable = submarineCable;
         }
         if (issueDate[0] && issueDate[1]) {
             // tmpQuery =
@@ -49,19 +49,19 @@ const JournalQuery = ({ setListInfo, queryApi, invoiceStatus, setPage }) => {
             //     'endCreateDate=' +
             //     dayjs(issueDate[1]).format('YYYYMMDD') +
             //     '&';
-            tmpArray.CreateDate = {
+            tmpObject.CreateDate = {
                 start: dayjs(issueDate[0]).format('YYYYMMDD'),
                 end: dayjs(issueDate[1]).format('YYYYMMDD')
             }
         }
         if (invoiceStatus === '0' || invoiceStatus === 0) {
             // tmpQuery = tmpQuery + 'Status=BILLED&Status=PAYING&Status=COMPLETE';
-            tmpArray.Status = ['BILLED', 'PAYING', 'COMPLETE'];
+            tmpObject.Status = ['BILLED', 'PAYING', 'COMPLETE'];
         } 
         // tmpQuery = queryInvoice + tmpQuery;
-        queryApi.current = tmpArray;
-        console.log('立帳發票查詢=>>', tmpArray);
-        fetch(queryInvoice, { method: 'POST', body: JSON.stringify(tmpArray) })
+        queryApi.current = tmpObject;
+        console.log('立帳發票查詢=>>', tmpObject);
+        fetch(queryInvoice, { method: 'POST', body: JSON.stringify(tmpObject) })
             .then((res) => res.json())
             .then((data) => {
                 console.log('查詢成功=>>', data);

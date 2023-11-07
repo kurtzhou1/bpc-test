@@ -39,6 +39,9 @@ export const uploadBillMasterAttachment = 'http://internal-cbpsAlb-1176080923.ap
 // CB
 export const generateReport = 'http://internal-cbpsalb-1176080923.ap-northeast-1.elb.amazonaws.com/api/v1/CreditBalanceStatement/generateReport';
 
+// CN
+export const creditNote = 'http://internal-cbpsalb-1176080923.ap-northeast-1.elb.amazonaws.com/api/v1/CreditNote';
+
 // 待合併
 export const combineInvo = 'http://internal-cbpsalb-1176080923.ap-northeast-1.elb.amazonaws.com/api/v1/getBillMaster&BillDetailStream';
 export const isBillNoCheckOK = 'http://internal-cbpsalb-1176080923.ap-northeast-1.elb.amazonaws.com/api/v1/checkBillingNo';
@@ -59,7 +62,6 @@ export const getBillMasterBillDetail = 'http://internal-cbpsalb-1176080923.ap-no
 export const saveWriteOff = 'http://internal-cbpsalb-1176080923.ap-northeast-1.elb.amazonaws.com/api/v1/WriteOffDetail/saveWriteOff';
 export const submitWriteOff = 'http://internal-cbpsalb-1176080923.ap-northeast-1.elb.amazonaws.com/api/v1/BillMaster&BillDetail/submitWriteOff';
 export const completeWriteOff = 'http://internal-cbpsalb-1176080923.ap-northeast-1.elb.amazonaws.com/api/v1/completeWriteOff';
-
 
 // 廠商付款處理
 export const sendPayment = 'http://internal-cbpsalb-1176080923.ap-northeast-1.elb.amazonaws.com/api/v1/payment/submit';
