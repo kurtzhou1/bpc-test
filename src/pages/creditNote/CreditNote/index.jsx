@@ -58,7 +58,7 @@ const CreditNote = () => {
         }
     ];
 
-    const [listInfo, setListInfo] = useState(fakeData);
+    const [listInfo, setListInfo] = useState([]);
     const [isDialogOpen, setIsDialogOpen] = useState(false);
     const [dialogAction, setDialogAction] = useState('');
   
