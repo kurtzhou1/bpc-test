@@ -59,10 +59,12 @@ const ToPaymentDataList = ({ listInfo, cbToCn, setCbToCn, isSend, setIsSend, sup
     const [finishList, setFinishList] = useState({}); //完成付款結案
     const currentSupplierName = useRef('');
     const [paymentInfo, setPaymentInfo] = useState([]); //付款資訊
-    const paidAmount = useRef(0);
     // const totalAmount = useRef(0);
     const [totalAmount, setTotalAmount] = useState(0);
-    const payAmount = useRef(0);
+    const paidAmount = useRef(0); //累計實付總
+    const newDedAmount = useRef(0);
+    const dedAmount = useRef(0);
+    const payAmount = useRef(0); //本次付款金額總
 
     const handleChange = (event, supplierName) => {
         console.log('event=>>', event.target.checked, supplierName, currentSupplierName)
@@ -85,15 +87,15 @@ const ToPaymentDataList = ({ listInfo, cbToCn, setCbToCn, isSend, setIsSend, sup
     };
 
     const handleDialogOpen = (receivedAmountSum, paidAmount, info, invoiceNo, dueDate) => {
-        if (receivedAmountSum > paidAmount) {
+        // if (receivedAmountSum > paidAmount) {
             editPaymentInfo.current = info;
             invoiceNoEdit.current = invoiceNo;
             dueDateEdit.current = dueDate;
             setIsDialogOpen(true);
             actionName.current = 'toPayment';
-        } else {
-            dispatch(setMessageStateOpen({ messageStateOpen: { isOpen: true, severity: 'error', message: '累計實收金額必須多於累計實付' } }));
-        }
+        // } else {
+        //     dispatch(setMessageStateOpen({ messageStateOpen: { isOpen: true, severity: 'error', message: '累計實收金額必須多於累計實付' } }));
+        // }
     };
 
     const handleDialogClose = () => {
@@ -157,6 +159,8 @@ const ToPaymentDataList = ({ listInfo, cbToCn, setCbToCn, isSend, setIsSend, sup
         paidAmount.current = 0;
         setTotalAmount(0);
         payAmount.current = 0;
+        newDedAmount.current = 0;
+        dedAmount.current = 0;
     };
 
     const sendPaymentInfo = () => {
@@ -215,6 +219,8 @@ const ToPaymentDataList = ({ listInfo, cbToCn, setCbToCn, isSend, setIsSend, sup
                 paidAmount.current = paidAmount.current + i?.InvoiceWKMaster?.PaidAmount;
                 tmpTotal = tmpTotal + i.InvoiceWKMaster.TotalAmount;
                 payAmount.current = payAmount.current + i.PayAmount;
+                newDedAmount.current = newDedAmount.current + i.NewDedAmount;
+                dedAmount.current = dedAmount.current + i.DedAmount;
             });
             setTotalAmount(tmpTotal);
         }
@@ -278,9 +284,11 @@ const ToPaymentDataList = ({ listInfo, cbToCn, setCbToCn, isSend, setIsSend, sup
                                                     <TableCell align="center">
                                                         {dayjs(row.InvoiceWKMaster.IssueDate).format('YYYY/MM/DD')}
                                                     </TableCell>
+                                                    {/* 總金額 */}
                                                     <TableCell align="center">{`$${handleNumber(
                                                         row.InvoiceWKMaster?.TotalAmount?.toFixed(2)
                                                     )}`}</TableCell>
+                                                    {/* 累計實付金額 */}
                                                     <TableCell align="center">{`$${handleNumber(
                                                         row?.InvoiceWKMaster?.PaidAmount?.toFixed(2)
                                                     )}`}</TableCell>
@@ -292,6 +300,7 @@ const ToPaymentDataList = ({ listInfo, cbToCn, setCbToCn, isSend, setIsSend, sup
                                                           <TableCell align="center">{`$${handleNumber(
                                                         row?.InvoiceWKMaster?.DedAmount?.toFixed(2)
                                                     )}`}</TableCell>
+                                                    {/* 本次付款金額 */}
                                                     <TableCell align="center">{`$${handleNumber(row?.PayAmount?.toFixed(2))}`}</TableCell>
                                                     <TableCell align="center">
                                                         <Checkbox
@@ -313,12 +322,21 @@ const ToPaymentDataList = ({ listInfo, cbToCn, setCbToCn, isSend, setIsSend, sup
                                             <StyledTableCell className="totalAmount" align="center"></StyledTableCell>
                                             <StyledTableCell className="totalAmount" align="center"></StyledTableCell>
                                             <StyledTableCell className="totalAmount" align="center"></StyledTableCell>
+                                            {/* 總金額 */}
                                             <StyledTableCell className="totalAmount" align="center">{`$${handleNumber(
                                                 totalAmount?.toFixed(2)
                                             )}`}</StyledTableCell>
+                                            {/* 累計實付金額 */}
                                             <StyledTableCell className="totalAmount" align="center">{`$${handleNumber(
                                                 paidAmount.current?.toFixed(2)
                                             )}`}</StyledTableCell>
+                                                <StyledTableCell className="totalAmount" align="center">{`$${handleNumber(
+                                                newDedAmount.current?.toFixed(2)
+                                            )}`}</StyledTableCell>
+                                            <StyledTableCell className="totalAmount" align="center">{`$${handleNumber(
+                                                dedAmount.current?.toFixed(2)
+                                            )}`}</StyledTableCell>
+                                            {/* 本次付款金額 */}
                                             <StyledTableCell className="totalAmount" align="center">{`$${handleNumber(
                                                 payAmount.current?.toFixed(2)
                                             )}`}</StyledTableCell>

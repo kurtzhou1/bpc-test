@@ -260,6 +260,7 @@ const ToWriteOffDataList = ({ listInfo, writeOffInitQuery }) => {
                             <StyledTableCell align="center">到期日期</StyledTableCell>
                             <StyledTableCell align="center">明細數量</StyledTableCell>
                             <StyledTableCell align="center">總金額</StyledTableCell>
+                            <StyledTableCell align="center">累計實收金額</StyledTableCell>
                             <StyledTableCell align="center">累計手續費金額</StyledTableCell>
                             <StyledTableCell align="center">Action</StyledTableCell>
                         </TableRow>
@@ -286,6 +287,7 @@ const ToWriteOffDataList = ({ listInfo, writeOffInitQuery }) => {
                                     <StyledTableCell align="center">{dayjs(row?.BillMaster?.DueDate).format('YYYY/MM/DD')}</StyledTableCell>
                                     <StyledTableCell align="center">{row.BillDetail?.length}</StyledTableCell>
                                     <StyledTableCell align="center">{handleNumber(row?.BillMaster?.FeeAmountSum)}</StyledTableCell>
+                                    <StyledTableCell align="center">{handleNumber(row?.BillMaster?.ReceivedAmountSum)}</StyledTableCell>
                                     <StyledTableCell align="center">{handleNumber(row?.BillMaster?.BankFees)}</StyledTableCell>
                                     <StyledTableCell align="center">
                                         <Box sx={{ display: 'flex', justifyContent: 'center', '& button': { mx: 1, p: 0 } }}>

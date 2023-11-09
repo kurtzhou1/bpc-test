@@ -305,13 +305,13 @@ const WriteOffWork = ({ isDialogOpen, handleDialogClose, writeOffInfo, writeOffD
             WriteOffDetailList: toWriteOffDetailInfo
         };
         console.log('tmpArray=>>', tmpArray);
-        // fetch(saveWriteOff, { method: 'POST', body: JSON.stringify(tmpArray) })
-        //     .then((res) => res.json())
-        //     .then(() => {
-        //         writeOffInitQuery();
-        //         handleClose();
-        //     })
-        //     .catch((e) => console.log('e1=>', e));
+        fetch(saveWriteOff, { method: 'POST', body: JSON.stringify(tmpArray) })
+            .then((res) => res.json())
+            .then(() => {
+                writeOffInitQuery();
+                handleClose();
+            })
+            .catch((e) => console.log('e1=>', e));
     };
 
     const handleClose = () => {
