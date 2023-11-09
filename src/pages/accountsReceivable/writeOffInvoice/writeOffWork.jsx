@@ -159,7 +159,7 @@ const WriteOffWork = ({ isDialogOpen, handleDialogClose, writeOffInfo, writeOffD
         tmpArray.forEach((i) => {
             if (i.BillDetailID === id) {
                 let tmpBRAmount = Number(i.ReceiveAmount.toString().replaceAll(',', '')) + Number(bankFee.toString().replaceAll(',', ''));
-                i.BankFee = bankFee;
+                i.BankFee = Number(bankFee.toString().replaceAll(',', ''));
                 i.BRAmount = tmpBRAmount;
                 i.OverAmount = (Number(i.ReceiveAmount.toString().replaceAll(',', '')) + Number(i.ReceivedAmount.toString().replaceAll(',', ''))) - Number(i.FeeAmount.toString().replaceAll(',', ''))
                     <= 0 ? 0 : 
@@ -179,7 +179,7 @@ const WriteOffWork = ({ isDialogOpen, handleDialogClose, writeOffInfo, writeOffD
         tmpArray.forEach((i) => {
             if (i.BillDetailID === id) {
                 let tmpBRAmount = Number(i.BankFee.toString().replaceAll(',', '')) + Number(receiveAmount.toString().replaceAll(',', ''));
-                i.ReceiveAmount = receiveAmount;
+                i.ReceiveAmount = Number(receiveAmount.toString().replaceAll(',', ''));
                 i.BRAmount = tmpBRAmount;
                 i.OverAmount = (Number(receiveAmount.toString().replaceAll(',', '')) + Number(i.ReceivedAmount.toString().replaceAll(',', ''))) - Number(i.FeeAmount.toString().replaceAll(',', '')) 
                     <= 0 ? 0 : 
@@ -305,13 +305,13 @@ const WriteOffWork = ({ isDialogOpen, handleDialogClose, writeOffInfo, writeOffD
             WriteOffDetailList: toWriteOffDetailInfo
         };
         console.log('tmpArray=>>', tmpArray);
-        fetch(saveWriteOff, { method: 'POST', body: JSON.stringify(tmpArray) })
-            .then((res) => res.json())
-            .then(() => {
-                writeOffInitQuery();
-                handleClose();
-            })
-            .catch((e) => console.log('e1=>', e));
+        // fetch(saveWriteOff, { method: 'POST', body: JSON.stringify(tmpArray) })
+        //     .then((res) => res.json())
+        //     .then(() => {
+        //         writeOffInitQuery();
+        //         handleClose();
+        //     })
+        //     .catch((e) => console.log('e1=>', e));
     };
 
     const handleClose = () => {
