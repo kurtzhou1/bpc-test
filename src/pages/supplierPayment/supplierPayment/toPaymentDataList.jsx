@@ -384,6 +384,7 @@ const ToPaymentDataList = ({ listInfo, cbToCn, setCbToCn, isSend, setIsSend, sup
                             row.BillDetailList.forEach((i) => {
                                 row.PayAmount = row.PayAmount + (i.PayAmount ? i.PayAmount : 0);
                             });
+                            console.log('row=>>', row)
                             return (
                                 <TableRow
                                     key={row?.InvoiceWKMaster?.WKMasterID + row?.InvoiceWKMaster?.InvoiceNo}
@@ -418,7 +419,8 @@ const ToPaymentDataList = ({ listInfo, cbToCn, setCbToCn, isSend, setIsSend, sup
                                     </StyledTableCell>
                                     {/* 本次減項金額 */}
                                     <StyledTableCell align="center">
-                                        {row?.InvoiceWKMaster?.NewDedAmount ? handleNumber(row?.InvoiceWKMaster?.NewDedAmount.toFixed(2)) : 0}
+                                        {/* {row?.InvoiceWKMaster?.NewDedAmount ? handleNumber(row?.InvoiceWKMaster?.NewDedAmount.toFixed(2)) : 0} */}
+                                        {handleNumber(row?.InvoiceWKMaster?.NewDedAmount.toFixed(2))}
                                     </StyledTableCell>
                                     <StyledTableCell align="center">{handleNumber(row.PayAmount.toFixed(2))}</StyledTableCell>
                                     <StyledTableCell align="center">
