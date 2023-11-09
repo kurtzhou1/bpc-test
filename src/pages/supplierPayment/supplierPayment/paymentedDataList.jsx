@@ -80,7 +80,7 @@ const PaymentedDataList = ({ listInfo }) => {
                             row.BillDetailList.forEach((i) => {
                                 row.PayAmount = row.PayAmount + (i.PayAmount ? i.PayAmount : 0);
                             });
-
+                            console.log('row=>>', row);
                             return (
                                 <TableRow
                                     key={row?.InvoiceWKMaster?.WKMasterID + row?.InvoiceWKMaster?.InvoiceNo}
@@ -102,7 +102,7 @@ const PaymentedDataList = ({ listInfo }) => {
                                         {handleNumber(row?.InvoiceWKMaster?.PaidAmount.toFixed(2))}
                                     </StyledTableCell>
                                     <StyledTableCell align="center">
-                                        {handleNumber(row?.InvoiceWKMaster?.DedAmount.toFixed(2))}
+                                        {row?.InvoiceWKMaster?.DedAmount ? handleNumber(row?.InvoiceWKMaster?.DedAmount.toFixed(2)) : 0}
                                     </StyledTableCell>
                                     <StyledTableCell align="center">
                                         <Box sx={{ display: 'flex', justifyContent: 'center', '& button': { mx: 1, p: 0 } }}>

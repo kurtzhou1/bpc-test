@@ -84,6 +84,7 @@ const WriteOffedDataList = ({ listInfo }) => {
                             <StyledTableCell align="center">到期日期</StyledTableCell>
                             <StyledTableCell align="center">明細數量</StyledTableCell>
                             <StyledTableCell align="center">手續費</StyledTableCell>
+                            <StyledTableCell align="center">累計實收金額</StyledTableCell>
                             <StyledTableCell align="center">總金額</StyledTableCell>
                             <StyledTableCell align="center">Action</StyledTableCell>
                         </TableRow>
@@ -111,6 +112,7 @@ const WriteOffedDataList = ({ listInfo }) => {
                                     <StyledTableCell align="center">{dayjs(row.BillMaster.DueDate).format('YYYY/MM/DD')}</StyledTableCell>
                                     <StyledTableCell align="center">{row.BillDetail?.length}</StyledTableCell>
                                     <StyledTableCell align="center">{handleNumber(row.BillMaster?.BankFees?.toFixed(2))}</StyledTableCell>
+                                    <StyledTableCell align="center">{handleNumber(row.BillMaster?.ReceivedAmountSum?.toFixed(2))}</StyledTableCell>
                                     <StyledTableCell align="center">
                                         {handleNumber(row.BillMaster?.FeeAmountSum?.toFixed(2))}
                                     </StyledTableCell>

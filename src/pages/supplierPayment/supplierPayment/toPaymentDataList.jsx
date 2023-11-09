@@ -219,8 +219,8 @@ const ToPaymentDataList = ({ listInfo, cbToCn, setCbToCn, isSend, setIsSend, sup
                 paidAmount.current = paidAmount.current + i?.InvoiceWKMaster?.PaidAmount;
                 tmpTotal = tmpTotal + i.InvoiceWKMaster.TotalAmount;
                 payAmount.current = payAmount.current + i.PayAmount;
-                newDedAmount.current = newDedAmount.current + i.NewDedAmount;
-                dedAmount.current = dedAmount.current + i.DedAmount;
+                newDedAmount.current = newDedAmount.current + i?.InvoiceWKMaster?.NewDedAmount;
+                dedAmount.current = dedAmount.current + i?.InvoiceWKMaster?.DedAmount;
             });
             setTotalAmount(tmpTotal);
         }
