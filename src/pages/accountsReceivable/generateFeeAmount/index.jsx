@@ -8,7 +8,6 @@ import ToCombineDataList from './toCombineDataList';
 import ToDeductDataList from './toDeductDataList';
 import DeductedDataList from './deductedDataList';
 import SignedDataList from './signedDataList';
-import IsSendDataList from './isSendDataList';
 import InvalidatedDataList from './invalidatedDataList';
 
 import ReceivableQuery from './receivableQuery';
@@ -80,7 +79,7 @@ const GenerateFeeAmount = () => {
             <Grid item xs={12}>
                 <MainCard
                     title={`${
-                        value === 0 ? '待合併' : value === 1 ? '待抵扣' : value === 2 ? '已抵扣' : value === 3 ? '已簽核' : value === 4 ? '已寄件' : '已作廢'
+                        value === 0 ? '待合併' : value === 1 ? '待抵扣' : value === 2 ? '已抵扣' : value === 3 ? '已簽核' : '已作廢'
                     }帳單資料列表`}
                 >
                     <Box sx={{ borderBottom: 1, borderColor: 'divider', position: 'relative' }}>
@@ -89,8 +88,7 @@ const GenerateFeeAmount = () => {
                             <Tab label="待抵扣" {...a11yProps(1)} />
                             <Tab label="已抵扣" {...a11yProps(2)} />
                             <Tab label="已簽核" {...a11yProps(3)} />
-                            <Tab label="已寄件" {...a11yProps(4)} />
-                            <Tab label="已作廢" {...a11yProps(5)} />
+                            <Tab label="已作廢" {...a11yProps(4)} />
                         </Tabs>
                         {value === 0 ? (
                             <>
@@ -146,9 +144,6 @@ const GenerateFeeAmount = () => {
                         <SignedDataList dataList={listInfo} receivableQuery={receivableQuery} />
                     </TabPanel>
                     <TabPanel value={value} index={4}>
-                        <IsSendDataList dataList={listInfo} receivableQuery={receivableQuery} />
-                    </TabPanel>
-                    <TabPanel value={value} index={5}>
                         <InvalidatedDataList dataList={listInfo} />
                     </TabPanel>
                 </MainCard>

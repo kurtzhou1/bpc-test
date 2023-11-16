@@ -16,7 +16,7 @@ import { styled } from '@mui/material/styles';
 
 import dayjs from 'dayjs';
 
-import { updateBM, downBM } from 'components/apis.jsx';
+import { downBM, attachment } from 'components/apis.jsx';
 
 // redux
 import { useDispatch } from 'react-redux';
@@ -45,20 +45,6 @@ const IsSendDataList = ({ dataList, receivableQuery }) => {
     const editBillingNo = useRef('');
     const editBillMasterID = useRef('');
     
-    const toWriteOff = (billMasterID) => {
-        let tmpData = {
-            BillMasterID: billMasterID,
-            Status: 'TO_WRITEOFF'
-        };
-        fetch(updateBM, { method: 'POST', body: JSON.stringify(tmpData) })
-            .then((res) => res.json())
-            .then(() => {
-                receivableQuery();
-                dispatch(setMessageStateOpen({ messageStateOpen: { isOpen: true, severity: 'success', message: '進待銷帳成功' } }));
-            })
-            .catch((e) => console.log('e1=>', e));
-    };
-
     const handleDownload = (billMasterID, url) => {
         let tmpApi = downBM + '/' + billMasterID;
         const tmpArray = url.split('/');
@@ -95,6 +81,23 @@ const IsSendDataList = ({ dataList, receivableQuery }) => {
         setInfoTerminal(true);
     };
 
+    const downloadAttach = (billMasterID) => {
+        let tmpApi = attachment + '/' + billMasterID;
+        fetch(tmpApi, {
+            method: 'GET'
+        })
+            .then((res) => {
+                return res.blob();
+            })
+            .then((blob) => {
+                const link = document.createElement('a');
+                link.href = window.URL.createObjectURL(blob);
+                // link.download = `付款函稿.docx`;
+                link.click();
+            })
+            .catch((e) => console.log('e1=>', e));
+    }
+
     return (
         <>
             <GenerateTerminate
@@ -122,6 +125,7 @@ const IsSendDataList = ({ dataList, receivableQuery }) => {
                             <StyledTableCell align="center">截止日</StyledTableCell>
                             <StyledTableCell align="center">明細數量</StyledTableCell>
                             <StyledTableCell align="center">總金額</StyledTableCell>
+                            <StyledTableCell align="center">狀態</StyledTableCell>
                             <StyledTableCell align="center">Action</StyledTableCell>
                         </TableRow>
                     </TableHead>
@@ -141,6 +145,7 @@ const IsSendDataList = ({ dataList, receivableQuery }) => {
                                     <StyledTableCell align="center">{dayjs(row.BillMaster.DueDate).format('YYYY/MM/DD')}</StyledTableCell>
                                     <StyledTableCell align="center">{row.BillDetail ? row.BillDetail.length : 0}</StyledTableCell>
                                     <StyledTableCell align="center">{handleNumber(row.BillMaster.FeeAmountSum)}</StyledTableCell>
+                                    <StyledTableCell align="center">{row.BillMaster.Status}</StyledTableCell>
                                     <StyledTableCell align="center">
                                         <Box
                                             sx={{
@@ -177,7 +182,7 @@ const IsSendDataList = ({ dataList, receivableQuery }) => {
                                             <Button color="warning" size="small" variant="outlined" >
                                                 下載帳單
                                             </Button>
-                                            <Button color="error" size="small" variant="outlined" >
+                                            <Button color="error" size="small" variant="outlined" onClick={() => {downloadAttach(row.BillMaster.BillMasterID)}}>
                                                 下載附件
                                             </Button>
                                         </Box>

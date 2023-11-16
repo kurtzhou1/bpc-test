@@ -82,13 +82,6 @@ const ReceivableQuery = ({ value, setListInfo, queryApi }) => {
             if (tmpQuery.includes('&')) {
                 tmpQuery = '/' + tmpQuery.slice(0, -1);
             } else {
-                tmpQuery = tmpQuery + '/IsSent=True';
-            }
-            tmpQuery = queryToDecutBill + tmpQuery;
-        } else if (value === 5) {
-            if (tmpQuery.includes('&')) {
-                tmpQuery = '/' + tmpQuery.slice(0, -1);
-            } else {
                 tmpQuery = tmpQuery + '/Status=INVALID';
             }
             tmpQuery = queryToDecutBill + tmpQuery;
@@ -171,14 +164,6 @@ const ReceivableQuery = ({ value, setListInfo, queryApi }) => {
             }
             tmpQuery = queryToDecutBill + tmpQuery;
         } else if (value === 4) {
-            if (tmpQuery.includes('&')) {
-                tmpQuery = '/' + tmpQuery.slice(0, -1);
-                tmpQuery = tmpQuery + '&IsSent=True';
-            } else {
-                tmpQuery = tmpQuery + '/IsSent=True';
-            }
-            tmpQuery = queryToDecutBill + tmpQuery;
-        } else if (value === 5) {
             if (tmpQuery.includes('&')) {
                 tmpQuery = '/' + tmpQuery.slice(0, -1);
                 tmpQuery = tmpQuery + '&Status=INVALID';

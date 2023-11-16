@@ -45,18 +45,31 @@ const SignedDataWork = ({ isDeductedWorkOpen, handleDeductedClose, billDetailInf
     };
 
     useEffect(() => {
+        // let tmpCBArray = [];
         let tmpData = billDetailInfo.map((i) => i);
         if (isDeductedWorkOpen) {
-            tmpData.forEach((row1) => {
+            tmpData.forEach((row1, id) => {
+                // tmpCBArray = [];
                 feeAmount.current = feeAmount.current + row1.FeeAmount;
                 dedAmount.current = dedAmount.current + row1.DedAmount;
+                // row1.CB.forEach((row2) => {
+                //     tmpCBArray.push(row2.CBType);
+                // });
+                // tmpData[id].CBTYPE = tmpCBArray.join('、');
             });
             setDataList(tmpData);
         }
     }, [billDetailInfo, isDeductedWorkOpen]);
 
     return (
-        <Dialog maxWidth="sm" open={isDeductedWorkOpen}>
+        <Dialog
+            // onClose={() => {
+            //     initData();
+            //     handleDeductedClose();
+            // }}
+            maxWidth="sm"
+            open={isDeductedWorkOpen}
+        >
             <BootstrapDialogTitle>檢視已簽核帳單</BootstrapDialogTitle>
             <DialogContent>
                 <Grid container spacing={1} display="flex" justifyContent="center" alignItems="center" sx={{ fontSize: 10 }}>

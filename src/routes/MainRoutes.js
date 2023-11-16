@@ -3,14 +3,10 @@ import { lazy } from 'react';
 // project import
 import Loadable from 'components/Loadable';
 import MainLayout from 'layout/MainLayout';
-
 import { Navigate } from 'react-router-dom';
-
 import { useSelector } from 'react-redux';
-
 //api
-import { ssoUrl, checktoken } from 'components/apis.jsx';
-import { ConstructionOutlined } from '../../node_modules/@mui/icons-material/index';
+import { ssoUrl } from 'components/apis.jsx';
 import { useDispatch } from 'react-redux';
 import { setUserInfo } from 'store/reducers/dropdown';
 import dayjs from 'dayjs';
@@ -33,6 +29,7 @@ const CreditNote = Loadable(lazy(() => import('pages/creditNote/CreditNote')));
 // 應收帳款管理
 const GenerateFeeAmount = Loadable(lazy(() => import('pages/accountsReceivable/generateFeeAmount')));
 const WriteOffInvoice = Loadable(lazy(() => import('pages/accountsReceivable/writeOffInvoice')));
+const BillAttachManagement = Loadable(lazy(() => import('pages/accountsReceivable/billAttachManagement')));
 const SupplierPayment = Loadable(lazy(() => import('pages/supplierPayment/supplierPayment')));
 const Correspondence = Loadable(lazy(() => import('pages/supplierPayment/correspondence')));
 const PaymentRecord = Loadable(lazy(() => import('pages/supplierPayment/paymentRecord')));
@@ -255,6 +252,14 @@ const MainRoutes = {
                                         element: (
                                                 <RequireAuth>
                                                         <GenerateFeeAmount />
+                                                </RequireAuth>
+                                        )
+                                },
+                                {
+                                        path: 'BillAttachManagement',
+                                        element: (
+                                                <RequireAuth>
+                                                        <BillAttachManagement />
                                                 </RequireAuth>
                                         )
                                 },

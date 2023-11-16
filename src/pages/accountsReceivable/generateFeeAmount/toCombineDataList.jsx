@@ -191,15 +191,8 @@ const ToCombineDataList = ({ handleDialogClose, isDialogOpen, dataList, cbToCn, 
 
     return (
         <>
-            <Dialog
-                // onClose={handleDialogClose}
-                maxWidth="md"
-                fullWidth
-                open={isDialogOpen}
-            >
-                <BootstrapDialogTitle
-                // onClose={handleDialogClose}
-                >
+            <Dialog maxWidth="md" fullWidth open={isDialogOpen}>
+                <BootstrapDialogTitle>
                     合併帳單作業
                 </BootstrapDialogTitle>
                 <DialogContent>
@@ -347,12 +340,12 @@ const ToCombineDataList = ({ handleDialogClose, isDialogOpen, dataList, cbToCn, 
                             //         tmpBMArray.push(i.BillMilestone);
                             //     }
                             // });
-                            let tmpAmount = 0;
+                            // let tmpAmount = 0;
                             // row.InvoiceDetail.forEach((i) => {
                             //     tmpAmount = tmpAmount + i.FeeAmountPost;
                             // });
                             return (
-                                <TableRow key={row?.InvoiceNo + id} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
+                                <TableRow key={row?.FeeItem + row?.InvoiceNo} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
                                     <TableCell align="center">
                                         <Checkbox
                                             value={row?.InvDetailID}

@@ -54,6 +54,10 @@ export const generateBillData = 'http://internal-cbpsalb-1176080923.ap-northeast
 
 // 產製應收帳款-已簽核
 export const updateBM = 'http://internal-cbpsalb-1176080923.ap-northeast-1.elb.amazonaws.com/api/v1/updateBillMaster';
+export const downBM = 'http://internal-cbpsalb-1176080923.ap-northeast-1.elb.amazonaws.com/api/v1/BillMaster/signedDraft';
+
+// 產製應收帳款-帳單與附件管理
+export const attachment = 'http://internal-cbpsalb-1176080923.ap-northeast-1.elb.amazonaws.com/api/v1/BillMaster/attachment';
 
 // 銷帳
 export const sendToWriteOff = 'http://internal-cbpsalb-1176080923.ap-northeast-1.elb.amazonaws.com/api/v1/BillMaster&BillDetail/toWriteOff';
@@ -139,7 +143,6 @@ export const queryToCombineInvo = 'http://internal-cbpsalb-1176080923.ap-northea
 export const queryToDecutBill = 'http://internal-cbpsalb-1176080923.ap-northeast-1.elb.amazonaws.com/api/v1/getBillMaster&BillDetail';
 export const quertDeductedData = 'http://internal-cbpsalb-1176080923.ap-northeast-1.elb.amazonaws.com/api/v1/getBillMaster&BillDetailWithCBData';
 export const contactUser = 'http://internal-cbpsalb-1176080923.ap-northeast-1.elb.amazonaws.com/api/v1/User/all';
-export const downBM = 'http://internal-cbpsalb-1176080923.ap-northeast-1.elb.amazonaws.com/api/v1/BillMaster/signedDraft';
 export const querySupplierPayment = 'http://internal-cbpsalb-1176080923.ap-northeast-1.elb.amazonaws.com/api/v1/payment';
 export const queryPaydraft = 'http://internal-cbpsalb-1176080923.ap-northeast-1.elb.amazonaws.com/api/v1/paydraft';
 export const getPartiesAllInfo = 'http://internal-cbpsalb-1176080923.ap-northeast-1.elb.amazonaws.com/api/v1/Parties/all'; // 會員名稱

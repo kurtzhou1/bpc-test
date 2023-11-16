@@ -182,7 +182,7 @@ const SignedDataList = ({ dataList, receivableQuery }) => {
                                             >
                                                 檢視
                                             </Button>
-                                            <Button
+                                            {/* <Button
                                                 color="primary"
                                                 size="small"
                                                 variant="outlined"
@@ -192,7 +192,7 @@ const SignedDataList = ({ dataList, receivableQuery }) => {
                                                 }}
                                             >
                                                 下載帳單
-                                            </Button>
+                                            </Button> */}
                                             {row.BillMaster.Status === 'TO_WRITEOFF' ? (
                                                 <Button color="inherit" size="small" variant="outlined" >
                                                     已進待銷
@@ -210,7 +210,7 @@ const SignedDataList = ({ dataList, receivableQuery }) => {
                                                     進待銷帳
                                                 </Button>
                                             )}
-                                            <Button
+                                            {/* <Button
                                                 color="secondary"
                                                 size="small"
                                                 variant="outlined"
@@ -222,7 +222,7 @@ const SignedDataList = ({ dataList, receivableQuery }) => {
                                                 }}
                                             >
                                                 上傳附件
-                                            </Button>
+                                            </Button> */}
                                             <Button
                                                 color="warning"
                                                 size="small"
