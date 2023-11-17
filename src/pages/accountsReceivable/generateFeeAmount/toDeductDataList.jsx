@@ -3,7 +3,6 @@ import { useState, useRef } from 'react';
 // project import
 import DeductWork from './toDeductWork';
 import MainCard from 'components/MainCard';
-import GenerateTerminate from './generateTerminate';
 import GenerateBack from './generateBack';
 
 // material-ui
@@ -64,10 +63,6 @@ const ToGenerateDataList = ({ dataList, receivableQuery }) => {
         billMaster.current = {};
     };
 
-    const handleTerminalClose = () => {
-        setInfoTerminal(false);
-    };
-
     const handleBackClose = () => {
         setInfoBack(false);
         editBillingNo.current = '';
@@ -90,7 +85,6 @@ const ToGenerateDataList = ({ dataList, receivableQuery }) => {
                 actionName={actionName.current}
                 receivableQuery={receivableQuery}
             />
-            <GenerateTerminate infoTerminal={infoTerminal} handleTerminalClose={handleTerminalClose} />
             <GenerateBack
                 action={'toDeduct'}
                 infoBack={infoBack}
@@ -194,17 +188,6 @@ const ToGenerateDataList = ({ dataList, receivableQuery }) => {
                                                 }}
                                             >
                                                 退回
-                                            </Button>
-                                            <Button
-                                                color="error"
-                                                
-                                                size="small"
-                                                variant="outlined"
-                                                onClick={() => {
-                                                    setInfoTerminal(true);
-                                                }}
-                                            >
-                                                作廢
                                             </Button>
                                         </Box>
                                     </StyledTableCell>

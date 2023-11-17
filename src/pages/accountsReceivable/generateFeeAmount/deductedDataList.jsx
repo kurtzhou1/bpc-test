@@ -2,7 +2,6 @@ import { useState, useRef } from 'react';
 
 // project import
 import DeductedWork from './deductedWork';
-import GenerateTerminate from './generateTerminate';
 import GenerateBack from './generateBack';
 import SignAndUpload from './signAndUpload';
 import BillDraftMake from './billDraftMake';
@@ -42,7 +41,6 @@ const DeductedDataList = ({ dataList, receivableQuery }) => {
     const [isDialogOpen, setIsDialogOpen] = useState(false); //檢視
     const [isDeductedWorkOpen, setIsDeductedWorkOpen] = useState(false); //產製帳單
     const [isUploadOpen, setIsUploadOpen] = useState(false); //簽核
-    const [infoTerminal, setInfoTerminal] = useState(false); //作廢
     const [infoBack, setInfoBack] = useState(false); //退回
     const billMasterID = useRef(-1);
     const billDetailInfo = useRef([]);
@@ -80,10 +78,6 @@ const DeductedDataList = ({ dataList, receivableQuery }) => {
         billMasterID.current = -1;
     };
 
-    const handleTerminalClose = () => {
-        setInfoTerminal(false);
-    };
-
     const handleBackClose = () => {
         setInfoBack(false);
         editBillingNo.current = '';
@@ -103,7 +97,6 @@ const DeductedDataList = ({ dataList, receivableQuery }) => {
                 handleDeductedClose={handleDeductedClose}
                 billDetailInfo={billDetailInfo.current}
             />
-            {/* <GenerateTerminate infoTerminal={infoTerminal} handleTerminalClose={handleTerminalClose} /> */}
             <GenerateBack
                 action={'deducted'}
                 infoBack={infoBack}
@@ -207,16 +200,6 @@ const DeductedDataList = ({ dataList, receivableQuery }) => {
                                                 }}
                                             >
                                                 退回
-                                            </Button>
-                                            <Button
-                                                color="error"
-                                                size="small"
-                                                variant="outlined"
-                                                onClick={() => {
-                                                    setInfoTerminal(true);
-                                                }}
-                                            >
-                                                作廢
                                             </Button>
                                         </Box>
                                     </StyledTableCell>
