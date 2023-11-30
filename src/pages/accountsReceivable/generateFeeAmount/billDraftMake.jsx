@@ -236,13 +236,9 @@ const BillDraftMake = ({
     useEffect(() => {
         let arrayFiliter = [];
         if (contact.length > 0) {
-            arrayFiliter = contactList.filter((i) => {
-                return i.UserID === contact;
-            });
+            arrayFiliter = contactList.filter((i) => i.UserID === contact);
         } else {
-            arrayFiliter = contactList.filter((i) => {
-                return i.UserID === 'chang_ty';
-            });
+            arrayFiliter = contactList.filter((i) => i.UserID === 'chang_ty');
         }
         setContactInfo(arrayFiliter[0]);
     }, [contact]);

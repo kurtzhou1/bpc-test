@@ -10,7 +10,7 @@ const icons = {
 // ==============================|| EXTRA PAGES MENU ITEMS ||============================== //
 
 const invoiceWorkManagePage = {
-    id: 'invoiceWorkManagePage',
+    id: 'InvoiceWK',
     title: 'invoiceWorkManagePage',
     caption: 'Pages Caption',
     type: 'group',

@@ -10,7 +10,7 @@ const icons = {
 // ==============================|| EXTRA PAGES MENU ITEMS ||============================== //
 
 const AllResearch = {
-    id: 'allResearch',
+    id: 'GlobalQuery',
     title: 'allResearch',
     caption: 'Pages Caption',
     type: 'group',

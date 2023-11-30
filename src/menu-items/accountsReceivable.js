@@ -10,7 +10,7 @@ const icons = {
 // ==============================|| EXTRA PAGES MENU ITEMS ||============================== //
 
 const accountsReceivable = {
-        id: 'accountsReceivable',
+        id: 'Bill',
         title: 'accountsReceivable',
         caption: 'Pages Caption',
         type: 'group',

@@ -1,8 +1,9 @@
 export const ssoUrl = 'https://iam-qa.cht.com.tw/auth/realms/B2E/protocol/openid-connect/auth?client_id=CBPS.QA.I&response_type=code&redirect_uri=http://internal-cbpsAlbFrontend-1323185980.ap-northeast-1.elb.amazonaws.com&scope=ldap';
 
 // Login
-export const generatetoken = "http://internal-cbpsAlb-1176080923.ap-northeast-1.elb.amazonaws.com/api/v1/generatetoken";
-export const checktoken = "http://internal-cbpsAlb-1176080923.ap-northeast-1.elb.amazonaws.com/api/v1/checktoken";
+export const generatetoken = 'http://internal-cbpsAlb-1176080923.ap-northeast-1.elb.amazonaws.com/api/v1/generatetoken';
+export const checktoken = 'http://internal-cbpsAlb-1176080923.ap-northeast-1.elb.amazonaws.com/api/v1/checktoken';
+export const checktokenForLDAP = 'http://xxx/api/v1/checktokenForLDAP';
 
 // 產生發票工作檔
 export const generateInvoice = 'http://internal-cbpsalb-1176080923.ap-northeast-1.elb.amazonaws.com/api/v1/generateInvoiceWKMaster&InvoiceWKDetail';

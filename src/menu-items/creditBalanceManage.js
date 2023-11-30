@@ -10,7 +10,7 @@ const icons = {
 // ==============================|| EXTRA PAGES MENU ITEMS ||============================== //
 
 const CreditBalanceManage = {
-    id: 'creditBalanceManage',
+    id: 'CB',
     title: 'creditBalanceManage',
     caption: 'Pages Caption',
     type: 'group',

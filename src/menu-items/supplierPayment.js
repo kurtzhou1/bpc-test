@@ -10,7 +10,7 @@ const icons = {
 // ==============================|| EXTRA PAGES MENU ITEMS ||============================== //
 
 const supplierPayment = {
-    id: 'supplierPayment',
+    id: 'Pay',
     title: 'supplierPayment',
     caption: 'Pages Caption',
     type: 'group',

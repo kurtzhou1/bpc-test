@@ -31,9 +31,8 @@ const ReceivableQuery = ({ setListInfo, queryApi }) => {
     const [partyName, setPartyName] = useState(''); //會員名稱
     const [supplierName, setSupplierName] = useState(''); //供應商
     const [submarineCable, setSubmarineCable] = useState(''); //海纜名稱
-    const [invoiceNo, setInvoiceNo] = useState(''); //發票號碼
     const [billingNo, setBillingNo] = useState(''); //帳單號碼
-    const [supNmList, setSupNmList] = useState([]); //供應商下拉選單
+    // const [supNmList, setSupNmList] = useState([]); //供應商下拉選單
     const [submarineCableList, setSubmarineCableList] = useState([]); //海纜名稱下拉選單
     const [partiesList, setPartiesList] = useState([]); //會員下拉選單
     
@@ -43,7 +42,6 @@ const ReceivableQuery = ({ setListInfo, queryApi }) => {
         setPartyName('');
         setSupplierName('');
         setSubmarineCable('');
-        setInvoiceNo('');
         setBillingNo('');
     };
 
@@ -122,14 +120,14 @@ const ReceivableQuery = ({ setListInfo, queryApi }) => {
 
     useEffect(() => {
         // 供應商
-        fetch(supplierNameDropDownUnique, { method: 'GET' })
-            .then((res) => res.json())
-            .then((data) => {
-                if(Array.isArray(data)) {
-                    setSupNmList(data);
-                }
-            })
-            .catch((e) => console.log('e1=>', e));
+        // fetch(supplierNameDropDownUnique, { method: 'GET' })
+        //     .then((res) => res.json())
+        //     .then((data) => {
+        //         if(Array.isArray(data)) {
+        //             setSupNmList(data);
+        //         }
+        //     })
+        //     .catch((e) => console.log('e1=>', e));
          //海纜名稱
          fetch(submarineCableInfoList, { method: 'GET' })
             .then((res) => res.json())

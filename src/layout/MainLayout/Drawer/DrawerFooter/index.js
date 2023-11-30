@@ -19,10 +19,10 @@ const DrawerContent = () => (
             mb: 1
         }}
     >
-        <Notification />
-        <UploadManage />
-        <Setting />
-        <Liability />
+        {/* <Notification /> */}
+        {/* <UploadManage /> */}
+        {/* <Setting /> */}
+        {/* <Liability /> */}
         <Profile />
         {/* <NavCard /> */}
     </DrawerFooterStyled>

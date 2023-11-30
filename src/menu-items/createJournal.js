@@ -10,7 +10,7 @@ const icons = {
 // ==============================|| EXTRA PAGES MENU ITEMS ||============================== //
 
 const createJournal = {
-    id: 'createJournal',
+    id: 'Invoice',
     title: 'createJournal',
     caption: 'Pages Caption',
     type: 'group',

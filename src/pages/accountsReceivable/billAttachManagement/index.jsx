@@ -1,5 +1,5 @@
-import { useEffect, useState, useRef } from 'react';
-import { Grid, Button, Box, Tabs, Tab } from '@mui/material';
+import { useState, useRef } from 'react';
+import { Grid } from '@mui/material';
 // project import
 import MainCard from 'components/MainCard';
 import IsSendDataList from './isSendDataList';
@@ -8,7 +8,6 @@ import ReceivableQuery from './receivableQuery';
 const GenerateFeeAmount = () => {
     const [listInfo, setListInfo] = useState([]);
     const queryApi = useRef('/Status=TO_MERGE');
-
 
     //初始化查詢
     const receivableQuery = () => {

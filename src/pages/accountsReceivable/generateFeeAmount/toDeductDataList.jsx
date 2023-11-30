@@ -2,7 +2,6 @@ import { useState, useRef } from 'react';
 
 // project import
 import DeductWork from './toDeductWork';
-import MainCard from 'components/MainCard';
 import GenerateBack from './generateBack';
 
 // material-ui
