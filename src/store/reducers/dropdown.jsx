@@ -10,23 +10,23 @@ const initialState = {
     // 主選功能
     userInfo: {   
     UserID: '',
-    InvoiceWK: false, //發票工作管理
-    Invoice: false, // 立帳管理
-    Bill: false, //應收帳款管理
-    Pay: false, //廠商付款處理
-    CB: false, //CB
-    CM: false, //CN
-    GlobalQuery: false, //發票帳單全域管理
-    Report: false, //報表產製與管理
+    InvoiceWK: true, //發票工作管理
+    Invoice: true, // 立帳管理
+    Bill: true, //應收帳款管理
+    Pay: true, //廠商付款處理
+    CB: true, //CB
+    CM: true, //CN
+    GlobalQuery: true, //發票帳單全域管理
+    Report: true, //報表產製與管理
     //設定
-    Data: false, //基本資料設定
-    Liability: false,
-    PartyNotify: false, //會員提醒通知管理
-    SysNotify: false, //內部提醒通知管理
-    Role: false, //使用者權限管理
-    System: false, //系統開發測試文件
-    SupplierNotify: false, //供應商提醒通知管理
-    Superior: false, //主管功能管理
+    Data: true, //基本資料設定
+    Liability: true,
+    PartyNotify: true, //會員提醒通知管理
+    SysNotify: true, //內部提醒通知管理
+    Role: true, //使用者權限管理
+    System: true, //系統開發測試文件
+    SupplierNotify: true, //供應商提醒通知管理
+    Superior: true, //主管功能管理
     UPerMIDNo: -1,
     UserCName: '',
     PCode: '',
