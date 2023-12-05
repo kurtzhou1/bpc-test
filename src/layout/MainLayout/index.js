@@ -77,10 +77,8 @@ const MainLayout = () => {
   //使用者活動時觸發，並在使用者不空閒時重置逾時
   const onActivity = () => {
     if (isActive) {
-      console.log('是在哈瞜?');
       setisActive(false);
     }
-    console.log('是在哈瞜2?');
     resetTimeout();
   };
 

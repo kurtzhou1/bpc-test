@@ -241,27 +241,6 @@ const InvoiceWorkManage = ({
                         </RadioGroup>
                     </FormControl>
                 </Grid>
-                {/* <Grid item xs={12} sm={6} md={3} lg={3}>
-                    <Typography variant="h5" sx={{ fontSize: { lg: '0.7rem' ,xl: '0.88rem' }, ml: { lg: '0rem', xl: '1.5rem' } }}>
-                        {t('Is Credit Memo')}：
-                    </Typography>
-                </Grid>
-                <Grid item xs={12} sm={6} md={3} lg={3}>
-                    <FormControl>
-                        <RadioGroup row value={isCreditMemo} onChange={(e) => setIsCreditMemo(e.target.value)}>
-                            <FormControlLabel
-                                value={true}
-                                control={<Radio sx={{ '& .MuiSvgIcon-root': { fontSize: { lg: 14, xl: 20 } } }} />}
-                                label="Y"
-                            />
-                            <FormControlLabel
-                                value={false}
-                                control={<Radio sx={{ '& .MuiSvgIcon-root': { fontSize: { lg: 14, xl: 20 } } }} />}
-                                label="N"
-                            />
-                        </RadioGroup>
-                    </FormControl>
-                </Grid> */}
                 {/* row6 */}
                 <Grid item xs={12} sm={6} md={3} lg={3}>
                     <Typography variant="h5" sx={{ fontSize: { lg: '0.7rem' ,xl: '0.88rem' }, ml: { lg: '0rem', xl: '1.5rem' } }}>

@@ -70,15 +70,8 @@ const SignAndUpload = ({ isUploadOpen, handleUploadClose, billMasterID, receivab
     }, [uploadFile]);
 
     return (
-        <Dialog
-            // onClose={handleUploadClose}
-            maxWidth="xs"
-            fullWidth
-            open={isUploadOpen}
-        >
-            <BootstrapDialogTitle
-            // onClose={handleUploadClose}
-            >
+        <Dialog maxWidth="xs" fullWidth open={isUploadOpen}>
+            <BootstrapDialogTitle>
                 簽核作業
             </BootstrapDialogTitle>
             <DialogContent dividers>
