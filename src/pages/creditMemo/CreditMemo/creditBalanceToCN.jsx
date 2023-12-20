@@ -15,8 +15,8 @@ import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import { styled } from '@mui/material/styles';
 
-// import CreditBalanceView from './creditNoteView';
-// import CreditBalanceTerminate from './creditNoteTerminate';
+// import CreditBalanceView from './CreditMemoView';
+// import CreditBalanceTerminate from './CreditMemoTerminate';
 import dayjs from 'dayjs';
 
 const CreditBalanceToCN = ({ listInfo, setIsDialogOpen, deletelistInfoItem }) => {
@@ -119,7 +119,7 @@ const CreditBalanceToCN = ({ listInfo, setIsDialogOpen, deletelistInfoItem }) =>
                 {/* <CreditBalanceTerminate cbTerminal={cbTerminal} handleTerminalClose={handleTerminalClose} /> */}
             </Grid>
             <Grid item xs={6}>
-                <MainCard title="新增Credit Note">
+                <MainCard title="新增Credit Memo">
                     <Typography variant="h5" size="small" sx={{ fontSize: { lg: '0.7rem' ,xl: '0.88rem' } }}>
                         摘要說明：
                     </Typography>

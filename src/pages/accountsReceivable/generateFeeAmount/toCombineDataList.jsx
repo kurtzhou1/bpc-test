@@ -150,12 +150,9 @@ const ToCombineDataList = ({ handleDialogClose, isDialogOpen, dataList, cbToCn, 
         if (Object.keys(cbToCn).length === 0) {
             let tmpObj = {};
             dataList.forEach((i) => {
-                // tmpObj[i?.InvMasterID] = false;
                 tmpObj[i?.InvDetailID] = false;
             });
-            // setCbToCn(tmpObj);
         } else {
-            // let tmpAmount = 0;
             let tmpSendArray = [];
             let tmpArray = dataList.filter((i) => {
                 return cbToCn[i?.InvDetailID];
@@ -318,7 +315,6 @@ const ToCombineDataList = ({ handleDialogClose, isDialogOpen, dataList, cbToCn, 
                     <TableHead>
                         <TableRow>
                             <StyledTableCell align="center"></StyledTableCell>
-                            {/* <StyledTableCell align="center">NO</StyledTableCell> */}
                             <StyledTableCell align="center">項目</StyledTableCell>
                             <StyledTableCell align="center">會員</StyledTableCell>
                             <StyledTableCell align="center">海纜名稱</StyledTableCell>
@@ -326,24 +322,13 @@ const ToCombineDataList = ({ handleDialogClose, isDialogOpen, dataList, cbToCn, 
                             <StyledTableCell align="center">計帳段號</StyledTableCell>
                             <StyledTableCell align="center">發票號碼</StyledTableCell>
                             <StyledTableCell align="center">供應商</StyledTableCell>
-                            {/* <StyledTableCell align="center">合約種類</StyledTableCell> */}
                             <StyledTableCell align="center">發票日期</StyledTableCell>
-                            {/* <StyledTableCell align="center">明細數量</StyledTableCell> */}
                             <StyledTableCell align="center">總金額</StyledTableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>
                         {dataList.map((row, id) => {
                             tmpBMArray = [];
-                            // row.InvoiceDetail.forEach((i) => {
-                            //     if (!tmpBMArray.includes(i.BillMilestone)) {
-                            //         tmpBMArray.push(i.BillMilestone);
-                            //     }
-                            // });
-                            // let tmpAmount = 0;
-                            // row.InvoiceDetail.forEach((i) => {
-                            //     tmpAmount = tmpAmount + i.FeeAmountPost;
-                            // });
                             return (
                                 <TableRow key={row?.FeeItem + row?.InvoiceNo} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
                                     <TableCell align="center">
@@ -351,10 +336,8 @@ const ToCombineDataList = ({ handleDialogClose, isDialogOpen, dataList, cbToCn, 
                                             value={row?.InvDetailID}
                                             onChange={handleChange}
                                             checked={cbToCn[row?.InvDetailID] || false}
-                                            // sx={{ '& .MuiSvgIcon-root': { fontSize: { lg: 14, xl: 20 } } }}
                                         />
                                     </TableCell>
-                                    {/* <TableCell align="center">{id + 1}</TableCell> */}
                                     <TableCell align="center">{row?.FeeItem}</TableCell>
                                     <TableCell align="center">{row?.PartyName}</TableCell>
                                     <TableCell align="center">{row?.SubmarineCable}</TableCell>

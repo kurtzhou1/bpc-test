@@ -27,8 +27,8 @@ import CheckBoxIcon from '@mui/icons-material/CheckBox';
 
 // project import
 import MainCard from 'components/MainCard';
-import CreditBalanceDeduct from './creditNoteDeduct';
-import CreditBalanceRefund from './creditNoteRefund';
+import CreditBalanceDeduct from './CreditMemoDeduct';
+import CreditBalanceRefund from './CreditMemoRefund';
 import { BootstrapDialogTitle, TabPanel } from 'components/commonFunction';
 
 // table
@@ -50,8 +50,6 @@ const CreditBalanceView = ({ cbView, handleViewClose, listInfo }) => {
     // const checkedIcon = <CheckBoxIcon fontSize="small" />;
 
     const itemDetailInitial = () => {
-        setPartyName([]);
-        setLBRatio('');
         setIsEdit(false);
     };
 

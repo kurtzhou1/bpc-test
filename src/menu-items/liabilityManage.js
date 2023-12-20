@@ -12,13 +12,12 @@ const icons = {
 const LiabilityManage = {
     id: 'Liability',
     title: 'liabilityManage',
-    caption: 'Pages Caption',
     type: 'group',
     children: [
         {
             id: 'item8',
             title: 'Liability',
-            type: 'collapse',
+            type: 'item',
             url: '/Liability',
             icon: icons.PercentageOutlined,
             breadcrumbs: true,

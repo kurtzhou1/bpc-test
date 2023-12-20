@@ -15,8 +15,8 @@ import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import { styled } from '@mui/material/styles';
 
-// import CreditBalanceView from './creditNoteView';
-// import CreditBalanceTerminate from './creditNoteTerminate';
+// import CreditBalanceView from './CreditMemoView';
+// import CreditBalanceTerminate from './CreditMemoTerminate';
 import dayjs from 'dayjs';
 
 const CreditBalanceDataList = ({ listInfo, setIsDialogOpen, deletelistInfoItem }) => {

@@ -18,7 +18,7 @@ const Notification = {
         {
             id: 'item9',
             title: '內部提醒通知管理',
-            type: 'collapse',
+            type: 'item',
             url: '/Notification',
             icon: icons.BellOutlined,
             breadcrumbs: true,

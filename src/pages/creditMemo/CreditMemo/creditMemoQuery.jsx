@@ -29,7 +29,7 @@ import { TextField } from '@mui/material/index';
 const CreditBalanceQuery = ({ creditBalanceQuery, queryInit }) => {
     const [issueDate, setIssueDate] = useState([null, null]); //發票日期
     return (
-        <MainCard title="Credit Note查詢" sx={{ width: '100%' }}>
+        <MainCard title="Credit Memo查詢" sx={{ width: '100%' }}>
             <Grid container display="flex" justifyContent="center" alignItems="center" spacing={2}>
                 {/* row1 */}
                 <Grid item sm={1} md={1} lg={1}>

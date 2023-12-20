@@ -1,33 +1,17 @@
 import { useState, useRef } from 'react';
 
 // project import
-import { handleNumber, BootstrapDialogTitle } from 'components/commonFunction';
+import { handleNumber } from 'components/commonFunction';
 import PaymentWork from './paymentWork';
-import GenerateFeeTerminate from './generateFeeTerminate';
 // material-ui
-import {
-    Typography,
-    Button,
-    Table,
-    Dialog,
-    DialogContent,
-    DialogContentText,
-    Grid,
-    FormControl,
-    InputLabel,
-    Select,
-    DialogActions,
-    TextField,
-    Box
-} from '@mui/material';
+import { Button, Table, Box } from '@mui/material';
 import TableBody from '@mui/material/TableBody';
 import TableCell, { tableCellClasses } from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
-import { alpha, styled } from '@mui/material/styles';
-
+import { styled } from '@mui/material/styles';
 import dayjs from 'dayjs';
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
@@ -86,7 +70,7 @@ const PaymentedDataList = ({ listInfo }) => {
                             <StyledTableCell align="center">總金額</StyledTableCell>
                             <StyledTableCell align="center">累計實收金額</StyledTableCell>
                             <StyledTableCell align="center">累計實付金額</StyledTableCell>
-                            {/* <StyledTableCell align="center">摘要說明</StyledTableCell> */}
+                            <StyledTableCell align="center">累計減項金額</StyledTableCell>
                             <StyledTableCell align="center">Action</StyledTableCell>
                         </TableRow>
                     </TableHead>
@@ -96,7 +80,7 @@ const PaymentedDataList = ({ listInfo }) => {
                             row.BillDetailList.forEach((i) => {
                                 row.PayAmount = row.PayAmount + (i.PayAmount ? i.PayAmount : 0);
                             });
-
+                            console.log('row=>>', row);
                             return (
                                 <TableRow
                                     key={row?.InvoiceWKMaster?.WKMasterID + row?.InvoiceWKMaster?.InvoiceNo}
@@ -117,9 +101,9 @@ const PaymentedDataList = ({ listInfo }) => {
                                     <StyledTableCell align="center">
                                         {handleNumber(row?.InvoiceWKMaster?.PaidAmount.toFixed(2))}
                                     </StyledTableCell>
-                                    {/* <StyledTableCell align="center">
-                                        <StyledTableCell align="center">{row?.Note}</StyledTableCell>
-                                    </StyledTableCell> */}
+                                    <StyledTableCell align="center">
+                                        {row?.InvoiceWKMaster?.DedAmount ? handleNumber(row?.InvoiceWKMaster?.DedAmount.toFixed(2)) : 0}
+                                    </StyledTableCell>
                                     <StyledTableCell align="center">
                                         <Box sx={{ display: 'flex', justifyContent: 'center', '& button': { mx: 1, p: 0 } }}>
                                             <Button

@@ -15,8 +15,6 @@ const Navigation = () => {
 
 
     const filterItem = (item) => {
-        console.log('item22=>>', item)
-        console.log('userInfo=>>', userInfo);
         const filterItem = item.filter((i) => userInfo[i.id]);
         return filterItem
     }

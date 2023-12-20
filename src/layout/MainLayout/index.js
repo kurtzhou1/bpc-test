@@ -108,8 +108,6 @@ const MainLayout = () => {
     };
   }, [timeout]);
 
-  console.log('idle=>>>>', isActive, timeoutId);
-
   //messageInfo
   const [isLoading, setIsLoading] = useState(false);
   const [isOpenNow, setIsOpenNow] = useState(false);
@@ -164,7 +162,6 @@ const MainLayout = () => {
         grant_type: 'authorization_code',
       };
       const searchParams = new URLSearchParams(tmpArray);
-      console.log('searchParamshaha2=>>', accessCode);
       fetch(tmpTest, {
         method: 'POST',
         body: searchParams,
@@ -174,7 +171,6 @@ const MainLayout = () => {
       })
         .then((res) => res.json())
         .then((data) => {
-          console.log('datahaha1=>>>>', data.access_token);
           if (data.access_token) {
             dispatch(
               setLoginInInfo({

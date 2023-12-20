@@ -1,5 +1,13 @@
 import { useEffect, useState } from 'react';
-import { Typography, Grid, Button, FormControl, InputLabel, Select, MenuItem } from '@mui/material';
+import {
+    Typography,
+    Grid,
+    Button,
+    FormControl,
+    InputLabel,
+    Select,
+    MenuItem,
+} from '@mui/material';
 
 // project import
 import MainCard from 'components/MainCard';
@@ -85,9 +93,9 @@ const SupplierPaymentQuery = ({ setListInfo, queryApi, value }) => {
             });
     };
 
-    useEffect(() => {
-        supplierPaymentQuery();
-    }, [value]);
+    // useEffect(() => {
+    //     supplierPaymentQuery();
+    // }, [value]);
 
     useEffect(() => {
         fetch(supplierNameDropDownUnique, { method: 'GET' })
@@ -102,7 +110,7 @@ const SupplierPaymentQuery = ({ setListInfo, queryApi, value }) => {
         fetch(submarineCableInfoList, { method: 'GET' })
         .then((res) => res.json())
         .then((data) => {
-        setSubmarineCableList(data);
+            setSubmarineCableList(data);
         })
         .catch((e) => console.log('e1=>', e));
     }, [])

@@ -71,11 +71,7 @@ const Breadcrumbs = ({ navigation, title, ...others }) => {
         );
 
         // main + 標題
-        if (item.breadcrumbs !== false && 
-            location.pathname !== '/information' && 
-            location.pathname !== '/Liability'  && 
-            location.pathname !== '/UploadManage' && 
-            location.pathname !== '/Notification') {
+        if (item.breadcrumbs !== false) {
             breadcrumbContent = (
                 <MainCard border={false} sx={{ mb: 3, bgcolor: 'transparent' }} {...others} content={false}>
                     <Grid container direction="column" justifyContent="flex-start" alignItems="flex-start" spacing={1}>

@@ -4,7 +4,7 @@ import dashboard from './dashboard';
 import createJournal from './createJournal';
 import liabilityManage from './liabilityManage';
 import creditBalanceManage from './creditBalanceManage';
-import creditNoteManage from './creditNoteManage';
+import CreditMemoManage from './creditMemoManage';
 import accountsReceivable from './accountsReceivable';
 import supplierPayment from './supplierPayment';
 import allResearch from './allResearch';
@@ -22,7 +22,7 @@ const menuItems = {
     accountsReceivable,
     supplierPayment,
     creditBalanceManage,
-    creditNoteManage,
+    CreditMemoManage,
     allResearch,
     liabilityManage,
     notification,

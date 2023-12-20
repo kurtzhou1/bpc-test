@@ -101,11 +101,9 @@ const ReceivableQuery = ({ setListInfo, queryApi }) => {
             tmpQuery = tmpQuery + '/IsSent=True';
         }
         tmpQuery = queryToDecutBill + tmpQuery;
-        console.log('按下查詢=>>', tmpQuery);
         fetch(tmpQuery, { method: 'GET' })
             .then((res) => res.json())
             .then((data) => {
-                console.log('data=>>', data);
                 setListInfo(data);
             })
             .catch((e) => {

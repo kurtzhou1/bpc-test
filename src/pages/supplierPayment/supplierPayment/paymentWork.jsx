@@ -42,7 +42,6 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
 }));
 
 const PaymentWork = ({ isDialogOpen, handleDialogClose, editPaymentInfo, actionName, invoiceNo, dueDate, savePaymentEdit }) => {
-    console.log('editPaymentInfo=>>>', editPaymentInfo);
     const dispatch = useDispatch();
     const [toPaymentDetailInfo, setToPaymentDetailInfo] = useState([]); //帳單明細檔
     const orgfeeAmountTotal = useRef(0); //應收金額
@@ -51,29 +50,21 @@ const PaymentWork = ({ isDialogOpen, handleDialogClose, editPaymentInfo, actionN
     const toPaymentAmountTotal = useRef(0); //未付款金額
     const payAmountTotal = useRef(0); //此次付款金額
 
-    const initData = () => {
-        orgfeeAmountTotal.current = 0;
-        receivedAmountTotal.current = 0;
-        paidAmountTotal.current = 0;
-        toPaymentAmountTotal.current = 0;
-        payAmountTotal.current = 0;
-    }
-
-    const changeNote = (note, invDetailID) => {
+    const changeNote = (note, billMasterID, billDetailID) => {
         let tmpArray = toPaymentDetailInfo.map((i) => i);
         tmpArray.forEach((i) => {
-            if (i.InvDetailID === invDetailID) {
+            if (i.BillMasterID === billMasterID && i.BillDetailID === billDetailID) {
                 i.Note = note;
             }
         });
         setToPaymentDetailInfo(tmpArray);
     };
 
-    const changePayAmount = (payment, invDetailID) => {
+    const changePayAmount = (payment, billMasterID, billDetailID) => {
         payAmountTotal.current = 0;
         let tmpArray = toPaymentDetailInfo.map((i) => i);
         tmpArray.forEach((i) => {
-            if (i.InvDetailID === invDetailID) {
+            if (i.BillMasterID === billMasterID && i.BillDetailID === billDetailID) {
                 i.PayAmount = Number(payment);
             }
             payAmountTotal.current =
@@ -84,7 +75,18 @@ const PaymentWork = ({ isDialogOpen, handleDialogClose, editPaymentInfo, actionN
     };
 
     const handleSaveEdit = () => {
-        //若已實付金額+此次付款金額 > 已實收金額，則需要顯示一個告警提醒
+        let tmpArray = toPaymentDetailInfo.map((i) => i);
+        tmpArray.forEach((i) => {
+            i.PayAmount = i.PayAmount ? i.PayAmount : Number(i.ReceivedAmount - i.PaidAmount);
+        });
+        savePaymentEdit(tmpArray);
+    };
+
+    const handleTmpSaveEdit = () => {
+        savePaymentEdit(editPaymentInfo);
+    };
+
+    const sendInfo = () => {
         if (payAmountTotal.current + paidAmountTotal.current > receivedAmountTotal.current) {
             dispatch(
                 setMessageStateOpen({
@@ -98,15 +100,6 @@ const PaymentWork = ({ isDialogOpen, handleDialogClose, editPaymentInfo, actionN
                 })
             );
         }
-        let tmpArray = toPaymentDetailInfo.map((i) => i);
-        tmpArray.forEach((i) => {
-            i.PayAmount = i.PayAmount ? i.PayAmount : Number(i.ReceivedAmount - i.PaidAmount);
-        });
-        savePaymentEdit(tmpArray);
-    };
-
-    const handleTmpSaveEdit = () => {
-        savePaymentEdit(editPaymentInfo);
     };
 
     useEffect(() => {
@@ -120,17 +113,6 @@ const PaymentWork = ({ isDialogOpen, handleDialogClose, editPaymentInfo, actionN
                 toPaymentAmountTotal.current + (i.OrgFeeAmount - i.PaidAmount > 0 ? i.OrgFeeAmount - i.PaidAmount : 0);
             payAmountTotal.current = payAmountTotal.current + (i.PayAmount ? i.PayAmount : Number(i.ReceivedAmount - i.PaidAmount));
         });
-        tmpArray.sort((a, b) => {
-            let aBillingNo = a.BillingNo.toUpperCase();
-            let bBillingNo = b.BillingNo.toUpperCase();
-            if (aBillingNo < bBillingNo) {
-                return -1;
-            }
-            if (aBillingNo > bBillingNo) {
-                return 1;
-            }
-            return 0;
-        })
         if (isDialogOpen) {
             setToPaymentDetailInfo(tmpArray);
         }
@@ -144,7 +126,10 @@ const PaymentWork = ({ isDialogOpen, handleDialogClose, editPaymentInfo, actionN
                     <Grid item xs={12} sm={12} md={12} lg={12}>
                         <Grid container spacing={1} display="flex" justifyContent="center" alignItems="center" sx={{ fontSize: 10 }}>
                             <Grid item sm={1} md={1} lg={1}>
-                                <Typography variant="h5" sx={{ fontSize: { lg: '0.7rem' ,xl: '0.88rem' }, display: 'flex' ,justifyContent: 'end' }}>
+                                <Typography
+                                    variant="h5"
+                                    sx={{ fontSize: { lg: '0.7rem' ,xl: '0.88rem' }, ml: { lg: '0.5rem', xl: '1.5rem' } }}
+                                >
                                     發票號碼：
                                 </Typography>
                             </Grid>
@@ -155,10 +140,14 @@ const PaymentWork = ({ isDialogOpen, handleDialogClose, editPaymentInfo, actionN
                                     disabled={true}
                                     variant="outlined"
                                     size="small"
+                                    // type="number"
                                 />
                             </Grid>
                             <Grid item xs={2} sm={2} md={2} lg={2}>
-                                <Typography variant="h5" sx={{ fontSize: { lg: '0.7rem' ,xl: '0.88rem' }, display: 'flex' ,justifyContent: 'end' }}>
+                                <Typography
+                                    variant="h5"
+                                    sx={{ fontSize: { lg: '0.7rem' ,xl: '0.88rem' }, ml: { lg: '0.5rem', xl: '1.5rem' } }}
+                                >
                                     發票到期日：
                                 </Typography>
                             </Grid>
@@ -169,6 +158,7 @@ const PaymentWork = ({ isDialogOpen, handleDialogClose, editPaymentInfo, actionN
                                     disabled={true}
                                     variant="outlined"
                                     size="small"
+                                    // type="number"
                                 />
                             </Grid>
                             <Grid item xs={5} sm={5} md={5} lg={5} />
@@ -177,7 +167,7 @@ const PaymentWork = ({ isDialogOpen, handleDialogClose, editPaymentInfo, actionN
                     <Grid item xs={12} sm={12} md={12} lg={12}>
                         <MainCard title="帳單明細列表">
                             <TableContainer component={Paper} sx={{ maxHeight: 350 }}>
-                                <Table sx={{ minWidth: 300 }} stickyHeader >
+                                <Table sx={{ minWidth: 300 }} stickyHeader aria-label="sticky table">
                                     <TableHead>
                                         <TableRow>
                                             <StyledTableCell align="center">帳單號碼</StyledTableCell>
@@ -198,20 +188,21 @@ const PaymentWork = ({ isDialogOpen, handleDialogClose, editPaymentInfo, actionN
                                     </TableHead>
                                     <TableBody>
                                         {toPaymentDetailInfo?.map((row) => {
-                                            let toPayment = row.OrgFeeAmount - row.PaidAmount; //未付款金額
-                                            let tmpPayAmount = row.PayAmount ? row.PayAmount : Number(row.ReceivedAmount) - Number(row.PaidAmount);
+                                            let toPayment = row.OrgFeeAmount - row.PaidAmount;
                                             return (
                                                 <TableRow
-                                                    key={row.BillingNo + row?.FeeItem + row?.PartyName}
+                                                    key={row.InvoiceNo + row?.BillMasterID + row?.BillDetailID}
                                                     sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                                                 >
                                                     <TableCell align="center">{row?.BillingNo}</TableCell>
                                                     <TableCell align="center">{row.FeeItem}</TableCell>
                                                     <TableCell align="center">{row.BillMilestone}</TableCell>
                                                     <TableCell align="center">{row.PartyName}</TableCell>
-                                                    <TableCell align="center">${handleNumber(row.OrgFeeAmount.toFixed(2))}</TableCell>
-                                                    <TableCell align="center">${handleNumber(row.ReceivedAmount.toFixed(2))}</TableCell>
-                                                    <TableCell align="center">${handleNumber(row.PaidAmount.toFixed(2))}</TableCell>
+                                                    <TableCell align="center">{`$${handleNumber(row.OrgFeeAmount.toFixed(2))}`}</TableCell>
+                                                    <TableCell align="center">{`$${handleNumber(
+                                                        row.ReceivedAmount.toFixed(2)
+                                                    )}`}</TableCell>
+                                                    <TableCell align="center">{`$${handleNumber(row.PaidAmount.toFixed(2))}`}</TableCell>
                                                     <TableCell align="center">
                                                         {toPayment > 0 ? `$${handleNumber(toPayment.toFixed(2))}` : 0}
                                                     </TableCell>
@@ -222,7 +213,7 @@ const PaymentWork = ({ isDialogOpen, handleDialogClose, editPaymentInfo, actionN
                                                                 sx={{ minWidth: 75 }}
                                                                 value={row.Note}
                                                                 onChange={(e) => {
-                                                                    changeNote(e.target.value, row.InvDetailID);
+                                                                    changeNote(e.target.value, row.BillMasterID, row.BillDetailID);
                                                                 }}
                                                             />
                                                         </TableCell>
@@ -237,9 +228,14 @@ const PaymentWork = ({ isDialogOpen, handleDialogClose, editPaymentInfo, actionN
                                                                 size="small"
                                                                 inputProps={{ step: '.01' }}
                                                                 sx={{ minWidth: 75 }}
-                                                                value={handleNumber(tmpPayAmount.toFixed(2))}
+                                                                value={
+                                                                    row.PayAmount
+                                                                        ? row.PayAmount
+                                                                        : Number(row.ReceivedAmount - row.PaidAmount)
+                                                                }
+                                                                type="number"
                                                                 onChange={(e) => {
-                                                                    changePayAmount(e.target.value, row.InvDetailID);
+                                                                    changePayAmount(e.target.value, row.BillMasterID, row.BillDetailID);
                                                                 }}
                                                             />
                                                         </TableCell>
@@ -291,8 +287,13 @@ const PaymentWork = ({ isDialogOpen, handleDialogClose, editPaymentInfo, actionN
                             sx={{ mr: '0.05rem' }}
                             variant="contained"
                             onClick={() => {
+                                sendInfo();
                                 handleSaveEdit();
-                                initData();
+                                orgfeeAmountTotal.current = 0;
+                                receivedAmountTotal.current = 0;
+                                paidAmountTotal.current = 0;
+                                toPaymentAmountTotal.current = 0;
+                                payAmountTotal.current = 0;
                             }}
                         >
                             儲存
@@ -303,7 +304,11 @@ const PaymentWork = ({ isDialogOpen, handleDialogClose, editPaymentInfo, actionN
                             onClick={() => {
                                 handleDialogClose();
                                 handleTmpSaveEdit();
-                                initData();
+                                orgfeeAmountTotal.current = 0;
+                                receivedAmountTotal.current = 0;
+                                paidAmountTotal.current = 0;
+                                toPaymentAmountTotal.current = 0;
+                                payAmountTotal.current = 0;
                             }}
                         >
                             關閉
@@ -315,7 +320,11 @@ const PaymentWork = ({ isDialogOpen, handleDialogClose, editPaymentInfo, actionN
                         variant="contained"
                         onClick={() => {
                             handleDialogClose();
-                            initData();
+                            orgfeeAmountTotal.current = 0;
+                            receivedAmountTotal.current = 0;
+                            paidAmountTotal.current = 0;
+                            toPaymentAmountTotal.current = 0;
+                            payAmountTotal.current = 0;
                         }}
                     >
                         關閉

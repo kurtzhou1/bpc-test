@@ -26,8 +26,9 @@ const CreateJournal = Loadable(lazy(() => import('pages/createJournal/CreateJour
 const JournalQuery = Loadable(lazy(() => import('pages/createJournal/CreateJournalQuery')));
 // Credit Balance
 const CreditBalance = Loadable(lazy(() => import('pages/creditBalance/CreditBalance')));
-// Credit Note
-const CreditNote = Loadable(lazy(() => import('pages/creditNote/CreditNote')));
+const CreditBalanceRefund = Loadable(lazy(() => import('pages/creditBalance/CreditBalanceRefund')));
+// Credit Memo
+const CreditMemo = Loadable(lazy(() => import('pages/creditMemo/CreditMemo')));
 // 應收帳款管理
 const GenerateFeeAmount = Loadable(
   lazy(() => import('pages/accountsReceivable/generateFeeAmount')),
@@ -51,6 +52,7 @@ const LiabilityManage = Loadable(lazy(() => import('pages/liability/LiabilityMan
 const UploadManage = Loadable(lazy(() => import('pages/uploadManage/UploadManage')));
 // 通知管理
 const Notification = Loadable(lazy(() => import('pages/notification/Notification')));
+// 通知管理
 
 // ==============================|| MAIN ROUTING ||============================== //
 
@@ -219,16 +221,24 @@ const MainRoutes = {
             </RequireAuth>
           ),
         },
+        {
+          path: 'CreditBalanceRefund',
+          element: (
+            <RequireAuth>
+              <CreditBalanceRefund />
+            </RequireAuth>
+          ),
+        },
       ],
     },
     {
-      path: 'CreditNote',
+      path: 'CreditMemo',
       children: [
         {
-          path: 'CreditNoteManage',
+          path: 'CreditMemoManage',
           element: (
             <RequireAuth>
-              <CreditNote />
+              <CreditMemo />
             </RequireAuth>
           ),
         },
@@ -348,7 +358,7 @@ const MainRoutes = {
       ],
     },
     {
-      path: 'Information',
+      path: 'Setting',
       element: (
         <RequireAuth>
           <Information />

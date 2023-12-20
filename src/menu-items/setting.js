@@ -18,7 +18,7 @@ const Setting = {
         {
             id: 'item11',
             title: '基本資料設定',
-            type: 'collapse',
+            type: 'item',
             url: '/Setting',
             icon: icons.SettingOutlined,
             breadcrumbs: true,

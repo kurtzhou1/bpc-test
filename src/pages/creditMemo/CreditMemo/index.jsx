@@ -4,15 +4,15 @@ import { Grid, Button, IconButton, Box, Tabs, Tab } from '@mui/material';
 
 // project import
 import MainCard from 'components/MainCard';
-import CreditNoteQuery from './creditNoteQuery';
+import CreditMemoQuery from './creditMemoQuery';
 
 
 import CreditBalanceToCN from './creditBalanceToCN';
-import CreditNoteDataList from './creditNoteDataList';
-import CreditNoteAdd from './creditNoteAdd';
+import CreditMemoDataList from './creditMemoDataList';
+import CreditMemoAdd from './creditMemoAdd';
 import { TabPanel } from 'components/commonFunction';
 
-import { creditNote } from 'components/apis';
+import { CreditMemoApi } from 'components/apis';
 
 // day
 // import Dialog from '@mui/material/Dialog';
@@ -20,7 +20,7 @@ import { creditNote } from 'components/apis';
 // import DialogContent from '@mui/material/DialogContent';
 // import DialogActions from '@mui/material/DialogActions';
 
-const CreditNote = () => {
+const CreditMemo = () => {
     const [value, setValue] = useState(0);
     const handleChange = (event, newValue) => {
         setValue(newValue);
@@ -76,8 +76,8 @@ const CreditNote = () => {
         setPartyName('');
     }
 
-    const creditNoteQuery = () => {
-        let tmpQuery = creditNote + 'view';
+    const CreditMemoQuery = () => {
+        let tmpQuery = CreditMemoApi + 'view';
         let tmpObject = {}
         if (submarineCable && submarineCable !== '') {
             tmpObject.SubmarineCable = submarineCable;
@@ -173,10 +173,10 @@ const CreditNote = () => {
     return (
         <Grid container spacing={1}>
             <Grid item xs={12}>
-                <CreditNoteQuery creditNoteQuery={creditNoteQuery} queryInit={queryInit} />
+                <CreditMemoQuery CreditMemoQuery={CreditMemoQuery} queryInit={queryInit} />
             </Grid>
             <Grid item xs={12}>
-                <MainCard title="Credit Note資料列表">
+                <MainCard title="Credit Memo資料列表">
                     <Box sx={{ borderBottom: 1, borderColor: 'divider', position: 'relative' }}>
                         <Tabs value={value} onChange={handleChange} >
                             <Tab label="CB轉CN" {...a11yProps(0)} />
@@ -193,7 +193,7 @@ const CreditNote = () => {
                         />
                     </TabPanel>
                     <TabPanel value={value} index={1}>
-                        <CreditNoteDataList
+                        <CreditMemoDataList
                             listInfo={listInfo}
                             setDialogAction={setDialogAction}
                             setIsDialogOpen={setIsDialogOpen}
@@ -207,4 +207,4 @@ const CreditNote = () => {
     );
 };
 
-export default CreditNote;
+export default CreditMemo;

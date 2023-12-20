@@ -42,12 +42,6 @@ import { styled } from '@mui/material/styles';
 
 const CreditBalanceDeduct = ({ cblistInfo }) => {
     console.log('cblistInfo=>>', cblistInfo);
-    const [partyName, setPartyName] = useState(''); //會員名稱
-    const [cBType, setCBType] = useState(''); //CB種類
-    const [submarineCable, setSubmarineCable] = useState(''); //海纜名稱
-    const [workTitle, setWorkTitle] = useState(''); //海纜作業
-    const [createDate, setCreateDate] = useState([null, null]); //建立日期
-
     const [listInfo, setListInfo] = useState(cblistInfo);
     // const [editItem, setEditItem] = useState(NaN);
     const [isEdit, setIsEdit] = useState(false);
@@ -57,8 +51,6 @@ const CreditBalanceDeduct = ({ cblistInfo }) => {
     // const checkedIcon = <CheckBoxIcon fontSize="small" />;
 
     const itemDetailInitial = () => {
-        setPartyName([]);
-        setLBRatio('');
         setIsEdit(false);
     };
 
@@ -72,22 +64,6 @@ const CreditBalanceDeduct = ({ cblistInfo }) => {
     //     }
     //     setIsEdit(true);
     // };
-
-    //新增
-    const addList = () => {
-        let tmpArray = listInfo.map((i) => i);
-        console.log('=>>', partyName);
-        let partyArray = partyName;
-        partyArray.forEach((e) => {
-            tmpArray.push({
-                BillMilestone: billMilestone,
-                PartyName: e,
-                LBRatio: lBRatio
-            });
-        });
-        setListInfo([...tmpArray]);
-        itemDetailInitial();
-    };
 
     //刪除
     const deletelistInfoItem = (deleteItem) => {
@@ -123,11 +99,11 @@ const CreditBalanceDeduct = ({ cblistInfo }) => {
                 <TableHead>
                     <TableRow>
                         <StyledTableCell align="center">NO</StyledTableCell>
-                        <StyledTableCell align="center">費用種類</StyledTableCell>
+                        <StyledTableCell align="center">退費原因</StyledTableCell>
                         <StyledTableCell align="center">原始剩餘金額</StyledTableCell>
                         <StyledTableCell align="center">此次抵購金額</StyledTableCell>
                         <StyledTableCell align="center">日期</StyledTableCell>
-                        <StyledTableCell align="center">發票明細ID</StyledTableCell>
+                        <StyledTableCell align="center">建立人員</StyledTableCell>
                     </TableRow>
                 </TableHead>
                 <TableBody>

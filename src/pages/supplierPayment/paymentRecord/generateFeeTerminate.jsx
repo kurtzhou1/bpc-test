@@ -32,10 +32,6 @@ import CheckBoxIcon from '@mui/icons-material/CheckBox';
 const GenerateFeeTerminate = ({ infoTerminal, handleTerminalClose }) => {
     const [endNote, setEndNote] = useState([]);
 
-    const terminalLiability = () => {
-        console.log('terminateInfo=>>');
-    };
-
     return (
         <Dialog
             // onClose={handleTerminalClose}
@@ -73,9 +69,6 @@ const GenerateFeeTerminate = ({ infoTerminal, handleTerminalClose }) => {
                 <Button
                     sx={{ mr: '0.05rem' }}
                     variant="contained"
-                    onClick={() => {
-                        terminalLiability();
-                    }}
                 >
                     確定
                 </Button>

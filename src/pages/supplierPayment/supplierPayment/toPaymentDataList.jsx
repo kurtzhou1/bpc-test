@@ -4,7 +4,6 @@ import PropTypes from 'prop-types';
 
 // project import
 import PaymentWork from './paymentWork';
-import DedAmountWork from './dedAmountWork';
 import { handleNumber } from 'components/commonFunction';
 import { BootstrapDialogTitle } from 'components/commonFunction';
 
@@ -26,8 +25,8 @@ import dayjs from 'dayjs';
 import { sendPayment } from 'components/apis.jsx';
 
 // redux
-import { useDispatch } from 'react-redux';
-import { setMessageStateOpen } from 'store/reducers/dropdown';
+// import { useDispatch } from 'react-redux';
+// import { setMessageStateOpen } from 'store/reducers/dropdown';
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
     [`&.${tableCellClasses.head}`]: {
@@ -46,28 +45,129 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
 }));
 
 const ToPaymentDataList = ({ listInfo, cbToCn, setCbToCn, isSend, setIsSend, supplierPaymentQuery }) => {
-    const dispatch = useDispatch();
+    // const [isColumn2Open, setIsColumn2Open] = useState(true);
+    // const [isColumn3Open, setIsColumn3Open] = useState(true);
+    // const [isColumn4Open, setIsColumn4Open] = useState(true);
+    // const dispatch = useDispatch();
+    // let tmpBMArray = [];
+
+    // const columns1 = [
+    //     { id: '海纜名稱', label: '海纜名稱', minWidth: '90px', align: 'center', className: '' },
+    //     { id: '海纜作業', label: '海纜作業', minWidth: '90px', align: 'center' },
+    //     { id: '計帳段號', label: '計帳段號', minWidth: '90px', align: 'center' }
+    // ];
+
+    // const columns2 = [
+    //     { id: 'Suppliers', label: 'Suppliers', minWidth: '90px', align: 'center', className: '' },
+    //     {
+    //         id: "Supplier's Invoice No.",
+    //         label: "Supplier's Invoice No.",
+    //         minWidth: '90px',
+    //         align: 'center'
+    //     },
+    //     {
+    //         id: 'Amt(USD)',
+    //         label: 'Amt(USD)',
+    //         minWidth: '90px',
+    //         align: 'center'
+    //     },
+    //     {
+    //         id: 'dueDate',
+    //         label: 'DueDate',
+    //         minWidth: '90px',
+    //         align: 'center'
+    //     }
+    // ];
+
+    // const columns3 = [
+    //     {
+    //         id: 'Invoice#(CBP to Party)',
+    //         label: 'Invoice#(CBP to Party)',
+    //         minWidth: '90px',
+    //         align: 'center'
+    //     },
+
+    //     {
+    //         id: 'Party',
+    //         label: 'Party',
+    //         minWidth: '90px',
+    //         align: 'center'
+    //     },
+    //     {
+    //         id: 'Description',
+    //         label: 'Description',
+    //         minWidth: '90px',
+    //         align: 'center'
+    //     },
+    //     {
+    //         id: 'Amount Billed(USD)',
+    //         label: 'Amount Billed(USD)',
+    //         minWidth: '90px',
+    //         align: 'center'
+    //     },
+    //     {
+    //         id: 'Due Date',
+    //         label: 'Due Date',
+    //         minWidth: '90px',
+    //         align: 'center'
+    //     },
+    //     {
+    //         id: 'Received Amt(USD)',
+    //         label: 'Received Amt(USD)',
+    //         minWidth: '90px',
+    //         align: 'center'
+    //     },
+    //     {
+    //         id: 'Diff',
+    //         label: 'Diff',
+    //         minWidth: '90px',
+    //         align: 'center'
+    //     },
+    //     {
+    //         id: 'Remark',
+    //         label: 'Remark',
+    //         minWidth: '90px',
+    //         align: 'center'
+    //     }
+    // ];
+
+    // const columns4 = [
+    //     {
+    //         id: 'Amt(USD)',
+    //         label: 'Amt(USD)',
+    //         minWidth: '90px',
+    //         align: 'center'
+    //     },
+    //     {
+    //         id: 'Remittance Date',
+    //         label: 'Remittance Date',
+    //         minWidth: '90px',
+    //         align: 'center'
+    //     },
+    //     {
+    //         id: 'Diff',
+    //         label: 'Diff',
+    //         minWidth: '90px',
+    //         align: 'center'
+    //     }
+    // ];
+
     const [toPaymentList, setToPaymentList] = useState([]);
     const [isDialogOpen, setIsDialogOpen] = useState(false); //折抵作業
-    const [isDedDialogOpen, setIsDedDialogOpen] = useState(false); //減項作業
     const [isSendDialogOpen, setIsSendDialogOpen] = useState(false); //折抵作業
     const editPaymentInfo = useRef([]);
-    const editCMList = useRef([]);
     const actionName = useRef('');
     const invoiceNoEdit = useRef('');
     const dueDateEdit = useRef('');
     const [finishList, setFinishList] = useState({}); //完成付款結案
-    const currentSupplierName = useRef('');
+    const currentSupplierName = useRef(''); //相同的才能打勾
     const [paymentInfo, setPaymentInfo] = useState([]); //付款資訊
+    const paidAmount = useRef(0);
     // const totalAmount = useRef(0);
     const [totalAmount, setTotalAmount] = useState(0);
-    const paidAmount = useRef(0); //累計實付總
-    const newDedAmount = useRef(0);
-    const dedAmount = useRef(0);
-    const payAmount = useRef(0); //本次付款金額總
+    const payAmount = useRef(0);
 
     const handleChange = (event, supplierName) => {
-        console.log('event=>>', event.target.checked, supplierName, currentSupplierName)
         if (currentSupplierName.current === supplierName || currentSupplierName.current === '') {
             if (event.target.checked && (currentSupplierName.current === supplierName || currentSupplierName.current === '')) {
                 currentSupplierName.current = supplierName;
@@ -81,42 +181,26 @@ const ToPaymentDataList = ({ listInfo, cbToCn, setCbToCn, isSend, setIsSend, sup
         }
     };
 
+    console.log('cbToCn=>>', cbToCn);
+
     const handleListChange = (event) => {
         console.log('event=>>', event);
         setFinishList({ ...finishList, [event.target.value]: event.target.checked });
     };
 
-    const handleDialogOpen = (receivedAmountSum, paidAmount, info, invoiceNo, dueDate) => {
-        // if (receivedAmountSum > paidAmount) {
-            editPaymentInfo.current = info;
-            invoiceNoEdit.current = invoiceNo;
-            dueDateEdit.current = dueDate;
-            setIsDialogOpen(true);
-            actionName.current = 'toPayment';
-        // } else {
-        //     dispatch(setMessageStateOpen({ messageStateOpen: { isOpen: true, severity: 'error', message: '累計實收金額必須多於累計實付' } }));
-        // }
+    const handleDialogOpen = (info, invoiceNo, dueDate) => {
+        // let tmpArray = info.BillDetail.map((i) => i);
+        editPaymentInfo.current = info;
+        invoiceNoEdit.current = invoiceNo;
+        dueDateEdit.current = dueDate;
+        setIsDialogOpen(true);
+        actionName.current = 'toPayment';
     };
 
     const handleDialogClose = () => {
         editPaymentInfo.current = [];
         invoiceNoEdit.current = '';
         setIsDialogOpen(false);
-        actionName.current = '';
-    };
-
-    const handleDedDialogOpen = (info, invoiceNo, dueDate) => {
-        editCMList.current = info;
-        invoiceNoEdit.current = invoiceNo;
-        dueDateEdit.current = dueDate;
-        setIsDedDialogOpen(true);
-        actionName.current = 'toPayment';
-    };
-
-    const handleDedDialogClose = () => {
-        editCMList.current = [];
-        invoiceNoEdit.current = '';
-        setIsDedDialogOpen(false);
         actionName.current = '';
     };
 
@@ -129,19 +213,6 @@ const ToPaymentDataList = ({ listInfo, cbToCn, setCbToCn, isSend, setIsSend, sup
         });
         setToPaymentList(tmpArray);
         handleDialogClose();
-    };
-
-    const saveDedAmountEdit = (info, dedAmountTotal) => {
-        let tmpArray = toPaymentList.map((i) => i);
-        tmpArray.forEach((i) => {
-            console.log(i.InvoiceWKMaster.InvoiceNo, invoiceNoEdit.current)
-            if (i.InvoiceWKMaster.InvoiceNo === invoiceNoEdit.current) {
-                i.CMList = info;
-                i.InvoiceWKMaster.NewDedAmount = dedAmountTotal;
-            }
-        });
-        setToPaymentList(tmpArray);
-        handleDedDialogClose();
     };
 
     const changeNote = (note, invoiceNo) => {
@@ -157,10 +228,9 @@ const ToPaymentDataList = ({ listInfo, cbToCn, setCbToCn, isSend, setIsSend, sup
     const handleIsSendDialogClose = () => {
         setIsSendDialogOpen(false);
         paidAmount.current = 0;
+        // totalAmount.current = 0;
         setTotalAmount(0);
         payAmount.current = 0;
-        newDedAmount.current = 0;
-        dedAmount.current = 0;
     };
 
     const sendPaymentInfo = () => {
@@ -181,7 +251,8 @@ const ToPaymentDataList = ({ listInfo, cbToCn, setCbToCn, isSend, setIsSend, sup
             body: JSON.stringify(sendTmpArray)
         })
             .then((res) => res.json())
-            .then(() => {
+            .then((data) => {
+                console.log('data=>>>', data);
                 handleIsSendDialogClose();
                 setFinishList([]);
                 supplierPaymentQuery();
@@ -219,8 +290,6 @@ const ToPaymentDataList = ({ listInfo, cbToCn, setCbToCn, isSend, setIsSend, sup
                 paidAmount.current = paidAmount.current + i?.InvoiceWKMaster?.PaidAmount;
                 tmpTotal = tmpTotal + i.InvoiceWKMaster.TotalAmount;
                 payAmount.current = payAmount.current + i.PayAmount;
-                newDedAmount.current = newDedAmount.current + i?.InvoiceWKMaster?.NewDedAmount;
-                dedAmount.current = dedAmount.current + i?.InvoiceWKMaster?.DedAmount;
             });
             setTotalAmount(tmpTotal);
         }
@@ -228,15 +297,6 @@ const ToPaymentDataList = ({ listInfo, cbToCn, setCbToCn, isSend, setIsSend, sup
 
     return (
         <>
-            <DedAmountWork
-                isDedDialogOpen={isDedDialogOpen}
-                handleDedDialogClose={handleDedDialogClose}
-                editCMList={editCMList.current}
-                actionName={actionName.current}
-                invoiceNo={invoiceNoEdit.current}
-                dueDate={dueDateEdit.current}
-                saveDedAmountEdit={saveDedAmountEdit}
-            />
             <PaymentWork
                 isDialogOpen={isDialogOpen}
                 handleDialogClose={handleDialogClose}
@@ -263,8 +323,6 @@ const ToPaymentDataList = ({ listInfo, cbToCn, setCbToCn, isSend, setIsSend, sup
                                             <StyledTableCell align="center">發票到期日</StyledTableCell>
                                             <StyledTableCell align="center">總金額</StyledTableCell>
                                             <StyledTableCell align="center">累計實付金額</StyledTableCell>
-                                            <StyledTableCell align="center">本次減項金額</StyledTableCell>
-                                            <StyledTableCell align="center">累計減項金額</StyledTableCell>
                                             <StyledTableCell align="center">本次付款金額</StyledTableCell>
                                             <StyledTableCell align="center">完成付款結案</StyledTableCell>
                                         </TableRow>
@@ -284,23 +342,12 @@ const ToPaymentDataList = ({ listInfo, cbToCn, setCbToCn, isSend, setIsSend, sup
                                                     <TableCell align="center">
                                                         {dayjs(row.InvoiceWKMaster.IssueDate).format('YYYY/MM/DD')}
                                                     </TableCell>
-                                                    {/* 總金額 */}
                                                     <TableCell align="center">{`$${handleNumber(
                                                         row.InvoiceWKMaster?.TotalAmount?.toFixed(2)
                                                     )}`}</TableCell>
-                                                    {/* 累計實付金額 */}
                                                     <TableCell align="center">{`$${handleNumber(
                                                         row?.InvoiceWKMaster?.PaidAmount?.toFixed(2)
                                                     )}`}</TableCell>
-                                                    {/* 本次減項金額 */}
-                                                          <TableCell align="center">{`$${handleNumber(
-                                                        row?.InvoiceWKMaster?.NewDedAmount?.toFixed(2)
-                                                    )}`}</TableCell>
-                                                    {/* 累計減項金額 */}
-                                                          <TableCell align="center">{`$${handleNumber(
-                                                        row?.InvoiceWKMaster?.DedAmount?.toFixed(2)
-                                                    )}`}</TableCell>
-                                                    {/* 本次付款金額 */}
                                                     <TableCell align="center">{`$${handleNumber(row?.PayAmount?.toFixed(2))}`}</TableCell>
                                                     <TableCell align="center">
                                                         <Checkbox
@@ -322,21 +369,13 @@ const ToPaymentDataList = ({ listInfo, cbToCn, setCbToCn, isSend, setIsSend, sup
                                             <StyledTableCell className="totalAmount" align="center"></StyledTableCell>
                                             <StyledTableCell className="totalAmount" align="center"></StyledTableCell>
                                             <StyledTableCell className="totalAmount" align="center"></StyledTableCell>
-                                            {/* 總金額 */}
                                             <StyledTableCell className="totalAmount" align="center">{`$${handleNumber(
                                                 totalAmount?.toFixed(2)
                                             )}`}</StyledTableCell>
-                                            {/* 累計實付金額 */}
                                             <StyledTableCell className="totalAmount" align="center">{`$${handleNumber(
                                                 paidAmount.current?.toFixed(2)
                                             )}`}</StyledTableCell>
-                                                <StyledTableCell className="totalAmount" align="center">{`$${handleNumber(
-                                                newDedAmount.current?.toFixed(2)
-                                            )}`}</StyledTableCell>
-                                            <StyledTableCell className="totalAmount" align="center">{`$${handleNumber(
-                                                dedAmount.current?.toFixed(2)
-                                            )}`}</StyledTableCell>
-                                            {/* 本次付款金額 */}
+
                                             <StyledTableCell className="totalAmount" align="center">{`$${handleNumber(
                                                 payAmount.current?.toFixed(2)
                                             )}`}</StyledTableCell>
@@ -371,8 +410,6 @@ const ToPaymentDataList = ({ listInfo, cbToCn, setCbToCn, isSend, setIsSend, sup
                             <StyledTableCell align="center">總金額</StyledTableCell>
                             <StyledTableCell align="center">累計實收金額</StyledTableCell>
                             <StyledTableCell align="center">累計實付金額</StyledTableCell>
-                            <StyledTableCell align="center">累計減項金額</StyledTableCell>
-                            <StyledTableCell align="center">本次減項金額</StyledTableCell>
                             <StyledTableCell align="center">本次付款金額</StyledTableCell>
                             <StyledTableCell align="center">Action</StyledTableCell>
                             <StyledTableCell align="center">摘要說明</StyledTableCell>
@@ -384,7 +421,6 @@ const ToPaymentDataList = ({ listInfo, cbToCn, setCbToCn, isSend, setIsSend, sup
                             row.BillDetailList.forEach((i) => {
                                 row.PayAmount = row.PayAmount + (i.PayAmount ? i.PayAmount : 0);
                             });
-                            console.log('row=>>', row)
                             return (
                                 <TableRow
                                     key={row?.InvoiceWKMaster?.WKMasterID + row?.InvoiceWKMaster?.InvoiceNo}
@@ -397,6 +433,7 @@ const ToPaymentDataList = ({ listInfo, cbToCn, setCbToCn, isSend, setIsSend, sup
                                                 handleChange(e, row?.InvoiceWKMaster?.SupplierName);
                                             }}
                                             checked={cbToCn[row?.InvoiceWKMaster?.InvoiceNo] || false}
+                                            // sx={{ '& .MuiSvgIcon-root': { fontSize: { lg: 14, xl: 20 } } }}
                                         />
                                     </TableCell>
                                     <StyledTableCell align="center">{id + 1}</StyledTableCell>
@@ -414,14 +451,7 @@ const ToPaymentDataList = ({ listInfo, cbToCn, setCbToCn, isSend, setIsSend, sup
                                     <StyledTableCell align="center">
                                         {handleNumber(row?.InvoiceWKMaster?.PaidAmount.toFixed(2))}
                                     </StyledTableCell>
-                                    <StyledTableCell align="center">
-                                        {handleNumber(row?.InvoiceWKMaster?.DedAmount.toFixed(2))}
-                                    </StyledTableCell>
-                                    {/* 本次減項金額 */}
-                                    <StyledTableCell align="center">
-                                        {/* {row?.InvoiceWKMaster?.NewDedAmount ? handleNumber(row?.InvoiceWKMaster?.NewDedAmount.toFixed(2)) : 0} */}
-                                        {handleNumber(row?.InvoiceWKMaster?.NewDedAmount.toFixed(2))}
-                                    </StyledTableCell>
+                                    {/* <StyledTableCell align="center">{handleNumber(tmpPayAmount.toFixed(2))}</StyledTableCell> */}
                                     <StyledTableCell align="center">{handleNumber(row.PayAmount.toFixed(2))}</StyledTableCell>
                                     <StyledTableCell align="center">
                                         <Box sx={{ display: 'flex', justifyContent: 'center', '& button': { mx: 1, p: 0 } }}>
@@ -431,8 +461,6 @@ const ToPaymentDataList = ({ listInfo, cbToCn, setCbToCn, isSend, setIsSend, sup
                                                 variant="outlined"
                                                 onClick={() => {
                                                     handleDialogOpen(
-                                                        row?.ReceivedAmountSum,
-                                                        row?.InvoiceWKMaster?.PaidAmount,
                                                         row.BillDetailList,
                                                         row.InvoiceWKMaster.InvoiceNo,
                                                         row.InvoiceWKMaster.DueDate
@@ -440,20 +468,6 @@ const ToPaymentDataList = ({ listInfo, cbToCn, setCbToCn, isSend, setIsSend, sup
                                                 }}
                                             >
                                                 編輯付款
-                                            </Button>
-                                            <Button
-                                                color="success"
-                                                size="small"
-                                                variant="outlined"
-                                                onClick={() => {
-                                                    handleDedDialogOpen(
-                                                        row.CMList,
-                                                        row.InvoiceWKMaster.InvoiceNo,
-                                                        row.InvoiceWKMaster.DueDate
-                                                    );
-                                                }}
-                                            >
-                                                發票金額減項
                                             </Button>
                                         </Box>
                                     </StyledTableCell>
@@ -470,9 +484,60 @@ const ToPaymentDataList = ({ listInfo, cbToCn, setCbToCn, isSend, setIsSend, sup
                                 </TableRow>
                             );
                         })}
+                        {/* {listInfo?.map((row) => {
+                            tmpBMArray = [];
+                            row?.BillDetailList.forEach((i) => {
+                                if (!tmpBMArray.includes(i.BillMilestone)) {
+                                    tmpBMArray.push(i.BillMilestone);
+                                }
+                            });
+                            return (
+                                <TableRow key={row.WKMasterID + row.InvoiceNo} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
+                                    <StyledTableCell align="center">{row?.InvoiceWKMaster?.SubmarineCable}</StyledTableCell>
+                                    <StyledTableCell align="center">{row?.InvoiceWKMaster?.WorkTitle}</StyledTableCell>
+                                    <StyledTableCell align="center">{tmpBMArray.join(',')}</StyledTableCell>
+                                    {isColumn2Open ? (
+                                        <>
+                                            <StyledTableCell align="center">{row?.InvoiceWKMaster?.SupplierName}</StyledTableCell>
+                                            <StyledTableCell align="center">{row?.InvoiceWKMaster?.InvoiceNo}</StyledTableCell>
+                                            <StyledTableCell align="center">
+                                                {handleNumber(row?.InvoiceWKMaster?.TotalAmount)}
+                                            </StyledTableCell>
+                                            <StyledTableCell align="center">{dayjs(row?.DueDate).format('YYYY/MM/DD')}</StyledTableCell>
+                                        </>
+                                    ) : (
+                                        <StyledTableCell align="center">{row.SupplierName}</StyledTableCell>
+                                    )}
+                                    {isColumn3Open ? (
+                                        <>
+                                            <StyledTableCell align="center">{'No. 12345678'}</StyledTableCell>
+                                            <StyledTableCell align="center">{row.PartyName}</StyledTableCell>
+                                            <StyledTableCell align="center">{'測試檔案資料'}</StyledTableCell>
+                                            <StyledTableCell align="center">{handleNumber(123456789)}</StyledTableCell>
+                                            <StyledTableCell align="center">{dayjs(row.IssueDate).format('YYYY/MM/DD')}</StyledTableCell>
+                                            <StyledTableCell align="center">{handleNumber(123456789)}</StyledTableCell>
+                                            <StyledTableCell align="center">{handleNumber(1)}</StyledTableCell>
+                                            <StyledTableCell align="center">{'N/A'}</StyledTableCell>
+                                        </>
+                                    ) : (
+                                        <StyledTableCell align="center">{'No. 12345678'}</StyledTableCell>
+                                    )}
+                                    {isColumn4Open ? (
+                                        <>
+                                            <StyledTableCell align="center">{handleNumber(123456789)}</StyledTableCell>
+                                            <StyledTableCell align="center">{dayjs(row.IssueDate).format('YYYY/MM/DD')}</StyledTableCell>
+                                            <StyledTableCell align="center">{handleNumber(1)}</StyledTableCell>
+                                        </>
+                                    ) : (
+                                        <StyledTableCell align="center">{handleNumber(123456789)}</StyledTableCell>
+                                    )}
+                                </TableRow>
+                            );
+                        })} */}
                     </TableBody>
                 </Table>
             </TableContainer>
+            {/* </Paper> */}
         </>
     );
 };
@@ -482,9 +547,12 @@ export default ToPaymentDataList;
 ToPaymentDataList.propTypes = {
     listInfo: React.Array,
     supplierPaymentQuery: React.func,
+    // setIsSend:React.SetStateAction<string>,
+
     actionName: React.String,
     invoiceNo: React.String,
     dueDate: PropTypes.instanceOf(Date),
+
     handleDialogClose: React.func,
     isDialogOpen: React.bool
 };

@@ -9,25 +9,25 @@ const icons = {
 
 // ==============================|| EXTRA PAGES MENU ITEMS ||============================== //
 
-const CreditNoteManage = {
+const CreditMemoManage = {
     id: 'CM',
-    title: 'creditNoteManage',
+    title: 'CreditMemoManage',
     caption: 'Pages Caption',
     type: 'group',
     children: [
         {
             id: 'item6',
-            title: 'CreditNote',
+            title: 'CreditMemo',
             type: 'collapse',
-            url: '/CreditNote/CreditNoteManage',
+            url: '/CreditMemo/CreditMemoManage',
             icon: icons.SnippetsOutlined,
             breadcrumbs: true,
             children: [
                 {
                     id: 'item61',
-                    title: 'CreditNote管理',
+                    title: 'CreditMemo管理',
                     type: 'item',
-                    url: '/CreditNote/CreditNoteManage',
+                    url: '/CreditMemo/CreditMemoManage',
                     icon: icons.TagOutlined,
                     breadcrumbs: true
                 }
@@ -36,4 +36,4 @@ const CreditNoteManage = {
     ]
 };
 
-export default CreditNoteManage;
+export default CreditMemoManage;

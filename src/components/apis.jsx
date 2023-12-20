@@ -41,7 +41,7 @@ export const uploadBillMasterAttachment = 'http://internal-cbpsAlb-1176080923.ap
 export const generateReport = 'http://internal-cbpsalb-1176080923.ap-northeast-1.elb.amazonaws.com/api/v1/CreditBalanceStatement/generateReport';
 
 // CN
-export const creditNote = 'http://internal-cbpsalb-1176080923.ap-northeast-1.elb.amazonaws.com/api/v1/CreditNote';
+export const CreditMemoApi = 'http://internal-cbpsalb-1176080923.ap-northeast-1.elb.amazonaws.com/api/v1/CreditMemo';
 
 // 待合併
 export const combineInvo = 'http://internal-cbpsalb-1176080923.ap-northeast-1.elb.amazonaws.com/api/v1/getBillMaster&BillDetailStream';
