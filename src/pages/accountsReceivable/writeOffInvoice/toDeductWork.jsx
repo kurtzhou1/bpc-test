@@ -49,31 +49,46 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
     }
 }));
 
-const ToDeductWork = ({ isDeductOpen, handleDeductClose, billDetailInfo, billMasterInfo, actionName, receivableQuery }) => {
+const ToDeductWork = ({ isDeductOpen, handleDeductClose, cbData, writeOffInfo, toWriteOffDetailInfo, setToWriteOffDetailInfo, setCBWriteOff }) => {
+    console.log('cbData=>>', cbData);
     const dispatch = useDispatch();
     const [isDeductWorkOpen, setIsDeductWorkOpen] = useState(false);
     const [cbDataList, setCbDataList] = useState([]); //可折抵的Data List
     const [tmpCBArray, setTmpCBArray] = useState([]); //折抵資料(畫面中顯示的)
     const tmpDeductArray = useRef([]);
-    let orgFeeAmount = useRef(0); // 總費用金額加總(上)
-    let dedAmount = useRef(0); //總折抵資料加總(上)
-    const [feeAmountTotal, setFeeAmountTotal] = useState(0); //總金額加總(上)
+    // let dedAmount = useRef(0); //總折抵資料加總(上)
     const editItem = useRef(''); //當前編輯明細項目
     
     const initData = () => {
         setTmpCBArray([]);
         tmpDeductArray.current = [];
         editItem.current = '';
-        orgFeeAmount.current = 0;
-        dedAmount.current = 0;
-        setFeeAmountTotal(0);
+        // dedAmount.current = 0;
     };
+
+    const resetData = () => {
+        let tmpWriteOffDetailInfo = [...toWriteOffDetailInfo];
+        let tmpTempDeductArray = [...tmpDeductArray.current]
+        tmpWriteOffDetailInfo.forEach(i => {
+            if (i.BillMasterID === cbData.current?.BillMasterID && i.BillDetailID === cbData.current?.BillDetailID) {
+                i.CBWriteOffAmount = 0;
+            }
+        })
+        tmpTempDeductArray.forEach((i, index) => {
+            if (i.BillDetailID === cbData.current?.BillDetailID) {
+                tmpTempDeductArray.splice(index, 1);
+            }
+        })
+        tmpDeductArray.current = tmpTempDeductArray;
+        setToWriteOffDetailInfo(tmpWriteOffDetailInfo);
+    }
 
     const deductWork = (data) => {
         let tmpArrayFiliter = tmpDeductArray.current.filter((i) => i.BillDetailID === data.BillDetailID);
         if (tmpArrayFiliter.length === 0) {
             let tmpQuery =
-                queryCB + '/SubmarineCable=' + data.SubmarineCable + '&WorkTitle=' + data.WorkTitle + '&PartyName=' + data.PartyName;
+                queryCB + '/SubmarineCable=' + writeOffInfo.SubmarineCable + '&WorkTitle=' + writeOffInfo.WorkTitle + '&PartyName=' + writeOffInfo.PartyName;
+            console.log('tmpQuery=>>', tmpQuery);
             fetch(tmpQuery, { method: 'GET' })
                 .then((res) => res.json())
                 .then((data) => {
@@ -130,9 +145,10 @@ const ToDeductWork = ({ isDeductOpen, handleDeductClose, billDetailInfo, billMas
     };
 
     const saveDeduct = () => {
-        let tmpFeeAmount = 0;
+        let tmpWriteOffDetailInfo = [...toWriteOffDetailInfo];
         let deductAmount = 0;
         let tmpArrayFiliter = tmpDeductArray.current.filter((i) => i.BillDetailID === editItem.current);
+        console.log('tmpDeductArray=>>', tmpDeductArray);
         let tmpArray = tmpDeductArray.current.map((i) => i);
         if (tmpArrayFiliter.length > 0) {
             tmpArray.forEach((i) => {
@@ -144,16 +160,28 @@ const ToDeductWork = ({ isDeductOpen, handleDeductClose, billDetailInfo, billMas
             tmpArray.push({ BillDetailID: editItem.current, CB: tmpCBArray });
         }
         tmpArray.forEach((i1) => {
-            i1.CB.forEach((i2) => {
-                deductAmount = deductAmount + i2.TransAmount;
-            });
+            console.log('i1=>>', i1);
+            // i1.CB.forEach((i2) => {
+            //     console.log('i2=>>', i2);
+            //     deductAmount = deductAmount + i2.TransAmount;
+            // });
+            if(i1.BillDetailID === cbData.current?.BillDetailID) {
+                i1.CB.forEach((i2) => {
+                    console.log('i2=>>', i2);
+                    // tmpDeductAmountForOneItem = tmpDeductAmountForOneItem + i3.TransAmount;
+                    deductAmount = deductAmount + i2.TransAmount;
+                });
+            }
         });
-        billDetailInfo.forEach((i) => {
-            tmpFeeAmount = tmpFeeAmount + i.FeeAmount;
-        });
-        dedAmount.current = deductAmount;
+        tmpWriteOffDetailInfo.forEach(i => {
+            if (i.BillMasterID === cbData.current?.BillMasterID && i.BillDetailID === cbData.current?.BillDetailID) {
+                i.CBWriteOffAmount = deductAmount;
+            }
+        })
+        setToWriteOffDetailInfo(tmpWriteOffDetailInfo);
+        // dedAmount.current = deductAmount;
+        setCBWriteOff(tmpArray);
         tmpDeductArray.current = tmpArray;
-        setFeeAmountTotal(tmpFeeAmount - deductAmount);
         setTmpCBArray([]);
         setIsDeductWorkOpen(false);
         editItem.current = '';
@@ -161,209 +189,64 @@ const ToDeductWork = ({ isDeductOpen, handleDeductClose, billDetailInfo, billMas
 
     const handleReset = () => {
         handleDeductClose();
-        initData();
+        resetData();
+        setCBWriteOff(tmpDeductArray.current);
     };
-
-    const sendDuctWork = () => {
-        let tmpArray = {
-            BillMaster: billMasterInfo,
-            Deduct: tmpDeductArray.current
-        };
-        fetch(sendDuctInfo, { method: 'POST', body: JSON.stringify(tmpArray) })
-            .then((res) => res.json())
-            .then(() => {
-                dispatch(setMessageStateOpen({ messageStateOpen: { isOpen: true, severity: 'success', message: '送出成功' } }));
-                receivableQuery();
-            })
-            .catch((e) => console.log('e1=>', e));
-        handleDeductClose();
-    };
-
-    useEffect(() => {
-        if (isDeductOpen) {
-            let tmpFeeAmount = 0;
-            billDetailInfo.forEach((row) => {
-                orgFeeAmount.current = orgFeeAmount.current + row.OrgFeeAmount;
-                tmpFeeAmount = tmpFeeAmount + row.FeeAmount;
-            });
-            setFeeAmountTotal(tmpFeeAmount);
-        }
-    }, [billDetailInfo, isDeductOpen]);
-
-    useEffect(() => {
-        setFeeAmountTotal(orgFeeAmount.current - dedAmount.current);
-    }, [dedAmount.current]);
 
     return (
         <Dialog maxWidth="xxl" open={isDeductOpen}>
             <BootstrapDialogTitle>折抵作業</BootstrapDialogTitle>
             <DialogContent>
                 <Grid container spacing={1} display="flex" justifyContent="center" alignItems="center" sx={{ fontSize: 10 }}>
-                    {actionName === 'view' ? (
-                        <Grid item xs={12} sm={12} md={12} lg={12}>
-                            <Grid container spacing={1} display="flex" justifyContent="center" alignItems="center" sx={{ fontSize: 10 }}>
-                                <Grid item xs={1} sm={1} md={1} lg={1} />
-                                <Grid item xs={2} sm={2} md={2} lg={2}>
-                                    <Typography
-                                        variant="h5"
-                                        sx={{ fontSize: { lg: '0.7rem' ,xl: '0.88rem' }, ml: { lg: '0.5rem', xl: '1.5rem' } }}
-                                    >
-                                        會員：
-                                    </Typography>
-                                </Grid>
-                                <Grid item xs={3} sm={3} md={3} lg={3}>
-                                    <TextField value={billMasterInfo.PartyName} fullWidth disabled={true} variant="outlined" size="small" />
-                                </Grid>
-                                <Grid item xs={2} sm={2} md={2} lg={2}>
-                                    <Typography
-                                        variant="h5"
-                                        sx={{ fontSize: { lg: '0.7rem' ,xl: '0.88rem' }, ml: { lg: '0.5rem', xl: '1.5rem' } }}
-                                    >
-                                        帳單截止日期：
-                                    </Typography>
-                                </Grid>
-                                <Grid item xs={3} sm={3} md={3} lg={3}>
-                                    <TextField
-                                        value={dayjs(billMasterInfo.DueDate).format('YYYY/MM/DD')}
-                                        fullWidth
-                                        disabled={true}
-                                        variant="outlined"
-                                        size="small"
-                                    />
-                                </Grid>
-                                <Grid item xs={1} sm={1} md={1} lg={1} />
-                                <Grid item xs={1} sm={1} md={1} lg={1} />
-                                <Grid item xs={2} sm={2} md={2} lg={2}>
-                                    <Typography
-                                        variant="h5"
-                                        sx={{ fontSize: { lg: '0.7rem' ,xl: '0.88rem' }, ml: { lg: '0.5rem', xl: '1.5rem' } }}
-                                    >
-                                        海纜名稱：
-                                    </Typography>
-                                </Grid>
-                                <Grid item xs={3} sm={3} md={3} lg={3}>
-                                    <TextField
-                                        value={billMasterInfo.SubmarineCable}
-                                        fullWidth
-                                        disabled={true}
-                                        variant="outlined"
-                                        size="small"
-                                    />
-                                </Grid>
-                                <Grid item xs={2} sm={2} md={2} lg={2}>
-                                    <Typography
-                                        variant="h5"
-                                        sx={{ fontSize: { lg: '0.7rem' ,xl: '0.88rem' }, ml: { lg: '0.5rem', xl: '1.5rem' } }}
-                                    >
-                                        海纜作業：
-                                    </Typography>
-                                </Grid>
-                                <Grid item xs={3} sm={3} md={3} lg={3}>
-                                    <TextField value={billMasterInfo.WorkTitle} fullWidth disabled={true} variant="outlined" size="small" />
-                                </Grid>
-                                <Grid item xs={1} sm={1} md={1} lg={1} />
-                            </Grid>
-                        </Grid>
-                    ) : (
-                        ''
-                    )}
                     <Grid item xs={12} sm={12} md={12} lg={12}>
                         <MainCard title="帳單明細列表">
                             <TableContainer component={Paper} sx={{ maxHeight: 350 }}>
                                 <Table sx={{ minWidth: 300 }} stickyHeader >
                                     <TableHead>
                                         <TableRow>
-                                            <StyledTableCell align="center">NO</StyledTableCell>
                                             <StyledTableCell align="center">計帳段號</StyledTableCell>
                                             <StyledTableCell align="center">費用項目</StyledTableCell>
+                                            <StyledTableCell align="center">累計實收</StyledTableCell>
                                             <StyledTableCell align="center">費用金額</StyledTableCell>
                                             <StyledTableCell align="center">折抵金額</StyledTableCell>
+                                            <StyledTableCell align="center">應收金額</StyledTableCell>
                                             <StyledTableCell align="center">總金額</StyledTableCell>
-                                            {actionName === 'deduct' ? <StyledTableCell align="center">Action</StyledTableCell> : ''}
+                                            <StyledTableCell align="center">Action</StyledTableCell>
                                         </TableRow>
                                     </TableHead>
                                     <TableBody>
-                                        {billDetailInfo.map((row, id) => {
-                                            let tmpFiliter = tmpDeductArray.current.filter((i) => i.BillDetailID === row.BillDetailID);
-                                            let dedAmountTmp = 0;
-                                            if (tmpFiliter.length > 0) {
-                                                tmpFiliter[0].CB.forEach((i) => {
-                                                    dedAmountTmp = dedAmountTmp + i.TransAmount;
-                                                });
-                                            }
-                                            return (
-                                                <TableRow
-                                                    key={row.BillDetailID + row?.BillMasterID}
-                                                    sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                                        <TableRow
+                                            sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                                        >
+                                            <TableCell align="center">{cbData.current?.BillMilestone}</TableCell>
+                                            <TableCell align="center">{cbData.current?.FeeItem}</TableCell>
+                                            <TableCell align="center">{`$${handleNumber(cbData.current?.ReceivedAmount?.toFixed(2))}`}</TableCell>
+                                            <TableCell align="center">{`$${handleNumber(cbData.current?.OrgFeeAmount?.toFixed(2))}`}</TableCell>
+                                            <TableCell align="center">{`$${handleNumber(cbData.current?.CBWriteOffAmount?.toFixed(2))}`}</TableCell>
+                                            <TableCell
+                                                align="center"
+                                                sx={{ color: cbData.current?.OrgFeeAmount - cbData.current?.CBWriteOffAmount >= 0 ? 'black' : 'red' }}
+                                            >{`$${handleNumber((cbData.current?.OrgFeeAmount - cbData.current?.CBWriteOffAmount)?.toFixed(2))}`}</TableCell>
+                                            <TableCell align="center">{`$${handleNumber(cbData.current?.FeeAmount?.toFixed(2))}`}</TableCell>
+                                            <TableCell align="center">
+                                                <Button
+                                                    color="primary"
+                                                    variant={editItem.current === cbData.current?.BillDetailID ? 'contained' : 'outlined'}
+                                                    size="small"
+                                                    onClick={() => {deductWork(cbData.current)}}
                                                 >
-                                                    <TableCell align="center">{id + 1}</TableCell>
-                                                    <TableCell align="center">{row.BillMilestone}</TableCell>
-                                                    <TableCell align="center">{row.FeeItem}</TableCell>
-                                                    <TableCell align="center">{`$${handleNumber(row.OrgFeeAmount.toFixed(2))}`}</TableCell>
-                                                    <TableCell align="center">{`$${handleNumber(dedAmountTmp.toFixed(2))}`}</TableCell>
-                                                    <TableCell
-                                                        align="center"
-                                                        sx={{ color: row.OrgFeeAmount - dedAmountTmp >= 0 ? 'black' : 'red' }}
-                                                    >{`$${handleNumber((row.OrgFeeAmount - dedAmountTmp).toFixed(2))}`}</TableCell>
-                                                    {actionName === 'deduct' ? (
-                                                        <TableCell align="center">
-                                                            <Button
-                                                                color="primary"
-                                                                
-                                                                variant={editItem.current === row.BillDetailID ? 'contained' : 'outlined'}
-                                                                size="small"
-                                                                onClick={() => {
-                                                                    editItem.current === ''
-                                                                        ? deductWork(row)
-                                                                        : dispatch(
-                                                                              setMessageStateOpen({
-                                                                                  messageStateOpen: {
-                                                                                      isOpen: true,
-                                                                                      severity: 'warning',
-                                                                                      message: '請先儲存目前折抵作業'
-                                                                                  }
-                                                                              })
-                                                                          );
-                                                                }}
-                                                            >
-                                                                折抵
-                                                            </Button>
-                                                        </TableCell>
-                                                    ) : (
-                                                        ''
-                                                    )}
-                                                </TableRow>
-                                            );
-                                        })}
-                                        <TableRow sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
-                                            <StyledTableCell className="totalAmount" align="center">
-                                                Total
-                                            </StyledTableCell>
-                                            <StyledTableCell className="totalAmount" align="center"></StyledTableCell>
-                                            <StyledTableCell className="totalAmount" align="center"></StyledTableCell>
-                                            <StyledTableCell className="totalAmount" align="center">{`$${handleNumber(
-                                                orgFeeAmount.current.toFixed(2)
-                                            )}`}</StyledTableCell>
-                                            <StyledTableCell className="totalAmount" align="center">{`$${handleNumber(
-                                                dedAmount.current.toFixed(2)
-                                            )}`}</StyledTableCell>
-                                            <StyledTableCell className="totalAmount" align="center">{`$${handleNumber(
-                                                feeAmountTotal.toFixed(2)
-                                            )}`}</StyledTableCell>
-                                            {actionName === 'deduct' ? (
-                                                <StyledTableCell className="totalAmount" align="center"></StyledTableCell>
-                                            ) : (
-                                                ''
-                                            )}
+                                                    折抵
+                                                </Button>
+                                            </TableCell>
                                         </TableRow>
                                     </TableBody>
                                 </Table>
                             </TableContainer>
                         </MainCard>
                     </Grid>
-                    {isDeductWorkOpen && actionName === 'deduct' ? (
+                    {isDeductWorkOpen ? (
                         <Grid item xs={12} sm={12} md={12} lg={12}>
-                            <MainCard title={`${billMasterInfo.PartyName}可折抵CB`}>
+                            <MainCard title={`可折抵CB`}>
                                 <Grid container>
                                     <Grid item xs={12} sm={12} md={12} lg={12}>
                                         <TableContainer component={Paper} sx={{ maxHeight: 350 }}>
@@ -453,31 +336,22 @@ const ToDeductWork = ({ isDeductOpen, handleDeductClose, billDetailInfo, billMas
                                 </Grid>
                             </MainCard>
                         </Grid>
-                    ) : (
+                        ) : (
                         ''
                     )}
                 </Grid>
                 {/* <DialogContentText sx={{ fontSize: '20px', mt: '0.5rem' }}>總金額：${handleNumber(totalAmount)}</DialogContentText> */}
             </DialogContent>
             <DialogActions>
-                {actionName === 'deduct' ? (
-                    <>
-                        <Button sx={{ mr: '0.05rem' }} variant="contained" onClick={sendDuctWork} >
-                            送出
-                        </Button>
-                        <Button sx={{ mr: '0.05rem' }} variant="contained" onClick={handleReset} >
-                            Reset
-                        </Button>
-                    </>
-                ) : (
-                    ''
-                )}
+                <Button sx={{ mr: '0.05rem' }} variant="contained" onClick={handleReset} >
+                    Reset
+                </Button>
                 <Button
                     sx={{ mr: '0.05rem' }}
                     variant="contained"
                     
                     onClick={() => {
-                        initData();
+                        // initData();
                         setIsDeductWorkOpen(false);
                         handleDeductClose();
                     }}

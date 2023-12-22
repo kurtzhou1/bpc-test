@@ -31,11 +31,9 @@ const WriteOffInvoice = () => {
     const [listInfo, setListInfo] = useState([]);
     const writeOffInitQuery = () => {
         let tmpQuery = queryToDecutBill + (value === 0 ? '/Status=TO_WRITEOFF' : '/Status=COMPLETE');
-        console.log('tmpQuery=>>', tmpQuery);
         fetch(tmpQuery, { method: 'GET' })
             .then((res) => res.json())
             .then((data) => {
-                console.log('456=>>', data);
                 if (Array.isArray(data)) {
                     setListInfo(data);
                 } else {

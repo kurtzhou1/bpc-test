@@ -34,18 +34,16 @@ const ToGenerateDataList = ({ dataList, receivableQuery }) => {
     const billMasterInfo = useRef([]);
     const billDetailInfo = useRef([]);
     const actionName = useRef('');
-    const [editItem, setEditItem] = useState();
-    const [infoTerminal, setInfoTerminal] = useState(false);
     const billMaster = useRef({});
     const editBillingNo = useRef('');
     const editBillMasterID = useRef('');
 
     const handleDeductClose = () => {
         setIsDeductOpen(false);
-        setEditItem();
     };
 
     const handleDeductOpen = (action, info) => {
+        console.log('action=>>', info);
         billDetailInfo.current = info.BillDetail;
         billMasterInfo.current = info.BillMaster;
         actionName.current = action;
