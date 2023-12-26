@@ -91,11 +91,9 @@ const ToDeductWork = ({
         data.PartyName;
       fetch(tmpQuery, { method: 'GET' })
         .then((res) => res.json())
-        .then((data) => {
-          if (Array.isArray(data)) {
-            setCbDataList(data);
-            editItem.current = data.BillDetailID;
-            setIsDeductWorkOpen(true);
+        .then((response) => {
+          if (Array.isArray(response)) {
+            setCbDataList(response);
           } else {
             dispatch(
               setMessageStateOpen({
@@ -108,6 +106,8 @@ const ToDeductWork = ({
     } else {
       setTmpCBArray(tmpArrayFiliter[0].CB);
     }
+    editItem.current = data.BillDetailID;
+    setIsDeductWorkOpen(true);
   };
 
   const changeDiff = (currAmount, maxValue, value, cbid) => {

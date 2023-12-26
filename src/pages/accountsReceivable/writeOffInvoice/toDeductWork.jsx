@@ -58,7 +58,6 @@ const ToDeductWork = ({
   setToWriteOffDetailInfo,
   setCBWriteOff,
 }) => {
-  console.log('cbData=>>', cbData);
   const dispatch = useDispatch();
   const [isDeductWorkOpen, setIsDeductWorkOpen] = useState(false);
   const [cbDataList, setCbDataList] = useState([]); //可折抵的Data List
@@ -66,13 +65,6 @@ const ToDeductWork = ({
   const tmpDeductArray = useRef([]);
   // let dedAmount = useRef(0); //總折抵資料加總(上)
   const editItem = useRef(''); //當前編輯明細項目
-
-  const initData = () => {
-    setTmpCBArray([]);
-    tmpDeductArray.current = [];
-    editItem.current = '';
-    // dedAmount.current = 0;
-  };
 
   const resetData = () => {
     let tmpWriteOffDetailInfo = [...toWriteOffDetailInfo];
@@ -110,11 +102,9 @@ const ToDeductWork = ({
       console.log('tmpQuery=>>', tmpQuery);
       fetch(tmpQuery, { method: 'GET' })
         .then((res) => res.json())
-        .then((data) => {
-          if (Array.isArray(data) && data?.length > 0) {
-            setCbDataList(data);
-            editItem.current = data.BillDetailID;
-            setIsDeductWorkOpen(true);
+        .then((response) => {
+          if (Array.isArray(response) && response?.length > 0) {
+            setCbDataList(response);
           } else {
             dispatch(
               setMessageStateOpen({
@@ -127,6 +117,8 @@ const ToDeductWork = ({
     } else {
       setTmpCBArray(tmpArrayFiliter[0].CB);
     }
+    editItem.current = data.BillDetailID;
+    setIsDeductWorkOpen(true);
   };
 
   const changeDiff = (currAmount, maxValue, value, cbid) => {
@@ -173,7 +165,6 @@ const ToDeductWork = ({
     let tmpWriteOffDetailInfo = [...toWriteOffDetailInfo];
     let deductAmount = 0;
     let tmpArrayFiliter = tmpDeductArray.current.filter((i) => i.BillDetailID === editItem.current);
-    console.log('tmpDeductArray=>>', tmpDeductArray);
     let tmpArray = tmpDeductArray.current.map((i) => i);
     if (tmpArrayFiliter.length > 0) {
       tmpArray.forEach((i) => {
@@ -185,14 +176,12 @@ const ToDeductWork = ({
       tmpArray.push({ BillDetailID: editItem.current, CB: tmpCBArray });
     }
     tmpArray.forEach((i1) => {
-      console.log('i1=>>', i1);
       // i1.CB.forEach((i2) => {
       //     console.log('i2=>>', i2);
       //     deductAmount = deductAmount + i2.TransAmount;
       // });
       if (i1.BillDetailID === cbData.current?.BillDetailID) {
         i1.CB.forEach((i2) => {
-          console.log('i2=>>', i2);
           // tmpDeductAmountForOneItem = tmpDeductAmountForOneItem + i3.TransAmount;
           deductAmount = deductAmount + i2.TransAmount;
         });
@@ -207,7 +196,6 @@ const ToDeductWork = ({
       }
     });
     setToWriteOffDetailInfo(tmpWriteOffDetailInfo);
-    // dedAmount.current = deductAmount;
     setCBWriteOff(tmpArray);
     tmpDeductArray.current = tmpArray;
     setTmpCBArray([]);
@@ -220,6 +208,8 @@ const ToDeductWork = ({
     resetData();
     setCBWriteOff(tmpDeductArray.current);
   };
+
+  console.log('tmpCBArray=>>', tmpCBArray);
 
   return (
     <Dialog maxWidth="xxl" open={isDeductOpen}>
@@ -245,7 +235,7 @@ const ToDeductWork = ({
                       {/* <StyledTableCell align="center">費用金額</StyledTableCell> */}
                       <StyledTableCell align="center">折抵金額</StyledTableCell>
                       <StyledTableCell align="center">應收金額</StyledTableCell>
-                      <StyledTableCell align="center">總金額</StyledTableCell>
+                      {/* <StyledTableCell align="center">總金額</StyledTableCell> */}
                       <StyledTableCell align="center">Action</StyledTableCell>
                     </TableRow>
                   </TableHead>
@@ -273,9 +263,9 @@ const ToDeductWork = ({
                           2,
                         ),
                       )}`}</TableCell>
-                      <TableCell align="center">{`$${handleNumber(
+                      {/* <TableCell align="center">{`$${handleNumber(
                         cbData.current?.FeeAmount?.toFixed(2),
-                      )}`}</TableCell>
+                      )}`}</TableCell> */}
                       <TableCell align="center">
                         <Button
                           color="primary"
