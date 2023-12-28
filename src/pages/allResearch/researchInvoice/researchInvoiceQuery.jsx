@@ -1,18 +1,18 @@
 import { useEffect, useState } from 'react';
 import {
-    Typography,
-    Grid,
-    Button,
-    FormControl,
-    InputLabel,
-    Select,
-    MenuItem,
-    Box,
-    Radio,
-    FormGroup,
-    RadioGroup,
-    FormControlLabel,
-    Checkbox
+  Typography,
+  Grid,
+  Button,
+  FormControl,
+  InputLabel,
+  Select,
+  MenuItem,
+  Box,
+  Radio,
+  FormGroup,
+  RadioGroup,
+  FormControlLabel,
+  Checkbox,
 } from '@mui/material';
 
 // project import
@@ -27,178 +27,202 @@ import { DateRangePicker } from '@mui/x-date-pickers-pro/DateRangePicker';
 import { TextField } from '@mui/material/index';
 
 // api
-import { searchInvoiceWKMasterByBillMaster, submarineCableInfoList, getPartiesInfoList } from 'components/apis.jsx';
+import {
+  searchInvoiceWKMasterByBillMaster,
+  submarineCableInfoList,
+  getPartiesInfoList,
+} from 'components/apis.jsx';
 
 // ==============================|| SAMPLE PAGE ||============================== //
 
 const ResearchBillQuery = ({ setListInfo, setDetailInfo }) => {
-    const [partyName, setPartyName] = useState(''); //會員名稱
-    const [submarineCable, setSubmarineCable] = useState(''); //海纜名稱
-    const [workTitle, setWorkTitle] = useState(''); //海纜作業
-    const [dueDate, setDueDate] = useState(null); //發票日期
-    const [billingNo, setBillingNo] = useState(''); //發票號碼
-    const [submarineCableList, setSubmarineCableList] = useState([]); //海纜名稱下拉選單
-    const [partiesList, setPartiesList] = useState([]); //會員下拉選單
+  const [partyName, setPartyName] = useState(''); //會員名稱
+  const [submarineCable, setSubmarineCable] = useState(''); //海纜名稱
+  const [workTitle, setWorkTitle] = useState(''); //海纜作業
+  const [dueDate, setDueDate] = useState(null); //發票日期
+  const [billingNo, setBillingNo] = useState(''); //發票號碼
+  const [submarineCableList, setSubmarineCableList] = useState([]); //海纜名稱下拉選單
+  const [partiesList, setPartiesList] = useState([]); //會員下拉選單
 
-    const queryInit = () => {
-        setPartyName('');
-        setSubmarineCable('');
-        setWorkTitle('');
-        setDueDate(null);
-        setBillingNo('');
-    };
+  const initQuery = () => {
+    setPartyName('');
+    setSubmarineCable('');
+    setWorkTitle('');
+    setDueDate(null);
+    setBillingNo('');
+  };
 
-    const invoiceQuery = () => {
-        let tmpQuery = {};
-        if (partyName && partyName !== '') {
-            // tmpQuery = tmpQuery + 'SupplierName=' + supplierName + '&';
-            tmpQuery.PartyName = partyName;
+  const invoiceQuery = () => {
+    let tmpQuery = {};
+    if (partyName && partyName !== '') {
+      // tmpQuery = tmpQuery + 'SupplierName=' + supplierName + '&';
+      tmpQuery.PartyName = partyName;
+    }
+    if (submarineCable && submarineCable !== '') {
+      // tmpQuery = tmpQuery + 'SubmarineCable=' + submarineCable + '&';
+      tmpQuery.SubmarineCable = submarineCable;
+    }
+    if (workTitle && workTitle !== '') {
+      // tmpQuery = tmpQuery + 'WorkTitle=' + workTitle + '&';
+      tmpQuery.WorkTitle = workTitle;
+    }
+    if (billingNo && billingNo !== '') {
+      // tmpQuery = tmpQuery + 'BillMilestone=' + billingNo + '&';
+      tmpQuery.BillingNo = billingNo;
+    }
+    if (dueDate) {
+      tmpQuery.startDueDate = dayjs(dueDate).format('YYYYMMDD');
+      tmpQuery.endDueDate = dayjs(dueDate).format('YYYYMMDD');
+    }
+
+    console.log('tmpQuery=>>', tmpQuery);
+
+    fetch(searchInvoiceWKMasterByBillMaster, { method: 'POST', body: JSON.stringify(tmpQuery) })
+      .then((res) => res.json())
+      .then((data) => {
+        console.log('查詢成功=>>', data);
+        if (Array.isArray(data)) {
+          setListInfo(data);
+          setDetailInfo([]);
         }
-        if (submarineCable && submarineCable !== '') {
-            // tmpQuery = tmpQuery + 'SubmarineCable=' + submarineCable + '&';
-            tmpQuery.SubmarineCable = submarineCable;
-        }
-        if (workTitle && workTitle !== '') {
-            // tmpQuery = tmpQuery + 'WorkTitle=' + workTitle + '&';
-            tmpQuery.WorkTitle = workTitle;
-        }
-        if (billingNo && billingNo !== '') {
-            // tmpQuery = tmpQuery + 'BillMilestone=' + billingNo + '&';
-            tmpQuery.BillingNo = billingNo;
-        }
-        if (dueDate) {
-            tmpQuery.startDueDate = dayjs(dueDate).format('YYYYMMDD');
-            tmpQuery.endDueDate = dayjs(dueDate).format('YYYYMMDD');
-        }
+      })
+      .catch((e) => console.log('e1=>', e));
+  };
 
-        console.log('tmpQuery=>>', tmpQuery);
+  useEffect(() => {
+    //海纜名稱
+    fetch(submarineCableInfoList, { method: 'GET' })
+      .then((res) => res.json())
+      .then((data) => {
+        setSubmarineCableList(data);
+      })
+      .catch((e) => console.log('e1=>', e));
+    //會員名稱
+    fetch(getPartiesInfoList, { method: 'GET' })
+      .then((res) => res.json())
+      .then((data) => {
+        setPartiesList(data);
+      })
+      .catch((e) => console.log('e1=>', e));
+  }, []);
 
-        fetch(searchInvoiceWKMasterByBillMaster, { method: 'POST', body: JSON.stringify(tmpQuery) })
-            .then((res) => res.json())
-            .then((data) => {
-                console.log('查詢成功=>>', data);
-                if (Array.isArray(data)) {
-                    setListInfo(data);
-                    setDetailInfo([]);
-                }
-            })
-            .catch((e) => console.log('e1=>', e));
-    };
-
-    useEffect(() => {
-        //海纜名稱
-        fetch(submarineCableInfoList, { method: 'GET' })
-           .then((res) => res.json())
-           .then((data) => {
-               setSubmarineCableList(data);
-           })
-           .catch((e) => console.log('e1=>', e));
-       //會員名稱
-       fetch(getPartiesInfoList, { method: 'GET' })
-           .then((res) => res.json())
-           .then((data) => {
-               setPartiesList(data);
-           })
-           .catch((e) => console.log('e1=>', e));
-   }, [])
-
-    return (
-        <MainCard title="條件查詢" sx={{ width: '100%' }}>
-            <Grid container display="flex" alignItems="center" spacing={2}>
-                {/* row1 */}
-                <Grid item sm={1} md={1} lg={1}>
-                    <Typography variant="h5" sx={{ fontSize: { lg: '0.7rem' ,xl: '0.88rem' } }}>
-                        會員：
-                    </Typography>
-                </Grid>
-                <Grid item xs={2} sm={2} md={2} lg={2}>
-                    <FormControl fullWidth size="small">
-                        <InputLabel>選擇會員</InputLabel>
-                        <Select value={partyName} label="會員" onChange={(e) => setPartyName(e.target.value)}>
-                            {partiesList.map((i) => (
-                                <MenuItem value={i}>{i}</MenuItem>
-                            ))}
-                        </Select>
-                    </FormControl>
-                </Grid>
-                <Grid item sm={1} md={1} lg={1}>
-                    <Typography variant="h5" sx={{ fontSize: { lg: '0.7rem' ,xl: '0.88rem' } }}>
-                        海纜名稱：
-                    </Typography>
-                </Grid>
-                <Grid item xs={2} sm={2} md={2} lg={2}>
-                    <FormControl fullWidth size="small">
-                        <InputLabel>選擇海纜名稱</InputLabel>
-                        <Select value={submarineCable} label="海纜名稱" onChange={(e) => setSubmarineCable(e.target.value)}>
-                            {submarineCableList.map((i) => (
-                                <MenuItem key={i.CableName} value={i.CableName}>
-                                    {i.CableName}
-                                </MenuItem>
-                            ))}
-                        </Select>
-                    </FormControl>
-                </Grid>
-                <Grid item sm={1} md={1} lg={1}>
-                    <Typography variant="h5" sx={{ fontSize: { lg: '0.7rem' ,xl: '0.88rem' } }}>
-                        海纜作業：
-                    </Typography>
-                </Grid>
-                <Grid item xs={2} sm={2} md={2} lg={2}>
-                    <FormControl fullWidth size="small">
-                        <InputLabel>選擇海纜作業</InputLabel>
-                        <Select value={workTitle} label="海纜作業" onChange={(e) => setWorkTitle(e.target.value)}>
-                            <MenuItem value={'Upgrade'}>Upgrade</MenuItem>
-                            <MenuItem value={'Construction'}>Construction</MenuItem>
-                            <MenuItem value={'O&M'}>O&M</MenuItem>
-                        </Select>
-                    </FormControl>
-                </Grid>
-                <Grid item sm={1} md={1} lg={1}>
-                    <Typography variant="h5" sx={{ fontSize: { lg: '0.7rem' ,xl: '0.88rem' } }}>
-                        帳單號碼：
-                    </Typography>
-                </Grid>
-                <Grid item xs={2} sm={2} md={2} lg={2}>
-                    <FormControl fullWidth size="small">
-                        <TextField
-                            fullWidth
-                            variant="outlined"
-                            value={billingNo}
-                            size="small"
-                            label="填寫帳單號碼"
-                            onChange={(e) => setBillingNo(e.target.value)}
-                        />
-                    </FormControl>
-                </Grid>
-                {/* row2 */}
-                <Grid item sm={1} md={1} lg={1}>
-                    <Typography variant="h5" sx={{ fontSize: { lg: '0.7rem' ,xl: '0.88rem' } }}>
-                        帳單日期：
-                    </Typography>
-                </Grid>
-                <Grid item xs={5} sm={5} md={5} lg={5} display="flex" alignItems="center">
-                    <LocalizationProvider dateAdapter={AdapterDayjs} localeText={{ start: '起始日', end: '結束日' }}>
-                        <DesktopDatePicker
-                            inputFormat="YYYY/MM/DD"
-                            value={dueDate}
-                            onChange={(e) => {
-                                setDueDate(e);
-                            }}
-                            renderInput={(params) => <TextField size="small" {...params} />}
-                        />
-                    </LocalizationProvider>
-                </Grid>
-                <Grid item xs={6} sm={6} md={6} lg={6} display="flex" justifyContent="end" alignItems="center">
-                    <Button sx={{ mr: '0.5rem' }} variant="contained" onClick={invoiceQuery}>
-                        查詢
-                    </Button>
-                    <Button variant="contained" onClick={queryInit}>
-                        清除
-                    </Button>
-                </Grid>
-            </Grid>
-        </MainCard>
-    );
+  return (
+    <MainCard title="條件查詢" sx={{ width: '100%' }}>
+      <Grid container display="flex" alignItems="center" spacing={2}>
+        {/* row1 */}
+        <Grid item sm={1} md={1} lg={1}>
+          <Typography variant="h5" sx={{ fontSize: { lg: '0.7rem', xl: '0.88rem' } }}>
+            會員：
+          </Typography>
+        </Grid>
+        <Grid item xs={2} sm={2} md={2} lg={2}>
+          <FormControl fullWidth size="small">
+            <InputLabel>選擇會員</InputLabel>
+            <Select value={partyName} label="會員" onChange={(e) => setPartyName(e.target.value)}>
+              {partiesList.map((i) => (
+                <MenuItem value={i}>{i}</MenuItem>
+              ))}
+            </Select>
+          </FormControl>
+        </Grid>
+        <Grid item sm={1} md={1} lg={1}>
+          <Typography variant="h5" sx={{ fontSize: { lg: '0.7rem', xl: '0.88rem' } }}>
+            海纜名稱：
+          </Typography>
+        </Grid>
+        <Grid item xs={2} sm={2} md={2} lg={2}>
+          <FormControl fullWidth size="small">
+            <InputLabel>選擇海纜名稱</InputLabel>
+            <Select
+              value={submarineCable}
+              label="海纜名稱"
+              onChange={(e) => setSubmarineCable(e.target.value)}
+            >
+              {submarineCableList.map((i) => (
+                <MenuItem key={i.CableName} value={i.CableName}>
+                  {i.CableName}
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
+        </Grid>
+        <Grid item sm={1} md={1} lg={1}>
+          <Typography variant="h5" sx={{ fontSize: { lg: '0.7rem', xl: '0.88rem' } }}>
+            海纜作業：
+          </Typography>
+        </Grid>
+        <Grid item xs={2} sm={2} md={2} lg={2}>
+          <FormControl fullWidth size="small">
+            <InputLabel>選擇海纜作業</InputLabel>
+            <Select
+              value={workTitle}
+              label="海纜作業"
+              onChange={(e) => setWorkTitle(e.target.value)}
+            >
+              <MenuItem value={'Upgrade'}>Upgrade</MenuItem>
+              <MenuItem value={'Construction'}>Construction</MenuItem>
+              <MenuItem value={'O&M'}>O&M</MenuItem>
+            </Select>
+          </FormControl>
+        </Grid>
+        <Grid item sm={1} md={1} lg={1}>
+          <Typography variant="h5" sx={{ fontSize: { lg: '0.7rem', xl: '0.88rem' } }}>
+            帳單號碼：
+          </Typography>
+        </Grid>
+        <Grid item xs={2} sm={2} md={2} lg={2}>
+          <FormControl fullWidth size="small">
+            <TextField
+              fullWidth
+              variant="outlined"
+              value={billingNo}
+              size="small"
+              label="填寫帳單號碼"
+              onChange={(e) => setBillingNo(e.target.value)}
+            />
+          </FormControl>
+        </Grid>
+        {/* row2 */}
+        <Grid item sm={1} md={1} lg={1}>
+          <Typography variant="h5" sx={{ fontSize: { lg: '0.7rem', xl: '0.88rem' } }}>
+            帳單日期：
+          </Typography>
+        </Grid>
+        <Grid item xs={5} sm={5} md={5} lg={5} display="flex" alignItems="center">
+          <LocalizationProvider
+            dateAdapter={AdapterDayjs}
+            localeText={{ start: '起始日', end: '結束日' }}
+          >
+            <DesktopDatePicker
+              inputFormat="YYYY/MM/DD"
+              value={dueDate}
+              onChange={(e) => {
+                setDueDate(e);
+              }}
+              renderInput={(params) => <TextField size="small" {...params} />}
+            />
+          </LocalizationProvider>
+        </Grid>
+        <Grid
+          item
+          xs={6}
+          sm={6}
+          md={6}
+          lg={6}
+          display="flex"
+          justifyContent="end"
+          alignItems="center"
+        >
+          <Button sx={{ mr: '0.5rem' }} variant="contained" onClick={invoiceQuery}>
+            查詢
+          </Button>
+          <Button variant="contained" onClick={initQuery}>
+            清除
+          </Button>
+        </Grid>
+      </Grid>
+    </MainCard>
+  );
 };
 
 export default ResearchBillQuery;

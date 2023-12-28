@@ -1,5 +1,4 @@
 import { useEffect, useState, useRef } from 'react';
-// import dayjs from 'dayjs';
 
 // material-ui
 import { Grid, Button } from '@mui/material';
@@ -7,12 +6,9 @@ import dayjs from 'dayjs';
 // project import
 import MainCard from 'components/MainCard';
 import InvoiceQuery from './invoiceQuery';
-import CreateInvoiceMain from './createInvoiceMain';
-import CreateInvoiceDetail from './createInvoiceDetail';
 import InvoiceDataList from './invoiceDataList';
 import { handleNumber } from 'components/commonFunction';
 import ReturnDataList from './returnDataList';
-// import { TextField } from '@mui/material/index';
 
 // api
 import {
@@ -35,10 +31,6 @@ import { activeItem } from 'store/reducers/menu';
 // redux
 import { useDispatch } from 'react-redux';
 import { setMessageStateOpen } from 'store/reducers/dropdown';
-
-import { Link } from 'react-router-dom';
-
-// ==============================|| SAMPLE PAGE ||============================== //
 
 const InvoiceWorkManage = () => {
   const dispatch = useDispatch();
@@ -550,86 +542,6 @@ const InvoiceWorkManage = () => {
               </Grid>
             </Grid>
           </MainCard>
-        </Grid>
-        {action === '編輯' || action === '檢視' ? (
-          <Grid item xs={12}>
-            <MainCard sx={{ width: '100%' }}>
-              <Grid container display="flex" spacing={2}>
-                {/* 左 */}
-                <Grid item xs={6}>
-                  <CreateInvoiceMain
-                    supplierName={supplierName}
-                    setSupplierName={setSupplierName}
-                    invoiceNo={invoiceNo}
-                    setInvoiceNo={setInvoiceNo}
-                    submarineCable={submarineCable}
-                    setSubmarineCable={setSubmarineCable}
-                    workTitle={workTitle}
-                    setWorkTitle={setWorkTitle}
-                    contractType={contractType}
-                    setContractType={setContractType}
-                    issueDate={issueDate}
-                    setIssueDate={setIssueDate}
-                    dueDate={dueDate}
-                    setDueDate={setDueDate}
-                    totalAmount={totalAmount}
-                    setTotalAmount={setTotalAmount}
-                    isPro={isPro}
-                    setIsPro={setIsPro}
-                    isLiability={isLiability}
-                    setIsLiability={setIsLiability}
-                    isRecharge={isRecharge}
-                    setIsRecharge={setIsRecharge}
-                    isCreditMemo={isCreditMemo}
-                    setIsCreditMemo={setIsCreditMemo}
-                    partyName={partyName}
-                    setPartyName={setPartyName}
-                    submarineCableList={submarineCableList}
-                    action={action}
-                  />
-                </Grid>
-                {/* 右 */}
-                <Grid item xs={6}>
-                  <CreateInvoiceDetail
-                    setInvoiceDetailInfo={setInvoiceDetailInfo}
-                    invoiceDetailInfo={invoiceDetailInfo}
-                    bmStoneList={bmStoneList}
-                    action={action}
-                    itemDetailInitial={itemDetailInitial}
-                    billMilestone={billMilestone}
-                    setBillMilestone={setBillMilestone}
-                    feeItem={feeItem}
-                    setFeeItem={setFeeItem}
-                    feeAmount={feeAmount}
-                    setFeeAmount={setFeeAmount}
-                  />
-                </Grid>
-                {action === '編輯' ? (
-                  <Grid item xs={12} display="flex" justifyContent="center" alignItems="center">
-                    <Button variant="contained" onClick={addInvoiceInfo} sx={{ mx: 1 }}>
-                      儲存編輯
-                    </Button>
-                    <Button variant="contained" onClick={cancelAdd} sx={{ mx: 1 }}>
-                      取消編輯
-                    </Button>
-                  </Grid>
-                ) : (
-                  ''
-                )}
-              </Grid>
-            </MainCard>
-          </Grid>
-        ) : (
-          ''
-        )}
-        <Grid item xs={12} display="flex" justifyContent="center" alignItems="center">
-          <Link
-            to="/CreateJournal/CreateJournal"
-            onClick={handleLink}
-            style={{ color: '#262626', textDecoration: 'none' }}
-          >
-            <Button variant="contained">切換至立帳管理</Button>
-          </Link>
         </Grid>
       </Grid>
     </>

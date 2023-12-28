@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useState, useEffect } from 'react';
 import {
   Typography,
   Grid,
@@ -7,25 +7,22 @@ import {
   InputLabel,
   Select,
   MenuItem,
-  Box,
-  Radio,
-  FormGroup,
   RadioGroup,
+  FormGroup,
   FormControlLabel,
+  Radio,
+  Box,
   Checkbox,
 } from '@mui/material';
-
+import PropTypes from 'prop-types';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { DesktopDatePicker } from '@mui/x-date-pickers/DesktopDatePicker';
+import { TextField } from '@mui/material/index';
 // project import
 import MainCard from 'components/MainCard';
 
-// day
-import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import { DesktopDatePicker } from '@mui/x-date-pickers/DesktopDatePicker';
-import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import dayjs from 'dayjs';
-import { DateRangePicker } from '@mui/x-date-pickers-pro/DateRangePicker';
-import { TextField } from '@mui/material/index';
-
+// api
 // api
 import {
   searchBillMasterByInvoiceWKMaster,
@@ -33,10 +30,9 @@ import {
   submarineCableInfoList,
   billMilestoneLiabilityList,
 } from 'components/apis.jsx';
+import dayjs from 'dayjs';
 
-// ==============================|| SAMPLE PAGE ||============================== //
-
-const ResearchBillQuery = ({ setListInfo, setDetailInfo }) => {
+const InvoiceQuery = ({ setListInfo, queryApi, setAction, setPage }) => {
   const [supplierName, setSupplierName] = useState(''); //供應商
   const [submarineCable, setSubmarineCable] = useState(''); //海纜名稱
   const [workTitle, setWorkTitle] = useState(''); //海纜作業
@@ -74,7 +70,11 @@ const ResearchBillQuery = ({ setListInfo, setDetailInfo }) => {
     });
   };
 
-  const billQuery = () => {
+  const handleChange = (event) => {
+    setInvoiceStatusQuery({ ...invoiceStatusQuery, [event.target.name]: event.target.checked });
+  };
+
+  const invoiceQuery = () => {
     let tmpQuery = {};
     if (supplierName && supplierName !== '') {
       tmpQuery.SupplierName = supplierName;
@@ -138,20 +138,16 @@ const ResearchBillQuery = ({ setListInfo, setDetailInfo }) => {
       tmpQuery.Status = tmpStatus;
     }
 
-    fetch(searchBillMasterByInvoiceWKMaster, { method: 'POST', body: JSON.stringify(tmpQuery) })
-      .then((res) => res.json())
-      .then((data) => {
-        console.log('查詢成功=>>', data);
-        if (Array.isArray(data)) {
-          setListInfo(data);
-          setDetailInfo([]);
-        }
-      })
-      .catch((e) => console.log('e1=>', e));
-  };
-
-  const handleChange = (event) => {
-    setInvoiceStatusQuery({ ...invoiceStatusQuery, [event.target.name]: event.target.checked });
+    // fetch(searchBillMasterByInvoiceWKMaster, { method: 'POST', body: JSON.stringify(tmpQuery) })
+    //   .then((res) => res.json())
+    //   .then((data) => {
+    //     console.log('查詢成功=>>', data);
+    //     if (Array.isArray(data)) {
+    //       setListInfo(data);
+    //       setDetailInfo([]);
+    //     }
+    //   })
+    //   .catch((e) => console.log('e1=>', e));
   };
 
   useEffect(() => {
@@ -321,7 +317,7 @@ const ResearchBillQuery = ({ setListInfo, setDetailInfo }) => {
             處理狀態：
           </Typography>
         </Grid>
-        <Grid item xs={5} sm={5} md={5} lg={5}>
+        <Grid item md={7}>
           <FormGroup row value={invoiceStatusQuery}>
             <FormControlLabel
               control={
@@ -391,17 +387,8 @@ const ResearchBillQuery = ({ setListInfo, setDetailInfo }) => {
             />
           </FormGroup>
         </Grid>
-        <Grid
-          item
-          xs={6}
-          sm={6}
-          md={6}
-          lg={6}
-          display="flex"
-          justifyContent="end"
-          alignItems="center"
-        >
-          <Button sx={{ mr: '0.5rem' }} variant="contained" onClick={billQuery}>
+        <Grid item md={4} display="flex" justifyContent="end" alignItems="center">
+          <Button sx={{ mr: '0.5rem' }} variant="contained" onClick={invoiceQuery}>
             查詢
           </Button>
           <Button variant="contained" onClick={initQuery}>
@@ -413,4 +400,14 @@ const ResearchBillQuery = ({ setListInfo, setDetailInfo }) => {
   );
 };
 
-export default ResearchBillQuery;
+InvoiceQuery.propTypes = {
+  setListInfo: PropTypes.func,
+  queryApi: PropTypes.string,
+  supNmList: PropTypes.array,
+  submarineCableList: PropTypes.array,
+  bmsList: PropTypes.array,
+  setAction: PropTypes.func,
+  setPage: PropTypes.func,
+};
+
+export default InvoiceQuery;

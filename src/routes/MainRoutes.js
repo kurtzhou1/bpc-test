@@ -21,6 +21,9 @@ const InvoiceWorkManageCreate = Loadable(
 const InvoiceWorkManageEdit = Loadable(
   lazy(() => import('pages/invoiceWorkManage/InvoiceWorkEdit')),
 );
+const InvoiceAttachManage = Loadable(
+  lazy(() => import('pages/invoiceWorkManage/InvoiceAttachManage')),
+);
 // 立帳管理
 const CreateJournal = Loadable(lazy(() => import('pages/createJournal/CreateJournal')));
 const JournalQuery = Loadable(lazy(() => import('pages/createJournal/CreateJournalQuery')));
@@ -205,6 +208,14 @@ const MainRoutes = {
           element: (
             <RequireAuth>
               <InvoiceWorkManageEdit />
+            </RequireAuth>
+          ),
+        },
+        {
+          path: 'InvoiceAttachManage',
+          element: (
+            <RequireAuth>
+              <InvoiceAttachManage />
             </RequireAuth>
           ),
         },
