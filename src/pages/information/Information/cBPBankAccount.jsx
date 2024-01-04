@@ -628,16 +628,6 @@ const Corporates = ({ maxHei, infoList, setInfoList }) => {
                                         <TableCell sx={{ fontSize: '0.5rem' }} align="center">
                                             {id + 1}
                                         </TableCell>
-                                        {/* <TableCell align="center">
-                                            <TextField
-                                                size="small"
-                                                // style={{ width: '30%' }}
-                                                value={corpNameEdit}
-                                                onChange={(e) => {
-                                                    setCorpNameEdit(e.target.value);
-                                                }}
-                                            />
-                                        </TableCell> */}
                                         <TableCell align="center">
                                             <Select
                                                 size="small"
