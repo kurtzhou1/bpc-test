@@ -140,7 +140,7 @@ const columns4 = [
   },
 ];
 
-const PartyDataList = ({ maxHei, infoList, setInfoList }) => {
+const PartyDataList = ({ infoList, setInfoList }) => {
   const dispatch = useDispatch();
   const [submarineCableList, setSubmarineCableList] = useState([]); //海纜名稱下拉選單
   // const [infoList, setInfoList] = useState([]);
@@ -404,7 +404,14 @@ const PartyDataList = ({ maxHei, infoList, setInfoList }) => {
   }, []);
 
   return (
-    <TableContainer id="tableContainer" component={Paper} sx={{ maxHeight: maxHei }}>
+    <TableContainer
+      id="tableContainer"
+      component={Paper}
+      sx={{
+        maxHeight:
+          window.screen.height < 1000 ? window.screen.height * 0.45 : window.screen.height * 0.6,
+      }}
+    >
       <Table stickyHeader>
         <TableHead>
           <TableRow></TableRow>

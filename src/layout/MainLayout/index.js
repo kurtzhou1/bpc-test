@@ -149,7 +149,7 @@ const MainLayout = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [drawerOpen]);
 
-  let tmpTest = 'https://iam-qa.cht.com.tw/auth/realms/B2E/protocol/openid-connect/token';
+  let accessSSO = 'https://iam-qa.cht.com.tw/auth/realms/B2E/protocol/openid-connect/token';
 
   useEffect(() => {
     //haha1
@@ -162,7 +162,7 @@ const MainLayout = () => {
         grant_type: 'authorization_code',
       };
       const searchParams = new URLSearchParams(tmpArray);
-      fetch(tmpTest, {
+      fetch(accessSSO, {
         method: 'POST',
         body: searchParams,
         headers: {

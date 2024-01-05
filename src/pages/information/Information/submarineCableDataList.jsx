@@ -33,7 +33,7 @@ import {
 import { useDispatch } from 'react-redux';
 import { setMessageStateOpen } from 'store/reducers/dropdown';
 
-const SubmarineCableDataList = ({ maxHei, infoList, setInfoList }) => {
+const SubmarineCableDataList = ({ infoList, setInfoList }) => {
   const dispatch = useDispatch();
   const fakeData = [
     {
@@ -179,7 +179,13 @@ const SubmarineCableDataList = ({ maxHei, infoList, setInfoList }) => {
 
   return (
     <>
-      <TableContainer component={Paper} sx={{ maxHeight: maxHei }}>
+      <TableContainer
+        component={Paper}
+        sx={{
+          maxHeight:
+            window.screen.height < 1000 ? window.screen.height * 0.45 : window.screen.height * 0.6,
+        }}
+      >
         <Table sx={{ minWidth: 300 }} stickyHeader>
           <TableHead>
             <TableRow>

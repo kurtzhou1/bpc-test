@@ -10,7 +10,8 @@ import { useDispatch } from 'react-redux';
 import dayjs from 'dayjs';
 
 // redux
-import { setLoginInInfo, setUserInfo } from 'store/reducers/dropdown';
+import { setLoginInInfo, setUserInfo, setMessageStateOpen } from 'store/reducers/dropdown';
+import { activeItem } from 'store/reducers/menu';
 import jwt_decode from 'jwt-decode';
 // render - dashboard
 const DashboardDefault = Loadable(lazy(() => import('pages/dashboard')));
@@ -85,12 +86,12 @@ const fakeData = {
   SysNotify: true,
 };
 
-const RequireAuth = ({ children }) => {
+const RequireAuth = ({ children, item }) => {
   const dispatch = useDispatch();
-  const { isLogin } = useSelector((state) => state.dropdown); //message狀態
+  const { isLogin, userInfo } = useSelector((state) => state.dropdown); //message狀態
   // haha2
   const getExpireTime = localStorage.getItem('expireTime');
-  let tmpTest = 'https://iam-qa.cht.com.tw/auth/realms/B2E/protocol/openid-connect/token';
+  let accessSSO = 'https://iam-qa.cht.com.tw/auth/realms/B2E/protocol/openid-connect/token';
   console.log('window.location.href.indexOf("code")=>>', window.location.href.indexOf('code'));
   console.log(
     '1=>>',
@@ -98,12 +99,23 @@ const RequireAuth = ({ children }) => {
     '2=>>',
     dayjs(getExpireTime).diff(new Date(), 'minute') > 0,
   );
+  console.log('item=>>', item, userInfo[item]);
+
+  const sendNoPermission = () => {
+    // dispatch(
+    //   setMessageStateOpen({
+    //     messageStateOpen: { isOpen: true, severity: 'error', message: '無權限進入' },
+    //   }),
+    // );
+    return window.location.replace(window.location.protocol + '//' + window.location.host);
+  };
 
   if (
     window.location.host.includes('localhost') ||
     dayjs(getExpireTime).diff(new Date(), 'minute') > 0 ||
     isLogin
   ) {
+    if (userInfo[item] === false) sendNoPermission();
     return children;
   } else if (window.location.href.indexOf('code') !== -1) {
     const accessCode = window.location.href.split('code=')[1];
@@ -115,7 +127,7 @@ const RequireAuth = ({ children }) => {
     };
     const searchParams = new URLSearchParams(tmpArray);
     console.log('searchParamshaha1=>>', accessCode);
-    fetch(tmpTest, {
+    fetch(accessSSO, {
       method: 'POST',
       body: searchParams,
       headers: {
@@ -165,6 +177,7 @@ const RequireAuth = ({ children }) => {
                   },
                 }),
               );
+              if (data[item] === false) sendNoPermission();
             })
             .catch((e) => console.log('e1=>', e));
           return children;
@@ -173,11 +186,9 @@ const RequireAuth = ({ children }) => {
         }
       })
       .catch((e) => console.log('e1=>', e));
-    // }
   } else {
     return window.location.replace(ssoUrl);
   }
-  // return children;
 };
 
 const MainRoutes = {
@@ -198,7 +209,7 @@ const MainRoutes = {
         {
           path: 'InvoiceWorkCreate',
           element: (
-            <RequireAuth>
+            <RequireAuth item={'InvoiceWK'}>
               <InvoiceWorkManageCreate />
             </RequireAuth>
           ),
@@ -206,7 +217,7 @@ const MainRoutes = {
         {
           path: 'InvoiceWorkEdit',
           element: (
-            <RequireAuth>
+            <RequireAuth item={'InvoiceWK'}>
               <InvoiceWorkManageEdit />
             </RequireAuth>
           ),
@@ -214,42 +225,8 @@ const MainRoutes = {
         {
           path: 'InvoiceAttachManage',
           element: (
-            <RequireAuth>
+            <RequireAuth item={'InvoiceWK'}>
               <InvoiceAttachManage />
-            </RequireAuth>
-          ),
-        },
-      ],
-    },
-    {
-      path: 'CreditBalance',
-      children: [
-        {
-          path: 'CreditBalanceManage',
-          element: (
-            <RequireAuth>
-              <CreditBalance />
-            </RequireAuth>
-          ),
-        },
-        {
-          path: 'CreditBalanceRefund',
-          element: (
-            <RequireAuth>
-              <CreditBalanceRefund />
-            </RequireAuth>
-          ),
-        },
-      ],
-    },
-    {
-      path: 'CreditMemo',
-      children: [
-        {
-          path: 'CreditMemoManage',
-          element: (
-            <RequireAuth>
-              <CreditMemo />
             </RequireAuth>
           ),
         },
@@ -261,20 +238,15 @@ const MainRoutes = {
         {
           path: 'CreateJournal',
           element: (
-            <RequireAuth>
+            <RequireAuth item={'Invoice'}>
               <CreateJournal />
             </RequireAuth>
           ),
         },
-      ],
-    },
-    {
-      path: 'CreateJournal',
-      children: [
         {
           path: 'JournalQuery',
           element: (
-            <RequireAuth>
+            <RequireAuth item={'Invoice'}>
               <JournalQuery />
             </RequireAuth>
           ),
@@ -287,7 +259,7 @@ const MainRoutes = {
         {
           path: 'GenerateFeeAmount',
           element: (
-            <RequireAuth>
+            <RequireAuth item={'Bill'}>
               <GenerateFeeAmount />
             </RequireAuth>
           ),
@@ -295,7 +267,7 @@ const MainRoutes = {
         {
           path: 'BillAttachManagement',
           element: (
-            <RequireAuth>
+            <RequireAuth item={'Bill'}>
               <BillAttachManagement />
             </RequireAuth>
           ),
@@ -303,7 +275,7 @@ const MainRoutes = {
         {
           path: 'WriteOffInvoice',
           element: (
-            <RequireAuth>
+            <RequireAuth item={'Bill'}>
               <WriteOffInvoice />
             </RequireAuth>
           ),
@@ -317,7 +289,7 @@ const MainRoutes = {
           path: 'SupplierPayment',
           element: (
             <RequireAuth>
-              <SupplierPayment />
+              <SupplierPayment item={'Pay'} />
             </RequireAuth>
           ),
         },
@@ -325,7 +297,7 @@ const MainRoutes = {
           path: 'Correspondence',
           element: (
             <RequireAuth>
-              <Correspondence />
+              <Correspondence item={'Pay'} />
             </RequireAuth>
           ),
         },
@@ -333,7 +305,41 @@ const MainRoutes = {
           path: 'PaymentRecord',
           element: (
             <RequireAuth>
-              <PaymentRecord />
+              <PaymentRecord item={'Pay'} />
+            </RequireAuth>
+          ),
+        },
+      ],
+    },
+    {
+      path: 'CreditBalance',
+      children: [
+        {
+          path: 'CreditBalanceManage',
+          element: (
+            <RequireAuth item={'CB'}>
+              <CreditBalance />
+            </RequireAuth>
+          ),
+        },
+        {
+          path: 'CreditBalanceRefund',
+          element: (
+            <RequireAuth item={'CB'}>
+              <CreditBalanceRefund />
+            </RequireAuth>
+          ),
+        },
+      ],
+    },
+    {
+      path: 'CreditMemo',
+      children: [
+        {
+          path: 'CreditMemoManage',
+          element: (
+            <RequireAuth item={'CM'}>
+              <CreditMemo />
             </RequireAuth>
           ),
         },
@@ -346,7 +352,7 @@ const MainRoutes = {
           path: 'ResearchBill',
           element: (
             <RequireAuth>
-              <ResearchBill />
+              <ResearchBill item={'GlobalQuery'} />
             </RequireAuth>
           ),
         },
@@ -354,7 +360,7 @@ const MainRoutes = {
           path: 'ResearchInvoice',
           element: (
             <RequireAuth>
-              <ResearchInvoice />
+              <ResearchInvoice item={'GlobalQuery'} />
             </RequireAuth>
           ),
         },
@@ -362,25 +368,33 @@ const MainRoutes = {
           path: 'ResearchJournal',
           element: (
             <RequireAuth>
-              <ResearchJournal />
+              <ResearchJournal item={'GlobalQuery'} />
             </RequireAuth>
           ),
         },
       ],
     },
     {
-      path: 'Setting',
+      path: 'Liability',
       element: (
         <RequireAuth>
-          <Information />
+          <LiabilityManage item={'Liability'} />
         </RequireAuth>
       ),
     },
     {
-      path: 'Liability',
+      path: 'Notification',
       element: (
         <RequireAuth>
-          <LiabilityManage />
+          <Notification item={'PartyNotify'} />
+        </RequireAuth>
+      ),
+    },
+    {
+      path: 'Setting',
+      element: (
+        <RequireAuth item={'Data'}>
+          <Information />
         </RequireAuth>
       ),
     },
@@ -389,14 +403,6 @@ const MainRoutes = {
       element: (
         <RequireAuth>
           <UploadManage />
-        </RequireAuth>
-      ),
-    },
-    {
-      path: 'Notification',
-      element: (
-        <RequireAuth>
-          <Notification />
         </RequireAuth>
       ),
     },

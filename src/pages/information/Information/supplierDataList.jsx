@@ -27,7 +27,7 @@ import { setMessageStateOpen } from 'store/reducers/dropdown';
 import DoNotDisturbOnIcon from '@mui/icons-material/DoNotDisturbOn';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 
-const SupplierDataList = ({ maxHei, infoList, setInfoList }) => {
+const SupplierDataList = ({ infoList, setInfoList }) => {
   const dispatch = useDispatch();
   const [submarineCableList, setSubmarineCableList] = useState([]); //海纜名稱下拉選單
   // const [infoList, setInfoList] = useState([]);
@@ -309,7 +309,13 @@ const SupplierDataList = ({ maxHei, infoList, setInfoList }) => {
   }, []);
 
   return (
-    <TableContainer component={Paper} sx={{ maxHeight: maxHei }}>
+    <TableContainer
+      component={Paper}
+      sx={{
+        maxHeight:
+          window.screen.height < 1000 ? window.screen.height * 0.45 : window.screen.height * 0.6,
+      }}
+    >
       <Table sx={{ minWidth: 300 }} stickyHeader>
         <TableHead>
           <TableRow>

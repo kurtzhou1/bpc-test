@@ -27,7 +27,7 @@ const menuItems = {
     liabilityManage,
     notification,
     uploadManage,
-    setting
+    setting,
   ],
 };
 
