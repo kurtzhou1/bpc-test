@@ -22,7 +22,7 @@ import { setLoginInInfo } from 'store/reducers/dropdown';
 import dayjs from 'dayjs';
 
 // api
-import { checktokenForLDAP } from 'components/apis.jsx';
+import { checktokenForLDAP, ssoUrl } from 'components/apis.jsx';
 
 // ==============================|| MAIN LAYOUT ||============================== //
 
@@ -65,48 +65,49 @@ const MainLayout = () => {
   };
 
   // idle time
-  const [isActive, setisActive] = useState(false);
-  let timeoutId;
-  const timeout = 3000;
+  // const [isActive, setisActive] = useState(false);
+  // let timeoutId;
+  // const timeout = 3000;
 
   //清除目前逾時並設定新的逾時
-  const resetTimeout = () => {
-    clearTimeout(timeoutId);
-    timeoutId = setTimeout(() => setisActive(true), timeout);
-  };
+  // const resetTimeout = () => {
+  //   clearTimeout(timeoutId);
+  //   timeoutId = setTimeout(() => setisActive(true), timeout);
+  // };
   //使用者活動時觸發，並在使用者不空閒時重置逾時
-  const onActivity = () => {
-    if (isActive) {
-      setisActive(false);
-    }
-    resetTimeout();
-  };
+  // const onActivity = () => {
+  //   if (isActive) {
+  //     setisActive(false);
+  //   }
+  //   resetTimeout();
+  // };
 
-  useEffect(() => {
-    const events = ['mousemove', 'keydown', 'mousedown', 'touchstart'];
+  // useEffect(() => {
+  //   console.log('timeout=>>', timeout);
+  //   const events = ['mousemove', 'keydown', 'mousedown', 'touchstart'];
 
-    const onVisibilityChange = () => {
-      if (document.visibilityState === 'visible') {
-        resetTimeout();
-      }
-    };
+  //   const onVisibilityChange = () => {
+  //     if (document.visibilityState === 'visible') {
+  //       resetTimeout();
+  //     }
+  //   };
 
-    events.forEach((event) => {
-      window.addEventListener(event, onActivity);
-    });
+  //   events.forEach((event) => {
+  //     window.addEventListener(event, onActivity);
+  //   });
 
-    document.addEventListener('visibilitychange', onVisibilityChange);
+  //   document.addEventListener('visibilitychange', onVisibilityChange);
 
-    resetTimeout();
+  //   resetTimeout();
 
-    return () => {
-      clearTimeout(timeoutId);
-      events.forEach((event) => {
-        window.removeEventListener(event, onActivity);
-      });
-      document.removeEventListener('visibilitychange', onVisibilityChange);
-    };
-  }, [timeout]);
+  //   return () => {
+  //     clearTimeout(timeoutId);
+  //     events.forEach((event) => {
+  //       window.removeEventListener(event, onActivity);
+  //     });
+  //     document.removeEventListener('visibilitychange', onVisibilityChange);
+  //   };
+  // }, [timeout]);
 
   //messageInfo
   const [isLoading, setIsLoading] = useState(false);
@@ -127,9 +128,7 @@ const MainLayout = () => {
     }
   };
   const handleClose = (event, reason) => {
-    if (reason === 'clickaway') {
-      return;
-    }
+    if (reason === 'clickaway') return;
     dispatch(
       setMessageStateOpen({ messageStateOpen: { isOpen: false, severity: '', message: '' } }),
     );
@@ -140,7 +139,6 @@ const MainLayout = () => {
   useEffect(() => {
     setOpen(!matchDownLG);
     dispatch(openDrawer({ drawerOpen: !matchDownLG }));
-
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [matchDownLG]);
 
@@ -223,10 +221,49 @@ const MainLayout = () => {
   }, []);
 
   useEffect(() => {
-    if (messageStateOpen.isOpen) {
-      handleLoading();
-    }
+    if (messageStateOpen.isOpen) handleLoading();
   }, [messageStateOpen.isOpen]);
+
+  const [idleTime, setIdleTime] = useState(0);
+
+  useEffect(() => {
+    let timer;
+    const events = ['mousemove', 'keydown', 'mousedown', 'touchstart'];
+    const resetTimer = () => {
+      setIdleTime(0);
+      clearTimeout(timer);
+      timer = setTimeout(() => {
+        // Here, you can perform actions upon detecting idle time, like logging out the user
+        console.log('User is idle for a specified time.');
+        window.location.replace(ssoUrl);
+        // For instance, you could trigger a function to log out the user or display a message
+      }, 1805000); // Adjust this time according to your requirement (e.g., 5 seconds for testing)
+    };
+
+    const clearTimer = () => {
+      clearTimeout(timer);
+    };
+
+    const handleUserActivity = () => {
+      resetTimer();
+    };
+
+    // Event listeners for user activity
+    events.forEach((event) => {
+      window.addEventListener(event, handleUserActivity);
+    });
+
+    // Initial setup of the timer
+    resetTimer();
+
+    // Cleanup: Remove event listeners and clear timer on unmount
+    return () => {
+      events.forEach((event) => {
+        window.removeEventListener(event, handleUserActivity);
+      });
+      clearTimer();
+    };
+  }, []);
 
   return (
     <Box sx={{ display: 'flex', width: '100%' }}>

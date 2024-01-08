@@ -36,7 +36,7 @@ const initialState = {
   // userInfo: {   UserID: 'cht_frank',
   // InvoiceWK: false, //發票工作管理
   // Invoice: false, // 立帳管理
-  // Bill: false, //應收帳款管理
+  // Bill: false, //應收帳款管理`
   // Pay: false, //廠商付款處理
   // CB: false, //CB
   // CM: false, //CN

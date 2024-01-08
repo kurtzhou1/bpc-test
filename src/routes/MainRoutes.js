@@ -10,8 +10,7 @@ import { useDispatch } from 'react-redux';
 import dayjs from 'dayjs';
 
 // redux
-import { setLoginInInfo, setUserInfo, setMessageStateOpen } from 'store/reducers/dropdown';
-import { activeItem } from 'store/reducers/menu';
+import { setLoginInInfo, setUserInfo } from 'store/reducers/dropdown';
 import jwt_decode from 'jwt-decode';
 // render - dashboard
 const DashboardDefault = Loadable(lazy(() => import('pages/dashboard')));
@@ -59,32 +58,6 @@ const Notification = Loadable(lazy(() => import('pages/notification/Notification
 // 通知管理
 
 // ==============================|| MAIN ROUTING ||============================== //
-
-const fakeData = {
-  UserID: 'cht_frank',
-  CB: true,
-  Role: true,
-  UPerMIDNo: 4,
-  CM: true,
-  System: true,
-  UserCName: '\u8463\u5b87\u54f2',
-  GlobalQuery: true,
-  SupplierNotify: true,
-  InvoiceWK: true,
-  Report: true,
-  Superior: true,
-  Invoice: true,
-  Data: true,
-  PCode: 'R0',
-  Bill: true,
-  Liability: true,
-  HashedPassword: '$2b$12$vXyuPMAmfL2HkVY8MgAg6.N0j5Mf/v5yK627zSWwjz.orwTgiqUBS',
-  Pay: true,
-  PartyNotify: true,
-  ProfilePhotoURI:
-    'http://chtds.cht.com.tw/photo/Lyncphoto/j4NKy4NKyhloyKHrO1S3/n/y6tKy4tez2VUy3Ve.jpg',
-  SysNotify: true,
-};
 
 const RequireAuth = ({ children, item }) => {
   const dispatch = useDispatch();
