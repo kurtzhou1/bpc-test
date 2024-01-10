@@ -224,13 +224,13 @@ const MainLayout = () => {
     if (messageStateOpen.isOpen) handleLoading();
   }, [messageStateOpen.isOpen]);
 
-  const [idleTime, setIdleTime] = useState(0);
+  // const [idleTime, setIdleTime] = useState(0);
 
   useEffect(() => {
     let timer;
     const events = ['mousemove', 'keydown', 'mousedown', 'touchstart'];
     const resetTimer = () => {
-      setIdleTime(0);
+      // setIdleTime(0);
       clearTimeout(timer);
       timer = setTimeout(() => {
         // Here, you can perform actions upon detecting idle time, like logging out the user

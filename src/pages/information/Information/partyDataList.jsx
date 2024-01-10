@@ -392,6 +392,10 @@ const PartyDataList = ({ infoList, setInfoList }) => {
       .catch((e) => console.log('e1=>', e));
   };
 
+  const handleCross = (email) => {
+    return email.split(';').map((i) => <Box>{i}</Box>);
+  };
+
   useEffect(() => {
     queryPartiesInfo();
     //海纜名稱
@@ -659,6 +663,7 @@ const PartyDataList = ({ infoList, setInfoList }) => {
                   <TextField
                     size="small"
                     value={email}
+                    label="多個Email請用;分隔"
                     onChange={(e) => {
                       setEmail(e.target.value);
                     }}
@@ -868,7 +873,7 @@ const PartyDataList = ({ infoList, setInfoList }) => {
                         <StyledTableCell align="center">{row.CompanyName}</StyledTableCell>
                         <StyledTableCell align="center">{row.Address}</StyledTableCell>
                         <StyledTableCell align="center">{row.Contact}</StyledTableCell>
-                        <StyledTableCell align="center">{row.Email}</StyledTableCell>
+                        <StyledTableCell align="center">{handleCross(row.Email)}</StyledTableCell>
                         <StyledTableCell align="center">{row.Tel}</StyledTableCell>
                       </>
                     ) : (
