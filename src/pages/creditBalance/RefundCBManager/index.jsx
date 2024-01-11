@@ -4,8 +4,8 @@ import { Grid, Button, Typography, TextField } from '@mui/material';
 
 // project import
 import MainCard from 'components/MainCard';
-import CreditBalanceQuery from './creditBalanceQuery';
-import CreditBalanceDataList from './creditBalanceDataList';
+import CreditBalanceQuery from './refundCBManagerQuery';
+import CreditBalanceDataList from './refundCBManagerDataList';
 
 import { BootstrapDialogTitle } from 'components/commonFunction';
 
@@ -14,12 +14,7 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogActions from '@mui/material/DialogActions';
 
 // api
-import {
-  getPartiesInfoList,
-  submarineCableInfoList,
-  queryCB,
-  creditBalanceRefund,
-} from 'components/apis';
+import { getPartiesInfoList, submarineCableInfoList, refundView, cBRefund } from 'components/apis';
 
 // redux
 import { useDispatch } from 'react-redux';
@@ -38,7 +33,7 @@ const CreditBalance = () => {
 
   const creditBalanceQuery = () => {
     let tmpQuery = '/all';
-    tmpQuery = queryCB + tmpQuery;
+    tmpQuery = refundView + tmpQuery;
     queryApi.current = tmpQuery;
     fetch(tmpQuery, { method: 'GET' })
       .then((res) => res.json())
@@ -52,41 +47,33 @@ const CreditBalance = () => {
   };
 
   const sendRefund = () => {
-    if (cbRefundData.length === 0) {
-      dispatch(
-        setMessageStateOpen({
-          messageStateOpen: { isOpen: true, severity: 'error', message: '請至少勾選一筆項目' },
-        }),
-      );
-    } else if (note === '') {
-      dispatch(
-        setMessageStateOpen({
-          messageStateOpen: { isOpen: true, severity: 'error', message: '請填寫終止原因' },
-        }),
-      );
-    } else {
-      console.log('cbRefundData=>>', cbRefundData);
-      let tmpArray = cbRefundData.map((i) => {
-        return { ...i, RefundAmount: Number(i.RefundAmount) };
-      });
-      let sendData = {
-        CBRefundData: tmpArray,
-        Note: note,
-      };
-      fetch(creditBalanceRefund, {
+    console.log('cbToCn=>>', cbToCn);
+    let tmpArray = [];
+    listInfo.forEach((i) => {
+      if (cbToCn[i.CBID]) tmpArray.push({ CBStateID: i.CBID });
+    });
+    console.log('tmpArray=>>', tmpArray);
+    if (tmpArray.length > 0) {
+      fetch(cBRefund, {
         method: 'POST',
-        body: JSON.stringify(sendData),
+        body: JSON.stringify(tmpArray),
       })
         .then((res) => res.json())
         .then(() => {
           dispatch(
             setMessageStateOpen({
-              messageStateOpen: { isOpen: true, severity: 'success', message: '終止成功' },
+              messageStateOpen: { isOpen: true, severity: 'success', message: '送出成功' },
             }),
           );
           creditBalanceQuery();
         })
         .catch((e) => console.log('e1=>', e));
+    } else {
+      dispatch(
+        setMessageStateOpen({
+          messageStateOpen: { isOpen: true, severity: 'error', message: '請至少勾選一筆項目' },
+        }),
+      );
     }
   };
 
@@ -122,26 +109,19 @@ const CreditBalance = () => {
         </Grid>
         <Grid item xs={12}>
           <MainCard title="Credit Balance資料列表">
-            <CreditBalanceDataList
-              listInfo={listInfo}
-              cbToCn={cbToCn}
-              setCbToCn={setCbToCn}
-              cbRefundData={cbRefundData}
-              setCbRefundData={setCbRefundData}
-            />
+            <CreditBalanceDataList listInfo={listInfo} cbToCn={cbToCn} setCbToCn={setCbToCn} />
           </MainCard>
         </Grid>
         <Grid item xs={12} display="flex" justifyContent="center" alignItems="center">
-          <Button variant="contained" sx={{ mx: 1 }} onClick={() => setInfoTerminal(true)}>
-            送出退費
+          <Button variant="contained" sx={{ mx: 1 }} onClick={() => sendRefund()}>
+            產生退費函稿
           </Button>
         </Grid>
       </Grid>
-      <Dialog maxWidth="xs" fullWidth open={infoTerminal}>
+      {/* <Dialog maxWidth="xs" fullWidth open={infoTerminal}>
         <BootstrapDialogTitle>確認終止訊息</BootstrapDialogTitle>
         <DialogContent dividers>
           <Grid container spacing={1} display="flex" justifyContent="center" alignItems="center">
-            {/* row3 */}
             <Grid item xs={12} sm={12} md={12} lg={12} display="flex">
               <Typography
                 variant="h5"
@@ -166,20 +146,14 @@ const CreditBalance = () => {
           </Grid>
         </DialogContent>
         <DialogActions>
-          <Button
-            sx={{ mr: '0.05rem' }}
-            variant="contained"
-            onClick={() => {
-              sendRefund();
-            }}
-          >
+          <Button sx={{ mr: '0.05rem' }} variant="contained" onClick={() => sendRefund()}>
             確定
           </Button>
           <Button sx={{ mr: '0.05rem' }} variant="contained" onClick={() => setInfoTerminal(false)}>
             關閉
           </Button>
         </DialogActions>
-      </Dialog>
+      </Dialog> */}
     </>
   );
 };

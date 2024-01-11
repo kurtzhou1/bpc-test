@@ -43,7 +43,7 @@ const CreditBalanceManage = {
           id: 'item53',
           title: '退費函稿管理',
           type: 'item',
-          url: '/CreditBalance/CreditBalanceManage',
+          url: '/CreditBalance/RefundCBManager',
           icon: icons.TagOutlined,
           breadcrumbs: true,
         },

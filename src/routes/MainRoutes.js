@@ -30,6 +30,7 @@ const JournalQuery = Loadable(lazy(() => import('pages/createJournal/CreateJourn
 // Credit Balance
 const CreditBalance = Loadable(lazy(() => import('pages/creditBalance/CreditBalance')));
 const CreditBalanceRefund = Loadable(lazy(() => import('pages/creditBalance/CreditBalanceRefund')));
+const RefundCBManager = Loadable(lazy(() => import('pages/creditBalance/RefundCBManager')));
 // Credit Memo
 const CreditMemo = Loadable(lazy(() => import('pages/creditMemo/CreditMemo')));
 // 應收帳款管理
@@ -300,6 +301,14 @@ const MainRoutes = {
           element: (
             <RequireAuth item={'CB'}>
               <CreditBalanceRefund />
+            </RequireAuth>
+          ),
+        },
+        {
+          path: 'RefundCBManager',
+          element: (
+            <RequireAuth item={'CB'}>
+              <RefundCBManager />
             </RequireAuth>
           ),
         },

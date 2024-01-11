@@ -8,9 +8,7 @@ import {
   Select,
   MenuItem,
   Box,
-  Radio,
   FormGroup,
-  RadioGroup,
   FormControlLabel,
   Checkbox,
 } from '@mui/material';
@@ -20,94 +18,91 @@ import MainCard from 'components/MainCard';
 
 // day
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import { DesktopDatePicker } from '@mui/x-date-pickers/DesktopDatePicker';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import dayjs from 'dayjs';
 import { DateRangePicker } from '@mui/x-date-pickers-pro/DateRangePicker';
 import { TextField } from '@mui/material/index';
 
 // api
-import {
-  searchInvoiceWKMasterByBillMaster,
-  submarineCableInfoList,
-  getPartiesInfoList,
-} from 'components/apis.jsx';
+import { refundView } from 'components/apis.jsx';
 
 // ==============================|| SAMPLE PAGE ||============================== //
 
-const ResearchBillQuery = ({ setListInfo, setDetailInfo }) => {
+const CreditBalanceQuery = ({ setListInfo, partiesList, submarineCableList, queryApi }) => {
   const [partyName, setPartyName] = useState(''); //會員名稱
+  const [cBType, setCBType] = useState(''); //CB種類
   const [submarineCable, setSubmarineCable] = useState(''); //海纜名稱
   const [workTitle, setWorkTitle] = useState(''); //海纜作業
-  const [dueDate, setDueDate] = useState(null); //發票日期
-  const [billingNo, setBillingNo] = useState(''); //發票號碼
-  const [submarineCableList, setSubmarineCableList] = useState([]); //海纜名稱下拉選單
-  const [partiesList, setPartiesList] = useState([]); //會員下拉選單
+  const [currAmount, setCurrAmount] = useState({ TRUE: false, FALSE: false }); //剩餘金額
+  const [createDate, setCreateDate] = useState([null, null]); //建立日期
 
   const initQuery = () => {
     setPartyName('');
+    setCBType('');
     setSubmarineCable('');
     setWorkTitle('');
-    setDueDate(null);
-    setBillingNo('');
+    setCurrAmount({ TRUE: false, FALSE: false });
+    setCreateDate([null, null]);
   };
 
-  const invoiceQuery = () => {
-    let tmpQuery = {};
+  const creditBalanceQuery = () => {
+    let tmpQuery = '/';
     if (partyName && partyName !== '') {
-      // tmpQuery = tmpQuery + 'SupplierName=' + supplierName + '&';
-      tmpQuery.PartyName = partyName;
+      tmpQuery = tmpQuery + 'PartyName=' + partyName + '&';
     }
     if (submarineCable && submarineCable !== '') {
-      // tmpQuery = tmpQuery + 'SubmarineCable=' + submarineCable + '&';
-      tmpQuery.SubmarineCable = submarineCable;
+      tmpQuery = tmpQuery + 'SubmarineCable=' + submarineCable + '&';
     }
+    if (cBType && cBType !== '') {
+      tmpQuery = tmpQuery + 'CBType=' + cBType + '&';
+    }
+
     if (workTitle && workTitle !== '') {
-      // tmpQuery = tmpQuery + 'WorkTitle=' + workTitle + '&';
-      tmpQuery.WorkTitle = workTitle;
+      tmpQuery = tmpQuery + 'WorkTitle=' + workTitle + '&';
     }
-    if (billingNo && billingNo !== '') {
-      // tmpQuery = tmpQuery + 'BillMilestone=' + billingNo + '&';
-      tmpQuery.BillingNo = billingNo;
+    if (createDate[0] && createDate[1]) {
+      tmpQuery =
+        tmpQuery +
+        'startCreateDate=' +
+        dayjs(createDate[0]).format('YYYYMMDD') +
+        '&' +
+        'endCreateDate=' +
+        dayjs(createDate[1]).format('YYYYMMDD') +
+        '&';
     }
-    if (dueDate) {
-      tmpQuery.startDueDate = dayjs(dueDate).format('YYYYMMDD');
-      tmpQuery.endDueDate = dayjs(dueDate).format('YYYYMMDD');
+    if (currAmount?.TRUE && !currAmount?.FALSE) {
+      tmpQuery = tmpQuery + 'CurrAmount=true&';
+    }
+    if (currAmount?.FALSE && !currAmount?.TRUE) {
+      tmpQuery = tmpQuery + 'CurrAmount=false&';
     }
 
+    if (tmpQuery.includes('&')) {
+      tmpQuery = tmpQuery.slice(0, -1);
+    } else {
+      tmpQuery = tmpQuery + 'all';
+    }
+
+    tmpQuery = refundView + tmpQuery;
     console.log('tmpQuery=>>', tmpQuery);
-
-    fetch(searchInvoiceWKMasterByBillMaster, { method: 'POST', body: JSON.stringify(tmpQuery) })
+    queryApi.current = tmpQuery;
+    fetch(tmpQuery, { method: 'GET' })
       .then((res) => res.json())
       .then((data) => {
         console.log('查詢成功=>>', data);
         if (Array.isArray(data)) {
           setListInfo(data);
-          setDetailInfo([]);
         }
       })
       .catch((e) => console.log('e1=>', e));
   };
 
-  useEffect(() => {
-    //海纜名稱
-    fetch(submarineCableInfoList, { method: 'GET' })
-      .then((res) => res.json())
-      .then((data) => {
-        setSubmarineCableList(data);
-      })
-      .catch((e) => console.log('e1=>', e));
-    //會員名稱
-    fetch(getPartiesInfoList, { method: 'GET' })
-      .then((res) => res.json())
-      .then((data) => {
-        setPartiesList(data);
-      })
-      .catch((e) => console.log('e1=>', e));
-  }, []);
+  const handleChange = (event) => {
+    setCurrAmount({ ...currAmount, [event.target.name]: event.target.checked });
+  };
 
   return (
-    <MainCard title="條件查詢" sx={{ width: '100%' }}>
+    <MainCard title="餘額查詢" sx={{ width: '100%' }}>
       <Grid container display="flex" alignItems="center" spacing={2}>
         {/* row1 */}
         <Grid item sm={1} md={1} lg={1}>
@@ -124,6 +119,24 @@ const ResearchBillQuery = ({ setListInfo, setDetailInfo }) => {
                   {i}
                 </MenuItem>
               ))}
+            </Select>
+          </FormControl>
+        </Grid>
+        <Grid item sm={1} md={1} lg={1}>
+          <Typography variant="h5" sx={{ fontSize: { lg: '0.7rem', xl: '0.88rem' } }}>
+            CB種類：
+          </Typography>
+        </Grid>
+        <Grid item xs={2} sm={2} md={2} lg={2}>
+          <FormControl fullWidth size="small">
+            <InputLabel>選擇CB種類</InputLabel>
+            <Select value={cBType} label="發票供應商" onChange={(e) => setCBType(e.target.value)}>
+              {/* <MenuItem value={'一般'}>一般</MenuItem> */}
+              <MenuItem value={'MWG'}>MWG</MenuItem>
+              <MenuItem value={'重溢繳'}>重溢繳</MenuItem>
+              <MenuItem value={'賠償'}>賠償</MenuItem>
+              <MenuItem value={'賠償'}>預付</MenuItem>
+              <MenuItem value={'其他'}>其他</MenuItem>
             </Select>
           </FormControl>
         </Grid>
@@ -167,41 +180,66 @@ const ResearchBillQuery = ({ setListInfo, setDetailInfo }) => {
             </Select>
           </FormControl>
         </Grid>
-        <Grid item sm={1} md={1} lg={1}>
-          <Typography variant="h5" sx={{ fontSize: { lg: '0.7rem', xl: '0.88rem' } }}>
-            帳單號碼：
+        {/* row2 */}
+        <Grid item xs={2} sm={2} md={1} lg={1} display="flex">
+          <Typography
+            variant="h5"
+            sx={{ fontSize: { lg: '0.7rem', xl: '0.88rem' }, ml: { lg: '0rem', xl: '0rem' } }}
+          >
+            剩餘金額：
           </Typography>
         </Grid>
         <Grid item xs={2} sm={2} md={2} lg={2}>
-          <FormControl fullWidth size="small">
-            <TextField
-              fullWidth
-              variant="outlined"
-              value={billingNo}
-              size="small"
-              label="填寫帳單號碼"
-              onChange={(e) => setBillingNo(e.target.value)}
-            />
+          <FormControl row size="small">
+            <FormGroup row size="small" value={currAmount}>
+              <FormControlLabel
+                control={
+                  <Checkbox
+                    name={'TRUE'}
+                    checked={currAmount.TRUE}
+                    onChange={handleChange}
+                    sx={{ '& .MuiSvgIcon-root': { fontSize: { lg: 14, xl: 20 } } }}
+                  />
+                }
+                label="有"
+              />
+              <FormControlLabel
+                control={
+                  <Checkbox
+                    name={'FALSE'}
+                    checked={currAmount.FALSE}
+                    onChange={handleChange}
+                    sx={{ '& .MuiSvgIcon-root': { fontSize: { lg: 14, xl: 20 } } }}
+                  />
+                }
+                label="無"
+              />
+            </FormGroup>
           </FormControl>
         </Grid>
-        {/* row2 */}
-        <Grid item sm={1} md={1} lg={1}>
+        <Grid item xs={2} sm={2} md={1} lg={1}>
           <Typography variant="h5" sx={{ fontSize: { lg: '0.7rem', xl: '0.88rem' } }}>
-            帳單日期：
+            建立日期：
           </Typography>
         </Grid>
-        <Grid item xs={5} sm={5} md={5} lg={5} display="flex" alignItems="center">
+        <Grid item xs={4} sm={4} md={4} lg={4}>
           <LocalizationProvider
             dateAdapter={AdapterDayjs}
             localeText={{ start: '起始日', end: '結束日' }}
           >
-            <DesktopDatePicker
+            <DateRangePicker
               inputFormat="YYYY/MM/DD"
-              value={dueDate}
+              value={createDate}
               onChange={(e) => {
-                setDueDate(e);
+                setCreateDate(e);
               }}
-              renderInput={(params) => <TextField size="small" {...params} />}
+              renderInput={(startProps, endProps) => (
+                <>
+                  <TextField fullWidth size="small" {...startProps} />
+                  <Box sx={{ mx: 1 }}> to </Box>
+                  <TextField fullWidth size="small" {...endProps} />
+                </>
+              )}
             />
           </LocalizationProvider>
         </Grid>
@@ -209,13 +247,13 @@ const ResearchBillQuery = ({ setListInfo, setDetailInfo }) => {
           item
           xs={6}
           sm={6}
-          md={6}
-          lg={6}
+          md={4}
+          lg={4}
           display="flex"
           justifyContent="end"
           alignItems="center"
         >
-          <Button sx={{ mr: '0.5rem' }} variant="contained" onClick={invoiceQuery}>
+          <Button sx={{ mr: '0.5rem' }} variant="contained" onClick={creditBalanceQuery}>
             查詢
           </Button>
           <Button variant="contained" onClick={initQuery}>
@@ -227,4 +265,4 @@ const ResearchBillQuery = ({ setListInfo, setDetailInfo }) => {
   );
 };
 
-export default ResearchBillQuery;
+export default CreditBalanceQuery;

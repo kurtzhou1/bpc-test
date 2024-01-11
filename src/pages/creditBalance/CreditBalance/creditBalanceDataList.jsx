@@ -46,7 +46,7 @@ const CreditBalanceDataList = ({ listInfo }) => {
 
   return (
     <>
-      <TableContainer component={Paper} sx={{ maxHeight: 350 }}>
+      <TableContainer component={Paper} sx={{ maxHeight: window.screen.height * 0.5 }}>
         <Table sx={{ minWidth: 300 }} stickyHeader>
           <TableHead>
             <TableRow>

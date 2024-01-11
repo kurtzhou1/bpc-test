@@ -3,7 +3,7 @@ import { useRef, useState } from 'react';
 // project import
 import { handleNumber } from 'components/commonFunction';
 // material-ui
-import { Table, Checkbox, TextField } from '@mui/material';
+import { Table, Checkbox } from '@mui/material';
 import TableBody from '@mui/material/TableBody';
 import TableCell, { tableCellClasses } from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
@@ -27,34 +27,9 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
   },
 }));
 
-const CreditBalanceDataList = ({ listInfo, cbToCn, setCbToCn, cbRefundData, setCbRefundData }) => {
+const CreditBalanceDataList = ({ listInfo, cbToCn, setCbToCn }) => {
   const handleChange = (event) => {
     setCbToCn({ ...cbToCn, [event.target.value]: event.target.checked });
-    if (!event.target.checked) {
-      console.log('cbRefundData=>>', cbRefundData, event.target.value);
-      let tempArray = cbRefundData.filter((i) => i.CBID.toString() !== event.target.value);
-      console.log('tempArray=>>', tempArray);
-      setCbRefundData(tempArray);
-    }
-  };
-
-  const changeRefund = (refundAmount, cbid) => {
-    let tmpArray = cbRefundData.map((i) => i);
-    if (tmpArray.length > 0) {
-      tmpArray.forEach((i) => {
-        if (i.CBID === cbid) i.RefundAmount = refundAmount;
-      });
-    }
-    if (!tmpArray.find((i) => i.CBID === cbid))
-      tmpArray.push({ CBID: cbid, RefundAmount: refundAmount });
-    setCbRefundData(tmpArray);
-  };
-
-  const handleRefund = (cbid) => {
-    let tmpArray = cbRefundData.find((i) => i.CBID === cbid);
-    if (!tmpArray?.RefundAmount) return '0.00';
-    let tmpNumber = handleNumber(tmpArray.RefundAmount);
-    return tmpNumber;
   };
 
   return (
@@ -72,10 +47,9 @@ const CreditBalanceDataList = ({ listInfo, cbToCn, setCbToCn, cbRefundData, setC
               <StyledTableCell align="center">計帳段號</StyledTableCell>
               <StyledTableCell align="center">海纜名稱</StyledTableCell>
               <StyledTableCell align="center">海纜作業</StyledTableCell>
-              <StyledTableCell align="center">剩餘金額</StyledTableCell>
+              <StyledTableCell align="center">退費金額</StyledTableCell>
               <StyledTableCell align="center">建立日期</StyledTableCell>
               <StyledTableCell align="center">摘要說明</StyledTableCell>
-              <StyledTableCell align="center">退費金額</StyledTableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -101,23 +75,12 @@ const CreditBalanceDataList = ({ listInfo, cbToCn, setCbToCn, cbRefundData, setC
                   <StyledTableCell align="center">{row.SubmarineCable}</StyledTableCell>
                   <StyledTableCell align="center">{row.WorkTitle}</StyledTableCell>
                   <StyledTableCell align="center">{`$${handleNumber(
-                    row.CurrAmount,
+                    row.TransAmount,
                   )}`}</StyledTableCell>
                   <StyledTableCell align="center">
                     {dayjs(row.CreateDate).format('YYYY/MM/DD')}
                   </StyledTableCell>
                   <StyledTableCell align="center">{row.Note}</StyledTableCell>
-                  <StyledTableCell align="center">
-                    <TextField
-                      size="small"
-                      sx={{ minWidth: 75 }}
-                      disabled={!cbToCn[row?.CBID]}
-                      value={handleRefund(row.CBID)}
-                      onChange={(e) => {
-                        changeRefund(e.target.value, row.CBID);
-                      }}
-                    />
-                  </StyledTableCell>
                 </TableRow>
               );
             })}
