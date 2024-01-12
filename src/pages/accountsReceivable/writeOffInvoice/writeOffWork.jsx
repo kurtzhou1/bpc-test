@@ -538,7 +538,7 @@ const WriteOffWork = ({
                         tmpcbAmountTotal = tmpcbAmountTotal + (row.CBWriteOffAmount || 0); //CB加總
                         return (
                           <TableRow
-                            key={id + row?.InvoiceNo + row?.FeeItem + row?.OrgFeeAmount}
+                            key={id + row?.InvoiceNo + row?.FeeItem + row?.OrgFeeAmount + id}
                             sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                           >
                             <TableCell align="center" sx={{ minWidth: 75 }}>

@@ -120,7 +120,7 @@ const ToGenerateDataList = ({ dataList, receivableQuery }) => {
             {dataList?.map((row, id) => {
               return (
                 <TableRow
-                  key={row.BillMaster.BillMasterID + row.BillMaster.BillingNo}
+                  key={row.BillMaster.BillMasterID + row.BillMaster.BillingNo + id}
                   sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                 >
                   <StyledTableCell align="center">{id + 1}</StyledTableCell>

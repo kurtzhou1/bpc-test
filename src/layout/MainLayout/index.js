@@ -179,7 +179,7 @@ const MainLayout = () => {
                 },
               }),
             );
-            localStorage.setItem('expireTime', dayjs().add(31, 'minute'));
+            // localStorage.setItem('expireTime', dayjs().add(31, 'minute'));
             // 傳送使用者資料取得權限
             fetch(checktokenForLDAP, { method: 'POST', body: JSON.stringify(data.access_token) })
               .then((res) => res.json())
@@ -217,7 +217,6 @@ const MainLayout = () => {
         })
         .catch((e) => console.log('e1=>', e));
     }
-    // localStorage.setItem('expireTime', dayjs().add(31, 'minute'));
   }, []);
 
   useEffect(() => {

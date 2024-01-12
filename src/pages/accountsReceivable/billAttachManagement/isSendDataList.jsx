@@ -132,7 +132,7 @@ const IsSendDataList = ({ dataList, receivableQuery }) => {
             {dataList?.map((row, id) => {
               return (
                 <TableRow
-                  key={row.BillMaster?.BillingNo + row.BillMaster?.FeeAmountSum}
+                  key={row.BillMaster?.BillingNo + row.BillMaster?.FeeAmountSum + id}
                   sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                 >
                   <StyledTableCell align="center">{id + 1}</StyledTableCell>

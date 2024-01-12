@@ -72,6 +72,8 @@ const ToCombineDataList = ({
     setCbToCn({ ...cbToCn, [event.target.value]: event.target.checked });
   };
 
+  console.log('cbToCn=>>', cbToCn);
+
   const handleCancel = () => {
     handleDialogClose();
     setIssueDate(new Date());
@@ -190,12 +192,34 @@ const ToCombineDataList = ({
         .then((res) => res.json())
         .then((data) => {
           console.log('data=>>>', data);
-          setBillList(data);
-          billingNoOld.current = data.BillMaster.BillingNo;
-          data.BillDetail.forEach((i) => {
-            tmpAmount = tmpAmount + i.OrgFeeAmount;
-          });
-          totalAmount.current = tmpAmount;
+          if (data?.PartyName === 'PartyName is not unique') {
+            dispatch(
+              setMessageStateOpen({
+                messageStateOpen: {
+                  isOpen: true,
+                  severity: 'error',
+                  message: '請選擇同一會員進行合併帳單',
+                },
+              }),
+            );
+          } else if (data?.SubmarineCable === 'SubmarineCable is not unique') {
+            dispatch(
+              setMessageStateOpen({
+                messageStateOpen: {
+                  isOpen: true,
+                  severity: 'error',
+                  message: '請選擇同一海纜進行合併帳單',
+                },
+              }),
+            );
+          } else {
+            setBillList(data);
+            billingNoOld.current = data.BillMaster.BillingNo;
+            data.BillDetail.forEach((i) => {
+              tmpAmount = tmpAmount + i.OrgFeeAmount;
+            });
+            totalAmount.current = tmpAmount;
+          }
         })
         .catch((e) => console.log('e1=>', e));
     }
@@ -207,16 +231,7 @@ const ToCombineDataList = ({
         <BootstrapDialogTitle>合併帳單作業</BootstrapDialogTitle>
         <DialogContent>
           <Grid container spacing={1} display="flex" justifyContent="center" alignItems="center">
-            <Grid
-              item
-              xs={6}
-              sm={3}
-              md={2}
-              lg={2}
-              display="flex"
-              justifyContent="center"
-              alignItems="center"
-            >
+            <Grid item md={2} lg={2} display="flex" justifyContent="center" alignItems="center">
               <Typography variant="h5" sx={{ fontSize: { lg: '0.7rem', xl: '0.88rem' } }}>
                 帳單到期日期：
               </Typography>
@@ -235,16 +250,7 @@ const ToCombineDataList = ({
                 </LocalizationProvider>
               </FormControl>
             </Grid>
-            <Grid
-              item
-              xs={6}
-              sm={3}
-              md={1}
-              lg={1}
-              display="flex"
-              justifyContent="center"
-              alignItems="center"
-            >
+            <Grid item md={1} lg={1} display="flex" justifyContent="center" alignItems="center">
               <Typography variant="h5" sx={{ fontSize: { lg: '0.7rem', xl: '0.88rem' } }}>
                 PO號碼：
               </Typography>
@@ -262,16 +268,7 @@ const ToCombineDataList = ({
                 }}
               />
             </Grid>
-            <Grid
-              item
-              xs={6}
-              sm={3}
-              md={2}
-              lg={2}
-              display="flex"
-              justifyContent="center"
-              alignItems="center"
-            >
+            <Grid item md={2} lg={2} display="flex" justifyContent="center" alignItems="center">
               <Typography variant="h5" sx={{ fontSize: { lg: '0.7rem', xl: '0.88rem' } }}>
                 帳單號碼：
               </Typography>
@@ -289,16 +286,7 @@ const ToCombineDataList = ({
                 }}
               />
             </Grid>
-            <Grid
-              item
-              xs={0}
-              sm={0}
-              md={1}
-              lg={1}
-              display="flex"
-              justifyContent="start"
-              alignItems="center"
-            >
+            <Grid item md={1} lg={1} display="flex" justifyContent="start" alignItems="center">
               <Button
                 sx={{ ml: '0.rem' }}
                 variant="contained"
@@ -389,7 +377,7 @@ const ToCombineDataList = ({
               tmpBMArray = [];
               return (
                 <TableRow
-                  key={row?.FeeItem + row?.InvoiceNo}
+                  key={row?.FeeItem + row?.InvoiceNo + id}
                   sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                 >
                   <TableCell align="center">

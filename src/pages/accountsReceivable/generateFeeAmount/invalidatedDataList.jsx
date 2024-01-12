@@ -66,7 +66,7 @@ const InvalidatedDataList = ({ dataList }) => {
             {dataList?.map((row, id) => {
               return (
                 <TableRow
-                  key={row.InvoiceWKMaster?.WKMasterID + row.InvoiceWKMaster?.InvoiceNo}
+                  key={row.InvoiceWKMaster?.WKMasterID + row.InvoiceWKMaster?.InvoiceNo + id}
                   sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                 >
                   <StyledTableCell align="center">{id + 1}</StyledTableCell>

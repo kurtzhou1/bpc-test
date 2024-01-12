@@ -75,8 +75,6 @@ const ResearchBillQuery = ({ setListInfo, setDetailInfo }) => {
       tmpQuery.endDueDate = dayjs(dueDate).format('YYYYMMDD');
     }
 
-    console.log('tmpQuery=>>', tmpQuery);
-
     fetch(searchInvoiceWKMasterByBillMaster, { method: 'POST', body: JSON.stringify(tmpQuery) })
       .then((res) => res.json())
       .then((data) => {

@@ -362,7 +362,7 @@ const ToDeductWork = ({
                       }
                       return (
                         <TableRow
-                          key={row.BillDetailID + row?.BillMasterID}
+                          key={row.BillDetailID + row?.BillMasterID + id}
                           sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                         >
                           <TableCell align="center">{id + 1}</TableCell>
@@ -479,7 +479,7 @@ const ToDeductWork = ({
                               row.CurrAmount - tmpDeducted > 0 ? row.CurrAmount - tmpDeducted : 0;
                             return (
                               <TableRow
-                                key={row.CBID + row?.BLDetailID}
+                                key={row.CBID + row?.BLDetailID + id}
                                 sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                               >
                                 <TableCell align="center">{id + 1}</TableCell>

@@ -121,6 +121,8 @@ export const afterBilled =
   'http://internal-cbpsalb-1176080923.ap-northeast-1.elb.amazonaws.com/api/v1/invalidInvoice/afterBilled';
 export const getPayDraftStream =
   'http://internal-cbpsalb-1176080923.ap-northeast-1.elb.amazonaws.com/api/v1/getPayDraftStream';
+export const getPayDraftStreamCBRefund =
+  'http://internal-cbpsalb-1176080923.ap-northeast-1.elb.amazonaws.com/api/v1/getPayDraftStream/CBRefund';
 // 全域查詢
 export const searchBillMasterByInvoiceWKMaster =
   'http://internal-cbpsalb-1176080923.ap-northeast-1.elb.amazonaws.com/api/v1/searchBillMasterByInvoiceWKMaster';
@@ -251,3 +253,5 @@ export const refundView =
   'http://internal-cbpsalb-1176080923.ap-northeast-1.elb.amazonaws.com/api/v1/CBStatement/Refund/view';
 export const cBRefund =
   'http://internal-cbpsalb-1176080923.ap-northeast-1.elb.amazonaws.com/api/v1/initPayDraft/CBRefund';
+export const cBRefundView =
+  'http://internal-cbpsalb-1176080923.ap-northeast-1.elb.amazonaws.com/api/v1/initPayDraft/CBRefund/view';

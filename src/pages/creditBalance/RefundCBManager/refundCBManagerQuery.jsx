@@ -24,11 +24,11 @@ import { DateRangePicker } from '@mui/x-date-pickers-pro/DateRangePicker';
 import { TextField } from '@mui/material/index';
 
 // api
-import { refundView } from 'components/apis.jsx';
+import { refundView, cBRefundView } from 'components/apis.jsx';
 
 // ==============================|| SAMPLE PAGE ||============================== //
 
-const CreditBalanceQuery = ({ setListInfo, partiesList, submarineCableList, queryApi }) => {
+const CreditBalanceQuery = ({ value, setListInfo, partiesList, submarineCableList, queryApi }) => {
   const [partyName, setPartyName] = useState(''); //會員名稱
   const [cBType, setCBType] = useState(''); //CB種類
   const [submarineCable, setSubmarineCable] = useState(''); //海纜名稱
@@ -45,48 +45,60 @@ const CreditBalanceQuery = ({ setListInfo, partiesList, submarineCableList, quer
     setCreateDate([null, null]);
   };
 
-  const creditBalanceQuery = () => {
-    let tmpQuery = '/';
+  const refundQuery = () => {
+    let tmpQuery = {};
+    let queryApiValue = value === 0 ? refundView : cBRefundView;
     if (partyName && partyName !== '') {
-      tmpQuery = tmpQuery + 'PartyName=' + partyName + '&';
+      // tmpQuery = tmpQuery + 'PartyName=' + partyName + '&';
+      if (value === 0) {
+        tmpQuery.PartyName = partyName;
+      } else {
+        tmpQuery.Payee = partyName;
+      }
     }
     if (submarineCable && submarineCable !== '') {
-      tmpQuery = tmpQuery + 'SubmarineCable=' + submarineCable + '&';
+      // tmpQuery = tmpQuery + 'SubmarineCable=' + submarineCable + '&';
+      tmpQuery.SubmarineCable = submarineCable;
     }
     if (cBType && cBType !== '') {
-      tmpQuery = tmpQuery + 'CBType=' + cBType + '&';
+      // tmpQuery = tmpQuery + 'CBType=' + cBType + '&';
+      tmpQuery.CBType = cBType;
     }
-
     if (workTitle && workTitle !== '') {
-      tmpQuery = tmpQuery + 'WorkTitle=' + workTitle + '&';
+      // tmpQuery = tmpQuery + 'WorkTitle=' + workTitle + '&';
+      tmpQuery.WorkTitle = workTitle;
     }
     if (createDate[0] && createDate[1]) {
-      tmpQuery =
-        tmpQuery +
-        'startCreateDate=' +
-        dayjs(createDate[0]).format('YYYYMMDD') +
-        '&' +
-        'endCreateDate=' +
-        dayjs(createDate[1]).format('YYYYMMDD') +
-        '&';
+      // tmpQuery =
+      //   tmpQuery +
+      //   'startCreateDate=' +
+      //   dayjs(createDate[0]).format('YYYYMMDD') +
+      //   '&' +
+      //   'endCreateDate=' +
+      //   dayjs(createDate[1]).format('YYYYMMDD') +
+      //   '&';
+      tmpQuery.startDueDate = dayjs(createDate[0]).format('YYYYMMDD');
+      tmpQuery.endDueDate = dayjs(createDate[1]).format('YYYYMMDD');
     }
     if (currAmount?.TRUE && !currAmount?.FALSE) {
-      tmpQuery = tmpQuery + 'CurrAmount=true&';
+      // tmpQuery = tmpQuery + 'CurrAmount=true&';
+      tmpQuery.CurrAmount = 'true';
     }
     if (currAmount?.FALSE && !currAmount?.TRUE) {
-      tmpQuery = tmpQuery + 'CurrAmount=false&';
+      // tmpQuery = tmpQuery + 'CurrAmount=false&';
+      tmpQuery.CurrAmount = 'false';
     }
 
-    if (tmpQuery.includes('&')) {
-      tmpQuery = tmpQuery.slice(0, -1);
-    } else {
-      tmpQuery = tmpQuery + 'all';
-    }
+    // if (tmpQuery.includes('&')) {
+    //   tmpQuery = tmpQuery.slice(0, -1);
+    // } else {
+    //   tmpQuery = tmpQuery + 'all';
+    // }
 
-    tmpQuery = refundView + tmpQuery;
+    // tmpQuery = refundView + tmpQuery;
     console.log('tmpQuery=>>', tmpQuery);
     queryApi.current = tmpQuery;
-    fetch(tmpQuery, { method: 'GET' })
+    fetch(queryApiValue, { method: 'POST', body: JSON.stringify(tmpQuery) })
       .then((res) => res.json())
       .then((data) => {
         console.log('查詢成功=>>', data);
@@ -102,50 +114,58 @@ const CreditBalanceQuery = ({ setListInfo, partiesList, submarineCableList, quer
   };
 
   return (
-    <MainCard title="餘額查詢" sx={{ width: '100%' }}>
+    <MainCard title="退費函稿查詢" sx={{ width: '100%' }}>
       <Grid container display="flex" alignItems="center" spacing={2}>
         {/* row1 */}
-        <Grid item sm={1} md={1} lg={1}>
-          <Typography variant="h5" sx={{ fontSize: { lg: '0.7rem', xl: '0.88rem' } }}>
-            會員：
-          </Typography>
-        </Grid>
-        <Grid item xs={2} sm={2} md={2} lg={2}>
-          <FormControl fullWidth size="small">
-            <InputLabel>選擇會員</InputLabel>
-            <Select value={partyName} label="會員" onChange={(e) => setPartyName(e.target.value)}>
-              {partiesList.map((i) => (
-                <MenuItem key={i} value={i}>
-                  {i}
-                </MenuItem>
-              ))}
-            </Select>
-          </FormControl>
-        </Grid>
-        <Grid item sm={1} md={1} lg={1}>
-          <Typography variant="h5" sx={{ fontSize: { lg: '0.7rem', xl: '0.88rem' } }}>
-            CB種類：
-          </Typography>
-        </Grid>
-        <Grid item xs={2} sm={2} md={2} lg={2}>
-          <FormControl fullWidth size="small">
-            <InputLabel>選擇CB種類</InputLabel>
-            <Select value={cBType} label="發票供應商" onChange={(e) => setCBType(e.target.value)}>
-              {/* <MenuItem value={'一般'}>一般</MenuItem> */}
-              <MenuItem value={'MWG'}>MWG</MenuItem>
-              <MenuItem value={'重溢繳'}>重溢繳</MenuItem>
-              <MenuItem value={'賠償'}>賠償</MenuItem>
-              <MenuItem value={'賠償'}>預付</MenuItem>
-              <MenuItem value={'其他'}>其他</MenuItem>
-            </Select>
-          </FormControl>
-        </Grid>
-        <Grid item sm={1} md={1} lg={1}>
+        {value === 0 ? (
+          <>
+            <Grid item sm={1} md={1} lg={1} display="flex" justifyContent="center">
+              <Typography variant="h5" sx={{ fontSize: { lg: '0.7rem', xl: '0.88rem' } }}>
+                會員：
+              </Typography>
+            </Grid>
+            <Grid item sm={2} md={2} lg={2}>
+              <FormControl fullWidth size="small">
+                <InputLabel>選擇會員</InputLabel>
+                <Select
+                  value={partyName}
+                  label="會員"
+                  onChange={(e) => setPartyName(e.target.value)}
+                >
+                  {partiesList.map((i) => (
+                    <MenuItem key={i} value={i}>
+                      {i}
+                    </MenuItem>
+                  ))}
+                </Select>
+              </FormControl>
+            </Grid>
+            <Grid item sm={1} md={1} lg={1} display="flex" justifyContent="center">
+              <Typography variant="h5" sx={{ fontSize: { lg: '0.7rem', xl: '0.88rem' } }}>
+                CB種類：
+              </Typography>
+            </Grid>
+            <Grid item sm={2} md={2} lg={2}>
+              <FormControl fullWidth size="small">
+                <InputLabel>選擇CB種類</InputLabel>
+                <Select value={cBType} label="CB種類" onChange={(e) => setCBType(e.target.value)}>
+                  {/* <MenuItem value={'一般'}>一般</MenuItem> */}
+                  <MenuItem value={'MWG'}>MWG</MenuItem>
+                  <MenuItem value={'重溢繳'}>重溢繳</MenuItem>
+                  <MenuItem value={'賠償'}>賠償</MenuItem>
+                  <MenuItem value={'賠償'}>預付</MenuItem>
+                  <MenuItem value={'其他'}>其他</MenuItem>
+                </Select>
+              </FormControl>
+            </Grid>
+          </>
+        ) : null}
+        <Grid item sm={1} md={1} lg={1} display="flex" justifyContent="center">
           <Typography variant="h5" sx={{ fontSize: { lg: '0.7rem', xl: '0.88rem' } }}>
             海纜名稱：
           </Typography>
         </Grid>
-        <Grid item xs={2} sm={2} md={2} lg={2}>
+        <Grid item sm={2} md={2} lg={2}>
           <FormControl fullWidth size="small">
             <InputLabel>選擇海纜名稱</InputLabel>
             <Select
@@ -161,12 +181,12 @@ const CreditBalanceQuery = ({ setListInfo, partiesList, submarineCableList, quer
             </Select>
           </FormControl>
         </Grid>
-        <Grid item sm={1} md={1} lg={1}>
+        <Grid item sm={1} md={1} lg={1} display="flex" justifyContent="center">
           <Typography variant="h5" sx={{ fontSize: { lg: '0.7rem', xl: '0.88rem' } }}>
             海纜作業：
           </Typography>
         </Grid>
-        <Grid item xs={2} sm={2} md={2} lg={2}>
+        <Grid item sm={2} md={2} lg={2}>
           <FormControl fullWidth size="small">
             <InputLabel>選擇海纜作業</InputLabel>
             <Select
@@ -180,80 +200,100 @@ const CreditBalanceQuery = ({ setListInfo, partiesList, submarineCableList, quer
             </Select>
           </FormControl>
         </Grid>
+        {value === 1 ? (
+          <>
+            <Grid item md={1} lg={1} display="flex" justifyContent="center">
+              <Typography variant="h5" sx={{ fontSize: { lg: '0.7rem', xl: '0.88rem' } }}>
+                會員(受款人)：
+              </Typography>
+            </Grid>
+            <Grid item md={2} lg={2}>
+              <FormControl fullWidth size="small">
+                <InputLabel>選擇會員</InputLabel>
+                <Select
+                  value={partyName}
+                  label="會員"
+                  onChange={(e) => setPartyName(e.target.value)}
+                >
+                  {partiesList.map((i) => (
+                    <MenuItem key={i} value={i}>
+                      {i}
+                    </MenuItem>
+                  ))}
+                </Select>
+              </FormControl>
+            </Grid>
+          </>
+        ) : null}
         {/* row2 */}
-        <Grid item xs={2} sm={2} md={1} lg={1} display="flex">
-          <Typography
-            variant="h5"
-            sx={{ fontSize: { lg: '0.7rem', xl: '0.88rem' }, ml: { lg: '0rem', xl: '0rem' } }}
-          >
-            剩餘金額：
-          </Typography>
-        </Grid>
-        <Grid item xs={2} sm={2} md={2} lg={2}>
-          <FormControl row size="small">
-            <FormGroup row size="small" value={currAmount}>
-              <FormControlLabel
-                control={
-                  <Checkbox
-                    name={'TRUE'}
-                    checked={currAmount.TRUE}
-                    onChange={handleChange}
-                    sx={{ '& .MuiSvgIcon-root': { fontSize: { lg: 14, xl: 20 } } }}
+        {value === 0 ? (
+          <>
+            <Grid item sm={2} md={1} lg={1} display="flex" justifyContent="center">
+              <Typography
+                variant="h5"
+                sx={{ fontSize: { lg: '0.7rem', xl: '0.88rem' }, ml: { lg: '0rem', xl: '0rem' } }}
+              >
+                剩餘金額：
+              </Typography>
+            </Grid>
+            <Grid item sm={2} md={2} lg={2}>
+              <FormControl row size="small">
+                <FormGroup row size="small" value={currAmount}>
+                  <FormControlLabel
+                    control={
+                      <Checkbox
+                        name={'TRUE'}
+                        checked={currAmount.TRUE}
+                        onChange={handleChange}
+                        sx={{ '& .MuiSvgIcon-root': { fontSize: { lg: 14, xl: 20 } } }}
+                      />
+                    }
+                    label="有"
                   />
-                }
-                label="有"
-              />
-              <FormControlLabel
-                control={
-                  <Checkbox
-                    name={'FALSE'}
-                    checked={currAmount.FALSE}
-                    onChange={handleChange}
-                    sx={{ '& .MuiSvgIcon-root': { fontSize: { lg: 14, xl: 20 } } }}
+                  <FormControlLabel
+                    control={
+                      <Checkbox
+                        name={'FALSE'}
+                        checked={currAmount.FALSE}
+                        onChange={handleChange}
+                        sx={{ '& .MuiSvgIcon-root': { fontSize: { lg: 14, xl: 20 } } }}
+                      />
+                    }
+                    label="無"
                   />
-                }
-                label="無"
-              />
-            </FormGroup>
-          </FormControl>
-        </Grid>
-        <Grid item xs={2} sm={2} md={1} lg={1}>
-          <Typography variant="h5" sx={{ fontSize: { lg: '0.7rem', xl: '0.88rem' } }}>
-            建立日期：
-          </Typography>
-        </Grid>
-        <Grid item xs={4} sm={4} md={4} lg={4}>
-          <LocalizationProvider
-            dateAdapter={AdapterDayjs}
-            localeText={{ start: '起始日', end: '結束日' }}
-          >
-            <DateRangePicker
-              inputFormat="YYYY/MM/DD"
-              value={createDate}
-              onChange={(e) => {
-                setCreateDate(e);
-              }}
-              renderInput={(startProps, endProps) => (
-                <>
-                  <TextField fullWidth size="small" {...startProps} />
-                  <Box sx={{ mx: 1 }}> to </Box>
-                  <TextField fullWidth size="small" {...endProps} />
-                </>
-              )}
-            />
-          </LocalizationProvider>
-        </Grid>
-        <Grid
-          item
-          xs={6}
-          sm={6}
-          md={4}
-          lg={4}
-          display="flex"
-          justifyContent="end"
-          alignItems="center"
-        >
-          <Button sx={{ mr: '0.5rem' }} variant="contained" onClick={creditBalanceQuery}>
+                </FormGroup>
+              </FormControl>
+            </Grid>
+            <Grid item sm={2} md={1} lg={1} display="flex" justifyContent="center">
+              <Typography variant="h5" sx={{ fontSize: { lg: '0.7rem', xl: '0.88rem' } }}>
+                建立日期：
+              </Typography>
+            </Grid>
+            <Grid item sm={4} md={4} lg={4}>
+              <LocalizationProvider
+                dateAdapter={AdapterDayjs}
+                localeText={{ start: '起始日', end: '結束日' }}
+              >
+                <DateRangePicker
+                  inputFormat="YYYY/MM/DD"
+                  value={createDate}
+                  onChange={(e) => {
+                    setCreateDate(e);
+                  }}
+                  renderInput={(startProps, endProps) => (
+                    <>
+                      <TextField fullWidth size="small" {...startProps} />
+                      <Box sx={{ mx: 1 }}> to </Box>
+                      <TextField fullWidth size="small" {...endProps} />
+                    </>
+                  )}
+                />
+              </LocalizationProvider>
+            </Grid>
+          </>
+        ) : null}
+        <Grid item md={value === 0 ? 4 : 12} display="flex" justifyContent="end">
+          <Button sx={{ mr: '0.5rem' }} variant="contained" onClick={refundQuery}>
             查詢
           </Button>
           <Button variant="contained" onClick={initQuery}>

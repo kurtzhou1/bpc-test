@@ -446,7 +446,7 @@ const ToPaymentDataList = ({
               });
               return (
                 <TableRow
-                  key={row?.InvoiceWKMaster?.WKMasterID + row?.InvoiceWKMaster?.InvoiceNo}
+                  key={row?.InvoiceWKMaster?.WKMasterID + id}
                   sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                 >
                   <TableCell align="center">
@@ -525,56 +525,6 @@ const ToPaymentDataList = ({
                 </TableRow>
               );
             })}
-            {/* {listInfo?.map((row) => {
-                            tmpBMArray = [];
-                            row?.BillDetailList.forEach((i) => {
-                                if (!tmpBMArray.includes(i.BillMilestone)) {
-                                    tmpBMArray.push(i.BillMilestone);
-                                }
-                            });
-                            return (
-                                <TableRow key={row.WKMasterID + row.InvoiceNo} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
-                                    <StyledTableCell align="center">{row?.InvoiceWKMaster?.SubmarineCable}</StyledTableCell>
-                                    <StyledTableCell align="center">{row?.InvoiceWKMaster?.WorkTitle}</StyledTableCell>
-                                    <StyledTableCell align="center">{tmpBMArray.join(',')}</StyledTableCell>
-                                    {isColumn2Open ? (
-                                        <>
-                                            <StyledTableCell align="center">{row?.InvoiceWKMaster?.SupplierName}</StyledTableCell>
-                                            <StyledTableCell align="center">{row?.InvoiceWKMaster?.InvoiceNo}</StyledTableCell>
-                                            <StyledTableCell align="center">
-                                                {handleNumber(row?.InvoiceWKMaster?.TotalAmount)}
-                                            </StyledTableCell>
-                                            <StyledTableCell align="center">{dayjs(row?.DueDate).format('YYYY/MM/DD')}</StyledTableCell>
-                                        </>
-                                    ) : (
-                                        <StyledTableCell align="center">{row.SupplierName}</StyledTableCell>
-                                    )}
-                                    {isColumn3Open ? (
-                                        <>
-                                            <StyledTableCell align="center">{'No. 12345678'}</StyledTableCell>
-                                            <StyledTableCell align="center">{row.PartyName}</StyledTableCell>
-                                            <StyledTableCell align="center">{'測試檔案資料'}</StyledTableCell>
-                                            <StyledTableCell align="center">{handleNumber(123456789)}</StyledTableCell>
-                                            <StyledTableCell align="center">{dayjs(row.IssueDate).format('YYYY/MM/DD')}</StyledTableCell>
-                                            <StyledTableCell align="center">{handleNumber(123456789)}</StyledTableCell>
-                                            <StyledTableCell align="center">{handleNumber(1)}</StyledTableCell>
-                                            <StyledTableCell align="center">{'N/A'}</StyledTableCell>
-                                        </>
-                                    ) : (
-                                        <StyledTableCell align="center">{'No. 12345678'}</StyledTableCell>
-                                    )}
-                                    {isColumn4Open ? (
-                                        <>
-                                            <StyledTableCell align="center">{handleNumber(123456789)}</StyledTableCell>
-                                            <StyledTableCell align="center">{dayjs(row.IssueDate).format('YYYY/MM/DD')}</StyledTableCell>
-                                            <StyledTableCell align="center">{handleNumber(1)}</StyledTableCell>
-                                        </>
-                                    ) : (
-                                        <StyledTableCell align="center">{handleNumber(123456789)}</StyledTableCell>
-                                    )}
-                                </TableRow>
-                            );
-                        })} */}
           </TableBody>
         </Table>
       </TableContainer>

@@ -154,7 +154,7 @@ const SignedDataList = ({ dataList, receivableQuery }) => {
             {dataList?.map((row, id) => {
               return (
                 <TableRow
-                  key={row.InvoiceWKMaster?.BillMasterID + row.InvoiceWKMaster?.InvoiceNo}
+                  key={row.InvoiceWKMaster?.BillMasterID + row.InvoiceWKMaster?.InvoiceNo + id}
                   sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                 >
                   <StyledTableCell align="center">{id + 1}</StyledTableCell>

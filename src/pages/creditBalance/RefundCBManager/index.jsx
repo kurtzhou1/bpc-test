@@ -1,12 +1,13 @@
 import { useState, useRef, useEffect } from 'react';
-import { Grid, Button, Typography, TextField } from '@mui/material';
+import { Grid, Button, Box, Tabs, Tab } from '@mui/material';
 // import { styled } from '@mui/material/styles';
 
 // project import
 import MainCard from 'components/MainCard';
 import CreditBalanceQuery from './refundCBManagerQuery';
-import CreditBalanceDataList from './refundCBManagerDataList';
-
+import RefundCBManagerDataList from './refundCBManagerDataList';
+import RefundDraftDataList from './refundDraftDataList';
+import { TabPanel } from 'components/commonFunction';
 import { BootstrapDialogTitle } from 'components/commonFunction';
 
 import Dialog from '@mui/material/Dialog';
@@ -14,28 +15,40 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogActions from '@mui/material/DialogActions';
 
 // api
-import { getPartiesInfoList, submarineCableInfoList, refundView, cBRefund } from 'components/apis';
+import {
+  getPartiesInfoList,
+  submarineCableInfoList,
+  refundView,
+  cBRefund,
+  cBRefundView,
+} from 'components/apis';
 
 // redux
 import { useDispatch } from 'react-redux';
 import { setMessageStateOpen } from 'store/reducers/dropdown';
 
 const CreditBalance = () => {
-  const queryApi = useRef('/all');
+  const queryApi = useRef({});
+  const [value, setValue] = useState(0);
   const [listInfo, setListInfo] = useState([]);
   const [submarineCableList, setSubmarineCableList] = useState([]); //海纜名稱下拉選單
   const [partiesList, setPartiesList] = useState([]); //會員下拉選單
   const [cbToCn, setCbToCn] = useState({}); //勾選合併狀態
-  const [cbRefundData, setCbRefundData] = useState([]);
-  const [infoTerminal, setInfoTerminal] = useState(false); //作廢
-  const [note, setNote] = useState('');
   const dispatch = useDispatch();
 
+  const a11yProps = (index) => {
+    return {
+      id: `simple-tab-${index}`,
+      'aria-controls': `simple-tabpanel-${index}`,
+    };
+  };
+
+  const handleChange = (event, newValue) => {
+    setValue(newValue);
+  };
+
   const creditBalanceQuery = () => {
-    let tmpQuery = '/all';
-    tmpQuery = refundView + tmpQuery;
-    queryApi.current = tmpQuery;
-    fetch(tmpQuery, { method: 'GET' })
+    fetch(refundView, { method: 'POST', body: JSON.stringify(queryApi.current) })
       .then((res) => res.json())
       .then((data) => {
         console.log('查詢成功=>>', data);
@@ -78,6 +91,19 @@ const CreditBalance = () => {
   };
 
   useEffect(() => {
+    let queryApiValue = value === 0 ? refundView : cBRefundView;
+    fetch(queryApiValue, { method: 'POST', body: JSON.stringify({}) })
+      .then((res) => res.json())
+      .then((data) => {
+        console.log('查詢成功=>>', data);
+        if (Array.isArray(data)) {
+          setListInfo(data);
+        }
+      })
+      .catch((e) => console.log('e1=>', e));
+  }, [value]);
+
+  useEffect(() => {
     //海纜名稱
     fetch(submarineCableInfoList, { method: 'GET' })
       .then((res) => res.json())
@@ -98,9 +124,10 @@ const CreditBalance = () => {
   return (
     <>
       <Grid container spacing={1}>
-        <Grid item xs={12} display="flex" justifyContent="right"></Grid>
+        <Grid item xs={12} display="flex" justifyContent="right" />
         <Grid item xs={12}>
           <CreditBalanceQuery
+            value={value}
             setListInfo={setListInfo}
             partiesList={partiesList}
             submarineCableList={submarineCableList}
@@ -108,52 +135,35 @@ const CreditBalance = () => {
           />
         </Grid>
         <Grid item xs={12}>
-          <MainCard title="Credit Balance資料列表">
-            <CreditBalanceDataList listInfo={listInfo} cbToCn={cbToCn} setCbToCn={setCbToCn} />
+          <MainCard
+            title={`${value === 0 ? '已退費CB' : value === 1 ? '退費函稿' : '已完成'}資料列表`}
+          >
+            <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
+              <Tabs value={value} onChange={handleChange}>
+                <Tab label="已退費CB" {...a11yProps(0)} />
+                <Tab label="退費函稿" {...a11yProps(1)} />
+                <Tab label="已完成" {...a11yProps(2)} />
+              </Tabs>
+            </Box>
+            <TabPanel value={value} index={0}>
+              <RefundCBManagerDataList listInfo={listInfo} cbToCn={cbToCn} setCbToCn={setCbToCn} />
+            </TabPanel>
+            <TabPanel value={value} index={1}>
+              <RefundDraftDataList listInfo={listInfo} />
+            </TabPanel>
+            <TabPanel value={value} index={2}>
+              <RefundCBManagerDataList listInfo={listInfo} cbToCn={cbToCn} setCbToCn={setCbToCn} />
+            </TabPanel>
           </MainCard>
         </Grid>
-        <Grid item xs={12} display="flex" justifyContent="center" alignItems="center">
-          <Button variant="contained" sx={{ mx: 1 }} onClick={() => sendRefund()}>
-            產生退費函稿
-          </Button>
-        </Grid>
-      </Grid>
-      {/* <Dialog maxWidth="xs" fullWidth open={infoTerminal}>
-        <BootstrapDialogTitle>確認終止訊息</BootstrapDialogTitle>
-        <DialogContent dividers>
-          <Grid container spacing={1} display="flex" justifyContent="center" alignItems="center">
-            <Grid item xs={12} sm={12} md={12} lg={12} display="flex">
-              <Typography
-                variant="h5"
-                sx={{
-                  fontSize: { lg: '0.7rem', xl: '0.88rem' },
-                  ml: { lg: '0.5rem', xl: '1.5rem' },
-                }}
-              >
-                是否確定終止此Credit Balance資料
-              </Typography>
-            </Grid>
-            <Grid item xs={12} sm={12} md={12} lg={12} display="flex">
-              <TextField
-                fullWidth
-                variant="outlined"
-                value={note}
-                size="small"
-                label="填寫終止原因"
-                onChange={(e) => setNote(e.target.value)}
-              />
-            </Grid>
+        {value === 0 ? (
+          <Grid item xs={12} display="flex" justifyContent="center" alignItems="center">
+            <Button variant="contained" sx={{ mx: 1 }} onClick={sendRefund}>
+              產生退費函稿
+            </Button>
           </Grid>
-        </DialogContent>
-        <DialogActions>
-          <Button sx={{ mr: '0.05rem' }} variant="contained" onClick={() => sendRefund()}>
-            確定
-          </Button>
-          <Button sx={{ mr: '0.05rem' }} variant="contained" onClick={() => setInfoTerminal(false)}>
-            關閉
-          </Button>
-        </DialogActions>
-      </Dialog> */}
+        ) : null}
+      </Grid>
     </>
   );
 };

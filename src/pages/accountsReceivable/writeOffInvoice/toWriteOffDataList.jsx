@@ -145,7 +145,7 @@ const ToWriteOffDataList = ({ listInfo, writeOffInitQuery }) => {
               });
               return (
                 <TableRow
-                  key={row?.BillMaster?.BillingNo + row?.BillMaster?.PartyName}
+                  key={row?.BillMaster?.BillingNo + row?.BillMaster?.PartyName + id}
                   sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                 >
                   <StyledTableCell align="center">{id + 1}</StyledTableCell>

@@ -416,7 +416,7 @@ const ToPaymentDataList = ({
               console.log('row2222=>>', row);
               return (
                 <TableRow
-                  key={row?.InvoiceWKMaster?.WKMasterID + row?.InvoiceWKMaster?.InvoiceNo}
+                  key={row?.InvoiceWKMaster?.WKMasterID + id}
                   sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                 >
                   <TableCell align="center">

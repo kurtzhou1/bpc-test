@@ -178,11 +178,11 @@ const DedAmountWork = ({
                     </TableRow>
                   </TableHead>
                   <TableBody>
-                    {cmListInfo?.map((row) => {
+                    {cmListInfo?.map((row, id) => {
                       let tmpDedAmount = row.DedAmount ? row.DedAmount : row.CurrAmount;
                       return (
                         <TableRow
-                          key={row.InvoiceNo + row?.BillMasterID + row?.BillDetailID}
+                          key={row.InvoiceNo + row?.BillMasterID + id}
                           sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                         >
                           <TableCell align="center">{row?.InvoiceNo}</TableCell>

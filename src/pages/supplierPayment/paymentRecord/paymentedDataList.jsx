@@ -83,7 +83,7 @@ const PaymentedDataList = ({ listInfo }) => {
               console.log('row=>>', row);
               return (
                 <TableRow
-                  key={row?.InvoiceWKMaster?.WKMasterID + row?.InvoiceWKMaster?.InvoiceNo}
+                  key={row?.InvoiceWKMaster?.WKMasterID + id}
                   sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                 >
                   <StyledTableCell align="center">{id + 1}</StyledTableCell>

@@ -84,7 +84,7 @@ const SignedDataWork = ({ isDeductedWorkOpen, handleDeductedClose, billDetailInf
                   {dataList.map((row, id) => {
                     return (
                       <TableRow
-                        key={row.BillMasterID + row?.BillDetailID}
+                        key={row.BillMasterID + row?.BillDetailID + id}
                         sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                       >
                         <TableCell align="center">{id + 1}</TableCell>
