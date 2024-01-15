@@ -3,6 +3,8 @@ import { useRef, useState } from 'react';
 // project import
 import { handleNumber } from 'components/commonFunction';
 import CorrespondenceMake from './correspondenceMake';
+import PayDraftUpload from './payDraftUpload';
+
 // material-ui
 import { Table, Box, Button } from '@mui/material';
 import TableBody from '@mui/material/TableBody';
@@ -30,7 +32,9 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
 
 const CreditBalanceDataList = ({ listInfo }) => {
   const payDraftID = useRef(-1);
-  const [isDialogOpen, setIsDialogOpen] = useState(true);
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [isUploadOpen, setIsUploadOpen] = useState(true); //上傳函稿
+  // const payDraftID = useRef(-1);
   const handleDialogOpen = (id) => {
     payDraftID.current = id;
     setIsDialogOpen(true);
@@ -41,12 +45,27 @@ const CreditBalanceDataList = ({ listInfo }) => {
     payDraftID.current = -1;
   };
 
+  const handleUploadClose = () => {
+    setIsUploadOpen(false);
+    payDraftID.current = -1;
+  };
+
+  const handleUploadOpen = (id) => {
+    payDraftID.current = id;
+    setIsUploadOpen(true);
+  };
+
   return (
     <>
       <CorrespondenceMake
         isDialogOpen={isDialogOpen}
         payDraftID={payDraftID.current}
         handleDialogClose={handleDialogClose}
+      />
+      <PayDraftUpload
+        isUploadOpen={isUploadOpen}
+        handleUploadClose={handleUploadClose}
+        payDraftID={payDraftID.current}
       />
       <TableContainer component={Paper} sx={{ maxHeight: window.screen.height * 0.45 }}>
         <Table sx={{ minWidth: 300 }} stickyHeader>
@@ -96,9 +115,9 @@ const CreditBalanceDataList = ({ listInfo }) => {
                         color="success"
                         size="small"
                         variant="outlined"
-                        // onClick={() => {
-                        //   handleDownload(row?.PayDraftID);
-                        // }}
+                        onClick={() => {
+                          handleUploadOpen(row?.PayDraftID);
+                        }}
                       >
                         上傳
                       </Button>
