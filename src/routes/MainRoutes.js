@@ -64,7 +64,7 @@ const RequireAuth = ({ children, item }) => {
   const dispatch = useDispatch();
   const { isLogin, userInfo } = useSelector((state) => state.dropdown); //message狀態
   // haha2
-  // const getExpireTime = localStorage.getItem('expireTime');
+  const getExpireTime = localStorage.getItem('expireTime');
   let accessSSO = 'https://iam-qa.cht.com.tw/auth/realms/B2E/protocol/openid-connect/token';
   console.log('window.location.href.indexOf("code")=>>', window.location.href.indexOf('code'));
   // console.log(
@@ -86,7 +86,7 @@ const RequireAuth = ({ children, item }) => {
 
   if (
     window.location.host.includes('localhost') ||
-    // dayjs(getExpireTime).diff(new Date(), 'minute') > 0 ||
+    dayjs(getExpireTime).diff(new Date(), 'minute') > 0 ||
     isLogin
   ) {
     if (userInfo[item] === false) sendNoPermission();
