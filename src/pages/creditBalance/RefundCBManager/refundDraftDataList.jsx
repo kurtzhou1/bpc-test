@@ -15,7 +15,12 @@ import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import { styled } from '@mui/material/styles';
 
-import dayjs from 'dayjs';
+// api
+import { updatePayDraft } from 'components/apis.jsx';
+
+// redux
+import { useDispatch } from 'react-redux';
+import { setMessageStateOpen } from 'store/reducers/dropdown';
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -31,6 +36,7 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
 }));
 
 const CreditBalanceDataList = ({ listInfo }) => {
+  const dispatch = useDispatch();
   const payDraftID = useRef(-1);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [isUploadOpen, setIsUploadOpen] = useState(true); //上傳函稿
@@ -53,6 +59,26 @@ const CreditBalanceDataList = ({ listInfo }) => {
   const handleUploadOpen = (id) => {
     payDraftID.current = id;
     setIsUploadOpen(true);
+  };
+
+  const handleComplete = (id) => {
+    let tmpArray = {
+      PayDraftID: id,
+      Status: 'COMPLETE',
+    };
+    fetch(updatePayDraft, {
+      method: 'POST',
+      body: JSON.stringify(tmpArray),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        dispatch(
+          setMessageStateOpen({
+            messageStateOpen: { isOpen: true, severity: 'success', message: '完成函稿成功' },
+          }),
+        );
+      })
+      .catch((e) => console.log('e1=>', e));
   };
 
   return (
@@ -125,9 +151,9 @@ const CreditBalanceDataList = ({ listInfo }) => {
                         color="warning"
                         size="small"
                         variant="outlined"
-                        // onClick={() => {
-                        //   handleComplete(row?.PayDraftID);
-                        // }}
+                        onClick={() => {
+                          handleComplete(row?.PayDraftID);
+                        }}
                       >
                         確認完成函稿
                       </Button>
