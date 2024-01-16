@@ -151,69 +151,146 @@ const MainLayout = () => {
 
   useEffect(() => {
     //haha1
+    const getExpireTime = localStorage.getItem('expireTimeCBP');
     if (window.location.href.indexOf('code') !== -1) {
-      const accessCode = window.location.href.split('code=')[1];
-      let tmpArray = {
-        client_id: 'CBPS.QA.I',
-        redirect_uri: 'http://internal-cbpsAlbFrontend-1323185980.ap-northeast-1.elb.amazonaws.com',
-        code: accessCode,
-        grant_type: 'authorization_code',
-      };
-      const searchParams = new URLSearchParams(tmpArray);
-      fetch(accessSSO, {
-        method: 'POST',
-        body: searchParams,
-        headers: {
-          'Content-Type': 'application/x-www-form-urlencoded',
-        },
-      })
-        .then((res) => res.json())
-        .then((data) => {
-          if (data.access_token) {
+      if (dayjs(getExpireTime).diff(new Date(), 'minute') > 0) {
+        // 傳送使用者資料取得權限
+        let accessToken = localStorage.getItem('accessToken');
+        fetch(checktokenForLDAP, {
+          method: 'POST',
+          body: JSON.stringify({ accessToken: accessToken }),
+        })
+          .then((res) => res.json())
+          .then((data) => {
+            console.log('使用者權限資料1=>>', data);
             dispatch(
-              setLoginInInfo({
-                loginInInfo: {
-                  EmployeeNumber: jwt_decode(data.access_token).employeeNumber,
-                  Email: jwt_decode(data.access_token).email,
-                  Name: jwt_decode(data.access_token).name,
+              setUserInfo({
+                userInfo: {
+                  UserCName: data.UserCName,
+                  ProfilePhotoURI: data.ProfilePhotoURI,
+                  CB: data.CB,
+                  Role: data.Role,
+                  CM: data.CM,
+                  System: data.System,
+                  GlobalQuery: data.GlobalQuery,
+                  SupplierNotify: data.SupplierNotify,
+                  InvoiceWK: data.InvoiceWK,
+                  Report: data.Report,
+                  Superior: data.Superior,
+                  Invoice: data.Invoice,
+                  Data: data.Data,
+                  Bill: data.Bill,
+                  Liability: data.Liability,
+                  Pay: data.Pay,
+                  PartyNotify: data.PartyNotify,
+                  SysNotify: data.SysNotify,
                 },
               }),
             );
-            // localStorage.setItem('expireTime', dayjs().add(31, 'minute'));
-            // 傳送使用者資料取得權限
-            fetch(checktokenForLDAP, { method: 'POST', body: JSON.stringify(data.access_token) })
-              .then((res) => res.json())
-              .then((data) => {
-                console.log('使用者權限資料=>>', data);
-                dispatch(
-                  setUserInfo({
-                    userInfo: {
-                      UserCName: data.UserCName,
-                      ProfilePhotoURI: data.ProfilePhotoURI,
-                      CB: data.CB,
-                      Role: data.Role,
-                      CM: data.CM,
-                      System: data.System,
-                      GlobalQuery: data.GlobalQuery,
-                      SupplierNotify: data.SupplierNotify,
-                      InvoiceWK: data.InvoiceWK,
-                      Report: data.Report,
-                      Superior: data.Superior,
-                      Invoice: data.Invoice,
-                      Data: data.Data,
-                      Bill: data.Bill,
-                      Liability: data.Liability,
-                      Pay: data.Pay,
-                      PartyNotify: data.PartyNotify,
-                      SysNotify: data.SysNotify,
-                    },
-                  }),
-                );
-              })
-              .catch((e) => console.log('e1=>', e));
-            // } else {
-            //         window.location.replace(ssoUrl);
-          }
+          })
+          .catch((e) => console.log('e1=>', e));
+      } else {
+        const accessCode = window.location.href.split('code=')[1];
+        let tmpArray = {
+          client_id: 'CBPS.QA.I',
+          redirect_uri:
+            'http://internal-cbpsAlbFrontend-1323185980.ap-northeast-1.elb.amazonaws.com',
+          code: accessCode,
+          grant_type: 'authorization_code',
+        };
+        const searchParams = new URLSearchParams(tmpArray);
+        fetch(accessSSO, {
+          method: 'POST',
+          body: searchParams,
+          headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+          },
+        })
+          .then((res) => res.json())
+          .then((data) => {
+            if (data.access_token) {
+              dispatch(
+                setLoginInInfo({
+                  loginInInfo: {
+                    EmployeeNumber: jwt_decode(data.access_token).employeeNumber,
+                    Email: jwt_decode(data.access_token).email,
+                    Name: jwt_decode(data.access_token).name,
+                  },
+                }),
+              );
+              // localStorage.setItem('expireTime', dayjs().add(31, 'minute'));
+              // 傳送使用者資料取得權限
+              fetch(checktokenForLDAP, { method: 'POST', body: JSON.stringify(data.access_token) })
+                .then((res) => res.json())
+                .then((data) => {
+                  console.log('使用者權限資料1=>>', data);
+                  dispatch(
+                    setUserInfo({
+                      userInfo: {
+                        UserCName: data.UserCName,
+                        ProfilePhotoURI: data.ProfilePhotoURI,
+                        CB: data.CB,
+                        Role: data.Role,
+                        CM: data.CM,
+                        System: data.System,
+                        GlobalQuery: data.GlobalQuery,
+                        SupplierNotify: data.SupplierNotify,
+                        InvoiceWK: data.InvoiceWK,
+                        Report: data.Report,
+                        Superior: data.Superior,
+                        Invoice: data.Invoice,
+                        Data: data.Data,
+                        Bill: data.Bill,
+                        Liability: data.Liability,
+                        Pay: data.Pay,
+                        PartyNotify: data.PartyNotify,
+                        SysNotify: data.SysNotify,
+                      },
+                    }),
+                  );
+                })
+                .catch((e) => console.log('e1=>', e));
+            }
+          })
+          .catch((e) => console.log('e1=>', e));
+      }
+    } else if (
+      dayjs(getExpireTime).diff(new Date(), 'minute') > 0 &&
+      localStorage.getItem('accessToken')
+    ) {
+      // 傳送使用者資料取得權限
+      let accessToken = localStorage.getItem('accessToken');
+      fetch(checktokenForLDAP, {
+        method: 'POST',
+        body: JSON.stringify({ accessToken: accessToken }),
+      })
+        .then((res) => res.json())
+        .then((data) => {
+          console.log('使用者權限資料1=>>', data);
+          dispatch(
+            setUserInfo({
+              userInfo: {
+                UserCName: data.UserCName,
+                ProfilePhotoURI: data.ProfilePhotoURI,
+                CB: data.CB,
+                Role: data.Role,
+                CM: data.CM,
+                System: data.System,
+                GlobalQuery: data.GlobalQuery,
+                SupplierNotify: data.SupplierNotify,
+                InvoiceWK: data.InvoiceWK,
+                Report: data.Report,
+                Superior: data.Superior,
+                Invoice: data.Invoice,
+                Data: data.Data,
+                Bill: data.Bill,
+                Liability: data.Liability,
+                Pay: data.Pay,
+                PartyNotify: data.PartyNotify,
+                SysNotify: data.SysNotify,
+              },
+            }),
+          );
         })
         .catch((e) => console.log('e1=>', e));
     }

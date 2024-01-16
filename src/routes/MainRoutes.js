@@ -64,7 +64,7 @@ const RequireAuth = ({ children, item }) => {
   const dispatch = useDispatch();
   const { isLogin, userInfo } = useSelector((state) => state.dropdown); //message狀態
   // haha2
-  const getExpireTime = localStorage.getItem('expireTime');
+  const getExpireTime = localStorage.getItem('expireTimeCBP');
   let accessSSO = 'https://iam-qa.cht.com.tw/auth/realms/B2E/protocol/openid-connect/token';
   console.log('window.location.href.indexOf("code")=>>', window.location.href.indexOf('code'));
   // console.log(
@@ -121,7 +121,8 @@ const RequireAuth = ({ children, item }) => {
               },
             }),
           );
-          localStorage.setItem('expireTime', dayjs().add(120, 'minute'));
+          localStorage.setItem('expireTimeCBP', dayjs().add(90, 'minute'));
+          localStorage.setItem('accessToken', data.access_token);
           // 傳送使用者資料取得權限
           fetch(checktokenForLDAP, {
             method: 'POST',
@@ -129,7 +130,7 @@ const RequireAuth = ({ children, item }) => {
           })
             .then((res) => res.json())
             .then((data) => {
-              console.log('使用者權限資料=>>', data);
+              console.log('使用者權限資料2=>>', data);
               dispatch(
                 setUserInfo({
                   userInfo: {
