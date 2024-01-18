@@ -17,7 +17,7 @@ import {
 import PropTypes from 'prop-types';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import { DesktopDatePicker } from '@mui/x-date-pickers/DesktopDatePicker';
+import { DateRangePicker } from '@mui/x-date-pickers-pro/DateRangePicker';
 import { TextField } from '@mui/material/index';
 // project import
 import MainCard from 'components/MainCard';
@@ -25,7 +25,7 @@ import MainCard from 'components/MainCard';
 // api
 // api
 import {
-  searchBillMasterByInvoiceWKMaster,
+  getInvoiceWKMasterInvoiceWKDetail,
   supplierNameDropDownUnique,
   submarineCableInfoList,
   billMilestoneLiabilityList,
@@ -38,7 +38,7 @@ const InvoiceQuery = ({ setListInfo, queryApi, setAction, setPage }) => {
   const [workTitle, setWorkTitle] = useState(''); //海纜作業
   const [billMilestone, setBillMilestone] = useState(''); // 計帳段號
   const [isIssueDate, setIsIssueDate] = useState(''); //是否為發票日期
-  const [issueDate, setIssueDate] = useState(null); //發票日期
+  const [issueDate, setIssueDate] = useState([null, null]); //發票日期
   const [invoiceNo, setInvoiceNo] = useState(''); //發票號碼
   const [supNmList, setSupNmList] = useState([]); //供應商下拉選單
   const [submarineCableList, setSubmarineCableList] = useState([]); //海纜名稱下拉選單
@@ -91,14 +91,17 @@ const InvoiceQuery = ({ setListInfo, queryApi, setAction, setPage }) => {
     if (billMilestone && billMilestone !== '') {
       tmpQuery.BillMilestone = billMilestone;
     }
-    console.log(issueDate, isIssueDate);
-    if (issueDate && isIssueDate === 'true') {
-      tmpQuery.startIssueDate = dayjs(issueDate).format('YYYYMMDD');
-      tmpQuery.endIssueDate = dayjs(issueDate).format('YYYYMMDD');
+    if (isIssueDate === 'true') {
+      tmpQuery.IssueDate = {
+        start: dayjs(issueDate[0]).format('YYYYMMDD'),
+        end: dayjs(issueDate[1]).format('YYYYMMDD'),
+      };
     }
-    if (issueDate && isIssueDate === 'false') {
-      tmpQuery.startDueDate = dayjs(issueDate).format('YYYYMMDD');
-      tmpQuery.endDueDate = dayjs(issueDate).format('YYYYMMDD');
+    if (isIssueDate === 'false') {
+      tmpQuery.DueDate = {
+        start: dayjs(issueDate[0]).format('YYYYMMDD'),
+        end: dayjs(issueDate[1]).format('YYYYMMDD'),
+      };
     }
     if (
       !(
@@ -138,16 +141,15 @@ const InvoiceQuery = ({ setListInfo, queryApi, setAction, setPage }) => {
       tmpQuery.Status = tmpStatus;
     }
 
-    // fetch(searchBillMasterByInvoiceWKMaster, { method: 'POST', body: JSON.stringify(tmpQuery) })
-    //   .then((res) => res.json())
-    //   .then((data) => {
-    //     console.log('查詢成功=>>', data);
-    //     if (Array.isArray(data)) {
-    //       setListInfo(data);
-    //       setDetailInfo([]);
-    //     }
-    //   })
-    //   .catch((e) => console.log('e1=>', e));
+    fetch(getInvoiceWKMasterInvoiceWKDetail, { method: 'POST', body: JSON.stringify(tmpQuery) })
+      .then((res) => res.json())
+      .then((data) => {
+        console.log('查詢成功=>>', data);
+        if (Array.isArray(data)) {
+          setListInfo(data);
+        }
+      })
+      .catch((e) => console.log('e1=>', e));
   };
 
   useEffect(() => {
@@ -302,13 +304,19 @@ const InvoiceQuery = ({ setListInfo, queryApi, setAction, setPage }) => {
             dateAdapter={AdapterDayjs}
             localeText={{ start: '起始日', end: '結束日' }}
           >
-            <DesktopDatePicker
+            <DateRangePicker
               inputFormat="YYYY/MM/DD"
               value={issueDate}
               onChange={(e) => {
                 setIssueDate(e);
               }}
-              renderInput={(params) => <TextField size="small" {...params} />}
+              renderInput={(startProps, endProps) => (
+                <>
+                  <TextField size="small" {...startProps} />
+                  <Box sx={{ mx: 1 }}> to </Box>
+                  <TextField size="small" {...endProps} />
+                </>
+              )}
             />
           </LocalizationProvider>
         </Grid>

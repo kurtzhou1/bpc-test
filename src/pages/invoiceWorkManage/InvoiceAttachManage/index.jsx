@@ -12,7 +12,7 @@ import ReturnDataList from './returnDataList';
 
 // api
 import {
-  queryInvoice,
+  getInvoiceWKMasterInvoiceWKDetail,
   generateInvoice,
   updateInvoice,
   deleteInvoiceWKMaster,
@@ -62,7 +62,7 @@ const InvoiceWorkManage = () => {
 
   const queryApi = useRef({});
   const queryApiTemporary = { Status: ['TEMPORARY'] };
-  // const queryApiTemporary = queryInvoice + '/Status=TEMPORARY';
+  // const queryApiTemporary = getInvoiceWKMasterInvoiceWKDetail + '/Status=TEMPORARY';
 
   const [submarineCableList, setSubmarineCableList] = useState([]); //海纜名稱下拉選單
   const [listInfo, setListInfo] = useState([]);
@@ -105,7 +105,7 @@ const InvoiceWorkManage = () => {
   };
 
   const initQuery = () => {
-    fetch(queryInvoice, { method: 'POST', body: JSON.stringify(queryApi) })
+    fetch(getInvoiceWKMasterInvoiceWKDetail, { method: 'POST', body: JSON.stringify(queryApi) })
       .then((res) => res.json())
       .then((data) => {
         setListInfo(data);
@@ -114,20 +114,12 @@ const InvoiceWorkManage = () => {
   };
 
   const queryInitTemporary = () => {
-    fetch(queryInvoice, { method: 'POST', body: JSON.stringify(queryApiTemporary) })
+    fetch(getInvoiceWKMasterInvoiceWKDetail, {
+      method: 'POST',
+      body: JSON.stringify(queryApiTemporary),
+    })
       .then((res) => res.json())
       .then((data) => {
-        setListInfo(data);
-      })
-      .catch((e) => console.log('e1=>', e));
-  };
-
-  const firstQueryInit = () => {
-    fetch(queryInvoice, { method: 'POST', body: JSON.stringify(queryApiTemporary) })
-      .then((res) => res.json())
-      .then((data) => {
-        orderDate(data);
-        // data = data.slice(0, 5);
         setListInfo(data);
       })
       .catch((e) => console.log('e1=>', e));
@@ -169,15 +161,11 @@ const InvoiceWorkManage = () => {
     };
   };
 
-  const handleLink = () => {
-    dispatch(activeItem({ openItem: ['item2'] }));
-  };
-
   useEffect(() => {
     itemInfoInitial();
     setAction('');
     setModifyItem('');
-    firstQueryInit();
+    initQuery();
     fetch(supplierNameDropDownUnique, { method: 'GET' })
       .then((res) => res.json())
       .then((data) => {
@@ -406,74 +394,6 @@ const InvoiceWorkManage = () => {
       return false;
     }
     return true;
-  };
-
-  const addInvoiceInfo = () => {
-    //防呆
-    if (infoCheck()) {
-      let tmpArray = createData(
-        wKMasterID.current,
-        invoiceNo.trim() === '' ? 'No.' + dayjs(new Date()).format('YYYYMMDDHHmmss') : invoiceNo,
-        supplierName,
-        submarineCable,
-        workTitle,
-        contractType,
-        dayjs(issueDate).format('YYYY-MM-DD HH:mm:ss'),
-        dayjs(dueDate).format('YYYY-MM-DD HH:mm:ss'),
-        partyName,
-        'TEMPORARY',
-        isPro === 'true' || isPro === true ? true : false,
-        isRecharge === 'true' || isRecharge === true ? true : false,
-        isCreditMemo === 'true' || isCreditMemo === true ? true : false,
-        isLiability === 'true' || isLiability === true ? true : false,
-        Number(totalAmount.toString().replaceAll(',', '')).toFixed(2),
-      );
-      let combineArray = {
-        InvoiceWKMaster: tmpArray,
-        InvoiceWKDetail: invoiceDetailInfo,
-      };
-      let tmpModifyItem;
-      listInfo.forEach((i) => {
-        if (i.InvoiceWKMaster.InvoiceNo === modifyItem) {
-          tmpModifyItem = i.InvoiceWKMaster.WKMasterID;
-        }
-      });
-      let tmpWKMasterID = {
-        WKMasterID: tmpModifyItem,
-      };
-      fetch(deleteInvoiceWKMaster, { method: 'POST', body: JSON.stringify(tmpWKMasterID) })
-        .then((res) => res.json())
-        .then(() => {
-          console.log('刪除主檔成功');
-          fetch(deleteInvoiceWKDetail, { method: 'POST', body: JSON.stringify(tmpWKMasterID) })
-            .then((res) => res.json())
-            .then(() => {
-              console.log('刪除明細成功');
-              fetch(generateInvoice, { method: 'POST', body: JSON.stringify(combineArray) })
-                .then((res) => res.json())
-                .then(() => {
-                  dispatch(
-                    setMessageStateOpen({
-                      messageStateOpen: { isOpen: true, severity: 'success', message: '儲存成功' },
-                    }),
-                  );
-                  // 重新query
-                  initQuery();
-                  itemInfoInitial();
-                  setAction('');
-                })
-                .catch((e) => console.log('e3=>>', e));
-            })
-            .catch((e) => console.log('e2=>>', e));
-        })
-        .catch((e) => console.log('e1=>', e));
-    }
-  };
-
-  const cancelAdd = () => {
-    itemInfoInitial();
-    setAction('');
-    setModifyItem('');
   };
 
   const handleReturnClose = () => {

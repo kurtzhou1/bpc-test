@@ -260,3 +260,5 @@ export const uploadPayDraft =
   'http://internal-cbpsalb-1176080923.ap-northeast-1.elb.amazonaws.com/api/v1/uploadPayDraft/CBRefund';
 export const updatePayDraft =
   'http://internal-cbpsalb-1176080923.ap-northeast-1.elb.amazonaws.com/api/v1/updatePayDraft/CBRefund';
+export const getInvoiceWKMasterInvoiceWKDetail =
+  'http://internal-cbpsalb-1176080923.ap-northeast-1.elb.amazonaws.com/api/v1/getInvoiceWKMaster&InvoiceWKDetail';

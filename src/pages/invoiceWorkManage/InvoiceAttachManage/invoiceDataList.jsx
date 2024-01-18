@@ -62,13 +62,11 @@ const InvoiceDataList = ({ listInfo, setAction, setModifyItem, page, setPage }) 
             <StyledTableCell align="center">海纜名稱</StyledTableCell>
             <StyledTableCell align="center">海纜作業</StyledTableCell>
             <StyledTableCell align="center">計帳段號</StyledTableCell>
-            {/* <StyledTableCell align="center">發票日期</StyledTableCell> */}
             <StyledTableCell align="center">發票到期日</StyledTableCell>
             <StyledTableCell align="center">明細數量</StyledTableCell>
             <StyledTableCell align="center">總金額</StyledTableCell>
             <StyledTableCell align="center">累計實付金額</StyledTableCell>
             <StyledTableCell align="center">累計減項金額</StyledTableCell>
-            {/* <StyledTableCell align="center">Status</StyledTableCell> */}
             <StyledTableCell align="center">Action</StyledTableCell>
           </TableRow>
         </TableHead>
