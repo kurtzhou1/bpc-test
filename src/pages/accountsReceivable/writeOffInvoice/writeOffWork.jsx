@@ -157,10 +157,13 @@ const WriteOffWork = ({
     setToWriteOffDetailInfo(tmpArray);
   };
 
-  const changeReceiveDate = (receiveDate, id) => {
+  const changeReceiveDate = (receiveDate, id, index) => {
     let tmpArray = toWriteOffDetailInfo.map((i) => i);
     tmpArray.forEach((i) => {
       if (i.BillDetailID === id) {
+        i.ReceiveDate = dayjs(receiveDate).format('YYYY/MM/DD');
+      }
+      if (index === 0) {
         i.ReceiveDate = dayjs(receiveDate).format('YYYY/MM/DD');
       }
     });
@@ -626,6 +629,7 @@ const WriteOffWork = ({
                             <TableCell align="center">
                               {handleNumber(row?.ShortAmount?.toFixed(2))}
                             </TableCell>
+                            {/* 收款日期 */}
                             <TableCell align="center">
                               {action === 'view' ? (
                                 row.ReceiveDate
@@ -636,7 +640,7 @@ const WriteOffWork = ({
                                     value={row.ReceiveDate}
                                     // value={dayjs(row.ReceiveDate).format('YYYY/MM/DD')}
                                     onChange={(e) => {
-                                      changeReceiveDate(e, row.BillDetailID);
+                                      changeReceiveDate(e, row.BillDetailID, id);
                                     }}
                                     renderInput={(params) => (
                                       <TextField size="small" sx={{ minWidth: 150 }} {...params} />

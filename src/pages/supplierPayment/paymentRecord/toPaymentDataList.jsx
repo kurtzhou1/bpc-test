@@ -460,7 +460,7 @@ const ToPaymentDataList = ({
                   </StyledTableCell>
                   {/* 本次減項金額 */}
                   <StyledTableCell align="center">
-                    {handleNumber(row?.InvoiceWKMaster?.NewDedAmount.toFixed(2))
+                    {row?.InvoiceWKMaster?.NewDedAmount
                       ? handleNumber(row?.InvoiceWKMaster?.NewDedAmount.toFixed(2))
                       : '0'}
                   </StyledTableCell>

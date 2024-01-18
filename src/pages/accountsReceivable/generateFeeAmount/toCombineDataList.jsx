@@ -56,6 +56,7 @@ const ToCombineDataList = ({
   cbToCn,
   setCbToCn,
   receivableQuery,
+  initList,
 }) => {
   const dispatch = useDispatch();
   const [issueDate, setIssueDate] = useState(new Date()); //發票日期
@@ -65,11 +66,25 @@ const ToCombineDataList = ({
   const billingNoOld = useRef('');
   const sendComBineData = useRef({}); //按下合併帳單時送出的資料
   const totalAmount = useRef(0);
+  const isAll = useRef(false);
 
   let tmpBMArray = [];
 
   const handleChange = (event) => {
     setCbToCn({ ...cbToCn, [event.target.value]: event.target.checked });
+  };
+
+  const handleChangeAll = () => {
+    isAll.current = !isAll.current;
+    let tmpObj = {};
+    if (isAll.current) {
+      dataList.forEach((i) => {
+        tmpObj[i?.InvDetailID] = true;
+      });
+      setCbToCn(tmpObj);
+    } else {
+      initList();
+    }
   };
 
   console.log('cbToCn=>>', cbToCn);
@@ -360,7 +375,9 @@ const ToCombineDataList = ({
         <Table sx={{ minWidth: 300 }} stickyHeader>
           <TableHead>
             <TableRow>
-              <StyledTableCell align="center"></StyledTableCell>
+              <StyledTableCell align="center">
+                <Checkbox onChange={handleChangeAll} />
+              </StyledTableCell>
               <StyledTableCell align="center">項目</StyledTableCell>
               <StyledTableCell align="center">會員</StyledTableCell>
               <StyledTableCell align="center">海纜名稱</StyledTableCell>

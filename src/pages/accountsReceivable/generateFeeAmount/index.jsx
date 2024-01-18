@@ -109,14 +109,14 @@ const GenerateFeeAmount = () => {
                   variant="contained"
                   sx={{
                     position: 'absolute',
-                    right: 80,
+                    right: 0,
                     top: 4,
                   }}
                   onClick={handleDialogOpen}
                 >
                   + 合併帳單
                 </Button>
-                <Button
+                {/* <Button
                   variant="contained"
                   sx={{
                     position: 'absolute',
@@ -126,7 +126,7 @@ const GenerateFeeAmount = () => {
                   onClick={initList}
                 >
                   Reset
-                </Button>
+                </Button> */}
               </>
             ) : (
               ''
@@ -140,6 +140,7 @@ const GenerateFeeAmount = () => {
               cbToCn={cbToCn}
               setCbToCn={setCbToCn}
               receivableQuery={receivableQuery}
+              initList={initList}
             />
           </TabPanel>
           <TabPanel value={value} index={1}>
