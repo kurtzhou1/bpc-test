@@ -1,8 +1,8 @@
 import { useState } from 'react';
 
 // project import
-import MoreVertIcon from '@mui/icons-material/MoreVert';
 import { handleNumber } from 'components/commonFunction';
+import InvoiceDetail from './invoiceDetail';
 
 // material-ui
 import { Button, Table, Box } from '@mui/material';
@@ -83,7 +83,7 @@ const InvoiceDataList = ({ listInfo, setAction, setModifyItem, page, setPage }) 
             });
             return (
               <TableRow
-                key={row.InvoiceWKMaster?.WKMasterID + row.InvoiceWKMaster?.InvoiceNo}
+                key={row.InvoiceWKMaster?.WKMasterID + row.InvoiceWKMaster?.InvoiceNo + itemID}
                 sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
               >
                 <StyledTableCell align="center">{itemID + 1}</StyledTableCell>
@@ -112,6 +112,19 @@ const InvoiceDataList = ({ listInfo, setAction, setModifyItem, page, setPage }) 
                 <StyledTableCell align="center">
                   {handleNumber(row.InvoiceWKMaster.TotalAmount)}
                 </StyledTableCell>
+                {/* <StyledTableCell align="center">
+                  {row.InvoiceWKMaster.Status === 'TEMPORARY'
+                    ? '暫存'
+                    : row.InvoiceWKMaster.Status === 'VALIDATED'
+                    ? '已確認'
+                    : row.InvoiceWKMaster.Status === 'BILLED'
+                    ? '已立帳'
+                    : row.InvoiceWKMaster.Status === 'PAYING'
+                    ? '付款中'
+                    : row.InvoiceWKMaster.Status === 'COMPLETE'
+                    ? '完成付款'
+                    : '作廢'}
+                </StyledTableCell> */}
                 <TableCell align="center">
                   {row.InvoiceWKMaster.Status === 'TEMPORARY' ? (
                     <Box
@@ -126,9 +139,9 @@ const InvoiceDataList = ({ listInfo, setAction, setModifyItem, page, setPage }) 
                           <Button
                             color={
                               option === '檢視'
-                                ? 'primary'
-                                : option === '待立帳'
                                 ? 'success'
+                                : option === '待立帳'
+                                ? 'primary'
                                 : option === '編輯'
                                 ? 'warning'
                                 : 'error'
@@ -137,7 +150,7 @@ const InvoiceDataList = ({ listInfo, setAction, setModifyItem, page, setPage }) 
                             variant="outlined"
                             size="small"
                             onClick={() => {
-                              setModifyItem(row.InvoiceWKMaster?.InvoiceNo);
+                              setModifyItem(row.InvoiceWKDetail);
                               setAction(option);
                             }}
                           >
@@ -157,12 +170,12 @@ const InvoiceDataList = ({ listInfo, setAction, setModifyItem, page, setPage }) 
                       {options2.map((option) => {
                         return (
                           <Button
-                            color={option === '檢視' ? 'primary' : 'error'}
+                            color={option === '檢視' ? 'success' : 'error'}
                             key={option}
                             variant="outlined"
                             size="small"
                             onClick={() => {
-                              setModifyItem(row.InvoiceWKMaster?.InvoiceNo);
+                              setModifyItem(row.InvoiceWKDetail);
                               setAction(option);
                             }}
                           >
@@ -183,13 +196,13 @@ const InvoiceDataList = ({ listInfo, setAction, setModifyItem, page, setPage }) 
                         return (
                           <Button
                             color={
-                              option === '檢視' ? 'primary' : option === '作廢' ? 'error' : 'info'
+                              option === '檢視' ? 'success' : option === '作廢' ? 'error' : 'info'
                             }
                             key={option}
                             variant="outlined"
                             size="small"
                             onClick={() => {
-                              setModifyItem(row.InvoiceWKMaster?.InvoiceNo);
+                              setModifyItem(row.InvoiceWKDetail);
                               setAction(option);
                             }}
                           >
@@ -207,11 +220,11 @@ const InvoiceDataList = ({ listInfo, setAction, setModifyItem, page, setPage }) 
                       }}
                     >
                       <Button
-                        color="primary"
+                        color="success"
                         variant="outlined"
                         size="small"
                         onClick={() => {
-                          setModifyItem(row.InvoiceWKMaster?.InvoiceNo);
+                          setModifyItem(row.InvoiceWKDetail);
                           setAction('檢視');
                         }}
                       >

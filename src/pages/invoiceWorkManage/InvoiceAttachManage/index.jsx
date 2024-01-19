@@ -9,15 +9,15 @@ import InvoiceQuery from './invoiceQuery';
 import InvoiceDataList from './invoiceDataList';
 import { handleNumber } from 'components/commonFunction';
 import ReturnDataList from './returnDataList';
+import InvoiceDetail from './invoiceDetail';
 
 // api
 import {
   getInvoiceWKMasterInvoiceWKDetail,
-  generateInvoice,
   updateInvoice,
   deleteInvoiceWKMaster,
   deleteInvoiceWKDetail,
-  billMilestoneList,
+  journaryDetailView,
   returnToValidated,
   afterBilled,
   supplierNameDropDownUnique,
@@ -34,78 +34,31 @@ import { setMessageStateOpen } from 'store/reducers/dropdown';
 
 const InvoiceWorkManage = () => {
   const dispatch = useDispatch();
-  const [invoiceDetailInfo, setInvoiceDetailInfo] = useState([]);
-  const [supplierName, setSupplierName] = useState(''); //供應商
-  const [invoiceNo, setInvoiceNo] = useState(''); //發票號碼
-  const [submarineCable, setSubmarineCable] = useState(''); //海纜名稱
-  const [workTitle, setWorkTitle] = useState(''); //海纜作業
-  const [contractType, setContractType] = useState(''); //合約種類
-  const [issueDate, setIssueDate] = useState(new Date()); //發票日期
-  const [dueDate, setDueDate] = useState(new Date()); //發票到期日
-  const [totalAmount, setTotalAmount] = useState(''); //總金額
-  const [isPro, setIsPro] = useState(false); //是否為Pro-forma
-  const [isLiability, setIsLiability] = useState(true); //是否需攤分
-  const [isRecharge, setIsRecharge] = useState(false); //是否為短腳補收
-  const [isCreditMemo, setIsCreditMemo] = useState(false); //是否為短腳補收
-  const [partyName, setPartyName] = useState(''); //會員名稱
   const wKMasterID = useRef(); //工作檔ID
   const [bmsList, setBmsList] = useState([]); //計帳段號下拉選單
-  const [bmStoneList, setBmStoneList] = useState([]); //計帳段號下拉選單
-  // const [queryBmStoneList, setQueryBmStoneList] = useState([]); //條件查詢的計帳段號下拉選單
-
-  const [billMilestone, setBillMilestone] = useState(''); //計帳段號
-  const [feeItem, setFeeItem] = useState(''); //費用項目
-  const [feeAmount, setFeeAmount] = useState(''); //費用金額
-
   const [action, setAction] = useState('');
-  const [modifyItem, setModifyItem] = useState('');
-
+  const [modifyItem, setModifyItem] = useState([]);
   const queryApi = useRef({});
   const queryApiTemporary = { Status: ['TEMPORARY'] };
-  // const queryApiTemporary = getInvoiceWKMasterInvoiceWKDetail + '/Status=TEMPORARY';
-
   const [submarineCableList, setSubmarineCableList] = useState([]); //海纜名稱下拉選單
   const [listInfo, setListInfo] = useState([]);
   const [page, setPage] = useState(0); //分頁Page
-
   const [isReturnOpen, setIsReturnOpen] = useState(false);
   const [supNmList, setSupNmList] = useState([]); //供應商下拉選單
   const returnDataList = useRef([]);
+  const [isDetailOpen, setIsDetailOpen] = useState(false);
 
   const actionBack = useRef('');
 
   const itemInfoInitial = () => {
     wKMasterID.current = 0;
-    setSupplierName('');
-    setInvoiceNo('');
-    setSubmarineCable('');
-    setWorkTitle('');
-    setContractType('');
-    setIssueDate(new Date());
-    setDueDate(new Date());
-    setTotalAmount('');
-    setIsPro(false);
-    setIsLiability(true);
-    setIsRecharge(false);
-    setIsCreditMemo(false);
-    setPartyName('');
-    setInvoiceDetailInfo([]);
-  };
-
-  const itemDetailInitial = () => {
-    setBillMilestone('');
-    setFeeItem('');
-    setFeeAmount('');
-  };
-
-  const orderDate = (data) => {
-    data.sort((a, b) => {
-      return dayjs(b.InvoiceWKMaster.CreateDate).diff(dayjs(a.InvoiceWKMaster.CreateDate));
-    });
   };
 
   const initQuery = () => {
-    fetch(getInvoiceWKMasterInvoiceWKDetail, { method: 'POST', body: JSON.stringify(queryApi) })
+    fetch(getInvoiceWKMasterInvoiceWKDetail, {
+      method: 'POST',
+      body: JSON.stringify(queryApi.current),
+    })
       .then((res) => res.json())
       .then((data) => {
         setListInfo(data);
@@ -125,46 +78,14 @@ const InvoiceWorkManage = () => {
       .catch((e) => console.log('e1=>', e));
   };
 
-  const createData = (
-    WKMasterID,
-    InvoiceNo,
-    SupplierName,
-    SubmarineCable,
-    WorkTitle,
-    ContractType,
-    IssueDate,
-    DueDate,
-    PartyName,
-    Status,
-    IsPro,
-    IsRecharge,
-    IsCreditMemo,
-    IsLiability,
-    TotalAmount,
-  ) => {
-    return {
-      WKMasterID,
-      InvoiceNo,
-      SupplierName,
-      SubmarineCable,
-      WorkTitle,
-      ContractType,
-      IssueDate,
-      DueDate,
-      PartyName,
-      Status,
-      IsPro,
-      IsRecharge,
-      IsCreditMemo,
-      IsLiability,
-      TotalAmount,
-    };
+  const isDetailClose = () => {
+    setIsDetailOpen(false);
   };
 
   useEffect(() => {
     itemInfoInitial();
     setAction('');
-    setModifyItem('');
+    setModifyItem([]);
     initQuery();
     fetch(supplierNameDropDownUnique, { method: 'GET' })
       .then((res) => res.json())
@@ -190,33 +111,10 @@ const InvoiceWorkManage = () => {
   }, []);
 
   useEffect(() => {
-    if ((modifyItem !== '' && action === '編輯') || (modifyItem !== '' && action === '檢視')) {
-      listInfo.forEach((i) => {
-        if (i.InvoiceWKMaster.InvoiceNo === modifyItem) {
-          console.log(
-            i.InvoiceWKMaster.IsPro,
-            i.InvoiceWKMaster.IsLiability,
-            i.InvoiceWKMaster.IsCreditMemo,
-          );
-          setSupplierName(i.InvoiceWKMaster.SupplierName);
-          setInvoiceNo(i.InvoiceWKMaster.InvoiceNo);
-          setSubmarineCable(i.InvoiceWKMaster.SubmarineCable);
-          setWorkTitle(i.InvoiceWKMaster.WorkTitle);
-          setContractType(i.InvoiceWKMaster.ContractType);
-          setIssueDate(i.InvoiceWKMaster.IssueDate);
-          setDueDate(i.InvoiceWKMaster.DueDate);
-          setTotalAmount(handleNumber(i.InvoiceWKMaster.TotalAmount));
-          setIsPro(i.InvoiceWKMaster.IsPro);
-          setIsLiability(i.InvoiceWKMaster.IsLiability);
-          setIsRecharge(i.InvoiceWKMaster.IsRecharge);
-          setIsCreditMemo(i.InvoiceWKMaster.IsCreditMemo);
-          setPartyName(i.InvoiceWKMaster.PartyName);
-          setInvoiceDetailInfo(i.InvoiceWKDetail);
-          wKMasterID.current = i.InvoiceWKMaster.WKMasterID;
-        }
-      });
+    if (action === '檢視') {
+      setIsDetailOpen(true);
     }
-  }, [modifyItem, action]);
+  }, [action, modifyItem]);
 
   useEffect(() => {
     let tmpModifyItem;
@@ -324,104 +222,19 @@ const InvoiceWorkManage = () => {
     }
   }, [action]);
 
-  const infoCheck = () => {
-    // 金額確認
-    let detailAmount = 0;
-    invoiceDetailInfo.forEach((i) => {
-      detailAmount = detailAmount + i.FeeAmount;
-    });
-    if (
-      Number(totalAmount.toString().replaceAll(',', '')).toFixed(2) !==
-      Number(detailAmount).toFixed(2)
-    ) {
-      dispatch(
-        setMessageStateOpen({
-          messageStateOpen: {
-            isOpen: true,
-            severity: 'error',
-            message: '總金額不等於費用項目金額加總',
-          },
-        }),
-      );
-      return false;
-    }
-    if (submarineCable === '') {
-      dispatch(
-        setMessageStateOpen({
-          messageStateOpen: { isOpen: true, severity: 'error', message: '請輸入海纜名稱' },
-        }),
-      );
-      return false;
-    }
-    if (workTitle === '') {
-      dispatch(
-        setMessageStateOpen({
-          messageStateOpen: { isOpen: true, severity: 'error', message: '請輸入海纜作業' },
-        }),
-      );
-      return false;
-    }
-    if (supplierName === '') {
-      dispatch(
-        setMessageStateOpen({
-          messageStateOpen: { isOpen: true, severity: 'error', message: '請輸入供應商' },
-        }),
-      );
-      return false;
-    }
-    if (invoiceNo === '') {
-      dispatch(
-        setMessageStateOpen({
-          messageStateOpen: { isOpen: true, severity: 'error', message: '請輸入發票號碼' },
-        }),
-      );
-      return false;
-    }
-    if (contractType === '') {
-      dispatch(
-        setMessageStateOpen({
-          messageStateOpen: { isOpen: true, severity: 'error', message: '請輸入合約種類' },
-        }),
-      );
-      return false;
-    }
-    if (!isLiability && partyName === '') {
-      dispatch(
-        setMessageStateOpen({
-          messageStateOpen: { isOpen: true, severity: 'error', message: '請輸入會員名稱' },
-        }),
-      );
-      return false;
-    }
-    return true;
-  };
-
   const handleReturnClose = () => {
     setIsReturnOpen(false);
     returnDataList.current = {};
     actionBack.current = '';
   };
 
-  useEffect(() => {
-    if (workTitle && submarineCable) {
-      let bmApi =
-        billMilestoneList +
-        'SubmarineCable=' +
-        submarineCable +
-        '&WorkTitle=' +
-        workTitle +
-        '&End=false';
-      fetch(bmApi, { method: 'GET' })
-        .then((res) => res.json())
-        .then((data) => {
-          setBmStoneList(data);
-        })
-        .catch((e) => console.log('e1=>', e));
-    }
-  }, [workTitle, submarineCable]);
-
   return (
     <>
+      <InvoiceDetail
+        modifyItem={modifyItem}
+        isDetailOpen={isDetailOpen}
+        isDetailClose={isDetailClose}
+      />
       <ReturnDataList
         isReturnOpen={isReturnOpen}
         handleReturnClose={handleReturnClose}

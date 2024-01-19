@@ -124,12 +124,14 @@ const IsSendDataList = ({ dataList, receivableQuery }) => {
               <StyledTableCell align="center">截止日</StyledTableCell>
               <StyledTableCell align="center">明細數量</StyledTableCell>
               <StyledTableCell align="center">總金額</StyledTableCell>
+              <StyledTableCell align="center">是否已寄送</StyledTableCell>
               <StyledTableCell align="center">狀態</StyledTableCell>
               <StyledTableCell align="center">Action</StyledTableCell>
             </TableRow>
           </TableHead>
           <TableBody>
             {dataList?.map((row, id) => {
+              console.log('row.BillMaster=>>', row.BillMaster);
               return (
                 <TableRow
                   key={row.BillMaster?.BillingNo + row.BillMaster?.FeeAmountSum + id}
@@ -152,7 +154,19 @@ const IsSendDataList = ({ dataList, receivableQuery }) => {
                   <StyledTableCell align="center">
                     {handleNumber(row.BillMaster.FeeAmountSum)}
                   </StyledTableCell>
-                  <StyledTableCell align="center">{row.BillMaster.Status}</StyledTableCell>
+                  <StyledTableCell align="center">是</StyledTableCell>
+                  <StyledTableCell align="center">
+                    {row.BillMaster.Status === 'TEMPORARY'
+                      ? '暫存'
+                      : row.BillMaster.Status === 'COMPLETE'
+                      ? '完成付款'
+                      : row.BillMaster.Status === 'TO_WRITEOFF'
+                      ? '待銷帳'
+                      : row.BillMaster.Status === 'INITIAL'
+                      ? '待抵扣'
+                      : row.BillMaster.Status}
+                    {/* '已抵扣' */}
+                  </StyledTableCell>
                   <StyledTableCell align="center">
                     <Box
                       sx={{

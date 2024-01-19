@@ -80,7 +80,7 @@ const ResearchBillDetail = ({ datailInfo }) => {
   return (
     <>
       <Dialog maxWidth="md" fullWidth open={isDialogOpen}>
-        <BootstrapDialogTitle>帳單明細</BootstrapDialogTitle>
+        <BootstrapDialogTitle>發票明細</BootstrapDialogTitle>
         <DialogContent>
           <Grid container spacing={1} display="flex" justifyContent="center" alignItems="center">
             <Grid item xs={12} sm={12} md={12} lg={12}>

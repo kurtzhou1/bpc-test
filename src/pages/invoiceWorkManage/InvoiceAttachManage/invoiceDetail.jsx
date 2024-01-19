@@ -1,9 +1,21 @@
 import { useState, useRef, useEffect } from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 
 // project import
 import { handleNumber, BootstrapDialogTitle } from 'components/commonFunction';
+import MainCard from 'components/MainCard';
 // material-ui
-import { Button, Table, Dialog, DialogContent, Grid, DialogActions } from '@mui/material';
+import {
+  Typography,
+  Button,
+  Table,
+  Dialog,
+  DialogContent,
+  Grid,
+  DialogActions,
+  TextField,
+} from '@mui/material';
 import TableBody from '@mui/material/TableBody';
 import TableCell, { tableCellClasses } from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
@@ -11,6 +23,12 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import { styled } from '@mui/material/styles';
+
+import dayjs from 'dayjs';
+
+// redux
+import { useDispatch } from 'react-redux';
+import { setMessageStateOpen } from 'store/reducers/dropdown';
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -32,31 +50,38 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
   },
 }));
 
-const SignedDataWork = ({ isDeductedWorkOpen, handleDeductedClose, billDetailInfo }) => {
+const PaymentWork = ({
+  isDetailOpen,
+  handleDialogClose,
+  editPaymentInfo,
+  actionName,
+  invoiceNo,
+  isDetailClose,
+  modifyItem,
+}) => {
+  console.log('editPaymentInfo=>>>', editPaymentInfo);
+  const dispatch = useDispatch();
   let feeAmount = useRef(0); // 總費用金額加總(上)
-  let dedAmount = useRef(0); //總折抵資料加總(上)
-
   const [dataList, setDataList] = useState([]);
 
   const initData = () => {
     feeAmount.current = 0;
-    dedAmount.current = 0;
     setDataList([]);
   };
 
   useEffect(() => {
-    if (isDeductedWorkOpen) {
-      let tmpData = billDetailInfo.map((i) => i);
+    if (isDetailOpen) {
+      console.log();
+      let tmpData = modifyItem.map((i) => i);
       tmpData.forEach((row1) => {
         feeAmount.current = feeAmount.current + row1.FeeAmount;
-        dedAmount.current = dedAmount.current + row1.DedAmount;
       });
       setDataList(tmpData);
     }
-  }, [billDetailInfo, isDeductedWorkOpen]);
+  }, [isDetailOpen]);
 
   return (
-    <Dialog maxWidth="sm" open={isDeductedWorkOpen}>
+    <Dialog maxWidth="sm" open={isDetailOpen}>
       <BootstrapDialogTitle>檢視已簽核帳單</BootstrapDialogTitle>
       <DialogContent>
         <Grid
@@ -75,9 +100,8 @@ const SignedDataWork = ({ isDeductedWorkOpen, handleDeductedClose, billDetailInf
                     <StyledTableCell align="center">NO</StyledTableCell>
                     <StyledTableCell align="center">費用項目</StyledTableCell>
                     <StyledTableCell align="center">計帳段號</StyledTableCell>
-                    {/* <StyledTableCell align="center">折抵CB</StyledTableCell> */}
-                    <StyledTableCell align="center">折抵金額</StyledTableCell>
-                    <StyledTableCell align="center">總金額</StyledTableCell>
+                    <StyledTableCell align="center">費用金額</StyledTableCell>
+                    <StyledTableCell align="center">摘要說明</StyledTableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>
@@ -90,13 +114,10 @@ const SignedDataWork = ({ isDeductedWorkOpen, handleDeductedClose, billDetailInf
                         <TableCell align="center">{id + 1}</TableCell>
                         <TableCell align="center">{row.FeeItem}</TableCell>
                         <TableCell align="center">{row.BillMilestone}</TableCell>
-                        {/* <TableCell align="center">{row.CBTYPE}</TableCell> */}
-                        <TableCell align="center">
-                          {handleNumber(row.DedAmount.toFixed(2))}
-                        </TableCell>
                         <TableCell align="center">
                           {handleNumber(row.FeeAmount.toFixed(2))}
                         </TableCell>
+                        <TableCell align="center">{row.Note}</TableCell>
                       </TableRow>
                     );
                   })}
@@ -108,11 +129,9 @@ const SignedDataWork = ({ isDeductedWorkOpen, handleDeductedClose, billDetailInf
                     {/* <StyledTableCell className="totalAmount" align="center"></StyledTableCell> */}
                     <StyledTableCell className="totalAmount" align="center"></StyledTableCell>
                     <StyledTableCell className="totalAmount" align="center">
-                      {handleNumber(dedAmount.current.toFixed(2))}
-                    </StyledTableCell>
-                    <StyledTableCell className="totalAmount" align="center">
                       {handleNumber(feeAmount.current.toFixed(2))}
                     </StyledTableCell>
+                    <StyledTableCell className="totalAmount" align="center"></StyledTableCell>
                   </TableRow>
                 </TableBody>
               </Table>
@@ -127,7 +146,7 @@ const SignedDataWork = ({ isDeductedWorkOpen, handleDeductedClose, billDetailInf
           variant="contained"
           onClick={() => {
             initData();
-            handleDeductedClose();
+            isDetailClose();
           }}
         >
           關閉
@@ -137,4 +156,14 @@ const SignedDataWork = ({ isDeductedWorkOpen, handleDeductedClose, billDetailInf
   );
 };
 
-export default SignedDataWork;
+export default PaymentWork;
+
+PaymentWork.propTypes = {
+  actionName: React.String,
+  invoiceNo: React.String,
+  dueDate: PropTypes.instanceOf(Date),
+  editPaymentInfo: React.Array,
+  savePaymentEdit: React.func,
+  handleDialogClose: React.func,
+  isDetailOpen: React.bool,
+};
