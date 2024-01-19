@@ -112,19 +112,6 @@ const InvoiceDataList = ({ listInfo, setAction, setModifyItem, page, setPage }) 
                 <StyledTableCell align="center">
                   {handleNumber(row.InvoiceWKMaster.TotalAmount)}
                 </StyledTableCell>
-                {/* <StyledTableCell align="center">
-                  {row.InvoiceWKMaster.Status === 'TEMPORARY'
-                    ? '暫存'
-                    : row.InvoiceWKMaster.Status === 'VALIDATED'
-                    ? '已確認'
-                    : row.InvoiceWKMaster.Status === 'BILLED'
-                    ? '已立帳'
-                    : row.InvoiceWKMaster.Status === 'PAYING'
-                    ? '付款中'
-                    : row.InvoiceWKMaster.Status === 'COMPLETE'
-                    ? '完成付款'
-                    : '作廢'}
-                </StyledTableCell> */}
                 <TableCell align="center">
                   {row.InvoiceWKMaster.Status === 'TEMPORARY' ? (
                     <Box

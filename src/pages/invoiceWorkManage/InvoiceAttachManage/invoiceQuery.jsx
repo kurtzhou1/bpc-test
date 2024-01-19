@@ -58,7 +58,7 @@ const InvoiceQuery = ({ setListInfo, queryApi, setAction, setPage }) => {
     setWorkTitle('');
     setBillMilestone('');
     setIsIssueDate('');
-    setIssueDate(null);
+    setIssueDate([null, null]);
     setInvoiceNo('');
     setInvoiceStatusQuery({
       BILLED: false,
