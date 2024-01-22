@@ -92,7 +92,7 @@ const InvoiceDataList = ({ listInfo, setModifyItem, setIsDetailOpen, page, setPa
         } else {
           dispatch(
             setMessageStateOpen({
-              messageStateOpen: { isOpen: true, severity: 'error', message: '上傳失敗' },
+              messageStateOpen: { isOpen: true, severity: 'error', message: '尚未上傳檔案' },
             }),
           );
         }
@@ -118,7 +118,7 @@ const InvoiceDataList = ({ listInfo, setModifyItem, setIsDetailOpen, page, setPa
         } else {
           dispatch(
             setMessageStateOpen({
-              messageStateOpen: { isOpen: true, severity: 'error', message: '上傳失敗' },
+              messageStateOpen: { isOpen: true, severity: 'error', message: '尚未上傳檔案' },
             }),
           );
         }
