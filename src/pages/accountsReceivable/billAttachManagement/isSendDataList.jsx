@@ -3,7 +3,6 @@ import { useState, useRef } from 'react';
 // project import
 import { handleNumber } from 'components/commonFunction';
 import SignedDataWork from './signedDataWork';
-import GenerateTerminate from './generateTerminate';
 // material-ui
 import { Button, Table, Box } from '@mui/material';
 import TableBody from '@mui/material/TableBody';
@@ -18,12 +17,8 @@ import dayjs from 'dayjs';
 
 import { downBM, attachment } from 'components/apis.jsx';
 
-// redux
-import { useDispatch } from 'react-redux';
-
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
-    // backgroundColor: theme.palette.common.gary,
     color: theme.palette.common.black,
     paddingTop: '0.2rem',
     paddingBottom: '0.2rem',
@@ -36,13 +31,9 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
   },
 }));
 
-const IsSendDataList = ({ dataList, receivableQuery }) => {
-  const dispatch = useDispatch();
-  const [infoTerminal, setInfoTerminal] = useState(false); //作廢
+const IsSendDataList = ({ dataList }) => {
   const [isDeductedWorkOpen, setIsDeductedWorkOpen] = useState(false); //產製帳單
   const billDetailInfo = useRef([]);
-  const editBillingNo = useRef('');
-  const editBillMasterID = useRef('');
 
   const handleDownload = (billMasterID, url) => {
     let tmpApi = downBM + '/' + billMasterID;
@@ -70,16 +61,6 @@ const IsSendDataList = ({ dataList, receivableQuery }) => {
     setIsDeductedWorkOpen(true);
   };
 
-  const handleTerminalClose = () => {
-    setInfoTerminal(false);
-  };
-
-  const handleInfoTerminal = (no, id) => {
-    editBillingNo.current = no;
-    editBillMasterID.current = id;
-    setInfoTerminal(true);
-  };
-
   const downloadAttach = (billMasterID) => {
     let tmpApi = attachment + '/' + billMasterID;
     fetch(tmpApi, {
@@ -99,13 +80,6 @@ const IsSendDataList = ({ dataList, receivableQuery }) => {
 
   return (
     <>
-      <GenerateTerminate
-        infoTerminal={infoTerminal}
-        handleTerminalClose={handleTerminalClose}
-        receivableQuery={receivableQuery}
-        editBillingNo={editBillingNo.current}
-        editBillMasterID={editBillMasterID.current}
-      />
       <SignedDataWork
         isDeductedWorkOpen={isDeductedWorkOpen}
         handleDeductedClose={handleDeductedClose}
@@ -122,9 +96,9 @@ const IsSendDataList = ({ dataList, receivableQuery }) => {
               <StyledTableCell align="center">帳單號碼</StyledTableCell>
               <StyledTableCell align="center">帳單日期</StyledTableCell>
               <StyledTableCell align="center">截止日</StyledTableCell>
-              <StyledTableCell align="center">明細數量</StyledTableCell>
+              <StyledTableCell align="center">明細數</StyledTableCell>
               <StyledTableCell align="center">總金額</StyledTableCell>
-              <StyledTableCell align="center">是否已寄送</StyledTableCell>
+              <StyledTableCell align="center">已寄送</StyledTableCell>
               <StyledTableCell align="center">狀態</StyledTableCell>
               <StyledTableCell align="center">Action</StyledTableCell>
             </TableRow>

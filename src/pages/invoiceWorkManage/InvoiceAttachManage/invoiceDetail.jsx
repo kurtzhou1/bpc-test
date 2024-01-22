@@ -71,7 +71,6 @@ const PaymentWork = ({
 
   useEffect(() => {
     if (isDetailOpen) {
-      console.log();
       let tmpData = modifyItem.map((i) => i);
       tmpData.forEach((row1) => {
         feeAmount.current = feeAmount.current + row1.FeeAmount;

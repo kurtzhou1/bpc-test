@@ -20,13 +20,18 @@ export const updateInvoice =
 // 查詢發票工作檔狀態
 export const queryInvoice =
   'http://internal-cbpsalb-1176080923.ap-northeast-1.elb.amazonaws.com/api/v1/getInvoiceWKMaster&InvoiceWKDetail';
-// export const queryInvoice = 'http://internal-cbpsalb-1176080923.ap-northeast-1.elb.amazonaws.com/api/v1/getInvoiceWKMaster&InvoiceWKDetail';
 
 // 刪除發票工作檔
 export const deleteInvoiceWKMaster =
   'http://internal-cbpsalb-1176080923.ap-northeast-1.elb.amazonaws.com/api/v1/deleteInvoiceWKMaster';
 export const deleteInvoiceWKDetail =
   'http://internal-cbpsalb-1176080923.ap-northeast-1.elb.amazonaws.com/api/v1/deleteInvoiceWKDetail';
+
+//發票與附件管理
+export const uploadInvoiceWKMaster =
+  'http://internal-cbpsalb-1176080923.ap-northeast-1.elb.amazonaws.com/api/v1/uploadInvoiceWKMaster';
+export const uploadInvoiceWKMasterAttachment =
+  'http://internal-cbpsalb-1176080923.ap-northeast-1.elb.amazonaws.com/api/v1/uploadInvoiceWKMaster/Attachment';
 
 //Liability下拉選單
 export const updateLiability =

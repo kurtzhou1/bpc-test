@@ -1,13 +1,16 @@
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 
 // project import
 import { handleNumber } from 'components/commonFunction';
-import InvoiceDetail from './invoiceDetail';
+import InvoiceUpload from './invoiceUpload';
+import AttachmentUpload from './attachmentUpload';
 
 // material-ui
-import { Button, Table, Box } from '@mui/material';
 import TableCell, { tableCellClasses } from '@mui/material/TableCell';
 import {
+  Button,
+  Table,
+  Box,
   TableContainer,
   TableHead,
   TableBody,
@@ -20,7 +23,7 @@ import { styled } from '@mui/material/styles';
 
 import dayjs from 'dayjs';
 
-const InvoiceDataList = ({ listInfo, setAction, setModifyItem, page, setPage }) => {
+const InvoiceDataList = ({ listInfo, setModifyItem, setIsDetailOpen, page, setPage }) => {
   const StyledTableCell = styled(TableCell)(({ theme }) => ({
     [`&.${tableCellClasses.head}`]: {
       // backgroundColor: theme.palette.common.gary,
@@ -35,6 +38,9 @@ const InvoiceDataList = ({ listInfo, setAction, setModifyItem, page, setPage }) 
     },
   }));
   const [rowsPerPage, setRowsPerPage] = useState(10);
+  const [isUploadOpen, setIsUploadOpen] = useState(false);
+  const [isAttachUploadOpen, setIsAttachUploadOpen] = useState(false);
+  const itemID = useRef(-1);
   const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - listInfo.length) : 0;
   let tmpBMArray = [];
 
@@ -47,171 +53,94 @@ const InvoiceDataList = ({ listInfo, setAction, setModifyItem, page, setPage }) 
     setPage(0);
   };
 
-  const options1 = ['檢視', '待立帳', '編輯', '刪除'];
-  const options2 = ['檢視', '作廢'];
-  const options3 = ['檢視', '作廢', '退回'];
+  const handleUploadClose = () => {
+    setIsUploadOpen(false);
+  };
+
+  const handleUploadOpen = (id) => {
+    itemID.current = id;
+    setIsUploadOpen(true);
+  };
+
+  const handleAttachUploadClose = () => {
+    setIsAttachUploadOpen(false);
+  };
+
+  const handleAttachUploadOpen = (id) => {
+    itemID.current = id;
+    setIsAttachUploadOpen(true);
+  };
 
   return (
-    <TableContainer component={Paper} sx={{ maxHeight: 640 }}>
-      <Table sx={{ minWidth: 300 }} stickyHeader>
-        <TableHead>
-          <TableRow>
-            <StyledTableCell align="center">NO</StyledTableCell>
-            <StyledTableCell align="center">發票號碼</StyledTableCell>
-            <StyledTableCell align="center">供應商</StyledTableCell>
-            <StyledTableCell align="center">海纜名稱</StyledTableCell>
-            <StyledTableCell align="center">海纜作業</StyledTableCell>
-            <StyledTableCell align="center">計帳段號</StyledTableCell>
-            <StyledTableCell align="center">發票到期日</StyledTableCell>
-            <StyledTableCell align="center">明細數量</StyledTableCell>
-            <StyledTableCell align="center">總金額</StyledTableCell>
-            <StyledTableCell align="center">累計實付金額</StyledTableCell>
-            <StyledTableCell align="center">累計減項金額</StyledTableCell>
-            <StyledTableCell align="center">Action</StyledTableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {(rowsPerPage > 0
-            ? listInfo.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-            : listInfo
-          )?.map((row, itemID) => {
-            tmpBMArray = [];
-            row.InvoiceWKDetail.forEach((i) => {
-              if (!tmpBMArray.includes(i.BillMilestone)) {
-                tmpBMArray.push(i.BillMilestone);
-              }
-            });
-            return (
-              <TableRow
-                key={row.InvoiceWKMaster?.WKMasterID + row.InvoiceWKMaster?.InvoiceNo + itemID}
-                sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-              >
-                <StyledTableCell align="center">{itemID + 1}</StyledTableCell>
-                <StyledTableCell align="center">{row.InvoiceWKMaster?.InvoiceNo}</StyledTableCell>
-                <StyledTableCell align="center">
-                  {row.InvoiceWKMaster?.SupplierName}
-                </StyledTableCell>
-                <StyledTableCell align="center">
-                  {row.InvoiceWKMaster?.SubmarineCable}
-                </StyledTableCell>
-                <StyledTableCell align="center">{tmpBMArray.join(',')}</StyledTableCell>
-                <StyledTableCell align="center">{row.InvoiceWKMaster?.WorkTitle}</StyledTableCell>
-                {/* <StyledTableCell align="center">
-                                        {dayjs(row.InvoiceWKMaster?.IssueDate).format('YYYY/MM/DD')}
-                                    </StyledTableCell> */}
-                <StyledTableCell align="center">
-                  {dayjs(row.InvoiceWKMaster?.DueDate).format('YYYY/MM/DD')}
-                </StyledTableCell>
-                <StyledTableCell align="center">{row.InvoiceWKDetail.length}</StyledTableCell>
-                <StyledTableCell align="center">
-                  {handleNumber(row.InvoiceWKMaster.TotalAmount)}
-                </StyledTableCell>
-                <StyledTableCell align="center">
-                  {handleNumber(row.InvoiceWKMaster.TotalAmount)}
-                </StyledTableCell>
-                <StyledTableCell align="center">
-                  {handleNumber(row.InvoiceWKMaster.TotalAmount)}
-                </StyledTableCell>
-                {/* <StyledTableCell align="center">
-                  {row.InvoiceWKMaster.Status === 'TEMPORARY'
-                    ? '暫存'
-                    : row.InvoiceWKMaster.Status === 'VALIDATED'
-                    ? '已確認'
-                    : row.InvoiceWKMaster.Status === 'BILLED'
-                    ? '已立帳'
-                    : row.InvoiceWKMaster.Status === 'PAYING'
-                    ? '付款中'
-                    : row.InvoiceWKMaster.Status === 'COMPLETE'
-                    ? '完成付款'
-                    : '作廢'}
-                </StyledTableCell> */}
-                <TableCell align="center">
-                  {row.InvoiceWKMaster.Status === 'TEMPORARY' ? (
-                    <Box
-                      sx={{
-                        display: 'flex',
-                        justifyContent: 'center',
-                        '& button': { mx: { md: 0.1, lg: 0.1, xl: 1 }, p: 0 },
-                      }}
-                    >
-                      {options1.map((option) => {
-                        return (
-                          <Button
-                            color={
-                              option === '檢視'
-                                ? 'success'
-                                : option === '待立帳'
-                                ? 'primary'
-                                : option === '編輯'
-                                ? 'warning'
-                                : 'error'
-                            }
-                            key={option}
-                            variant="outlined"
-                            size="small"
-                            onClick={() => {
-                              setModifyItem(row.InvoiceWKDetail);
-                              setAction(option);
-                            }}
-                          >
-                            {option}
-                          </Button>
-                        );
-                      })}
-                    </Box>
-                  ) : row.InvoiceWKMaster.Status === 'VALIDATED' ? (
-                    <Box
-                      sx={{
-                        display: 'flex',
-                        justifyContent: 'center',
-                        '& button': { mx: { md: 0.2, lg: 0.2, xl: 1 }, p: 0 },
-                      }}
-                    >
-                      {options2.map((option) => {
-                        return (
-                          <Button
-                            color={option === '檢視' ? 'success' : 'error'}
-                            key={option}
-                            variant="outlined"
-                            size="small"
-                            onClick={() => {
-                              setModifyItem(row.InvoiceWKDetail);
-                              setAction(option);
-                            }}
-                          >
-                            {option}
-                          </Button>
-                        );
-                      })}
-                    </Box>
-                  ) : row.InvoiceWKMaster.Status === 'BILLED' ? (
-                    <Box
-                      sx={{
-                        display: 'flex',
-                        justifyContent: 'center',
-                        '& button': { mx: { md: 0.2, lg: 0.2, xl: 1 }, p: 0 },
-                      }}
-                    >
-                      {options3.map((option) => {
-                        return (
-                          <Button
-                            color={
-                              option === '檢視' ? 'success' : option === '作廢' ? 'error' : 'info'
-                            }
-                            key={option}
-                            variant="outlined"
-                            size="small"
-                            onClick={() => {
-                              setModifyItem(row.InvoiceWKDetail);
-                              setAction(option);
-                            }}
-                          >
-                            {option}
-                          </Button>
-                        );
-                      })}
-                    </Box>
-                  ) : (
+    <>
+      <InvoiceUpload
+        isUploadOpen={isUploadOpen}
+        handleUploadClose={handleUploadClose}
+        itemID={itemID.current}
+      />
+      <AttachmentUpload
+        isAttachUploadOpen={isAttachUploadOpen}
+        handleAttachUploadClose={handleAttachUploadClose}
+        itemID={itemID.current}
+      />
+      <TableContainer component={Paper} sx={{ maxHeight: window.screen.height * 0.4 }}>
+        <Table sx={{ minWidth: 300 }} stickyHeader>
+          <TableHead>
+            <TableRow>
+              <StyledTableCell align="center">NO</StyledTableCell>
+              <StyledTableCell align="center">發票號碼</StyledTableCell>
+              <StyledTableCell align="center">供應商</StyledTableCell>
+              <StyledTableCell align="center">海纜名稱</StyledTableCell>
+              <StyledTableCell align="center">海纜作業</StyledTableCell>
+              <StyledTableCell align="center">計帳段號</StyledTableCell>
+              <StyledTableCell align="center">發票到期日</StyledTableCell>
+              <StyledTableCell align="center">明細數量</StyledTableCell>
+              <StyledTableCell align="center">總金額</StyledTableCell>
+              <StyledTableCell align="center">累計實付金額</StyledTableCell>
+              <StyledTableCell align="center">累計減項金額</StyledTableCell>
+              <StyledTableCell align="center">Action</StyledTableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {(rowsPerPage > 0
+              ? listInfo.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+              : listInfo
+            )?.map((row, itemID) => {
+              tmpBMArray = [];
+              row.InvoiceWKDetail.forEach((i) => {
+                if (!tmpBMArray.includes(i.BillMilestone)) {
+                  tmpBMArray.push(i.BillMilestone);
+                }
+              });
+              return (
+                <TableRow
+                  key={row.InvoiceWKMaster?.WKMasterID + row.InvoiceWKMaster?.InvoiceNo + itemID}
+                  sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                >
+                  <StyledTableCell align="center">{itemID + 1}</StyledTableCell>
+                  <StyledTableCell align="center">{row.InvoiceWKMaster?.InvoiceNo}</StyledTableCell>
+                  <StyledTableCell align="center">
+                    {row.InvoiceWKMaster?.SupplierName}
+                  </StyledTableCell>
+                  <StyledTableCell align="center">
+                    {row.InvoiceWKMaster?.SubmarineCable}
+                  </StyledTableCell>
+                  <StyledTableCell align="center">{tmpBMArray.join(',')}</StyledTableCell>
+                  <StyledTableCell align="center">{row.InvoiceWKMaster?.WorkTitle}</StyledTableCell>
+                  <StyledTableCell align="center">
+                    {dayjs(row.InvoiceWKMaster?.DueDate).format('YYYY/MM/DD')}
+                  </StyledTableCell>
+                  <StyledTableCell align="center">{row.InvoiceWKDetail.length}</StyledTableCell>
+                  <StyledTableCell align="center">
+                    {handleNumber(row.InvoiceWKMaster.TotalAmount)}
+                  </StyledTableCell>
+                  <StyledTableCell align="center">
+                    {handleNumber(row.InvoiceWKMaster.TotalAmount)}
+                  </StyledTableCell>
+                  <StyledTableCell align="center">
+                    {handleNumber(row.InvoiceWKMaster.TotalAmount)}
+                  </StyledTableCell>
+                  <TableCell align="center">
                     <Box
                       sx={{
                         display: 'flex',
@@ -225,39 +154,81 @@ const InvoiceDataList = ({ listInfo, setAction, setModifyItem, page, setPage }) 
                         size="small"
                         onClick={() => {
                           setModifyItem(row.InvoiceWKDetail);
-                          setAction('檢視');
+                          setIsDetailOpen(true);
                         }}
                       >
-                        {'檢視'}
+                        檢視
+                      </Button>
+                      <Button
+                        color="primary"
+                        variant="outlined"
+                        size="small"
+                        onClick={() => {
+                          handleUploadOpen(row.InvoiceWKMaster?.WKMasterID);
+                        }}
+                      >
+                        上傳發票
+                      </Button>
+                      <Button
+                        color="info"
+                        variant="outlined"
+                        size="small"
+                        onClick={() => {
+                          handleAttachUploadOpen(row.InvoiceWKMaster?.WKMasterID);
+                        }}
+                      >
+                        上傳附件
+                      </Button>
+                      <Button
+                        color="warning"
+                        variant="outlined"
+                        size="small"
+                        onClick={() => {
+                          setModifyItem(row.InvoiceWKDetail);
+                          setIsDetailOpen(true);
+                        }}
+                      >
+                        下載發票
+                      </Button>
+                      <Button
+                        color="error"
+                        variant="outlined"
+                        size="small"
+                        onClick={() => {
+                          setModifyItem(row.InvoiceWKDetail);
+                          setIsDetailOpen(true);
+                        }}
+                      >
+                        下載附件
                       </Button>
                     </Box>
-                  )}
-                </TableCell>
+                  </TableCell>
+                </TableRow>
+              );
+            })}
+            {emptyRows > 0 && (
+              <TableRow style={{ height: 48 * emptyRows }}>
+                <StyledTableCell colSpan={6} />
               </TableRow>
-            );
-          })}
-          {emptyRows > 0 && (
-            <TableRow style={{ height: 48 * emptyRows }}>
-              <StyledTableCell colSpan={6} />
+            )}
+          </TableBody>
+          <TableFooter>
+            <TableRow>
+              <TablePagination
+                rowsPerPageOptions={[10, 15, 20, 25, { label: 'All', value: -1 }]}
+                colSpan={12}
+                count={listInfo.length}
+                rowsPerPage={rowsPerPage}
+                page={page}
+                onPageChange={handleChangePage}
+                onRowsPerPageChange={handleChangeRowsPerPage}
+                // ActionsComponent={TablePaginationActions}
+              />
             </TableRow>
-          )}
-        </TableBody>
-        <TableFooter>
-          <TableRow>
-            <TablePagination
-              rowsPerPageOptions={[10, 15, 20, 25, { label: 'All', value: -1 }]}
-              colSpan={12}
-              count={listInfo.length}
-              rowsPerPage={rowsPerPage}
-              page={page}
-              onPageChange={handleChangePage}
-              onRowsPerPageChange={handleChangeRowsPerPage}
-              // ActionsComponent={TablePaginationActions}
-            />
-          </TableRow>
-        </TableFooter>
-      </Table>
-    </TableContainer>
+          </TableFooter>
+        </Table>
+      </TableContainer>
+    </>
   );
 };
 

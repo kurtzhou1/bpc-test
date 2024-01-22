@@ -219,19 +219,6 @@ const SignedDataList = ({ dataList, receivableQuery }) => {
                           進待銷帳
                         </Button>
                       )}
-                      {/* <Button
-                                                color="secondary"
-                                                size="small"
-                                                variant="outlined"
-                                                
-                                                onClick={() => {
-                                                    handleUploadOpen({
-                                                        BillMasterID: row.BillMaster.BillMasterID
-                                                    });
-                                                }}
-                                            >
-                                                上傳附件
-                                            </Button> */}
                       <Button
                         color="warning"
                         size="small"

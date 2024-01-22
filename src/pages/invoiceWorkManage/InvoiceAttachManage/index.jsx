@@ -268,6 +268,7 @@ const InvoiceWorkManage = () => {
                     listInfo={listInfo}
                     setAction={setAction}
                     setModifyItem={setModifyItem}
+                    setIsDetailOpen={setIsDetailOpen}
                     page={page}
                     setPage={setPage}
                   />
