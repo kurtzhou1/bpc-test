@@ -59,7 +59,6 @@ const PaymentWork = ({
   dueDate,
   savePaymentEdit,
 }) => {
-  console.log('editPaymentInfo=>>>', editPaymentInfo);
   const dispatch = useDispatch();
   const [toPaymentDetailInfo, setToPaymentDetailInfo] = useState([]); //帳單明細檔
   const orgfeeAmountTotal = useRef(0); //應收金額

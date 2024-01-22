@@ -30,8 +30,14 @@ export const deleteInvoiceWKDetail =
 //發票與附件管理
 export const uploadInvoiceWKMaster =
   'http://internal-cbpsalb-1176080923.ap-northeast-1.elb.amazonaws.com/api/v1/uploadInvoiceWKMaster';
+// 'http://10.193.130.75:8000/api/v1/uploadInvoiceWKMaster';
 export const uploadInvoiceWKMasterAttachment =
   'http://internal-cbpsalb-1176080923.ap-northeast-1.elb.amazonaws.com/api/v1/uploadInvoiceWKMaster/Attachment';
+export const downloadInvoiceWKMaster =
+  'http://internal-cbpsalb-1176080923.ap-northeast-1.elb.amazonaws.com/api/v1/downloadInvoiceWKMaster';
+// 'http://10.193.130.75:8000/api/v1/downloadInvoiceWKMaster';
+export const downloadInvoiceWKMasterAttachment =
+  'http://internal-cbpsalb-1176080923.ap-northeast-1.elb.amazonaws.com/api/v1/downloadInvoiceWKMaster/Attachment';
 
 //Liability下拉選單
 export const updateLiability =

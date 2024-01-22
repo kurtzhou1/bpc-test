@@ -4,6 +4,7 @@ import { useState, useRef } from 'react';
 import { handleNumber } from 'components/commonFunction';
 import InvoiceUpload from './invoiceUpload';
 import AttachmentUpload from './attachmentUpload';
+import { downloadInvoiceWKMaster, downloadInvoiceWKMasterAttachment } from 'components/apis.jsx';
 
 // material-ui
 import TableCell, { tableCellClasses } from '@mui/material/TableCell';
@@ -20,7 +21,9 @@ import {
   TablePagination,
 } from '@mui/material';
 import { styled } from '@mui/material/styles';
-
+// redux
+import { useDispatch } from 'react-redux';
+import { setMessageStateOpen } from 'store/reducers/dropdown';
 import dayjs from 'dayjs';
 
 const InvoiceDataList = ({ listInfo, setModifyItem, setIsDetailOpen, page, setPage }) => {
@@ -43,7 +46,7 @@ const InvoiceDataList = ({ listInfo, setModifyItem, setIsDetailOpen, page, setPa
   const itemID = useRef(-1);
   const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - listInfo.length) : 0;
   let tmpBMArray = [];
-
+  const dispatch = useDispatch();
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
   };
@@ -69,6 +72,58 @@ const InvoiceDataList = ({ listInfo, setModifyItem, setIsDetailOpen, page, setPa
   const handleAttachUploadOpen = (id) => {
     itemID.current = id;
     setIsAttachUploadOpen(true);
+  };
+
+  const handleDownload = (id) => {
+    let tmpApi = downloadInvoiceWKMaster + '/' + id;
+    console.log('tmpApi=>>', tmpApi);
+    fetch(tmpApi, {
+      method: 'GET',
+    })
+      .then((res) => {
+        console.log('res=>>', res);
+        return res.blob();
+      })
+      .then((blob) => {
+        if (blob.size > 40) {
+          const link = document.createElement('a');
+          link.href = window.URL.createObjectURL(blob);
+          link.click();
+        } else {
+          dispatch(
+            setMessageStateOpen({
+              messageStateOpen: { isOpen: true, severity: 'error', message: '上傳失敗' },
+            }),
+          );
+        }
+      })
+      .catch((e) => console.log('e1=>', e));
+  };
+
+  const handleAttacDownload = (id) => {
+    let tmpApi = downloadInvoiceWKMasterAttachment + '/' + id;
+    console.log('tmpApi=>>', tmpApi);
+    fetch(tmpApi, {
+      method: 'GET',
+    })
+      .then((res) => {
+        console.log('res=>>', res);
+        return res.blob();
+      })
+      .then((blob) => {
+        if (blob.size > 40) {
+          const link = document.createElement('a');
+          link.href = window.URL.createObjectURL(blob);
+          link.click();
+        } else {
+          dispatch(
+            setMessageStateOpen({
+              messageStateOpen: { isOpen: true, severity: 'error', message: '上傳失敗' },
+            }),
+          );
+        }
+      })
+      .catch((e) => console.log('e1=>', e));
   };
 
   return (
@@ -184,8 +239,7 @@ const InvoiceDataList = ({ listInfo, setModifyItem, setIsDetailOpen, page, setPa
                         variant="outlined"
                         size="small"
                         onClick={() => {
-                          setModifyItem(row.InvoiceWKDetail);
-                          setIsDetailOpen(true);
+                          handleDownload(row.InvoiceWKMaster?.WKMasterID);
                         }}
                       >
                         下載發票
@@ -195,8 +249,7 @@ const InvoiceDataList = ({ listInfo, setModifyItem, setIsDetailOpen, page, setPa
                         variant="outlined"
                         size="small"
                         onClick={() => {
-                          setModifyItem(row.InvoiceWKDetail);
-                          setIsDetailOpen(true);
+                          handleAttacDownload(row.InvoiceWKMaster?.WKMasterID);
                         }}
                       >
                         下載附件

@@ -42,14 +42,22 @@ const AttachmentUpload = ({ isAttachUploadOpen, handleAttachUploadClose, itemID 
         },
       })
         .then((res) => res.json())
-        .then(() => {
-          dispatch(
-            setMessageStateOpen({
-              messageStateOpen: { isOpen: true, severity: 'success', message: '上傳成功' },
-            }),
-          );
-          setUploadFile(null);
-          handleAttachUploadClose();
+        .then((data) => {
+          if (data.message === 'success') {
+            dispatch(
+              setMessageStateOpen({
+                messageStateOpen: { isOpen: true, severity: 'success', message: '上傳成功' },
+              }),
+            );
+            setUploadFile(null);
+            handleAttachUploadClose();
+          } else {
+            dispatch(
+              setMessageStateOpen({
+                messageStateOpen: { isOpen: true, severity: 'error', message: '上傳失敗' },
+              }),
+            );
+          }
         })
         .catch((e) => console.log('e1=>', e));
     } else {
@@ -79,7 +87,11 @@ const AttachmentUpload = ({ isAttachUploadOpen, handleAttachUploadClose, itemID 
         <Grid container spacing={2} display="flex" justifyContent="center" alignItems="center">
           <Grid item xs={12} sm={12} md={12} lg={12} display="flex">
             <Box sx={{ display: 'flex', flexFlow: 'column', alignItems: 'center', width: '100%' }}>
-              <DropzoneArea onChange={handleUploadChange} acceptedFiles={['.pdf']} />
+              <DropzoneArea
+                onChange={handleUploadChange}
+                acceptedFiles={['.pdf']}
+                maxFileSize={100000000}
+              />
             </Box>
           </Grid>
           <Grid item xs={12} sm={12} md={12} lg={12} display="flex">

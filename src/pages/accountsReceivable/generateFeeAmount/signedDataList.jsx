@@ -192,17 +192,6 @@ const SignedDataList = ({ dataList, receivableQuery }) => {
                       >
                         檢視
                       </Button>
-                      {/* <Button
-                                                color="primary"
-                                                size="small"
-                                                variant="outlined"
-                                                
-                                                onClick={() => {
-                                                    handleDownload(row.BillMaster.BillMasterID, row.BillMaster.URI);
-                                                }}
-                                            >
-                                                下載帳單
-                                            </Button> */}
                       {row.BillMaster.Status === 'TO_WRITEOFF' ? (
                         <Button color="inherit" size="small" variant="outlined">
                           已進待銷

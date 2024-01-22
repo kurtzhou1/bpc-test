@@ -59,7 +59,6 @@ const PaymentWork = ({
   isDetailClose,
   modifyItem,
 }) => {
-  console.log('editPaymentInfo=>>>', editPaymentInfo);
   const dispatch = useDispatch();
   let feeAmount = useRef(0); // 總費用金額加總(上)
   const [dataList, setDataList] = useState([]);
