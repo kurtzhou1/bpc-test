@@ -82,7 +82,7 @@ const PaymentWork = ({
 
   return (
     <Dialog maxWidth="sm" open={isDetailOpen}>
-      <BootstrapDialogTitle>檢視已簽核帳單</BootstrapDialogTitle>
+      <BootstrapDialogTitle>發票列表</BootstrapDialogTitle>
       <DialogContent>
         <Grid
           container
@@ -101,7 +101,6 @@ const PaymentWork = ({
                     <StyledTableCell align="center">費用項目</StyledTableCell>
                     <StyledTableCell align="center">計帳段號</StyledTableCell>
                     <StyledTableCell align="center">費用金額</StyledTableCell>
-                    <StyledTableCell align="center">摘要說明</StyledTableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>
@@ -117,7 +116,6 @@ const PaymentWork = ({
                         <TableCell align="center">
                           {handleNumber(row.FeeAmount.toFixed(2))}
                         </TableCell>
-                        <TableCell align="center">{row.Note}</TableCell>
                       </TableRow>
                     );
                   })}
