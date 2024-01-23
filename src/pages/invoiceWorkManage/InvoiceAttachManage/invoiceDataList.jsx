@@ -74,20 +74,29 @@ const InvoiceDataList = ({ listInfo, setModifyItem, setIsDetailOpen, page, setPa
     setIsAttachUploadOpen(true);
   };
 
-  const handleDownload = (id) => {
+  const handleDownload = (id, name) => {
     let tmpApi = downloadInvoiceWKMaster + '/' + id;
     console.log('tmpApi=>>', tmpApi);
     fetch(tmpApi, {
-      method: 'GET',
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+      },
     })
       .then((res) => {
         console.log('res=>>', res);
+        // return res.blob();
+        if (!res.ok) {
+          throw new Error('Network response was not ok');
+        }
         return res.blob();
       })
-      .then((blob) => {
-        if (blob.size > 40) {
+      .then((data) => {
+        console.log('data=>>', data);
+        if (data.size > 40) {
           const link = document.createElement('a');
-          link.href = window.URL.createObjectURL(blob);
+          link.href = window.URL.createObjectURL(data);
+          link.download = `${name.split('/')[name.split('/').length - 1]}.pdf`;
           link.click();
         } else {
           dispatch(
@@ -100,11 +109,11 @@ const InvoiceDataList = ({ listInfo, setModifyItem, setIsDetailOpen, page, setPa
       .catch((e) => console.log('e1=>', e));
   };
 
-  const handleAttacDownload = (id) => {
+  const handleAttacDownload = (id, name) => {
     let tmpApi = downloadInvoiceWKMasterAttachment + '/' + id;
     console.log('tmpApi=>>', tmpApi);
     fetch(tmpApi, {
-      method: 'GET',
+      method: 'POST',
     })
       .then((res) => {
         console.log('res=>>', res);
@@ -114,6 +123,7 @@ const InvoiceDataList = ({ listInfo, setModifyItem, setIsDetailOpen, page, setPa
         if (blob.size > 40) {
           const link = document.createElement('a');
           link.href = window.URL.createObjectURL(blob);
+          link.download = `${name.split('/')[name.split('/').length - 1]}.pdf`;
           link.click();
         } else {
           dispatch(
@@ -239,7 +249,7 @@ const InvoiceDataList = ({ listInfo, setModifyItem, setIsDetailOpen, page, setPa
                         variant="outlined"
                         size="small"
                         onClick={() => {
-                          handleDownload(row.InvoiceWKMaster?.WKMasterID);
+                          handleDownload(row.InvoiceWKMaster?.WKMasterID, row.InvoiceWKMaster?.URI);
                         }}
                       >
                         下載發票
@@ -249,7 +259,10 @@ const InvoiceDataList = ({ listInfo, setModifyItem, setIsDetailOpen, page, setPa
                         variant="outlined"
                         size="small"
                         onClick={() => {
-                          handleAttacDownload(row.InvoiceWKMaster?.WKMasterID);
+                          handleAttacDownload(
+                            row.InvoiceWKMaster?.WKMasterID,
+                            row.InvoiceWKMaster?.AttachedURI,
+                          );
                         }}
                       >
                         下載附件
