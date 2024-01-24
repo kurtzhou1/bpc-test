@@ -74,9 +74,10 @@ const InvoiceDataList = ({ listInfo, setModifyItem, setIsDetailOpen, page, setPa
     setIsAttachUploadOpen(true);
   };
 
-  const handleDownload = (id, name) => {
-    let tmpApi = downloadInvoiceWKMaster + '/' + id;
+  const handleDownload = (id) => {
+    const tmpApi = `${downloadInvoiceWKMaster}/${id}`;
     console.log('tmpApi=>>', tmpApi);
+
     fetch(tmpApi, {
       method: 'POST',
       headers: {
@@ -85,29 +86,93 @@ const InvoiceDataList = ({ listInfo, setModifyItem, setIsDetailOpen, page, setPa
     })
       .then((res) => {
         console.log('res=>>', res);
-        // return res.blob();
         if (!res.ok) {
           throw new Error('Network response was not ok');
         }
-        return res.blob();
-      })
-      .then((data) => {
-        console.log('data=>>', data);
-        if (data.size > 40) {
-          const link = document.createElement('a');
-          link.href = window.URL.createObjectURL(data);
-          link.download = `${name.split('/')[name.split('/').length - 1]}.pdf`;
-          link.click();
+
+        // 解析 content-disposition 来获取文件名
+        const contentDisposition = res.headers.get('content-disposition');
+        let filename = 'default.pdf'; // 默认文件名
+        if (contentDisposition.includes("filename*=utf-8''")) {
+          const filenameEncoded = contentDisposition.split("filename*=utf-8''")[1];
+          filename = decodeURIComponent(filenameEncoded);
         } else {
-          dispatch(
-            setMessageStateOpen({
-              messageStateOpen: { isOpen: true, severity: 'error', message: '尚未上傳檔案' },
-            }),
-          );
+          const filenameMatch = contentDisposition.match(/filename="?(.+)"?/);
+          if (filenameMatch && filenameMatch[1]) {
+            filename = filenameMatch[1];
+          }
         }
+
+        return res.blob().then((blob) => ({ blob, filename }));
       })
-      .catch((e) => console.log('e1=>', e));
+      .then(({ blob, filename }) => {
+        console.log('blob=>>', blob);
+        console.log('filename=>>', filename);
+
+        const url = window.URL.createObjectURL(blob);
+        const link = document.createElement('a');
+        link.href = url;
+        link.download = filename;
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        window.URL.revokeObjectURL(url);
+      })
+      .catch((error) => {
+        console.error('Download error:', error);
+        // 处理错误
+      });
   };
+
+  // const handleDownload = (id, name) => {
+  //   const tmpApi = `${downloadInvoiceWKMaster}/${id}`;
+  //   console.log('tmpApi=>>', tmpApi);
+
+  //   fetch(tmpApi, {
+  //     method: 'POST',
+  //     headers: {
+  //       Accept: 'application/json',
+  //     },
+  //   })
+  //     .then((res) => {
+  //       if (!res.ok) {
+  //         throw new Error('Network response was not ok');
+  //       }
+  //       const contentDisposition = res.headers.get('content-disposition');
+  //       console.log('res=>>', res.headers.get('content-disposition'));
+  //       let filename = name.split('/').pop() + '.pdf'; // 默认文件名
+  //       if (contentDisposition) {
+  //         const filenameMatch = contentDisposition.match(/filename="?(.+)"?/);
+  //         if (filenameMatch && filenameMatch[1]) {
+  //           filename = filenameMatch[1];
+  //         }
+  //       }
+
+  //       return res.blob().then((blob) => ({ blob, filename }));
+  //     })
+  //     .then(({ blob, filename }) => {
+  //       if (blob.size > 40) {
+  //         const url = window.URL.createObjectURL(blob);
+  //         const link = document.createElement('a');
+  //         link.href = url;
+  //         link.download = filename;
+  //         document.body.appendChild(link);
+  //         link.click();
+  //         document.body.removeChild(link);
+  //         window.URL.revokeObjectURL(url);
+  //       } else {
+  //         dispatch(
+  //           setMessageStateOpen({
+  //             messageStateOpen: { isOpen: true, severity: 'error', message: '尚未上傳檔案' },
+  //           }),
+  //         );
+  //       }
+  //     })
+  //     .catch((error) => {
+  //       console.error('Download error:', error);
+  //       // 处理错误
+  //     });
+  // };
 
   const handleAttacDownload = (id, name) => {
     let tmpApi = downloadInvoiceWKMasterAttachment + '/' + id;
@@ -117,6 +182,8 @@ const InvoiceDataList = ({ listInfo, setModifyItem, setIsDetailOpen, page, setPa
     })
       .then((res) => {
         console.log('res=>>', res);
+        const contentDisposition = res.headers['content-disposition'];
+        console.log('contentDisposition=>>', contentDisposition);
         return res.blob();
       })
       .then((blob) => {
@@ -124,7 +191,7 @@ const InvoiceDataList = ({ listInfo, setModifyItem, setIsDetailOpen, page, setPa
           const link = document.createElement('a');
           link.href = window.URL.createObjectURL(blob);
           link.download = `${name.split('/')[name.split('/').length - 1]}.pdf`;
-          link.click();
+          // link.click();
         } else {
           dispatch(
             setMessageStateOpen({
