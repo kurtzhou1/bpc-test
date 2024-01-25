@@ -77,7 +77,6 @@ const InvoiceDataList = ({ listInfo, setModifyItem, setIsDetailOpen, page, setPa
   const handleDownload = (id) => {
     const tmpApi = `${downloadInvoiceWKMaster}/${id}`;
     console.log('tmpApi=>>', tmpApi);
-
     fetch(tmpApi, {
       method: 'POST',
       headers: {
@@ -106,7 +105,6 @@ const InvoiceDataList = ({ listInfo, setModifyItem, setIsDetailOpen, page, setPa
         return res.blob().then((blob) => ({ blob, filename }));
       })
       .then(({ blob, filename }) => {
-        console.log('blob=>>', blob);
         console.log('filename=>>', filename);
 
         const url = window.URL.createObjectURL(blob);
@@ -119,7 +117,12 @@ const InvoiceDataList = ({ listInfo, setModifyItem, setIsDetailOpen, page, setPa
         window.URL.revokeObjectURL(url);
       })
       .catch((error) => {
-        console.error('Download error:', error);
+        console.error('handleDownload error:', error);
+        dispatch(
+          setMessageStateOpen({
+            messageStateOpen: { isOpen: true, severity: 'error', message: '尚未上傳檔案' },
+          }),
+        );
         // 处理错误
       });
   };
@@ -175,32 +178,49 @@ const InvoiceDataList = ({ listInfo, setModifyItem, setIsDetailOpen, page, setPa
   // };
 
   const handleAttacDownload = (id, name) => {
-    let tmpApi = downloadInvoiceWKMasterAttachment + '/' + id;
+    let tmpApi = `${downloadInvoiceWKMasterAttachment}/${id}`;
     console.log('tmpApi=>>', tmpApi);
     fetch(tmpApi, {
       method: 'POST',
+      headers: {
+        Accept: 'application/json',
+      },
     })
       .then((res) => {
-        console.log('res=>>', res);
-        const contentDisposition = res.headers['content-disposition'];
-        console.log('contentDisposition=>>', contentDisposition);
-        return res.blob();
-      })
-      .then((blob) => {
-        if (blob.size > 40) {
-          const link = document.createElement('a');
-          link.href = window.URL.createObjectURL(blob);
-          link.download = `${name.split('/')[name.split('/').length - 1]}.pdf`;
-          // link.click();
+        // 解析 content-disposition 来获取文件名
+        const contentDisposition = res.headers.get('content-disposition');
+        let filename = 'default.pdf'; // 默认文件名
+        if (contentDisposition.includes("filename*=utf-8''")) {
+          const filenameEncoded = contentDisposition.split("filename*=utf-8''")[1];
+          filename = decodeURIComponent(filenameEncoded);
         } else {
-          dispatch(
-            setMessageStateOpen({
-              messageStateOpen: { isOpen: true, severity: 'error', message: '尚未上傳檔案' },
-            }),
-          );
+          const filenameMatch = contentDisposition.match(/filename="?(.+)"?/);
+          if (filenameMatch && filenameMatch[1]) {
+            filename = filenameMatch[1];
+          }
         }
+
+        return res.blob().then((blob) => ({ blob, filename }));
       })
-      .catch((e) => console.log('e1=>', e));
+      .then(({ blob, filename }) => {
+        const url = window.URL.createObjectURL(blob);
+        const link = document.createElement('a');
+        link.href = url;
+        link.download = filename;
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        window.URL.revokeObjectURL(url);
+      })
+      .catch((error) => {
+        console.error('handleAttacDownload error:', error);
+        dispatch(
+          setMessageStateOpen({
+            messageStateOpen: { isOpen: true, severity: 'error', message: '尚未上傳檔案' },
+          }),
+        );
+        // 处理错误
+      });
   };
 
   return (
