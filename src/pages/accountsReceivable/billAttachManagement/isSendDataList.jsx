@@ -18,7 +18,7 @@ import { styled } from '@mui/material/styles';
 import dayjs from 'dayjs';
 
 import { useDispatch } from 'react-redux';
-import { setMessageStateOpen } from 'store/reducers/dropdown';
+import { setMessageStateOpen, setIsLoading } from 'store/reducers/dropdown';
 
 import { downloadBillMaster, downloadBillMasterAttachment } from 'components/apis.jsx';
 
@@ -38,8 +38,6 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
 
 const IsSendDataList = ({ dataList }) => {
     const dispatch = useDispatch();
-    const [isDeductedWorkOpen, setIsDeductedWorkOpen] = useState(false); //產製帳單
-    const billDetailInfo = useRef([]);
     const [isUploadOpen, setIsUploadOpen] = useState(false);
     const [isAttachUploadOpen, setIsAttachUploadOpen] = useState(false);
     const itemID = useRef(-1);
@@ -68,17 +66,9 @@ const IsSendDataList = ({ dataList }) => {
         setIsAttachUploadOpen(true);
     };
 
-    const handleDeductedClose = () => {
-        setIsDeductedWorkOpen(false);
-    };
-
-    const handleDeductedOpen = (data) => {
-        billDetailInfo.current = data;
-        setIsDeductedWorkOpen(true);
-    };
-
     const handleDownload = (id) => {
         const tmpApi = `${downloadBillMaster}/${id}`;
+        dispatch(setIsLoading({ isLoading: true }));
         console.log('tmpApi=>>', tmpApi);
         fetch(tmpApi, {
             method: 'POST',
@@ -112,12 +102,14 @@ const IsSendDataList = ({ dataList }) => {
                 link.href = url;
                 link.download = filename;
                 document.body.appendChild(link);
+                dispatch(setIsLoading({ isLoading: false }));
                 link.click();
                 document.body.removeChild(link);
                 window.URL.revokeObjectURL(url);
             })
             .catch((error) => {
                 console.error('handleDownload error:', error);
+                dispatch(setIsLoading({ isLoading: false }));
                 dispatch(
                     setMessageStateOpen({
                         messageStateOpen: {
@@ -134,6 +126,7 @@ const IsSendDataList = ({ dataList }) => {
     const handleAttacDownload = (id, name) => {
         let tmpApi = `${downloadBillMasterAttachment}/${id}`;
         console.log('tmpApi=>>', tmpApi);
+        dispatch(setIsLoading({ isLoading: true }));
         fetch(tmpApi, {
             method: 'POST',
             headers: {
@@ -162,12 +155,14 @@ const IsSendDataList = ({ dataList }) => {
                 link.href = url;
                 link.download = filename;
                 document.body.appendChild(link);
+                dispatch(setIsLoading({ isLoading: false }));
                 link.click();
                 document.body.removeChild(link);
                 window.URL.revokeObjectURL(url);
             })
             .catch((error) => {
                 console.error('handleAttacDownload error:', error);
+                dispatch(setIsLoading({ isLoading: false }));
                 dispatch(
                     setMessageStateOpen({
                         messageStateOpen: {

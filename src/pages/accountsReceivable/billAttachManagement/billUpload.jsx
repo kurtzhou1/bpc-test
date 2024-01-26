@@ -17,7 +17,7 @@ import { uploadSignedBillMaster } from 'components/apis.jsx';
 
 // redux
 import { useDispatch } from 'react-redux';
-import { setMessageStateOpen } from 'store/reducers/dropdown';
+import { setMessageStateOpen, setIsLoading } from 'store/reducers/dropdown';
 
 const InvoiceUpload = ({ isUploadOpen, handleUploadClose, itemID }) => {
     const dispatch = useDispatch();
@@ -33,6 +33,7 @@ const InvoiceUpload = ({ isUploadOpen, handleUploadClose, itemID }) => {
             let tmpApi = uploadSignedBillMaster + '/' + itemID;
             const pdfData = new FormData();
             pdfData.append('file', uploadFile[0]);
+            dispatch(setIsLoading({ isLoading: true }));
             // data
             fetch(tmpApi, {
                 method: 'POST',
@@ -44,6 +45,7 @@ const InvoiceUpload = ({ isUploadOpen, handleUploadClose, itemID }) => {
                 .then((res) => res.json())
                 .then((data) => {
                     if (data.message === 'success') {
+                        dispatch(setIsLoading({ isLoading: false }));
                         dispatch(
                             setMessageStateOpen({
                                 messageStateOpen: {
@@ -56,6 +58,7 @@ const InvoiceUpload = ({ isUploadOpen, handleUploadClose, itemID }) => {
                         setUploadFile(null);
                         handleUploadClose();
                     } else {
+                        dispatch(setIsLoading({ isLoading: false }));
                         dispatch(
                             setMessageStateOpen({
                                 messageStateOpen: {

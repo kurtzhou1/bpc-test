@@ -24,23 +24,25 @@ import {
 import { styled } from '@mui/material/styles';
 // redux
 import { useDispatch } from 'react-redux';
-import { setMessageStateOpen } from 'store/reducers/dropdown';
+import { setMessageStateOpen, setIsLoading } from 'store/reducers/dropdown';
 import dayjs from 'dayjs';
 
+const StyledTableCell = styled(TableCell)(({ theme }) => ({
+    [`&.${tableCellClasses.head}`]: {
+        // backgroundColor: theme.palette.common.gary,
+        color: theme.palette.common.black,
+        paddingTop: '0.2rem',
+        paddingBottom: '0.2rem',
+    },
+    [`&.${tableCellClasses.body}`]: {
+        fontSize: 14,
+        paddingTop: '0.2rem',
+        paddingBottom: '0.2rem',
+    },
+}));
+
 const InvoiceDataList = ({ listInfo, page, setPage }) => {
-    const StyledTableCell = styled(TableCell)(({ theme }) => ({
-        [`&.${tableCellClasses.head}`]: {
-            // backgroundColor: theme.palette.common.gary,
-            color: theme.palette.common.black,
-            paddingTop: '0.2rem',
-            paddingBottom: '0.2rem',
-        },
-        [`&.${tableCellClasses.body}`]: {
-            fontSize: 14,
-            paddingTop: '0.2rem',
-            paddingBottom: '0.2rem',
-        },
-    }));
+    const dispatch = useDispatch();
     const [rowsPerPage, setRowsPerPage] = useState(10);
     const [isUploadOpen, setIsUploadOpen] = useState(false);
     const [isAttachUploadOpen, setIsAttachUploadOpen] = useState(false);
@@ -49,7 +51,6 @@ const InvoiceDataList = ({ listInfo, page, setPage }) => {
     const itemID = useRef(-1);
     const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - listInfo.length) : 0;
     let tmpBMArray = [];
-    const dispatch = useDispatch();
     const handleChangePage = (event, newPage) => {
         setPage(newPage);
     };
@@ -84,6 +85,7 @@ const InvoiceDataList = ({ listInfo, page, setPage }) => {
     const handleDownload = (id) => {
         const tmpApi = `${downloadInvoiceWKMaster}/${id}`;
         console.log('tmpApi=>>', tmpApi);
+        dispatch(setIsLoading({ isLoading: true }));
         fetch(tmpApi, {
             method: 'POST',
             headers: {
@@ -116,12 +118,14 @@ const InvoiceDataList = ({ listInfo, page, setPage }) => {
                 link.href = url;
                 link.download = filename;
                 document.body.appendChild(link);
+                dispatch(setIsLoading({ isLoading: false }));
                 link.click();
                 document.body.removeChild(link);
                 window.URL.revokeObjectURL(url);
             })
             .catch((error) => {
                 console.error('handleDownload error:', error);
+                dispatch(setIsLoading({ isLoading: false }));
                 dispatch(
                     setMessageStateOpen({
                         messageStateOpen: {
@@ -135,9 +139,10 @@ const InvoiceDataList = ({ listInfo, page, setPage }) => {
             });
     };
 
-    const handleAttacDownload = (id, name) => {
+    const handleAttacDownload = (id) => {
         let tmpApi = `${downloadInvoiceWKMasterAttachment}/${id}`;
         console.log('tmpApi=>>', tmpApi);
+        dispatch(setIsLoading({ isLoading: true }));
         fetch(tmpApi, {
             method: 'POST',
             headers: {
@@ -166,12 +171,14 @@ const InvoiceDataList = ({ listInfo, page, setPage }) => {
                 link.href = url;
                 link.download = filename;
                 document.body.appendChild(link);
+                dispatch(setIsLoading({ isLoading: false }));
                 link.click();
                 document.body.removeChild(link);
                 window.URL.revokeObjectURL(url);
             })
             .catch((error) => {
                 console.error('handleAttacDownload error:', error);
+                dispatch(setIsLoading({ isLoading: false }));
                 dispatch(
                     setMessageStateOpen({
                         messageStateOpen: {

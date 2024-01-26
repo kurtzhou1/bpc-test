@@ -17,7 +17,7 @@ import {
     Stack,
     Tab,
     Tabs,
-    Typography
+    Typography,
 } from '@mui/material';
 
 // project import
@@ -38,7 +38,13 @@ import { setIsLogin } from 'store/reducers/dropdown';
 // tab panel wrapper
 function TabPanel({ children, value, index, ...other }) {
     return (
-        <div role="tabpanel" hidden={value !== index} id={`profile-tabpanel-${index}`} aria-labelledby={`profile-tab-${index}`} {...other}>
+        <div
+            role="tabpanel"
+            hidden={value !== index}
+            id={`profile-tabpanel-${index}`}
+            aria-labelledby={`profile-tab-${index}`}
+            {...other}
+        >
             {value === index && children}
         </div>
     );
@@ -47,13 +53,13 @@ function TabPanel({ children, value, index, ...other }) {
 TabPanel.propTypes = {
     children: PropTypes.node,
     index: PropTypes.any.isRequired,
-    value: PropTypes.any.isRequired
+    value: PropTypes.any.isRequired,
 };
 
 function a11yProps(index) {
     return {
         id: `profile-tab-${index}`,
-        'aria-controls': `profile-tabpanel-${index}`
+        'aria-controls': `profile-tabpanel-${index}`,
     };
 }
 
@@ -107,11 +113,11 @@ const Profile = () => {
         display: 'flex',
         '&:active': {
             '& .MuiSwitch-thumb': {
-                width: 15
+                width: 15,
             },
             '& .MuiSwitch-switchBase.Mui-checked': {
-                transform: 'translateX(9px)'
-            }
+                transform: 'translateX(9px)',
+            },
         },
         '& .MuiSwitch-switchBase': {
             padding: 2,
@@ -120,9 +126,9 @@ const Profile = () => {
                 color: '#fff',
                 '& + .MuiSwitch-track': {
                     opacity: 1,
-                    backgroundColor: theme.palette.mode === 'dark' ? '#177ddc' : '#1890ff'
-                }
-            }
+                    backgroundColor: theme.palette.mode === 'dark' ? '#177ddc' : '#1890ff',
+                },
+            },
         },
         '& .MuiSwitch-thumb': {
             boxShadow: '0 2px 4px 0 rgb(0 35 11 / 20%)',
@@ -130,15 +136,16 @@ const Profile = () => {
             height: 12,
             borderRadius: 6,
             transition: theme.transitions.create(['width'], {
-                duration: 200
-            })
+                duration: 200,
+            }),
         },
         '& .MuiSwitch-track': {
             borderRadius: 16 / 2,
             opacity: 1,
-            backgroundColor: theme.palette.mode === 'dark' ? 'rgba(255,255,255,.35)' : 'rgba(0,0,0,.25)',
-            boxSizing: 'border-box'
-        }
+            backgroundColor:
+                theme.palette.mode === 'dark' ? 'rgba(255,255,255,.35)' : 'rgba(0,0,0,.25)',
+            boxSizing: 'border-box',
+        },
     }));
 
     useEffect(() => {
@@ -156,7 +163,7 @@ const Profile = () => {
                     p: 0.25,
                     bgcolor: open ? iconBackColorOpen : 'transparent',
                     borderRadius: 1,
-                    '&:hover': { bgcolor: 'secondary.lighter' }
+                    '&:hover': { bgcolor: 'secondary.lighter' },
                 }}
                 aria-label="open profile"
                 ref={anchorRef}
@@ -165,8 +172,16 @@ const Profile = () => {
                 onClick={handleToggle}
             >
                 <Stack direction="row" spacing={2} alignItems="center" sx={{ p: 0.5 }}>
-                    <Avatar alt="profile user" src={userInfo?.ProfilePhotoURI} sx={{ width: 32, height: 32 }} />
-                    {drawerOpen ? <Typography variant="subtitle1">{userInfo?.UserCName}</Typography> : ''}
+                    <Avatar
+                        alt="profile user"
+                        src={userInfo?.ProfilePhotoURI}
+                        sx={{ width: 32, height: 32 }}
+                    />
+                    {drawerOpen ? (
+                        <Typography variant="subtitle1">{userInfo?.UserCName}</Typography>
+                    ) : (
+                        ''
+                    )}
                 </Stack>
             </ButtonBase>
             <Popper
@@ -181,10 +196,10 @@ const Profile = () => {
                         {
                             name: 'offset',
                             options: {
-                                offset: [0, 9]
-                            }
-                        }
-                    ]
+                                offset: [0, 9],
+                            },
+                        },
+                    ],
                 }}
                 sx={{ zIndex: 2000 }}
             >
@@ -198,8 +213,8 @@ const Profile = () => {
                                     minWidth: 240,
                                     maxWidth: 290,
                                     [theme.breakpoints.down('md')]: {
-                                        maxWidth: 250
-                                    }
+                                        maxWidth: 250,
+                                    },
                                 }}
                             >
                                 <ClickAwayListener onClickAway={handleClose}>
@@ -270,10 +285,18 @@ const Profile = () => {
                                                         />
                                                     </Tabs>
                                                 </Box> */}
-                                                <TabPanel value={value} index={0} dir={theme.direction}>
+                                                <TabPanel
+                                                    value={value}
+                                                    index={0}
+                                                    dir={theme.direction}
+                                                >
                                                     <ProfileTab handleLogout={handleLogout} />
                                                 </TabPanel>
-                                                <TabPanel value={value} index={1} dir={theme.direction}>
+                                                <TabPanel
+                                                    value={value}
+                                                    index={1}
+                                                    dir={theme.direction}
+                                                >
                                                     <SettingTab />
                                                 </TabPanel>
                                             </>
