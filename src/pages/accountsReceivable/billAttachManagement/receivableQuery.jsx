@@ -74,8 +74,8 @@ const ReceivableQuery = ({ setListInfo }) => {
             //     dayjs(issueDate[1]).format('YYYYMMDD') +
             //     '&';
             tmpObject.IssueDate = {
-                start: dayjs(issueDate).format('YYYYMMDD'),
-                end: dayjs(issueDate).format('YYYYMMDD'),
+                start: dayjs(issueDate[0]).format('YYYYMMDD'),
+                end: dayjs(issueDate[1]).format('YYYYMMDD'),
             };
         }
         // if (tmpQuery.includes('&')) {

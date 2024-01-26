@@ -14,6 +14,7 @@ const GenerateFeeAmount = () => {
         fetch(queryToDecutBill, { method: 'POST', body: JSON.stringify({}) })
             .then((res) => res.json())
             .then((data) => {
+                // console.log('data=>>', data);
                 if (Array.isArray(data)) {
                     setListInfo(data);
                 }
@@ -24,8 +25,10 @@ const GenerateFeeAmount = () => {
     };
 
     useEffect(() => {
-        initialQuery();
-    });
+        if (listInfo.length === 0) {
+            initialQuery();
+        }
+    }, [listInfo]);
 
     return (
         <Grid container spacing={1}>
@@ -34,7 +37,7 @@ const GenerateFeeAmount = () => {
             </Grid>
             <Grid item xs={12}>
                 <MainCard title="帳單資料列表">
-                    <IsSendDataList dataList={listInfo} />
+                    <IsSendDataList listInfo={listInfo} />
                 </MainCard>
             </Grid>
         </Grid>

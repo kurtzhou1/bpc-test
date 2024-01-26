@@ -36,7 +36,7 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
     },
 }));
 
-const IsSendDataList = ({ dataList }) => {
+const IsSendDataList = ({ listInfo }) => {
     const dispatch = useDispatch();
     const [isUploadOpen, setIsUploadOpen] = useState(false);
     const [isAttachUploadOpen, setIsAttachUploadOpen] = useState(false);
@@ -123,7 +123,7 @@ const IsSendDataList = ({ dataList }) => {
             });
     };
 
-    const handleAttacDownload = (id, name) => {
+    const handleAttacDownload = (id) => {
         let tmpApi = `${downloadBillMasterAttachment}/${id}`;
         console.log('tmpApi=>>', tmpApi);
         dispatch(setIsLoading({ isLoading: true }));
@@ -212,7 +212,7 @@ const IsSendDataList = ({ dataList }) => {
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {dataList?.map((row, id) => {
+                        {listInfo?.map((row, id) => {
                             return (
                                 <TableRow
                                     key={
