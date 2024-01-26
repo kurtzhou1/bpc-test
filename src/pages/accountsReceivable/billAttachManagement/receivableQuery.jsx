@@ -22,7 +22,7 @@ import { TextField } from '@mui/material/index';
 
 // ==============================|| SAMPLE PAGE ||============================== //
 
-const ReceivableQuery = ({ setListInfo, queryApi }) => {
+const ReceivableQuery = ({ setListInfo }) => {
     const [issueDate, setIssueDate] = useState([null, null]); //發票日期
     const [workTitle, setWorkTitle] = useState(''); //海纜作業
     const [partyName, setPartyName] = useState(''); //會員名稱
@@ -42,29 +42,6 @@ const ReceivableQuery = ({ setListInfo, queryApi }) => {
         setBillingNo('');
     };
 
-    const initQuery = () => {
-        let tmpQuery = '';
-        if (tmpQuery.includes('&')) {
-            tmpQuery = '/' + tmpQuery.slice(0, -1);
-        } else {
-            tmpQuery = tmpQuery + '/IsSent=True';
-        }
-        tmpQuery = queryToDecutBill + tmpQuery;
-        console.log('tmpQuery=>>', tmpQuery);
-        queryApi.current = tmpQuery;
-        fetch(tmpQuery, { method: 'GET' })
-            .then((res) => res.json())
-            .then((data) => {
-                if (Array.isArray(data)) {
-                    setListInfo(data);
-                }
-            })
-            .catch((e) => {
-                console.log('e1=>', e);
-            });
-    };
-
-    //haha
     const receivableQuery = () => {
         let tmpObject = {};
         if (partyName && partyName !== '') {
@@ -120,19 +97,6 @@ const ReceivableQuery = ({ setListInfo, queryApi }) => {
 
     useEffect(() => {
         initInfo();
-        initQuery();
-    }, []);
-
-    useEffect(() => {
-        // 供應商
-        // fetch(supplierNameDropDownUnique, { method: 'GET' })
-        //     .then((res) => res.json())
-        //     .then((data) => {
-        //         if(Array.isArray(data)) {
-        //             setSupNmList(data);
-        //         }
-        //     })
-        //     .catch((e) => console.log('e1=>', e));
         //海纜名稱
         fetch(submarineCableInfoList, { method: 'GET' })
             .then((res) => res.json())
