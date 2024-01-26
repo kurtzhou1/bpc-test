@@ -4,6 +4,7 @@ import { useState, useRef } from 'react';
 import { handleNumber } from 'components/commonFunction';
 import InvoiceUpload from './invoiceUpload';
 import AttachmentUpload from './attachmentUpload';
+import InvoiceDetail from './invoiceDetail';
 import { downloadInvoiceWKMaster, downloadInvoiceWKMasterAttachment } from 'components/apis.jsx';
 
 // material-ui
@@ -26,7 +27,7 @@ import { useDispatch } from 'react-redux';
 import { setMessageStateOpen } from 'store/reducers/dropdown';
 import dayjs from 'dayjs';
 
-const InvoiceDataList = ({ listInfo, setModifyItem, setIsDetailOpen, page, setPage }) => {
+const InvoiceDataList = ({ listInfo, page, setPage }) => {
     const StyledTableCell = styled(TableCell)(({ theme }) => ({
         [`&.${tableCellClasses.head}`]: {
             // backgroundColor: theme.palette.common.gary,
@@ -43,12 +44,18 @@ const InvoiceDataList = ({ listInfo, setModifyItem, setIsDetailOpen, page, setPa
     const [rowsPerPage, setRowsPerPage] = useState(10);
     const [isUploadOpen, setIsUploadOpen] = useState(false);
     const [isAttachUploadOpen, setIsAttachUploadOpen] = useState(false);
+    const [isDetailOpen, setIsDetailOpen] = useState(false);
+    const [modifyItem, setModifyItem] = useState([]);
     const itemID = useRef(-1);
     const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - listInfo.length) : 0;
     let tmpBMArray = [];
     const dispatch = useDispatch();
     const handleChangePage = (event, newPage) => {
         setPage(newPage);
+    };
+
+    const isDetailClose = () => {
+        setIsDetailOpen(false);
     };
 
     const handleChangeRowsPerPage = (event) => {
@@ -180,6 +187,11 @@ const InvoiceDataList = ({ listInfo, setModifyItem, setIsDetailOpen, page, setPa
 
     return (
         <>
+            <InvoiceDetail
+                modifyItem={modifyItem}
+                isDetailOpen={isDetailOpen}
+                isDetailClose={isDetailClose}
+            />
             <InvoiceUpload
                 isUploadOpen={isUploadOpen}
                 handleUploadClose={handleUploadClose}
@@ -310,10 +322,7 @@ const InvoiceDataList = ({ listInfo, setModifyItem, setIsDetailOpen, page, setPa
                                                 variant="outlined"
                                                 size="small"
                                                 onClick={() => {
-                                                    handleDownload(
-                                                        row.InvoiceWKMaster?.WKMasterID,
-                                                        row.InvoiceWKMaster?.URI,
-                                                    );
+                                                    handleDownload(row.InvoiceWKMaster?.WKMasterID);
                                                 }}
                                             >
                                                 下載發票
@@ -325,7 +334,6 @@ const InvoiceDataList = ({ listInfo, setModifyItem, setIsDetailOpen, page, setPa
                                                 onClick={() => {
                                                     handleAttacDownload(
                                                         row.InvoiceWKMaster?.WKMasterID,
-                                                        row.InvoiceWKMaster?.AttachedURI,
                                                     );
                                                 }}
                                             >

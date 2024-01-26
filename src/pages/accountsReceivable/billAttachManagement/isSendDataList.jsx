@@ -2,7 +2,9 @@ import { useState, useRef } from 'react';
 
 // project import
 import { handleNumber } from 'components/commonFunction';
-import SignedDataWork from './signedDataWork';
+import BillUpload from './billUpload';
+import AttachmentUpload from './attachmentUpload';
+import BillDetail from './billDetail';
 // material-ui
 import { Button, Table, Box } from '@mui/material';
 import TableBody from '@mui/material/TableBody';
@@ -15,7 +17,10 @@ import { styled } from '@mui/material/styles';
 
 import dayjs from 'dayjs';
 
-import { downBM, attachment } from 'components/apis.jsx';
+import { useDispatch } from 'react-redux';
+import { setMessageStateOpen } from 'store/reducers/dropdown';
+
+import { downloadBillMaster, downloadBillMasterAttachment } from 'components/apis.jsx';
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
     [`&.${tableCellClasses.head}`]: {
@@ -32,23 +37,35 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
 }));
 
 const IsSendDataList = ({ dataList }) => {
+    const dispatch = useDispatch();
     const [isDeductedWorkOpen, setIsDeductedWorkOpen] = useState(false); //產製帳單
     const billDetailInfo = useRef([]);
+    const [isUploadOpen, setIsUploadOpen] = useState(false);
+    const [isAttachUploadOpen, setIsAttachUploadOpen] = useState(false);
+    const itemID = useRef(-1);
+    const [modifyItem, setModifyItem] = useState([]);
+    const [isDetailOpen, setIsDetailOpen] = useState(false);
 
-    const handleDownload = (billMasterID, url) => {
-        let tmpApi = downBM + '/' + billMasterID;
-        const tmpArray = url.split('/');
-        fetch(tmpApi, { method: 'GET' })
-            .then((res) => {
-                return res.blob();
-            })
-            .then((blob) => {
-                const link = document.createElement('a');
-                link.href = window.URL.createObjectURL(blob);
-                link.download = `${tmpArray[tmpArray.length - 1]}`;
-                link.click();
-            })
-            .catch((e) => console.log('e1=>', e));
+    const isDetailClose = () => {
+        setIsDetailOpen(false);
+    };
+
+    const handleUploadClose = () => {
+        setIsUploadOpen(false);
+    };
+
+    const handleUploadOpen = (id) => {
+        itemID.current = id;
+        setIsUploadOpen(true);
+    };
+
+    const handleAttachUploadClose = () => {
+        setIsAttachUploadOpen(false);
+    };
+
+    const handleAttachUploadOpen = (id) => {
+        itemID.current = id;
+        setIsAttachUploadOpen(true);
     };
 
     const handleDeductedClose = () => {
@@ -56,33 +73,130 @@ const IsSendDataList = ({ dataList }) => {
     };
 
     const handleDeductedOpen = (data) => {
-        console.log('data=>>', data);
         billDetailInfo.current = data;
         setIsDeductedWorkOpen(true);
     };
 
-    const downloadAttach = (billMasterID) => {
-        let tmpApi = attachment + '/' + billMasterID;
+    const handleDownload = (id) => {
+        const tmpApi = `${downloadBillMaster}/${id}`;
+        console.log('tmpApi=>>', tmpApi);
         fetch(tmpApi, {
-            method: 'GET',
+            method: 'POST',
+            headers: {
+                Accept: 'application/json',
+            },
         })
             .then((res) => {
-                return res.blob();
+                if (!res.ok) {
+                    throw new Error('Network response was not ok');
+                }
+
+                // 解析 content-disposition 来获取文件名
+                const contentDisposition = res.headers.get('content-disposition');
+                let filename = 'default.pdf'; // 默认文件名
+                if (contentDisposition.includes("filename*=utf-8''")) {
+                    const filenameEncoded = contentDisposition.split("filename*=utf-8''")[1];
+                    filename = decodeURIComponent(filenameEncoded);
+                } else {
+                    const filenameMatch = contentDisposition.match(/filename="?([^"]+)"?/);
+                    if (filenameMatch && filenameMatch[1]) {
+                        filename = filenameMatch[1];
+                    }
+                }
+
+                return res.blob().then((blob) => ({ blob, filename }));
             })
-            .then((blob) => {
+            .then(({ blob, filename }) => {
+                const url = window.URL.createObjectURL(blob);
                 const link = document.createElement('a');
-                link.href = window.URL.createObjectURL(blob);
+                link.href = url;
+                link.download = filename;
+                document.body.appendChild(link);
                 link.click();
+                document.body.removeChild(link);
+                window.URL.revokeObjectURL(url);
             })
-            .catch((e) => console.log('e1=>', e));
+            .catch((error) => {
+                console.error('handleDownload error:', error);
+                dispatch(
+                    setMessageStateOpen({
+                        messageStateOpen: {
+                            isOpen: true,
+                            severity: 'error',
+                            message: '尚未上傳檔案',
+                        },
+                    }),
+                );
+                // 处理错误
+            });
+    };
+
+    const handleAttacDownload = (id, name) => {
+        let tmpApi = `${downloadBillMasterAttachment}/${id}`;
+        console.log('tmpApi=>>', tmpApi);
+        fetch(tmpApi, {
+            method: 'POST',
+            headers: {
+                Accept: 'application/json',
+            },
+        })
+            .then((res) => {
+                // 解析 content-disposition 来获取文件名
+                const contentDisposition = res.headers.get('content-disposition');
+                let filename = 'default.pdf'; // 默认文件名
+                if (contentDisposition.includes("filename*=utf-8''")) {
+                    const filenameEncoded = contentDisposition.split("filename*=utf-8''")[1];
+                    filename = decodeURIComponent(filenameEncoded);
+                } else {
+                    const filenameMatch = contentDisposition.match(/filename="?([^"]+)"?/);
+                    if (filenameMatch && filenameMatch[1]) {
+                        filename = filenameMatch[1];
+                    }
+                }
+
+                return res.blob().then((blob) => ({ blob, filename }));
+            })
+            .then(({ blob, filename }) => {
+                const url = window.URL.createObjectURL(blob);
+                const link = document.createElement('a');
+                link.href = url;
+                link.download = filename;
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+                window.URL.revokeObjectURL(url);
+            })
+            .catch((error) => {
+                console.error('handleAttacDownload error:', error);
+                dispatch(
+                    setMessageStateOpen({
+                        messageStateOpen: {
+                            isOpen: true,
+                            severity: 'error',
+                            message: '尚未上傳檔案',
+                        },
+                    }),
+                );
+                // 处理错误
+            });
     };
 
     return (
         <>
-            <SignedDataWork
-                isDeductedWorkOpen={isDeductedWorkOpen}
-                handleDeductedClose={handleDeductedClose}
-                billDetailInfo={billDetailInfo.current}
+            <BillDetail
+                modifyItem={modifyItem}
+                isDetailOpen={isDetailOpen}
+                isDetailClose={isDetailClose}
+            />
+            <BillUpload
+                isUploadOpen={isUploadOpen}
+                handleUploadClose={handleUploadClose}
+                itemID={itemID.current}
+            />
+            <AttachmentUpload
+                isAttachUploadOpen={isAttachUploadOpen}
+                handleAttachUploadClose={handleAttachUploadClose}
+                itemID={itemID.current}
             />
             <TableContainer component={Paper} sx={{ maxHeight: window.screen.height * 0.5 }}>
                 <Table sx={{ minWidth: 300 }} stickyHeader>
@@ -104,7 +218,6 @@ const IsSendDataList = ({ dataList }) => {
                     </TableHead>
                     <TableBody>
                         {dataList?.map((row, id) => {
-                            console.log('row.BillMaster=>>', row.BillMaster);
                             return (
                                 <TableRow
                                     key={
@@ -168,7 +281,8 @@ const IsSendDataList = ({ dataList }) => {
                                                 size="small"
                                                 variant="outlined"
                                                 onClick={() => {
-                                                    handleDeductedOpen(row.BillDetail);
+                                                    setModifyItem(row.BillDetail);
+                                                    setIsDetailOpen(true);
                                                 }}
                                             >
                                                 檢視
@@ -178,18 +292,31 @@ const IsSendDataList = ({ dataList }) => {
                                                 size="small"
                                                 variant="outlined"
                                                 onClick={() => {
-                                                    handleDownload(
-                                                        row.BillMaster.BillMasterID,
-                                                        row.BillMaster.URI,
-                                                    );
+                                                    handleUploadOpen(row.BillMaster?.BillMasterID);
                                                 }}
                                             >
                                                 上傳帳單
                                             </Button>
-                                            <Button color="info" size="small" variant="outlined">
+                                            <Button
+                                                color="info"
+                                                size="small"
+                                                variant="outlined"
+                                                onClick={() => {
+                                                    handleAttachUploadOpen(
+                                                        row.BillMaster?.BillMasterID,
+                                                    );
+                                                }}
+                                            >
                                                 上傳附件
                                             </Button>
-                                            <Button color="warning" size="small" variant="outlined">
+                                            <Button
+                                                color="warning"
+                                                size="small"
+                                                variant="outlined"
+                                                onClick={() => {
+                                                    handleDownload(row.BillMaster?.BillMasterID);
+                                                }}
+                                            >
                                                 下載帳單
                                             </Button>
                                             <Button
@@ -197,7 +324,9 @@ const IsSendDataList = ({ dataList }) => {
                                                 size="small"
                                                 variant="outlined"
                                                 onClick={() => {
-                                                    downloadAttach(row.BillMaster.BillMasterID);
+                                                    handleAttacDownload(
+                                                        row.BillMaster?.BillMasterID,
+                                                    );
                                                 }}
                                             >
                                                 下載附件

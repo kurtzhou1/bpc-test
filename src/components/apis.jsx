@@ -2,7 +2,7 @@
 let env = '10.193.130.75:8000';
 
 export const ssoUrl =
-  'https://iam-qa.cht.com.tw/auth/realms/B2E/protocol/openid-connect/auth?client_id=CBPS.QA.I&response_type=code&redirect_uri=http://internal-cbpsAlbFrontend-1323185980.ap-northeast-1.elb.amazonaws.com&scope=ldap';
+    'https://iam-qa.cht.com.tw/auth/realms/B2E/protocol/openid-connect/auth?client_id=CBPS.QA.I&response_type=code&redirect_uri=http://internal-cbpsAlbFrontend-1323185980.ap-northeast-1.elb.amazonaws.com&scope=ldap';
 
 // Login
 export const generatetoken = `http://${env}/api/v1/generatetoken`;
@@ -41,6 +41,11 @@ export const dropdownmenuBillMilestone = `http://${env}/api/v1/dropdownmenuBillM
 export const sendJounary = `http://${env}/api/v1/addInvoiceMaster&InvoiceDetail`;
 export const updateInvoiceMaster = `http://${env}/api/v1/updateInvoiceMaster`;
 export const checkInvoiceNo = `http://${env}/api/v1/checkInvoiceNo`;
+
+// 立帳與附件管理
+export const uploadSignedBillMaster = `http://${env}/api/v1/uploadSignedBillMaster`;
+export const downloadBillMaster = `http://${env}/api/v1/downloadBillMaster`;
+export const downloadBillMasterAttachment = `http://${env}/api/v1/downloadBillMaster/Attachment`;
 
 // 應收帳款管理
 export const uploadFileApi = `http://${env}/api/v1/uploadSignedBillMaster`;

@@ -49,7 +49,7 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
     },
 }));
 
-const InvoiceDetail = ({ isDetailOpen, isDetailClose, modifyItem }) => {
+const BillDetail = ({ isDetailOpen, isDetailClose, modifyItem }) => {
     const dispatch = useDispatch();
     let feeAmount = useRef(0); // 總費用金額加總(上)
     const [dataList, setDataList] = useState([]);
@@ -160,9 +160,9 @@ const InvoiceDetail = ({ isDetailOpen, isDetailClose, modifyItem }) => {
     );
 };
 
-export default InvoiceDetail;
+export default BillDetail;
 
-InvoiceDetail.propTypes = {
+BillDetail.propTypes = {
     // actionName: React.String,
     // invoiceNo: React.String,
     // dueDate: PropTypes.instanceOf(Date),
