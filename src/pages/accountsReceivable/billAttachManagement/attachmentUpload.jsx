@@ -113,7 +113,7 @@ const AttachmentUpload = ({ isAttachUploadOpen, handleAttachUploadClose, itemID 
                         >
                             <DropzoneArea
                                 onChange={handleUploadChange}
-                                acceptedFiles={['.pdf']}
+                                acceptedFiles={['.zip']}
                                 maxFileSize={100000000}
                             />
                         </Box>
