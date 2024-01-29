@@ -20,7 +20,11 @@ import dayjs from 'dayjs';
 import { useDispatch } from 'react-redux';
 import { setMessageStateOpen, setIsLoading } from 'store/reducers/dropdown';
 
-import { downloadBillMaster, downloadBillMasterAttachment } from 'components/apis.jsx';
+import {
+    downloadBillMaster,
+    downloadBillMasterAttachment,
+    billMasterAndAttachment,
+} from 'components/apis.jsx';
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
     [`&.${tableCellClasses.head}`]: {
@@ -176,6 +180,38 @@ const IsSendDataList = ({ listInfo }) => {
             });
     };
 
+    const handleSendMail = (id) => {
+        let tmpApi = `${billMasterAndAttachment}/${id}`;
+        dispatch(setIsLoading({ isLoading: true }));
+        fetch(tmpApi, { method: 'GET' })
+            .then((res) => res.json())
+            .then((data) => {
+                if (data.message === 'Email sent successfully') {
+                    dispatch(
+                        setMessageStateOpen({
+                            messageStateOpen: {
+                                isOpen: true,
+                                severity: 'success',
+                                message: '寄信成功',
+                            },
+                        }),
+                    );
+                } else {
+                    dispatch(
+                        setMessageStateOpen({
+                            messageStateOpen: {
+                                isOpen: true,
+                                severity: 'error',
+                                message: data.message,
+                            },
+                        }),
+                    );
+                }
+                dispatch(setIsLoading({ isLoading: false }));
+            })
+            .catch((e) => console.log('e1=>', e));
+    };
+
     return (
         <>
             <BillDetail
@@ -325,6 +361,16 @@ const IsSendDataList = ({ listInfo }) => {
                                                 }}
                                             >
                                                 下載附件
+                                            </Button>
+                                            <Button
+                                                color="secondary"
+                                                size="small"
+                                                variant="outlined"
+                                                onClick={() => {
+                                                    handleSendMail(row.BillMaster?.BillMasterID);
+                                                }}
+                                            >
+                                                寄信
                                             </Button>
                                         </Box>
                                     </StyledTableCell>
