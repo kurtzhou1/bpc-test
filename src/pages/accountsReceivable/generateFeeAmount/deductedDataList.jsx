@@ -38,7 +38,7 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
 
 const DeductedDataList = ({ dataList, receivableQuery }) => {
     const billMaster = useRef({});
-    const [isDialogOpen, setIsDialogOpen] = useState(true); //產製帳單
+    const [isDialogOpen, setIsDialogOpen] = useState(false); //產製帳單
     const [isDeductedWorkOpen, setIsDeductedWorkOpen] = useState(false); //產製帳單
     const [isUploadOpen, setIsUploadOpen] = useState(false); //簽核
     const [infoBack, setInfoBack] = useState(false); //退回
