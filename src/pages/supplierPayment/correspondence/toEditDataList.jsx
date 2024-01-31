@@ -45,7 +45,6 @@ const ToEditDataList = ({ listInfo, initQuery }) => {
         payDraftID.current = -1;
     };
 
-    //haha
     const handleDownload = (id) => {
         let tmpArray = {
             PayDraftID: id,

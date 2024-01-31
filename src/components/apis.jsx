@@ -46,7 +46,7 @@ export const checkInvoiceNo = `http://${env}/api/v1/checkInvoiceNo`;
 export const uploadSignedBillMaster = `http://${env}/api/v1/uploadSignedBillMaster`;
 export const downloadBillMaster = `http://${env}/api/v1/downloadBillMaster`;
 export const downloadBillMasterAttachment = `http://${env}/api/v1/downloadBillMaster/Attachment`;
-export const billMasterAndAttachment = `http://${env}/api/v1/BillMasterAndAttachment/Attachment`;
+export const billMasterAndAttachment = `http://${env}/api/v1/SendEmail/BillMasterAndAttachment`;
 
 // 應收帳款管理
 export const uploadFileApi = `http://${env}/api/v1/uploadSignedBillMaster`;

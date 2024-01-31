@@ -28,7 +28,7 @@ const GenerateFeeAmount = () => {
         if (listInfo.length === 0) {
             initialQuery();
         }
-    }, [listInfo]);
+    }, []);
 
     return (
         <Grid container spacing={1}>
