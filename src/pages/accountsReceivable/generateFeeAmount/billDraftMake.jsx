@@ -342,7 +342,7 @@ const BillDraftMake = ({
                                             variant="outlined"
                                             value={subject1}
                                             size="small"
-                                            label="主旨"
+                                            // label="主旨"
                                             inputProps={{ maxLength: 65 }}
                                             onChange={(e) => setSubject1(e.target.value)}
                                         />
@@ -363,7 +363,7 @@ const BillDraftMake = ({
                                             variant="outlined"
                                             value={subject3}
                                             size="small"
-                                            label="帳單種類"
+                                            // label="帳單種類"
                                             inputProps={{ maxLength: 65 }}
                                             onChange={(e) => setSubject3(e.target.value)}
                                         />
