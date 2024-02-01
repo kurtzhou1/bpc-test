@@ -187,15 +187,33 @@ const BillDraftMake = ({
             body: JSON.stringify(tmpData),
         })
             .then((res) => {
-                return res.blob();
+                if (!res.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                // 解析 content-disposition 来获取文件名
+                const contentDisposition = res.headers.get('content-disposition');
+                let filename = 'default.pdf'; // 默认文件名
+                if (contentDisposition.includes("filename*=utf-8''")) {
+                    const filenameEncoded = contentDisposition.split("filename*=utf-8''")[1];
+                    filename = decodeURIComponent(filenameEncoded);
+                } else {
+                    const filenameMatch = contentDisposition.match(/filename="?([^"]+)"?/);
+                    if (filenameMatch && filenameMatch[1]) {
+                        filename = filenameMatch[1];
+                    }
+                }
+                return res.blob().then((blob) => ({ blob, filename }));
             })
-            .then((blob) => {
+            .then((blob, filename) => {
+                const url = window.URL.createObjectURL(blob);
                 const link = document.createElement('a');
-                link.href = window.URL.createObjectURL(blob);
-                link.download = `${billingNo}.docx`;
+                link.href = url;
+                link.download = filename;
                 link.click();
+                document.body.removeChild(link);
+                window.URL.revokeObjectURL(url);
             })
-            .catch((e) => console.log('e1=>', e));
+            .catch((e) => console.error('handleDownload error:', e));
     };
 
     useEffect(() => {

@@ -73,7 +73,6 @@ const ToEditDataList = ({ listInfo, initQuery }) => {
                         filename = filenameMatch[1];
                     }
                 }
-
                 return res.blob().then((blob) => ({ blob, filename }));
             })
             .then(({ blob, filename }) => {
