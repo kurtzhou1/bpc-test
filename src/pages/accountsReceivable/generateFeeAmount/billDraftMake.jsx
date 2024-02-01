@@ -204,7 +204,7 @@ const BillDraftMake = ({
                 }
                 return res.blob().then((blob) => ({ blob, filename }));
             })
-            .then((blob, filename) => {
+            .then(({ blob, filename }) => {
                 const url = window.URL.createObjectURL(blob);
                 const link = document.createElement('a');
                 link.href = url;
