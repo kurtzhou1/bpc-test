@@ -117,7 +117,7 @@ const CreditBalanceDataList = ({ listInfo }) => {
                                                     //     handleUploadOpen(row.BillMaster?.BillMasterID);
                                                     // }}
                                                 >
-                                                    下載
+                                                    上傳
                                                 </Button>
                                                 <Button
                                                     color="info"
@@ -129,7 +129,7 @@ const CreditBalanceDataList = ({ listInfo }) => {
                                                     //     );
                                                     // }}
                                                 >
-                                                    上傳
+                                                    下載
                                                 </Button>
                                             </Box>
                                         </StyledTableCell>
