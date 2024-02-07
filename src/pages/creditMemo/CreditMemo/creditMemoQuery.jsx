@@ -1,16 +1,16 @@
 import { useEffect, useState } from 'react';
 import {
-  Typography,
-  Grid,
-  Button,
-  FormControl,
-  InputLabel,
-  Select,
-  MenuItem,
-  Box,
-  FormGroup,
-  FormControlLabel,
-  Checkbox,
+    Typography,
+    Grid,
+    Button,
+    FormControl,
+    InputLabel,
+    Select,
+    MenuItem,
+    Box,
+    FormGroup,
+    FormControlLabel,
+    Checkbox,
 } from '@mui/material';
 
 // project import
@@ -24,166 +24,190 @@ import dayjs from 'dayjs';
 import { DateRangePicker } from '@mui/x-date-pickers-pro/DateRangePicker';
 import { TextField } from '@mui/material/index';
 
+// api
+import { CreditMemoView, submarineCableInfoList, getPartiesInfoList } from 'components/apis.jsx';
+
 // ==============================|| SAMPLE PAGE ||============================== //
 
-const CreditBalanceQuery = ({ creditBalanceQuery, queryInit }) => {
-  const [issueDate, setIssueDate] = useState([null, null]); //發票日期
-  return (
-    <MainCard title="Credit Memo查詢" sx={{ width: '100%' }}>
-      <Grid container display="flex" justifyContent="center" alignItems="center" spacing={2}>
-        {/* row1 */}
-        <Grid item sm={1} md={1} lg={1}>
-          <Typography
-            variant="h5"
-            sx={{ fontSize: { lg: '0.7rem', xl: '0.88rem' }, ml: { lg: '0.5rem', xl: '1.5rem' } }}
-          >
-            會員：
-          </Typography>
-        </Grid>
-        <Grid item xs={2} sm={2} md={2} lg={2}>
-          <FormControl fullWidth size="small">
-            <InputLabel>選擇會員</InputLabel>
-            <Select
-              // value={supplierName}
-              label="會員"
-              // onChange={(e) => setSupplierName(e.target.value)}
-            >
-              <MenuItem value={'Taiwan'}>Taiwan</MenuItem>
-              <MenuItem value={'Korean'}>Korean</MenuItem>
-              <MenuItem value={'Japan'}>Japan</MenuItem>
-            </Select>
-          </FormControl>
-        </Grid>
-        <Grid item sm={1} md={1} lg={1}>
-          <Typography
-            variant="h5"
-            sx={{ fontSize: { lg: '0.7rem', xl: '0.88rem' }, ml: { lg: '0.5rem', xl: '1.5rem' } }}
-          >
-            計帳段號：
-          </Typography>
-        </Grid>
-        <Grid item xs={2} sm={2} md={2} lg={2}>
-          <FormControl fullWidth size="small">
-            <InputLabel>選擇CB種類</InputLabel>
-            <Select
-              // value={submarineCable}
-              label="發票供應商"
-              // onChange={(e) => setSubmarineCable(e.target.value)}
-            >
-              <MenuItem value={'計帳段號1'}>計帳段號1</MenuItem>
-              <MenuItem value={'計帳段號2'}>計帳段號2</MenuItem>
-              <MenuItem value={'計帳段號3'}>計帳段號3</MenuItem>
-            </Select>
-          </FormControl>
-        </Grid>
-        <Grid item sm={1} md={1} lg={1}>
-          <Typography
-            variant="h5"
-            sx={{ fontSize: { lg: '0.7rem', xl: '0.88rem' }, ml: { lg: '0.5rem', xl: '1.5rem' } }}
-          >
-            海纜：
-          </Typography>
-        </Grid>
-        <Grid item xs={2} sm={2} md={2} lg={2}>
-          <FormControl fullWidth size="small">
-            <InputLabel>選擇海纜名稱</InputLabel>
-            <Select
-              // value={submarineCable}
-              label="海纜名稱"
-              // onChange={(e) => setSubmarineCable(e.target.value)}
-            >
-              <MenuItem value={'一段'}>一段</MenuItem>
-              <MenuItem value={'二段'}>二段</MenuItem>
-              <MenuItem value={'三段'}>三段</MenuItem>
-            </Select>
-          </FormControl>
-        </Grid>
-        {/* <Grid item sm={1} md={1} lg={1}>
-                    <Typography variant="h5" sx={{ fontSize: { lg: '0.7rem' ,xl: '0.88rem' }, ml: { lg: '0.5rem', xl: '1.5rem' } }}>
+const CreditMemoQuery = ({ setListInfo, queryApi }) => {
+    const [partyName, setPartyName] = useState(''); //會員名稱
+    const [submarineCable, setSubmarineCable] = useState(''); //海纜名稱
+    const [workTitle, setWorkTitle] = useState(''); //海纜作業
+    const [lastIssueDate, setLastIssueDate] = useState([null, null]); //建立日期
+    const [submarineCableList, setSubmarineCableList] = useState([]); //海纜名稱下拉選單
+    const [partiesList, setPartiesList] = useState([]); //會員下拉選單
+    const [cMNo, setCMNo] = useState('');
+
+    const initQuery = () => {
+        setPartyName('');
+        setCMNo('');
+        setSubmarineCable('');
+        setWorkTitle('');
+        setLastIssueDate([null, null]);
+    };
+
+    const creditMemoQuery = () => {
+        let tmpObject = {};
+        if (partyName && partyName !== '') {
+            // tmpQuery = tmpQuery + 'PartyName=' + partyName + '&';
+            tmpObject.PartyName = partyName;
+        }
+        if (cMNo && cMNo !== '') {
+            tmpObject = tmpObject + 'CMNo=' + cMNo + '&';
+        }
+        if (submarineCable && submarineCable !== '') {
+            // tmpQuery = tmpQuery + 'SubmarineCable=' + submarineCable + '&';
+            tmpObject.SubmarineCable = submarineCable;
+        }
+        if (workTitle && workTitle !== '') {
+            // tmpQuery = tmpQuery + 'WorkTitle=' + workTitle + '&';
+            tmpObject.WorkTitle = workTitle;
+        }
+        if (lastIssueDate[0] && lastIssueDate[1]) {
+            // tmpQuery =
+            //     tmpQuery +
+            //     'startCreateDate=' +
+            //     dayjs(lastIssueDate[0]).format('YYYYMMDD') +
+            //     '&' +
+            //     'endCreateDate=' +
+            //     dayjs(lastIssueDate[1]).format('YYYYMMDD') +
+            //     '&';
+            tmpObject.LastIssueDate = {
+                start: dayjs(lastIssueDate[0]).format('YYYYMMDD'),
+                end: dayjs(lastIssueDate[1]).format('YYYYMMDD'),
+            };
+        }
+
+        // if (tmpQuery.includes('&')) {
+        //     tmpQuery = tmpQuery.slice(0, -1);
+        // } else {
+        //     tmpQuery = tmpQuery + 'all';
+        // }
+
+        // queryApi.current = tmpQuery;
+        fetch(CreditMemoView, { method: 'POST', body: JSON.stringify(tmpObject) })
+            .then((res) => res.json())
+            .then((data) => {
+                if (Array.isArray(data)) {
+                    setListInfo(data);
+                }
+            })
+            .catch((e) => console.log('e1=>', e));
+    };
+
+    useEffect(() => {
+        //海纜名稱
+        fetch(submarineCableInfoList, { method: 'GET' })
+            .then((res) => res.json())
+            .then((data) => {
+                setSubmarineCableList(data);
+            })
+            .catch((e) => console.log('e1=>', e));
+        //會員名稱
+        fetch(getPartiesInfoList, { method: 'GET' })
+            .then((res) => res.json())
+            .then((data) => {
+                setPartiesList(data);
+            })
+            .catch((e) => console.log('e1=>', e));
+    }, []);
+
+    return (
+        <MainCard title="CM查詢" sx={{ width: '100%' }}>
+            <Grid container display="flex" alignItems="center" spacing={2}>
+                {/* row1 */}
+                <Grid item lg={1}>
+                    <Typography variant="h5" sx={{ fontSize: { lg: '0.7rem', xl: '0.88rem' } }}>
+                        會員：
+                    </Typography>
+                </Grid>
+                <Grid item lg={2}>
+                    <FormControl fullWidth size="small">
+                        <InputLabel>選擇會員</InputLabel>
+                        <Select
+                            value={partyName}
+                            label="會員"
+                            onChange={(e) => setPartyName(e.target.value)}
+                        >
+                            {partiesList.map((i) => (
+                                <MenuItem key={i} value={i}>
+                                    {i}
+                                </MenuItem>
+                            ))}
+                        </Select>
+                    </FormControl>
+                </Grid>
+                <Grid item lg={1}>
+                    <Typography variant="h5" sx={{ fontSize: { lg: '0.7rem', xl: '0.88rem' } }}>
+                        CM號碼：
+                    </Typography>
+                </Grid>
+                <Grid item lg={2}>
+                    <TextField
+                        fullWidth
+                        variant="outlined"
+                        value={cMNo}
+                        size="small"
+                        label="填寫CM號碼"
+                        onChange={(e) => setCMNo(e.target.value)}
+                    />
+                </Grid>
+                <Grid item lg={1}>
+                    <Typography variant="h5" sx={{ fontSize: { lg: '0.7rem', xl: '0.88rem' } }}>
+                        海纜名稱：
+                    </Typography>
+                </Grid>
+                <Grid item lg={2}>
+                    <FormControl fullWidth size="small">
+                        <InputLabel>選擇海纜名稱</InputLabel>
+                        <Select
+                            value={submarineCable}
+                            label="海纜名稱"
+                            onChange={(e) => setSubmarineCable(e.target.value)}
+                        >
+                            {submarineCableList.map((i) => (
+                                <MenuItem key={i.CableName} value={i.CableName}>
+                                    {i.CableName}
+                                </MenuItem>
+                            ))}
+                        </Select>
+                    </FormControl>
+                </Grid>
+                <Grid item lg={1}>
+                    <Typography variant="h5" sx={{ fontSize: { lg: '0.7rem', xl: '0.88rem' } }}>
                         海纜作業：
                     </Typography>
                 </Grid>
-                <Grid item xs={2} sm={2} md={2} lg={2}>
+                <Grid item lg={2}>
                     <FormControl fullWidth size="small">
                         <InputLabel>選擇海纜作業</InputLabel>
                         <Select
-                         
-                            // value={submarineCable}
+                            value={workTitle}
                             label="海纜作業"
-                            onChange={(e) => setSubmarineCable(e.target.value)}
+                            onChange={(e) => setWorkTitle(e.target.value)}
                         >
-                            <MenuItem value={'一段'}>一段</MenuItem>
-                            <MenuItem value={'二段'}>二段</MenuItem>
-                            <MenuItem value={'三段'}>三段</MenuItem>
+                            <MenuItem value={'Upgrade'}>Upgrade</MenuItem>
+                            <MenuItem value={'Construction'}>Construction</MenuItem>
+                            <MenuItem value={'O&M'}>O&M</MenuItem>
                         </Select>
                     </FormControl>
-                </Grid> */}
-        {/* row2 */}
-        {/* <Grid item xs={1} sm={1} md={1} lg={1} display="flex" alignItems="center">
-                    <Typography variant="h5" sx={{ fontSize: { lg: '0.7rem' ,xl: '0.88rem' }, ml: { lg: '0rem', xl: '0rem' } }}>
-                        剩餘金額：
-                    </Typography>
                 </Grid>
-                <Grid item xs={2} sm={2} md={1} lg={1} display="flex" justifyContent="space-between">
-                    <FormControl row size="small">
-                        <FormGroup
-                            row
-                            size="small"
-                            // value={isLiability}
-                             
-                            // onChange={(e) => setIsLiability(e.target.value)}
-                        >
-                            <FormControlLabel
-                                value={true}
-                                control={<Checkbox sx={{ '& .MuiSvgIcon-root': { fontSize: { lg: 14, xl: 20 } } }} />}
-                                label="有"
-                            />
-                            <FormControlLabel
-                                value={false}
-                                control={<Checkbox sx={{ '& .MuiSvgIcon-root': { fontSize: { lg: 14, xl: 20 } } }} />}
-                                label="無"
-                            />
-                        </FormGroup>
-                    </FormControl>
-                </Grid>
-                <Grid item xs={1} sm={1} md={1} lg={1} display="flex" alignItems="center">
-                    <Typography variant="h5" sx={{ fontSize: { lg: '0.7rem' ,xl: '0.88rem' }, ml: { lg: '0rem', xl: '0rem' } }}>
-                        退費紀錄：
-                    </Typography>
-                </Grid>
-                <Grid item xs={2} sm={2} md={1} lg={1} display="flex" justifyContent="space-between">
-                    <FormControl row>
-                        <FormGroup
-                            row
-                            // value={isLiability}
-                             
-                            // onChange={(e) => setIsLiability(e.target.value)}
-                        >
-                            <FormControlLabel
-                                value={true}
-                                control={<Checkbox sx={{ '& .MuiSvgIcon-root': { fontSize: { lg: 14, xl: 20 } } }} />}
-                                label="有"
-                            />
-                            <FormControlLabel
-                                value={false}
-                                control={<Checkbox sx={{ '& .MuiSvgIcon-root': { fontSize: { lg: 14, xl: 20 } } }} />}
-                                label="無"
-                            />
-                        </FormGroup>
-                    </FormControl>
-                </Grid>
-                <Grid item sm={1} md={1} lg={1}>
-                    <Typography variant="h5" sx={{ fontSize: { lg: '0.7rem' ,xl: '0.88rem' }, ml: { lg: '0.5rem', xl: '1.5rem' } }}>
+                {/* row2 */}
+                <Grid item lg={1}>
+                    <Typography variant="h5" sx={{ fontSize: { lg: '0.7rem', xl: '0.88rem' } }}>
                         建立日期：
                     </Typography>
                 </Grid>
-                <Grid item xs={5} sm={5} md={5} lg={5}>
-                    <LocalizationProvider dateAdapter={AdapterDayjs} localeText={{ start: '起始日', end: '結束日' }}>
+                <Grid item lg={4}>
+                    <LocalizationProvider
+                        dateAdapter={AdapterDayjs}
+                        localeText={{ start: '起始日', end: '結束日' }}
+                    >
                         <DateRangePicker
                             inputFormat="YYYY/MM/DD"
-                            value={issueDate}
+                            value={lastIssueDate}
                             onChange={(e) => {
-                                setIssueDate(e);
+                                setLastIssueDate(e);
                             }}
                             renderInput={(startProps, endProps) => (
                                 <>
@@ -194,27 +218,19 @@ const CreditBalanceQuery = ({ creditBalanceQuery, queryInit }) => {
                             )}
                         />
                     </LocalizationProvider>
-                </Grid> */}
-        <Grid
-          item
-          xs={6}
-          sm={6}
-          md={2}
-          lg={2}
-          display="flex"
-          justifyContent="end"
-          alignItems="center"
-        >
-          <Button sx={{ mr: '0.5rem' }} variant="contained" onClick={CreditBalanceQuery}>
-            查詢
-          </Button>
-          <Button variant="contained" onClick={queryInit}>
-            清除
-          </Button>
-        </Grid>
-      </Grid>
-    </MainCard>
-  );
+                </Grid>
+                <Grid lg={3} />
+                <Grid item lg={4} display="flex" justifyContent="end" alignItems="center">
+                    <Button sx={{ mr: '0.5rem' }} variant="contained" onClick={creditMemoQuery}>
+                        查詢
+                    </Button>
+                    <Button variant="contained" onClick={initQuery}>
+                        清除
+                    </Button>
+                </Grid>
+            </Grid>
+        </MainCard>
+    );
 };
 
-export default CreditBalanceQuery;
+export default CreditMemoQuery;

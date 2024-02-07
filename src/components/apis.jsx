@@ -55,8 +55,9 @@ export const uploadBillMasterAttachment = `http://${env}/api/v1/uploadBillMaster
 // CB
 export const generateReport = `http://${env}/api/v1/CreditBalanceStatement/generateReport`;
 
-// CN
+// CM
 export const CreditMemoApi = `http://${env}/api/v1/CreditMemo`;
+export const CreditMemoView = `http://${env}/api/v1/CreditMemo/view`;
 
 // 待合併
 export const combineInvo = `http://${env}/api/v1/getBillMaster&BillDetailStream`;
