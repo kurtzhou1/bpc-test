@@ -4,13 +4,12 @@ import { Grid, Button, IconButton, Box, Tabs, Tab } from '@mui/material';
 
 // project import
 import MainCard from 'components/MainCard';
-import CreditMemoQuery from './creditMemoQuery';
 import CreditBalanceToCN from './creditBalanceToCN';
 import CreditMemoDataList from './creditMemoDataList';
 import CreditMemoAdd from './creditMemoAdd';
 import { TabPanel } from 'components/commonFunction';
-
-import { CreditMemoApi } from 'components/apis';
+import CreditMemoQuery from './creditMemoQuery';
+import { creditMemoApi } from 'components/apis';
 
 // day
 // import Dialog from '@mui/material/Dialog';
@@ -29,32 +28,6 @@ const CreditMemo = () => {
             'aria-controls': `simple-tabpanel-${index}`,
         };
     };
-    const fakeData = [
-        {
-            CNNo: 'CN03UP-KT2310261124',
-            CNType: 'REFUND',
-            WorkTitle: 'Upgrade',
-            CurrAmount: 2124379.0,
-            Note: 'str',
-            SubmarineCable: 'TPE',
-            CNID: 1,
-            PartyName: 'KT',
-            IssueDate: '2023-10-26T11:24:24',
-            URI: 'https://s.yimg.com/ny/api/res/1.2/Mnp9nKRJPk.7t9nY86k58Q--/YXBwaWQ9aGlnaGxhbmRlcjt3PTk2MDtoPTU0MDtjZj13ZWJw/https://media.zenfs.com/zh-tw/ebc.net.tw/4fe3286ffeb7b42a9365bd897a0a459f',
-        },
-        {
-            CNNo: 'CN03UP-KT2310261124',
-            CNType: 'REFUND',
-            WorkTitle: 'Upgrade',
-            CurrAmount: 2124379.0,
-            Note: 'str',
-            SubmarineCable: 'TPE',
-            CNID: 1,
-            PartyName: 'KT',
-            IssueDate: '2023-10-26T11:24:24',
-            URI: 's3://xxx/xxx/xxx',
-        },
-    ];
 
     const [listInfo, setListInfo] = useState([]);
     const [isDialogOpen, setIsDialogOpen] = useState(false);
@@ -72,28 +45,6 @@ const CreditMemo = () => {
         setSubmarineCable('');
         setBillMilestone('');
         setPartyName('');
-    };
-
-    const CreditMemoQuery = () => {
-        let tmpQuery = CreditMemoApi + 'view';
-        let tmpObject = {};
-        if (submarineCable && submarineCable !== '') {
-            tmpObject.SubmarineCable = submarineCable;
-        }
-        if (billMilestone && billMilestone !== '') {
-            tmpObject.BillMilestone = billMilestone;
-        }
-        if (partyName && partyName !== '') {
-            tmpObject.PartyName = partyName;
-        }
-        fetch(tmpQuery, { method: 'POST', body: JSON.stringify(tmpObject) })
-            .then((res) => res.json())
-            .then((data) => {
-                if (Array.isArray(data)) {
-                    setListInfo(data);
-                }
-            })
-            .catch((e) => console.log('e1=>', e));
     };
 
     const handleDialogOpen = () => {
@@ -172,9 +123,11 @@ const CreditMemo = () => {
         <Grid container spacing={1}>
             <Grid item xs={12}>
                 <CreditMemoQuery
-                    CreditMemoQuery={CreditMemoQuery}
-                    setListInfo={setListInfo}
-                    queryInit={initQuery}
+                // value={value}
+                // setListInfo={setListInfo}
+                // partiesList={partiesList}
+                // submarineCableList={submarineCableList}
+                // queryApi={queryApi}
                 />
             </Grid>
             <Grid item xs={12}>

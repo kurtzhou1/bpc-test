@@ -51,15 +51,6 @@ const CreditBalanceDataList = ({ listInfo }) => {
     return (
         <Grid container spacing={1}>
             <Grid item xs={12}>
-                <CreditMemoQuery
-                // value={value}
-                // setListInfo={setListInfo}
-                // partiesList={partiesList}
-                // submarineCableList={submarineCableList}
-                // queryApi={queryApi}
-                />
-            </Grid>
-            <Grid item xs={12}>
                 <TableContainer component={Paper} sx={{ maxHeight: 350 }}>
                     <Table sx={{ minWidth: 300 }} stickyHeader>
                         <TableHead>

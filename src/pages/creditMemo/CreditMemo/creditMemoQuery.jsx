@@ -25,11 +25,11 @@ import { DateRangePicker } from '@mui/x-date-pickers-pro/DateRangePicker';
 import { TextField } from '@mui/material/index';
 
 // api
-import { CreditMemoView, submarineCableInfoList, getPartiesInfoList } from 'components/apis.jsx';
+import { creditMemoView, submarineCableInfoList, getPartiesInfoList } from 'components/apis.jsx';
 
 // ==============================|| SAMPLE PAGE ||============================== //
 
-const CreditMemoQuery = ({ setListInfo, queryApi }) => {
+const CreditMemoQuery = ({ setListInfo }) => {
     const [partyName, setPartyName] = useState(''); //會員名稱
     const [submarineCable, setSubmarineCable] = useState(''); //海纜名稱
     const [workTitle, setWorkTitle] = useState(''); //海纜作業
@@ -53,7 +53,8 @@ const CreditMemoQuery = ({ setListInfo, queryApi }) => {
             tmpObject.PartyName = partyName;
         }
         if (cMNo && cMNo !== '') {
-            tmpObject = tmpObject + 'CMNo=' + cMNo + '&';
+            // tmpObject = tmpObject + 'CMNo=' + cMNo + '&';
+            tmpObject.CMNo = cMNo;
         }
         if (submarineCable && submarineCable !== '') {
             // tmpQuery = tmpQuery + 'SubmarineCable=' + submarineCable + '&';
@@ -78,14 +79,7 @@ const CreditMemoQuery = ({ setListInfo, queryApi }) => {
             };
         }
 
-        // if (tmpQuery.includes('&')) {
-        //     tmpQuery = tmpQuery.slice(0, -1);
-        // } else {
-        //     tmpQuery = tmpQuery + 'all';
-        // }
-
-        // queryApi.current = tmpQuery;
-        fetch(CreditMemoView, { method: 'POST', body: JSON.stringify(tmpObject) })
+        fetch(creditMemoView, { method: 'POST', body: JSON.stringify(tmpObject) })
             .then((res) => res.json())
             .then((data) => {
                 if (Array.isArray(data)) {
@@ -219,7 +213,7 @@ const CreditMemoQuery = ({ setListInfo, queryApi }) => {
                         />
                     </LocalizationProvider>
                 </Grid>
-                <Grid lg={3} />
+                <Grid item lg={3} />
                 <Grid item lg={4} display="flex" justifyContent="end" alignItems="center">
                     <Button sx={{ mr: '0.5rem' }} variant="contained" onClick={creditMemoQuery}>
                         查詢
