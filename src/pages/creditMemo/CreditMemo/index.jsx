@@ -32,7 +32,7 @@ const CreditMemo = () => {
 
     useEffect(() => {
         initQuery();
-    });
+    }, []);
 
     return (
         <Grid container spacing={1}>
