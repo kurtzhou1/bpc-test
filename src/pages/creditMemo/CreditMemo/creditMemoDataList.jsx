@@ -66,7 +66,7 @@ const CreditBalanceDataList = ({ listInfo }) => {
                             </TableRow>
                         </TableHead>
                         <TableBody>
-                            {[]?.map((row, id) => {
+                            {listInfo?.map((row, id) => {
                                 return (
                                     <TableRow
                                         key={row.CNNo + id}
@@ -74,9 +74,6 @@ const CreditBalanceDataList = ({ listInfo }) => {
                                     >
                                         <StyledTableCell align="center">{id + 1}</StyledTableCell>
                                         <StyledTableCell align="center">{row.CMNo}</StyledTableCell>
-                                        <StyledTableCell align="center">
-                                            {row.CNType}
-                                        </StyledTableCell>
                                         <StyledTableCell align="center">
                                             {row.SubmarineCable}
                                         </StyledTableCell>
