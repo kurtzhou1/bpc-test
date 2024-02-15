@@ -1,12 +1,19 @@
-import { useState } from 'react';
-
 // material-ui
-import { Typography, Grid, Button, FormControl, InputLabel, Select, MenuItem, RadioGroup, FormControlLabel, Radio } from '@mui/material';
+import {
+    Typography,
+    Grid,
+    FormControl,
+    InputLabel,
+    Select,
+    MenuItem,
+    RadioGroup,
+    FormControlLabel,
+    Radio,
+} from '@mui/material';
 // material-ui
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DesktopDatePicker } from '@mui/x-date-pickers/DesktopDatePicker';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import dayjs from 'dayjs';
 // project import
 import MainCard from 'components/MainCard';
 import { handleNumber } from 'components/commonFunction';
@@ -53,22 +60,38 @@ const InvoiceWorkManage = ({
     partyName,
     setPartyName,
     supNmList,
-    submarineCableList
+    submarineCableList,
 }) => {
     const { t } = useTranslation();
     const dispatch = useDispatch();
     const invoiceNoCheck = () => {
         let tmpArray = {
-            InvoiceNo: invoiceNo
+            InvoiceNo: invoiceNo,
         };
         fetch(checkInvoiceNo, { method: 'POST', body: JSON.stringify(tmpArray) })
             .then((res) => res.json())
             .then((data) => {
                 if (data.isExist) {
-                    dispatch(setMessageStateOpen({ messageStateOpen: { isOpen: true, severity: 'error', message: '發票號碼重複' } }));
+                    dispatch(
+                        setMessageStateOpen({
+                            messageStateOpen: {
+                                isOpen: true,
+                                severity: 'error',
+                                message: '發票號碼重複',
+                            },
+                        }),
+                    );
                     setInvoiceNo('');
                 } else {
-                    dispatch(setMessageStateOpen({ messageStateOpen: { isOpen: true, severity: 'success', message: '發票號碼無重複' } }));
+                    dispatch(
+                        setMessageStateOpen({
+                            messageStateOpen: {
+                                isOpen: true,
+                                severity: 'success',
+                                message: '發票號碼無重複',
+                            },
+                        }),
+                    );
                 }
             })
             .catch((e) => console.log('e1=>', e));
@@ -79,14 +102,24 @@ const InvoiceWorkManage = ({
             <Grid container display="flex" justifyContent="center" alignItems="center" spacing={1}>
                 {/* row1 */}
                 <Grid item xs={12} sm={6} md={3} lg={2}>
-                    <Typography variant="h5" sx={{ fontSize: { lg: '0.7rem' ,xl: '0.88rem' }, ml: { lg: '0rem', xl: '1.5rem' } }}>
+                    <Typography
+                        variant="h5"
+                        sx={{
+                            fontSize: { lg: '0.7rem', xl: '0.88rem' },
+                            ml: { lg: '0rem', xl: '1.5rem' },
+                        }}
+                    >
                         {t('Submarine Cable')}：
                     </Typography>
                 </Grid>
                 <Grid item xs={12} sm={6} md={3} lg={4}>
                     <FormControl fullWidth size="small">
                         <InputLabel>選擇海纜</InputLabel>
-                        <Select value={submarineCable} label="發票供應商" onChange={(e) => setSubmarineCable(e.target.value)}>
+                        <Select
+                            value={submarineCable}
+                            label="發票供應商"
+                            onChange={(e) => setSubmarineCable(e.target.value)}
+                        >
                             {submarineCableList.map((i) => (
                                 <MenuItem key={i.CableName} value={i.CableName}>
                                     {i.CableName}
@@ -96,14 +129,24 @@ const InvoiceWorkManage = ({
                     </FormControl>
                 </Grid>
                 <Grid item xs={12} sm={6} md={3} lg={2}>
-                    <Typography variant="h5" sx={{ fontSize: { lg: '0.7rem' ,xl: '0.88rem' }, ml: { lg: '0rem', xl: '1.5rem' } }}>
+                    <Typography
+                        variant="h5"
+                        sx={{
+                            fontSize: { lg: '0.7rem', xl: '0.88rem' },
+                            ml: { lg: '0rem', xl: '1.5rem' },
+                        }}
+                    >
                         {t('Work Title')}：
                     </Typography>
                 </Grid>
                 <Grid item xs={12} sm={6} md={3} lg={4}>
                     <FormControl fullWidth size="small">
                         <InputLabel>選擇海纜作業</InputLabel>
-                        <Select value={workTitle} label="填寫海纜作業" onChange={(e) => setWorkTitle(e.target.value)}>
+                        <Select
+                            value={workTitle}
+                            label="填寫海纜作業"
+                            onChange={(e) => setWorkTitle(e.target.value)}
+                        >
                             <MenuItem value={'Construction'}>Construction</MenuItem>
                             <MenuItem value={'Upgrade'}>Upgrade</MenuItem>
                             <MenuItem value={'O&M'}>O&M</MenuItem>
@@ -112,7 +155,13 @@ const InvoiceWorkManage = ({
                 </Grid>
                 {/* row2 */}
                 <Grid item xs={12} sm={6} md={3} lg={2}>
-                    <Typography variant="h5" sx={{ fontSize: { lg: '0.7rem' ,xl: '0.88rem' }, ml: { lg: '0rem', xl: '1.5rem' } }}>
+                    <Typography
+                        variant="h5"
+                        sx={{
+                            fontSize: { lg: '0.7rem', xl: '0.88rem' },
+                            ml: { lg: '0rem', xl: '1.5rem' },
+                        }}
+                    >
                         {/* 供應商： */}
                         {t('Supplier Name')}：
                     </Typography>
@@ -120,7 +169,11 @@ const InvoiceWorkManage = ({
                 <Grid item xs={12} sm={6} md={3} lg={4}>
                     <FormControl fullWidth size="small">
                         <InputLabel>選擇供應商</InputLabel>
-                        <Select value={supplierName} label="發票供應商" onChange={(e) => setSupplierName(e.target.value)}>
+                        <Select
+                            value={supplierName}
+                            label="發票供應商"
+                            onChange={(e) => setSupplierName(e.target.value)}
+                        >
                             {supNmList.map((i) => (
                                 <MenuItem key={i.SupplierName} value={i.SupplierName}>
                                     {i.SupplierName}
@@ -130,7 +183,13 @@ const InvoiceWorkManage = ({
                     </FormControl>
                 </Grid>
                 <Grid item xs={12} sm={6} md={3} lg={2}>
-                    <Typography variant="h5" sx={{ fontSize: { lg: '0.7rem' ,xl: '0.88rem' }, ml: { lg: '0rem', xl: '1.5rem' } }}>
+                    <Typography
+                        variant="h5"
+                        sx={{
+                            fontSize: { lg: '0.7rem', xl: '0.88rem' },
+                            ml: { lg: '0rem', xl: '1.5rem' },
+                        }}
+                    >
                         {t('Invoice No')}：
                     </Typography>
                 </Grid>
@@ -144,28 +203,44 @@ const InvoiceWorkManage = ({
                         inputProps={{
                             onBlur: () => {
                                 invoiceNoCheck();
-                            }
+                            },
                         }}
                         onChange={(e) => setInvoiceNo(e.target.value)}
                     />
                 </Grid>
                 {/* row3 */}
                 <Grid item xs={12} sm={6} md={3} lg={2}>
-                    <Typography variant="h5" sx={{ fontSize: { lg: '0.7rem' ,xl: '0.88rem' }, ml: { lg: '0rem', xl: '1.5rem' } }}>
+                    <Typography
+                        variant="h5"
+                        sx={{
+                            fontSize: { lg: '0.7rem', xl: '0.88rem' },
+                            ml: { lg: '0rem', xl: '1.5rem' },
+                        }}
+                    >
                         {t('Contract Type')}：
                     </Typography>
                 </Grid>
                 <Grid item xs={12} sm={6} md={3} lg={4}>
                     <FormControl fullWidth size="small">
                         <InputLabel>選擇合約種類</InputLabel>
-                        <Select value={contractType} label="發票供應商" onChange={(e) => setContractType(e.target.value)}>
+                        <Select
+                            value={contractType}
+                            label="發票供應商"
+                            onChange={(e) => setContractType(e.target.value)}
+                        >
                             <MenuItem value={'SC'}>SC</MenuItem>
                             <MenuItem value={'NSC'}>NSC</MenuItem>
                         </Select>
                     </FormControl>
                 </Grid>
                 <Grid item xs={12} sm={6} md={3} lg={2}>
-                    <Typography variant="h5" sx={{ fontSize: { lg: '0.7rem' ,xl: '0.88rem' }, ml: { lg: '0rem', xl: '1.5rem' } }}>
+                    <Typography
+                        variant="h5"
+                        sx={{
+                            fontSize: { lg: '0.7rem', xl: '0.88rem' },
+                            ml: { lg: '0rem', xl: '1.5rem' },
+                        }}
+                    >
                         {t('Issue Date')}：
                     </Typography>
                 </Grid>
@@ -185,7 +260,13 @@ const InvoiceWorkManage = ({
                 </Grid>
                 {/* row4 */}
                 <Grid item xs={12} sm={6} md={3} lg={2}>
-                    <Typography variant="h5" sx={{ fontSize: { lg: '0.7rem' ,xl: '0.88rem' }, ml: { lg: '0rem', xl: '1.5rem' } }}>
+                    <Typography
+                        variant="h5"
+                        sx={{
+                            fontSize: { lg: '0.7rem', xl: '0.88rem' },
+                            ml: { lg: '0rem', xl: '1.5rem' },
+                        }}
+                    >
                         {t('Total Amount')}：
                     </Typography>
                 </Grid>
@@ -203,7 +284,13 @@ const InvoiceWorkManage = ({
                     />
                 </Grid>
                 <Grid item xs={12} sm={6} md={3} lg={2}>
-                    <Typography variant="h5" sx={{ fontSize: { lg: '0.7rem' ,xl: '0.88rem' }, ml: { lg: '0rem', xl: '1.5rem' } }}>
+                    <Typography
+                        variant="h5"
+                        sx={{
+                            fontSize: { lg: '0.7rem', xl: '0.88rem' },
+                            ml: { lg: '0rem', xl: '1.5rem' },
+                        }}
+                    >
                         {t('Due Date')}：
                     </Typography>
                 </Grid>
@@ -221,7 +308,13 @@ const InvoiceWorkManage = ({
                 </Grid>
                 {/* row5 */}
                 <Grid item xs={12} sm={6} md={3} lg={3}>
-                    <Typography variant="h5" sx={{ fontSize: { lg: '0.7rem' ,xl: '0.88rem' }, ml: { lg: '0rem', xl: '1.5rem' } }}>
+                    <Typography
+                        variant="h5"
+                        sx={{
+                            fontSize: { lg: '0.7rem', xl: '0.88rem' },
+                            ml: { lg: '0rem', xl: '1.5rem' },
+                        }}
+                    >
                         {t('Is Pro Forma')}：
                     </Typography>
                 </Grid>
@@ -230,12 +323,24 @@ const InvoiceWorkManage = ({
                         <RadioGroup row value={isPro} onChange={(e) => setIsPro(e.target.value)}>
                             <FormControlLabel
                                 value={true}
-                                control={<Radio sx={{ '& .MuiSvgIcon-root': { fontSize: { lg: 14, xl: 20 } } }} />}
+                                control={
+                                    <Radio
+                                        sx={{
+                                            '& .MuiSvgIcon-root': { fontSize: { lg: 14, xl: 20 } },
+                                        }}
+                                    />
+                                }
                                 label="Y"
                             />
                             <FormControlLabel
                                 value={false}
-                                control={<Radio sx={{ '& .MuiSvgIcon-root': { fontSize: { lg: 14, xl: 20 } } }} />}
+                                control={
+                                    <Radio
+                                        sx={{
+                                            '& .MuiSvgIcon-root': { fontSize: { lg: 14, xl: 20 } },
+                                        }}
+                                    />
+                                }
                                 label="N"
                             />
                         </RadioGroup>
@@ -243,42 +348,86 @@ const InvoiceWorkManage = ({
                 </Grid>
                 {/* row6 */}
                 <Grid item xs={12} sm={6} md={3} lg={3}>
-                    <Typography variant="h5" sx={{ fontSize: { lg: '0.7rem' ,xl: '0.88rem' }, ml: { lg: '0rem', xl: '1.5rem' } }}>
+                    <Typography
+                        variant="h5"
+                        sx={{
+                            fontSize: { lg: '0.7rem', xl: '0.88rem' },
+                            ml: { lg: '0rem', xl: '1.5rem' },
+                        }}
+                    >
                         {t('Is Recharge')}：
                     </Typography>
                 </Grid>
                 <Grid item xs={12} sm={6} md={3} lg={3}>
                     <FormControl>
-                        <RadioGroup row value={isRecharge} onChange={(e) => setIsRecharge(e.target.value)}>
+                        <RadioGroup
+                            row
+                            value={isRecharge}
+                            onChange={(e) => setIsRecharge(e.target.value)}
+                        >
                             <FormControlLabel
                                 value={true}
-                                control={<Radio sx={{ '& .MuiSvgIcon-root': { fontSize: { lg: 14, xl: 20 } } }} />}
+                                control={
+                                    <Radio
+                                        sx={{
+                                            '& .MuiSvgIcon-root': { fontSize: { lg: 14, xl: 20 } },
+                                        }}
+                                    />
+                                }
                                 label="Y"
                             />
                             <FormControlLabel
                                 value={false}
-                                control={<Radio sx={{ '& .MuiSvgIcon-root': { fontSize: { lg: 14, xl: 20 } } }} />}
+                                control={
+                                    <Radio
+                                        sx={{
+                                            '& .MuiSvgIcon-root': { fontSize: { lg: 14, xl: 20 } },
+                                        }}
+                                    />
+                                }
                                 label="N"
                             />
                         </RadioGroup>
                     </FormControl>
                 </Grid>
                 <Grid item xs={12} sm={6} md={3} lg={3}>
-                    <Typography variant="h5" sx={{ fontSize: { lg: '0.7rem' ,xl: '0.88rem' }, ml: { lg: '0rem', xl: '1.5rem' } }}>
+                    <Typography
+                        variant="h5"
+                        sx={{
+                            fontSize: { lg: '0.7rem', xl: '0.88rem' },
+                            ml: { lg: '0rem', xl: '1.5rem' },
+                        }}
+                    >
                         {t('Is Liability')}：
                     </Typography>
                 </Grid>
                 <Grid item xs={12} sm={6} md={3} lg={3}>
                     <FormControl>
-                        <RadioGroup row value={isLiability} onChange={(e) => setIsLiability(e.target.value)}>
+                        <RadioGroup
+                            row
+                            value={isLiability}
+                            onChange={(e) => setIsLiability(e.target.value)}
+                        >
                             <FormControlLabel
                                 value={true}
-                                control={<Radio sx={{ '& .MuiSvgIcon-root': { fontSize: { lg: 14, xl: 20 } } }} />}
+                                control={
+                                    <Radio
+                                        sx={{
+                                            '& .MuiSvgIcon-root': { fontSize: { lg: 14, xl: 20 } },
+                                        }}
+                                    />
+                                }
                                 label="攤分"
                             />
                             <FormControlLabel
                                 value={false}
-                                control={<Radio sx={{ '& .MuiSvgIcon-root': { fontSize: { lg: 14, xl: 20 } } }} />}
+                                control={
+                                    <Radio
+                                        sx={{
+                                            '& .MuiSvgIcon-root': { fontSize: { lg: 14, xl: 20 } },
+                                        }}
+                                    />
+                                }
                                 label="不攤分"
                             />
                         </RadioGroup>
@@ -287,7 +436,13 @@ const InvoiceWorkManage = ({
                 <Grid item xs={12} sm={6} md={6} lg={6} />
                 {/* row6 */}
                 <Grid item xs={12} sm={6} md={3} lg={2}>
-                    <Typography variant="h5" sx={{ fontSize: { lg: '0.7rem' ,xl: '0.88rem' }, ml: { lg: '0rem', xl: '1.5rem' } }}>
+                    <Typography
+                        variant="h5"
+                        sx={{
+                            fontSize: { lg: '0.7rem', xl: '0.88rem' },
+                            ml: { lg: '0rem', xl: '1.5rem' },
+                        }}
+                    >
                         {isLiability === false || isLiability === 'false' ? '會員名稱：' : ''}
                     </Typography>
                 </Grid>
