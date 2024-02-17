@@ -58,6 +58,9 @@ export const generateReport = `http://${env}/api/v1/CreditBalanceStatement/gener
 // CM
 export const creditMemoApi = `http://${env}/api/v1/CreditMemo`;
 export const creditMemoView = `http://${env}/api/v1/CreditMemo/view`;
+export const getCreditMemoStreamApi = `http://${env}/api/v1/getCreditMemoStream`;
+export const uploadCreditMemoApi = `http://${env}/api/v1/uploadCreditMemo`;
+export const downloadCreditMemoApi = `http://${env}/api/v1/downloadCreditMemo`;
 
 // 待合併
 export const combineInvo = `http://${env}/api/v1/getBillMaster&BillDetailStream`;

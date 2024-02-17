@@ -1,7 +1,5 @@
 import { useState, useRef, useEffect } from 'react';
 
-// project import
-import { handleNumber } from 'components/commonFunction';
 // material-ui
 import { Button, Table, TextField, Box, Select, MenuItem } from '@mui/material';
 import TableBody from '@mui/material/TableBody';
@@ -67,12 +65,10 @@ const SupplierDataList = ({ infoList, setInfoList }) => {
             color: theme.palette.common.black,
             padding: '0rem',
             fontSize: '0.2rem',
-            fontSize: '0.7rem',
         },
         [`&.${tableCellClasses.body}`]: {
             padding: '0.5rem',
             fontSize: '0.2rem',
-            fontSize: '0.7rem',
         },
     }));
 

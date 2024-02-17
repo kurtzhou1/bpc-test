@@ -42,9 +42,9 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
 
 const IsSendDataList = ({ listInfo }) => {
     const dispatch = useDispatch();
-    const [isUploadOpen, setIsUploadOpen] = useState(false);
     const [isAttachUploadOpen, setIsAttachUploadOpen] = useState(false);
     const itemID = useRef(-1);
+    const [isUploadOpen, setIsUploadOpen] = useState(false);
     const [modifyItem, setModifyItem] = useState([]);
     const [isDetailOpen, setIsDetailOpen] = useState(false);
 
