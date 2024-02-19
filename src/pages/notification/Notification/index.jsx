@@ -17,49 +17,15 @@ import {
     billMilestoneLiabilityList,
     submarineCableLiabilityList,
     partiesLiabilityList,
-    getSysInvNotifyRule
+    getSysInvNotifyRule,
 } from 'components/apis.jsx';
-
-const fakeData = [
-    {
-        "SysInvNotifyRule": {
-            "WorkTitle": "Upgrade",
-            "RuleName": "Rule1",
-            "RuleCName": "規則1",
-            "ColumnName": "DueDate",
-            "Days2BeforeDue": 5,
-            "Email": true,
-            "SMS": false,
-            "SubmarineCable": "TPE",
-            "RuleID": 1,
-            "NotifyTarget": "OP",
-            "Days1BeforeDue": 10,
-            "DaysAfterDue": 5,
-            "Web": true
-        },
-        "SysInvNotifyRecipients": [
-            {
-                "Email": "kangdi@cht.com.tw",
-                "RuleID": 1,
-                "Group": "OP",
-                "CCList": null,
-                "RecipientID": 1,
-                "RecipientName": "丁康迪",
-                "Mobile": null
-            },
-        ]
-    },
-]
-
 
 const Information = () => {
     const tableH = document.getElementById('tableContainer')?.offsetTop;
     const [isDialogOpen, setIsDialogOpen] = useState(false);
-    const maxHei = window.screen.height - tableH - 270;
     const [listInfo, setListInfo] = useState([]);
     const [partiesList, setPartiesList] = useState([]); //會員名稱下拉選單
     const [submarineCableList, setSubmarineCableList] = useState([]); //海纜名稱下拉選單
-    const [bmStoneList, setBmStoneList] = useState([]); //計帳段號下拉選單(需要選擇海纜名稱或海纜作業才能出現)
     const [value, setValue] = useState(0);
 
     const handleAddRuleOpen = () => {
@@ -73,7 +39,7 @@ const Information = () => {
     const a11yProps = (index) => {
         return {
             id: `simple-tab-${index}`,
-            'aria-controls': `simple-tabpanel-${index}`
+            'aria-controls': `simple-tabpanel-${index}`,
         };
     };
 
@@ -83,24 +49,18 @@ const Information = () => {
 
     const initQuery = () => {
         let tmpArray = {};
-        if (value === 1 || value === '1'){
+        if (value === 1 || value === '1') {
             fetch(getSysInvNotifyRule, { method: 'POST', body: JSON.stringify(tmpArray) })
-            .then((res) => res.json())
-            .then((data) => {
-                console.log('initQuery=>>', data);
-                setListInfo(data);
-            })
-            .catch((e) => console.log('e1=>', e));
+                .then((res) => res.json())
+                .then((data) => {
+                    console.log('initQuery=>>', data);
+                    setListInfo(data);
+                })
+                .catch((e) => console.log('e1=>', e));
         }
-    }
+    };
 
     useEffect(() => {
-        fetch(billMilestoneLiabilityList, { method: 'GET' })
-            .then((res) => res.json())
-            .then((data) => {
-                setBmStoneList(data);
-            })
-            .catch((e) => console.log('e1=>', e));
         fetch(submarineCableLiabilityList, { method: 'GET' })
             .then((res) => res.json())
             .then((data) => {
@@ -117,7 +77,7 @@ const Information = () => {
 
     useEffect(() => {
         initQuery();
-    }, [value])
+    }, [value]);
 
     return (
         <Grid container spacing={1}>
@@ -147,17 +107,22 @@ const Information = () => {
             <Grid item xs={12}>
                 <MainCard title="資料列表">
                     <Box sx={{ borderBottom: 1, borderColor: 'divider', position: 'relative' }}>
-                        <Tabs value={value} onChange={handleChange} >
+                        <Tabs value={value} onChange={handleChange}>
                             <Tab label="會員帳單" {...a11yProps(0)} />
                             <Tab label="發票內部通知" {...a11yProps(1)} />
                             <Tab label="帳單內部通知" {...a11yProps(2)} />
                         </Tabs>
                     </Box>
                     <TabPanel value={value} index={0}>
-                        <MemberBillDataList listInfo={listInfo}  />
+                        <MemberBillDataList listInfo={listInfo} />
                     </TabPanel>
                     <TabPanel value={value} index={1}>
-                        <InvoiceNotificationDataList listInfo={listInfo} partiesList={partiesList} submarineCableList={submarineCableList} initQuery={initQuery} />
+                        <InvoiceNotificationDataList
+                            listInfo={listInfo}
+                            partiesList={partiesList}
+                            submarineCableList={submarineCableList}
+                            initQuery={initQuery}
+                        />
                     </TabPanel>
                     <TabPanel value={value} index={2}>
                         <BillNotificationDataList listInfo={listInfo} />

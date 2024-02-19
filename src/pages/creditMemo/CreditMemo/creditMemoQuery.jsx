@@ -30,25 +30,25 @@ import { creditMemoView, submarineCableInfoList, getPartiesInfoList } from 'comp
 // ==============================|| SAMPLE PAGE ||============================== //
 
 const CreditMemoQuery = ({ setListInfo }) => {
-    const [partyName, setPartyName] = useState(''); //會員名稱
-    const [submarineCable, setSubmarineCable] = useState(''); //海纜名稱
-    const [workTitle, setWorkTitle] = useState(''); //海纜作業
+    const [partyName, setPartyName] = useState('All'); //會員名稱
+    const [submarineCable, setSubmarineCable] = useState('All'); //海纜名稱
+    const [workTitle, setWorkTitle] = useState('All'); //海纜作業
     const [lastIssueDate, setLastIssueDate] = useState([null, null]); //建立日期
     const [submarineCableList, setSubmarineCableList] = useState([]); //海纜名稱下拉選單
     const [partiesList, setPartiesList] = useState([]); //會員下拉選單
     const [cMNo, setCMNo] = useState('');
 
     const initQuery = () => {
-        setPartyName('');
+        setPartyName('All');
         setCMNo('');
-        setSubmarineCable('');
-        setWorkTitle('');
+        setSubmarineCable('All');
+        setWorkTitle('All');
         setLastIssueDate([null, null]);
     };
 
     const creditMemoQuery = () => {
         let tmpObject = {};
-        if (partyName && partyName !== '') {
+        if (partyName && partyName !== 'All') {
             // tmpQuery = tmpQuery + 'PartyName=' + partyName + '&';
             tmpObject.PartyName = partyName;
         }
@@ -56,11 +56,11 @@ const CreditMemoQuery = ({ setListInfo }) => {
             // tmpObject = tmpObject + 'CMNo=' + cMNo + '&';
             tmpObject.CMNo = cMNo;
         }
-        if (submarineCable && submarineCable !== '') {
+        if (submarineCable && submarineCable !== 'All') {
             // tmpQuery = tmpQuery + 'SubmarineCable=' + submarineCable + '&';
             tmpObject.SubmarineCable = submarineCable;
         }
-        if (workTitle && workTitle !== '') {
+        if (workTitle && workTitle !== 'All') {
             // tmpQuery = tmpQuery + 'WorkTitle=' + workTitle + '&';
             tmpObject.WorkTitle = workTitle;
         }
@@ -123,6 +123,7 @@ const CreditMemoQuery = ({ setListInfo }) => {
                             label="會員"
                             onChange={(e) => setPartyName(e.target.value)}
                         >
+                            <MenuItem value={'All'}>All</MenuItem>
                             {partiesList.map((i) => (
                                 <MenuItem key={i} value={i}>
                                     {i}
@@ -159,6 +160,7 @@ const CreditMemoQuery = ({ setListInfo }) => {
                             label="海纜名稱"
                             onChange={(e) => setSubmarineCable(e.target.value)}
                         >
+                            <MenuItem value={'All'}>All</MenuItem>
                             {submarineCableList.map((i) => (
                                 <MenuItem key={i.CableName} value={i.CableName}>
                                     {i.CableName}
@@ -180,6 +182,7 @@ const CreditMemoQuery = ({ setListInfo }) => {
                             label="海纜作業"
                             onChange={(e) => setWorkTitle(e.target.value)}
                         >
+                            <MenuItem value={'All'}>All</MenuItem>
                             <MenuItem value={'Upgrade'}>Upgrade</MenuItem>
                             <MenuItem value={'Construction'}>Construction</MenuItem>
                             <MenuItem value={'O&M'}>O&M</MenuItem>

@@ -11,7 +11,7 @@ import {
     FormGroup,
     RadioGroup,
     FormControlLabel,
-    Checkbox
+    Checkbox,
 } from '@mui/material';
 
 // project import
@@ -25,16 +25,21 @@ import { TextField } from '@mui/material/index';
 import dayjs from 'dayjs';
 
 // api
-import { searchInvoiceWKMasterIsBilled, supplierNameDropDownUnique, submarineCableInfoList, billMilestoneLiabilityList } from 'components/apis.jsx';
+import {
+    searchInvoiceWKMasterIsBilled,
+    supplierNameDropDownUnique,
+    submarineCableInfoList,
+    billMilestoneLiabilityList,
+} from 'components/apis.jsx';
 
 // ==============================|| SAMPLE PAGE ||============================== //
 
 const ResearchBillQuery = ({ setListInfo, queryApi }) => {
-    const [supplierName, setSupplierName] = useState(''); //供應商
-    const [submarineCable, setSubmarineCable] = useState(''); //海纜名稱
-    const [workTitle, setWorkTitle] = useState(''); //海纜作業
+    const [supplierName, setSupplierName] = useState('All'); //供應商
+    const [submarineCable, setSubmarineCable] = useState('All'); //海纜名稱
+    const [workTitle, setWorkTitle] = useState('All'); //海纜作業
     const [invoiceNo, setInvoiceNo] = useState(''); //發票號碼
-    const [billMilestone, setBillMilestone] = useState(''); // 計帳段號
+    const [billMilestone, setBillMilestone] = useState('All'); // 計帳段號
     const [isIssueDate, setIsIssueDate] = useState(''); //是否為發票日期
     const [issueDate, setIssueDate] = useState(null); //發票日期
     const [supNmList, setSupNmList] = useState([]); //供應商下拉選單
@@ -44,83 +49,83 @@ const ResearchBillQuery = ({ setListInfo, queryApi }) => {
         BILLED: false,
         PAYING: false,
         TEMPORARY: false,
-        VALIDATED: false
+        VALIDATED: false,
     }); //處理狀態
 
     const initQuery = () => {
         setIssueDate([null, null]);
-        setSupplierName('');
-        setSubmarineCable('');
-        setWorkTitle('');
+        setSupplierName('All');
+        setSubmarineCable('All');
+        setWorkTitle('All');
         setInvoiceStatus({ BILLED: false, PAYING: false, TEMPORARY: false, VALIDATED: false });
-        setBillMilestone('');
+        setBillMilestone('All');
         setInvoiceNo('');
         setIsIssueDate('');
     };
 
     const journalQuery = () => {
-      // let tmpQuery = '/';
-      let tmpObject = {};
-      if (supplierName && supplierName !== '') {
-          tmpObject.SupplierName = supplierName;
-      }
-      if (submarineCable && submarineCable !== '') {
-          tmpObject.SubmarineCable = submarineCable;
-      }
-      if (workTitle && workTitle !== '') {
-        tmpObject.WorkTitle = workTitle;
-    }
-      if (invoiceNo && invoiceNo !== '') {
-          tmpObject.InvoiceNo = invoiceNo;
-      }
-      if (billMilestone && billMilestone !== '') {
-          tmpObject.BillMilestone = billMilestone;
-      }
-      if (isIssueDate === 'true') {
-          tmpObject.IssueDate = dayjs(issueDate).format('YYYYMMDD')
-      }
-      if (isIssueDate === 'false') {
-          tmpObject.DueDate = dayjs(issueDate).format('YYYYMMDD')
-      }
-      if (
-          !(
-              invoiceStatus?.TEMPORARY &&
-              invoiceStatus?.VALIDATED &&
-              invoiceStatus?.BILLED &&
-              invoiceStatus?.PAYING
-          ) &&
-          (invoiceStatus?.TEMPORARY ||
-              invoiceStatus?.VALIDATED ||
-              invoiceStatus?.BILLED ||
-              invoiceStatus?.PAYING)
-      ) {
-          let tmpStatus = [];
-          if (invoiceStatus?.TEMPORARY) {
-              // tmpStatus = tmpStatus + 'Status=TEMPORARY&';
-              tmpStatus.push("TEMPORARY");
-          }
-          if (invoiceStatus?.VALIDATED) {
-              // tmpStatus = tmpStatus + 'Status=VALIDATED&';
-              tmpStatus.push("VALIDATED");
-          }
-          if (invoiceStatus?.BILLED) {
-              // tmpStatus = tmpStatus + 'Status=BILLED&';
-              tmpStatus.push("BILLED");
-          }
-          if (invoiceStatus?.PAYING) {
-              // tmpStatus = tmpStatus + 'Status=PAYING&';
-              tmpStatus.push("PAYING");
-          }
-          tmpObject.Status = tmpStatus;
-      }
-      queryApi.current = tmpObject;
-      console.log('tmpQuery=>>', tmpObject);
-      fetch(searchInvoiceWKMasterIsBilled, { method: 'POST', body: JSON.stringify(tmpObject) })
-          .then((res) => res.json())
-          .then((data) => {
-              setListInfo(data);
-          })
-          .catch((e) => console.log('e1=>', e));
+        // let tmpQuery = '/';
+        let tmpObject = {};
+        if (supplierName && supplierName !== 'All') {
+            tmpObject.SupplierName = supplierName;
+        }
+        if (submarineCable && submarineCable !== 'All') {
+            tmpObject.SubmarineCable = submarineCable;
+        }
+        if (workTitle && workTitle !== 'All') {
+            tmpObject.WorkTitle = workTitle;
+        }
+        if (invoiceNo && invoiceNo !== '') {
+            tmpObject.InvoiceNo = invoiceNo;
+        }
+        if (billMilestone && billMilestone !== 'All') {
+            tmpObject.BillMilestone = billMilestone;
+        }
+        if (isIssueDate === 'true') {
+            tmpObject.IssueDate = dayjs(issueDate).format('YYYYMMDD');
+        }
+        if (isIssueDate === 'false') {
+            tmpObject.DueDate = dayjs(issueDate).format('YYYYMMDD');
+        }
+        if (
+            !(
+                invoiceStatus?.TEMPORARY &&
+                invoiceStatus?.VALIDATED &&
+                invoiceStatus?.BILLED &&
+                invoiceStatus?.PAYING
+            ) &&
+            (invoiceStatus?.TEMPORARY ||
+                invoiceStatus?.VALIDATED ||
+                invoiceStatus?.BILLED ||
+                invoiceStatus?.PAYING)
+        ) {
+            let tmpStatus = [];
+            if (invoiceStatus?.TEMPORARY) {
+                // tmpStatus = tmpStatus + 'Status=TEMPORARY&';
+                tmpStatus.push('TEMPORARY');
+            }
+            if (invoiceStatus?.VALIDATED) {
+                // tmpStatus = tmpStatus + 'Status=VALIDATED&';
+                tmpStatus.push('VALIDATED');
+            }
+            if (invoiceStatus?.BILLED) {
+                // tmpStatus = tmpStatus + 'Status=BILLED&';
+                tmpStatus.push('BILLED');
+            }
+            if (invoiceStatus?.PAYING) {
+                // tmpStatus = tmpStatus + 'Status=PAYING&';
+                tmpStatus.push('PAYING');
+            }
+            tmpObject.Status = tmpStatus;
+        }
+        queryApi.current = tmpObject;
+        console.log('tmpQuery=>>', tmpObject);
+        fetch(searchInvoiceWKMasterIsBilled, { method: 'POST', body: JSON.stringify(tmpObject) })
+            .then((res) => res.json())
+            .then((data) => {
+                setListInfo(data);
+            })
+            .catch((e) => console.log('e1=>', e));
     };
 
     const handleChange = (event) => {
@@ -131,7 +136,7 @@ const ResearchBillQuery = ({ setListInfo, queryApi }) => {
         fetch(supplierNameDropDownUnique, { method: 'GET' })
             .then((res) => res.json())
             .then((data) => {
-                if(Array.isArray(data)) {
+                if (Array.isArray(data)) {
                     setSupNmList(data);
                 }
             })
@@ -149,21 +154,28 @@ const ResearchBillQuery = ({ setListInfo, queryApi }) => {
                 setBmsList(data);
             })
             .catch((e) => console.log('e1=>', e));
-    }, [])
+    }, []);
 
     return (
         <MainCard title="條件查詢" sx={{ width: '100%' }}>
             <Grid container display="flex" alignItems="center" spacing={2}>
                 {/* row1 */}
                 <Grid item xs={2} sm={2} md={1} lg={1}>
-                    <Typography sx={{ fontWeight: 'bold' ,fontSize: { lg: '0.7rem' ,xl: '0.88rem' } }}>
+                    <Typography
+                        sx={{ fontWeight: 'bold', fontSize: { lg: '0.7rem', xl: '0.88rem' } }}
+                    >
                         供應商：
                     </Typography>
                 </Grid>
                 <Grid item xs={4} sm={4} md={2} lg={2}>
                     <FormControl fullWidth size="small">
                         <InputLabel>選擇供應商</InputLabel>
-                        <Select value={supplierName} label="供應商" onChange={(e) => setSupplierName(e.target.value)}>
+                        <Select
+                            value={supplierName}
+                            label="供應商"
+                            onChange={(e) => setSupplierName(e.target.value)}
+                        >
+                            <MenuItem value={'All'}>All</MenuItem>
                             {supNmList.map((i) => (
                                 <MenuItem key={i} value={i}>
                                     {i}
@@ -173,14 +185,21 @@ const ResearchBillQuery = ({ setListInfo, queryApi }) => {
                     </FormControl>
                 </Grid>
                 <Grid item sm={1} md={1} lg={1}>
-                    <Typography sx={{ fontWeight: 'bold' ,fontSize: { lg: '0.7rem' ,xl: '0.88rem' } }}>
+                    <Typography
+                        sx={{ fontWeight: 'bold', fontSize: { lg: '0.7rem', xl: '0.88rem' } }}
+                    >
                         海纜名稱：
                     </Typography>
                 </Grid>
                 <Grid item xs={2} sm={2} md={2} lg={2}>
                     <FormControl fullWidth size="small">
                         <InputLabel>選擇海纜名稱</InputLabel>
-                        <Select value={submarineCable} label="海纜名稱" onChange={(e) => setSubmarineCable(e.target.value)}>
+                        <Select
+                            value={submarineCable}
+                            label="海纜名稱"
+                            onChange={(e) => setSubmarineCable(e.target.value)}
+                        >
+                            <MenuItem value={'All'}>All</MenuItem>
                             {submarineCableList.map((i) => (
                                 <MenuItem key={i.CableName} value={i.CableName}>
                                     {i.CableName}
@@ -190,22 +209,57 @@ const ResearchBillQuery = ({ setListInfo, queryApi }) => {
                     </FormControl>
                 </Grid>
                 <Grid item sm={1} md={1} lg={1}>
-                    <Typography sx={{ fontWeight: 'bold' ,fontSize: { lg: '0.7rem' ,xl: '0.88rem' } }}>
+                    <Typography
+                        sx={{ fontWeight: 'bold', fontSize: { lg: '0.7rem', xl: '0.88rem' } }}
+                    >
                         海纜作業：
                     </Typography>
                 </Grid>
                 <Grid item xs={2} sm={2} md={2} lg={2}>
                     <FormControl fullWidth size="small">
                         <InputLabel>選擇海纜作業</InputLabel>
-                        <Select value={workTitle} label="海纜作業" onChange={(e) => setWorkTitle(e.target.value)}>
+                        <Select
+                            value={workTitle}
+                            label="海纜作業"
+                            onChange={(e) => setWorkTitle(e.target.value)}
+                        >
+                            <MenuItem value={'All'}>All</MenuItem>
                             <MenuItem value={'Upgrade'}>Upgrade</MenuItem>
                             <MenuItem value={'Construction'}>Construction</MenuItem>
                             <MenuItem value={'O&M'}>O&M</MenuItem>
                         </Select>
                     </FormControl>
                 </Grid>
+
                 <Grid item sm={1} md={1} lg={1}>
-                    <Typography sx={{ fontWeight: 'bold' ,fontSize: { lg: '0.7rem' ,xl: '0.88rem' } }}>
+                    <Typography
+                        sx={{ fontWeight: 'bold', fontSize: { lg: '0.7rem', xl: '0.88rem' } }}
+                    >
+                        計帳段號：
+                    </Typography>
+                </Grid>
+                <Grid item xs={2} sm={2} md={2} lg={2}>
+                    <FormControl fullWidth size="small">
+                        <InputLabel>選擇計帳段號</InputLabel>
+                        <Select
+                            value={billMilestone}
+                            label="發票供應商"
+                            onChange={(e) => setBillMilestone(e.target.value)}
+                        >
+                            <MenuItem value={'All'}>All</MenuItem>
+                            {bmsList.map((i) => (
+                                <MenuItem key={i} value={i}>
+                                    {i}
+                                </MenuItem>
+                            ))}
+                        </Select>
+                    </FormControl>
+                </Grid>
+                {/* row2 */}
+                <Grid item sm={1} md={1} lg={1}>
+                    <Typography
+                        sx={{ fontWeight: 'bold', fontSize: { lg: '0.7rem', xl: '0.88rem' } }}
+                    >
                         發票號碼：
                     </Typography>
                 </Grid>
@@ -222,44 +276,47 @@ const ResearchBillQuery = ({ setListInfo, queryApi }) => {
                     </FormControl>
                 </Grid>
                 <Grid item sm={1} md={1} lg={1}>
-                    <Typography sx={{ fontWeight: 'bold' ,fontSize: { lg: '0.7rem' ,xl: '0.88rem' } }}>
-                        計帳段號：
-                    </Typography>
-                </Grid>
-                <Grid item xs={2} sm={2} md={2} lg={2}>
-                    <FormControl fullWidth size="small">
-                        <InputLabel>選擇計帳段號</InputLabel>
-                        <Select value={billMilestone} label="發票供應商" onChange={(e) => setBillMilestone(e.target.value)}>
-                            {bmsList.map((i) => (
-                                <MenuItem key={i} value={i}>
-                                    {i}
-                                </MenuItem>
-                            ))}
-                        </Select>
-                    </FormControl>
-                </Grid>
-                {/* row2 */}
-                <Grid item sm={1} md={1} lg={1}>
-                    <Typography sx={{ fontWeight: 'bold' ,fontSize: { lg: '0.7rem' ,xl: '0.88rem' } }}>
+                    <Typography
+                        sx={{ fontWeight: 'bold', fontSize: { lg: '0.7rem', xl: '0.88rem' } }}
+                    >
                         日期條件：
                     </Typography>
                 </Grid>
                 <Grid item xs={8} sm={8} md={8} lg={8} display="flex" alignItems="center">
                     <FormControl>
-                        <RadioGroup row value={isIssueDate} onChange={(e) => setIsIssueDate(e.target.value)}>
+                        <RadioGroup
+                            row
+                            value={isIssueDate}
+                            onChange={(e) => setIsIssueDate(e.target.value)}
+                        >
                             <FormControlLabel
                                 value={true}
-                                control={<Radio sx={{ '& .MuiSvgIcon-root': { fontSize: { lg: 14, xl: 20 } } }} />}
+                                control={
+                                    <Radio
+                                        sx={{
+                                            '& .MuiSvgIcon-root': { fontSize: { lg: 14, xl: 20 } },
+                                        }}
+                                    />
+                                }
                                 label="發票日期"
                             />
                             <FormControlLabel
                                 value={false}
-                                control={<Radio sx={{ '& .MuiSvgIcon-root': { fontSize: { lg: 14, xl: 20 } } }} />}
+                                control={
+                                    <Radio
+                                        sx={{
+                                            '& .MuiSvgIcon-root': { fontSize: { lg: 14, xl: 20 } },
+                                        }}
+                                    />
+                                }
                                 label="發票到期日"
                             />
                         </RadioGroup>
                     </FormControl>
-                    <LocalizationProvider dateAdapter={AdapterDayjs} localeText={{ start: '起始日', end: '結束日' }}>
+                    <LocalizationProvider
+                        dateAdapter={AdapterDayjs}
+                        localeText={{ start: '起始日', end: '結束日' }}
+                    >
                         <DesktopDatePicker
                             inputFormat="YYYY/MM/DD"
                             value={issueDate}
@@ -271,7 +328,9 @@ const ResearchBillQuery = ({ setListInfo, queryApi }) => {
                     </LocalizationProvider>
                 </Grid>
                 <Grid item sm={1} md={1} lg={1}>
-                    <Typography sx={{ fontWeight: 'bold' ,fontSize: { lg: '0.7rem' ,xl: '0.88rem' } }}>
+                    <Typography
+                        sx={{ fontWeight: 'bold', fontSize: { lg: '0.7rem', xl: '0.88rem' } }}
+                    >
                         處理狀態：
                     </Typography>
                 </Grid>
@@ -327,11 +386,22 @@ const ResearchBillQuery = ({ setListInfo, queryApi }) => {
                         />
                     </FormGroup>
                 </Grid>
-                <Grid item xs={6} sm={6} md={6} lg={6} display="flex" justifyContent="end" alignItems="center">
+                <Grid
+                    item
+                    xs={6}
+                    sm={6}
+                    md={6}
+                    lg={6}
+                    display="flex"
+                    justifyContent="end"
+                    alignItems="center"
+                >
                     <Button sx={{ mr: '0.5rem' }} variant="contained" onClick={journalQuery}>
                         查詢
                     </Button>
-                    <Button variant="contained" onClick={initQuery}>清除</Button>
+                    <Button variant="contained" onClick={initQuery}>
+                        清除
+                    </Button>
                 </Grid>
             </Grid>
         </MainCard>
