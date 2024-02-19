@@ -1,5 +1,14 @@
 import { useEffect, useState } from 'react';
-import { Typography, Grid, Button, FormControl, InputLabel, Select, MenuItem, Box } from '@mui/material';
+import {
+    Typography,
+    Grid,
+    Button,
+    FormControl,
+    InputLabel,
+    Select,
+    MenuItem,
+    Box,
+} from '@mui/material';
 
 // project import
 import MainCard from 'components/MainCard';
@@ -12,37 +21,52 @@ import { DateRangePicker } from '@mui/x-date-pickers-pro/DateRangePicker';
 import { TextField } from '@mui/material/index';
 
 //api
-import { queryInvoice, supplierNameDropDownUnique, submarineCableInfoList } from 'components/apis.jsx';
+import {
+    queryInvoice,
+    supplierNameDropDownUnique,
+    submarineCableInfoList,
+} from 'components/apis.jsx';
 
 // ==============================|| SAMPLE PAGE ||============================== //
 
-const JournalQuery = ({ setListInfo, queryApi, invoiceStatus, supplierName, setSupplierName, submarineCable, setSubmarineCable, issueDate, setIssueDate, initQuery }) => {
+const JournalQuery = ({
+    setListInfo,
+    queryApi,
+    invoiceStatus,
+    supplierName,
+    setSupplierName,
+    submarineCable,
+    setSubmarineCable,
+    issueDate,
+    setIssueDate,
+    initQuery,
+}) => {
     const [supNmList, setSupNmList] = useState([]); //供應商下拉選單
     const [submarineCableList, setSubmarineCableList] = useState([]); //海纜名稱下拉選單
 
     const jounaryQuery = () => {
-     // let tmpQuery = '/';
-     let tmpArray = {};
-        if (supplierName && supplierName !== '') {
+        // let tmpQuery = '/';
+        let tmpArray = {};
+        if (supplierName && supplierName !== 'All') {
             // tmpQuery = tmpQuery + 'SupplierName=' + supplierName + '&';
             tmpArray.SupplierName = supplierName;
         }
-        if (submarineCable && submarineCable !== '') {
+        if (submarineCable && submarineCable !== 'All') {
             // tmpQuery = tmpQuery + 'SubmarineCable=' + submarineCable + '&';
             tmpArray.SubmarineCable = submarineCable;
         }
         if (issueDate[0] && issueDate[1]) {
             tmpArray.CreateDate = {
                 start: dayjs(issueDate[0]).format('YYYYMMDD'),
-                end: dayjs(issueDate[1]).format('YYYYMMDD')
-            }
+                end: dayjs(issueDate[1]).format('YYYYMMDD'),
+            };
         }
         if (invoiceStatus === '0' || invoiceStatus === 0) {
             // tmpQuery = tmpQuery + 'Status=' + 'VALIDATED' + '&';
-            tmpArray.Status = "VALIDATED";
+            tmpArray.Status = 'VALIDATED';
         } else if (invoiceStatus === '1' || invoiceStatus === 1) {
             // tmpQuery = tmpQuery + 'Status=' + 'BILLED' + '&';
-            tmpArray.Status = "BILLED";
+            tmpArray.Status = 'BILLED';
         } else {
             tmpArray.Status = 'INVALID';
         }
@@ -62,11 +86,11 @@ const JournalQuery = ({ setListInfo, queryApi, invoiceStatus, supplierName, setS
             .then((res) => res.json())
             .then((data) => {
                 console.log('data=>>', data);
-                if(Array.isArray(data)) {
+                if (Array.isArray(data)) {
                     setSupNmList(data);
                 }
             })
-        .catch((e) => console.log('e1=>', e));
+            .catch((e) => console.log('e1=>', e));
         //海纜名稱
         fetch(submarineCableInfoList, { method: 'GET' })
             .then((res) => res.json())
@@ -74,7 +98,7 @@ const JournalQuery = ({ setListInfo, queryApi, invoiceStatus, supplierName, setS
                 setSubmarineCableList(data);
             })
             .catch((e) => console.log('e1=>', e));
-    }, [])
+    }, []);
 
     return (
         <MainCard title="發票查詢" sx={{ width: '100%' }}>
@@ -84,7 +108,7 @@ const JournalQuery = ({ setListInfo, queryApi, invoiceStatus, supplierName, setS
                     <Typography
                         textAlign="right"
                         variant="h5"
-                        sx={{ fontSize: { lg: '0.7rem' ,xl: '0.88rem' } }}
+                        sx={{ fontSize: { lg: '0.7rem', xl: '0.88rem' } }}
                     >
                         海纜名稱：
                     </Typography>
@@ -92,7 +116,12 @@ const JournalQuery = ({ setListInfo, queryApi, invoiceStatus, supplierName, setS
                 <Grid item xs={4} sm={4} md={2} lg={2}>
                     <FormControl fullWidth size="small">
                         <InputLabel>選擇海纜</InputLabel>
-                        <Select value={submarineCable} label="海纜" onChange={(e) => setSubmarineCable(e.target.value)}>
+                        <Select
+                            value={submarineCable}
+                            label="海纜"
+                            onChange={(e) => setSubmarineCable(e.target.value)}
+                        >
+                            <MenuItem value={'All'}>All</MenuItem>
                             {submarineCableList.map((i) => (
                                 <MenuItem key={i.CableName} value={i.CableName}>
                                     {i.CableName}
@@ -102,14 +131,23 @@ const JournalQuery = ({ setListInfo, queryApi, invoiceStatus, supplierName, setS
                     </FormControl>
                 </Grid>
                 <Grid item xs={2} sm={2} md={1} lg={1}>
-                    <Typography variant="h5" textAlign="right" sx={{ fontSize: { lg: '0.7rem' ,xl: '0.88rem' } }}>
+                    <Typography
+                        variant="h5"
+                        textAlign="right"
+                        sx={{ fontSize: { lg: '0.7rem', xl: '0.88rem' } }}
+                    >
                         供應商：
                     </Typography>
                 </Grid>
                 <Grid item xs={4} sm={4} md={2} lg={2}>
                     <FormControl fullWidth size="small">
                         <InputLabel>選擇供應商</InputLabel>
-                        <Select value={supplierName} label="供應商" onChange={(e) => setSupplierName(e.target.value)}>
+                        <Select
+                            value={supplierName}
+                            label="供應商"
+                            onChange={(e) => setSupplierName(e.target.value)}
+                        >
+                            <MenuItem value={'All'}>All</MenuItem>
                             {supNmList.map((i) => (
                                 <MenuItem key={i} value={i}>
                                     {i}
@@ -122,13 +160,16 @@ const JournalQuery = ({ setListInfo, queryApi, invoiceStatus, supplierName, setS
                     <Typography
                         textAlign="right"
                         variant="h5"
-                        sx={{ fontSize: { lg: '0.7rem' ,xl: '0.88rem' } }}
+                        sx={{ fontSize: { lg: '0.7rem', xl: '0.88rem' } }}
                     >
                         發票日期：
                     </Typography>
                 </Grid>
                 <Grid item xs={9} sm={9} md={3} lg={3}>
-                    <LocalizationProvider dateAdapter={AdapterDayjs} localeText={{ start: '起始日', end: '結束日' }}>
+                    <LocalizationProvider
+                        dateAdapter={AdapterDayjs}
+                        localeText={{ start: '起始日', end: '結束日' }}
+                    >
                         <DateRangePicker
                             inputFormat="YYYY/MM/DD"
                             value={issueDate}
@@ -146,7 +187,16 @@ const JournalQuery = ({ setListInfo, queryApi, invoiceStatus, supplierName, setS
                     </LocalizationProvider>
                 </Grid>
                 <Grid item xs={2} sm={2} md={2} lg={2} />
-                <Grid item xs={12} sm={12} md={12} lg={12} display="flex" justifyContent="end" alignItems="center">
+                <Grid
+                    item
+                    xs={12}
+                    sm={12}
+                    md={12}
+                    lg={12}
+                    display="flex"
+                    justifyContent="end"
+                    alignItems="center"
+                >
                     <Button sx={{ mr: '0.5rem' }} variant="contained" onClick={jounaryQuery}>
                         查詢
                     </Button>

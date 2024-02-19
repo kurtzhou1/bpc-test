@@ -16,14 +16,14 @@ import { queryInvoice } from 'components/apis.jsx';
 const CreateJournal = () => {
     const [listInfo, setListInfo] = useState([]);
     const [value, setValue] = useState(0);
-    const [supplierName, setSupplierName] = useState(''); //供應商
-    const [submarineCable, setSubmarineCable] = useState(''); //海纜名稱
+    const [supplierName, setSupplierName] = useState('All'); //供應商
+    const [submarineCable, setSubmarineCable] = useState('All'); //海纜名稱
     const [issueDate, setIssueDate] = useState([null, null]); //發票日期
     // const isFirst = useRef(true);
     const queryApi = useRef({});
     const initQuery = () => {
-        setSupplierName('');
-        setSubmarineCable('');
+        setSupplierName('All');
+        setSubmarineCable('All');
         setIssueDate([null, null]);
     };
 
@@ -50,33 +50,6 @@ const CreateJournal = () => {
             .catch((e) => console.log('e1=>', e));
     };
 
-    // const orderDate = (data) => {
-    //     data.sort((a, b) => {
-    //         return dayjs(b.InvoiceWKMaster.CreateDate).diff(dayjs(a.InvoiceWKMaster.CreateDate));
-    //     });
-    // };
-
-    // const firstApiQuery = () => {
-    //     let tmpQuery = '/';
-    //     tmpQuery = tmpQuery + 'Status=' + 'VALIDATED' + '&';
-
-    //     if (tmpQuery.includes('&')) {
-    //         tmpQuery = tmpQuery.slice(0, -1);
-    //     }
-
-    //     tmpQuery = queryInvoice + tmpQuery;
-    //     queryApi.current = tmpQuery;
-    //     fetch(tmpQuery, { method: 'GET' })
-    //         .then((res) => res.json())
-    //         .then((data) => {
-    //             orderDate(data);
-    //             data = data.slice(0, 5);
-    //             setListInfo(data);
-    //             isFirst.current = false;
-    //         })
-    //         .catch((e) => console.log('e1=>', e));
-    // };
-
     useEffect(() => {
         initQuery();
         apiQuery();
@@ -85,7 +58,7 @@ const CreateJournal = () => {
     const a11yProps = (index) => {
         return {
             id: `simple-tab-${index}`,
-            'aria-controls': `simple-tabpanel-${index}`
+            'aria-controls': `simple-tabpanel-${index}`,
         };
     };
 
@@ -96,9 +69,10 @@ const CreateJournal = () => {
     return (
         <Grid container spacing={1}>
             <Grid item xs={12}>
-                <JournalQuery 
+                <JournalQuery
                     setListInfo={setListInfo}
-                    queryApi={queryApi}invoiceStatus={value}
+                    queryApi={queryApi}
+                    invoiceStatus={value}
                     supplierName={supplierName}
                     setSupplierName={setSupplierName}
                     submarineCable={submarineCable}
@@ -109,7 +83,11 @@ const CreateJournal = () => {
                 />
             </Grid>
             <Grid item xs={12}>
-                <MainCard title={`${value === 0 ? '尚未立帳' : value === 1 ? '已立帳' : '已作廢'}發票資料列表`}>
+                <MainCard
+                    title={`${
+                        value === 0 ? '尚未立帳' : value === 1 ? '已立帳' : '已作廢'
+                    }發票資料列表`}
+                >
                     <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
                         <Tabs value={value} onChange={handleChange}>
                             <Tab label="尚未立帳" {...a11yProps(0)} />

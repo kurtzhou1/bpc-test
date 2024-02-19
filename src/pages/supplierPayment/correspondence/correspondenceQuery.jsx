@@ -17,33 +17,36 @@ import { DesktopDatePicker } from '@mui/x-date-pickers/DesktopDatePicker';
 
 const CorrespondenceQuery = ({ setListInfo, queryApi, value }) => {
     const [issueDate, setIssueDate] = useState(null); //發票日期
-    const [supplierName, setSupplierName] = useState(''); //供應商
-    const [submarineCable, setSubmarineCable] = useState(''); //海纜名稱
-    const [workTitle, setWorkTitle] = useState(''); //海纜作業
+    const [supplierName, setSupplierName] = useState('All'); //供應商
+    const [submarineCable, setSubmarineCable] = useState('All'); //海纜名稱
+    const [workTitle, setWorkTitle] = useState('All'); //海纜作業
     const [submarineCableList, setSubmarineCableList] = useState([]); //海纜名稱下拉選單
     const [invoiceNo, setInvoiceNo] = useState(''); //發票號碼
     const [supNmList, setSupNmList] = useState([]); //供應商下拉選單
 
     const initData = () => {
         setIssueDate(null);
-        setSupplierName('');
-        setSubmarineCable('');
-        setWorkTitle('');
+        setSupplierName('All');
+        setSubmarineCable('All');
+        setWorkTitle('All');
         setInvoiceNo('');
     };
 
     const correspondenceQuery = () => {
-        let tmpQuery = value === 0 ? '/Status=TEMPORARY&PayeeType=SUPPLIER&' : '/Status=COMPLETE&PayeeType=SUPPLIER&';
-        if (supplierName && supplierName !== '') {
+        let tmpQuery =
+            value === 0
+                ? '/Status=TEMPORARY&PayeeType=SUPPLIER&'
+                : '/Status=COMPLETE&PayeeType=SUPPLIER&';
+        if (supplierName && supplierName !== 'All') {
             tmpQuery = tmpQuery + 'SupplierName=' + supplierName + '&';
         }
-        if (submarineCable && submarineCable !== '') {
+        if (submarineCable && submarineCable !== 'All') {
             tmpQuery = tmpQuery + 'SubmarineCable=' + submarineCable + '&';
         }
         if (invoiceNo && invoiceNo !== '' && value === 0) {
             tmpQuery = tmpQuery + 'InvoiceNo=' + invoiceNo + '&';
         }
-        if (workTitle && workTitle !== '') {
+        if (workTitle && workTitle !== 'All') {
             tmpQuery = tmpQuery + 'WorkTitle=' + workTitle + '&';
         }
         if (issueDate && value === 1) {
@@ -74,32 +77,38 @@ const CorrespondenceQuery = ({ setListInfo, queryApi, value }) => {
 
     useEffect(() => {
         fetch(supplierNameDropDownUnique, { method: 'GET' })
-        .then((res) => res.json())
-        .then((data) => {
-            if(Array.isArray(data)) {
-                setSupNmList(data);
-            }
-        })
-        .catch((e) => console.log('e1=>', e));
+            .then((res) => res.json())
+            .then((data) => {
+                if (Array.isArray(data)) {
+                    setSupNmList(data);
+                }
+            })
+            .catch((e) => console.log('e1=>', e));
         //海纜名稱
         fetch(submarineCableInfoList, { method: 'GET' })
-        .then((res) => res.json())
-        .then((data) => {
-            setSubmarineCableList(data);
-        })
-        .catch((e) => console.log('e1=>', e));
-    }, [])
+            .then((res) => res.json())
+            .then((data) => {
+                setSubmarineCableList(data);
+            })
+            .catch((e) => console.log('e1=>', e));
+    }, []);
 
     return (
         <MainCard title="函稿查詢" sx={{ width: '100%' }}>
             <Grid container display="flex" justifyContent="center" alignItems="center" spacing={2}>
                 {/* row1 */}
-                <Grid item sm={1} md={1} lg={1}>
-                    <Typography variant="h5" sx={{ fontSize: { lg: '0.7rem' ,xl: '0.88rem' }, ml: { lg: '0.5rem', xl: '1.5rem' } }}>
+                <Grid item md={1} lg={1}>
+                    <Typography
+                        variant="h5"
+                        sx={{
+                            fontSize: { lg: '0.7rem', xl: '0.88rem' },
+                            ml: { lg: '0.5rem', xl: '1.5rem' },
+                        }}
+                    >
                         發票號碼：
                     </Typography>
                 </Grid>
-                <Grid item xs={2} sm={2} md={2} lg={2}>
+                <Grid item md={2} lg={2}>
                     <FormControl fullWidth size="small">
                         <TextField
                             fullWidth
@@ -111,15 +120,26 @@ const CorrespondenceQuery = ({ setListInfo, queryApi, value }) => {
                         />
                     </FormControl>
                 </Grid>
-                <Grid item sm={1} md={1} lg={1}>
-                    <Typography variant="h5" sx={{ fontSize: { lg: '0.7rem' ,xl: '0.88rem' }, ml: { lg: '0.5rem', xl: '1.5rem' } }}>
+                <Grid item md={1} lg={1}>
+                    <Typography
+                        variant="h5"
+                        sx={{
+                            fontSize: { lg: '0.7rem', xl: '0.88rem' },
+                            ml: { lg: '0.5rem', xl: '1.5rem' },
+                        }}
+                    >
                         海纜名稱：
                     </Typography>
                 </Grid>
-                <Grid item xs={2} sm={2} md={2} lg={2}>
+                <Grid item md={2} lg={2}>
                     <FormControl fullWidth size="small">
                         <InputLabel>選擇海纜</InputLabel>
-                        <Select value={submarineCable} label="海纜" onChange={(e) => setSubmarineCable(e.target.value)}>
+                        <Select
+                            value={submarineCable}
+                            label="海纜"
+                            onChange={(e) => setSubmarineCable(e.target.value)}
+                        >
+                            <MenuItem value={'All'}>All</MenuItem>
                             {submarineCableList.map((i) => (
                                 <MenuItem key={i.CableName} value={i.CableName}>
                                     {i.CableName}
@@ -128,30 +148,52 @@ const CorrespondenceQuery = ({ setListInfo, queryApi, value }) => {
                         </Select>
                     </FormControl>
                 </Grid>
-                <Grid item sm={1} md={1} lg={1}>
-                    <Typography variant="h5" sx={{ fontSize: { lg: '0.7rem' ,xl: '0.88rem' }, ml: { lg: '0.5rem', xl: '1.5rem' } }}>
+                <Grid item md={1} lg={1}>
+                    <Typography
+                        variant="h5"
+                        sx={{
+                            fontSize: { lg: '0.7rem', xl: '0.88rem' },
+                            ml: { lg: '0.5rem', xl: '1.5rem' },
+                        }}
+                    >
                         海纜作業：
                     </Typography>
                 </Grid>
-                <Grid item xs={2} sm={2} md={2} lg={2}>
+                <Grid item md={2} lg={2}>
                     <FormControl fullWidth size="small">
                         <InputLabel>選擇海纜作業</InputLabel>
-                        <Select value={workTitle} label="海纜作業" onChange={(e) => setWorkTitle(e.target.value)}>
+                        <Select
+                            value={workTitle}
+                            label="海纜作業"
+                            onChange={(e) => setWorkTitle(e.target.value)}
+                        >
+                            <MenuItem value={'All'}>All</MenuItem>
                             <MenuItem value={'Upgrade'}>Upgrade</MenuItem>
                             <MenuItem value={'Construction'}>Construction</MenuItem>
                             <MenuItem value={'O&M'}>O&M</MenuItem>
                         </Select>
                     </FormControl>
                 </Grid>
-                <Grid item sm={1} md={1} lg={1}>
-                    <Typography variant="h5" sx={{ fontSize: { lg: '0.7rem' ,xl: '0.88rem' }, ml: { lg: '0.5rem', xl: '1.5rem' } }}>
+                <Grid item md={1} lg={1}>
+                    <Typography
+                        variant="h5"
+                        sx={{
+                            fontSize: { lg: '0.7rem', xl: '0.88rem' },
+                            ml: { lg: '0.5rem', xl: '1.5rem' },
+                        }}
+                    >
                         供應商：
                     </Typography>
                 </Grid>
-                <Grid item xs={2} sm={2} md={2} lg={2}>
+                <Grid item md={2} lg={2}>
                     <FormControl fullWidth size="small">
                         <InputLabel>選擇供應商</InputLabel>
-                        <Select value={supplierName} label="供應商" onChange={(e) => setSupplierName(e.target.value)}>
+                        <Select
+                            value={supplierName}
+                            label="供應商"
+                            onChange={(e) => setSupplierName(e.target.value)}
+                        >
+                            <MenuItem value={'All'}>All</MenuItem>
                             {supNmList.map((i) => (
                                 <MenuItem key={i} value={i}>
                                     {i}
@@ -161,40 +203,20 @@ const CorrespondenceQuery = ({ setListInfo, queryApi, value }) => {
                     </FormControl>
                 </Grid>
                 {/* row2 */}
-                {/* <Grid item sm={1} md={1} lg={1}>
-                    <Typography variant="h5" sx={{ fontSize: { lg: '0.7rem' ,xl: '0.88rem' }, ml: { lg: '0.5rem', xl: '1.5rem' } }}>
-                        剩餘金額：
-                    </Typography>
-                </Grid>
-                <Grid item xs={2} sm={2} md={2} lg={2} display="flex" justifyContent="space-between">
-                    <FormControl row size="small">
-                        <FormGroup
-                            row
-                            size="small"
-                            // value={isLiability}
-                            // onChange={(e) => setIsLiability(e.target.value)}
-                        >
-                            <FormControlLabel
-                                value={true}
-                                control={<Checkbox sx={{ '& .MuiSvgIcon-root': { fontSize: { lg: 14, xl: 20 } } }} />}
-                                label="有"
-                            />
-                            <FormControlLabel
-                                value={false}
-                                control={<Checkbox sx={{ '& .MuiSvgIcon-root': { fontSize: { lg: 14, xl: 20 } } }} />}
-                                label="無"
-                            />
-                        </FormGroup>
-                    </FormControl>
-                </Grid> */}
                 {value === 1 ? (
                     <>
-                        <Grid item sm={1} md={1} lg={1}>
-                            <Typography variant="h5" sx={{ fontSize: { lg: '0.7rem' ,xl: '0.88rem' }, ml: { lg: '0.5rem', xl: '1.5rem' } }}>
+                        <Grid item md={1} lg={1}>
+                            <Typography
+                                variant="h5"
+                                sx={{
+                                    fontSize: { lg: '0.7rem', xl: '0.88rem' },
+                                    ml: { lg: '0.5rem', xl: '1.5rem' },
+                                }}
+                            >
                                 發文日期：
                             </Typography>
                         </Grid>
-                        <Grid item xs={2} sm={2} md={2} lg={2}>
+                        <Grid item md={2} lg={2}>
                             <FormControl>
                                 <LocalizationProvider dateAdapter={AdapterDayjs}>
                                     <DesktopDatePicker
@@ -203,13 +225,19 @@ const CorrespondenceQuery = ({ setListInfo, queryApi, value }) => {
                                         onChange={(e) => {
                                             setIssueDate(e);
                                         }}
-                                        renderInput={(params) => <TextField size="small" {...params} />}
+                                        renderInput={(params) => (
+                                            <TextField size="small" {...params} />
+                                        )}
                                     />
                                 </LocalizationProvider>
                             </FormControl>
                         </Grid>
-                        <Grid item xs={9} sm={9} md={9} lg={9} display="flex" justifyContent="end" alignItems="center">
-                            <Button sx={{ mr: '0.5rem' }} variant="contained" onClick={correspondenceQuery}>
+                        <Grid item lg={9} display="flex" justifyContent="end" alignItems="center">
+                            <Button
+                                sx={{ mr: '0.5rem' }}
+                                variant="contained"
+                                onClick={correspondenceQuery}
+                            >
                                 查詢
                             </Button>
                             <Button variant="contained" onClick={initData}>
@@ -218,8 +246,12 @@ const CorrespondenceQuery = ({ setListInfo, queryApi, value }) => {
                         </Grid>
                     </>
                 ) : (
-                    <Grid item xs={12} sm={12} md={12} lg={12} display="flex" justifyContent="end" alignItems="center">
-                        <Button sx={{ mr: '0.5rem' }} variant="contained" onClick={correspondenceQuery}>
+                    <Grid item lg={12} display="flex" justifyContent="end" alignItems="center">
+                        <Button
+                            sx={{ mr: '0.5rem' }}
+                            variant="contained"
+                            onClick={correspondenceQuery}
+                        >
                             查詢
                         </Button>
                         <Button variant="contained" onClick={initData}>
@@ -235,7 +267,7 @@ const CorrespondenceQuery = ({ setListInfo, queryApi, value }) => {
 CorrespondenceQuery.propTypes = {
     setListInfo: PropTypes.func,
     queryApi: PropTypes.string,
-    value: PropTypes.number
+    value: PropTypes.number,
 };
 
 export default CorrespondenceQuery;
