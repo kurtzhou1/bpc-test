@@ -37,35 +37,35 @@ const LiabilityQuery = ({
     workTitleList,
     queryApi,
 }) => {
-    const [billMilestoneQuery, setBillMilestoneQuery] = useState(''); //計帳段號
-    const [partyNameQuery, setPartyNameQuery] = useState(''); //會員名稱
+    const [billMilestoneQuery, setBillMilestoneQuery] = useState('All'); //計帳段號
+    const [partyNameQuery, setPartyNameQuery] = useState('All'); //會員名稱
     const [createDate, setCreateDate] = useState([null, null]); //建立日期
-    const [submarineCableQuery, setSubmarineCableQuery] = useState(''); //海纜名稱
-    const [workTitle, setWorkTitle] = useState(''); //海纜作業
+    const [submarineCableQuery, setSubmarineCableQuery] = useState('All'); //海纜名稱
+    const [workTitle, setWorkTitle] = useState('All'); //海纜作業
     const [invoiceStatusQuery, setInvoiceStatusQuery] = useState({ TRUE: false, FALSE: false }); //處理狀態
     const [bmStoneList, setBmStoneList] = useState([]); //計帳段號下拉選單(需要選擇海纜名稱或海纜作業才能出現)
 
     const initQuery = () => {
-        setBillMilestoneQuery('');
-        setPartyNameQuery('');
+        setBillMilestoneQuery('All');
+        setPartyNameQuery('All');
         setCreateDate([null, null]);
-        setSubmarineCableQuery('');
-        setWorkTitle('');
+        setSubmarineCableQuery('All');
+        setWorkTitle('All');
         setInvoiceStatusQuery({ TRUE: false, FALSE: false });
     };
 
     const liabilityQuery = () => {
         let tmpQuery = '/';
-        if (billMilestoneQuery && billMilestoneQuery !== '') {
+        if (billMilestoneQuery && billMilestoneQuery !== 'All') {
             tmpQuery = tmpQuery + 'BillMilestone=' + billMilestoneQuery + '&';
         }
-        if (partyNameQuery && partyNameQuery !== '') {
+        if (partyNameQuery && partyNameQuery !== 'All') {
             tmpQuery = tmpQuery + 'PartyName=' + partyNameQuery + '&';
         }
-        if (submarineCableQuery && submarineCableQuery !== '') {
+        if (submarineCableQuery && submarineCableQuery !== 'All') {
             tmpQuery = tmpQuery + 'SubmarineCable=' + submarineCableQuery + '&';
         }
-        if (workTitle && workTitle !== '') {
+        if (workTitle && workTitle !== 'All') {
             tmpQuery = tmpQuery + 'WorkTitle=' + workTitle + '&';
         }
         if (createDate[0] && createDate[1]) {
@@ -186,6 +186,7 @@ const LiabilityQuery = ({
                             label="填寫海纜作業"
                             onChange={(e) => setWorkTitle(e.target.value)}
                         >
+                            <MenuItem value={'All'}>All</MenuItem>
                             {workTitleList.map((i) => (
                                 <MenuItem key={i} value={i}>
                                     {i}
@@ -246,6 +247,7 @@ const LiabilityQuery = ({
                             label="計帳段號"
                             onChange={(e) => setBillMilestoneQuery(e.target.value)}
                         >
+                            <MenuItem value={'All'}>All</MenuItem>
                             {bmStoneList?.map((i) => (
                                 <MenuItem key={i} value={i}>
                                     {i}
@@ -273,6 +275,7 @@ const LiabilityQuery = ({
                             label="會員名稱"
                             onChange={(e) => setPartyNameQuery(e.target.value)}
                         >
+                            <MenuItem value={'All'}>All</MenuItem>
                             {partyList.map((i) => (
                                 <MenuItem key={i} value={i}>
                                     {i}
