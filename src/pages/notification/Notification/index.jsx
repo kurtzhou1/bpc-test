@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Grid, Button, IconButton, Box, Tabs, Tab } from '@mui/material';
-import CloseIcon from '@mui/icons-material/Close';
+import { Grid, Button, Box, Tabs, Tab } from '@mui/material';
 // import { styled } from '@mui/material/styles';
 
 // project import
@@ -14,7 +13,6 @@ import NotificationQuery from './notificationQuery';
 
 // api
 import {
-    billMilestoneLiabilityList,
     submarineCableLiabilityList,
     partiesLiabilityList,
     getSysInvNotifyRule,
