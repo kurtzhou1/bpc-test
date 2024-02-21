@@ -18,21 +18,6 @@ const CreditMemo = () => {
 
     const [listInfo, setListInfo] = useState([]);
 
-    const initQuery = () => {
-        fetch(creditMemoView, { method: 'POST', body: JSON.stringify({}) })
-            .then((res) => res.json())
-            .then((data) => {
-                if (Array.isArray(data)) {
-                    setListInfo(data);
-                }
-            })
-            .catch((e) => console.log('e1=>', e));
-    };
-
-    useEffect(() => {
-        initQuery();
-    }, []);
-
     return (
         <Grid container spacing={1}>
             <Grid item xs={12}>
@@ -44,24 +29,7 @@ const CreditMemo = () => {
             </Grid>
             <Grid item xs={12}>
                 <MainCard title="Credit Memo資料列表">
-                    {/* <Box sx={{ borderBottom: 1, borderColor: 'divider', position: 'relative' }}>
-            <Tabs value={value} onChange={handleChange}>
-              <Tab label="CB轉CN" {...a11yProps(0)} />
-              <Tab label="CN列表" {...a11yProps(1)} />
-            </Tabs>
-          </Box> */}
-                    {/* <TabPanel value={value} index={0}>
-            <CreditBalanceToCN
-              listInfo={listInfo}
-              setDialogAction={setDialogAction}
-              setIsDialogOpen={setIsDialogOpen}
-              setEditItem={setEditItem}
-              deletelistInfoItem={deletelistInfoItem}
-            />
-          </TabPanel> */}
-                    {/* <TabPanel value={value} index={1}> */}
                     <CreditMemoDataList listInfo={listInfo} />
-                    {/* </TabPanel> */}
                 </MainCard>
             </Grid>
         </Grid>

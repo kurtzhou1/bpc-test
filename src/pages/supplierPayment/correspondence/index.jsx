@@ -31,6 +31,7 @@ const Correspondence = () => {
     };
 
     const handleChange = (event, newValue) => {
+        setListInfo([]);
         setValue(newValue);
     };
 
@@ -51,10 +52,6 @@ const Correspondence = () => {
                 console.log('e1=>', e);
             });
     };
-
-    useEffect(() => {
-        initQuery();
-    }, [value]);
 
     return (
         <>

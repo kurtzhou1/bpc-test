@@ -90,10 +90,6 @@ const SupplierPaymentQuery = ({ setListInfo, queryApi, value }) => {
     };
 
     useEffect(() => {
-        supplierPaymentQuery();
-    }, [value]);
-
-    useEffect(() => {
         fetch(supplierNameDropDownUnique, { method: 'GET' })
             .then((res) => res.json())
             .then((data) => {

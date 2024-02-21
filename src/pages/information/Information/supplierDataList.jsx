@@ -64,11 +64,11 @@ const SupplierDataList = ({ infoList, setInfoList }) => {
             // backgroundColor: theme.palette.common.gary,
             color: theme.palette.common.black,
             padding: '0rem',
-            fontSize: '0.2rem',
+            fontSize: '0.7rem',
         },
         [`&.${tableCellClasses.body}`]: {
             padding: '0.5rem',
-            fontSize: '0.2rem',
+            fontSize: '0.7rem',
         },
     }));
 
@@ -306,7 +306,6 @@ const SupplierDataList = ({ infoList, setInfoList }) => {
     };
 
     useEffect(() => {
-        querySuppliersInfo();
         //海纜名稱
         fetch(submarineCableInfoList, { method: 'GET' })
             .then((res) => res.json())
@@ -319,12 +318,12 @@ const SupplierDataList = ({ infoList, setInfoList }) => {
     return (
         <TableContainer
             component={Paper}
-            sx={{
-                maxHeight:
-                    window.screen.height < 1000
-                        ? window.screen.height * 0.45
-                        : window.screen.height * 0.6,
-            }}
+            // sx={{
+            //     maxHeight:
+            //         window.screen.height < 1000
+            //             ? window.screen.height * 0.45
+            //             : window.screen.height * 0.6,
+            // }}
         >
             <Table sx={{ minWidth: 300 }} stickyHeader>
                 <TableHead>
@@ -647,7 +646,7 @@ const SupplierDataList = ({ infoList, setInfoList }) => {
                     {infoList?.map((row, id) => {
                         return (
                             <TableRow
-                                // key={row.InvoiceWKMaster?.WKMasterID + row.InvoiceWKMaster?.InvoiceNo}
+                                key={row.SubmarineCable + id}
                                 sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                             >
                                 {row.SupplierID !== supplierID.current ? (

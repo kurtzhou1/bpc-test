@@ -21,7 +21,6 @@ import {
 } from 'components/apis.jsx';
 
 const Information = () => {
-    const tableH = document.getElementById('tableContainer')?.offsetTop;
     const [isDialogOpen, setIsDialogOpen] = useState(false);
     const [listInfo, setListInfo] = useState([]);
     const [partiesList, setPartiesList] = useState([]); //會員名稱下拉選單
@@ -44,6 +43,7 @@ const Information = () => {
     };
 
     const handleChange = (event, newValue) => {
+        setListInfo([]);
         setValue(newValue);
     };
 
@@ -75,10 +75,6 @@ const Information = () => {
             .catch((e) => console.log('e1=>', e));
     }, []);
 
-    useEffect(() => {
-        initQuery();
-    }, [value]);
-
     return (
         <Grid container spacing={1}>
             <Grid item xs={12} display="flex" justifyContent="right">
@@ -101,7 +97,6 @@ const Information = () => {
                     partiesList={partiesList}
                     submarineCableList={submarineCableList}
                     value={value}
-                    // queryApi={queryApi}
                 />
             </Grid>
             <Grid item xs={12}>

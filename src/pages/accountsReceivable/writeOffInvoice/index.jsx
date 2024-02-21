@@ -18,19 +18,21 @@ const WriteOffInvoice = () => {
     const [value, setValue] = useState(0);
     const dispatch = useDispatch();
     const handleChange = (event, newValue) => {
+        setListInfo([]);
         setValue(newValue);
     };
 
     const a11yProps = (index) => {
         return {
             id: `simple-tab-${index}`,
-            'aria-controls': `simple-tabpanel-${index}`
+            'aria-controls': `simple-tabpanel-${index}`,
         };
     };
 
     const [listInfo, setListInfo] = useState([]);
     const writeOffInitQuery = () => {
-        let tmpQuery = queryToDecutBill + (value === 0 ? '/Status=TO_WRITEOFF' : '/Status=COMPLETE');
+        let tmpQuery =
+            queryToDecutBill + (value === 0 ? '/Status=TO_WRITEOFF' : '/Status=COMPLETE');
         fetch(tmpQuery, { method: 'GET' })
             .then((res) => res.json())
             .then((data) => {
@@ -38,17 +40,21 @@ const WriteOffInvoice = () => {
                     setListInfo(data);
                 } else {
                     setListInfo([]);
-                    dispatch(setMessageStateOpen({ messageStateOpen: { isOpen: true, severity: 'error', message: '查無資料' } }));
+                    dispatch(
+                        setMessageStateOpen({
+                            messageStateOpen: {
+                                isOpen: true,
+                                severity: 'error',
+                                message: '查無資料',
+                            },
+                        }),
+                    );
                 }
             })
             .catch((e) => {
                 console.log('e1=>', e);
             });
     };
-
-    useEffect(() => {
-        writeOffInitQuery();
-    }, [value]);
 
     return (
         <Grid container spacing={1}>
@@ -58,13 +64,16 @@ const WriteOffInvoice = () => {
             <Grid item xs={12}>
                 <MainCard title={`${value === 0 ? '待銷帳' : '已銷帳'}帳單資料列表`}>
                     <Box sx={{ borderBottom: 1, borderColor: 'divider', position: 'relative' }}>
-                        <Tabs value={value} onChange={handleChange} >
+                        <Tabs value={value} onChange={handleChange}>
                             <Tab label="待銷帳" {...a11yProps(0)} />
                             <Tab label="已銷帳" {...a11yProps(1)} />
                         </Tabs>
                     </Box>
                     <TabPanel value={value} index={0}>
-                        <ToWriteOffDataList listInfo={listInfo} writeOffInitQuery={writeOffInitQuery} />
+                        <ToWriteOffDataList
+                            listInfo={listInfo}
+                            writeOffInitQuery={writeOffInitQuery}
+                        />
                     </TabPanel>
                     <TabPanel value={value} index={1}>
                         <WriteOffedDataList listInfo={listInfo} />

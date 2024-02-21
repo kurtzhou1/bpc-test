@@ -50,11 +50,6 @@ const CreateJournal = () => {
             .catch((e) => console.log('e1=>', e));
     };
 
-    useEffect(() => {
-        initQuery();
-        apiQuery();
-    }, [value]);
-
     const a11yProps = (index) => {
         return {
             id: `simple-tab-${index}`,
@@ -63,6 +58,8 @@ const CreateJournal = () => {
     };
 
     const handleChange = (event, newValue) => {
+        initQuery();
+        setListInfo([]);
         setValue(newValue);
     };
 

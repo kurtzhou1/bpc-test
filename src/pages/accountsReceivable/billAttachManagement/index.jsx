@@ -1,34 +1,12 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { Grid } from '@mui/material';
 // project import
 import MainCard from 'components/MainCard';
 import IsSendDataList from './isSendDataList';
 import ReceivableQuery from './receivableQuery';
-import { queryToDecutBill } from 'components/apis';
 
 const GenerateFeeAmount = () => {
     const [listInfo, setListInfo] = useState([]);
-
-    //初始化查詢
-    const initialQuery = () => {
-        fetch(queryToDecutBill, { method: 'POST', body: JSON.stringify({}) })
-            .then((res) => res.json())
-            .then((data) => {
-                // console.log('data=>>', data);
-                if (Array.isArray(data)) {
-                    setListInfo(data);
-                }
-            })
-            .catch((e) => {
-                console.log('e1=>', e);
-            });
-    };
-
-    useEffect(() => {
-        if (listInfo.length === 0) {
-            initialQuery();
-        }
-    }, []);
 
     return (
         <Grid container spacing={1}>

@@ -409,7 +409,6 @@ const PartyDataList = ({ infoList, setInfoList }) => {
     };
 
     useEffect(() => {
-        queryPartiesInfo();
         //海纜名稱
         fetch(submarineCableInfoList, { method: 'GET' })
             .then((res) => res.json())
@@ -423,12 +422,12 @@ const PartyDataList = ({ infoList, setInfoList }) => {
         <TableContainer
             id="tableContainer"
             component={Paper}
-            sx={{
-                maxHeight:
-                    window.screen.height < 1000
-                        ? window.screen.height * 0.45
-                        : window.screen.height * 0.6,
-            }}
+            // sx={{
+            //     maxHeight:
+            //         window.screen.height < 1000
+            //             ? window.screen.height * 0.45
+            //             : window.screen.height * 0.6,
+            // }}
         >
             <Table stickyHeader>
                 <TableHead>
@@ -844,7 +843,7 @@ const PartyDataList = ({ infoList, setInfoList }) => {
                     {infoList?.map((row, id) => {
                         return (
                             <TableRow
-                                // key={row.InvoiceWKMaster?.WKMasterID + row.InvoiceWKMaster?.InvoiceNo}
+                                key={row.SubmarineCable + id}
                                 sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                             >
                                 {row.PartyID !== partyID.current ? (

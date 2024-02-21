@@ -2,7 +2,6 @@ import { useEffect, useState } from 'react';
 import {
     Grid,
     Button,
-    IconButton,
     Box,
     Tabs,
     Tab,
@@ -20,14 +19,7 @@ import { TabPanel } from 'components/commonFunction';
 import MainCard from 'components/MainCard';
 import SupplierDataList from './supplierDataList';
 import PartyDataList from './partyDataList';
-import CorporatesDataList from './corporatesDataList';
-import ContractDataList from './contractDataList';
 import SubmarineCableDataList from './submarineCableDataList';
-
-import CableWorkDataList from './cableWorkDataList';
-import ContractTypeDataList from './contractTypeDataList';
-import PartiesByContractDataList from './partiesByContractDataList';
-import SuppliersByContractDataList from './SuppliersByContractDataList';
 import CBPBankAccount from './cBPBankAccount';
 
 //api
@@ -52,6 +44,7 @@ const Information = () => {
     const [partiesList, setPartiesList] = useState([]); //會員下拉選單
     const [infoList, setInfoList] = useState();
     const handleChange = (event, newValue) => {
+        setInfoList([]);
         setValue(newValue);
     };
 
@@ -186,38 +179,15 @@ const Information = () => {
 
     return (
         <Grid container spacing={1} id="tableContainer">
-            <Grid container display="flex" justifyContent="center" alignItems="center" spacing={2}>
-                <Grid item md={1} lg={1}>
-                    <Typography
-                        sx={{
-                            fontWeight: 'bold',
-                            fontSize: { lg: '0.7rem', xl: '0.88rem' },
-                            ml: { lg: '0.5rem', xl: '1.5rem' },
-                        }}
+            <Grid item xs={12}>
+                <MainCard title="基本資料查詢" sx={{ width: '100%' }}>
+                    <Grid
+                        container
+                        display="flex"
+                        justifyContent="center"
+                        alignItems="center"
+                        spacing={2}
                     >
-                        海纜名稱：
-                    </Typography>
-                </Grid>
-                <Grid item sm={2} md={2} lg={2}>
-                    <FormControl fullWidth size="small">
-                        <InputLabel>選擇海纜名稱</InputLabel>
-                        <Select
-                            value={submarineCable}
-                            label="海纜名稱"
-                            size="small"
-                            onChange={(e) => setSubmarineCable(e.target.value)}
-                        >
-                            <MenuItem value={'All'}>All</MenuItem>
-                            {submarineCableList.map((i) => (
-                                <MenuItem key={i.CableName} value={i.CableName}>
-                                    {i.CableName}
-                                </MenuItem>
-                            ))}
-                        </Select>
-                    </FormControl>
-                </Grid>
-                {value === 1 || value === 2 || value === 3 ? (
-                    <>
                         <Grid item md={1} lg={1}>
                             <Typography
                                 sx={{
@@ -226,124 +196,161 @@ const Information = () => {
                                     ml: { lg: '0.5rem', xl: '1.5rem' },
                                 }}
                             >
-                                海纜作業：
+                                海纜名稱：
                             </Typography>
                         </Grid>
                         <Grid item sm={2} md={2} lg={2}>
                             <FormControl fullWidth size="small">
-                                <InputLabel>選擇海纜作業</InputLabel>
+                                <InputLabel>選擇海纜名稱</InputLabel>
                                 <Select
-                                    value={workTitle}
-                                    label="海纜作業"
-                                    onChange={(e) => setWorkTitle(e.target.value)}
+                                    value={submarineCable}
+                                    label="海纜名稱"
+                                    size="small"
+                                    onChange={(e) => setSubmarineCable(e.target.value)}
                                 >
                                     <MenuItem value={'All'}>All</MenuItem>
-                                    <MenuItem value={'Upgrade'}>Upgrade</MenuItem>
-                                    <MenuItem value={'Construction'}>Construction</MenuItem>
-                                    <MenuItem value={'O&M'}>O&M</MenuItem>
-                                </Select>
-                            </FormControl>
-                        </Grid>
-                    </>
-                ) : (
-                    <Grid item xs={3} sm={3} md={3} lg={3} />
-                )}
-                {value === 1 ? (
-                    <>
-                        <Grid item md={1} lg={1}>
-                            <Typography
-                                sx={{
-                                    fontWeight: 'bold',
-                                    fontSize: { lg: '0.7rem', xl: '0.88rem' },
-                                    ml: { lg: '0.5rem', xl: '1.5rem' },
-                                }}
-                            >
-                                供應商：
-                            </Typography>
-                        </Grid>
-                        <Grid item sm={2} md={2} lg={2}>
-                            <FormControl fullWidth size="small">
-                                <InputLabel>選擇供應商</InputLabel>
-                                <Select
-                                    value={supplierName}
-                                    label="供應商"
-                                    onChange={(e) => setSupplierName(e.target.value)}
-                                >
-                                    <MenuItem value={'All'}>All</MenuItem>
-                                    {supNmList.map((i) => (
-                                        <MenuItem key={i} value={i}>
-                                            {i}
+                                    {submarineCableList.map((i) => (
+                                        <MenuItem key={i.CableName} value={i.CableName}>
+                                            {i.CableName}
                                         </MenuItem>
                                     ))}
                                 </Select>
                             </FormControl>
                         </Grid>
-                    </>
-                ) : value === 2 ? (
-                    <>
-                        <Grid item md={1} lg={1}>
-                            <Typography
-                                sx={{
-                                    fontWeight: 'bold',
-                                    fontSize: { lg: '0.7rem', xl: '0.88rem' },
-                                    ml: { lg: '0.5rem', xl: '1.5rem' },
-                                }}
-                            >
-                                會員名稱：
-                            </Typography>
+                        {value === 1 || value === 2 || value === 3 ? (
+                            <>
+                                <Grid item md={1} lg={1}>
+                                    <Typography
+                                        sx={{
+                                            fontWeight: 'bold',
+                                            fontSize: { lg: '0.7rem', xl: '0.88rem' },
+                                            ml: { lg: '0.5rem', xl: '1.5rem' },
+                                        }}
+                                    >
+                                        海纜作業：
+                                    </Typography>
+                                </Grid>
+                                <Grid item sm={2} md={2} lg={2}>
+                                    <FormControl fullWidth size="small">
+                                        <InputLabel>選擇海纜作業</InputLabel>
+                                        <Select
+                                            value={workTitle}
+                                            label="海纜作業"
+                                            onChange={(e) => setWorkTitle(e.target.value)}
+                                        >
+                                            <MenuItem value={'All'}>All</MenuItem>
+                                            <MenuItem value={'Upgrade'}>Upgrade</MenuItem>
+                                            <MenuItem value={'Construction'}>Construction</MenuItem>
+                                            <MenuItem value={'O&M'}>O&M</MenuItem>
+                                        </Select>
+                                    </FormControl>
+                                </Grid>
+                            </>
+                        ) : (
+                            <Grid item xs={3} sm={3} md={3} lg={3} />
+                        )}
+                        {value === 1 ? (
+                            <>
+                                <Grid item md={1} lg={1}>
+                                    <Typography
+                                        sx={{
+                                            fontWeight: 'bold',
+                                            fontSize: { lg: '0.7rem', xl: '0.88rem' },
+                                            ml: { lg: '0.5rem', xl: '1.5rem' },
+                                        }}
+                                    >
+                                        供應商：
+                                    </Typography>
+                                </Grid>
+                                <Grid item sm={2} md={2} lg={2}>
+                                    <FormControl fullWidth size="small">
+                                        <InputLabel>選擇供應商</InputLabel>
+                                        <Select
+                                            value={supplierName}
+                                            label="供應商"
+                                            onChange={(e) => setSupplierName(e.target.value)}
+                                        >
+                                            <MenuItem value={'All'}>All</MenuItem>
+                                            {supNmList.map((i) => (
+                                                <MenuItem key={i} value={i}>
+                                                    {i}
+                                                </MenuItem>
+                                            ))}
+                                        </Select>
+                                    </FormControl>
+                                </Grid>
+                            </>
+                        ) : value === 2 ? (
+                            <>
+                                <Grid item md={1} lg={1}>
+                                    <Typography
+                                        sx={{
+                                            fontWeight: 'bold',
+                                            fontSize: { lg: '0.7rem', xl: '0.88rem' },
+                                            ml: { lg: '0.5rem', xl: '1.5rem' },
+                                        }}
+                                    >
+                                        會員名稱：
+                                    </Typography>
+                                </Grid>
+                                <Grid item lg={2}>
+                                    <FormControl fullWidth size="small">
+                                        <InputLabel>選擇會員名稱</InputLabel>
+                                        <Select
+                                            value={partyName}
+                                            label="會員"
+                                            onChange={(e) => setPartyName(e.target.value)}
+                                        >
+                                            <MenuItem value={'All'}>All</MenuItem>
+                                            {partiesList.map((i) => (
+                                                <MenuItem key={i} value={i}>
+                                                    {i}
+                                                </MenuItem>
+                                            ))}
+                                        </Select>
+                                    </FormControl>
+                                </Grid>
+                            </>
+                        ) : (
+                            <Grid item lg={3} />
+                        )}
+                        <Grid item lg={3} />
+                        <Grid item lg={12} display="flex" justifyContent="end" alignItems="center">
+                            <Button sx={{ mr: '0.5rem' }} variant="contained" onClick={handleQuery}>
+                                查詢
+                            </Button>
+                            <Button variant="contained" onClick={initQuery}>
+                                清除
+                            </Button>
                         </Grid>
-                        <Grid item sm={2} md={2} lg={2}>
-                            <FormControl fullWidth size="small">
-                                <InputLabel>選擇會員名稱</InputLabel>
-                                <Select
-                                    value={partyName}
-                                    label="會員"
-                                    onChange={(e) => setPartyName(e.target.value)}
-                                >
-                                    <MenuItem value={'All'}>All</MenuItem>
-                                    {partiesList.map((i) => (
-                                        <MenuItem key={i} value={i}>
-                                            {i}
-                                        </MenuItem>
-                                    ))}
-                                </Select>
-                            </FormControl>
-                        </Grid>
-                    </>
-                ) : (
-                    <Grid item xs={3} sm={3} md={3} lg={3} />
-                )}
-                <Grid item xs={3} sm={3} md={3} lg={3} />
-                <Grid item lg={12} display="flex" justifyContent="end" alignItems="center">
-                    <Button sx={{ mr: '0.5rem' }} variant="contained" onClick={handleQuery}>
-                        查詢
-                    </Button>
-                    <Button variant="contained" onClick={initQuery}>
-                        清除
-                    </Button>
-                </Grid>
+                    </Grid>
+                </MainCard>
             </Grid>
             <Grid item xs={12}>
-                <Box sx={{ p: 0, borderBottom: 1, borderColor: 'divider', position: 'relative' }}>
-                    <Tabs value={value} onChange={handleChange}>
-                        <Tab sx={{ p: 0 }} label="海纜代號" {...a11yProps(0)} />
-                        <Tab sx={{ p: 0 }} label="供應商" {...a11yProps(1)} />
-                        <Tab sx={{ p: 0 }} label="會員" {...a11yProps(2)} />
-                        <Tab sx={{ p: 0 }} label="聯盟金融帳戶" {...a11yProps(3)} />
-                    </Tabs>
-                </Box>
-                <TabPanel value={value} index={0}>
-                    <SubmarineCableDataList infoList={infoList} setInfoList={setInfoList} />
-                </TabPanel>
-                <TabPanel value={value} index={1}>
-                    <SupplierDataList infoList={infoList} setInfoList={setInfoList} />
-                </TabPanel>
-                <TabPanel value={value} index={2}>
-                    <PartyDataList infoList={infoList} setInfoList={setInfoList} />
-                </TabPanel>
-                <TabPanel value={value} index={3}>
-                    <CBPBankAccount infoList={infoList} setInfoList={setInfoList} />
-                </TabPanel>
+                <MainCard title="資料列表" sx={{ width: '100%' }}>
+                    <Box
+                        sx={{ p: 0, borderBottom: 1, borderColor: 'divider', position: 'relative' }}
+                    >
+                        <Tabs value={value} onChange={handleChange}>
+                            <Tab sx={{ p: 0 }} label="海纜代號" {...a11yProps(0)} />
+                            <Tab sx={{ p: 0 }} label="供應商" {...a11yProps(1)} />
+                            <Tab sx={{ p: 0 }} label="會員" {...a11yProps(2)} />
+                            <Tab sx={{ p: 0 }} label="聯盟金融帳戶" {...a11yProps(3)} />
+                        </Tabs>
+                    </Box>
+                    <TabPanel value={value} index={0}>
+                        <SubmarineCableDataList infoList={infoList} setInfoList={setInfoList} />
+                    </TabPanel>
+                    <TabPanel value={value} index={1}>
+                        <SupplierDataList infoList={infoList} setInfoList={setInfoList} />
+                    </TabPanel>
+                    <TabPanel value={value} index={2}>
+                        <PartyDataList infoList={infoList} setInfoList={setInfoList} />
+                    </TabPanel>
+                    <TabPanel value={value} index={3}>
+                        <CBPBankAccount infoList={infoList} setInfoList={setInfoList} />
+                    </TabPanel>
+                </MainCard>
             </Grid>
         </Grid>
     );

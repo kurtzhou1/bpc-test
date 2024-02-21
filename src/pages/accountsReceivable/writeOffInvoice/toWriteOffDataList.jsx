@@ -21,206 +21,226 @@ import dayjs from 'dayjs';
 import { getWriteOffDetail, submitWriteOff, completeWriteOff } from 'components/apis';
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
-  [`&.${tableCellClasses.head}`]: {
-    // backgroundColor: theme.palette.common.gary,
-    color: theme.palette.common.black,
-    paddingTop: '0.2rem',
-    paddingBottom: '0.2rem',
-  },
-  [`&.${tableCellClasses.body}.totalAmount`]: {
-    fontSize: 14,
-    paddingTop: '0.2rem',
-    paddingBottom: '0.2rem',
-    backgroundColor: '#CFD8DC',
-  },
+    [`&.${tableCellClasses.head}`]: {
+        // backgroundColor: theme.palette.common.gary,
+        color: theme.palette.common.black,
+        paddingTop: '0.2rem',
+        paddingBottom: '0.2rem',
+    },
+    [`&.${tableCellClasses.body}.totalAmount`]: {
+        fontSize: 14,
+        paddingTop: '0.2rem',
+        paddingBottom: '0.2rem',
+        backgroundColor: '#CFD8DC',
+    },
 }));
 
 const ToWriteOffDataList = ({ listInfo, writeOffInitQuery }) => {
-  const [isDialogOpen, setIsDialogOpen] = useState(false); //折抵作業
-  const writeOffInfo = useRef({});
-  // const writeOffDetail = useRef([]);
-  const [writeOffDetail, setWriteOffDetail] = useState([]);
-  const [cBWriteOff, setCBWriteOff] = useState([]);
-  let tmpBMArray = [];
-  const dispatch = useDispatch();
+    const [isDialogOpen, setIsDialogOpen] = useState(false); //折抵作業
+    const writeOffInfo = useRef({});
+    // const writeOffDetail = useRef([]);
+    const [writeOffDetail, setWriteOffDetail] = useState([]);
+    const [cBWriteOff, setCBWriteOff] = useState([]);
+    let tmpBMArray = [];
+    const dispatch = useDispatch();
 
-  const handleDialogClose = () => {
-    writeOffInfo.current = {};
-    setWriteOffDetail([]);
-    setIsDialogOpen(false);
-  };
-
-  const handleWriteOff = (info) => {
-    let tmpQuery = getWriteOffDetail + '/BillMasterID=' + info.BillMasterID;
-    writeOffInfo.current = info;
-    setCBWriteOff([]);
-    fetch(tmpQuery, { method: 'GET' })
-      .then((res) => res.json())
-      .then((data) => {
-        console.log('銷帳作業=>>', data);
-        if (Array.isArray(data)) {
-          setWriteOffDetail(data);
-          setIsDialogOpen(true);
-        }
-      })
-      .catch((e) => {
-        console.log('e1=>', e);
-      });
-  };
-
-  const sendWriteOffWork = (info) => {
-    let tmpArray = {};
-    tmpArray = {
-      BillMaster: info.BillMaster,
-      CBWriteOff: cBWriteOff,
+    const handleDialogClose = () => {
+        writeOffInfo.current = {};
+        setWriteOffDetail([]);
+        setIsDialogOpen(false);
     };
-    fetch(submitWriteOff, { method: 'POST', body: JSON.stringify(tmpArray) })
-      .then((res) => res.json())
-      .then(() => {
-        dispatch(
-          setMessageStateOpen({
-            messageStateOpen: { isOpen: true, severity: 'success', message: '銷帳紀錄送出成功' },
-          }),
-        );
-        writeOffInitQuery();
-      })
-      .catch((e) => console.log('e1=>', e));
-  };
 
-  const handleFinish = (id) => {
-    let tmpQuery = completeWriteOff + '/BillMasterID=' + id;
-    fetch(tmpQuery, { method: 'GET' })
-      .then((res) => res.json())
-      .then(() => {
-        dispatch(
-          setMessageStateOpen({
-            messageStateOpen: { isOpen: true, severity: 'success', message: '完成銷帳成功' },
-          }),
-        );
-        writeOffInitQuery();
-      })
-      .catch((e) => {
-        console.log('e1=>', e);
-      });
-  };
-
-  return (
-    <>
-      <WriteOffWork
-        isDialogOpen={isDialogOpen}
-        handleDialogClose={handleDialogClose}
-        writeOffInfo={writeOffInfo.current}
-        writeOffDetail={writeOffDetail}
-        writeOffInitQuery={writeOffInitQuery}
-        setCBWriteOff={setCBWriteOff}
-        cBWriteOff={cBWriteOff}
-        action="writeOff"
-      />
-      <TableContainer component={Paper} sx={{ maxHeight: window.screen.height * 0.45 }}>
-        <Table sx={{ minWidth: 300 }} stickyHeader>
-          <TableHead>
-            <TableRow>
-              <StyledTableCell align="center">NO</StyledTableCell>
-              <StyledTableCell align="center">海纜名稱</StyledTableCell>
-              <StyledTableCell align="center">海纜作業</StyledTableCell>
-              <StyledTableCell align="center">計帳段號</StyledTableCell>
-              <StyledTableCell align="center">會員</StyledTableCell>
-              <StyledTableCell align="center">帳單號碼</StyledTableCell>
-              <StyledTableCell align="center">帳單日期</StyledTableCell>
-              <StyledTableCell align="center">到期日期</StyledTableCell>
-              <StyledTableCell align="center">明細數量</StyledTableCell>
-              <StyledTableCell align="center">總金額</StyledTableCell>
-              <StyledTableCell align="center">累計實收金額</StyledTableCell>
-              <StyledTableCell align="center">累計手續金額</StyledTableCell>
-              <StyledTableCell align="center">Action</StyledTableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {listInfo?.map((row, id) => {
-              tmpBMArray = [];
-              row.BillDetail.forEach((i) => {
-                if (!tmpBMArray.includes(i.BillMilestone)) {
-                  tmpBMArray.push(i.BillMilestone);
+    const handleWriteOff = (info) => {
+        let tmpQuery = getWriteOffDetail + '/BillMasterID=' + info.BillMasterID;
+        writeOffInfo.current = info;
+        setCBWriteOff([]);
+        fetch(tmpQuery, { method: 'GET' })
+            .then((res) => res.json())
+            .then((data) => {
+                console.log('銷帳作業=>>', data);
+                if (Array.isArray(data)) {
+                    setWriteOffDetail(data);
+                    setIsDialogOpen(true);
                 }
-              });
-              return (
-                <TableRow
-                  key={row?.BillMaster?.BillingNo + row?.BillMaster?.PartyName + id}
-                  sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-                >
-                  <StyledTableCell align="center">{id + 1}</StyledTableCell>
-                  <StyledTableCell align="center">
-                    {row?.BillMaster?.SubmarineCable}
-                  </StyledTableCell>
-                  <StyledTableCell align="center">{row?.BillMaster?.WorkTitle}</StyledTableCell>
-                  <StyledTableCell align="center">{tmpBMArray.join(',')}</StyledTableCell>
-                  <StyledTableCell align="center">{row?.BillMaster?.PartyName}</StyledTableCell>
-                  <StyledTableCell align="center">{row?.BillMaster?.BillingNo}</StyledTableCell>
-                  <StyledTableCell align="center">
-                    {dayjs(row?.BillMaster?.IssueDate).format('YYYY/MM/DD')}
-                  </StyledTableCell>
-                  <StyledTableCell align="center">
-                    {dayjs(row?.BillMaster?.DueDate).format('YYYY/MM/DD')}
-                  </StyledTableCell>
-                  <StyledTableCell align="center">{row.BillDetail?.length}</StyledTableCell>
-                  <StyledTableCell align="center">
-                    {handleNumber(row?.BillMaster?.FeeAmountSum)}
-                  </StyledTableCell>
-                  <StyledTableCell align="center">
-                    {handleNumber(row?.BillMaster?.ReceivedAmountSum)}
-                  </StyledTableCell>
-                  <StyledTableCell align="center">
-                    {handleNumber(row?.BillMaster?.BankFees)}
-                  </StyledTableCell>
-                  <StyledTableCell align="center">
-                    <Box
-                      sx={{
-                        display: 'flex',
-                        justifyContent: 'center',
-                        '& button': { mx: 1, p: 0 },
-                      }}
-                    >
-                      <Button
-                        color="primary"
-                        size="small"
-                        variant="outlined"
-                        sx={{ fontSize: '12px' }}
-                        onClick={() => {
-                          handleWriteOff(row.BillMaster);
-                        }}
-                      >
-                        銷帳作業
-                      </Button>
-                      <Button
-                        color="success"
-                        size="small"
-                        variant="outlined"
-                        onClick={() => {
-                          sendWriteOffWork(row);
-                        }}
-                      >
-                        銷帳紀錄送出
-                      </Button>
-                      <Button
-                        color="info"
-                        size="small"
-                        variant="outlined"
-                        onClick={() => {
-                          handleFinish(row.BillMaster.BillMasterID);
-                        }}
-                      >
-                        完成銷帳
-                      </Button>
-                    </Box>
-                  </StyledTableCell>
-                </TableRow>
-              );
-            })}
-          </TableBody>
-        </Table>
-      </TableContainer>
-    </>
-  );
+            })
+            .catch((e) => {
+                console.log('e1=>', e);
+            });
+    };
+
+    const sendWriteOffWork = (info) => {
+        let tmpArray = {};
+        tmpArray = {
+            BillMaster: info.BillMaster,
+            CBWriteOff: cBWriteOff,
+        };
+        fetch(submitWriteOff, { method: 'POST', body: JSON.stringify(tmpArray) })
+            .then((res) => res.json())
+            .then(() => {
+                dispatch(
+                    setMessageStateOpen({
+                        messageStateOpen: {
+                            isOpen: true,
+                            severity: 'success',
+                            message: '銷帳紀錄送出成功',
+                        },
+                    }),
+                );
+                writeOffInitQuery();
+            })
+            .catch((e) => console.log('e1=>', e));
+    };
+
+    const handleFinish = (id) => {
+        let tmpQuery = completeWriteOff + '/BillMasterID=' + id;
+        fetch(tmpQuery, { method: 'GET' })
+            .then((res) => res.json())
+            .then(() => {
+                dispatch(
+                    setMessageStateOpen({
+                        messageStateOpen: {
+                            isOpen: true,
+                            severity: 'success',
+                            message: '完成銷帳成功',
+                        },
+                    }),
+                );
+                writeOffInitQuery();
+            })
+            .catch((e) => {
+                console.log('e1=>', e);
+            });
+    };
+
+    return (
+        <>
+            <WriteOffWork
+                isDialogOpen={isDialogOpen}
+                handleDialogClose={handleDialogClose}
+                writeOffInfo={writeOffInfo.current}
+                writeOffDetail={writeOffDetail}
+                writeOffInitQuery={writeOffInitQuery}
+                setCBWriteOff={setCBWriteOff}
+                cBWriteOff={cBWriteOff}
+                action="writeOff"
+            />
+            <TableContainer component={Paper} sx={{ maxHeight: window.screen.height * 0.45 }}>
+                <Table sx={{ minWidth: 300 }} stickyHeader>
+                    <TableHead>
+                        <TableRow>
+                            <StyledTableCell align="center">NO</StyledTableCell>
+                            <StyledTableCell align="center">海纜名稱</StyledTableCell>
+                            <StyledTableCell align="center">海纜作業</StyledTableCell>
+                            <StyledTableCell align="center">計帳段號</StyledTableCell>
+                            <StyledTableCell align="center">會員</StyledTableCell>
+                            <StyledTableCell align="center">帳單號碼</StyledTableCell>
+                            <StyledTableCell align="center">帳單日期</StyledTableCell>
+                            <StyledTableCell align="center">到期日期</StyledTableCell>
+                            <StyledTableCell align="center">明細數量</StyledTableCell>
+                            <StyledTableCell align="center">總金額</StyledTableCell>
+                            <StyledTableCell align="center">累計實收金額</StyledTableCell>
+                            <StyledTableCell align="center">累計手續金額</StyledTableCell>
+                            <StyledTableCell align="center">Action</StyledTableCell>
+                        </TableRow>
+                    </TableHead>
+                    <TableBody>
+                        {listInfo?.map((row, id) => {
+                            tmpBMArray = [];
+                            row.BillDetail.forEach((i) => {
+                                if (!tmpBMArray.includes(i.BillMilestone)) {
+                                    tmpBMArray.push(i.BillMilestone);
+                                }
+                            });
+                            return (
+                                <TableRow
+                                    key={
+                                        row?.BillMaster?.BillingNo + row?.BillMaster?.PartyName + id
+                                    }
+                                    sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                                >
+                                    <StyledTableCell align="center">{id + 1}</StyledTableCell>
+                                    <StyledTableCell align="center">
+                                        {row?.BillMaster?.SubmarineCable}
+                                    </StyledTableCell>
+                                    <StyledTableCell align="center">
+                                        {row?.BillMaster?.WorkTitle}
+                                    </StyledTableCell>
+                                    <StyledTableCell align="center">
+                                        {tmpBMArray.join(',')}
+                                    </StyledTableCell>
+                                    <StyledTableCell align="center">
+                                        {row?.BillMaster?.PartyName}
+                                    </StyledTableCell>
+                                    <StyledTableCell align="center">
+                                        {row?.BillMaster?.BillingNo}
+                                    </StyledTableCell>
+                                    <StyledTableCell align="center">
+                                        {dayjs(row?.BillMaster?.IssueDate).format('YYYY/MM/DD')}
+                                    </StyledTableCell>
+                                    <StyledTableCell align="center">
+                                        {dayjs(row?.BillMaster?.DueDate).format('YYYY/MM/DD')}
+                                    </StyledTableCell>
+                                    <StyledTableCell align="center">
+                                        {row.BillDetail?.length}
+                                    </StyledTableCell>
+                                    <StyledTableCell align="center">
+                                        {handleNumber(row?.BillMaster?.FeeAmountSum)}
+                                    </StyledTableCell>
+                                    <StyledTableCell align="center">
+                                        {handleNumber(row?.BillMaster?.ReceivedAmountSum)}
+                                    </StyledTableCell>
+                                    <StyledTableCell align="center">
+                                        {handleNumber(row?.BillMaster?.BankFees)}
+                                    </StyledTableCell>
+                                    <StyledTableCell align="center">
+                                        <Box
+                                            sx={{
+                                                display: 'flex',
+                                                justifyContent: 'center',
+                                                '& button': { mx: 1, p: 0 },
+                                            }}
+                                        >
+                                            <Button
+                                                color="primary"
+                                                size="small"
+                                                variant="outlined"
+                                                sx={{ fontSize: '12px' }}
+                                                onClick={() => {
+                                                    handleWriteOff(row.BillMaster);
+                                                }}
+                                            >
+                                                銷帳作業
+                                            </Button>
+                                            <Button
+                                                color="success"
+                                                size="small"
+                                                variant="outlined"
+                                                onClick={() => {
+                                                    sendWriteOffWork(row);
+                                                }}
+                                            >
+                                                銷帳紀錄送出
+                                            </Button>
+                                            <Button
+                                                color="info"
+                                                size="small"
+                                                variant="outlined"
+                                                onClick={() => {
+                                                    handleFinish(row.BillMaster.BillMasterID);
+                                                }}
+                                            >
+                                                完成銷帳
+                                            </Button>
+                                        </Box>
+                                    </StyledTableCell>
+                                </TableRow>
+                            );
+                        })}
+                    </TableBody>
+                </Table>
+            </TableContainer>
+        </>
+    );
 };
 
 export default ToWriteOffDataList;

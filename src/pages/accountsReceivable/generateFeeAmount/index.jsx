@@ -26,6 +26,9 @@ const GenerateFeeAmount = () => {
     const handleChange = (event, newValue) => {
         setListInfo([]);
         setValue(newValue);
+        if (value !== 0) {
+            initList();
+        }
     };
 
     const a11yProps = (index) => {
@@ -72,12 +75,6 @@ const GenerateFeeAmount = () => {
                 console.log('e1=>', e);
             });
     };
-
-    useEffect(() => {
-        if (value !== 0) {
-            initList();
-        }
-    }, [value]);
 
     return (
         <Grid container spacing={1}>

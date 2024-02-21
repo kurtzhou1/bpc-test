@@ -48,22 +48,59 @@ const CreditBalanceDataList = ({ listInfo }) => {
     };
 
     const getCreditMemo = (id) => {
-        console.log('id=>>', { CMID: id });
         let tmpObject = { CMID: id };
-        fetch(getCreditMemoStreamApi, { method: 'POST', body: JSON.stringify(tmpObject) })
-            .then((res) => res.json())
-            .then(() => {
+        fetch(getCreditMemoStreamApi, {
+            method: 'POST',
+            headers: {
+                Accept: 'application/json',
+            },
+            body: JSON.stringify(tmpObject),
+        })
+            .then((res) => {
+                if (!res.ok) {
+                    throw new Error('Network response was not ok');
+                }
+
+                // 解析 content-disposition 来获取文件名
+                const contentDisposition = res.headers.get('content-disposition');
+                let filename = 'default.pdf'; // 默认文件名
+                if (contentDisposition.includes("filename*=utf-8''")) {
+                    const filenameEncoded = contentDisposition.split("filename*=utf-8''")[1];
+                    filename = decodeURIComponent(filenameEncoded);
+                } else {
+                    const filenameMatch = contentDisposition.match(/filename="?([^"]+)"?/);
+                    if (filenameMatch && filenameMatch[1]) {
+                        filename = filenameMatch[1];
+                    }
+                }
+
+                return res.blob().then((blob) => ({ blob, filename }));
+            })
+            .then(({ blob, filename }) => {
+                const url = window.URL.createObjectURL(blob);
+                const link = document.createElement('a');
+                link.href = url;
+                link.download = filename;
+                document.body.appendChild(link);
+                dispatch(setIsLoading({ isLoading: false }));
+                link.click();
+                document.body.removeChild(link);
+                window.URL.revokeObjectURL(url);
+            })
+            .catch((error) => {
+                console.error('handleDownload error:', error);
+                dispatch(setIsLoading({ isLoading: false }));
                 dispatch(
                     setMessageStateOpen({
                         messageStateOpen: {
                             isOpen: true,
-                            severity: 'success',
-                            message: '產製成功',
+                            severity: 'error',
+                            message: '產製失敗',
                         },
                     }),
                 );
-            })
-            .catch((error) => console.error('handleDownload error:', error));
+                // 处理错误
+            });
     };
 
     const handleDownload = (id) => {

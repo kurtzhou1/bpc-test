@@ -74,7 +74,6 @@ const InvoiceWorkManage = () => {
         itemInfoInitial();
         setAction('');
         setModifyItem([]);
-        initQuery();
         fetch(supplierNameDropDownUnique, { method: 'GET' })
             .then((res) => res.json())
             .then((data) => {

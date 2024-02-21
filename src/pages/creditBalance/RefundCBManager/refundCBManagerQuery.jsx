@@ -104,6 +104,8 @@ const CreditBalanceQuery = ({ value, setListInfo, partiesList, submarineCableLis
                 console.log('查詢成功=>>', data);
                 if (Array.isArray(data)) {
                     setListInfo(data);
+                } else {
+                    setListInfo([]);
                 }
             })
             .catch((e) => console.log('e1=>', e));

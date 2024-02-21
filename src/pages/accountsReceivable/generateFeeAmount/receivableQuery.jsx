@@ -192,7 +192,6 @@ const ReceivableQuery = ({ value, setListInfo, queryApi }) => {
 
     useEffect(() => {
         initInfo();
-        initQuery();
     }, [value]);
 
     useEffect(() => {
