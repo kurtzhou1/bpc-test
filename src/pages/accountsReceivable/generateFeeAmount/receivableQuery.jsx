@@ -29,9 +29,14 @@ import { TextField } from '@mui/material/index';
 // api
 import { supplierNameDropDownUnique } from 'components/apis.jsx';
 
+// redux
+import { useDispatch } from 'react-redux';
+import { setMessageStateOpen, setIsLoading } from 'store/reducers/dropdown';
+
 // ==============================|| SAMPLE PAGE ||============================== //
 
 const ReceivableQuery = ({ value, setListInfo, queryApi }) => {
+    const dispatch = useDispatch();
     const [issueDate, setIssueDate] = useState([null, null]); //發票日期
     const [workTitle, setWorkTitle] = useState('All'); //海纜作業
     const [partyName, setPartyName] = useState('All'); //會員名稱
@@ -53,60 +58,8 @@ const ReceivableQuery = ({ value, setListInfo, queryApi }) => {
         setBillingNo('');
     };
 
-    const initQuery = () => {
-        let tmpQuery = '';
-        if (value === 0) {
-            if (tmpQuery.includes('&')) {
-                tmpQuery = tmpQuery.slice(0, -1);
-                tmpQuery = '/Status=TO_MERGE&' + tmpQuery;
-            } else {
-                tmpQuery = tmpQuery + '/Status=TO_MERGE';
-            }
-            tmpQuery = queryToCombineInvo + tmpQuery;
-        } else if (value === 1) {
-            if (tmpQuery.includes('&')) {
-                tmpQuery = '/' + tmpQuery.slice(0, -1);
-            } else {
-                tmpQuery = tmpQuery + '/Status=INITIAL';
-            }
-            tmpQuery = queryToDecutBill + tmpQuery;
-        } else if (value === 2) {
-            if (tmpQuery.includes('&')) {
-                tmpQuery = '/' + tmpQuery.slice(0, -1);
-            } else {
-                tmpQuery = tmpQuery + '/Status=RATED';
-            }
-            tmpQuery = quertDeductedData + tmpQuery;
-        } else if (value === 3) {
-            if (tmpQuery.includes('&')) {
-                tmpQuery = '/' + tmpQuery.slice(0, -1);
-            } else {
-                tmpQuery = tmpQuery + '/Status=SIGNED';
-            }
-            tmpQuery = queryToDecutBill + tmpQuery;
-        } else if (value === 4) {
-            if (tmpQuery.includes('&')) {
-                tmpQuery = '/' + tmpQuery.slice(0, -1);
-            } else {
-                tmpQuery = tmpQuery + '/Status=INVALID';
-            }
-            tmpQuery = queryToDecutBill + tmpQuery;
-        }
-        console.log('tmpQuery=>>', tmpQuery);
-        queryApi.current = tmpQuery;
-        fetch(tmpQuery, { method: 'GET' })
-            .then((res) => res.json())
-            .then((data) => {
-                if (Array.isArray(data)) {
-                    setListInfo(data);
-                }
-            })
-            .catch((e) => {
-                console.log('e1=>', e);
-            });
-    };
-
     const receivableQuery = () => {
+        dispatch(setIsLoading({ isLoading: true }));
         let tmpQuery = '';
         if (partyName && partyName !== 'All') {
             tmpQuery = tmpQuery + 'PartyName=' + partyName + '&';
@@ -178,16 +131,27 @@ const ReceivableQuery = ({ value, setListInfo, queryApi }) => {
             }
             tmpQuery = queryToDecutBill + tmpQuery;
         }
-        console.log('按下查詢=>>', tmpQuery);
         fetch(tmpQuery, { method: 'GET' })
             .then((res) => res.json())
             .then((data) => {
-                console.log('data=>>', data);
-                setListInfo(data);
+                if (data.length > 0) {
+                    setListInfo(data);
+                } else {
+                    dispatch(
+                        setMessageStateOpen({
+                            messageStateOpen: {
+                                isOpen: true,
+                                severity: 'success',
+                                message: '查無資料',
+                            },
+                        }),
+                    );
+                }
             })
             .catch((e) => {
                 console.log('e1=>', e);
             });
+        dispatch(setIsLoading({ isLoading: false }));
     };
 
     useEffect(() => {
