@@ -89,6 +89,7 @@ export const completeWriteOff = `http://${env}/api/v1/completeWriteOff`;
 
 // 廠商付款處理
 export const sendPayment = `http://${env}/api/v1/payment/submit`;
+export const getPayMasterPayStatement = `http://${env}/api/v1/getPayMaster&PayStatement`;
 
 // 退回-發票查詢
 export const returnToValidated = `http://${env}/api/v1/returnToValidated`;

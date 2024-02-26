@@ -23,7 +23,6 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DesktopDatePicker } from '@mui/x-date-pickers/DesktopDatePicker';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import dayjs from 'dayjs';
-import { DateRangePicker } from '@mui/x-date-pickers-pro/DateRangePicker';
 import { TextField } from '@mui/material/index';
 
 // api
@@ -91,7 +90,6 @@ const ResearchBillQuery = ({ setListInfo, setDetailInfo }) => {
         if (billMilestone && billMilestone !== 'All') {
             tmpQuery.BillMilestone = billMilestone;
         }
-        console.log(issueDate, isIssueDate);
         if (issueDate && isIssueDate === 'true') {
             tmpQuery.startIssueDate = dayjs(issueDate).format('YYYYMMDD');
             tmpQuery.endIssueDate = dayjs(issueDate).format('YYYYMMDD');

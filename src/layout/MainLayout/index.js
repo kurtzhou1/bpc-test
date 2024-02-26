@@ -376,7 +376,6 @@ const MainLayout = () => {
             )}
             <Snackbar
                 anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
-                // open={messageStateOpen.isOpen}
                 open={isOpenNow}
                 autoHideDuration={10000}
                 onClose={handleClose}

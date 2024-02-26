@@ -1,13 +1,26 @@
 import { useEffect, useState } from 'react';
-import { Typography, Grid, Button, FormControl, InputLabel, Select, MenuItem } from '@mui/material';
+import {
+    Typography,
+    Grid,
+    Button,
+    FormControl,
+    InputLabel,
+    Select,
+    MenuItem,
+    Box,
+} from '@mui/material';
 
 // project import
 import MainCard from 'components/MainCard';
 import {
-    querySupplierPayment,
     supplierNameDropDownUnique,
     submarineCableInfoList,
+    getPayMasterPayStatement,
 } from 'components/apis';
+
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { DateRangePicker } from '@mui/x-date-pickers-pro/DateRangePicker';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 
 // day
 import dayjs from 'dayjs';
@@ -15,9 +28,9 @@ import { TextField } from '@mui/material/index';
 
 // ==============================|| SAMPLE PAGE ||============================== //
 
-const SupplierPaymentQuery = ({ setListInfo, queryApi, value }) => {
+const SupplierPaymentQuery = ({ setListInfo }) => {
     const [submarineCableList, setSubmarineCableList] = useState([]); //海纜名稱下拉選單
-    const [issueDate, setIssueDate] = useState([null, null]); //發票日期
+    const [paidDate, setPaidDate] = useState([null, null]); //發票日期
     const [workTitle, setWorkTitle] = useState('All'); //海纜作業
     const [supplierName, setSupplierName] = useState('All'); //供應商
     const [submarineCable, setSubmarineCable] = useState('All'); //海纜名稱
@@ -25,68 +38,42 @@ const SupplierPaymentQuery = ({ setListInfo, queryApi, value }) => {
     const [supNmList, setSupNmList] = useState([]); //供應商下拉選單
 
     const initInfo = () => {
-        setIssueDate([null, null]);
+        setPaidDate([null, null]);
         setWorkTitle('All');
         setSupplierName('All');
         setSubmarineCable('All');
         setInvoiceNo('');
     };
 
-    const supplierPaymentQuery = () => {
-        let tmpQuery = '';
-        if (supplierName && supplierName !== '') {
-            tmpQuery = tmpQuery + 'SupplierName=' + supplierName + '&';
+    const recordQuery = () => {
+        let tmpQuery = {};
+        if (submarineCable && submarineCable !== 'All') {
+            tmpQuery.SubmarineCable = submarineCable;
         }
-        if (submarineCable && submarineCable !== '') {
-            tmpQuery = tmpQuery + 'SubmarineCable=' + submarineCable + '&';
+        if (workTitle && workTitle !== 'All') {
+            tmpQuery.WorkTitle = workTitle;
         }
-        if (invoiceNo && invoiceNo !== '' && value === 0) {
-            tmpQuery = tmpQuery + 'InvoiceNo=' + invoiceNo + '&';
+        if (supplierName && supplierName !== 'All') {
+            tmpQuery.SupplierName = supplierName;
         }
-        if (workTitle && workTitle !== '') {
-            tmpQuery = tmpQuery + 'WorkTitle=' + workTitle + '&';
+        if (invoiceNo && invoiceNo !== '') {
+            tmpQuery.InvoiceNo = invoiceNo;
         }
-        if (issueDate[0]) {
-            tmpQuery =
-                tmpQuery +
-                'startIssueDate=' +
-                dayjs(issueDate[0]).format('YYYYMMDD') +
-                '&' +
-                'endIssueDate=' +
-                dayjs(issueDate[1]).format('YYYYMMDD') +
-                '&';
+        if (paidDate[0]) {
+            tmpQuery.IssueDate = {
+                start: dayjs(paidDate[0]).format('YYYYMMDD'),
+                end: dayjs(paidDate[1]).format('YYYYMMDD'),
+            };
         }
-        if (value === 0) {
-            if (tmpQuery.includes('&')) {
-                tmpQuery = tmpQuery.slice(0, -1);
-                tmpQuery = '/Status=PAYING&' + tmpQuery;
-            } else {
-                tmpQuery = tmpQuery + '/Status=PAYING';
-            }
-            tmpQuery = querySupplierPayment + tmpQuery;
-        } else if (value === 1) {
-            console.log('tmpQuery=>>', tmpQuery);
-            if (tmpQuery.includes('&')) {
-                tmpQuery = '/' + tmpQuery.slice(0, -1);
-                tmpQuery = tmpQuery + '&Status=COMPLETE';
-            } else {
-                tmpQuery = tmpQuery + '/Status=COMPLETE';
-            }
-            tmpQuery = querySupplierPayment + tmpQuery;
-        }
-        console.log('按下查詢=>>', tmpQuery);
-        queryApi.current = tmpQuery;
-        fetch(tmpQuery, { method: 'GET' })
+        fetch(getPayMasterPayStatement, { method: 'POST', body: JSON.stringify(tmpQuery) })
             .then((res) => res.json())
             .then((data) => {
-                console.log('data=>>', data);
+                console.log('recordQuery查詢成功=>>', data);
                 if (Array.isArray(data)) {
                     setListInfo(data);
                 }
             })
-            .catch((e) => {
-                console.log('e1=>', e);
-            });
+            .catch((e) => console.log('e1=>', e));
     };
 
     useEffect(() => {
@@ -122,7 +109,7 @@ const SupplierPaymentQuery = ({ setListInfo, queryApi, value }) => {
                         海纜名稱：
                     </Typography>
                 </Grid>
-                <Grid item xs={2} sm={2} md={2} lg={2}>
+                <Grid item lg={2}>
                     <FormControl fullWidth size="small">
                         <InputLabel>選擇海纜名稱</InputLabel>
                         <Select
@@ -151,7 +138,7 @@ const SupplierPaymentQuery = ({ setListInfo, queryApi, value }) => {
                         海纜作業：
                     </Typography>
                 </Grid>
-                <Grid item xs={2} sm={2} md={2} lg={2}>
+                <Grid item lg={2}>
                     <FormControl fullWidth size="small">
                         <InputLabel>選擇海纜作業</InputLabel>
                         <Select
@@ -177,7 +164,7 @@ const SupplierPaymentQuery = ({ setListInfo, queryApi, value }) => {
                         供應商：
                     </Typography>
                 </Grid>
-                <Grid item xs={2} sm={2} md={2} lg={2}>
+                <Grid item lg={2}>
                     <FormControl fullWidth size="small">
                         <InputLabel>選擇供應商</InputLabel>
                         <Select
@@ -205,7 +192,7 @@ const SupplierPaymentQuery = ({ setListInfo, queryApi, value }) => {
                         發票號碼：
                     </Typography>
                 </Grid>
-                <Grid item xs={2} sm={2} md={2} lg={2}>
+                <Grid item lg={2}>
                     <FormControl fullWidth size="small">
                         <TextField
                             fullWidth
@@ -217,21 +204,40 @@ const SupplierPaymentQuery = ({ setListInfo, queryApi, value }) => {
                         />
                     </FormControl>
                 </Grid>
-                <Grid
-                    item
-                    xs={12}
-                    sm={12}
-                    md={12}
-                    lg={12}
-                    display="flex"
-                    justifyContent="end"
-                    alignItems="center"
-                >
-                    <Button
-                        sx={{ mr: '0.5rem' }}
-                        variant="contained"
-                        onClick={supplierPaymentQuery}
+                <Grid item lg={1}>
+                    <Typography
+                        variant="h5"
+                        sx={{
+                            fontSize: { lg: '0.7rem', xl: '0.88rem' },
+                            ml: { lg: '0.5rem', xl: '1.5rem' },
+                        }}
                     >
+                        付款日期：
+                    </Typography>
+                </Grid>
+                <Grid item lg={5}>
+                    <LocalizationProvider
+                        dateAdapter={AdapterDayjs}
+                        localeText={{ start: '起始日', end: '結束日' }}
+                    >
+                        <DateRangePicker
+                            inputFormat="YYYY/MM/DD"
+                            value={paidDate}
+                            onChange={(e) => {
+                                setPaidDate(e);
+                            }}
+                            renderInput={(startProps, endProps) => (
+                                <>
+                                    <TextField fullWidth size="small" {...startProps} />
+                                    <Box sx={{ mx: 1 }}> to </Box>
+                                    <TextField fullWidth size="small" {...endProps} />
+                                </>
+                            )}
+                        />
+                    </LocalizationProvider>
+                </Grid>
+                <Grid item lg={6} display="flex" justifyContent="end" alignItems="center">
+                    <Button sx={{ mr: '0.5rem' }} variant="contained" onClick={recordQuery}>
                         查詢
                     </Button>
                     <Button variant="contained" onClick={initInfo}>
