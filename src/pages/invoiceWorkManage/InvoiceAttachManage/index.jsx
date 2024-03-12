@@ -263,13 +263,11 @@ const InvoiceWorkManage = () => {
                     <MainCard title="發票資料列表" sx={{ width: '100%' }}>
                         <Grid container display="flex" spacing={2}>
                             <Grid item xs={12}>
-                                <MainCard>
-                                    <InvoiceDataList
-                                        listInfo={listInfo}
-                                        page={page}
-                                        setPage={setPage}
-                                    />
-                                </MainCard>
+                                <InvoiceDataList
+                                    listInfo={listInfo}
+                                    page={page}
+                                    setPage={setPage}
+                                />
                             </Grid>
                         </Grid>
                     </MainCard>

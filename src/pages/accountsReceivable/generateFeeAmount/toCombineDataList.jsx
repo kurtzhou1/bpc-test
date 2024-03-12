@@ -116,6 +116,7 @@ const ToCombineDataList = ({
 
     //合併帳單
     const handleCombine = () => {
+        //haha
         if (billingNo === '') {
             dispatch(
                 setMessageStateOpen({
@@ -162,7 +163,6 @@ const ToCombineDataList = ({
                                 setIssueDate(new Date());
                                 setPoNo('');
                                 setBillingNo('');
-                                // setCbToCn({});
                                 handleDialogClose();
                                 receivableQuery();
                             })

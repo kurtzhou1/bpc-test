@@ -339,9 +339,7 @@ const ToDeductWork = ({
                                 <Grid item xs={1} sm={1} md={1} lg={1} />
                             </Grid>
                         </Grid>
-                    ) : (
-                        ''
-                    )}
+                    ) : null}
                     <Grid item xs={12} sm={12} md={12} lg={12}>
                         <MainCard title="帳單明細列表">
                             <TableContainer component={Paper} sx={{ maxHeight: 350 }}>
@@ -361,14 +359,17 @@ const ToDeductWork = ({
                                             <StyledTableCell align="center">
                                                 折抵金額
                                             </StyledTableCell>
+                                            {actionName === 'view' ? (
+                                                <StyledTableCell align="center">
+                                                    預付稅款
+                                                </StyledTableCell>
+                                            ) : null}
                                             <StyledTableCell align="center">總金額</StyledTableCell>
                                             {actionName === 'deduct' ? (
                                                 <StyledTableCell align="center">
                                                     Action
                                                 </StyledTableCell>
-                                            ) : (
-                                                ''
-                                            )}
+                                            ) : null}
                                         </TableRow>
                                     </TableHead>
                                     <TableBody>
@@ -404,6 +405,10 @@ const ToDeductWork = ({
                                                     <TableCell align="center">{`$${handleNumber(
                                                         dedAmountTmp.toFixed(2),
                                                     )}`}</TableCell>
+                                                    {actionName === 'view' ? (
+                                                        //haha預付稅款
+                                                        <TableCell align="center">0</TableCell>
+                                                    ) : null}
                                                     <TableCell
                                                         align="center"
                                                         sx={{
@@ -413,9 +418,11 @@ const ToDeductWork = ({
                                                                     : 'red',
                                                         }}
                                                     >{`$${handleNumber(
-                                                        (row.OrgFeeAmount - dedAmountTmp).toFixed(
-                                                            2,
-                                                        ),
+                                                        (
+                                                            row.OrgFeeAmount -
+                                                            dedAmountTmp -
+                                                            0
+                                                        ).toFixed(2),
                                                     )}`}</TableCell>
                                                     {actionName === 'deduct' ? (
                                                         <TableCell align="center">
@@ -482,6 +489,15 @@ const ToDeductWork = ({
                                             >{`$${handleNumber(
                                                 dedAmount.current.toFixed(2),
                                             )}`}</StyledTableCell>
+                                            {actionName === 'view' ? (
+                                                //haha預付稅款
+                                                <StyledTableCell
+                                                    className="totalAmount"
+                                                    align="center"
+                                                >
+                                                    $0
+                                                </StyledTableCell>
+                                            ) : null}
                                             <StyledTableCell
                                                 className="totalAmount"
                                                 align="center"
@@ -493,9 +509,7 @@ const ToDeductWork = ({
                                                     className="totalAmount"
                                                     align="center"
                                                 ></StyledTableCell>
-                                            ) : (
-                                                ''
-                                            )}
+                                            ) : null}
                                         </TableRow>
                                     </TableBody>
                                 </Table>

@@ -11,6 +11,7 @@ import SignedDataList from './signedDataList';
 import InvalidatedDataList from './invalidatedDataList';
 
 import ReceivableQuery from './receivableQuery';
+import { queryToCombineInvo, queryToDecutBill, quertDeductedData } from 'components/apis';
 
 // redux
 import { useDispatch } from 'react-redux';
@@ -20,7 +21,7 @@ const GenerateFeeAmount = () => {
     const [value, setValue] = useState(0);
     const [listInfo, setListInfo] = useState([]);
     const dispatch = useDispatch();
-    const queryApi = useRef('/Status=TO_MERGE');
+    const queryApi = useRef('');
     const [isDialogOpen, setIsDialogOpen] = useState(false);
     const [cbToCn, setCbToCn] = useState({}); //勾選合併狀態
     const handleChange = (event, newValue) => {
@@ -63,18 +64,45 @@ const GenerateFeeAmount = () => {
 
     //初始化查詢
     const receivableQuery = () => {
-        let tmpQuery = queryApi.current;
+        let tmpQuery = '';
+        if (queryApi.current !== '' && value === 0) {
+            tmpQuery = queryToCombineInvo + '/Status=TO_MERGE';
+        } else if (queryApi.current !== '' && value === 1) {
+            tmpQuery = queryToDecutBill + '/Status=INITIAL​';
+        } else if (queryApi.current !== '' && value === 2) {
+            tmpQuery = quertDeductedData + '/Status=RATED';
+        } else if (queryApi.current !== '' && value === 3) {
+            tmpQuery = queryToDecutBill + '/Status=SIGNED';
+        } else if (queryApi.current !== '' && value === 4) {
+            tmpQuery = queryToDecutBill + '/Status=INVALID';
+        } else {
+            tmpQuery = queryApi.current;
+        }
         fetch(tmpQuery, { method: 'GET' })
             .then((res) => res.json())
             .then((data) => {
-                if (Array.isArray(data)) {
+                if (data.length > 0) {
                     setListInfo(data);
+                } else {
+                    dispatch(
+                        setMessageStateOpen({
+                            messageStateOpen: {
+                                isOpen: true,
+                                severity: 'info',
+                                message: '查無資料',
+                            },
+                        }),
+                    );
                 }
             })
             .catch((e) => {
                 console.log('e1=>', e);
             });
     };
+
+    useEffect(() => {
+        queryApi.current = '';
+    }, [value]);
 
     return (
         <Grid container spacing={1}>

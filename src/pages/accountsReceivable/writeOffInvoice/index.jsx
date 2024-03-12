@@ -44,7 +44,7 @@ const WriteOffInvoice = () => {
                         setMessageStateOpen({
                             messageStateOpen: {
                                 isOpen: true,
-                                severity: 'error',
+                                severity: 'info',
                                 message: '查無資料',
                             },
                         }),

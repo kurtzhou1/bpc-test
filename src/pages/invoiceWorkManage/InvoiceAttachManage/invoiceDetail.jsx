@@ -71,7 +71,7 @@ const InvoiceDetail = ({ isDetailOpen, isDetailClose, modifyItem }) => {
 
     return (
         <Dialog maxWidth="sm" open={isDetailOpen}>
-            <BootstrapDialogTitle>發票列表</BootstrapDialogTitle>
+            <BootstrapDialogTitle>發票明細</BootstrapDialogTitle>
             <DialogContent>
                 <Grid
                     container
@@ -86,10 +86,10 @@ const InvoiceDetail = ({ isDetailOpen, isDetailClose, modifyItem }) => {
                             <Table sx={{ minWidth: 300 }} stickyHeader>
                                 <TableHead>
                                     <TableRow>
-                                        <StyledTableCell align="center">NO</StyledTableCell>
                                         <StyledTableCell align="center">費用項目</StyledTableCell>
                                         <StyledTableCell align="center">計帳段號</StyledTableCell>
                                         <StyledTableCell align="center">費用金額</StyledTableCell>
+                                        <StyledTableCell align="center">摘要說明</StyledTableCell>
                                     </TableRow>
                                 </TableHead>
                                 <TableBody>
@@ -103,7 +103,6 @@ const InvoiceDetail = ({ isDetailOpen, isDetailClose, modifyItem }) => {
                                                     },
                                                 }}
                                             >
-                                                <TableCell align="center">{id + 1}</TableCell>
                                                 <TableCell align="center">{row.FeeItem}</TableCell>
                                                 <TableCell align="center">
                                                     {row.BillMilestone}
@@ -111,6 +110,9 @@ const InvoiceDetail = ({ isDetailOpen, isDetailClose, modifyItem }) => {
                                                 <TableCell align="center">
                                                     {handleNumber(row.FeeAmount.toFixed(2))}
                                                 </TableCell>
+                                                <StyledTableCell align="center">
+                                                    {row.Note}
+                                                </StyledTableCell>
                                             </TableRow>
                                         );
                                     })}
@@ -124,14 +126,13 @@ const InvoiceDetail = ({ isDetailOpen, isDetailClose, modifyItem }) => {
                                             className="totalAmount"
                                             align="center"
                                         ></StyledTableCell>
-                                        {/* <StyledTableCell className="totalAmount" align="center"></StyledTableCell> */}
+                                        <StyledTableCell className="totalAmount" align="center">
+                                            {handleNumber(feeAmount.current.toFixed(2))}
+                                        </StyledTableCell>
                                         <StyledTableCell
                                             className="totalAmount"
                                             align="center"
                                         ></StyledTableCell>
-                                        <StyledTableCell className="totalAmount" align="center">
-                                            {handleNumber(feeAmount.current.toFixed(2))}
-                                        </StyledTableCell>
                                         <StyledTableCell
                                             className="totalAmount"
                                             align="center"

@@ -336,7 +336,6 @@ const CreateInvoiceDetail = ({
                                                     Tax
                                                 </Button>
                                             )}
-
                                             <Button
                                                 color="primary"
                                                 onClick={() => {

@@ -59,6 +59,7 @@ const ReceivableQuery = ({ value, setListInfo, queryApi }) => {
     };
 
     const receivableQuery = () => {
+        // haha
         dispatch(setIsLoading({ isLoading: true }));
         let tmpQuery = '';
         if (partyName && partyName !== 'All') {
@@ -131,6 +132,7 @@ const ReceivableQuery = ({ value, setListInfo, queryApi }) => {
             }
             tmpQuery = queryToDecutBill + tmpQuery;
         }
+        queryApi.current = tmpQuery;
         fetch(tmpQuery, { method: 'GET' })
             .then((res) => res.json())
             .then((data) => {
@@ -141,7 +143,7 @@ const ReceivableQuery = ({ value, setListInfo, queryApi }) => {
                         setMessageStateOpen({
                             messageStateOpen: {
                                 isOpen: true,
-                                severity: 'success',
+                                severity: 'info',
                                 message: '查無資料',
                             },
                         }),
