@@ -115,7 +115,8 @@ const BilledDataList = ({ listInfo, apiQuery }) => {
                             </TableHead>
                             <TableBody>
                                 {toBillDataInfo?.map((row, id) => {
-                                    let afterDiff = row.FeeAmountPost + row.Difference;
+                                    let afterDiff =
+                                        row.FeeAmountPost + row.Difference - row.WHTAmount;
                                     return (
                                         <TableRow
                                             key={row.PartyName + row.LBRatio + id}
@@ -132,7 +133,7 @@ const BilledDataList = ({ listInfo, apiQuery }) => {
                                             <TableCell align="center">{`$${handleNumber(
                                                 row.FeeAmountPost,
                                             )}`}</TableCell>
-                                            <TableCell align="center">0</TableCell>
+                                            <TableCell align="center">{row.WHTAmount}</TableCell>
                                             <TableCell align="center">{`$${row.Difference}`}</TableCell>
                                             <TableCell align="center">{`$${handleNumber(
                                                 afterDiff.toFixed(2),

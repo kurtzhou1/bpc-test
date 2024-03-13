@@ -56,6 +56,7 @@ const columns2 = [
         align: 'center',
     },
     { id: '會員代碼', label: '會員代碼', align: 'center' },
+    { id: '預付稅款百分比', label: '預付稅款百分比', align: 'center' },
     {
         id: '公司名稱',
         label: '公司名稱',
@@ -151,6 +152,7 @@ const PartyDataList = ({ infoList, setInfoList }) => {
     const [address, setAddress] = useState(''); //公司地址
     const [contact, setContact] = useState(''); //聯繫窗口
     const [email, setEmail] = useState(''); //電子郵件
+    const [test, setTest] = useState(''); //預付稅款百分比
     const [tel, setTel] = useState(''); //電話
     const [companyName, setCompanyName] = useState('');
     const [bankAcctName, setBankAcctName] = useState('');
@@ -171,6 +173,7 @@ const PartyDataList = ({ infoList, setInfoList }) => {
     const [addressEdit, setAddressEdit] = useState(''); //國際銀行代碼編輯
     const [contactEdit, setContactEdit] = useState(''); //國際銀行帳戶號碼編輯
     const [emailEdit, setEmailEdit] = useState(''); //銀行名稱編輯
+    const [testEdit, setTestEdit] = useState(''); //預付稅款百分比編輯
     const [telEdit, setTelEdit] = useState('');
     const [companyNameEdit, setCompanyNameEdit] = useState('');
     const [bankAcctNameEdit, setBankAcctNameEdit] = useState('');
@@ -196,6 +199,7 @@ const PartyDataList = ({ infoList, setInfoList }) => {
         setAddress('');
         setContact('');
         setEmail('');
+        setTest('');
         setTel('');
         setCompanyName('');
         setBankAcctName('');
@@ -219,6 +223,7 @@ const PartyDataList = ({ infoList, setInfoList }) => {
         setAddressEdit('');
         setContactEdit('');
         setEmailEdit('');
+        setTestEdit('');
         setTelEdit('');
         setCompanyNameEdit('');
         setBankAcctNameEdit('');
@@ -255,6 +260,7 @@ const PartyDataList = ({ infoList, setInfoList }) => {
             Address: address,
             Contact: contact,
             Email: email,
+            Test: test,
             Tel: tel,
             CompanyName: companyName,
             BankAcctName: bankAcctName,
@@ -323,6 +329,7 @@ const PartyDataList = ({ infoList, setInfoList }) => {
         setAddressEdit(row.Address);
         setContactEdit(row.Contact);
         setEmailEdit(row.Email);
+        setTestEdit(row.Test);
         setTelEdit(row.Tel);
         setCompanyNameEdit(row.CompanyName);
         setBankAcctNameEdit(row.BankAcctName);
@@ -345,6 +352,7 @@ const PartyDataList = ({ infoList, setInfoList }) => {
         setAddress(row.Address);
         setContact(row.Contact);
         setEmail(row.Email);
+        setTest(row.Test);
         setTel(row.Tel);
         setCompanyName(row.CompanyName);
         setBankAcctName(row.BankAcctName);
@@ -369,6 +377,7 @@ const PartyDataList = ({ infoList, setInfoList }) => {
             Address: addressEdit,
             Contact: contactEdit,
             Email: emailEdit,
+            Test: testEdit,
             Tel: telEdit,
             CompanyName: companyNameEdit,
             BankAcctName: bankAcctNameEdit,
@@ -664,6 +673,15 @@ const PartyDataList = ({ infoList, setInfoList }) => {
                                 <TableCell align="center">
                                     <TextField
                                         size="small"
+                                        value={test}
+                                        onChange={(e) => {
+                                            setTest(e.target.value);
+                                        }}
+                                    />
+                                </TableCell>
+                                <TableCell align="center">
+                                    <TextField
+                                        size="small"
                                         value={companyName}
                                         onChange={(e) => {
                                             setCompanyName(e.target.value);
@@ -914,6 +932,9 @@ const PartyDataList = ({ infoList, setInfoList }) => {
                                                     {row.PartyCode}
                                                 </StyledTableCell>
                                                 <StyledTableCell align="center">
+                                                    {row.Test}
+                                                </StyledTableCell>
+                                                <StyledTableCell align="center">
                                                     {row.CompanyName}
                                                 </StyledTableCell>
                                                 <StyledTableCell align="center">
@@ -1089,6 +1110,15 @@ const PartyDataList = ({ infoList, setInfoList }) => {
                                                         value={codeEdit}
                                                         onChange={(e) => {
                                                             setCodeEdit(e.target.value);
+                                                        }}
+                                                    />
+                                                </TableCell>
+                                                <TableCell align="center">
+                                                    <TextField
+                                                        sx={{ width: '3rem' }}
+                                                        value={emailEdit}
+                                                        onChange={(e) => {
+                                                            setEmailEdit(e.target.value);
                                                         }}
                                                     />
                                                 </TableCell>

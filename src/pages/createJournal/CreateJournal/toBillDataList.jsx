@@ -159,7 +159,8 @@ const ToBillDataList = ({ listInfo, apiQuery }) => {
                             </TableHead>
                             <TableBody>
                                 {toBillDataInfo.map((row, id) => {
-                                    let afterDiff = row.FeeAmountPost + row.Difference;
+                                    let afterDiff =
+                                        row.FeeAmountPost + row.Difference - row.WHTAmount;
                                     return (
                                         <TableRow
                                             key={row.FeeAmountPre + row?.LBRatio + id}
@@ -179,7 +180,7 @@ const ToBillDataList = ({ listInfo, apiQuery }) => {
                                             <TableCell align="center">{`$${handleNumber(
                                                 row.FeeAmountPost,
                                             )}`}</TableCell>
-                                            <TableCell align="center">0</TableCell>
+                                            <TableCell align="center">{row.WHTAmount}</TableCell>
                                             <TableCell align="center">
                                                 <TextField
                                                     label="$"
