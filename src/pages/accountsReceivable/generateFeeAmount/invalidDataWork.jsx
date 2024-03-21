@@ -32,7 +32,7 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
     },
 }));
 
-const DeductedWork = ({ isDeductedWorkOpen, handleDeductedClose, billDetailInfo }) => {
+const InvalidDataWork = ({ isViewOpen, handleDeductedClose, billDetailInfo }) => {
     let feeAmount = useRef(0); // 總費用金額加總(上)
     let dedAmount = useRef(0); //總折抵資料加總(上)
     let wHTAmountTotal = useRef(0); //預付稅款加總
@@ -41,31 +41,24 @@ const DeductedWork = ({ isDeductedWorkOpen, handleDeductedClose, billDetailInfo 
     const initData = () => {
         feeAmount.current = 0;
         dedAmount.current = 0;
-        wHTAmountTotal.current = 0;
         setDataList([]);
     };
 
     useEffect(() => {
-        let tmpCBArray = [];
         let tmpData = billDetailInfo.map((i) => i);
-        if (isDeductedWorkOpen) {
-            tmpData.forEach((row1, id) => {
-                tmpCBArray = [];
-                feeAmount.current = feeAmount.current + row1.BillDetail.FeeAmount;
-                dedAmount.current = dedAmount.current + row1.BillDetail.DedAmount;
-                wHTAmountTotal.current = wHTAmountTotal.current + row1.BillDetail.WHTAmountTotal;
-                row1.CB.forEach((row2) => {
-                    tmpCBArray.push(row2.CBType);
-                });
-                tmpData[id].CBTYPE = tmpCBArray.join('、');
+        if (isViewOpen) {
+            tmpData.forEach((i) => {
+                feeAmount.current = feeAmount.current + i.FeeAmount;
+                dedAmount.current = dedAmount.current + i.DedAmount;
+                wHTAmountTotal.current = wHTAmountTotal.current + i.wHTAmountTotal;
             });
             setDataList(tmpData);
         }
-    }, [billDetailInfo, isDeductedWorkOpen]);
+    }, [billDetailInfo, isViewOpen]);
 
     return (
-        <Dialog maxWidth="md" open={isDeductedWorkOpen}>
-            <BootstrapDialogTitle>檢視已折抵帳單</BootstrapDialogTitle>
+        <Dialog maxWidth="sm" open={isViewOpen}>
+            <BootstrapDialogTitle>作廢帳單</BootstrapDialogTitle>
             <DialogContent>
                 <Grid
                     container
@@ -83,7 +76,6 @@ const DeductedWork = ({ isDeductedWorkOpen, handleDeductedClose, billDetailInfo 
                                         <StyledTableCell align="center">NO</StyledTableCell>
                                         <StyledTableCell align="center">費用項目</StyledTableCell>
                                         <StyledTableCell align="center">計帳段號</StyledTableCell>
-                                        <StyledTableCell align="center">折抵CB</StyledTableCell>
                                         <StyledTableCell align="center">折抵金額</StyledTableCell>
                                         <StyledTableCell align="center">預付稅款</StyledTableCell>
                                         <StyledTableCell align="center">總金額</StyledTableCell>
@@ -93,11 +85,7 @@ const DeductedWork = ({ isDeductedWorkOpen, handleDeductedClose, billDetailInfo 
                                     {dataList.map((row, id) => {
                                         return (
                                             <TableRow
-                                                key={
-                                                    row.BillDetail.BillMasterID +
-                                                    row?.BillDetail.BillDetailID +
-                                                    id
-                                                }
+                                                key={row.BillMasterID + row?.BillDetailID + id}
                                                 sx={{
                                                     '&:last-child td, &:last-child th': {
                                                         border: 0,
@@ -105,27 +93,18 @@ const DeductedWork = ({ isDeductedWorkOpen, handleDeductedClose, billDetailInfo 
                                                 }}
                                             >
                                                 <TableCell align="center">{id + 1}</TableCell>
+                                                <TableCell align="center">{row.FeeItem}</TableCell>
                                                 <TableCell align="center">
-                                                    {row.BillDetail.FeeItem}
+                                                    {row.BillMilestone}
                                                 </TableCell>
                                                 <TableCell align="center">
-                                                    {row.BillDetail.BillMilestone}
+                                                    ${handleNumber(row.DedAmount.toFixed(2))}
                                                 </TableCell>
-                                                <TableCell align="center">{row.CBTYPE}</TableCell>
                                                 <TableCell align="center">
-                                                    $
-                                                    {handleNumber(
-                                                        row.BillDetail.DedAmount.toFixed(2),
-                                                    )}
+                                                    ${handleNumber(row.WHTAmountTotal.toFixed(2))}
                                                 </TableCell>
-                                                <StyledTableCell align="center">
-                                                    ${row.WHTAmountTotal}
-                                                </StyledTableCell>
                                                 <TableCell align="center">
-                                                    $
-                                                    {handleNumber(
-                                                        row.BillDetail.FeeAmount.toFixed(2),
-                                                    )}
+                                                    ${handleNumber(row.FeeAmount.toFixed(2))}
                                                 </TableCell>
                                             </TableRow>
                                         );
@@ -136,10 +115,6 @@ const DeductedWork = ({ isDeductedWorkOpen, handleDeductedClose, billDetailInfo 
                                         <StyledTableCell className="totalAmount" align="center">
                                             Total
                                         </StyledTableCell>
-                                        <StyledTableCell
-                                            className="totalAmount"
-                                            align="center"
-                                        ></StyledTableCell>
                                         <StyledTableCell
                                             className="totalAmount"
                                             align="center"
@@ -180,4 +155,4 @@ const DeductedWork = ({ isDeductedWorkOpen, handleDeductedClose, billDetailInfo 
     );
 };
 
-export default DeductedWork;
+export default InvalidDataWork;

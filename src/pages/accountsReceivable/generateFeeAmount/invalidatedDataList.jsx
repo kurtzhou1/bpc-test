@@ -1,36 +1,21 @@
 import { useState, useRef } from 'react';
 
 // project import
-import { handleNumber, BootstrapDialogTitle } from 'components/commonFunction';
+import InvalidDataWork from './invalidDataWork';
 // material-ui
-import {
-    Typography,
-    Button,
-    Table,
-    Dialog,
-    DialogContent,
-    DialogContentText,
-    Grid,
-    FormControl,
-    InputLabel,
-    Select,
-    Box,
-    DialogActions,
-    TextField,
-} from '@mui/material';
+import { Button, Table, Box } from '@mui/material';
 import TableBody from '@mui/material/TableBody';
 import TableCell, { tableCellClasses } from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
-import { alpha, styled } from '@mui/material/styles';
+import { styled } from '@mui/material/styles';
 
 import dayjs from 'dayjs';
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
     [`&.${tableCellClasses.head}`]: {
-        // backgroundColor: theme.palette.common.gary,
         color: theme.palette.common.black,
         paddingTop: '0.2rem',
         paddingBottom: '0.2rem',
@@ -47,12 +32,21 @@ const InvalidatedDataList = ({ dataList }) => {
     const [isViewOpen, setIsViewOpen] = useState(false); //產製帳單
     const billDetailInfo = useRef([]);
 
+    const handleDeductedClose = () => {
+        setIsViewOpen(false);
+    };
+
     const handleViewOpen = (data) => {
         billDetailInfo.current = data;
         setIsViewOpen(true);
     };
     return (
         <>
+            <InvalidDataWork
+                isViewOpen={isViewOpen}
+                handleDeductedClose={handleDeductedClose}
+                billDetailInfo={billDetailInfo.current}
+            />
             <TableContainer component={Paper} sx={{ maxHeight: window.screen.height * 0.5 }}>
                 <Table sx={{ minWidth: 300 }} stickyHeader>
                     <TableHead>

@@ -43,8 +43,6 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
 const Corporates = ({ infoList, setInfoList }) => {
     const dispatch = useDispatch();
     const [submarineCableList, setSubmarineCableList] = useState([]); //海纜名稱下拉選單
-    // const [infoList, setInfoList] = useState([]);
-    // const [corpName, setCorpName] = useState(''); //聯盟代號
     const [acctName, setAcctName] = useState(''); //海纜作業
     const [bankAcctNo, setBankAcctNo] = useState(''); //會員名稱
     const [savingbankAcctNo, setSavingBankAcctNo] = useState(''); //銀行帳號2
@@ -62,7 +60,6 @@ const Corporates = ({ infoList, setInfoList }) => {
     const [branchAddress, setBranchAddress] = useState('');
     const [branchAddressEdit, setBranchAddressEdit] = useState('');
     const corpID = useRef(-1);
-    // const [corpNameEdit, setCorpNameEdit] = useState(''); //供應商編輯
     const [bankAcctNameEdit, setBankAcctNameEdit] = useState(''); //帳號名稱編輯
     const [bankAcctNoEdit, setBankAcctNoEdit] = useState(''); //銀行帳號編輯
     const [savingBankAcctNoEdit, setSavingBankAcctNoEdit] = useState(''); //銀行帳號2編輯
@@ -134,7 +131,6 @@ const Corporates = ({ infoList, setInfoList }) => {
     ];
 
     const infoInit = () => {
-        // setCorpName('');
         setAcctName('');
         setBankAcctNo('');
         setSWIFTCodeEdit('');
@@ -181,44 +177,73 @@ const Corporates = ({ infoList, setInfoList }) => {
             .catch((e) => console.log('e1=>', e));
     };
 
+    const infoCheck = () => {
+        if (submarineCable === '') {
+            dispatch(
+                setMessageStateOpen({
+                    messageStateOpen: {
+                        isOpen: true,
+                        severity: 'error',
+                        message: '請輸入海纜名稱',
+                    },
+                }),
+            );
+            return false;
+        }
+        if (workTitle === '') {
+            dispatch(
+                setMessageStateOpen({
+                    messageStateOpen: {
+                        isOpen: true,
+                        severity: 'error',
+                        message: '請輸入海纜作業',
+                    },
+                }),
+            );
+            return false;
+        }
+        return true;
+    };
+
     const addCorporatesInfo = () => {
-        let tmpArray = {
-            // CorpName: corpName,
-            BankAcctName: acctName,
-            BankAcctNo: bankAcctNo,
-            SavingAcctNo: savingbankAcctNo,
-            SWIFTCode: sWIFTCode,
-            IBAN: iBAN,
-            ACHNo: aCHNo,
-            WireRouting: wireRouting,
-            BankName: bankName,
-            Branch: branch,
-            Address: address,
-            SubmarineCable: submarineCable,
-            WorkTitle: workTitle,
-            BranchAddress: branchAddress,
-        };
-        console.log('', tmpArray);
-        fetch(corporates, {
-            method: 'POST',
-            body: JSON.stringify(tmpArray),
-            headers: { 'Content-Type': 'application/json' },
-        })
-            .then((res) => res.json())
-            .then(() => {
-                dispatch(
-                    setMessageStateOpen({
-                        messageStateOpen: {
-                            isOpen: true,
-                            severity: 'success',
-                            message: '新增聯盟金融帳戶資料成功',
-                        },
-                    }),
-                );
-                infoInit();
-                queryCorporatesInfo();
+        if (infoCheck()) {
+            let tmpArray = {
+                BankAcctName: acctName,
+                BankAcctNo: bankAcctNo,
+                SavingAcctNo: savingbankAcctNo,
+                SWIFTCode: sWIFTCode,
+                IBAN: iBAN,
+                ACHNo: aCHNo,
+                WireRouting: wireRouting,
+                BankName: bankName,
+                Branch: branch,
+                Address: address,
+                SubmarineCable: submarineCable,
+                WorkTitle: workTitle,
+                BranchAddress: branchAddress,
+            };
+            console.log('', tmpArray);
+            fetch(corporates, {
+                method: 'POST',
+                body: JSON.stringify(tmpArray),
+                headers: { 'Content-Type': 'application/json' },
             })
-            .catch((e) => console.log('e1=>', e));
+                .then((res) => res.json())
+                .then(() => {
+                    dispatch(
+                        setMessageStateOpen({
+                            messageStateOpen: {
+                                isOpen: true,
+                                severity: 'success',
+                                message: '新增聯盟金融帳戶資料成功',
+                            },
+                        }),
+                    );
+                    infoInit();
+                    queryCorporatesInfo();
+                })
+                .catch((e) => console.log('e1=>', e));
+        }
     };
 
     const deleteCorporatesInfo = (row) => {
@@ -246,7 +271,6 @@ const Corporates = ({ infoList, setInfoList }) => {
     const editCorporatesInfo = (row) => {
         console.log(row, row.CorpID);
         corpID.current = row.CorpID;
-        // setCorpNameEdit(row.CorpName);
         setBankAcctNameEdit(row.BankAcctName);
         setBankAcctNoEdit(row.BankAcctNo);
         setSWIFTCodeEdit(row.SWIFTCode);
@@ -262,45 +286,73 @@ const Corporates = ({ infoList, setInfoList }) => {
         setBranchAddressEdit(row.BranchAddress);
     };
 
-    const saveEditCorporatesInfo = () => {
-        let tmpArray = {
-            CorpID: corpID.current,
-            // CorpName: corpNameEdit,
-            BankAcctName: bankAcctNameEdit,
-            BankAcctNo: bankAcctNoEdit,
-            SavingAcctNo: savingBankAcctNoEdit,
-            SWIFTCode: sWIFTCodeEdit,
-            IBAN: iBANEdit,
-            ACHNo: aCHNoEdit,
-            WireRouting: wireRoutingEdit,
-            BankName: bankNameEdit,
-            Branch: branchEdit,
-            Address: addressEdit,
-            SubmarineCable: submarineCableEdit,
-            WorkTitle: workTitleEdit,
-            BranchAddress: branchAddressEdit,
-        };
+    const editCheck = () => {
+        if (submarineCable === '') {
+            dispatch(
+                setMessageStateOpen({
+                    messageStateOpen: {
+                        isOpen: true,
+                        severity: 'error',
+                        message: '請輸入海纜名稱',
+                    },
+                }),
+            );
+            return false;
+        }
+        if (workTitle === '') {
+            dispatch(
+                setMessageStateOpen({
+                    messageStateOpen: {
+                        isOpen: true,
+                        severity: 'error',
+                        message: '請輸入海纜作業',
+                    },
+                }),
+            );
+            return false;
+        }
+        return true;
+    };
 
-        fetch(editCorporates, {
-            method: 'POST',
-            body: JSON.stringify(tmpArray),
-            headers: { 'Content-Type': 'application/json' },
-        })
-            .then((res) => res.json())
-            .then(() => {
-                dispatch(
-                    setMessageStateOpen({
-                        messageStateOpen: {
-                            isOpen: true,
-                            severity: 'success',
-                            message: '更新聯盟金融帳戶資料成功',
-                        },
-                    }),
-                );
-                editInfoInit();
-                queryCorporatesInfo();
+    const saveEditCorporatesInfo = () => {
+        if (editCheck()) {
+            let tmpArray = {
+                CorpID: corpID.current,
+                BankAcctName: bankAcctNameEdit,
+                BankAcctNo: bankAcctNoEdit,
+                SavingAcctNo: savingBankAcctNoEdit,
+                SWIFTCode: sWIFTCodeEdit,
+                IBAN: iBANEdit,
+                ACHNo: aCHNoEdit,
+                WireRouting: wireRoutingEdit,
+                BankName: bankNameEdit,
+                Branch: branchEdit,
+                Address: addressEdit,
+                SubmarineCable: submarineCableEdit,
+                WorkTitle: workTitleEdit,
+                BranchAddress: branchAddressEdit,
+            };
+            fetch(editCorporates, {
+                method: 'POST',
+                body: JSON.stringify(tmpArray),
+                headers: { 'Content-Type': 'application/json' },
             })
-            .catch((e) => console.log('e1=>', e));
+                .then((res) => res.json())
+                .then(() => {
+                    dispatch(
+                        setMessageStateOpen({
+                            messageStateOpen: {
+                                isOpen: true,
+                                severity: 'success',
+                                message: '更新聯盟金融帳戶資料成功',
+                            },
+                        }),
+                    );
+                    editInfoInit();
+                    queryCorporatesInfo();
+                })
+                .catch((e) => console.log('e1=>', e));
+        }
     };
 
     useEffect(() => {
@@ -314,15 +366,7 @@ const Corporates = ({ infoList, setInfoList }) => {
     }, []);
 
     return (
-        <TableContainer
-            component={Paper}
-            // sx={{
-            //     maxHeight:
-            //         window.screen.height < 1000
-            //             ? window.screen.height * 0.45
-            //             : window.screen.height * 0.6,
-            // }}
-        >
+        <TableContainer component={Paper}>
             <Table sx={{ minWidth: 300 }} stickyHeader>
                 <TableHead>
                     <TableRow sx={{ fontSize: '50px' }}>

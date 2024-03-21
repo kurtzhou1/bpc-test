@@ -64,6 +64,7 @@ const ToDeductWork = ({
     const tmpDeductArray = useRef([]);
     let orgFeeAmount = useRef(0); // 總費用金額加總(上)
     let dedAmount = useRef(0); //總折抵資料加總(上)
+    let wHTAmountTotal = useRef(0); //預付稅款加總
     const [feeAmountTotal, setFeeAmountTotal] = useState(0); //總金額加總(上)
     const editItem = useRef(''); //當前編輯明細項目
 
@@ -73,6 +74,7 @@ const ToDeductWork = ({
         editItem.current = '';
         orgFeeAmount.current = 0;
         dedAmount.current = 0;
+        wHTAmountTotal.current = 0;
         setFeeAmountTotal(0);
     };
 
@@ -221,6 +223,7 @@ const ToDeductWork = ({
             let tmpFeeAmount = 0;
             billDetailInfo.forEach((row) => {
                 orgFeeAmount.current = orgFeeAmount.current + row.OrgFeeAmount;
+                wHTAmountTotal.current = wHTAmountTotal.current + row.WHTAmount;
                 tmpFeeAmount = tmpFeeAmount + row.FeeAmount;
             });
             setFeeAmountTotal(tmpFeeAmount);
@@ -399,31 +402,38 @@ const ToDeductWork = ({
                                                     <TableCell align="center">
                                                         {row.FeeItem}
                                                     </TableCell>
-                                                    <TableCell align="center">{`$${handleNumber(
-                                                        row.OrgFeeAmount.toFixed(2),
-                                                    )}`}</TableCell>
-                                                    <TableCell align="center">{`$${handleNumber(
-                                                        dedAmountTmp.toFixed(2),
-                                                    )}`}</TableCell>
+                                                    <TableCell align="center">
+                                                        ${handleNumber(row.OrgFeeAmount.toFixed(2))}
+                                                    </TableCell>
+                                                    <TableCell align="center">
+                                                        ${handleNumber(dedAmountTmp.toFixed(2))}
+                                                    </TableCell>
                                                     {actionName === 'view' ? (
-                                                        //haha預付稅款
-                                                        <TableCell align="center">0</TableCell>
+                                                        <TableCell align="center">
+                                                            {row?.WHTAmount}
+                                                        </TableCell>
                                                     ) : null}
                                                     <TableCell
                                                         align="center"
                                                         sx={{
                                                             color:
-                                                                row.OrgFeeAmount - dedAmountTmp >= 0
+                                                                row.OrgFeeAmount -
+                                                                    dedAmountTmp -
+                                                                    row.WHTAmount >=
+                                                                0
                                                                     ? 'black'
                                                                     : 'red',
                                                         }}
-                                                    >{`$${handleNumber(
-                                                        (
-                                                            row.OrgFeeAmount -
-                                                            dedAmountTmp -
-                                                            0
-                                                        ).toFixed(2),
-                                                    )}`}</TableCell>
+                                                    >
+                                                        $
+                                                        {handleNumber(
+                                                            (
+                                                                row.OrgFeeAmount -
+                                                                dedAmountTmp -
+                                                                row.WHTAmount
+                                                            ).toFixed(2),
+                                                        )}
+                                                    </TableCell>
                                                     {actionName === 'deduct' ? (
                                                         <TableCell align="center">
                                                             <Button
@@ -455,9 +465,7 @@ const ToDeductWork = ({
                                                                 折抵
                                                             </Button>
                                                         </TableCell>
-                                                    ) : (
-                                                        ''
-                                                    )}
+                                                    ) : null}
                                                 </TableRow>
                                             );
                                         })}
@@ -477,33 +485,26 @@ const ToDeductWork = ({
                                                 className="totalAmount"
                                                 align="center"
                                             ></StyledTableCell>
-                                            <StyledTableCell
-                                                className="totalAmount"
-                                                align="center"
-                                            >{`$${handleNumber(
-                                                orgFeeAmount.current.toFixed(2),
-                                            )}`}</StyledTableCell>
-                                            <StyledTableCell
-                                                className="totalAmount"
-                                                align="center"
-                                            >{`$${handleNumber(
-                                                dedAmount.current.toFixed(2),
-                                            )}`}</StyledTableCell>
+                                            <StyledTableCell className="totalAmount" align="center">
+                                                ${handleNumber(orgFeeAmount.current.toFixed(2))}
+                                            </StyledTableCell>
+                                            <StyledTableCell className="totalAmount" align="center">
+                                                ${handleNumber(dedAmount.current.toFixed(2))}
+                                            </StyledTableCell>
                                             {actionName === 'view' ? (
-                                                //haha預付稅款
                                                 <StyledTableCell
                                                     className="totalAmount"
                                                     align="center"
                                                 >
-                                                    $0
+                                                    $
+                                                    {handleNumber(
+                                                        wHTAmountTotal.current.toFixed(2),
+                                                    )}
                                                 </StyledTableCell>
                                             ) : null}
-                                            <StyledTableCell
-                                                className="totalAmount"
-                                                align="center"
-                                            >{`$${handleNumber(
-                                                feeAmountTotal.toFixed(2),
-                                            )}`}</StyledTableCell>
+                                            <StyledTableCell className="totalAmount" align="center">
+                                                ${handleNumber(feeAmountTotal.toFixed(2))}
+                                            </StyledTableCell>
                                             {actionName === 'deduct' ? (
                                                 <StyledTableCell
                                                     className="totalAmount"
@@ -621,9 +622,12 @@ const ToDeductWork = ({
                                                                         }}
                                                                     />
                                                                 </TableCell>
-                                                                <TableCell align="center">{`$${handleNumber(
-                                                                    afterDiff.toFixed(2),
-                                                                )}`}</TableCell>
+                                                                <TableCell align="center">
+                                                                    $
+                                                                    {handleNumber(
+                                                                        afterDiff.toFixed(2),
+                                                                    )}
+                                                                </TableCell>
                                                             </TableRow>
                                                         );
                                                     })}
@@ -655,9 +659,7 @@ const ToDeductWork = ({
                                 </Grid>
                             </MainCard>
                         </Grid>
-                    ) : (
-                        ''
-                    )}
+                    ) : null}
                 </Grid>
                 {/* <DialogContentText sx={{ fontSize: '20px', mt: '0.5rem' }}>總金額：${handleNumber(totalAmount)}</DialogContentText> */}
             </DialogContent>
@@ -671,9 +673,7 @@ const ToDeductWork = ({
                             Reset
                         </Button>
                     </>
-                ) : (
-                    ''
-                )}
+                ) : null}
                 <Button
                     sx={{ mr: '0.05rem' }}
                     variant="contained"

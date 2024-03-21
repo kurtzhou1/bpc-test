@@ -144,7 +144,6 @@ const columns4 = [
 const PartyDataList = ({ infoList, setInfoList }) => {
     const dispatch = useDispatch();
     const [submarineCableList, setSubmarineCableList] = useState([]); //海纜名稱下拉選單
-    // const [infoList, setInfoList] = useState([]);
     const [submarineCable, setSubmarineCable] = useState(''); //海纜名稱
     const [workTitle, setWorkTitle] = useState(''); //海纜作業
     const [code, setCode] = useState(''); //代碼
@@ -245,56 +244,109 @@ const PartyDataList = ({ infoList, setInfoList }) => {
             .then((data) => {
                 if (Array.isArray(data)) {
                     setInfoList(data);
-                    // dispatch(setPartiesList({ partiesList: data }));
                 }
             })
             .catch((e) => console.log('e1=>', e));
     };
 
+    const infoCheck = () => {
+        if (code === '') {
+            dispatch(
+                setMessageStateOpen({
+                    messageStateOpen: {
+                        isOpen: true,
+                        severity: 'error',
+                        message: '請輸入會員代碼',
+                    },
+                }),
+            );
+            return false;
+        }
+        if (submarineCable === '') {
+            dispatch(
+                setMessageStateOpen({
+                    messageStateOpen: {
+                        isOpen: true,
+                        severity: 'error',
+                        message: '請輸入海纜名稱',
+                    },
+                }),
+            );
+            return false;
+        }
+        if (workTitle === '') {
+            dispatch(
+                setMessageStateOpen({
+                    messageStateOpen: {
+                        isOpen: true,
+                        severity: 'error',
+                        message: '請輸入海纜作業',
+                    },
+                }),
+            );
+            return false;
+        }
+        if (partyName === '') {
+            dispatch(
+                setMessageStateOpen({
+                    messageStateOpen: {
+                        isOpen: true,
+                        severity: 'error',
+                        message: '請輸入會員名稱',
+                    },
+                }),
+            );
+            return false;
+        }
+        return true;
+    };
+
     const addPartyInfo = () => {
-        let tmpArray = {
-            PartyCode: code,
-            SubmarineCable: submarineCable,
-            WorkTitle: workTitle,
-            PartyName: partyName,
-            Address: address,
-            Contact: contact,
-            Email: email,
-            Test: test,
-            Tel: tel,
-            CompanyName: companyName,
-            BankAcctName: bankAcctName,
-            BankAcctNo: accountNo,
-            SavingAcctNo: savingAccountNo,
-            SWIFTCode: sWIFTCode,
-            IBAN: iBAN,
-            ACHNo: aCHNo,
-            WireRouting: wireRouting,
-            BankName: bankName,
-            Branch: branch,
-            BankAddress: bankAddress,
-        };
-        console.log('', tmpArray);
-        fetch(parties, {
-            method: 'POST',
-            body: JSON.stringify(tmpArray),
-            headers: { 'Content-Type': 'application/json' },
-        })
-            .then((res) => res.json())
-            .then(() => {
-                dispatch(
-                    setMessageStateOpen({
-                        messageStateOpen: {
-                            isOpen: true,
-                            severity: 'success',
-                            message: '新增會員資料成功',
-                        },
-                    }),
-                );
-                infoInit();
-                queryPartiesInfo();
+        if (infoCheck()) {
+            let tmpArray = {
+                PartyCode: code,
+                SubmarineCable: submarineCable,
+                WorkTitle: workTitle,
+                PartyName: partyName,
+                Address: address,
+                Contact: contact,
+                Email: email,
+                Test: test,
+                Tel: tel,
+                CompanyName: companyName,
+                BankAcctName: bankAcctName,
+                BankAcctNo: accountNo,
+                SavingAcctNo: savingAccountNo,
+                SWIFTCode: sWIFTCode,
+                IBAN: iBAN,
+                ACHNo: aCHNo,
+                WireRouting: wireRouting,
+                BankName: bankName,
+                Branch: branch,
+                BankAddress: bankAddress,
+            };
+            console.log('', tmpArray);
+            fetch(parties, {
+                method: 'POST',
+                body: JSON.stringify(tmpArray),
+                headers: { 'Content-Type': 'application/json' },
             })
-            .catch((e) => console.log('e1=>', e));
+                .then((res) => res.json())
+                .then(() => {
+                    dispatch(
+                        setMessageStateOpen({
+                            messageStateOpen: {
+                                isOpen: true,
+                                severity: 'success',
+                                message: '新增會員資料成功',
+                            },
+                        }),
+                    );
+                    infoInit();
+                    queryPartiesInfo();
+                })
+                .catch((e) => console.log('e1=>', e));
+        }
     };
 
     const deletePartyInfo = (row) => {
@@ -367,50 +419,104 @@ const PartyDataList = ({ infoList, setInfoList }) => {
         setBankAddress(row.BankAddress);
     };
 
+    const editCheck = () => {
+        if (codeEdit === '') {
+            dispatch(
+                setMessageStateOpen({
+                    messageStateOpen: {
+                        isOpen: true,
+                        severity: 'error',
+                        message: '請輸入會員代碼',
+                    },
+                }),
+            );
+            return false;
+        }
+        if (submarineCableEdit === '') {
+            dispatch(
+                setMessageStateOpen({
+                    messageStateOpen: {
+                        isOpen: true,
+                        severity: 'error',
+                        message: '請輸入海纜名稱',
+                    },
+                }),
+            );
+            return false;
+        }
+        if (workTitleEdit === '') {
+            dispatch(
+                setMessageStateOpen({
+                    messageStateOpen: {
+                        isOpen: true,
+                        severity: 'error',
+                        message: '請輸入海纜作業',
+                    },
+                }),
+            );
+            return false;
+        }
+        if (partyNameEdit === '') {
+            dispatch(
+                setMessageStateOpen({
+                    messageStateOpen: {
+                        isOpen: true,
+                        severity: 'error',
+                        message: '請輸入會員名稱',
+                    },
+                }),
+            );
+            return false;
+        }
+        return true;
+    };
+
     const saveEditPartyInfo = () => {
-        let tmpArray = {
-            PartyID: partyID.current,
-            PartyCode: codeEdit,
-            SubmarineCable: submarineCableEdit,
-            WorkTitle: workTitleEdit,
-            PartyName: partyNameEdit,
-            Address: addressEdit,
-            Contact: contactEdit,
-            Email: emailEdit,
-            Test: testEdit,
-            Tel: telEdit,
-            CompanyName: companyNameEdit,
-            BankAcctName: bankAcctNameEdit,
-            BankAcctNo: accountNoEdit,
-            SavingAcctNo: savingAccountNoEdit,
-            SWIFTCode: sWIFTCodeEdit,
-            IBAN: iBANEdit,
-            ACHNo: aCHNoEdit,
-            WireRouting: wireRoutingEdit,
-            BankName: bankNameEdit,
-            Branch: branchEdit,
-            BankAddress: bankAddressEdit,
-        };
-        fetch(editParties, {
-            method: 'POST',
-            body: JSON.stringify(tmpArray),
-            headers: { 'Content-Type': 'application/json' },
-        })
-            .then((res) => res.json())
-            .then(() => {
-                dispatch(
-                    setMessageStateOpen({
-                        messageStateOpen: {
-                            isOpen: true,
-                            severity: 'success',
-                            message: '更新會員資料成功',
-                        },
-                    }),
-                );
-                editInfoInit();
-                queryPartiesInfo();
+        if (editCheck()) {
+            let tmpArray = {
+                PartyID: partyID.current,
+                PartyCode: codeEdit,
+                SubmarineCable: submarineCableEdit,
+                WorkTitle: workTitleEdit,
+                PartyName: partyNameEdit,
+                Address: addressEdit,
+                Contact: contactEdit,
+                Email: emailEdit,
+                Test: testEdit,
+                Tel: telEdit,
+                CompanyName: companyNameEdit,
+                BankAcctName: bankAcctNameEdit,
+                BankAcctNo: accountNoEdit,
+                SavingAcctNo: savingAccountNoEdit,
+                SWIFTCode: sWIFTCodeEdit,
+                IBAN: iBANEdit,
+                ACHNo: aCHNoEdit,
+                WireRouting: wireRoutingEdit,
+                BankName: bankNameEdit,
+                Branch: branchEdit,
+                BankAddress: bankAddressEdit,
+            };
+            fetch(editParties, {
+                method: 'POST',
+                body: JSON.stringify(tmpArray),
+                headers: { 'Content-Type': 'application/json' },
             })
-            .catch((e) => console.log('e1=>', e));
+                .then((res) => res.json())
+                .then(() => {
+                    dispatch(
+                        setMessageStateOpen({
+                            messageStateOpen: {
+                                isOpen: true,
+                                severity: 'success',
+                                message: '更新會員資料成功',
+                            },
+                        }),
+                    );
+                    editInfoInit();
+                    queryPartiesInfo();
+                })
+                .catch((e) => console.log('e1=>', e));
+        }
     };
 
     const handleCross = (email) => {
@@ -428,16 +534,7 @@ const PartyDataList = ({ infoList, setInfoList }) => {
     }, []);
 
     return (
-        <TableContainer
-            id="tableContainer"
-            component={Paper}
-            // sx={{
-            //     maxHeight:
-            //         window.screen.height < 1000
-            //             ? window.screen.height * 0.45
-            //             : window.screen.height * 0.6,
-            // }}
-        >
+        <TableContainer id="tableContainer" component={Paper}>
             <Table stickyHeader>
                 <TableHead>
                     <TableRow></TableRow>

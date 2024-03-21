@@ -35,6 +35,7 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
 const SignedDataWork = ({ isViewOpen, handleDeductedClose, billDetailInfo }) => {
     let feeAmount = useRef(0); // 總費用金額加總(上)
     let dedAmount = useRef(0); //總折抵資料加總(上)
+    let wHTAmountTotal = useRef(0); //預付稅款加總
 
     const [dataList, setDataList] = useState([]);
 
@@ -47,9 +48,10 @@ const SignedDataWork = ({ isViewOpen, handleDeductedClose, billDetailInfo }) => 
     useEffect(() => {
         let tmpData = billDetailInfo.map((i) => i);
         if (isViewOpen) {
-            tmpData.forEach((row1) => {
-                feeAmount.current = feeAmount.current + row1.FeeAmount;
-                dedAmount.current = dedAmount.current + row1.DedAmount;
+            tmpData.forEach((i) => {
+                feeAmount.current = feeAmount.current + i.FeeAmount;
+                dedAmount.current = dedAmount.current + i.DedAmount;
+                wHTAmountTotal.current = wHTAmountTotal.current + i.wHTAmountTotal;
             });
             setDataList(tmpData);
         }
@@ -76,7 +78,6 @@ const SignedDataWork = ({ isViewOpen, handleDeductedClose, billDetailInfo }) => 
                                         <StyledTableCell align="center">費用項目</StyledTableCell>
                                         <StyledTableCell align="center">計帳段號</StyledTableCell>
                                         <StyledTableCell align="center">折抵金額</StyledTableCell>
-                                        {/* haha預付稅款 */}
                                         <StyledTableCell align="center">預付稅款</StyledTableCell>
                                         <StyledTableCell align="center">總金額</StyledTableCell>
                                     </TableRow>
@@ -97,13 +98,15 @@ const SignedDataWork = ({ isViewOpen, handleDeductedClose, billDetailInfo }) => 
                                                 <TableCell align="center">
                                                     {row.BillMilestone}
                                                 </TableCell>
-                                                <TableCell align="center">{`$${handleNumber(
-                                                    row.DedAmount.toFixed(2),
-                                                )}`}</TableCell>
-                                                <TableCell align="center">0</TableCell>
-                                                <TableCell align="center">{`$${handleNumber(
-                                                    row.FeeAmount.toFixed(2),
-                                                )}`}</TableCell>
+                                                <TableCell align="center">
+                                                    ${handleNumber(row.DedAmount.toFixed(2))}
+                                                </TableCell>
+                                                <TableCell align="center">
+                                                    ${handleNumber(row.WHTAmountTotal.toFixed(2))}
+                                                </TableCell>
+                                                <TableCell align="center">
+                                                    ${handleNumber(row.FeeAmount.toFixed(2))}
+                                                </TableCell>
                                             </TableRow>
                                         );
                                     })}
@@ -121,28 +124,21 @@ const SignedDataWork = ({ isViewOpen, handleDeductedClose, billDetailInfo }) => 
                                             className="totalAmount"
                                             align="center"
                                         ></StyledTableCell>
-                                        <StyledTableCell
-                                            className="totalAmount"
-                                            align="center"
-                                        >{`$${handleNumber(
-                                            dedAmount.current.toFixed(2),
-                                        )}`}</StyledTableCell>
                                         <StyledTableCell className="totalAmount" align="center">
-                                            0
+                                            ${handleNumber(dedAmount.current.toFixed(2))}
                                         </StyledTableCell>
-                                        <StyledTableCell
-                                            className="totalAmount"
-                                            align="center"
-                                        >{`$${handleNumber(
-                                            feeAmount.current.toFixed(2),
-                                        )}`}</StyledTableCell>
+                                        <StyledTableCell className="totalAmount" align="center">
+                                            ${handleNumber(wHTAmountTotal.current.toFixed(2))}
+                                        </StyledTableCell>
+                                        <StyledTableCell className="totalAmount" align="center">
+                                            ${handleNumber(feeAmount.current.toFixed(2))}
+                                        </StyledTableCell>
                                     </TableRow>
                                 </TableBody>
                             </Table>
                         </TableContainer>
                     </Grid>
                 </Grid>
-                {/* <DialogContentText sx={{ fontSize: '20px', mt: '0.5rem' }}>總金額：${handleNumber(totalAmount)}</DialogContentText> */}
             </DialogContent>
             <DialogActions>
                 <Button

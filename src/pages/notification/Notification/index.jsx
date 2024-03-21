@@ -98,7 +98,7 @@ const Information = () => {
                 />
             </Grid>
             <Grid item xs={12}>
-                <MainCard title="資料列表">
+                <MainCard title="通知列表">
                     <Box sx={{ borderBottom: 1, borderColor: 'divider', position: 'relative' }}>
                         <Tabs value={value} onChange={handleChange}>
                             <Tab label="會員帳單" {...a11yProps(0)} />

@@ -59,7 +59,6 @@ const ReceivableQuery = ({ value, setListInfo, queryApi }) => {
     };
 
     const receivableQuery = () => {
-        // haha
         dispatch(setIsLoading({ isLoading: true }));
         let tmpQuery = '';
         if (partyName && partyName !== 'All') {

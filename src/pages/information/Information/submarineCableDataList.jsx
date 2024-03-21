@@ -35,21 +35,6 @@ import { setMessageStateOpen } from 'store/reducers/dropdown';
 
 const SubmarineCableDataList = ({ infoList, setInfoList }) => {
     const dispatch = useDispatch();
-    const fakeData = [
-        {
-            CableID: 1,
-            CableCode: 'NEC',
-            CableName: 'NEC',
-            Note: '+886',
-        },
-        {
-            CableID: 2,
-            CableCode: 'NEC#2',
-            CableName: 'NEC#2',
-            Note: '+888',
-        },
-    ];
-    // const [infoList, setInfoList] = useState(fakeData);
     const [cableName, setCableName] = useState(''); //海纜名稱
     const [cableCode, setCableCode] = useState(''); //代碼
     const [note, setNote] = useState(''); //摘要
@@ -73,6 +58,34 @@ const SubmarineCableDataList = ({ infoList, setInfoList }) => {
             fontSize: '0.7rem',
         },
     }));
+
+    const infoCheck = () => {
+        if (cableName === '') {
+            dispatch(
+                setMessageStateOpen({
+                    messageStateOpen: {
+                        isOpen: true,
+                        severity: 'error',
+                        message: '請輸入海纜名稱',
+                    },
+                }),
+            );
+            return false;
+        }
+        if (cableCode === '') {
+            dispatch(
+                setMessageStateOpen({
+                    messageStateOpen: {
+                        isOpen: true,
+                        severity: 'error',
+                        message: '請輸入海纜代號',
+                    },
+                }),
+            );
+            return false;
+        }
+        return true;
+    };
 
     const infoInit = () => {
         setCableCode('');
@@ -100,31 +113,33 @@ const SubmarineCableDataList = ({ infoList, setInfoList }) => {
     };
 
     const addPartyInfo = () => {
-        let tmpArray = {
-            CableCode: cableCode,
-            CableName: cableName,
-            Note: note,
-        };
-        fetch(submarineCables, {
-            method: 'POST',
-            body: JSON.stringify(tmpArray),
-            headers: { 'Content-Type': 'application/json' },
-        })
-            .then((res) => res.json())
-            .then(() => {
-                dispatch(
-                    setMessageStateOpen({
-                        messageStateOpen: {
-                            isOpen: true,
-                            severity: 'success',
-                            message: '新增海纜資料成功',
-                        },
-                    }),
-                );
-                infoInit();
-                querySubmarineCablesInfo();
+        if (infoCheck()) {
+            let tmpArray = {
+                CableCode: cableCode,
+                CableName: cableName,
+                Note: note,
+            };
+            fetch(submarineCables, {
+                method: 'POST',
+                body: JSON.stringify(tmpArray),
+                headers: { 'Content-Type': 'application/json' },
             })
-            .catch((e) => console.log('e1=>', e));
+                .then((res) => res.json())
+                .then(() => {
+                    dispatch(
+                        setMessageStateOpen({
+                            messageStateOpen: {
+                                isOpen: true,
+                                severity: 'success',
+                                message: '新增海纜資料成功',
+                            },
+                        }),
+                    );
+                    infoInit();
+                    querySubmarineCablesInfo();
+                })
+                .catch((e) => console.log('e1=>', e));
+        }
     };
 
     const deletePartyInfo = (row) => {
@@ -156,46 +171,68 @@ const SubmarineCableDataList = ({ infoList, setInfoList }) => {
         setNoteEdit(row.Note);
     };
 
+    const editCheck = () => {
+        if (cableNameEdit === '') {
+            dispatch(
+                setMessageStateOpen({
+                    messageStateOpen: {
+                        isOpen: true,
+                        severity: 'error',
+                        message: '請輸入海纜名稱',
+                    },
+                }),
+            );
+            return false;
+        }
+        if (cableCodeEdit === '') {
+            dispatch(
+                setMessageStateOpen({
+                    messageStateOpen: {
+                        isOpen: true,
+                        severity: 'error',
+                        message: '請輸入海纜代號',
+                    },
+                }),
+            );
+            return false;
+        }
+        return true;
+    };
+
     const saveEditPartyInfo = () => {
-        let tmpArray = {
-            CableID: cableIDEdit.current,
-            CableCode: cableCodeEdit,
-            CableName: cableNameEdit,
-            Note: noteEdit,
-        };
-        fetch(editSubmarineCables, {
-            method: 'POST',
-            body: JSON.stringify(tmpArray),
-            headers: { 'Content-Type': 'application/json' },
-        })
-            .then((res) => res.json())
-            .then(() => {
-                dispatch(
-                    setMessageStateOpen({
-                        messageStateOpen: {
-                            isOpen: true,
-                            severity: 'success',
-                            message: '更新海纜資料成功',
-                        },
-                    }),
-                );
-                editInfoInit();
-                querySubmarineCablesInfo();
+        if (editCheck()) {
+            let tmpArray = {
+                CableID: cableIDEdit.current,
+                CableCode: cableCodeEdit,
+                CableName: cableNameEdit,
+                Note: noteEdit,
+            };
+            fetch(editSubmarineCables, {
+                method: 'POST',
+                body: JSON.stringify(tmpArray),
+                headers: { 'Content-Type': 'application/json' },
             })
-            .catch((e) => console.log('e1=>', e));
+                .then((res) => res.json())
+                .then(() => {
+                    dispatch(
+                        setMessageStateOpen({
+                            messageStateOpen: {
+                                isOpen: true,
+                                severity: 'success',
+                                message: '更新海纜資料成功',
+                            },
+                        }),
+                    );
+                    editInfoInit();
+                    querySubmarineCablesInfo();
+                })
+                .catch((e) => console.log('e1=>', e));
+        }
     };
 
     return (
         <>
-            <TableContainer
-                component={Paper}
-                // sx={{
-                //     maxHeight:
-                //         window.screen.height < 1000
-                //             ? window.screen.height * 0.45
-                //             : window.screen.height * 0.6,
-                // }}
-            >
+            <TableContainer component={Paper}>
                 <Table sx={{ minWidth: 300 }} stickyHeader>
                     <TableHead>
                         <TableRow>

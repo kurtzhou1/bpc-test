@@ -52,12 +52,15 @@ const SupplierDataList = ({ infoList, setInfoList }) => {
     const [bankAddressEdit, setBankAddressEdit] = useState(''); //銀行地址編輯
     const [aCHNoEdit, setaCHnoEdit] = useState(''); //ACH NO編輯
     const [wireRoutingEdit, setWireRoutingEdit] = useState(''); //Wire/Routing編輯
-    const [companyName, setCompanyName] = useState('');
+    const [companyName, setCompanyName] = useState(''); //供應商全名
     const [companyNameEdit, setCompanyNameEdit] = useState('');
     const [submarineCable, setSubmarineCable] = useState(''); //海纜名稱
     const [workTitle, setWorkTitle] = useState(''); //海纜作業
     const [submarineCableEdit, setSubmarineCableEdit] = useState(''); //海纜名稱
     const [workTitleEdit, setWorkTitleEdit] = useState(''); //海纜作業
+    const [isColumn1Open, setIsColumn1Open] = useState(false);
+    const [isColumn2Open, setIsColumn2Open] = useState(false);
+    const [isColumn3Open, setIsColumn3Open] = useState(false);
 
     const StyledTableCell = styled(TableCell)(({ theme }) => ({
         [`&.${tableCellClasses.head}`]: {
@@ -135,10 +138,6 @@ const SupplierDataList = ({ infoList, setInfoList }) => {
         },
     ];
 
-    const [isColumn1Open, setIsColumn1Open] = useState(false);
-    const [isColumn2Open, setIsColumn2Open] = useState(false);
-    const [isColumn3Open, setIsColumn3Open] = useState(false);
-
     const infoInit = () => {
         setSupplierName('');
         setBankAcctName('');
@@ -179,49 +178,102 @@ const SupplierDataList = ({ infoList, setInfoList }) => {
                 console.log('取得Suppliers資料成功=>', data);
                 if (Array.isArray(data)) {
                     setInfoList(data);
-                    // dispatch(setSupplierNameList({ supNmList: data }));
                 }
             })
             .catch((e) => console.log('e1=>', e));
     };
 
+    const infoCheck = () => {
+        if (submarineCable === '') {
+            dispatch(
+                setMessageStateOpen({
+                    messageStateOpen: {
+                        isOpen: true,
+                        severity: 'error',
+                        message: '請輸入海纜名稱',
+                    },
+                }),
+            );
+            return false;
+        }
+        if (workTitle === '') {
+            dispatch(
+                setMessageStateOpen({
+                    messageStateOpen: {
+                        isOpen: true,
+                        severity: 'error',
+                        message: '請輸入海纜作業',
+                    },
+                }),
+            );
+            return false;
+        }
+        if (supplierName === '') {
+            dispatch(
+                setMessageStateOpen({
+                    messageStateOpen: {
+                        isOpen: true,
+                        severity: 'error',
+                        message: '請輸入供應商簡稱',
+                    },
+                }),
+            );
+            return false;
+        }
+        if (companyName === '') {
+            dispatch(
+                setMessageStateOpen({
+                    messageStateOpen: {
+                        isOpen: true,
+                        severity: 'error',
+                        message: '請輸入供應商全名',
+                    },
+                }),
+            );
+            return false;
+        }
+        return true;
+    };
+
     const addSupplierInfo = () => {
-        let tmpArray = {
-            SupplierName: supplierName,
-            CompanyName: companyName,
-            BankAcctName: bankAcctName,
-            Branch: branch,
-            BankAcctNo: bankAcctNo,
-            SavingAcctNo: savingbankAcctNo,
-            SWIFTCode: sWIFTCode,
-            IBAN: iBAN,
-            BankName: bankName,
-            BankAddress: bankAddress,
-            ACHNo: aCHNo,
-            WireRouting: wireRouting,
-            SubmarineCable: submarineCable,
-            WorkTitle: workTitle,
-        };
-        fetch(suppliers, {
-            method: 'POST',
-            body: JSON.stringify(tmpArray),
-            headers: { 'Content-Type': 'application/json' },
-        })
-            .then((res) => res.json())
-            .then(() => {
-                dispatch(
-                    setMessageStateOpen({
-                        messageStateOpen: {
-                            isOpen: true,
-                            severity: 'success',
-                            message: '新增供應商資料成功',
-                        },
-                    }),
-                );
-                infoInit();
-                querySuppliersInfo();
+        if (infoCheck()) {
+            let tmpArray = {
+                SupplierName: supplierName,
+                CompanyName: companyName,
+                BankAcctName: bankAcctName,
+                Branch: branch,
+                BankAcctNo: bankAcctNo,
+                SavingAcctNo: savingbankAcctNo,
+                SWIFTCode: sWIFTCode,
+                IBAN: iBAN,
+                BankName: bankName,
+                BankAddress: bankAddress,
+                ACHNo: aCHNo,
+                WireRouting: wireRouting,
+                SubmarineCable: submarineCable,
+                WorkTitle: workTitle,
+            };
+            fetch(suppliers, {
+                method: 'POST',
+                body: JSON.stringify(tmpArray),
+                headers: { 'Content-Type': 'application/json' },
             })
-            .catch((e) => console.log('e1=>', e));
+                .then((res) => res.json())
+                .then(() => {
+                    dispatch(
+                        setMessageStateOpen({
+                            messageStateOpen: {
+                                isOpen: true,
+                                severity: 'success',
+                                message: '新增供應商資料成功',
+                            },
+                        }),
+                    );
+                    infoInit();
+                    querySuppliersInfo();
+                })
+                .catch((e) => console.log('e1=>', e));
+        }
     };
 
     const deleteSupplierInfo = (row) => {
@@ -247,7 +299,6 @@ const SupplierDataList = ({ infoList, setInfoList }) => {
     };
 
     const editSupplierInfo = (row) => {
-        // setEditItem(id);
         supplierID.current = row.SupplierID;
         setSupplierNameEdit(row.SupplierName);
         setBankAcctNameEdit(row.BankAcctName);
@@ -265,44 +316,98 @@ const SupplierDataList = ({ infoList, setInfoList }) => {
         setSavingBankAcctNoEdit(row.SavingAcctNo);
     };
 
+    const editCheck = () => {
+        if (submarineCableEdit === '') {
+            dispatch(
+                setMessageStateOpen({
+                    messageStateOpen: {
+                        isOpen: true,
+                        severity: 'error',
+                        message: '請輸入海纜名稱',
+                    },
+                }),
+            );
+            return false;
+        }
+        if (workTitleEdit === '') {
+            dispatch(
+                setMessageStateOpen({
+                    messageStateOpen: {
+                        isOpen: true,
+                        severity: 'error',
+                        message: '請輸入海纜作業',
+                    },
+                }),
+            );
+            return false;
+        }
+        if (supplierNameEdit === '') {
+            dispatch(
+                setMessageStateOpen({
+                    messageStateOpen: {
+                        isOpen: true,
+                        severity: 'error',
+                        message: '請輸入供應商簡稱',
+                    },
+                }),
+            );
+            return false;
+        }
+        if (companyNameEdit === '') {
+            dispatch(
+                setMessageStateOpen({
+                    messageStateOpen: {
+                        isOpen: true,
+                        severity: 'error',
+                        message: '請輸入供應商全名',
+                    },
+                }),
+            );
+            return false;
+        }
+        return true;
+    };
+
     const saveEditSupplierInfo = () => {
-        let tmpArray = {
-            SupplierID: supplierID.current,
-            SupplierName: supplierNameEdit,
-            CompanyName: companyNameEdit,
-            BankAcctName: bankAcctNameEdit,
-            Branch: branchEdit,
-            BankAcctNo: bankAcctNoEdit,
-            SavingAcctNo: savingBankAcctNoEdit,
-            SWIFTCode: sWIFTCodeEdit,
-            IBAN: iBANEdit,
-            BankName: bankNameEdit,
-            BankAddress: bankAddressEdit,
-            ACHNo: aCHNoEdit,
-            WireRouting: wireRoutingEdit,
-            SubmarineCable: submarineCableEdit,
-            WorkTitle: workTitleEdit,
-        };
-        fetch(editSuppliers, {
-            method: 'POST',
-            body: JSON.stringify(tmpArray),
-            headers: { 'Content-Type': 'application/json' },
-        })
-            .then((res) => res.json())
-            .then((data) => {
-                dispatch(
-                    setMessageStateOpen({
-                        messageStateOpen: {
-                            isOpen: true,
-                            severity: 'success',
-                            message: '更新供應商資料成功',
-                        },
-                    }),
-                );
-                editInfoInit();
-                querySuppliersInfo();
+        if (editCheck()) {
+            let tmpArray = {
+                SupplierID: supplierID.current,
+                SupplierName: supplierNameEdit,
+                CompanyName: companyNameEdit,
+                BankAcctName: bankAcctNameEdit,
+                Branch: branchEdit,
+                BankAcctNo: bankAcctNoEdit,
+                SavingAcctNo: savingBankAcctNoEdit,
+                SWIFTCode: sWIFTCodeEdit,
+                IBAN: iBANEdit,
+                BankName: bankNameEdit,
+                BankAddress: bankAddressEdit,
+                ACHNo: aCHNoEdit,
+                WireRouting: wireRoutingEdit,
+                SubmarineCable: submarineCableEdit,
+                WorkTitle: workTitleEdit,
+            };
+            fetch(editSuppliers, {
+                method: 'POST',
+                body: JSON.stringify(tmpArray),
+                headers: { 'Content-Type': 'application/json' },
             })
-            .catch((e) => console.log('e1=>', e));
+                .then((res) => res.json())
+                .then(() => {
+                    dispatch(
+                        setMessageStateOpen({
+                            messageStateOpen: {
+                                isOpen: true,
+                                severity: 'success',
+                                message: '更新供應商資料成功',
+                            },
+                        }),
+                    );
+                    editInfoInit();
+                    querySuppliersInfo();
+                })
+                .catch((e) => console.log('e1=>', e));
+        }
     };
 
     useEffect(() => {
@@ -316,15 +421,7 @@ const SupplierDataList = ({ infoList, setInfoList }) => {
     }, []);
 
     return (
-        <TableContainer
-            component={Paper}
-            // sx={{
-            //     maxHeight:
-            //         window.screen.height < 1000
-            //             ? window.screen.height * 0.45
-            //             : window.screen.height * 0.6,
-            // }}
-        >
+        <TableContainer component={Paper}>
             <Table sx={{ minWidth: 300 }} stickyHeader>
                 <TableHead>
                     <TableRow>

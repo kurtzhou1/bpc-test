@@ -260,7 +260,7 @@ const ToCombineDataList = ({
                     >
                         <Grid
                             item
-                            lg={2}
+                            lg={1}
                             display="flex"
                             justifyContent="center"
                             alignItems="center"
@@ -269,7 +269,7 @@ const ToCombineDataList = ({
                                 variant="h5"
                                 sx={{ fontSize: { lg: '0.7rem', xl: '0.88rem' } }}
                             >
-                                帳單到期日期：
+                                帳單到期日：
                             </Typography>
                         </Grid>
                         <Grid item lg={2}>
@@ -302,7 +302,7 @@ const ToCombineDataList = ({
                                 PO號碼：
                             </Typography>
                         </Grid>
-                        <Grid item xs={6} sm={3} md={2} lg={2}>
+                        <Grid item lg={2}>
                             <TextField
                                 value={poNo}
                                 fullWidth
@@ -317,8 +317,7 @@ const ToCombineDataList = ({
                         </Grid>
                         <Grid
                             item
-                            md={2}
-                            lg={2}
+                            lg={1}
                             display="flex"
                             justifyContent="center"
                             alignItems="center"
@@ -330,7 +329,7 @@ const ToCombineDataList = ({
                                 帳單號碼：
                             </Typography>
                         </Grid>
-                        <Grid item xs={6} sm={3} md={2} lg={2}>
+                        <Grid item lg={2}>
                             <TextField
                                 value={billingNo}
                                 fullWidth
@@ -343,14 +342,7 @@ const ToCombineDataList = ({
                                 }}
                             />
                         </Grid>
-                        <Grid
-                            item
-                            md={1}
-                            lg={1}
-                            display="flex"
-                            justifyContent="start"
-                            alignItems="center"
-                        >
+                        <Grid item lg={2} display="flex" justifyContent="start" alignItems="center">
                             <Button
                                 sx={{ ml: '0.rem' }}
                                 variant="contained"
@@ -360,7 +352,8 @@ const ToCombineDataList = ({
                                 自動產生
                             </Button>
                         </Grid>
-                        <Grid item xs={12} sm={12} md={12} lg={12}>
+                        <Grid item lg={1} />
+                        <Grid item lg={12}>
                             <TableContainer component={Paper} sx={{ maxHeight: 350 }}>
                                 <Table sx={{ minWidth: 300 }} stickyHeader>
                                     <TableHead>
