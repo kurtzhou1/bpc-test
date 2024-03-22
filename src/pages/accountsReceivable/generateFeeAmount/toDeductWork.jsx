@@ -247,7 +247,7 @@ const ToDeductWork = ({
                     sx={{ fontSize: 10 }}
                 >
                     {actionName === 'view' ? (
-                        <Grid item xs={12} sm={12} md={12} lg={12}>
+                        <Grid item sm={12} md={12} lg={12}>
                             <Grid
                                 container
                                 spacing={1}
@@ -343,7 +343,7 @@ const ToDeductWork = ({
                             </Grid>
                         </Grid>
                     ) : null}
-                    <Grid item xs={12} sm={12} md={12} lg={12}>
+                    <Grid item sm={12} md={12} lg={12}>
                         <MainCard title="帳單明細列表">
                             <TableContainer component={Paper} sx={{ maxHeight: 350 }}>
                                 <Table sx={{ minWidth: 300 }} stickyHeader>
@@ -518,10 +518,10 @@ const ToDeductWork = ({
                         </MainCard>
                     </Grid>
                     {isDeductWorkOpen && actionName === 'deduct' ? (
-                        <Grid item xs={12} sm={12} md={12} lg={12}>
+                        <Grid item sm={12} md={12} lg={12}>
                             <MainCard title={`${billMasterInfo.PartyName}可折抵CB`}>
                                 <Grid container>
-                                    <Grid item xs={12} sm={12} md={12} lg={12}>
+                                    <Grid item sm={12} md={12} lg={12}>
                                         <TableContainer component={Paper} sx={{ maxHeight: 350 }}>
                                             <Table sx={{ minWidth: 300 }} stickyHeader>
                                                 <TableHead>
@@ -637,7 +637,6 @@ const ToDeductWork = ({
                                     </Grid>
                                     <Grid
                                         item
-                                        xs={12}
                                         sm={12}
                                         md={12}
                                         lg={12}

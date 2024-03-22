@@ -138,6 +138,7 @@ const ReceivableQuery = ({ value, setListInfo, queryApi }) => {
                 if (data.length > 0) {
                     setListInfo(data);
                 } else {
+                    setListInfo([]);
                     dispatch(
                         setMessageStateOpen({
                             messageStateOpen: {

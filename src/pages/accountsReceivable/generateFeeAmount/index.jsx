@@ -63,7 +63,7 @@ const GenerateFeeAmount = () => {
     };
 
     //初始化查詢
-    const receivableQuery = () => {
+    const receivableQueryInit = () => {
         let tmpQuery = '';
         if (queryApi.current !== '' && value === 0) {
             tmpQuery = queryToCombineInvo + '/Status=TO_MERGE';
@@ -84,6 +84,7 @@ const GenerateFeeAmount = () => {
                 if (data.length > 0) {
                     setListInfo(data);
                 } else {
+                    setListInfo([]);
                     dispatch(
                         setMessageStateOpen({
                             messageStateOpen: {
@@ -153,18 +154,24 @@ const GenerateFeeAmount = () => {
                             dataList={listInfo}
                             cbToCn={cbToCn}
                             setCbToCn={setCbToCn}
-                            receivableQuery={receivableQuery}
+                            receivableQuery={receivableQueryInit}
                             initList={initList}
                         />
                     </TabPanel>
                     <TabPanel value={value} index={1}>
-                        <ToDeductDataList dataList={listInfo} receivableQuery={receivableQuery} />
+                        <ToDeductDataList
+                            dataList={listInfo}
+                            receivableQuery={receivableQueryInit}
+                        />
                     </TabPanel>
                     <TabPanel value={value} index={2}>
-                        <DeductedDataList dataList={listInfo} receivableQuery={receivableQuery} />
+                        <DeductedDataList
+                            dataList={listInfo}
+                            receivableQuery={receivableQueryInit}
+                        />
                     </TabPanel>
                     <TabPanel value={value} index={3}>
-                        <SignedDataList dataList={listInfo} receivableQuery={receivableQuery} />
+                        <SignedDataList dataList={listInfo} receivableQuery={receivableQueryInit} />
                     </TabPanel>
                     <TabPanel value={value} index={4}>
                         <InvalidatedDataList dataList={listInfo} />
