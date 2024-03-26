@@ -247,7 +247,7 @@ const ToDeductWork = ({
                     sx={{ fontSize: 10 }}
                 >
                     {actionName === 'view' ? (
-                        <Grid item sm={12} md={12} lg={12}>
+                        <Grid item md={12} lg={12}>
                             <Grid
                                 container
                                 spacing={1}
@@ -256,8 +256,8 @@ const ToDeductWork = ({
                                 alignItems="center"
                                 sx={{ fontSize: 10 }}
                             >
-                                <Grid item xs={1} sm={1} md={1} lg={1} />
-                                <Grid item xs={2} sm={2} md={2} lg={2}>
+                                <Grid item md={1} lg={1} />
+                                <Grid item md={2} lg={2}>
                                     <Typography
                                         variant="h5"
                                         sx={{
@@ -268,7 +268,7 @@ const ToDeductWork = ({
                                         會員：
                                     </Typography>
                                 </Grid>
-                                <Grid item xs={3} sm={3} md={3} lg={3}>
+                                <Grid item md={3} lg={3}>
                                     <TextField
                                         value={billMasterInfo.PartyName}
                                         fullWidth
@@ -277,7 +277,7 @@ const ToDeductWork = ({
                                         size="small"
                                     />
                                 </Grid>
-                                <Grid item xs={2} sm={2} md={2} lg={2}>
+                                <Grid item md={2} lg={2}>
                                     <Typography
                                         variant="h5"
                                         sx={{
@@ -288,7 +288,7 @@ const ToDeductWork = ({
                                         帳單截止日期：
                                     </Typography>
                                 </Grid>
-                                <Grid item xs={3} sm={3} md={3} lg={3}>
+                                <Grid item md={3} lg={3}>
                                     <TextField
                                         value={dayjs(billMasterInfo.DueDate).format('YYYY/MM/DD')}
                                         fullWidth
@@ -297,9 +297,9 @@ const ToDeductWork = ({
                                         size="small"
                                     />
                                 </Grid>
-                                <Grid item xs={1} sm={1} md={1} lg={1} />
-                                <Grid item xs={1} sm={1} md={1} lg={1} />
-                                <Grid item xs={2} sm={2} md={2} lg={2}>
+                                <Grid item md={1} lg={1} />
+                                <Grid item md={1} lg={1} />
+                                <Grid item md={2} lg={2}>
                                     <Typography
                                         variant="h5"
                                         sx={{
@@ -310,7 +310,7 @@ const ToDeductWork = ({
                                         海纜名稱：
                                     </Typography>
                                 </Grid>
-                                <Grid item xs={3} sm={3} md={3} lg={3}>
+                                <Grid item md={3} lg={3}>
                                     <TextField
                                         value={billMasterInfo.SubmarineCable}
                                         fullWidth
@@ -319,7 +319,7 @@ const ToDeductWork = ({
                                         size="small"
                                     />
                                 </Grid>
-                                <Grid item xs={2} sm={2} md={2} lg={2}>
+                                <Grid item md={2} lg={2}>
                                     <Typography
                                         variant="h5"
                                         sx={{
@@ -330,7 +330,7 @@ const ToDeductWork = ({
                                         海纜作業：
                                     </Typography>
                                 </Grid>
-                                <Grid item xs={3} sm={3} md={3} lg={3}>
+                                <Grid item md={3} lg={3}>
                                     <TextField
                                         value={billMasterInfo.WorkTitle}
                                         fullWidth
@@ -339,11 +339,11 @@ const ToDeductWork = ({
                                         size="small"
                                     />
                                 </Grid>
-                                <Grid item xs={1} sm={1} md={1} lg={1} />
+                                <Grid item md={1} lg={1} />
                             </Grid>
                         </Grid>
                     ) : null}
-                    <Grid item sm={12} md={12} lg={12}>
+                    <Grid item md={12} lg={12}>
                         <MainCard title="帳單明細列表">
                             <TableContainer component={Paper} sx={{ maxHeight: 350 }}>
                                 <Table sx={{ minWidth: 300 }} stickyHeader>
@@ -518,10 +518,10 @@ const ToDeductWork = ({
                         </MainCard>
                     </Grid>
                     {isDeductWorkOpen && actionName === 'deduct' ? (
-                        <Grid item sm={12} md={12} lg={12}>
+                        <Grid item md={12} lg={12}>
                             <MainCard title={`${billMasterInfo.PartyName}可折抵CB`}>
                                 <Grid container>
-                                    <Grid item sm={12} md={12} lg={12}>
+                                    <Grid item md={12} lg={12}>
                                         <TableContainer component={Paper} sx={{ maxHeight: 350 }}>
                                             <Table sx={{ minWidth: 300 }} stickyHeader>
                                                 <TableHead>
@@ -635,14 +635,7 @@ const ToDeductWork = ({
                                             </Table>
                                         </TableContainer>
                                     </Grid>
-                                    <Grid
-                                        item
-                                        sm={12}
-                                        md={12}
-                                        lg={12}
-                                        display="flex"
-                                        justifyContent="end"
-                                    >
+                                    <Grid item md={12} lg={12} display="flex" justifyContent="end">
                                         <Button
                                             color="primary"
                                             variant="contained"
