@@ -46,25 +46,28 @@ const NotificationQuery = ({ setListInfo, partiesList, submarineCableList, value
     };
 
     const notificationQuery = () => {
-        let tmpArray = {};
-        if (
-            submarineCable !== 'All' ||
-            workTitle !== 'All' ||
-            ruleName !== '' ||
-            ruleCName !== ''
-        ) {
-            tmpArray = {
-                SubmarineCable: submarineCable,
-                WorkTitle: workTitle,
-                RuleName: ruleName,
-                RuleCName: ruleCName,
-            };
+        let tmpObject = {};
+        if (submarineCable && submarineCable !== 'All') {
+            tmpObject.SubmarineCable = submarineCable;
         }
-        fetch(getSysInvNotifyRule, { method: 'POST', body: JSON.stringify(tmpArray) })
+        if (workTitle && workTitle !== 'All') {
+            tmpObject.WorkTitle = workTitle;
+        }
+        if (partyNameQuery && partyNameQuery !== 'All') {
+            tmpObject.PartyName = partyNameQuery;
+        }
+
+        if (ruleName && ruleName !== '') {
+            tmpObject.RuleName = ruleName;
+        }
+        if (ruleCName && ruleCName !== '') {
+            tmpObject.RuleCName = ruleCName;
+        }
+        console.log('tmpArray=>>', tmpObject);
+        fetch(getSysInvNotifyRule, { method: 'POST', body: JSON.stringify(tmpObject) })
             .then((res) => res.json())
             .then((data) => {
                 setListInfo(data);
-                initQuery();
             })
             .catch((e) => console.log('e1=>', e));
     };
