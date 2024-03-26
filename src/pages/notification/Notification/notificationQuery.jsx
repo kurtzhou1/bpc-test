@@ -31,7 +31,7 @@ import PropTypes from 'prop-types';
 // ==============================|| SAMPLE PAGE ||============================== //
 
 const NotificationQuery = ({ setListInfo, partiesList, submarineCableList, value, queryApi }) => {
-    const [submarineCableQuery, setSubmarineCableQuery] = useState('All'); //海纜名稱
+    const [submarineCable, setSubmarineCable] = useState('All'); //海纜名稱
     const [workTitle, setWorkTitle] = useState('All'); //海纜作業
     const [partyNameQuery, setPartyNameQuery] = useState('All'); //會員名稱
     const [ruleName, setRuleName] = useState(''); //英文名稱
@@ -39,7 +39,7 @@ const NotificationQuery = ({ setListInfo, partiesList, submarineCableList, value
 
     const initQuery = () => {
         setPartyNameQuery('All');
-        setSubmarineCableQuery('All');
+        setSubmarineCable('All');
         setWorkTitle('All');
         setRuleName('');
         setRuleCName('');
@@ -47,9 +47,14 @@ const NotificationQuery = ({ setListInfo, partiesList, submarineCableList, value
 
     const notificationQuery = () => {
         let tmpArray = {};
-        if (submarineCableQuery !== '' || workTitle !== '' || ruleName !== '' || ruleCName !== '') {
+        if (
+            submarineCable !== 'All' ||
+            workTitle !== 'All' ||
+            ruleName !== '' ||
+            ruleCName !== ''
+        ) {
             tmpArray = {
-                SubmarineCableQuery: submarineCableQuery,
+                SubmarineCable: submarineCable,
                 WorkTitle: workTitle,
                 RuleName: ruleName,
                 RuleCName: ruleCName,
@@ -91,9 +96,9 @@ const NotificationQuery = ({ setListInfo, partiesList, submarineCableList, value
                         </InputLabel>
                         <Select
                             size="small"
-                            value={submarineCableQuery}
+                            value={submarineCable}
                             label="填寫海纜名稱"
-                            onChange={(e) => setSubmarineCableQuery(e.target.value)}
+                            onChange={(e) => setSubmarineCable(e.target.value)}
                         >
                             <MenuItem value={'All'}>All</MenuItem>
                             {submarineCableList.map((i) => (
