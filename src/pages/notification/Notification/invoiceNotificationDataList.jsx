@@ -4,7 +4,7 @@
 import RuleAdd from './ruleAdd';
 
 // material-ui
-import { Typography, Button, Table, Box } from '@mui/material';
+import { Button, Table, Box } from '@mui/material';
 import TableBody from '@mui/material/TableBody';
 import TableCell, { tableCellClasses } from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';

@@ -34,8 +34,8 @@ const NotificationQuery = ({ setListInfo, partiesList, submarineCableList, value
     const [submarineCableQuery, setSubmarineCableQuery] = useState('All'); //海纜名稱
     const [workTitle, setWorkTitle] = useState('All'); //海纜作業
     const [partyNameQuery, setPartyNameQuery] = useState('All'); //會員名稱
-    const [ruleName, setRuleName] = useState('');
-    const [ruleCName, setRuleCName] = useState('');
+    const [ruleName, setRuleName] = useState(''); //英文名稱
+    const [ruleCName, setRuleCName] = useState(''); //中文名稱
 
     const initQuery = () => {
         setPartyNameQuery('All');
@@ -66,13 +66,14 @@ const NotificationQuery = ({ setListInfo, partiesList, submarineCableList, value
 
     useEffect(() => {
         initQuery();
+        setListInfo([]);
     }, [value]);
 
     return (
         <MainCard title="條件查詢" sx={{ width: '100%' }}>
             <Grid container display="flex" justifyContent="center" alignItems="center" spacing={2}>
                 {/* row1 */}
-                <Grid item xs={2} sm={2} md={1} lg={1} display="flex">
+                <Grid item md={1} lg={1} display="flex">
                     <Typography
                         variant="h5"
                         sx={{
@@ -83,7 +84,7 @@ const NotificationQuery = ({ setListInfo, partiesList, submarineCableList, value
                         海纜名稱：
                     </Typography>
                 </Grid>
-                <Grid item xs={4} sm={4} md={2} lg={2}>
+                <Grid item md={2} lg={2}>
                     <FormControl fullWidth size="small">
                         <InputLabel size="small" id="billMilestone">
                             選擇海纜名稱
@@ -103,7 +104,7 @@ const NotificationQuery = ({ setListInfo, partiesList, submarineCableList, value
                         </Select>
                     </FormControl>
                 </Grid>
-                <Grid item xs={2} sm={2} md={1} lg={1} display="flex">
+                <Grid item md={1} lg={1} display="flex">
                     <Typography
                         variant="h5"
                         sx={{
@@ -114,7 +115,7 @@ const NotificationQuery = ({ setListInfo, partiesList, submarineCableList, value
                         海纜作業：
                     </Typography>
                 </Grid>
-                <Grid item xs={4} sm={4} md={2} lg={2}>
+                <Grid item md={2} lg={2}>
                     <FormControl fullWidth size="small">
                         <InputLabel size="small" id="billMilestone">
                             選擇海纜作業
@@ -134,7 +135,7 @@ const NotificationQuery = ({ setListInfo, partiesList, submarineCableList, value
                 </Grid>
                 {value === 0 ? (
                     <>
-                        <Grid item xs={2} sm={2} md={1} lg={1} xl={1}>
+                        <Grid item md={1} lg={1} xl={1}>
                             <Typography
                                 variant="h5"
                                 sx={{
@@ -145,7 +146,7 @@ const NotificationQuery = ({ setListInfo, partiesList, submarineCableList, value
                                 會員名稱：
                             </Typography>
                         </Grid>
-                        <Grid item xs={4} sm={4} md={2} lg={2} xl={2}>
+                        <Grid item md={2} lg={2} xl={2}>
                             <FormControl fullWidth size="small">
                                 <InputLabel>選擇會員</InputLabel>
                                 <Select
@@ -164,7 +165,7 @@ const NotificationQuery = ({ setListInfo, partiesList, submarineCableList, value
                         </Grid>
                     </>
                 ) : null}
-                <Grid item xs={2} sm={2} md={1} lg={1}>
+                <Grid item md={1} lg={1}>
                     <Typography
                         variant="h5"
                         sx={{
@@ -175,7 +176,7 @@ const NotificationQuery = ({ setListInfo, partiesList, submarineCableList, value
                         規則英文名稱：
                     </Typography>
                 </Grid>
-                <Grid item xs={4} sm={4} md={2} lg={2}>
+                <Grid item md={2} lg={2}>
                     <FormControl fullWidth size="small">
                         <TextField
                             fullWidth
@@ -189,7 +190,7 @@ const NotificationQuery = ({ setListInfo, partiesList, submarineCableList, value
                 </Grid>
                 {value === 1 ? (
                     <>
-                        <Grid item xs={2} sm={2} md={1} lg={1} xl={1}>
+                        <Grid item md={1} lg={1} xl={1}>
                             <Typography
                                 variant="h5"
                                 sx={{
@@ -200,7 +201,7 @@ const NotificationQuery = ({ setListInfo, partiesList, submarineCableList, value
                                 規則中文名稱：
                             </Typography>
                         </Grid>
-                        <Grid item xs={4} sm={4} md={2} lg={2}>
+                        <Grid item md={2} lg={2}>
                             <FormControl fullWidth size="small">
                                 <TextField
                                     fullWidth
@@ -217,16 +218,7 @@ const NotificationQuery = ({ setListInfo, partiesList, submarineCableList, value
                     <Grid item md={3} />
                 )}
                 {/* row2 */}
-                <Grid
-                    item
-                    xs={12}
-                    sm={12}
-                    md={12}
-                    lg={12}
-                    display="flex"
-                    justifyContent="end"
-                    alignItems="center"
-                >
+                <Grid item md={12} lg={12} display="flex" justifyContent="end" alignItems="center">
                     <Button sx={{ mr: '0.5rem' }} variant="contained" onClick={notificationQuery}>
                         查詢
                     </Button>
