@@ -18,6 +18,7 @@ import PropTypes from 'prop-types';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DateRangePicker } from '@mui/x-date-pickers-pro/DateRangePicker';
+// import { DateRangePicker } from '@mui/lab/DateRangePicker';
 import { TextField } from '@mui/material/index';
 // project import
 import MainCard from 'components/MainCard';
@@ -92,28 +93,12 @@ const InvoiceQuery = ({
             tmpObject.BillMilestone = billMilestoneQuery;
         }
         if (isIssueDate === 'true') {
-            // tmpQuery =
-            //     tmpQuery +
-            //     'startIssueDate=' +
-            //     dayjs(issueDate[0]).format('YYYYMMDD') +
-            //     '&' +
-            //     'endIssueDate=' +
-            //     dayjs(issueDate[1]).format('YYYYMMDD') +
-            //     '&';
             tmpObject.IssueDate = {
                 start: dayjs(issueDate[0]).format('YYYYMMDD'),
                 end: dayjs(issueDate[1]).format('YYYYMMDD'),
             };
         }
         if (isIssueDate === 'false') {
-            // tmpQuery =
-            //     tmpQuery +
-            //     'startDueDate=' +
-            //     dayjs(issueDate[0]).format('YYYYMMDD') +
-            //     '&' +
-            //     'endDueDate=' +
-            //     dayjs(issueDate[1]).format('YYYYMMDD') +
-            //     '&';
             tmpObject.DueDate = {
                 start: dayjs(issueDate[0]).format('YYYYMMDD'),
                 end: dayjs(issueDate[1]).format('YYYYMMDD'),
@@ -137,37 +122,25 @@ const InvoiceQuery = ({
         ) {
             let tmpStatus = [];
             if (invoiceStatusQuery?.TEMPORARY) {
-                // tmpStatus = tmpStatus + 'Status=TEMPORARY&';
                 tmpStatus.push('TEMPORARY');
             }
             if (invoiceStatusQuery?.VALIDATED) {
-                // tmpStatus = tmpStatus + 'Status=VALIDATED&';
                 tmpStatus.push('VALIDATED');
             }
             if (invoiceStatusQuery?.BILLED) {
-                // tmpStatus = tmpStatus + 'Status=BILLED&';
                 tmpStatus.push('BILLED');
             }
             if (invoiceStatusQuery?.PAYING) {
-                // tmpStatus = tmpStatus + 'Status=PAYING&';
                 tmpStatus.push('PAYING');
             }
             if (invoiceStatusQuery?.COMPLETE) {
-                // tmpStatus = tmpStatus + 'Status=COMPLETE&';
                 tmpStatus.push('COMPLETE');
             }
             if (invoiceStatusQuery?.INVALID) {
-                // tmpStatus = tmpStatus + 'Status=INVALID&';
                 tmpStatus.push('INVALID');
             }
             tmpObject.Status = tmpStatus;
         }
-        // if (tmpQuery.includes('&')) {
-        //     tmpQuery = tmpQuery.slice(0, -1);
-        // } else {
-        //     tmpQuery = tmpQuery + 'all';
-        // }
-        // tmpQuery = queryInvoice + tmpQuery;
         queryApi.current = tmpObject;
         console.log('tmpQuery=>>', tmpObject);
         fetch(queryInvoice, { method: 'POST', body: JSON.stringify(tmpObject) })

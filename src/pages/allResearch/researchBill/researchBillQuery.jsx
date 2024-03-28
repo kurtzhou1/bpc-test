@@ -179,12 +179,12 @@ const ResearchBillQuery = ({ setListInfo, setDetailInfo }) => {
         <MainCard title="條件查詢" sx={{ width: '100%' }}>
             <Grid container display="flex" alignItems="center" spacing={2}>
                 {/* row1 */}
-                <Grid item xs={2} sm={2} md={1} lg={1}>
+                <Grid item md={1} lg={1}>
                     <Typography variant="h5" sx={{ fontSize: { lg: '0.7rem', xl: '0.88rem' } }}>
                         供應商：
                     </Typography>
                 </Grid>
-                <Grid item xs={4} sm={4} md={2} lg={2}>
+                <Grid item md={2} lg={2}>
                     <FormControl fullWidth size="small">
                         <InputLabel>選擇供應商</InputLabel>
                         <Select
@@ -201,12 +201,12 @@ const ResearchBillQuery = ({ setListInfo, setDetailInfo }) => {
                         </Select>
                     </FormControl>
                 </Grid>
-                <Grid item sm={1} md={1} lg={1}>
+                <Grid item md={1} lg={1}>
                     <Typography variant="h5" sx={{ fontSize: { lg: '0.7rem', xl: '0.88rem' } }}>
                         海纜名稱：
                     </Typography>
                 </Grid>
-                <Grid item xs={2} sm={2} md={2} lg={2}>
+                <Grid item md={2} lg={2}>
                     <FormControl fullWidth size="small">
                         <InputLabel>選擇海纜名稱</InputLabel>
                         <Select
@@ -223,12 +223,12 @@ const ResearchBillQuery = ({ setListInfo, setDetailInfo }) => {
                         </Select>
                     </FormControl>
                 </Grid>
-                <Grid item sm={1} md={1} lg={1}>
+                <Grid item md={1} lg={1}>
                     <Typography variant="h5" sx={{ fontSize: { lg: '0.7rem', xl: '0.88rem' } }}>
                         海纜作業：
                     </Typography>
                 </Grid>
-                <Grid item xs={2} sm={2} md={2} lg={2}>
+                <Grid item md={2} lg={2}>
                     <FormControl fullWidth size="small">
                         <InputLabel>選擇海纜作業</InputLabel>
                         <Select
@@ -243,12 +243,12 @@ const ResearchBillQuery = ({ setListInfo, setDetailInfo }) => {
                         </Select>
                     </FormControl>
                 </Grid>
-                <Grid item sm={1} md={1} lg={1}>
+                <Grid item md={1} lg={1}>
                     <Typography variant="h5" sx={{ fontSize: { lg: '0.7rem', xl: '0.88rem' } }}>
                         計帳段號：
                     </Typography>
                 </Grid>
-                <Grid item xs={2} sm={2} md={2} lg={2}>
+                <Grid item md={2} lg={2}>
                     <FormControl fullWidth size="small">
                         <InputLabel>選擇計帳段號</InputLabel>
                         <Select
@@ -266,12 +266,12 @@ const ResearchBillQuery = ({ setListInfo, setDetailInfo }) => {
                     </FormControl>
                 </Grid>
                 {/* row2 */}
-                <Grid item sm={1} md={1} lg={1}>
+                <Grid item md={1} lg={1}>
                     <Typography variant="h5" sx={{ fontSize: { lg: '0.7rem', xl: '0.88rem' } }}>
                         發票號碼：
                     </Typography>
                 </Grid>
-                <Grid item xs={2} sm={2} md={2} lg={2}>
+                <Grid item md={2} lg={2}>
                     <FormControl fullWidth size="small">
                         <TextField
                             fullWidth
@@ -283,12 +283,12 @@ const ResearchBillQuery = ({ setListInfo, setDetailInfo }) => {
                         />
                     </FormControl>
                 </Grid>
-                <Grid item sm={1} md={1} lg={1}>
+                <Grid item md={1} lg={1}>
                     <Typography variant="h5" sx={{ fontSize: { lg: '0.7rem', xl: '0.88rem' } }}>
                         日期條件：
                     </Typography>
                 </Grid>
-                <Grid item xs={8} sm={8} md={8} lg={8} display="flex" alignItems="center">
+                <Grid item md={8} lg={8} display="flex" alignItems="center">
                     <FormControl>
                         <RadioGroup
                             row
@@ -319,10 +319,7 @@ const ResearchBillQuery = ({ setListInfo, setDetailInfo }) => {
                             />
                         </RadioGroup>
                     </FormControl>
-                    <LocalizationProvider
-                        dateAdapter={AdapterDayjs}
-                        localeText={{ start: '起始日', end: '結束日' }}
-                    >
+                    <LocalizationProvider dateAdapter={AdapterDayjs}>
                         <DesktopDatePicker
                             inputFormat="YYYY/MM/DD"
                             value={issueDate}
@@ -333,12 +330,12 @@ const ResearchBillQuery = ({ setListInfo, setDetailInfo }) => {
                         />
                     </LocalizationProvider>
                 </Grid>
-                <Grid item sm={1} md={1} lg={1}>
+                <Grid item md={1} lg={1}>
                     <Typography variant="h5" sx={{ fontSize: { lg: '0.7rem', xl: '0.88rem' } }}>
                         處理狀態：
                     </Typography>
                 </Grid>
-                <Grid item xs={5} sm={5} md={5} lg={5}>
+                <Grid item md={5} lg={5}>
                     <FormGroup row value={invoiceStatusQuery}>
                         <FormControlLabel
                             control={
@@ -408,16 +405,7 @@ const ResearchBillQuery = ({ setListInfo, setDetailInfo }) => {
                         />
                     </FormGroup>
                 </Grid>
-                <Grid
-                    item
-                    xs={6}
-                    sm={6}
-                    md={6}
-                    lg={6}
-                    display="flex"
-                    justifyContent="end"
-                    alignItems="center"
-                >
+                <Grid item md={6} lg={6} display="flex" justifyContent="end" alignItems="center">
                     <Button sx={{ mr: '0.5rem' }} variant="contained" onClick={billQuery}>
                         查詢
                     </Button>

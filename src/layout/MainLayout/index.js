@@ -193,7 +193,8 @@ const MainLayout = () => {
                 let tmpArray = {
                     client_id: 'CBPS.QA.I',
                     redirect_uri:
-                        'http://internal-cbpsalbfrontend-1323185980.ap-northeast-1.elb.amazonaws.com',
+                        // 'http://internal-cbpsalbfrontend-1323185980.ap-northeast-1.elb.amazonaws.com',
+                        'https://cbpsqa.cht.com.tw',
                     code: accessCode,
                     grant_type: 'authorization_code',
                 };
