@@ -22,7 +22,7 @@ import { setLoginInInfo } from 'store/reducers/dropdown';
 import dayjs from 'dayjs';
 
 // api
-import { checktokenForLDAP, ssoUrl } from 'components/apis.jsx';
+import { checktokenForLDAP, ssoUrl, redirectUri } from 'components/apis.jsx';
 
 // ==============================|| MAIN LAYOUT ||============================== //
 
@@ -192,9 +192,7 @@ const MainLayout = () => {
                 const accessCode = window.location.href.split('code=')[1];
                 let tmpArray = {
                     client_id: 'CBPS.QA.I',
-                    redirect_uri:
-                        // 'http://internal-cbpsalbfrontend-1323185980.ap-northeast-1.elb.amazonaws.com',
-                        'https://cbpsqa.cht.com.tw',
+                    redirect_uri: redirectUri,
                     code: accessCode,
                     grant_type: 'authorization_code',
                 };

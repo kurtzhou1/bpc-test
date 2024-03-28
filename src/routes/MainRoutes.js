@@ -5,7 +5,7 @@ import Loadable from 'components/Loadable';
 import MainLayout from 'layout/MainLayout';
 import { useSelector } from 'react-redux';
 //api
-import { ssoUrl, checktokenForLDAP } from 'components/apis.jsx';
+import { ssoUrl, checktokenForLDAP, redirectUri } from 'components/apis.jsx';
 import { useDispatch } from 'react-redux';
 import dayjs from 'dayjs';
 
@@ -95,9 +95,7 @@ const RequireAuth = ({ children, item }) => {
         const accessCode = window.location.href.split('code=')[1];
         let tmpArray = {
             client_id: 'CBPS.QA.I',
-            redirect_uri:
-                // 'http://internal-cbpsalbfrontend-1323185980.ap-northeast-1.elb.amazonaws.com',
-                'https://cbpsqa.cht.com.tw',
+            redirect_uri: redirectUri,
             code: accessCode,
             grant_type: 'authorization_code',
         };
