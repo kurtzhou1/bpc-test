@@ -2,7 +2,17 @@ import { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 
 // material-ui
-import { Typography, Grid, FormControl, InputLabel, Select, MenuItem, RadioGroup, FormControlLabel, Radio } from '@mui/material';
+import {
+    Typography,
+    Grid,
+    FormControl,
+    InputLabel,
+    Select,
+    MenuItem,
+    RadioGroup,
+    FormControlLabel,
+    Radio,
+} from '@mui/material';
 // material-ui
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DesktopDatePicker } from '@mui/x-date-pickers/DesktopDatePicker';
@@ -45,29 +55,41 @@ const InvoiceWorkManage = ({
     setIsLiability,
     isRecharge,
     setIsRecharge,
-    isCreditMemo,
-    setIsCreditMemo,
     partyName,
     setPartyName,
-    submarineCableList
+    submarineCableList,
 }) => {
     const [supNmList, setSupNmList] = useState([]); //供應商下拉選單
     const dispatch = useDispatch();
     const invoiceNoCheck = () => {
         if (action !== '檢視') {
             let tmpArray = {
-                InvoiceNo: invoiceNo
+                InvoiceNo: invoiceNo,
             };
             fetch(checkInvoiceNo, { method: 'POST', body: JSON.stringify(tmpArray) })
                 .then((res) => res.json())
                 .then((data) => {
                     console.log('data=>>', data);
                     if (data.isExist) {
-                        dispatch(setMessageStateOpen({ messageStateOpen: { isOpen: true, severity: 'error', message: '發票號碼重複' } }));
+                        dispatch(
+                            setMessageStateOpen({
+                                messageStateOpen: {
+                                    isOpen: true,
+                                    severity: 'error',
+                                    message: '發票號碼重複',
+                                },
+                            }),
+                        );
                         setInvoiceNo('');
                     } else {
                         dispatch(
-                            setMessageStateOpen({ messageStateOpen: { isOpen: true, severity: 'success', message: '發票號碼無重複' } })
+                            setMessageStateOpen({
+                                messageStateOpen: {
+                                    isOpen: true,
+                                    severity: 'success',
+                                    message: '發票號碼無重複',
+                                },
+                            }),
                         );
                     }
                 })
@@ -75,12 +97,14 @@ const InvoiceWorkManage = ({
         }
     };
 
-    console.log('isPro=>>', isPro);
-    console.log('isLiability=>>', isLiability);
-
     useEffect(() => {
         if (workTitle && submarineCable) {
-            let snApi = supplierNameListForInvoice + 'SubmarineCable=' + submarineCable + '&WorkTitle=' + workTitle;
+            let snApi =
+                supplierNameListForInvoice +
+                'SubmarineCable=' +
+                submarineCable +
+                '&WorkTitle=' +
+                workTitle;
             fetch(snApi, { method: 'GET' })
                 .then((res) => res.json())
                 .then((data) => {
@@ -95,7 +119,13 @@ const InvoiceWorkManage = ({
             <Grid container display="flex" justifyContent="center" alignItems="center" spacing={1}>
                 {/* row1 */}
                 <Grid item xs={12} sm={6} md={4} lg={2}>
-                    <Typography variant="h5" sx={{ fontSize: { lg: '0.7rem' ,xl: '0.88rem' }, ml: { lg: '0rem', xl: '1.5rem' } }}>
+                    <Typography
+                        variant="h5"
+                        sx={{
+                            fontSize: { lg: '0.7rem', xl: '0.88rem' },
+                            ml: { lg: '0rem', xl: '1.5rem' },
+                        }}
+                    >
                         海纜名稱：
                     </Typography>
                 </Grid>
@@ -117,7 +147,13 @@ const InvoiceWorkManage = ({
                     </FormControl>
                 </Grid>
                 <Grid item xs={12} sm={6} md={4} lg={2}>
-                    <Typography variant="h5" sx={{ fontSize: { lg: '0.7rem' ,xl: '0.88rem' }, ml: { lg: '0rem', xl: '1.5rem' } }}>
+                    <Typography
+                        variant="h5"
+                        sx={{
+                            fontSize: { lg: '0.7rem', xl: '0.88rem' },
+                            ml: { lg: '0rem', xl: '1.5rem' },
+                        }}
+                    >
                         海纜作業：
                     </Typography>
                 </Grid>
@@ -138,7 +174,13 @@ const InvoiceWorkManage = ({
                 </Grid>
                 {/* row2 */}
                 <Grid item xs={12} sm={6} md={4} lg={2}>
-                    <Typography variant="h5" sx={{ fontSize: { lg: '0.7rem' ,xl: '0.88rem' }, ml: { lg: '0rem', xl: '1.5rem' } }}>
+                    <Typography
+                        variant="h5"
+                        sx={{
+                            fontSize: { lg: '0.7rem', xl: '0.88rem' },
+                            ml: { lg: '0rem', xl: '1.5rem' },
+                        }}
+                    >
                         供應商：
                     </Typography>
                 </Grid>
@@ -160,7 +202,13 @@ const InvoiceWorkManage = ({
                     </FormControl>
                 </Grid>
                 <Grid item xs={12} sm={6} md={4} lg={2}>
-                    <Typography variant="h5" sx={{ fontSize: { lg: '0.7rem' ,xl: '0.88rem' }, ml: { lg: '0rem', xl: '1.5rem' } }}>
+                    <Typography
+                        variant="h5"
+                        sx={{
+                            fontSize: { lg: '0.7rem', xl: '0.88rem' },
+                            ml: { lg: '0rem', xl: '1.5rem' },
+                        }}
+                    >
                         發票號碼：
                     </Typography>
                 </Grid>
@@ -175,14 +223,20 @@ const InvoiceWorkManage = ({
                         inputProps={{
                             onBlur: () => {
                                 invoiceNoCheck();
-                            }
+                            },
                         }}
                         onChange={(e) => setInvoiceNo(e.target.value)}
                     />
                 </Grid>
                 {/* row3 */}
                 <Grid item xs={12} sm={6} md={4} lg={2}>
-                    <Typography variant="h5" sx={{ fontSize: { lg: '0.7rem' ,xl: '0.88rem' }, ml: { lg: '0rem', xl: '1.5rem' } }}>
+                    <Typography
+                        variant="h5"
+                        sx={{
+                            fontSize: { lg: '0.7rem', xl: '0.88rem' },
+                            ml: { lg: '0rem', xl: '1.5rem' },
+                        }}
+                    >
                         合約種類：
                     </Typography>
                 </Grid>
@@ -201,7 +255,13 @@ const InvoiceWorkManage = ({
                     </FormControl>
                 </Grid>
                 <Grid item xs={12} sm={6} md={4} lg={2}>
-                    <Typography variant="h5" sx={{ fontSize: { lg: '0.7rem' ,xl: '0.88rem' }, ml: { lg: '0rem', xl: '1.5rem' } }}>
+                    <Typography
+                        variant="h5"
+                        sx={{
+                            fontSize: { lg: '0.7rem', xl: '0.88rem' },
+                            ml: { lg: '0rem', xl: '1.5rem' },
+                        }}
+                    >
                         發票日期：
                     </Typography>
                 </Grid>
@@ -222,7 +282,13 @@ const InvoiceWorkManage = ({
                 </Grid>
                 {/* row4 */}
                 <Grid item xs={12} sm={6} md={4} lg={2}>
-                    <Typography variant="h5" sx={{ fontSize: { lg: '0.7rem' ,xl: '0.88rem' }, ml: { lg: '0rem', xl: '1.5rem' } }}>
+                    <Typography
+                        variant="h5"
+                        sx={{
+                            fontSize: { lg: '0.7rem', xl: '0.88rem' },
+                            ml: { lg: '0rem', xl: '1.5rem' },
+                        }}
+                    >
                         總金額：
                     </Typography>
                 </Grid>
@@ -241,7 +307,13 @@ const InvoiceWorkManage = ({
                     />
                 </Grid>
                 <Grid item xs={12} sm={6} md={4} lg={2}>
-                    <Typography variant="h5" sx={{ fontSize: { lg: '0.7rem' ,xl: '0.88rem' }, ml: { lg: '0rem', xl: '1.5rem' } }}>
+                    <Typography
+                        variant="h5"
+                        sx={{
+                            fontSize: { lg: '0.7rem', xl: '0.88rem' },
+                            ml: { lg: '0rem', xl: '1.5rem' },
+                        }}
+                    >
                         發票到期日：
                     </Typography>
                 </Grid>
@@ -260,7 +332,13 @@ const InvoiceWorkManage = ({
                 </Grid>
                 {/* row5 */}
                 <Grid item xs={12} sm={6} md={4} lg={3}>
-                    <Typography variant="h5" sx={{ fontSize: { lg: '0.7rem' ,xl: '0.88rem' }, ml: { lg: '0rem', xl: '1.5rem' } }}>
+                    <Typography
+                        variant="h5"
+                        sx={{
+                            fontSize: { lg: '0.7rem', xl: '0.88rem' },
+                            ml: { lg: '0rem', xl: '1.5rem' },
+                        }}
+                    >
                         是否為Pro-Forma：
                     </Typography>
                 </Grid>
@@ -269,103 +347,141 @@ const InvoiceWorkManage = ({
                         <RadioGroup
                             row
                             value={isPro}
-                        
                             disabled={action === '檢視'}
                             onChange={(e) => setIsPro(e.target.value)}
                         >
                             <FormControlLabel
                                 value={true}
                                 disabled={action === '檢視'}
-                                control={<Radio sx={{ '& .MuiSvgIcon-root': { fontSize: { lg: 14, xl: 20 } } }} />}
+                                control={
+                                    <Radio
+                                        sx={{
+                                            '& .MuiSvgIcon-root': { fontSize: { lg: 14, xl: 20 } },
+                                        }}
+                                    />
+                                }
                                 label="Y"
                             />
                             <FormControlLabel
                                 value={false}
                                 disabled={action === '檢視'}
-                                control={<Radio sx={{ '& .MuiSvgIcon-root': { fontSize: { lg: 14, xl: 20 } } }} />}
+                                control={
+                                    <Radio
+                                        sx={{
+                                            '& .MuiSvgIcon-root': { fontSize: { lg: 14, xl: 20 } },
+                                        }}
+                                    />
+                                }
                                 label="N"
                             />
                         </RadioGroup>
                     </FormControl>
                 </Grid>
-                {/* <Grid item xs={12} sm={6} md={4} lg={3}>
-                    <Typography variant="h5" sx={{ fontSize: { lg: '0.7rem' ,xl: '0.88rem' }, ml: { lg: '0rem', xl: '1.5rem' } }}>
-                        是否為Credit Memo：
-                    </Typography>
-                </Grid>
-                <Grid item xs={12} sm={6} md={4} lg={3}>
-                    <FormControl>
-                        <RadioGroup row value={isCreditMemo} onChange={(e) => setIsCreditMemo(e.target.value)}>
-                            <FormControlLabel
-                                value={true}
-                                disabled={action === '檢視'}
-                                control={<Radio sx={{ '& .MuiSvgIcon-root': { fontSize: { lg: 14, xl: 20 } } }} />}
-                                label="Y"
-                            />
-                            <FormControlLabel
-                                value={false}
-                                disabled={action === '檢視'}
-                                control={<Radio sx={{ '& .MuiSvgIcon-root': { fontSize: { lg: 14, xl: 20 } } }} />}
-                                label="N"
-                            />
-                        </RadioGroup>
-                    </FormControl>
-                </Grid> */}
                 {/* row6 */}
                 <Grid item xs={12} sm={6} md={4} lg={3}>
-                    <Typography variant="h5" sx={{ fontSize: { lg: '0.7rem' ,xl: '0.88rem' }, ml: { lg: '0rem', xl: '1.5rem' } }}>
+                    <Typography
+                        variant="h5"
+                        sx={{
+                            fontSize: { lg: '0.7rem', xl: '0.88rem' },
+                            ml: { lg: '0rem', xl: '1.5rem' },
+                        }}
+                    >
                         是否為短繳補收：
                     </Typography>
                 </Grid>
                 <Grid item xs={12} sm={6} md={4} lg={3}>
                     <FormControl>
-                        <RadioGroup row value={isRecharge} onChange={(e) => setIsRecharge(e.target.value)}>
+                        <RadioGroup
+                            row
+                            value={isRecharge}
+                            onChange={(e) => setIsRecharge(e.target.value)}
+                        >
                             <FormControlLabel
                                 value={true}
                                 disabled={action === '檢視'}
-                                control={<Radio sx={{ '& .MuiSvgIcon-root': { fontSize: { lg: 14, xl: 20 } } }} />}
+                                control={
+                                    <Radio
+                                        sx={{
+                                            '& .MuiSvgIcon-root': { fontSize: { lg: 14, xl: 20 } },
+                                        }}
+                                    />
+                                }
                                 label="Y"
                             />
                             <FormControlLabel
                                 value={false}
                                 disabled={action === '檢視'}
-                                control={<Radio sx={{ '& .MuiSvgIcon-root': { fontSize: { lg: 14, xl: 20 } } }} />}
+                                control={
+                                    <Radio
+                                        sx={{
+                                            '& .MuiSvgIcon-root': { fontSize: { lg: 14, xl: 20 } },
+                                        }}
+                                    />
+                                }
                                 label="N"
                             />
                         </RadioGroup>
                     </FormControl>
                 </Grid>
-                <Grid item xs={12} sm={6} md={4} lg={3}>
-                    <Typography variant="h5" sx={{ fontSize: { lg: '0.7rem' ,xl: '0.88rem' }, ml: { lg: '0rem', xl: '1.5rem' } }}>
+                <Grid item xs={12} sm={6} md={2} lg={2}>
+                    <Typography
+                        variant="h5"
+                        sx={{
+                            fontSize: { lg: '0.7rem', xl: '0.88rem' },
+                            ml: { lg: '0rem', xl: '1.5rem' },
+                        }}
+                    >
                         是否需攤分：
                     </Typography>
                 </Grid>
-                <Grid item xs={12} sm={6} md={4} lg={3}>
+                <Grid item xs={12} sm={6} md={4} lg={4}>
                     <FormControl>
-                        <RadioGroup row value={isLiability} onChange={(e) => setIsLiability(e.target.value)}>
+                        <RadioGroup
+                            row
+                            value={isLiability}
+                            onChange={(e) => setIsLiability(e.target.value)}
+                        >
                             <FormControlLabel
                                 value={true}
                                 disabled={action === '檢視'}
-                                control={<Radio sx={{ '& .MuiSvgIcon-root': { fontSize: { lg: 14, xl: 20 } } }} />}
+                                control={
+                                    <Radio
+                                        sx={{
+                                            '& .MuiSvgIcon-root': { fontSize: { lg: 14, xl: 20 } },
+                                        }}
+                                    />
+                                }
                                 label="攤分"
                             />
                             <FormControlLabel
                                 value={false}
                                 disabled={action === '檢視'}
-                                control={<Radio sx={{ '& .MuiSvgIcon-root': { fontSize: { lg: 14, xl: 20 } } }} />}
+                                control={
+                                    <Radio
+                                        sx={{
+                                            '& .MuiSvgIcon-root': { fontSize: { lg: 14, xl: 20 } },
+                                        }}
+                                    />
+                                }
                                 label="不攤分"
                             />
                         </RadioGroup>
                     </FormControl>
                 </Grid>
-                <Grid item xs={12} sm={6} md={6} lg={6} />
+                {/* <Grid item xs={12} sm={6} md={6} lg={6} /> */}
                 {/* row7 */}
-                <Grid item xs={12} sm={6} md={3} lg={2}>
-                    <Typography variant="h5" sx={{ fontSize: { lg: '0.7rem' ,xl: '0.88rem' }, ml: { lg: '0rem', xl: '1.5rem' } }}>
+                <Grid item xs={12} sm={6} md={2} lg={2}>
+                    <Typography
+                        variant="h5"
+                        sx={{
+                            fontSize: { lg: '0.7rem', xl: '0.88rem' },
+                            ml: { lg: '0rem', xl: '1.5rem' },
+                        }}
+                    >
                         {isLiability === false || isLiability === 'false' ? '會員名稱：' : ''}
                     </Typography>
                 </Grid>
-                <Grid item xs={12} sm={6} md={4} lg={5}>
+                <Grid item xs={12} sm={6} md={4} lg={4}>
                     {isLiability === false || isLiability === 'false' ? (
                         <TextField
                             value={partyName}
@@ -379,7 +495,7 @@ const InvoiceWorkManage = ({
                         ''
                     )}
                 </Grid>
-                <Grid item xs={12} sm={6} md={5} lg={5} />
+                <Grid item xs={12} sm={12} md={12} lg={12} />
             </Grid>
         </MainCard>
     );
@@ -413,7 +529,7 @@ InvoiceWorkManage.propTypes = {
     dueDate: PropTypes.instanceOf(Date),
     setDueDate: PropTypes.func,
     issueDate: PropTypes.instanceOf(Date),
-    setIssueDate: PropTypes.func
+    setIssueDate: PropTypes.func,
 };
 
 export default InvoiceWorkManage;

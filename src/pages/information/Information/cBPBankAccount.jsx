@@ -28,14 +28,13 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
     [`&.${tableCellClasses.head}`]: {
         // backgroundColor: theme.palette.common.gary,
         color: theme.palette.common.black,
-        paddingTop: '0.2rem',
-        paddingBottom: '0.2rem',
+        paddingTop: '0rem',
+        paddingBottom: '0rem',
         fontSize: '0.7rem',
     },
     [`&.${tableCellClasses.body}`]: {
-        fontSize: 14,
-        paddingTop: '0.2rem',
-        paddingBottom: '0.2rem',
+        paddingTop: '0.1rem',
+        paddingBottom: '0.1rem',
         fontSize: '0.7rem',
     },
 }));

@@ -1,19 +1,8 @@
-import { useState, useRef, useEffect } from 'react';
+import { useState, useRef } from 'react';
 
 // project import
 // material-ui
-import {
-    Button,
-    Table,
-    TextField,
-    Box,
-    Grid,
-    Typography,
-    FormControl,
-    InputLabel,
-    Select,
-    MenuItem,
-} from '@mui/material';
+import { Button, Table, TextField, Box } from '@mui/material';
 import TableBody from '@mui/material/TableBody';
 import TableCell, { tableCellClasses } from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
@@ -47,14 +36,13 @@ const SubmarineCableDataList = ({ infoList, setInfoList }) => {
         [`&.${tableCellClasses.head}`]: {
             // backgroundColor: theme.palette.common.gary,
             color: theme.palette.common.black,
-            paddingTop: '0.2rem',
-            paddingBottom: '0.2rem',
+            paddingTop: '0rem',
+            paddingBottom: '0rem',
             fontSize: '0.7rem',
         },
         [`&.${tableCellClasses.body}`]: {
-            fontSize: 14,
-            paddingTop: '0.2rem',
-            paddingBottom: '0.2rem',
+            paddingTop: '0.1rem',
+            paddingBottom: '0.1rem',
             fontSize: '0.7rem',
         },
     }));

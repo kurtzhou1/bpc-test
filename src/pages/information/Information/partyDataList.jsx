@@ -1,7 +1,5 @@
 import { useState, useRef, useEffect } from 'react';
 
-// project import
-import { handleNumber } from 'components/commonFunction';
 // material-ui
 import { Button, Table, TextField, Box, Select, MenuItem } from '@mui/material';
 import TableBody from '@mui/material/TableBody';
@@ -18,11 +16,10 @@ import {
     editParties,
     submarineCableInfoList,
 } from 'components/apis.jsx';
-import { makeStyles } from '@material-ui/core/styles';
 
 // redux
 import { useDispatch } from 'react-redux';
-import { setMessageStateOpen, setPartiesList } from 'store/reducers/dropdown';
+import { setMessageStateOpen } from 'store/reducers/dropdown';
 
 // icon
 import DoNotDisturbOnIcon from '@mui/icons-material/DoNotDisturbOn';

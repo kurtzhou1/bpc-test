@@ -174,89 +174,97 @@ const CreateInvoiceDetail = ({
         <MainCard title={`${action === '編輯' ? '編輯' : ''}發票明細檔`} sx={{ height: '100%' }}>
             <Grid container display="flex" justifyContent="center" alignItems="center" spacing={1}>
                 {/* row1 */}
-                <Grid item xs={12} sm={6} md={2} lg={2}>
-                    <Typography
-                        variant="h5"
-                        sx={{
-                            fontSize: { lg: '0.7rem', xl: '0.88rem' },
-                            ml: { lg: '0rem', xl: '1.5rem' },
-                        }}
-                    >
-                        計帳段號：
-                    </Typography>
-                </Grid>
-                <Grid item xs={12} sm={6} md={4} lg={4}>
-                    <FormControl fullWidth>
-                        <InputLabel size="small" id="billMilestone" disabled={action === '編輯'}>
-                            選擇計帳段號
-                        </InputLabel>
-                        <Select
-                            value={billMilestone}
-                            disabled={action === '編輯'}
-                            label="發票供應商"
-                            size="small"
-                            onChange={(e) => setBillMilestone(e.target.value)}
-                        >
-                            {bmStoneList.map((i) => (
-                                <MenuItem key={i} value={i}>
-                                    {i}
-                                </MenuItem>
-                            ))}
-                        </Select>
-                    </FormControl>
-                </Grid>
-                <Grid item xs={12} sm={6} md={2} lg={2}>
-                    <Typography
-                        variant="h5"
-                        sx={{
-                            fontSize: { lg: '0.7rem', xl: '0.88rem' },
-                            ml: { lg: '0rem', xl: '1.5rem' },
-                        }}
-                    >
-                        費用金額：
-                    </Typography>
-                </Grid>
-                <Grid item xs={12} sm={6} md={4} lg={4}>
-                    <TextField
-                        fullWidth
-                        variant="outlined"
-                        value={feeAmount}
-                        disabled={action === '編輯'}
-                        // type="number"
-                        size="small"
-                        label="填寫費用金額"
-                        onChange={(e) => setFeeAmount(handleNumber(e.target.value))}
-                    />
-                </Grid>
-                {/* row2 */}
-                <Grid item md={2} lg={2}>
-                    <Typography
-                        variant="h5"
-                        size="small"
-                        sx={{
-                            fontSize: { lg: '0.7rem', xl: '0.88rem' },
-                            ml: { lg: '0rem', xl: '1.5rem' },
-                        }}
-                    >
-                        費用項目：
-                    </Typography>
-                </Grid>
-                <Grid item md={10} lg={10}>
-                    <StyledEngineProvider injectFirst>
-                        <CssVarsProvider>
-                            <Textarea
-                                required
-                                value={feeItem}
-                                placeholder="填寫費用項目"
+                {action === '編輯' ? (
+                    <>
+                        <Grid item xs={12} sm={6} md={2} lg={2}>
+                            <Typography
+                                variant="h5"
+                                sx={{
+                                    fontSize: { lg: '0.7rem', xl: '0.88rem' },
+                                    ml: { lg: '0rem', xl: '1.5rem' },
+                                }}
+                            >
+                                計帳段號：
+                            </Typography>
+                        </Grid>
+                        <Grid item xs={12} sm={6} md={4} lg={4}>
+                            <FormControl fullWidth>
+                                <InputLabel
+                                    size="small"
+                                    id="billMilestone"
+                                    disabled={action === '編輯'}
+                                >
+                                    選擇計帳段號
+                                </InputLabel>
+                                <Select
+                                    value={billMilestone}
+                                    disabled={action === '編輯'}
+                                    label="發票供應商"
+                                    size="small"
+                                    onChange={(e) => setBillMilestone(e.target.value)}
+                                >
+                                    {bmStoneList.map((i) => (
+                                        <MenuItem key={i} value={i}>
+                                            {i}
+                                        </MenuItem>
+                                    ))}
+                                </Select>
+                            </FormControl>
+                        </Grid>
+                        <Grid item xs={12} sm={6} md={2} lg={2}>
+                            <Typography
+                                variant="h5"
+                                sx={{
+                                    fontSize: { lg: '0.7rem', xl: '0.88rem' },
+                                    ml: { lg: '0rem', xl: '1.5rem' },
+                                }}
+                            >
+                                費用金額：
+                            </Typography>
+                        </Grid>
+                        <Grid item xs={12} sm={6} md={4} lg={4}>
+                            <TextField
+                                fullWidth
+                                variant="outlined"
+                                value={feeAmount}
                                 disabled={action === '編輯'}
-                                minRows={2}
-                                maxRows={2}
-                                onChange={(e) => setFeeItem(e.target.value)}
+                                // type="number"
+                                size="small"
+                                label="填寫費用金額"
+                                onChange={(e) => setFeeAmount(handleNumber(e.target.value))}
                             />
-                        </CssVarsProvider>
-                    </StyledEngineProvider>
-                </Grid>
-                {action !== '編輯' ? (
+                        </Grid>
+                        {/* row2 */}
+                        <Grid item md={2} lg={2}>
+                            <Typography
+                                variant="h5"
+                                size="small"
+                                sx={{
+                                    fontSize: { lg: '0.7rem', xl: '0.88rem' },
+                                    ml: { lg: '0rem', xl: '1.5rem' },
+                                }}
+                            >
+                                費用項目：
+                            </Typography>
+                        </Grid>
+                        <Grid item md={10} lg={10}>
+                            <StyledEngineProvider injectFirst>
+                                <CssVarsProvider>
+                                    <Textarea
+                                        required
+                                        value={feeItem}
+                                        placeholder="填寫費用項目"
+                                        disabled={action === '編輯'}
+                                        minRows={2}
+                                        maxRows={2}
+                                        onChange={(e) => setFeeItem(e.target.value)}
+                                    />
+                                </CssVarsProvider>
+                            </StyledEngineProvider>
+                        </Grid>
+                    </>
+                ) : null}
+                {action === '編輯' ? (
                     <Grid
                         item
                         xs={12}
@@ -302,22 +310,18 @@ const CreateInvoiceDetail = ({
                             </Button>
                         )}
                     </Grid>
-                ) : (
-                    ''
-                )}
+                ) : null}
                 <Grid item xs={12} sm={12} lg={12}>
-                    <TableContainer component={Paper} sx={{ maxHeight: { lg: 200, md: 275 } }}>
+                    <TableContainer component={Paper}>
                         <Table sx={{ minWidth: 300 }} stickyHeader>
                             <TableHead>
                                 <TableRow>
                                     <StyledTableCell align="center">費用項目</StyledTableCell>
                                     <StyledTableCell align="center">計帳段號</StyledTableCell>
                                     <StyledTableCell align="center">費用金額</StyledTableCell>
-                                    {action !== '編輯' ? (
+                                    {action === '編輯' ? (
                                         <StyledTableCell align="center">Action</StyledTableCell>
-                                    ) : (
-                                        ''
-                                    )}
+                                    ) : null}
                                 </TableRow>
                             </TableHead>
                             <TableBody>
@@ -335,7 +339,7 @@ const CreateInvoiceDetail = ({
                                         <StyledTableCell align="center">
                                             {handleNumber(row.FeeAmount)}
                                         </StyledTableCell>
-                                        {action !== '編輯' ? (
+                                        {action === '編輯' ? (
                                             <StyledTableCell align="center">
                                                 {row.FeeItem.includes('(tax)') ? null : (
                                                     <Button

@@ -66,11 +66,13 @@ const SupplierDataList = ({ infoList, setInfoList }) => {
         [`&.${tableCellClasses.head}`]: {
             // backgroundColor: theme.palette.common.gary,
             color: theme.palette.common.black,
-            padding: '0rem',
+            paddingTop: '0rem',
+            paddingBottom: '0rem',
             fontSize: '0.7rem',
         },
         [`&.${tableCellClasses.body}`]: {
-            padding: '0.5rem',
+            paddingTop: '0.1rem',
+            paddingBottom: '0.1rem',
             fontSize: '0.7rem',
         },
     }));

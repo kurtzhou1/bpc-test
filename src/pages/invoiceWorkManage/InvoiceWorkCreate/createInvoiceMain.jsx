@@ -17,8 +17,6 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 // project import
 import MainCard from 'components/MainCard';
 import { handleNumber } from 'components/commonFunction';
-import CreateInvoiceDetail from './createInvoiceDetail';
-import InvoiceDataList from './invoiceDataList';
 import { TextField } from '@mui/material/index';
 
 import { useTranslation } from 'react-i18next';
@@ -390,7 +388,7 @@ const InvoiceWorkManage = ({
                         </RadioGroup>
                     </FormControl>
                 </Grid>
-                <Grid item xs={12} sm={6} md={3} lg={3}>
+                <Grid item xs={12} sm={6} md={2} lg={2}>
                     <Typography
                         variant="h5"
                         sx={{
@@ -401,7 +399,7 @@ const InvoiceWorkManage = ({
                         {t('Is Liability')}：
                     </Typography>
                 </Grid>
-                <Grid item xs={12} sm={6} md={3} lg={3}>
+                <Grid item xs={12} sm={6} md={4} lg={4}>
                     <FormControl>
                         <RadioGroup
                             row
@@ -433,9 +431,9 @@ const InvoiceWorkManage = ({
                         </RadioGroup>
                     </FormControl>
                 </Grid>
-                <Grid item xs={12} sm={6} md={6} lg={6} />
+                {/* <Grid item xs={12} sm={6} md={6} lg={6} /> */}
                 {/* row6 */}
-                <Grid item xs={12} sm={6} md={3} lg={2}>
+                <Grid item xs={12} sm={6} md={2} lg={2}>
                     <Typography
                         variant="h5"
                         sx={{
@@ -446,7 +444,7 @@ const InvoiceWorkManage = ({
                         {isLiability === false || isLiability === 'false' ? '會員名稱：' : ''}
                     </Typography>
                 </Grid>
-                <Grid item xs={12} sm={6} md={4} lg={5}>
+                <Grid item xs={12} sm={6} md={4} lg={4}>
                     {isLiability === false || isLiability === 'false' ? (
                         <TextField
                             value={partyName}
@@ -455,11 +453,9 @@ const InvoiceWorkManage = ({
                             label="不須攤分請填寫名稱"
                             onChange={(e) => setPartyName(e.target.value)}
                         />
-                    ) : (
-                        ''
-                    )}
+                    ) : null}
                 </Grid>
-                <Grid item xs={12} sm={6} md={5} lg={5} />
+                <Grid item xs={12} sm={12} md={12} lg={12} />
             </Grid>
         </MainCard>
     );
