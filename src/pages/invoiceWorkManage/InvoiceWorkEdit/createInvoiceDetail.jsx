@@ -112,7 +112,6 @@ const CreateInvoiceDetail = ({
             tmpArray.push(
                 createData(feeItem.trim(), billMilestone, Number(feeAmount.replaceAll(',', ''))),
             );
-            // tmpArray.reverse();
             setInvoiceDetailInfo([...tmpArray]);
             itemDetailInitial();
         }
@@ -125,12 +124,14 @@ const CreateInvoiceDetail = ({
     };
 
     const itemDetailEdit = (id) => {
-        setIsEdit(true);
-        editItem.current = id;
-        let tmpArray = invoiceDetailInfo[id];
-        setBillMilestone(tmpArray.BillMilestone);
-        setFeeItem(tmpArray.FeeItem);
-        setFeeAmount(handleNumber(tmpArray.FeeAmount));
+        if (infoCheck()) {
+            setIsEdit(true);
+            editItem.current = id;
+            let tmpArray = invoiceDetailInfo[id];
+            setBillMilestone(tmpArray.BillMilestone);
+            setFeeItem(tmpArray.FeeItem);
+            setFeeAmount(handleNumber(tmpArray.FeeAmount));
+        }
     };
 
     const itemDetailSave = () => {
@@ -192,13 +193,13 @@ const CreateInvoiceDetail = ({
                                 <InputLabel
                                     size="small"
                                     id="billMilestone"
-                                    disabled={action === '編輯'}
+                                    disabled={action !== '編輯'}
                                 >
                                     選擇計帳段號
                                 </InputLabel>
                                 <Select
                                     value={billMilestone}
-                                    disabled={action === '編輯'}
+                                    disabled={action !== '編輯'}
                                     label="發票供應商"
                                     size="small"
                                     onChange={(e) => setBillMilestone(e.target.value)}
@@ -227,7 +228,7 @@ const CreateInvoiceDetail = ({
                                 fullWidth
                                 variant="outlined"
                                 value={feeAmount}
-                                disabled={action === '編輯'}
+                                disabled={action !== '編輯'}
                                 // type="number"
                                 size="small"
                                 label="填寫費用金額"
@@ -254,7 +255,7 @@ const CreateInvoiceDetail = ({
                                         required
                                         value={feeItem}
                                         placeholder="填寫費用項目"
-                                        disabled={action === '編輯'}
+                                        disabled={action !== '編輯'}
                                         minRows={2}
                                         maxRows={2}
                                         onChange={(e) => setFeeItem(e.target.value)}

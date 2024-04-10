@@ -79,7 +79,13 @@ const CreditMemoQuery = ({ setListInfo }) => {
             };
         }
 
-        fetch(creditMemoView, { method: 'POST', body: JSON.stringify(tmpObject) })
+        fetch(creditMemoView, {
+            method: 'POST',
+            headers: {
+                'Content-type': 'application/json',
+            },
+            body: JSON.stringify(tmpObject),
+        })
             .then((res) => res.json())
             .then((data) => {
                 if (Array.isArray(data)) {

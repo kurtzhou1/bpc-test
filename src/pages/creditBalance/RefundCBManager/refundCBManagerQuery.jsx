@@ -98,7 +98,13 @@ const CreditBalanceQuery = ({ value, setListInfo, partiesList, submarineCableLis
         // tmpQuery = refundView + tmpQuery;
         console.log('tmpQuery=>>', tmpQuery);
         queryApi.current = tmpQuery;
-        fetch(queryApiValue, { method: 'POST', body: JSON.stringify(tmpQuery) })
+        fetch(queryApiValue, {
+            method: 'POST',
+            headers: {
+                'Content-type': 'application/json',
+            },
+            body: JSON.stringify(tmpQuery),
+        })
             .then((res) => res.json())
             .then((data) => {
                 console.log('查詢成功=>>', data);

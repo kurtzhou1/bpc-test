@@ -231,7 +231,13 @@ const RuleAdd = ({
                     Email: sendType.isEmail ? true : false,
                     Web: sendType.isWeb ? true : false,
                 };
-                fetch(addBillNotifyRule, { method: 'POST', body: JSON.stringify(tmpArray) })
+                fetch(addBillNotifyRule, {
+                    method: 'POST',
+                    headers: {
+                        'Content-type': 'application/json',
+                    },
+                    body: JSON.stringify(tmpArray),
+                })
                     .then((res) => res.json())
                     .then(() => {
                         dispatch(
@@ -268,7 +274,13 @@ const RuleAdd = ({
                     SysInvNotifyRecipients: tmpListInfo,
                 };
                 console.log('Add_tmpArray=>>', tmpArray);
-                fetch(addSysInvNotifyRule, { method: 'POST', body: JSON.stringify(tmpArray) })
+                fetch(addSysInvNotifyRule, {
+                    method: 'POST',
+                    headers: {
+                        'Content-type': 'application/json',
+                    },
+                    body: JSON.stringify(tmpArray),
+                })
                     .then((res) => res.json())
                     .then(() => {
                         dispatch(
@@ -304,7 +316,13 @@ const RuleAdd = ({
                     },
                     SysInvNotifyRecipients: tmpListInfo,
                 };
-                fetch(updateSysInvNotifyRule, { method: 'POST', body: JSON.stringify(tmpArray) })
+                fetch(updateSysInvNotifyRule, {
+                    method: 'POST',
+                    headers: {
+                        'Content-type': 'application/json',
+                    },
+                    body: JSON.stringify(tmpArray),
+                })
                     .then((res) => res.json())
                     .then(() => {
                         dispatch(

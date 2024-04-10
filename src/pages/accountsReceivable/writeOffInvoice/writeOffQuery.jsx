@@ -60,7 +60,13 @@ const WriteOffQuery = ({ setListInfo, value }) => {
             tmpObject.BillingNo = billingNo;
         }
         console.log('tmpQuery=>>', tmpObject);
-        fetch(getBillMasterBillDetail, { method: 'POST', body: JSON.stringify(tmpObject) })
+        fetch(getBillMasterBillDetail, {
+            method: 'POST',
+            headers: {
+                'Content-type': 'application/json',
+            },
+            body: JSON.stringify(tmpObject),
+        })
             .then((res) => res.json())
             .then((data) => {
                 if (Array.isArray(data)) {

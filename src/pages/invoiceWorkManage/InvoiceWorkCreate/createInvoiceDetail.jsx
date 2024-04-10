@@ -67,18 +67,18 @@ const CreateInvoiceDetail = ({
     }));
 
     const infoCheck = () => {
-        // if (billMilestone === '') {
-        //     dispatch(
-        //         setMessageStateOpen({
-        //             messageStateOpen: {
-        //                 isOpen: true,
-        //                 severity: 'error',
-        //                 message: '請輸入計帳段號',
-        //             },
-        //         }),
-        //     );
-        //     return false;
-        // }
+        if (billMilestone === '') {
+            dispatch(
+                setMessageStateOpen({
+                    messageStateOpen: {
+                        isOpen: true,
+                        severity: 'error',
+                        message: '請輸入計帳段號',
+                    },
+                }),
+            );
+            return false;
+        }
         if (feeItem.trim() === '') {
             dispatch(
                 setMessageStateOpen({
@@ -138,14 +138,18 @@ const CreateInvoiceDetail = ({
 
     //儲存編輯
     const itemDetailSave = () => {
-        setIsEdit(false);
-        let tmpArray = invoiceDetailInfo.map((i) => i);
-        tmpArray.splice(editItem.current, 1);
-        tmpArray.push(createData(feeItem, billMilestone, Number(feeAmount.replaceAll(',', ''))));
-        tmpArray.reverse();
-        setInvoiceDetailInfo([...tmpArray]);
-        itemDetailInitial();
-        editItem.current = 0;
+        if (infoCheck()) {
+            setIsEdit(false);
+            let tmpArray = invoiceDetailInfo.map((i) => i);
+            tmpArray.splice(editItem.current, 1);
+            tmpArray.push(
+                createData(feeItem, billMilestone, Number(feeAmount.replaceAll(',', ''))),
+            );
+            tmpArray.reverse();
+            setInvoiceDetailInfo([...tmpArray]);
+            itemDetailInitial();
+            editItem.current = 0;
+        }
     };
 
     //取消編輯

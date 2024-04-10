@@ -141,7 +141,13 @@ const InvoiceQuery = ({ setListInfo, queryApi, setAction, setPage }) => {
             tmpQuery.Status = tmpStatus;
         }
 
-        fetch(getInvoiceWKMasterInvoiceWKDetail, { method: 'POST', body: JSON.stringify(tmpQuery) })
+        fetch(getInvoiceWKMasterInvoiceWKDetail, {
+            method: 'POST',
+            headers: {
+                'Content-type': 'application/json',
+            },
+            body: JSON.stringify(tmpQuery),
+        })
             .then((res) => res.json())
             .then((data) => {
                 console.log('查詢成功=>>', data);

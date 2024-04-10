@@ -117,7 +117,13 @@ const LiabilityQuery = ({
         }
         if (Object.keys(tmpArray).length !== 0) {
             console.log('tmpArray=>>', tmpArray);
-            fetch(dropdownmenuBillMilestone, { method: 'POST', body: JSON.stringify(tmpArray) })
+            fetch(dropdownmenuBillMilestone, {
+                method: 'POST',
+                headers: {
+                    'Content-type': 'application/json',
+                },
+                body: JSON.stringify(tmpArray),
+            })
                 .then((res) => res.json())
                 .then((data) => {
                     console.log('data抓取成功=>>', data);

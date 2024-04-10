@@ -53,7 +53,13 @@ const SignedDataList = ({ dataList, receivableQuery }) => {
             BillMasterID: billMasterID,
             Status: 'TO_WRITEOFF',
         };
-        fetch(updateBM, { method: 'POST', body: JSON.stringify(tmpData) })
+        fetch(updateBM, {
+            method: 'POST',
+            headers: {
+                'Content-type': 'application/json',
+            },
+            body: JSON.stringify(tmpData),
+        })
             .then((res) => res.json())
             .then(() => {
                 receivableQuery();

@@ -157,6 +157,9 @@ const MainLayout = () => {
                 let accessToken = localStorage.getItem('accessToken');
                 fetch(checktokenForLDAP, {
                     method: 'POST',
+                    headers: {
+                        'Content-type': 'application/json',
+                    },
                     body: JSON.stringify({ accessToken: accessToken }),
                 })
                     .then((res) => res.json())
@@ -221,6 +224,9 @@ const MainLayout = () => {
                             // 傳送使用者資料取得權限
                             fetch(checktokenForLDAP, {
                                 method: 'POST',
+                                headers: {
+                                    'Content-type': 'application/json',
+                                },
                                 body: JSON.stringify(data.access_token),
                             })
                                 .then((res) => res.json())
@@ -264,6 +270,9 @@ const MainLayout = () => {
             let accessToken = localStorage.getItem('accessToken');
             fetch(checktokenForLDAP, {
                 method: 'POST',
+                headers: {
+                    'Content-type': 'application/json',
+                },
                 body: JSON.stringify({ accessToken: accessToken }),
             })
                 .then((res) => res.json())

@@ -71,14 +71,13 @@ const ReceivableQuery = ({ setListInfo }) => {
                 end: dayjs(issueDate[1]).format('YYYYMMDD'),
             };
         }
-        // if (tmpQuery.includes('&')) {
-        //     tmpQuery = '/' + tmpQuery.slice(0, -1);
-        //     tmpQuery = tmpQuery + '&IsSent=True';
-        // } else {
-        //     tmpQuery = tmpQuery + '/IsSent=True';
-        // }
-        // tmpQuery = queryToDecutBill + tmpQuery;
-        fetch(queryToDecutBill, { method: 'POST', body: JSON.stringify(tmpObject) })
+        fetch(queryToDecutBill, {
+            method: 'POST',
+            headers: {
+                'Content-type': 'application/json',
+            },
+            body: JSON.stringify(tmpObject),
+        })
             .then((res) => res.json())
             .then((data) => {
                 setListInfo(data);

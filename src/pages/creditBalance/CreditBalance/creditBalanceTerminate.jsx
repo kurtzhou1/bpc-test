@@ -11,7 +11,7 @@ import {
     TextField,
     Checkbox,
     Autocomplete,
-    Table
+    Table,
 } from '@mui/material';
 
 // day
@@ -37,10 +37,16 @@ const CreditBalanceTerminate = ({ cbTerminal, handleTerminalClose }) => {
         let tmpArray = {
             // LBRawID: terminateInfo.LBRawID,
             // EndDate: terminateInfo.EndDate,
-            EndNote: endNote ? endNote : ''
+            EndNote: endNote ? endNote : '',
         };
         console.log('', tmpArray);
-        fetch(updateLiability, { method: 'POST', body: JSON.stringify(tmpArray) })
+        fetch(updateLiability, {
+            method: 'POST',
+            headers: {
+                'Content-type': 'application/json',
+            },
+            body: JSON.stringify(tmpArray),
+        })
             .then((res) => res.json())
             .then(() => {
                 alert('終止成功');
@@ -63,10 +69,22 @@ const CreditBalanceTerminate = ({ cbTerminal, handleTerminalClose }) => {
                 確認終止訊息
             </BootstrapDialogTitle>
             <DialogContent dividers>
-                <Grid container spacing={1} display="flex" justifyContent="center" alignItems="center">
+                <Grid
+                    container
+                    spacing={1}
+                    display="flex"
+                    justifyContent="center"
+                    alignItems="center"
+                >
                     {/* row3 */}
                     <Grid item xs={12} sm={12} md={12} lg={12} display="flex">
-                        <Typography variant="h5" sx={{ fontSize: { lg: '0.7rem' ,xl: '0.88rem' }, ml: { lg: '0.5rem', xl: '1.5rem' } }}>
+                        <Typography
+                            variant="h5"
+                            sx={{
+                                fontSize: { lg: '0.7rem', xl: '0.88rem' },
+                                ml: { lg: '0.5rem', xl: '1.5rem' },
+                            }}
+                        >
                             {/* {`是否確定刪除${terminateInfo.BillMilestone}、${terminateInfo.PartyName}的Credit Balance資料`} */}
                             {`是否確定終止此Credit Balance資料`}
                         </Typography>

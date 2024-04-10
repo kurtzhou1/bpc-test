@@ -46,15 +46,6 @@ const InvoiceNotificationDataList = ({ listInfo, partiesList, submarineCableList
     };
 
     const handleView = (row) => {
-        // let tmpArray = {
-        //     RuleID: id
-        // }
-        // fetch(getSysInvNotifyRule, { method: 'POST', body: JSON.stringify(tmpArray) })
-        // .then((res) => res.json())
-        // .then((data) => {
-        //     console.log('=>>', data);
-        // })
-        // .catch((e) => console.log('e1=>', e));
         actionName.current = 'View';
         setIsDialogOpen(true);
         setEditData(row);
@@ -71,7 +62,13 @@ const InvoiceNotificationDataList = ({ listInfo, partiesList, submarineCableList
         let tmpArray = {
             RuleID: id,
         };
-        fetch(deleteSysInvNotifyRule, { method: 'POST', body: JSON.stringify(tmpArray) })
+        fetch(deleteSysInvNotifyRule, {
+            method: 'POST',
+            headers: {
+                'Content-type': 'application/json',
+            },
+            body: JSON.stringify(tmpArray),
+        })
             .then((res) => res.json())
             .then(() => {
                 dispatch(

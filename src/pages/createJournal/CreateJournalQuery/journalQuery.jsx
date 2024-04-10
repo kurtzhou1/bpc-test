@@ -76,7 +76,13 @@ const JournalQuery = ({ setListInfo, queryApi, invoiceStatus, setPage }) => {
         // tmpQuery = queryInvoice + tmpQuery;
         queryApi.current = tmpObject;
         console.log('立帳發票查詢=>>', tmpObject);
-        fetch(queryInvoice, { method: 'POST', body: JSON.stringify(tmpObject) })
+        fetch(queryInvoice, {
+            method: 'POST',
+            headers: {
+                'Content-type': 'application/json',
+            },
+            body: JSON.stringify(tmpObject),
+        })
             .then((res) => res.json())
             .then((data) => {
                 console.log('查詢成功=>>', data);

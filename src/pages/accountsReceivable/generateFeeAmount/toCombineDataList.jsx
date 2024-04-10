@@ -103,6 +103,9 @@ const ToCombineDataList = ({
         };
         fetch(generateBillNoCovert, {
             method: 'POST',
+            headers: {
+                'Content-type': 'application/json',
+            },
             body: JSON.stringify(tmpArray),
         })
             .then((res) => res.json())
@@ -139,6 +142,9 @@ const ToCombineDataList = ({
             console.log('billList=>>', billList.DueDate);
             fetch(isBillNoCheckOK, {
                 method: 'POST',
+                headers: {
+                    'Content-type': 'application/json',
+                },
                 body: JSON.stringify(tmpArray),
             })
                 .then((res) => res.json())
@@ -146,6 +152,9 @@ const ToCombineDataList = ({
                     if (!data.isExist) {
                         fetch(invoCombine, {
                             method: 'POST',
+                            headers: {
+                                'Content-type': 'application/json',
+                            },
                             body: JSON.stringify(billList),
                         })
                             .then((res) => res.json())
@@ -208,6 +217,9 @@ const ToCombineDataList = ({
             let tmpAmount = 0;
             fetch(combineInvo, {
                 method: 'POST',
+                headers: {
+                    'Content-type': 'application/json',
+                },
                 body: JSON.stringify(sendComBineData.current),
             })
                 .then((res) => res.json())

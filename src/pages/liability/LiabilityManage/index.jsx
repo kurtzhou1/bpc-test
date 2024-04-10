@@ -16,7 +16,7 @@ import {
     queryLiability,
     compareLiability,
     addLiabilityapi,
-    updateLiability
+    updateLiability,
 } from 'components/apis.jsx';
 
 // redux
@@ -81,23 +81,61 @@ const LiabilityManage = () => {
         list.forEach((e) => {
             tmpNumber = Number(e.LBRatio) + Number(tmpNumber);
         });
-        console.log('tmpNumber=>>', tmpNumber.toFixed(10), tmpNumber.toFixed(10) !== '100.0000000000');
+        console.log(
+            'tmpNumber=>>',
+            tmpNumber.toFixed(10),
+            tmpNumber.toFixed(10) !== '100.0000000000',
+        );
         if (tmpNumber.toFixed(10) !== '100.0000000000') {
-            dispatch(setMessageStateOpen({ messageStateOpen: { isOpen: true, severity: 'error', message: '攤分比例加總須等於100' } }));
+            dispatch(
+                setMessageStateOpen({
+                    messageStateOpen: {
+                        isOpen: true,
+                        severity: 'error',
+                        message: '攤分比例加總須等於100',
+                    },
+                }),
+            );
         }
         if (list.length > 0 && tmpNumber.toFixed(10) === '100.0000000000') {
-            fetch(compareLiability, { method: 'POST', body: JSON.stringify(list) })
+            fetch(compareLiability, {
+                method: 'POST',
+                headers: {
+                    'Content-type': 'application/json',
+                },
+                body: JSON.stringify(list),
+            })
                 .then((res) => res.json())
                 .then((data) => {
                     console.log('compareLiability成功', data, data.compareResult);
                     if (data.compareResult.length > 0) {
-                        dispatch(setMessageStateOpen({ messageStateOpen: { isOpen: true, severity: 'error', message: '已增加此會員' } }));
+                        dispatch(
+                            setMessageStateOpen({
+                                messageStateOpen: {
+                                    isOpen: true,
+                                    severity: 'error',
+                                    message: '已增加此會員',
+                                },
+                            }),
+                        );
                     } else {
-                        fetch(addLiabilityapi, { method: 'POST', body: JSON.stringify(list) })
+                        fetch(addLiabilityapi, {
+                            method: 'POST',
+                            headers: {
+                                'Content-type': 'application/json',
+                            },
+                            body: JSON.stringify(list),
+                        })
                             .then((res) => res.json())
                             .then(() => {
                                 dispatch(
-                                    setMessageStateOpen({ messageStateOpen: { isOpen: true, severity: 'success', message: '新增成功' } })
+                                    setMessageStateOpen({
+                                        messageStateOpen: {
+                                            isOpen: true,
+                                            severity: 'success',
+                                            message: '新增成功',
+                                        },
+                                    }),
                                 );
                                 setAdd([]);
                             })
@@ -133,12 +171,26 @@ const LiabilityManage = () => {
             WorkTitle: listInfo[editItem].WorkTitle,
             LBRatio: Number(lBRatio).toFixed(10),
             Note: note,
-            ModifyNote: modifyNote ? modifyNote : ''
+            ModifyNote: modifyNote ? modifyNote : '',
         };
-        fetch(updateLiability, { method: 'POST', body: JSON.stringify(tmpArray) })
+        fetch(updateLiability, {
+            method: 'POST',
+            headers: {
+                'Content-type': 'application/json',
+            },
+            body: JSON.stringify(tmpArray),
+        })
             .then((res) => res.json())
             .then(() => {
-                dispatch(setMessageStateOpen({ messageStateOpen: { isOpen: true, severity: 'success', message: '儲存成功' } }));
+                dispatch(
+                    setMessageStateOpen({
+                        messageStateOpen: {
+                            isOpen: true,
+                            severity: 'success',
+                            message: '儲存成功',
+                        },
+                    }),
+                );
                 apiQuery();
                 setEditItem(NaN);
                 handleDialogClose();
@@ -230,7 +282,12 @@ const LiabilityManage = () => {
                 />
             </Grid>
             <Grid item xs={12}>
-                <MainCard title="Liability資料列表" search searchFunction={searchFunction} searchTitle={'會員搜尋'}>
+                <MainCard
+                    title="Liability資料列表"
+                    search
+                    searchFunction={searchFunction}
+                    searchTitle={'會員搜尋'}
+                >
                     <LiabilityDataList
                         listInfo={filterList.length > 0 ? filterList : listInfo}
                         setDialogAction={setDialogAction}

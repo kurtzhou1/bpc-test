@@ -83,6 +83,9 @@ const CreditBalance = () => {
             };
             fetch(creditBalanceRefund, {
                 method: 'POST',
+                headers: {
+                    'Content-type': 'application/json',
+                },
                 body: JSON.stringify(sendData),
             })
                 .then((res) => res.json())

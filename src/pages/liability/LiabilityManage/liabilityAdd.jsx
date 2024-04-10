@@ -10,7 +10,7 @@ import {
     TextField,
     Checkbox,
     Autocomplete,
-    Table
+    Table,
 } from '@mui/material';
 
 // day
@@ -32,7 +32,12 @@ import { styled } from '@mui/material/styles';
 import { BootstrapDialogTitle } from 'components/commonFunction';
 
 // api
-import { deleteLiability, addLiabilityapi, submarineCableInfoList, getPartiesInfoList } from 'components/apis.jsx';
+import {
+    deleteLiability,
+    addLiabilityapi,
+    submarineCableInfoList,
+    getPartiesInfoList,
+} from 'components/apis.jsx';
 
 // redux
 import { useDispatch } from 'react-redux';
@@ -43,13 +48,13 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
         // backgroundColor: theme.palette.common.gary,
         color: theme.palette.common.black,
         paddingTop: '0.2rem',
-        paddingBottom: '0.2rem'
+        paddingBottom: '0.2rem',
     },
     [`&.${tableCellClasses.body}`]: {
         fontSize: 14,
         paddingTop: '0.2rem',
-        paddingBottom: '0.2rem'
-    }
+        paddingBottom: '0.2rem',
+    },
 }));
 
 const LiabilityAdd = ({
@@ -74,7 +79,7 @@ const LiabilityAdd = ({
     setNote,
     setEditItem,
     lBRawID,
-    apiQuery
+    apiQuery,
 }) => {
     const dispatch = useDispatch();
     const [listInfo, setListInfo] = useState([]);
@@ -104,23 +109,63 @@ const LiabilityAdd = ({
 
     const infoCheck = () => {
         if (partyName.length === 0) {
-            dispatch(setMessageStateOpen({ messageStateOpen: { isOpen: true, severity: 'error', message: '請輸入會員名稱' } }));
+            dispatch(
+                setMessageStateOpen({
+                    messageStateOpen: {
+                        isOpen: true,
+                        severity: 'error',
+                        message: '請輸入會員名稱',
+                    },
+                }),
+            );
             return false;
         }
         if (billMilestone === '') {
-            dispatch(setMessageStateOpen({ messageStateOpen: { isOpen: true, severity: 'error', message: '請輸入計帳段號' } }));
+            dispatch(
+                setMessageStateOpen({
+                    messageStateOpen: {
+                        isOpen: true,
+                        severity: 'error',
+                        message: '請輸入計帳段號',
+                    },
+                }),
+            );
             return false;
         }
         if (submarineCable === '') {
-            dispatch(setMessageStateOpen({ messageStateOpen: { isOpen: true, severity: 'error', message: '請輸入海纜名稱' } }));
+            dispatch(
+                setMessageStateOpen({
+                    messageStateOpen: {
+                        isOpen: true,
+                        severity: 'error',
+                        message: '請輸入海纜名稱',
+                    },
+                }),
+            );
             return false;
         }
         if (workTitle === '') {
-            dispatch(setMessageStateOpen({ messageStateOpen: { isOpen: true, severity: 'error', message: '請輸入海纜作業' } }));
+            dispatch(
+                setMessageStateOpen({
+                    messageStateOpen: {
+                        isOpen: true,
+                        severity: 'error',
+                        message: '請輸入海纜作業',
+                    },
+                }),
+            );
             return false;
         }
         if (lBRatio === 0 || lBRatio === '') {
-            dispatch(setMessageStateOpen({ messageStateOpen: { isOpen: true, severity: 'error', message: '請輸入攤分比例' } }));
+            dispatch(
+                setMessageStateOpen({
+                    messageStateOpen: {
+                        isOpen: true,
+                        severity: 'error',
+                        message: '請輸入攤分比例',
+                    },
+                }),
+            );
             return false;
         }
         return true;
@@ -139,7 +184,7 @@ const LiabilityAdd = ({
                     LBRatio: lBRatio,
                     SubmarineCable: submarineCable,
                     WorkTitle: workTitle,
-                    Note: note
+                    Note: note,
                 });
             });
             console.log('partyArray=>>', partyArray);
@@ -159,7 +204,7 @@ const LiabilityAdd = ({
                 LBRatio: lBRatio,
                 SubmarineCable: submarineCable,
                 WorkTitle: workTitle,
-                ModifyNote: modifyNote
+                ModifyNote: modifyNote,
             });
         });
         setListInfo([...tmpArray]);
@@ -176,14 +221,34 @@ const LiabilityAdd = ({
     const excuteSplit = () => {
         console.log(listInfo);
         if (listInfo.length > 0) {
-            fetch(deleteLiability, { method: 'POST', body: JSON.stringify({ LBRawID: lBRawID.current }) })
+            fetch(deleteLiability, {
+                method: 'POST',
+                headers: {
+                    'Content-type': 'application/json',
+                },
+                body: JSON.stringify({ LBRawID: lBRawID.current }),
+            })
                 .then((res) => res.json())
                 .then(() => {
                     console.log('刪除成功');
-                    fetch(addLiabilityapi, { method: 'POST', body: JSON.stringify(listInfo) })
+                    fetch(addLiabilityapi, {
+                        method: 'POST',
+                        headers: {
+                            'Content-type': 'application/json',
+                        },
+                        body: JSON.stringify(listInfo),
+                    })
                         .then((res) => res.json())
                         .then(() => {
-                            dispatch(setMessageStateOpen({ messageStateOpen: { isOpen: true, severity: 'success', message: '分段成功' } }));
+                            dispatch(
+                                setMessageStateOpen({
+                                    messageStateOpen: {
+                                        isOpen: true,
+                                        severity: 'success',
+                                        message: '分段成功',
+                                    },
+                                }),
+                            );
                             handleDialogClose();
                             itemDetailInitial();
                             setEditItem(NaN);
@@ -194,7 +259,15 @@ const LiabilityAdd = ({
                 })
                 .catch((e) => console.log('e1=>', e));
         } else {
-            dispatch(setMessageStateOpen({ messageStateOpen: { isOpen: true, severity: 'error', message: '請增加分段帳號' } }));
+            dispatch(
+                setMessageStateOpen({
+                    messageStateOpen: {
+                        isOpen: true,
+                        severity: 'error',
+                        message: '請增加分段帳號',
+                    },
+                }),
+            );
         }
     };
 
@@ -216,7 +289,7 @@ const LiabilityAdd = ({
     }, []);
 
     return (
-        <Dialog maxWidth="md" fullWidth open={isDialogOpen} >
+        <Dialog maxWidth="md" fullWidth open={isDialogOpen}>
             <BootstrapDialogTitle>
                 {dialogAction === 'Split'
                     ? `切割計費段${billMilestone}的Liabilty`
@@ -225,14 +298,34 @@ const LiabilityAdd = ({
                     : '新增Liability'}
             </BootstrapDialogTitle>
             <DialogContent dividers>
-                <Grid container spacing={1} display="flex" justifyContent="center" alignItems="center">
+                <Grid
+                    container
+                    spacing={1}
+                    display="flex"
+                    justifyContent="center"
+                    alignItems="center"
+                >
                     <Grid item xs={2} sm={2} md={2} lg={2} display="flex" justifyContent="center">
-                        <Typography variant="h5" sx={{ fontSize: { lg: '0.7rem' ,xl: '0.88rem' }, ml: { lg: '0.5rem', xl: '1.5rem' } }}>
+                        <Typography
+                            variant="h5"
+                            sx={{
+                                fontSize: { lg: '0.7rem', xl: '0.88rem' },
+                                ml: { lg: '0.5rem', xl: '1.5rem' },
+                            }}
+                        >
                             計帳段號：
                         </Typography>
                     </Grid>
                     {dialogAction === 'Split' ? (
-                        <Grid item xs={2} sm={2} md={2} lg={2} display="flex" justifyContent="center">
+                        <Grid
+                            item
+                            xs={2}
+                            sm={2}
+                            md={2}
+                            lg={2}
+                            display="flex"
+                            justifyContent="center"
+                        >
                             <TextField
                                 fullWidth
                                 variant="outlined"
@@ -254,7 +347,15 @@ const LiabilityAdd = ({
                             />
                         </Grid>
                     ) : (
-                        <Grid item xs={2} sm={2} md={2} lg={2} display="flex" justifyContent="center">
+                        <Grid
+                            item
+                            xs={2}
+                            sm={2}
+                            md={2}
+                            lg={2}
+                            display="flex"
+                            justifyContent="center"
+                        >
                             <TextField
                                 fullWidth
                                 variant="outlined"
@@ -268,7 +369,13 @@ const LiabilityAdd = ({
                         </Grid>
                     )}
                     <Grid item xs={2} sm={2} md={2} lg={2} display="flex" justifyContent="center">
-                        <Typography variant="h5" sx={{ fontSize: { lg: '0.7rem' ,xl: '0.88rem' }, ml: { lg: '0.5rem', xl: '1.5rem' } }}>
+                        <Typography
+                            variant="h5"
+                            sx={{
+                                fontSize: { lg: '0.7rem', xl: '0.88rem' },
+                                ml: { lg: '0.5rem', xl: '1.5rem' },
+                            }}
+                        >
                             海纜名稱：
                         </Typography>
                     </Grid>
@@ -278,7 +385,11 @@ const LiabilityAdd = ({
                                 選擇海纜名稱
                             </InputLabel>
                             <Select
-                                disabled={dialogAction === 'Edit' || listInfo.length > 0 || dialogAction === 'Split'}
+                                disabled={
+                                    dialogAction === 'Edit' ||
+                                    listInfo.length > 0 ||
+                                    dialogAction === 'Split'
+                                }
                                 size="small"
                                 value={submarineCable}
                                 label="填寫海纜名稱"
@@ -293,7 +404,13 @@ const LiabilityAdd = ({
                         </FormControl>
                     </Grid>
                     <Grid item xs={2} sm={2} md={2} lg={2} display="flex" justifyContent="center">
-                        <Typography variant="h5" sx={{ fontSize: { lg: '0.7rem' ,xl: '0.88rem' }, ml: { lg: '0.5rem', xl: '1.5rem' } }}>
+                        <Typography
+                            variant="h5"
+                            sx={{
+                                fontSize: { lg: '0.7rem', xl: '0.88rem' },
+                                ml: { lg: '0.5rem', xl: '1.5rem' },
+                            }}
+                        >
                             海纜作業：
                         </Typography>
                     </Grid>
@@ -303,7 +420,11 @@ const LiabilityAdd = ({
                                 選擇海纜作業
                             </InputLabel>
                             <Select
-                                disabled={dialogAction === 'Edit' || listInfo.length > 0 || dialogAction === 'Split'}
+                                disabled={
+                                    dialogAction === 'Edit' ||
+                                    listInfo.length > 0 ||
+                                    dialogAction === 'Split'
+                                }
                                 size="small"
                                 value={workTitle}
                                 label="填寫海纜作業"
@@ -316,7 +437,13 @@ const LiabilityAdd = ({
                         </FormControl>
                     </Grid>
                     <Grid item xs={2} sm={2} md={2} lg={2} display="flex" justifyContent="center">
-                        <Typography variant="h5" sx={{ fontSize: { lg: '0.7rem' ,xl: '0.88rem' }, ml: { lg: '0.5rem', xl: '1.5rem' } }}>
+                        <Typography
+                            variant="h5"
+                            sx={{
+                                fontSize: { lg: '0.7rem', xl: '0.88rem' },
+                                ml: { lg: '0.5rem', xl: '1.5rem' },
+                            }}
+                        >
                             攤分比例：
                         </Typography>
                     </Grid>
@@ -324,7 +451,7 @@ const LiabilityAdd = ({
                         <TextField
                             fullWidth
                             variant="outlined"
-                            disabled={dialogAction === 'Split'}
+                            disabled={dialogAction === 'Edit' || dialogAction === 'Split'}
                             value={lBRatio}
                             size="small"
                             label="填寫攤分比例"
@@ -332,7 +459,13 @@ const LiabilityAdd = ({
                         />
                     </Grid>
                     <Grid item xs={2} sm={2} md={2} lg={2} display="flex" justifyContent="center">
-                        <Typography variant="h5" sx={{ fontSize: { lg: '0.7rem' ,xl: '0.88rem' }, ml: { lg: '0.5rem', xl: '1.5rem' } }}>
+                        <Typography
+                            variant="h5"
+                            sx={{
+                                fontSize: { lg: '0.7rem', xl: '0.88rem' },
+                                ml: { lg: '0.5rem', xl: '1.5rem' },
+                            }}
+                        >
                             會員名稱：
                         </Typography>
                     </Grid>
@@ -351,7 +484,12 @@ const LiabilityAdd = ({
                             renderOption={(props, option, { selected }) => {
                                 return (
                                     <li {...props}>
-                                        <Checkbox icon={icon} checkedIcon={checkedIcon} style={{ marginRight: 8 }} checked={selected} />
+                                        <Checkbox
+                                            icon={icon}
+                                            checkedIcon={checkedIcon}
+                                            style={{ marginRight: 8 }}
+                                            checked={selected}
+                                        />
                                         {option}
                                     </li>
                                 );
@@ -361,7 +499,13 @@ const LiabilityAdd = ({
                     </Grid>
                     {/* row3 */}
                     <Grid item xs={2} sm={2} md={2} lg={2} display="flex" justifyContent="center">
-                        <Typography variant="h5" sx={{ fontSize: { lg: '0.7rem' ,xl: '0.88rem' }, ml: { lg: '0.5rem', xl: '1.5rem' } }}>
+                        <Typography
+                            variant="h5"
+                            sx={{
+                                fontSize: { lg: '0.7rem', xl: '0.88rem' },
+                                ml: { lg: '0.5rem', xl: '1.5rem' },
+                            }}
+                        >
                             備註：
                         </Typography>
                     </Grid>
@@ -378,12 +522,16 @@ const LiabilityAdd = ({
                     </Grid>
                     <Grid item xs={2} sm={2} md={2} lg={2} display="flex" justifyContent="center">
                         {dialogAction === 'Edit' ? (
-                            <Typography variant="h5" sx={{ fontSize: { lg: '0.7rem' ,xl: '0.88rem' }, ml: { lg: '0.5rem', xl: '1.5rem' } }}>
+                            <Typography
+                                variant="h5"
+                                sx={{
+                                    fontSize: { lg: '0.7rem', xl: '0.88rem' },
+                                    ml: { lg: '0.5rem', xl: '1.5rem' },
+                                }}
+                            >
                                 異動原因：
                             </Typography>
-                        ) : (
-                            ''
-                        )}
+                        ) : null}
                     </Grid>
                     <Grid item xs={3} sm={3} md={3} lg={3}>
                         {dialogAction === 'Edit' ? (
@@ -395,35 +543,55 @@ const LiabilityAdd = ({
                                 label="填寫異動原因"
                                 onChange={(e) => setModifyNote(e.target.value)}
                             />
-                        ) : (
-                            ''
-                        )}
+                        ) : null}
                     </Grid>
-                    <Grid item xs={1} sm={1} md={1} lg={1} display="flex" alignItems="center" justifyContent="end">
+                    <Grid
+                        item
+                        xs={1}
+                        sm={1}
+                        md={1}
+                        lg={1}
+                        display="flex"
+                        alignItems="center"
+                        justifyContent="end"
+                    >
                         {dialogAction !== 'Edit' ? (
                             <Button
                                 size="small"
-                                style={{ maxWidth: '2rem', maxHeight: '2rem', minWidth: '2rem', minHeight: '2rem' }}
+                                style={{
+                                    maxWidth: '2rem',
+                                    maxHeight: '2rem',
+                                    minWidth: '2rem',
+                                    minHeight: '2rem',
+                                }}
                                 variant="contained"
                                 onClick={dialogAction === 'Split' ? addSplit : addList}
                             >
                                 +
                             </Button>
-                        ) : (
-                            ''
-                        )}
+                        ) : null}
                     </Grid>
                     {dialogAction !== 'Edit' ? (
                         <Grid item xs={12} sm={12} md={12} lg={12}>
                             <TableContainer component={Paper} sx={{ maxHeight: 350 }}>
-                                <Table sx={{ minWidth: 300 }} stickyHeader >
+                                <Table sx={{ minWidth: 300 }} stickyHeader>
                                     <TableHead>
                                         <TableRow>
-                                            <StyledTableCell align="center">計帳段號</StyledTableCell>
-                                            <StyledTableCell align="center">會員名稱</StyledTableCell>
-                                            <StyledTableCell align="center">攤分比例</StyledTableCell>
-                                            <StyledTableCell align="center">海纜名稱</StyledTableCell>
-                                            <StyledTableCell align="center">海纜作業</StyledTableCell>
+                                            <StyledTableCell align="center">
+                                                計帳段號
+                                            </StyledTableCell>
+                                            <StyledTableCell align="center">
+                                                會員名稱
+                                            </StyledTableCell>
+                                            <StyledTableCell align="center">
+                                                攤分比例
+                                            </StyledTableCell>
+                                            <StyledTableCell align="center">
+                                                海纜名稱
+                                            </StyledTableCell>
+                                            <StyledTableCell align="center">
+                                                海纜作業
+                                            </StyledTableCell>
                                             <StyledTableCell align="center">Action</StyledTableCell>
                                         </TableRow>
                                     </TableHead>
@@ -432,13 +600,25 @@ const LiabilityAdd = ({
                                             return (
                                                 <TableRow
                                                     // key={row.InvoiceWKMaster?.invoiceNo + row.InvoiceWKMaster?.supplierName + id}
-                                                    sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                                                    sx={{
+                                                        '&:last-child td, &:last-child th': {
+                                                            border: 0,
+                                                        },
+                                                    }}
                                                 >
-                                                    <StyledTableCell align="center">{row.BillMilestone}</StyledTableCell>
-                                                    <StyledTableCell align="center">{row.PartyName}</StyledTableCell>
+                                                    <StyledTableCell align="center">
+                                                        {row.BillMilestone}
+                                                    </StyledTableCell>
+                                                    <StyledTableCell align="center">
+                                                        {row.PartyName}
+                                                    </StyledTableCell>
                                                     <StyledTableCell align="center">{`${row.LBRatio}%`}</StyledTableCell>
-                                                    <StyledTableCell align="center">{row.SubmarineCable}</StyledTableCell>
-                                                    <StyledTableCell align="center">{row.WorkTitle}</StyledTableCell>
+                                                    <StyledTableCell align="center">
+                                                        {row.SubmarineCable}
+                                                    </StyledTableCell>
+                                                    <StyledTableCell align="center">
+                                                        {row.WorkTitle}
+                                                    </StyledTableCell>
                                                     <StyledTableCell align="center">
                                                         <Button
                                                             color="error"
@@ -456,9 +636,7 @@ const LiabilityAdd = ({
                                 </Table>
                             </TableContainer>
                         </Grid>
-                    ) : (
-                        ''
-                    )}
+                    ) : null}
                 </Grid>
             </DialogContent>
             <DialogActions>

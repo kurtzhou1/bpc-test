@@ -60,7 +60,13 @@ const ResearchBillQuery = ({ setListInfo, setDetailInfo }) => {
             tmpQuery.endDueDate = dayjs(dueDate).format('YYYYMMDD');
         }
 
-        fetch(searchInvoiceWKMasterByBillMaster, { method: 'POST', body: JSON.stringify(tmpQuery) })
+        fetch(searchInvoiceWKMasterByBillMaster, {
+            method: 'POST',
+            headers: {
+                'Content-type': 'application/json',
+            },
+            body: JSON.stringify(tmpQuery),
+        })
             .then((res) => res.json())
             .then((data) => {
                 console.log('查詢成功=>>', data);

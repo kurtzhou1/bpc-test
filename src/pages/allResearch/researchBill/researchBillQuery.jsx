@@ -135,7 +135,13 @@ const ResearchBillQuery = ({ setListInfo, setDetailInfo }) => {
             }
             tmpQuery.Status = tmpStatus;
         }
-        fetch(searchBillMasterByInvoiceWKMaster, { method: 'POST', body: JSON.stringify(tmpQuery) })
+        fetch(searchBillMasterByInvoiceWKMaster, {
+            method: 'POST',
+            headers: {
+                'Content-type': 'application/json',
+            },
+            body: JSON.stringify(tmpQuery),
+        })
             .then((res) => res.json())
             .then((data) => {
                 console.log('查詢成功=>>', data);

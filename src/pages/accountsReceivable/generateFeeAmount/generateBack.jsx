@@ -16,17 +16,38 @@ import { beforeDuction, afterDeduction } from 'components/apis.jsx';
 import { useDispatch } from 'react-redux';
 import { setMessageStateOpen } from 'store/reducers/dropdown';
 
-const GenerateBack = ({ action, infoBack, handleBackClose, receivableQuery, editBillingNo, editBillMasterID }) => {
+const GenerateBack = ({
+    action,
+    infoBack,
+    handleBackClose,
+    receivableQuery,
+    editBillingNo,
+    editBillMasterID,
+}) => {
     const dispatch = useDispatch();
     const backBill = () => {
         const queryApi = action === 'toDeduct' ? beforeDuction : afterDeduction;
         let tmpObject = {
-            BillMasterID: editBillMasterID
+            BillMasterID: editBillMasterID,
         };
-        fetch(queryApi, { method: 'POST', body: JSON.stringify(tmpObject) })
+        fetch(queryApi, {
+            method: 'POST',
+            headers: {
+                'Content-type': 'application/json',
+            },
+            body: JSON.stringify(tmpObject),
+        })
             .then((res) => res.json())
             .then(() => {
-                dispatch(setMessageStateOpen({ messageStateOpen: { isOpen: true, severity: 'success', message: '新增提醒成功' } }));
+                dispatch(
+                    setMessageStateOpen({
+                        messageStateOpen: {
+                            isOpen: true,
+                            severity: 'success',
+                            message: '新增提醒成功',
+                        },
+                    }),
+                );
                 receivableQuery();
                 handleBackClose();
             })
@@ -37,10 +58,22 @@ const GenerateBack = ({ action, infoBack, handleBackClose, receivableQuery, edit
         <Dialog maxWidth="xs" fullWidth open={infoBack}>
             <BootstrapDialogTitle>確認退回訊息</BootstrapDialogTitle>
             <DialogContent dividers>
-                <Grid container spacing={1} display="flex" justifyContent="center" alignItems="center">
+                <Grid
+                    container
+                    spacing={1}
+                    display="flex"
+                    justifyContent="center"
+                    alignItems="center"
+                >
                     {/* row3 */}
                     <Grid item xs={12} sm={12} md={12} lg={12} display="flex">
-                        <Typography variant="h5" sx={{ fontSize: { lg: '0.7rem' ,xl: '0.88rem' }, ml: { lg: '0.5rem', xl: '1.5rem' } }}>
+                        <Typography
+                            variant="h5"
+                            sx={{
+                                fontSize: { lg: '0.7rem', xl: '0.88rem' },
+                                ml: { lg: '0.5rem', xl: '1.5rem' },
+                            }}
+                        >
                             {`是否確定退回此${editBillingNo}帳單`}
                         </Typography>
                     </Grid>

@@ -49,7 +49,13 @@ const CreditBalance = () => {
     };
 
     const creditBalanceQuery = () => {
-        fetch(refundView, { method: 'POST', body: JSON.stringify(queryApi.current) })
+        fetch(refundView, {
+            method: 'POST',
+            headers: {
+                'Content-type': 'application/json',
+            },
+            body: JSON.stringify(queryApi.current),
+        })
             .then((res) => res.json())
             .then((data) => {
                 console.log('查詢成功=>>', data);
@@ -69,6 +75,9 @@ const CreditBalance = () => {
         if (tmpArray.length > 0) {
             fetch(cBRefund, {
                 method: 'POST',
+                headers: {
+                    'Content-type': 'application/json',
+                },
                 body: JSON.stringify(tmpArray),
             })
                 .then((res) => res.json())

@@ -104,7 +104,13 @@ const ToEditDataList = ({ listInfo, initQuery }) => {
             PayDraftID: id,
             Status: 'COMPLETE',
         };
-        fetch(getPayDraftStream, { method: 'POST', body: JSON.stringify(tmpArray) })
+        fetch(getPayDraftStream, {
+            method: 'POST',
+            headers: {
+                'Content-type': 'application/json',
+            },
+            body: JSON.stringify(tmpArray),
+        })
             .then((res) => res.json())
             .then(() => {
                 dispatch(

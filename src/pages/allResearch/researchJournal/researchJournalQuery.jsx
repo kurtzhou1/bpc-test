@@ -120,7 +120,13 @@ const ResearchBillQuery = ({ setListInfo, queryApi }) => {
         }
         queryApi.current = tmpObject;
         console.log('tmpQuery=>>', tmpObject);
-        fetch(searchInvoiceWKMasterIsBilled, { method: 'POST', body: JSON.stringify(tmpObject) })
+        fetch(searchInvoiceWKMasterIsBilled, {
+            method: 'POST',
+            headers: {
+                'Content-type': 'application/json',
+            },
+            body: JSON.stringify(tmpObject),
+        })
             .then((res) => res.json())
             .then((data) => {
                 setListInfo(data);

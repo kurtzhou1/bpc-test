@@ -77,13 +77,25 @@ const BilledDataList = ({ listInfo, apiQuery }) => {
             WKMasterID: WKMasterID,
             Status: 'INVALID',
         };
-        fetch(updateInvoice, { method: 'POST', body: JSON.stringify(tmpArray) })
+        fetch(updateInvoice, {
+            method: 'POST',
+            headers: {
+                'Content-type': 'application/json',
+            },
+            body: JSON.stringify(tmpArray),
+        })
             .then((res) => res.json())
             .then(() => {
                 console.log('updateInvoice invalid success');
             })
             .catch((e) => console.log('e1=>', e));
-        fetch(updateInvoiceMaster, { method: 'POST', body: JSON.stringify(tmpArray) })
+        fetch(updateInvoiceMaster, {
+            method: 'POST',
+            headers: {
+                'Content-type': 'application/json',
+            },
+            body: JSON.stringify(tmpArray),
+        })
             .then((res) => res.json())
             .then(() => {
                 console.log('updateInvoiceMaster invalid success');

@@ -64,7 +64,13 @@ const NotificationQuery = ({ setListInfo, partiesList, submarineCableList, value
             tmpObject.RuleCName = ruleCName;
         }
         console.log('tmpArray=>>', tmpObject);
-        fetch(getSysInvNotifyRule, { method: 'POST', body: JSON.stringify(tmpObject) })
+        fetch(getSysInvNotifyRule, {
+            method: 'POST',
+            headers: {
+                'Content-type': 'application/json',
+            },
+            body: JSON.stringify(tmpObject),
+        })
             .then((res) => res.json())
             .then((data) => {
                 setListInfo(data);

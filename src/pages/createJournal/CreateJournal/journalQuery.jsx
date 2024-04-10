@@ -72,7 +72,13 @@ const JournalQuery = ({
         }
         queryApi.current = tmpArray;
         console.log('tmpQuery=>>', tmpArray);
-        fetch(queryInvoice, { method: 'POST', body: JSON.stringify(tmpArray) })
+        fetch(queryInvoice, {
+            method: 'POST',
+            headers: {
+                'Content-type': 'application/json',
+            },
+            body: JSON.stringify(tmpArray),
+        })
             .then((res) => res.json())
             .then((data) => {
                 setListInfo(data);

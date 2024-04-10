@@ -15,7 +15,7 @@ import {
     InputLabel,
     OutlinedInput,
     Stack,
-    Typography
+    Typography,
 } from '@mui/material';
 
 // third party
@@ -48,8 +48,8 @@ const AuthLogin = () => {
         event.preventDefault();
     };
 
-    const localStorageService = ( dataJWT ) => {
-        localStorage.setItem('accessToken',dataJWT.accessToken);
+    const localStorageService = (dataJWT) => {
+        localStorage.setItem('accessToken', dataJWT.accessToken);
     };
 
     return (
@@ -61,40 +61,100 @@ const AuthLogin = () => {
                 }}
                 validationSchema={Yup.object().shape({
                     account: Yup.string().max(255).required('Account is required'),
-                    password: Yup.string().max(255).required('Password is required')
+                    password: Yup.string().max(255).required('Password is required'),
                 })}
                 onSubmit={async (values, { setErrors, setStatus, setSubmitting }) => {
                     let tmpObj = {
-                        userid: values.account, 
-                        password: values.password
-                    }
-                    fetch(generatetoken,  { method: 'POST', body: JSON.stringify(tmpObj) })
-                    .then((res) => res.json())
-                    .then((data) => {
-                        if(data.cbps_access_token) {
-                            localStorageService({accessToken: data.cbps_access_token});
-                            fetch(checktoken, {
-                                method: 'POST',
-                                body: JSON.stringify({
-                                    cbps_access_token: data.cbps_access_token
-                                })
-                            })
-                            .then((res) => res.json())
-                            .then((data2) => {
-                                console.log('data2=>>', data2);
-                                dispatch(setMessageStateOpen({ messageStateOpen: { isOpen: true, severity: 'success', message: `登入成功，${data2.UserCName}歡迎` } }));
-                                dispatch(setUserInfo({ userInfo: { UserCName: data2.UserCName, ProfilePhotoURI: data2.ProfilePhotoURI } }));
-                                dispatch(setIsLogin({ isLogin: true }));
-                            })
-                            .catch((e) =>  dispatch(setMessageStateOpen({ messageStateOpen: { isOpen: true, severity: 'error', message: '登入失敗，請重新登入' } })));
-                        } else {
-                            dispatch(setMessageStateOpen({ messageStateOpen: { isOpen: true, severity: 'error', message: '登入錯誤，請檢查帳號密碼' } }));
-                        }
+                        userid: values.account,
+                        password: values.password,
+                    };
+                    fetch(generatetoken, {
+                        method: 'POST',
+                        headers: {
+                            'Content-type': 'application/json',
+                        },
+                        body: JSON.stringify(tmpObj),
                     })
-                    .catch((e) => dispatch(setMessageStateOpen({ messageStateOpen: { isOpen: true, severity: 'error', message: '登入錯誤，請檢查帳號密碼' } })));
+                        .then((res) => res.json())
+                        .then((data) => {
+                            if (data.cbps_access_token) {
+                                localStorageService({ accessToken: data.cbps_access_token });
+                                fetch(checktoken, {
+                                    method: 'POST',
+                                    headers: {
+                                        'Content-type': 'application/json',
+                                    },
+                                    body: JSON.stringify({
+                                        cbps_access_token: data.cbps_access_token,
+                                    }),
+                                })
+                                    .then((res) => res.json())
+                                    .then((data2) => {
+                                        console.log('data2=>>', data2);
+                                        dispatch(
+                                            setMessageStateOpen({
+                                                messageStateOpen: {
+                                                    isOpen: true,
+                                                    severity: 'success',
+                                                    message: `登入成功，${data2.UserCName}歡迎`,
+                                                },
+                                            }),
+                                        );
+                                        dispatch(
+                                            setUserInfo({
+                                                userInfo: {
+                                                    UserCName: data2.UserCName,
+                                                    ProfilePhotoURI: data2.ProfilePhotoURI,
+                                                },
+                                            }),
+                                        );
+                                        dispatch(setIsLogin({ isLogin: true }));
+                                    })
+                                    .catch((e) =>
+                                        dispatch(
+                                            setMessageStateOpen({
+                                                messageStateOpen: {
+                                                    isOpen: true,
+                                                    severity: 'error',
+                                                    message: '登入失敗，請重新登入',
+                                                },
+                                            }),
+                                        ),
+                                    );
+                            } else {
+                                dispatch(
+                                    setMessageStateOpen({
+                                        messageStateOpen: {
+                                            isOpen: true,
+                                            severity: 'error',
+                                            message: '登入錯誤，請檢查帳號密碼',
+                                        },
+                                    }),
+                                );
+                            }
+                        })
+                        .catch((e) =>
+                            dispatch(
+                                setMessageStateOpen({
+                                    messageStateOpen: {
+                                        isOpen: true,
+                                        severity: 'error',
+                                        message: '登入錯誤，請檢查帳號密碼',
+                                    },
+                                }),
+                            ),
+                        );
                 }}
             >
-                {({ errors, handleBlur, handleChange, handleSubmit, isSubmitting, touched, values }) => (
+                {({
+                    errors,
+                    handleBlur,
+                    handleChange,
+                    handleSubmit,
+                    isSubmitting,
+                    touched,
+                    values,
+                }) => (
                     <form noValidate onSubmit={handleSubmit}>
                         <Grid container spacing={3}>
                             <Grid item xs={12}>
@@ -112,7 +172,10 @@ const AuthLogin = () => {
                                         error={Boolean(touched.account && errors.account)}
                                     />
                                     {touched.account && errors.account && (
-                                        <FormHelperText error id="standard-weight-helper-text-account-login">
+                                        <FormHelperText
+                                            error
+                                            id="standard-weight-helper-text-account-login"
+                                        >
                                             {errors.account}
                                         </FormHelperText>
                                     )}
@@ -139,14 +202,21 @@ const AuthLogin = () => {
                                                     edge="end"
                                                     size="large"
                                                 >
-                                                    {showPassword ? <EyeOutlined /> : <EyeInvisibleOutlined />}
+                                                    {showPassword ? (
+                                                        <EyeOutlined />
+                                                    ) : (
+                                                        <EyeInvisibleOutlined />
+                                                    )}
                                                 </IconButton>
                                             </InputAdornment>
                                         }
                                         placeholder="Enter password"
                                     />
                                     {touched.password && errors.password && (
-                                        <FormHelperText error id="standard-weight-helper-text-password-login">
+                                        <FormHelperText
+                                            error
+                                            id="standard-weight-helper-text-password-login"
+                                        >
                                             {errors.password}
                                         </FormHelperText>
                                     )}

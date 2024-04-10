@@ -112,7 +112,13 @@ const InvoiceWorkManage = () => {
     };
 
     const initQuery = () => {
-        fetch(queryInvoice, { method: 'POST', body: JSON.stringify(queryApi) })
+        fetch(queryInvoice, {
+            method: 'POST',
+            headers: {
+                'Content-type': 'application/json',
+            },
+            body: JSON.stringify(queryApi),
+        })
             .then((res) => res.json())
             .then((data) => {
                 setListInfo(data);
@@ -121,7 +127,13 @@ const InvoiceWorkManage = () => {
     };
 
     const queryInitTemporary = () => {
-        fetch(queryInvoice, { method: 'POST', body: JSON.stringify(queryApiTemporary) })
+        fetch(queryInvoice, {
+            method: 'POST',
+            headers: {
+                'Content-type': 'application/json',
+            },
+            body: JSON.stringify(queryApiTemporary),
+        })
             .then((res) => res.json())
             .then((data) => {
                 setListInfo(data);
@@ -130,7 +142,13 @@ const InvoiceWorkManage = () => {
     };
 
     const firstQueryInit = () => {
-        fetch(queryInvoice, { method: 'POST', body: JSON.stringify(queryApiTemporary) })
+        fetch(queryInvoice, {
+            method: 'POST',
+            headers: {
+                'Content-type': 'application/json',
+            },
+            body: JSON.stringify(queryApiTemporary),
+        })
             .then((res) => res.json())
             .then((data) => {
                 orderDate(data);
@@ -251,7 +269,13 @@ const InvoiceWorkManage = () => {
                 WKMasterID: tmpModifyItem,
                 Status: 'VALIDATED',
             };
-            fetch(updateInvoice, { method: 'POST', body: JSON.stringify(tmpArray) })
+            fetch(updateInvoice, {
+                method: 'POST',
+                headers: {
+                    'Content-type': 'application/json',
+                },
+                body: JSON.stringify(tmpArray),
+            })
                 .then((res) => res.json())
                 .then(() => {
                     dispatch(
@@ -273,7 +297,13 @@ const InvoiceWorkManage = () => {
             let tmpArray = {
                 WKMasterID: tmpModifyItem,
             };
-            fetch(afterBilled, { method: 'POST', body: JSON.stringify(tmpArray) })
+            fetch(afterBilled, {
+                method: 'POST',
+                headers: {
+                    'Content-type': 'application/json',
+                },
+                body: JSON.stringify(tmpArray),
+            })
                 .then((res) => res.json())
                 .then((data) => {
                     if (!data.ifReturn && data.hasOwnProperty('ifReturn')) {
@@ -307,7 +337,13 @@ const InvoiceWorkManage = () => {
             let tmpArray = {
                 WKMasterID: tmpModifyItem,
             };
-            fetch(returnToValidated, { method: 'POST', body: JSON.stringify(tmpArray) })
+            fetch(returnToValidated, {
+                method: 'POST',
+                headers: {
+                    'Content-type': 'application/json',
+                },
+                body: JSON.stringify(tmpArray),
+            })
                 .then((res) => res.json())
                 .then((data) => {
                     if (!data.ifReturn && data.hasOwnProperty('ifReturn')) {
@@ -341,11 +377,23 @@ const InvoiceWorkManage = () => {
             let tmpArray = {
                 WKMasterID: tmpModifyItem,
             };
-            fetch(deleteInvoiceWKMaster, { method: 'POST', body: JSON.stringify(tmpArray) })
+            fetch(deleteInvoiceWKMaster, {
+                method: 'POST',
+                headers: {
+                    'Content-type': 'application/json',
+                },
+                body: JSON.stringify(tmpArray),
+            })
                 .then((res) => res.json())
                 .then(() => {
                     console.log('刪除主檔成功');
-                    fetch(deleteInvoiceWKDetail, { method: 'POST', body: JSON.stringify(tmpArray) })
+                    fetch(deleteInvoiceWKDetail, {
+                        method: 'POST',
+                        headers: {
+                            'Content-type': 'application/json',
+                        },
+                        body: JSON.stringify(tmpArray),
+                    })
                         .then((res) => res.json())
                         .then(() => {
                             dispatch(
@@ -494,12 +542,21 @@ const InvoiceWorkManage = () => {
             let tmpWKMasterID = {
                 WKMasterID: tmpModifyItem,
             };
-            fetch(deleteInvoiceWKMaster, { method: 'POST', body: JSON.stringify(tmpWKMasterID) })
+            fetch(deleteInvoiceWKMaster, {
+                method: 'POST',
+                headers: {
+                    'Content-type': 'application/json',
+                },
+                body: JSON.stringify(tmpWKMasterID),
+            })
                 .then((res) => res.json())
                 .then(() => {
                     console.log('刪除主檔成功');
                     fetch(deleteInvoiceWKDetail, {
                         method: 'POST',
+                        headers: {
+                            'Content-type': 'application/json',
+                        },
                         body: JSON.stringify(tmpWKMasterID),
                     })
                         .then((res) => res.json())
@@ -507,6 +564,9 @@ const InvoiceWorkManage = () => {
                             console.log('刪除明細成功');
                             fetch(generateInvoice, {
                                 method: 'POST',
+                                headers: {
+                                    'Content-type': 'application/json',
+                                },
                                 body: JSON.stringify(combineArray),
                             })
                                 .then((res) => res.json())

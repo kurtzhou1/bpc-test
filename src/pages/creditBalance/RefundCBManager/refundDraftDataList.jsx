@@ -68,6 +68,9 @@ const CreditBalanceDataList = ({ listInfo }) => {
         };
         fetch(updatePayDraft, {
             method: 'POST',
+            headers: {
+                'Content-type': 'application/json',
+            },
             body: JSON.stringify(tmpArray),
         })
             .then((res) => res.json())

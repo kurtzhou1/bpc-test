@@ -322,7 +322,13 @@ const WriteOffWork = ({
             WriteOffDetailList: toWriteOffDetailInfo,
         };
         console.log('tmpArray=>>', tmpArray, cBWriteOff);
-        fetch(saveWriteOff, { method: 'POST', body: JSON.stringify(tmpArray) })
+        fetch(saveWriteOff, {
+            method: 'POST',
+            headers: {
+                'Content-type': 'application/json',
+            },
+            body: JSON.stringify(tmpArray),
+        })
             .then((res) => res.json())
             .then(() => {
                 writeOffInitQuery();

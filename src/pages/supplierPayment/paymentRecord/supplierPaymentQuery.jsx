@@ -65,7 +65,13 @@ const SupplierPaymentQuery = ({ setListInfo }) => {
                 end: dayjs(paidDate[1]).format('YYYYMMDD'),
             };
         }
-        fetch(getPayMasterPayStatement, { method: 'POST', body: JSON.stringify(tmpQuery) })
+        fetch(getPayMasterPayStatement, {
+            method: 'POST',
+            headers: {
+                'Content-type': 'application/json',
+            },
+            body: JSON.stringify(tmpQuery),
+        })
             .then((res) => res.json())
             .then((data) => {
                 console.log('recordQuery查詢成功=>>', data);

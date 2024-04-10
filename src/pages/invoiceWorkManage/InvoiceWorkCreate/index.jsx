@@ -1,7 +1,18 @@
 import { useEffect, useState, forwardRef } from 'react';
 
 // material-ui
-import { Typography, Grid, Button, FormControl, InputLabel, Select, MenuItem, RadioGroup, FormControlLabel, Radio } from '@mui/material';
+import {
+    Typography,
+    Grid,
+    Button,
+    FormControl,
+    InputLabel,
+    Select,
+    MenuItem,
+    RadioGroup,
+    FormControlLabel,
+    Radio,
+} from '@mui/material';
 // material-ui
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DesktopDatePicker } from '@mui/x-date-pickers/DesktopDatePicker';
@@ -16,7 +27,13 @@ import { TextField } from '@mui/material/index';
 import { activeItem } from 'store/reducers/menu';
 
 // api
-import { supplierNameListForInvoice, submarineCableInfoList, billMilestoneList, generateInvoice, supplierNameDropDownUnique } from 'components/apis.jsx';
+import {
+    supplierNameListForInvoice,
+    submarineCableInfoList,
+    billMilestoneList,
+    generateInvoice,
+    supplierNameDropDownUnique,
+} from 'components/apis.jsx';
 import { handleNumber } from 'components/commonFunction';
 
 // redux
@@ -95,7 +112,7 @@ const InvoiceWorkManage = () => {
         IsRecharge,
         IsCreditMemo,
         IsLiability,
-        TotalAmount
+        TotalAmount,
     ) => {
         return {
             InvoiceNo,
@@ -111,7 +128,7 @@ const InvoiceWorkManage = () => {
             IsRecharge,
             IsCreditMemo,
             IsLiability,
-            TotalAmount
+            TotalAmount,
         };
     };
 
@@ -121,34 +138,87 @@ const InvoiceWorkManage = () => {
         invoiceDetailInfo.forEach((i) => {
             detailAmount = detailAmount + i.FeeAmount;
         });
-        if (Number(totalAmount.toString().replaceAll(',', '')).toFixed(2) !== Number(detailAmount).toFixed(2)) {
+        if (
+            Number(totalAmount.toString().replaceAll(',', '')).toFixed(2) !==
+            Number(detailAmount).toFixed(2)
+        ) {
             dispatch(
-                setMessageStateOpen({ messageStateOpen: { isOpen: true, severity: 'error', message: '總金額不等於費用項目金額加總' } })
+                setMessageStateOpen({
+                    messageStateOpen: {
+                        isOpen: true,
+                        severity: 'error',
+                        message: '總金額不等於費用項目金額加總',
+                    },
+                }),
             );
             return false;
         }
         if (submarineCable === '') {
-            dispatch(setMessageStateOpen({ messageStateOpen: { isOpen: true, severity: 'error', message: '請輸入海纜名稱' } }));
+            dispatch(
+                setMessageStateOpen({
+                    messageStateOpen: {
+                        isOpen: true,
+                        severity: 'error',
+                        message: '請輸入海纜名稱',
+                    },
+                }),
+            );
             return false;
         }
         if (workTitle === '') {
-            dispatch(setMessageStateOpen({ messageStateOpen: { isOpen: true, severity: 'error', message: '請輸入海纜作業' } }));
+            dispatch(
+                setMessageStateOpen({
+                    messageStateOpen: {
+                        isOpen: true,
+                        severity: 'error',
+                        message: '請輸入海纜作業',
+                    },
+                }),
+            );
             return false;
         }
         if (supplierName === '') {
-            dispatch(setMessageStateOpen({ messageStateOpen: { isOpen: true, severity: 'error', message: '請輸入供應商' } }));
+            dispatch(
+                setMessageStateOpen({
+                    messageStateOpen: { isOpen: true, severity: 'error', message: '請輸入供應商' },
+                }),
+            );
             return false;
         }
         if (invoiceNo === '') {
-            dispatch(setMessageStateOpen({ messageStateOpen: { isOpen: true, severity: 'error', message: '請輸入發票號碼' } }));
+            dispatch(
+                setMessageStateOpen({
+                    messageStateOpen: {
+                        isOpen: true,
+                        severity: 'error',
+                        message: '請輸入發票號碼',
+                    },
+                }),
+            );
             return false;
         }
         if (contractType === '') {
-            dispatch(setMessageStateOpen({ messageStateOpen: { isOpen: true, severity: 'error', message: '請輸入合約種類' } }));
+            dispatch(
+                setMessageStateOpen({
+                    messageStateOpen: {
+                        isOpen: true,
+                        severity: 'error',
+                        message: '請輸入合約種類',
+                    },
+                }),
+            );
             return false;
         }
         if (!isLiability && partyName === '') {
-            dispatch(setMessageStateOpen({ messageStateOpen: { isOpen: true, severity: 'error', message: '請輸入會員名稱' } }));
+            dispatch(
+                setMessageStateOpen({
+                    messageStateOpen: {
+                        isOpen: true,
+                        severity: 'error',
+                        message: '請輸入會員名稱',
+                    },
+                }),
+            );
             return false;
         }
         return true;
@@ -160,7 +230,9 @@ const InvoiceWorkManage = () => {
         if (infoCheck()) {
             let tmpList = listInfo.map((i) => i);
             let tmpArray = createData(
-                invoiceNo.trim() === '' ? 'No.' + dayjs(new Date()).format('YYYYMMDDHHmmss') : invoiceNo,
+                invoiceNo.trim() === ''
+                    ? 'No.' + dayjs(new Date()).format('YYYYMMDDHHmmss')
+                    : invoiceNo,
                 supplierName,
                 submarineCable,
                 workTitle,
@@ -173,12 +245,12 @@ const InvoiceWorkManage = () => {
                 isRecharge === 'true' || isRecharge === true ? true : false,
                 isCreditMemo === 'true' || isCreditMemo === true ? true : false,
                 isLiability === 'true' || isLiability === true ? true : false,
-                Number(totalAmount.toString().replaceAll(',', '')).toFixed(2)
+                Number(totalAmount.toString().replaceAll(',', '')).toFixed(2),
             );
             console.log('新增發票=>>', tmpArray);
             let combineArray = {
                 InvoiceWKMaster: tmpArray,
-                InvoiceWKDetail: invoiceDetailInfo
+                InvoiceWKDetail: invoiceDetailInfo,
             };
             tmpList.push(combineArray);
             setListInfo([...tmpList]);
@@ -223,7 +295,9 @@ const InvoiceWorkManage = () => {
             let tmpArray = listInfo.map((i) => i);
             tmpArray.splice(editItem, 1);
             let tmpAddArray = createData(
-                invoiceNo.trim() === '' ? 'No.' + dayjs(new Date()).format('YYYYMMDDHHmmss') : invoiceNo,
+                invoiceNo.trim() === ''
+                    ? 'No.' + dayjs(new Date()).format('YYYYMMDDHHmmss')
+                    : invoiceNo,
                 supplierName,
                 submarineCable,
                 workTitle,
@@ -236,11 +310,11 @@ const InvoiceWorkManage = () => {
                 isRecharge === 'true' || isRecharge === true ? true : false,
                 isCreditMemo === 'true' || isCreditMemo === true ? true : false,
                 isLiability === 'true' || isLiability === true ? true : false,
-                Number(totalAmount.toString().replaceAll(',', '')).toFixed(2)
+                Number(totalAmount.toString().replaceAll(',', '')).toFixed(2),
             );
             let combineArray = {
                 InvoiceWKMaster: tmpAddArray,
-                InvoiceWKDetail: invoiceDetailInfo
+                InvoiceWKDetail: invoiceDetailInfo,
             };
             tmpArray.push(combineArray);
             tmpArray.reverse();
@@ -260,10 +334,24 @@ const InvoiceWorkManage = () => {
     //送出
     const sendInvoice = () => {
         listInfo.forEach((dataInfo) => {
-            fetch(generateInvoice, { method: 'POST', body: JSON.stringify(dataInfo) })
+            fetch(generateInvoice, {
+                method: 'POST',
+                headers: {
+                    'Content-type': 'application/json',
+                },
+                body: JSON.stringify(dataInfo),
+            })
                 .then((res) => res.json())
                 .then(() => {
-                    dispatch(setMessageStateOpen({ messageStateOpen: { isOpen: true, severity: 'success', message: '送出發票成功' } }));
+                    dispatch(
+                        setMessageStateOpen({
+                            messageStateOpen: {
+                                isOpen: true,
+                                severity: 'success',
+                                message: '送出發票成功',
+                            },
+                        }),
+                    );
                     setListInfo([]);
                 })
                 .catch((e) => console.log('e=>', e));
@@ -276,8 +364,19 @@ const InvoiceWorkManage = () => {
 
     useEffect(() => {
         if (workTitle && submarineCable) {
-            let bmApi = billMilestoneList + 'SubmarineCable=' + submarineCable + '&WorkTitle=' + workTitle + '&End=false';
-            let snApi = supplierNameListForInvoice + 'SubmarineCable=' + submarineCable + '&WorkTitle=' + workTitle;
+            let bmApi =
+                billMilestoneList +
+                'SubmarineCable=' +
+                submarineCable +
+                '&WorkTitle=' +
+                workTitle +
+                '&End=false';
+            let snApi =
+                supplierNameListForInvoice +
+                'SubmarineCable=' +
+                submarineCable +
+                '&WorkTitle=' +
+                workTitle;
             fetch(bmApi, { method: 'GET' })
                 .then((res) => res.json())
                 .then((data) => {
@@ -308,7 +407,7 @@ const InvoiceWorkManage = () => {
         fetch(supplierNameDropDownUnique, { method: 'GET' })
             .then((res) => res.json())
             .then((data) => {
-                if(Array.isArray(data)) {
+                if (Array.isArray(data)) {
                     setSupNmList(data);
                 }
             })
@@ -377,7 +476,13 @@ const InvoiceWorkManage = () => {
                             />
                         </Grid>
                         {/* 按鈕 */}
-                        <Grid item xs={12} display="flex" justifyContent="center" alignItems="center">
+                        <Grid
+                            item
+                            xs={12}
+                            display="flex"
+                            justifyContent="center"
+                            alignItems="center"
+                        >
                             {isListEdit ? (
                                 <>
                                     <Button variant="contained" onClick={saveEdit} sx={{ mx: 1 }}>
@@ -389,10 +494,18 @@ const InvoiceWorkManage = () => {
                                 </>
                             ) : (
                                 <>
-                                    <Button variant="contained" onClick={addInvoiceInfo} sx={{ mx: 1 }}>
+                                    <Button
+                                        variant="contained"
+                                        onClick={addInvoiceInfo}
+                                        sx={{ mx: 1 }}
+                                    >
                                         新增發票
                                     </Button>
-                                    <Button variant="contained" onClick={itemInfoInitial} sx={{ mx: 1 }}>
+                                    <Button
+                                        variant="contained"
+                                        onClick={itemInfoInitial}
+                                        sx={{ mx: 1 }}
+                                    >
                                         全部清除
                                     </Button>
                                 </>
@@ -406,10 +519,20 @@ const InvoiceWorkManage = () => {
                     <Grid container spacing={2}>
                         <Grid item xs={12}>
                             <MainCard title="發票資料建立列表">
-                                <InvoiceDataList listInfo={listInfo} setEditItem={setEditItem} deletelistInfoItem={deletelistInfoItem} />
+                                <InvoiceDataList
+                                    listInfo={listInfo}
+                                    setEditItem={setEditItem}
+                                    deletelistInfoItem={deletelistInfoItem}
+                                />
                             </MainCard>
                         </Grid>
-                        <Grid item xs={12} display="flex" justifyContent="center" alignItems="center">
+                        <Grid
+                            item
+                            xs={12}
+                            display="flex"
+                            justifyContent="center"
+                            alignItems="center"
+                        >
                             {listInfo.length > 0 ? (
                                 <Button variant="contained" onClick={sendInvoice} sx={{ mx: 1 }}>
                                     送出發票

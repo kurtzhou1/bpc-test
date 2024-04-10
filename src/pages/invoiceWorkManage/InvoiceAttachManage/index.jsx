@@ -49,6 +49,9 @@ const InvoiceWorkManage = () => {
     const initQuery = () => {
         fetch(getInvoiceWKMasterInvoiceWKDetail, {
             method: 'POST',
+            headers: {
+                'Content-type': 'application/json',
+            },
             body: JSON.stringify(queryApi.current),
         })
             .then((res) => res.json())
@@ -61,6 +64,9 @@ const InvoiceWorkManage = () => {
     const queryInitTemporary = () => {
         fetch(getInvoiceWKMasterInvoiceWKDetail, {
             method: 'POST',
+            headers: {
+                'Content-type': 'application/json',
+            },
             body: JSON.stringify(queryApiTemporary),
         })
             .then((res) => res.json())
@@ -111,7 +117,13 @@ const InvoiceWorkManage = () => {
                 WKMasterID: tmpModifyItem,
                 Status: 'VALIDATED',
             };
-            fetch(updateInvoice, { method: 'POST', body: JSON.stringify(tmpArray) })
+            fetch(updateInvoice, {
+                method: 'POST',
+                headers: {
+                    'Content-type': 'application/json',
+                },
+                body: JSON.stringify(tmpArray),
+            })
                 .then((res) => res.json())
                 .then(() => {
                     dispatch(
@@ -133,7 +145,13 @@ const InvoiceWorkManage = () => {
             let tmpArray = {
                 WKMasterID: tmpModifyItem,
             };
-            fetch(afterBilled, { method: 'POST', body: JSON.stringify(tmpArray) })
+            fetch(afterBilled, {
+                method: 'POST',
+                headers: {
+                    'Content-type': 'application/json',
+                },
+                body: JSON.stringify(tmpArray),
+            })
                 .then((res) => res.json())
                 .then((data) => {
                     if (!data.ifReturn && data.hasOwnProperty('ifReturn')) {
@@ -167,7 +185,13 @@ const InvoiceWorkManage = () => {
             let tmpArray = {
                 WKMasterID: tmpModifyItem,
             };
-            fetch(returnToValidated, { method: 'POST', body: JSON.stringify(tmpArray) })
+            fetch(returnToValidated, {
+                method: 'POST',
+                headers: {
+                    'Content-type': 'application/json',
+                },
+                body: JSON.stringify(tmpArray),
+            })
                 .then((res) => res.json())
                 .then((data) => {
                     if (!data.ifReturn && data.hasOwnProperty('ifReturn')) {
@@ -201,11 +225,23 @@ const InvoiceWorkManage = () => {
             let tmpArray = {
                 WKMasterID: tmpModifyItem,
             };
-            fetch(deleteInvoiceWKMaster, { method: 'POST', body: JSON.stringify(tmpArray) })
+            fetch(deleteInvoiceWKMaster, {
+                method: 'POST',
+                headers: {
+                    'Content-type': 'application/json',
+                },
+                body: JSON.stringify(tmpArray),
+            })
                 .then((res) => res.json())
                 .then(() => {
                     console.log('刪除主檔成功');
-                    fetch(deleteInvoiceWKDetail, { method: 'POST', body: JSON.stringify(tmpArray) })
+                    fetch(deleteInvoiceWKDetail, {
+                        method: 'POST',
+                        headers: {
+                            'Content-type': 'application/json',
+                        },
+                        body: JSON.stringify(tmpArray),
+                    })
                         .then((res) => res.json())
                         .then(() => {
                             dispatch(

@@ -13,7 +13,7 @@ import {
     Autocomplete,
     Table,
     Tabs,
-    Tab
+    Tab,
 } from '@mui/material';
 
 // day
@@ -48,13 +48,13 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
         // backgroundColor: theme.palette.common.gary,
         color: theme.palette.common.black,
         paddingTop: '0.2rem',
-        paddingBottom: '0.2rem'
+        paddingBottom: '0.2rem',
     },
     [`&.${tableCellClasses.body}`]: {
         fontSize: 14,
         paddingTop: '0.2rem',
-        paddingBottom: '0.2rem'
-    }
+        paddingBottom: '0.2rem',
+    },
 }));
 
 const CreditBalanceView = ({ cbView, handleViewClose, viewId }) => {
@@ -68,7 +68,7 @@ const CreditBalanceView = ({ cbView, handleViewClose, viewId }) => {
     const a11yProps = (index) => {
         return {
             id: `simple-tab-${index}`,
-            'aria-controls': `simple-tabpanel-${index}`
+            'aria-controls': `simple-tabpanel-${index}`,
         };
     };
 
@@ -79,14 +79,14 @@ const CreditBalanceView = ({ cbView, handleViewClose, viewId }) => {
     const handleDownload = () => {
         let tmpData = {
             CBID: viewId,
-            Download: true
+            Download: true,
         };
         fetch(generateReport, {
             method: 'POST',
             headers: {
-                Accept: 'application/json'
+                Accept: 'application/json',
             },
-            body: JSON.stringify(tmpData)
+            body: JSON.stringify(tmpData),
         })
             .then((res) => {
                 return res.blob();
@@ -103,11 +103,14 @@ const CreditBalanceView = ({ cbView, handleViewClose, viewId }) => {
     const getData = () => {
         let tmpData = {
             CBID: viewId,
-            Download: false
+            Download: false,
         };
         fetch(generateReport, {
             method: 'POST',
-            body: JSON.stringify(tmpData)
+            headers: {
+                'Content-type': 'application/json',
+            },
+            body: JSON.stringify(tmpData),
         })
             .then((res) => res.json())
             .then((data) => {
@@ -131,7 +134,7 @@ const CreditBalanceView = ({ cbView, handleViewClose, viewId }) => {
                 <Grid container spacing={1}>
                     <Grid item xs={12} sm={12} md={12} lg={12}>
                         <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-                            <Tabs value={value} onChange={handleChange} >
+                            <Tabs value={value} onChange={handleChange}>
                                 <Tab label="CB抵扣紀錄" {...a11yProps(0)} />
                                 {/* <Tab label="退費紀錄" {...a11yProps(1)} /> */}
                             </Tabs>

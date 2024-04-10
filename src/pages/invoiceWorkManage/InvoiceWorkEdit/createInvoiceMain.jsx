@@ -66,7 +66,13 @@ const InvoiceWorkManage = ({
             let tmpArray = {
                 InvoiceNo: invoiceNo,
             };
-            fetch(checkInvoiceNo, { method: 'POST', body: JSON.stringify(tmpArray) })
+            fetch(checkInvoiceNo, {
+                method: 'POST',
+                headers: {
+                    'Content-type': 'application/json',
+                },
+                body: JSON.stringify(tmpArray),
+            })
                 .then((res) => res.json())
                 .then((data) => {
                     console.log('data=>>', data);

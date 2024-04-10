@@ -124,7 +124,6 @@ const BillDetail = ({ isDetailOpen, isDetailClose, modifyItem }) => {
                                             className="totalAmount"
                                             align="center"
                                         ></StyledTableCell>
-                                        {/* <StyledTableCell className="totalAmount" align="center"></StyledTableCell> */}
                                         <StyledTableCell
                                             className="totalAmount"
                                             align="center"
@@ -171,5 +170,3 @@ BillDetail.propTypes = {
     // handleDialogClose: React.func,
     isDetailOpen: React.bool,
 };
-
-// isDetailOpen, isDetailClose, modifyItem

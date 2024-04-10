@@ -77,6 +77,9 @@ const Information = () => {
             tmpQuery = submarineCables + tmpQuery;
             fetch(tmpQuery, {
                 method: 'POST',
+                headers: {
+                    'Content-type': 'application/json',
+                },
                 body: JSON.stringify(tmpObject),
             })
                 .then((res) => res.json())
@@ -93,6 +96,9 @@ const Information = () => {
             tmpQuery = suppliers + tmpQuery;
             fetch(tmpQuery, {
                 method: 'POST',
+                headers: {
+                    'Content-type': 'application/json',
+                },
                 body: JSON.stringify(tmpObject),
             })
                 .then((res) => res.json())
@@ -109,6 +115,9 @@ const Information = () => {
             tmpQuery = parties + tmpQuery;
             fetch(tmpQuery, {
                 method: 'POST',
+                headers: {
+                    'Content-type': 'application/json',
+                },
                 body: JSON.stringify(tmpObject),
             })
                 .then((res) => res.json())
@@ -125,6 +134,9 @@ const Information = () => {
             tmpQuery = corporates + tmpQuery;
             fetch(tmpQuery, {
                 method: 'POST',
+                headers: {
+                    'Content-type': 'application/json',
+                },
                 body: JSON.stringify(tmpObject),
             })
                 .then((res) => res.json())

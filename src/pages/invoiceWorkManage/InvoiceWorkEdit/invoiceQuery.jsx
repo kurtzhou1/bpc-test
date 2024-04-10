@@ -18,7 +18,6 @@ import PropTypes from 'prop-types';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DateRangePicker } from '@mui/x-date-pickers-pro/DateRangePicker';
-// import { DateRangePicker } from '@mui/lab/DateRangePicker';
 import { TextField } from '@mui/material/index';
 // project import
 import MainCard from 'components/MainCard';
@@ -47,7 +46,6 @@ const InvoiceQuery = ({
         TEMPORARY: false,
         VALIDATED: false,
     }); //處理狀態
-    // const [partyNameQuery, setPartyNameQuery] = useState(''); //會員名稱
     const [billMilestoneQuery, setBillMilestoneQuery] = useState('All'); //計帳段號
     const [invoiceNoQuery, setInvoiceNoQuery] = useState(''); //發票號碼
     const [isIssueDate, setIsIssueDate] = useState(''); //是否為發票日期
@@ -74,22 +72,17 @@ const InvoiceQuery = ({
     };
 
     const invoiceQuery = () => {
-        // let tmpQuery = '/';
         let tmpObject = {};
         if (supplierNameQuery && supplierNameQuery !== 'All') {
-            // tmpQuery = tmpQuery + 'SupplierName=' + supplierNameQuery + '&';
             tmpObject.SupplierName = supplierNameQuery;
         }
         if (submarineCableQuery && submarineCableQuery !== 'All') {
-            // tmpQuery = tmpQuery + 'SubmarineCable=' + submarineCableQuery + '&';
             tmpObject.SubmarineCable = submarineCableQuery;
         }
         if (invoiceNoQuery && invoiceNoQuery !== '') {
-            // tmpQuery = tmpQuery + 'InvoiceNo=' + invoiceNoQuery + '&';
             tmpObject.InvoiceNo = invoiceNoQuery;
         }
         if (billMilestoneQuery && billMilestoneQuery !== 'All') {
-            // tmpQuery = tmpQuery + 'BillMilestone=' + billMilestoneQuery + '&';
             tmpObject.BillMilestone = billMilestoneQuery;
         }
         if (isIssueDate === 'true') {
@@ -143,7 +136,13 @@ const InvoiceQuery = ({
         }
         queryApi.current = tmpObject;
         console.log('tmpQuery=>>', tmpObject);
-        fetch(queryInvoice, { method: 'POST', body: JSON.stringify(tmpObject) })
+        fetch(queryInvoice, {
+            method: 'POST',
+            headers: {
+                'Content-type': 'application/json',
+            },
+            body: JSON.stringify(tmpObject),
+        })
             .then((res) => res.json())
             .then((data) => {
                 setPage(0);

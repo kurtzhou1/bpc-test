@@ -41,7 +41,13 @@ const CreateJournal = () => {
             tmpArray.Status = 'INVALID';
         }
         console.log('tmpArray=>>', tmpArray);
-        fetch(queryInvoice, { method: 'POST', body: JSON.stringify(tmpArray) })
+        fetch(queryInvoice, {
+            method: 'POST',
+            headers: {
+                'Content-type': 'application/json',
+            },
+            body: JSON.stringify(tmpArray),
+        })
             .then((res) => res.json())
             .then((data) => {
                 console.log('查詢成功=>>', data);

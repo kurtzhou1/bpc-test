@@ -115,7 +115,13 @@ const ToBillDataList = ({ listInfo, apiQuery }) => {
                 InvoiceMaster: tmpArray,
                 InvoiceDetail: toBillDataInfo,
             };
-            fetch(sendJounary, { method: 'POST', body: JSON.stringify(tmpData) })
+            fetch(sendJounary, {
+                method: 'POST',
+                headers: {
+                    'Content-type': 'application/json',
+                },
+                body: JSON.stringify(tmpData),
+            })
                 .then((res) => res.json())
                 .then((data) => {
                     alert('送出立帳成功');

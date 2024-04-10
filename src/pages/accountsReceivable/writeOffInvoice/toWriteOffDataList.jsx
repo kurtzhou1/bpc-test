@@ -74,7 +74,13 @@ const ToWriteOffDataList = ({ listInfo, writeOffInitQuery }) => {
             BillMaster: info.BillMaster,
             CBWriteOff: cBWriteOff,
         };
-        fetch(submitWriteOff, { method: 'POST', body: JSON.stringify(tmpArray) })
+        fetch(submitWriteOff, {
+            method: 'POST',
+            headers: {
+                'Content-type': 'application/json',
+            },
+            body: JSON.stringify(tmpArray),
+        })
             .then((res) => res.json())
             .then(() => {
                 dispatch(

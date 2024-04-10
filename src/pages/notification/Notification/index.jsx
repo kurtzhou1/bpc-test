@@ -48,7 +48,13 @@ const Information = () => {
     const initQuery = () => {
         let tmpArray = {};
         if (value === 1 || value === '1') {
-            fetch(getSysInvNotifyRule, { method: 'POST', body: JSON.stringify(tmpArray) })
+            fetch(getSysInvNotifyRule, {
+                method: 'POST',
+                headers: {
+                    'Content-type': 'application/json',
+                },
+                body: JSON.stringify(tmpArray),
+            })
                 .then((res) => res.json())
                 .then((data) => {
                     console.log('initQuery=>>', data);

@@ -200,7 +200,13 @@ const ToDeductWork = ({
             BillMaster: billMasterInfo,
             Deduct: tmpDeductArray.current,
         };
-        fetch(sendDuctInfo, { method: 'POST', body: JSON.stringify(tmpArray) })
+        fetch(sendDuctInfo, {
+            method: 'POST',
+            headers: {
+                'Content-type': 'application/json',
+            },
+            body: JSON.stringify(tmpArray),
+        })
             .then((res) => res.json())
             .then(() => {
                 dispatch(

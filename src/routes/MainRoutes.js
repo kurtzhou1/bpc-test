@@ -126,6 +126,9 @@ const RequireAuth = ({ children, item }) => {
                     // 傳送使用者資料取得權限
                     fetch(checktokenForLDAP, {
                         method: 'POST',
+                        headers: {
+                            'Content-type': 'application/json',
+                        },
                         body: JSON.stringify({ accessToken: data.access_token }),
                     })
                         .then((res) => res.json())
