@@ -495,8 +495,9 @@ const BillDraftMake = ({
                                 }}
                             >
                                 {submarineCableName} Cable Network {subject1} Central Billing Party
+                                {subject3} Invoice
                             </Box>
-                            <Box
+                            {/* <Box
                                 sx={{
                                     fontSize: '24px',
                                     m: 1,
@@ -504,8 +505,9 @@ const BillDraftMake = ({
                                     fontWeight: 'bold',
                                 }}
                             >
+                                {submarineCableName} Cable Network {subject1} Central Billing Party
                                 {subject3} Invoice
-                            </Box>
+                            </Box> */}
                             <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
                                 <Box sx={{ m: 1, minWidth: '40%', with: '40%' }}>
                                     <Box sx={{ fontSize: '12px', textAlign: 'left' }}>
