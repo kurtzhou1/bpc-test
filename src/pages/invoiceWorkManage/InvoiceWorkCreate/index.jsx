@@ -1,29 +1,14 @@
-import { useEffect, useState, forwardRef } from 'react';
+import { useEffect, useState } from 'react';
 
 // material-ui
-import {
-    Typography,
-    Grid,
-    Button,
-    FormControl,
-    InputLabel,
-    Select,
-    MenuItem,
-    RadioGroup,
-    FormControlLabel,
-    Radio,
-} from '@mui/material';
+import { Grid, Button } from '@mui/material';
 // material-ui
-import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import { DesktopDatePicker } from '@mui/x-date-pickers/DesktopDatePicker';
-import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import dayjs from 'dayjs';
 // project import
 import MainCard from 'components/MainCard';
 import CreateInvoiceMain from './createInvoiceMain';
 import CreateInvoiceDetail from './createInvoiceDetail';
 import InvoiceDataList from './invoiceDataList';
-import { TextField } from '@mui/material/index';
 import { activeItem } from 'store/reducers/menu';
 
 // api
@@ -381,14 +366,18 @@ const InvoiceWorkManage = () => {
                 .then((res) => res.json())
                 .then((data) => {
                     console.log('BmStoneList=>>', data);
-                    setBmStoneList(data);
+                    if (data.isArray) {
+                        setBmStoneList(data);
+                    }
                 })
                 .catch((e) => console.log('e1=>', e));
             fetch(snApi, { method: 'GET' })
                 .then((res) => res.json())
                 .then((data) => {
                     console.log('SupNmList=>>', data);
-                    setSupNmList(data);
+                    if (data.isArray) {
+                        setSupNmList(data);
+                    }
                 })
                 .catch((e) => console.log('e1=>', e));
         } else {
