@@ -366,7 +366,7 @@ const InvoiceWorkManage = () => {
                 .then((res) => res.json())
                 .then((data) => {
                     console.log('BmStoneList=>>', data);
-                    if (data.isArray) {
+                    if (Array.isArray(data)) {
                         setBmStoneList(data);
                     }
                 })
@@ -375,7 +375,7 @@ const InvoiceWorkManage = () => {
                 .then((res) => res.json())
                 .then((data) => {
                     console.log('SupNmList=>>', data);
-                    if (data.isArray) {
+                    if (Array.isArray(data)) {
                         setSupNmList(data);
                     }
                 })
