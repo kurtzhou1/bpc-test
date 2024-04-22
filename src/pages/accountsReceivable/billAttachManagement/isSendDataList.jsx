@@ -285,13 +285,13 @@ const IsSendDataList = ({ listInfo }) => {
                                     </StyledTableCell>
                                     <StyledTableCell align="center">是</StyledTableCell>
                                     <StyledTableCell align="center">
-                                        {row.BillMaster.Status === 'TEMPORARY'
-                                            ? '暫存'
-                                            : row.BillMaster.Status === 'COMPLETE'
-                                            ? '完成付款'
-                                            : row.BillMaster.Status === 'TO_WRITEOFF'
-                                            ? '待銷帳'
-                                            : row.BillMaster.Status === 'INITIAL'
+                                        {row.BillMaster.Status === 'SIGNED'
+                                            ? '已簽核'
+                                            : row.BillMaster.Status === 'SIGNED'
+                                            ? '完成收款'
+                                            : row.BillMaster.Status === 'RATED'
+                                            ? '已抵扣'
+                                            : row.BillMaster.Status === 'MERGED'
                                             ? '待抵扣'
                                             : row.BillMaster.Status}
                                         {/* '已抵扣' */}

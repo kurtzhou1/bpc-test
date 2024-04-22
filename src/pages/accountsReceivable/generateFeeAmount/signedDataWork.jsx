@@ -51,7 +51,7 @@ const SignedDataWork = ({ isViewOpen, handleDeductedClose, billDetailInfo }) => 
             tmpData.forEach((i) => {
                 feeAmount.current = feeAmount.current + i.FeeAmount;
                 dedAmount.current = dedAmount.current + i.DedAmount;
-                wHTAmountTotal.current = wHTAmountTotal.current + i.wHTAmountTotal;
+                wHTAmountTotal.current = wHTAmountTotal.current + i.WHTAmountTotal;
             });
             setDataList(tmpData);
         }
@@ -94,18 +94,18 @@ const SignedDataWork = ({ isViewOpen, handleDeductedClose, billDetailInfo }) => 
                                                 }}
                                             >
                                                 <TableCell align="center">{id + 1}</TableCell>
-                                                <TableCell align="center">{row.FeeItem}</TableCell>
+                                                <TableCell align="center">{row?.FeeItem}</TableCell>
                                                 <TableCell align="center">
-                                                    {row.BillMilestone}
+                                                    {row?.BillMilestone}
                                                 </TableCell>
                                                 <TableCell align="center">
-                                                    ${handleNumber(row.DedAmount.toFixed(2))}
+                                                    ${handleNumber(row?.DedAmount.toFixed(2))}
                                                 </TableCell>
                                                 <TableCell align="center">
-                                                    ${handleNumber(row.WHTAmountTotal.toFixed(2))}
+                                                    ${handleNumber(row?.WHTAmountTotal.toFixed(2))}
                                                 </TableCell>
                                                 <TableCell align="center">
-                                                    ${handleNumber(row.FeeAmount.toFixed(2))}
+                                                    ${handleNumber(row?.FeeAmount.toFixed(2))}
                                                 </TableCell>
                                             </TableRow>
                                         );

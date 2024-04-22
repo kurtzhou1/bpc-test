@@ -127,10 +127,6 @@ const WriteOffWork = ({
                     (Number(i.CBWriteOffAmount?.toString().replaceAll(',', '')) || 0);
                 i.ReceiveAmount = Number(receiveAmount.toString().replaceAll(',', ''));
                 i.BRAmount = tmpBRAmount;
-                console.log('1=>>', receiveAmount);
-                console.log('2=>>', i.CBWriteOffAmount);
-                console.log('3=>>', i.ReceivedAmount);
-                console.log('4=>>', i.FeeAmount);
                 i.OverAmount =
                     Number(receiveAmount.toString().replaceAll(',', '')) +
                         (Number(i.CBWriteOffAmount?.toString().replaceAll(',', '')) || 0) +
@@ -227,7 +223,7 @@ const WriteOffWork = ({
                 i.BRAmount = 0; //總金額(暫時)
                 tmpOrgFeeAmountTotal = tmpOrgFeeAmountTotal + i.OrgFeeAmount;
                 tmpDedAmountTotal = tmpDedAmountTotal + i.DedAmount;
-                tmpWHTAmountTotal = tmpWHTAmountTotal + i.WHTAmountTotal;
+                tmpWHTAmountTotal = tmpWHTAmountTotal + i.WHTAmount;
                 tmpFeeAmountTotal = tmpFeeAmountTotal + i.FeeAmount;
                 tmpReceivedAmountTotal = tmpReceivedAmountTotal + i.ReceivedAmount;
                 tmpBankFeesTotal = tmpBankFeesTotal + i.BankFees;
@@ -672,9 +668,7 @@ const WriteOffWork = ({
                                                             )}
                                                         </TableCell>
                                                         {/* 本次手續費 */}
-                                                        {action === 'view' ? (
-                                                            ''
-                                                        ) : (
+                                                        {action === 'view' ? null : (
                                                             <TableCell align="center">
                                                                 <TextField
                                                                     // inputProps={{ step: '.01' }}
@@ -695,9 +689,7 @@ const WriteOffWork = ({
                                                             </TableCell>
                                                         )}
                                                         {/* 本次實收 */}
-                                                        {action === 'view' ? (
-                                                            ''
-                                                        ) : (
+                                                        {action === 'view' ? null : (
                                                             <TableCell align="center">
                                                                 <TextField
                                                                     sx={{ minWidth: 75 }}
@@ -715,9 +707,7 @@ const WriteOffWork = ({
                                                             </TableCell>
                                                         )}
                                                         {/* CB折抵 */}
-                                                        {action === 'view' ? (
-                                                            ''
-                                                        ) : (
+                                                        {action === 'view' ? null : (
                                                             <TableCell align="center">
                                                                 {handleNumber(
                                                                     row?.CBWriteOffAmount?.toFixed(
@@ -727,9 +717,7 @@ const WriteOffWork = ({
                                                             </TableCell>
                                                         )}
                                                         {/* 本次總金額 */}
-                                                        {action === 'view' ? (
-                                                            ''
-                                                        ) : (
+                                                        {action === 'view' ? null : (
                                                             <TableCell align="center">
                                                                 {handleNumber(
                                                                     row?.BRAmount?.toFixed(2),
@@ -904,8 +892,8 @@ const WriteOffWork = ({
                                                 >
                                                     {handleNumber(
                                                         (
-                                                            wHTAmountTotal.current -
-                                                            feeAmountTotal.current
+                                                            feeAmountTotal.current -
+                                                            wHTAmountTotal.current
                                                         )?.toFixed(2),
                                                     )}
                                                 </StyledTableCell>
