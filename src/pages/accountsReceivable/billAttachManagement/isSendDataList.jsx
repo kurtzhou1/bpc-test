@@ -287,12 +287,14 @@ const IsSendDataList = ({ listInfo }) => {
                                     <StyledTableCell align="center">
                                         {row.BillMaster.Status === 'SIGNED'
                                             ? '已簽核'
-                                            : row.BillMaster.Status === 'SIGNED'
-                                            ? '完成收款'
+                                            : row.BillMaster.Status === 'TO_WRITEOFF'
+                                            ? '待銷帳'
                                             : row.BillMaster.Status === 'RATED'
                                             ? '已抵扣'
-                                            : row.BillMaster.Status === 'MERGED'
+                                            : row.BillMaster.Status === 'INITIAL'
                                             ? '待抵扣'
+                                            : row.BillMaster.Status === 'COMPLETE'
+                                            ? '完成銷帳'
                                             : row.BillMaster.Status}
                                         {/* '已抵扣' */}
                                     </StyledTableCell>

@@ -42,6 +42,7 @@ const SignedDataWork = ({ isViewOpen, handleDeductedClose, billDetailInfo }) => 
     const initData = () => {
         feeAmount.current = 0;
         dedAmount.current = 0;
+        wHTAmountTotal.current = 0;
         setDataList([]);
     };
 
@@ -49,9 +50,10 @@ const SignedDataWork = ({ isViewOpen, handleDeductedClose, billDetailInfo }) => 
         let tmpData = billDetailInfo.map((i) => i);
         if (isViewOpen) {
             tmpData.forEach((i) => {
+                console.log('i.WHTAmount=>>', wHTAmountTotal.current, i.WHTAmount);
                 feeAmount.current = feeAmount.current + i.FeeAmount;
                 dedAmount.current = dedAmount.current + i.DedAmount;
-                wHTAmountTotal.current = wHTAmountTotal.current + i.WHTAmountTotal;
+                wHTAmountTotal.current = wHTAmountTotal.current + i.WHTAmount;
             });
             setDataList(tmpData);
         }
@@ -102,7 +104,7 @@ const SignedDataWork = ({ isViewOpen, handleDeductedClose, billDetailInfo }) => 
                                                     ${handleNumber(row?.DedAmount.toFixed(2))}
                                                 </TableCell>
                                                 <TableCell align="center">
-                                                    ${handleNumber(row?.WHTAmountTotal.toFixed(2))}
+                                                    ${handleNumber(row?.WHTAmount.toFixed(2))}
                                                 </TableCell>
                                                 <TableCell align="center">
                                                     ${handleNumber(row?.FeeAmount.toFixed(2))}
