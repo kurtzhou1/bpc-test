@@ -61,6 +61,8 @@ const Notification = Loadable(lazy(() => import('pages/notification/Notification
 // ==============================|| MAIN ROUTING ||============================== //
 
 const RequireAuth = ({ children, item }) => {
+    console.log('程式起點2=>>', window.location.href.indexOf('code'));
+
     const dispatch = useDispatch();
     const { isLogin, userInfo } = useSelector((state) => state.dropdown); //message狀態
     // haha2
@@ -73,7 +75,6 @@ const RequireAuth = ({ children, item }) => {
     //   '2=>>',
     //   dayjs(getExpireTime).diff(new Date(), 'minute') > 0,
     // );
-    console.log('item=>>', item, userInfo[item]);
 
     const sendNoPermission = () => {
         // dispatch(
@@ -84,92 +85,92 @@ const RequireAuth = ({ children, item }) => {
         return window.location.replace(window.location.protocol + '//' + window.location.host);
     };
 
-    // if (
-    //     window.location.host.includes('localhost') ||
-    //     dayjs(getExpireTime).diff(new Date(), 'minute') > 0 ||
-    //     isLogin
-    // ) {
-    // if (userInfo[item] === false) sendNoPermission();
-    return children;
-    // } else if (window.location.href.indexOf('code') !== -1) {
-    //     const accessCode = window.location.href.split('code=')[1];
-    //     let tmpArray = {
-    //         client_id: 'CBPS.QA.I',
-    //         redirect_uri: redirectUri,
-    //         code: accessCode,
-    //         grant_type: 'authorization_code',
-    //     };
-    //     const searchParams = new URLSearchParams(tmpArray);
-    //     console.log('searchParamshaha1=>>', accessCode);
-    //     fetch(accessSSO, {
-    //         method: 'POST',
-    //         body: searchParams,
-    //         headers: {
-    //             'Content-Type': 'application/x-www-form-urlencoded',
-    //         },
-    //     })
-    //         .then((res) => res.json())
-    //         .then((data) => {
-    //             console.log('datahaha2=>>>>', data.access_token);
-    //             if (data.access_token) {
-    //                 dispatch(
-    //                     setLoginInInfo({
-    //                         loginInInfo: {
-    //                             EmployeeNumber: jwt_decode(data.access_token).employeeNumber,
-    //                             Email: jwt_decode(data.access_token).email,
-    //                             Name: jwt_decode(data.access_token).name,
-    //                         },
-    //                     }),
-    //                 );
-    //                 localStorage.setItem('expireTimeCBP', dayjs().add(90, 'minute'));
-    //                 localStorage.setItem('accessToken', data.access_token);
-    //                 // 傳送使用者資料取得權限
-    //                 fetch(checktokenForLDAP, {
-    //                     method: 'POST',
-    //                     headers: {
-    //                         'Content-type': 'application/json',
-    //                     },
-    //                     body: JSON.stringify({ accessToken: data.access_token }),
-    //                 })
-    //                     .then((res) => res.json())
-    //                     .then((data) => {
-    //                         console.log('使用者權限資料2=>>', data);
-    //                         dispatch(
-    //                             setUserInfo({
-    //                                 userInfo: {
-    //                                     UserCName: data.UserCName,
-    //                                     ProfilePhotoURI: data.ProfilePhotoURI,
-    //                                     CB: data.CB,
-    //                                     Role: data.Role,
-    //                                     CM: data.CM,
-    //                                     System: data.System,
-    //                                     GlobalQuery: data.GlobalQuery,
-    //                                     SupplierNotify: data.SupplierNotify,
-    //                                     InvoiceWK: data.InvoiceWK,
-    //                                     Report: data.Report,
-    //                                     Superior: data.Superior,
-    //                                     Invoice: data.Invoice,
-    //                                     Data: data.Data,
-    //                                     Bill: data.Bill,
-    //                                     Liability: data.Liability,
-    //                                     Pay: data.Pay,
-    //                                     PartyNotify: data.PartyNotify,
-    //                                     SysNotify: data.SysNotify,
-    //                                 },
-    //                             }),
-    //                         );
-    //                         if (data[item] === false) sendNoPermission();
-    //                     })
-    //                     .catch((e) => console.log('e1=>', e));
-    //                 return children;
-    //             } else {
-    //                 return window.location.replace(ssoUrl);
-    //             }
-    //         })
-    //         .catch((e) => console.log('e1=>', e));
-    // } else {
-    //     return window.location.replace(ssoUrl);
-    // }
+    if (
+        window.location.host.includes('localhost') ||
+        dayjs(getExpireTime).diff(new Date(), 'minute') > 0 ||
+        isLogin
+    ) {
+        if (userInfo[item] === false) sendNoPermission();
+        return children;
+    } else if (window.location.href.indexOf('code') !== -1) {
+        const accessCode = window.location.href.split('code=')[1];
+        let tmpArray = {
+            client_id: 'CBPS.QA.I',
+            redirect_uri: redirectUri,
+            code: accessCode,
+            grant_type: 'authorization_code',
+        };
+        const searchParams = new URLSearchParams(tmpArray);
+        console.log('searchParamshaha1=>>', accessCode);
+        fetch(accessSSO, {
+            method: 'POST',
+            body: searchParams,
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+            },
+        })
+            .then((res) => res.json())
+            .then((data) => {
+                console.log('datahaha2=>>>>', data.access_token);
+                if (data.access_token) {
+                    dispatch(
+                        setLoginInInfo({
+                            loginInInfo: {
+                                EmployeeNumber: jwt_decode(data.access_token).employeeNumber,
+                                Email: jwt_decode(data.access_token).email,
+                                Name: jwt_decode(data.access_token).name,
+                            },
+                        }),
+                    );
+                    localStorage.setItem('expireTimeCBP', dayjs().add(90, 'minute'));
+                    localStorage.setItem('accessToken', data.access_token);
+                    // 傳送使用者資料取得權限
+                    fetch(checktokenForLDAP, {
+                        method: 'POST',
+                        headers: {
+                            'Content-type': 'application/json',
+                        },
+                        body: JSON.stringify({ accessToken: data.access_token }),
+                    })
+                        .then((res) => res.json())
+                        .then((data) => {
+                            console.log('使用者權限資料2=>>', data);
+                            dispatch(
+                                setUserInfo({
+                                    userInfo: {
+                                        UserCName: data.UserCName,
+                                        ProfilePhotoURI: data.ProfilePhotoURI,
+                                        CB: data.CB,
+                                        Role: data.Role,
+                                        CM: data.CM,
+                                        System: data.System,
+                                        GlobalQuery: data.GlobalQuery,
+                                        SupplierNotify: data.SupplierNotify,
+                                        InvoiceWK: data.InvoiceWK,
+                                        Report: data.Report,
+                                        Superior: data.Superior,
+                                        Invoice: data.Invoice,
+                                        Data: data.Data,
+                                        Bill: data.Bill,
+                                        Liability: data.Liability,
+                                        Pay: data.Pay,
+                                        PartyNotify: data.PartyNotify,
+                                        SysNotify: data.SysNotify,
+                                    },
+                                }),
+                            );
+                            if (data[item] === false) sendNoPermission();
+                        })
+                        .catch((e) => console.log('e1=>', e));
+                    return children;
+                } else {
+                    return window.location.replace(ssoUrl);
+                }
+            })
+            .catch((e) => console.log('e1=>', e));
+    } else {
+        return window.location.replace(ssoUrl);
+    }
 };
 
 const MainRoutes = {
