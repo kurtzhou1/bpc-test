@@ -197,11 +197,13 @@ const MainLayout = () => {
             client_id: 'CBPS.QA.I',
             // redirect_uri: redirectUri,
             redirect_uri:
-                'c2be8338-3cce-494d-880f-9b47773246f9.c7fc3a89-861f-4ece-9362-eb1814c0b5c2.4d93c876-915e-4ed3-bd09-968595f302c8',
+                '9478f0bb-db4b-41f3-8ff1-7937995fdf48.c7fc3a89-861f-4ece-9362-eb1814c0b5c2.4d93c876-915e-4ed3-bd09-968595f302c8',
             code: accessCode,
             grant_type: 'authorization_code',
         };
         const searchParams = new URLSearchParams(tmpArray);
+        console.log('dataTest1=>>', accessCode, tmpArray);
+
         fetch(accessSSO, {
             method: 'POST',
             body: searchParams,
@@ -211,6 +213,7 @@ const MainLayout = () => {
         })
             .then((res) => res.json())
             .then((data) => {
+                console.log('dataTest2=>>', data);
                 if (data.access_token) {
                     dispatch(
                         setLoginInInfo({
