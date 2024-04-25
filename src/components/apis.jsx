@@ -2,10 +2,10 @@
 let env = '10.193.130.75:8000';
 
 export const ssoUrl =
-    'https://iam-qa.cht.com.tw/auth/realms/B2E/protocol/openid-connect/auth?client_id=CBPS.QA.I&response_type=code&redirect_uri=http://internal-cbpsalbfrontend-1323185980.ap-northeast-1.elb.amazonaws.com&scope=ldap';
-// 'https://iam-qa.cht.com.tw/auth/realms/B2E/protocol/openid-connect/auth?client_id=CBPS.QA.I&response_type=code&redirect_uri=https://cbpsqa.cht.com.tw&scope=ldap';
-export const redirectUri = //'https://cbpsqa.cht.com.tw';
-    'http://internal-cbpsalbfrontend-1323185980.ap-northeast-1.elb.amazonaws.com';
+    // 'https://iam-qa.cht.com.tw/auth/realms/B2E/protocol/openid-connect/auth?client_id=CBPS.QA.I&response_type=code&redirect_uri=http://internal-cbpsalbfrontend-1323185980.ap-northeast-1.elb.amazonaws.com&scope=ldap';
+    'https://iam-qa.cht.com.tw/auth/realms/B2E/protocol/openid-connect/auth?client_id=CBPS.QA.I&response_type=code&redirect_uri=https://cbpsqa.cht.com.tw&scope=ldap';
+export const redirectUri = 'https://cbpsqa.cht.com.tw';
+// 'http://internal-cbpsalbfrontend-1323185980.ap-northeast-1.elb.amazonaws.com';
 
 // Login
 export const generatetoken = `http://${env}/api/v1/generatetoken`;
