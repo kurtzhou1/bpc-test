@@ -119,7 +119,6 @@ const ToCombineDataList = ({
 
     //合併帳單
     const handleCombine = () => {
-        //haha
         if (billingNo === '') {
             dispatch(
                 setMessageStateOpen({

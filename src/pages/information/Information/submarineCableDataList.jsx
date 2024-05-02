@@ -102,6 +102,8 @@ const SubmarineCableDataList = ({ infoList, setInfoList }) => {
 
     const addPartyInfo = () => {
         if (infoCheck()) {
+            //haha
+            let accessToken = localStorage.getItem('accessToken') ?? '';
             let tmpArray = {
                 CableCode: cableCode,
                 CableName: cableName,
@@ -110,7 +112,10 @@ const SubmarineCableDataList = ({ infoList, setInfoList }) => {
             fetch(submarineCables, {
                 method: 'POST',
                 body: JSON.stringify(tmpArray),
-                headers: { 'Content-Type': 'application/json' },
+                headers: {
+                    'Content-Type': 'application/json',
+                    Authorization: 'Bearer' + accessToken,
+                },
             })
                 .then((res) => res.json())
                 .then(() => {

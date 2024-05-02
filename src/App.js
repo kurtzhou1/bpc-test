@@ -9,7 +9,6 @@ const App = () => {
     return (
         <ThemeCustomization>
             <ScrollTop>
-                {/* {element} */}
                 <Routes />
             </ScrollTop>
         </ThemeCustomization>
