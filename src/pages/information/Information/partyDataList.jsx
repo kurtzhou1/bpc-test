@@ -236,7 +236,10 @@ const PartyDataList = ({ infoList, setInfoList }) => {
     };
 
     const queryPartiesInfo = () => {
-        fetch(getPartiesAllInfo, { method: 'GET' })
+        fetch(getPartiesAllInfo, {
+            method: 'GET',
+            Authorization: 'Bearer' + localStorage.getItem('accessToken') ?? '',
+        })
             .then((res) => res.json())
             .then((data) => {
                 if (Array.isArray(data)) {
@@ -326,7 +329,10 @@ const PartyDataList = ({ infoList, setInfoList }) => {
             fetch(parties, {
                 method: 'POST',
                 body: JSON.stringify(tmpArray),
-                headers: { 'Content-Type': 'application/json' },
+                headers: {
+                    'Content-Type': 'application/json',
+                    Authorization: 'Bearer' + localStorage.getItem('accessToken') ?? '',
+                },
             })
                 .then((res) => res.json())
                 .then(() => {
@@ -496,7 +502,10 @@ const PartyDataList = ({ infoList, setInfoList }) => {
             fetch(editParties, {
                 method: 'POST',
                 body: JSON.stringify(tmpArray),
-                headers: { 'Content-Type': 'application/json' },
+                headers: {
+                    'Content-Type': 'application/json',
+                    Authorization: 'Bearer' + localStorage.getItem('accessToken') ?? '',
+                },
             })
                 .then((res) => res.json())
                 .then(() => {

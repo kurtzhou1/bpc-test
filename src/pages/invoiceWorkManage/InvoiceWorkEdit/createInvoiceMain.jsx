@@ -70,6 +70,7 @@ const InvoiceWorkManage = ({
                 method: 'POST',
                 headers: {
                     'Content-type': 'application/json',
+                    Authorization: 'Bearer' + localStorage.getItem('accessToken') ?? '',
                 },
                 body: JSON.stringify(tmpArray),
             })
@@ -111,7 +112,10 @@ const InvoiceWorkManage = ({
                 submarineCable +
                 '&WorkTitle=' +
                 workTitle;
-            fetch(snApi, { method: 'GET' })
+            fetch(snApi, {
+                method: 'GET',
+                Authorization: 'Bearer' + localStorage.getItem('accessToken') ?? '',
+            })
                 .then((res) => res.json())
                 .then((data) => {
                     setSupNmList(data);

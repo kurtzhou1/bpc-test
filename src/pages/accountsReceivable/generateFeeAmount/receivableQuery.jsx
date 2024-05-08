@@ -132,7 +132,10 @@ const ReceivableQuery = ({ value, setListInfo, queryApi }) => {
             tmpQuery = queryToDecutBill + tmpQuery;
         }
         queryApi.current = tmpQuery;
-        fetch(tmpQuery, { method: 'GET' })
+        fetch(tmpQuery, {
+            method: 'GET',
+            Authorization: 'Bearer' + localStorage.getItem('accessToken') ?? '',
+        })
             .then((res) => res.json())
             .then((data) => {
                 if (data.length > 0) {
@@ -162,7 +165,10 @@ const ReceivableQuery = ({ value, setListInfo, queryApi }) => {
 
     useEffect(() => {
         // 供應商
-        fetch(supplierNameDropDownUnique, { method: 'GET' })
+        fetch(supplierNameDropDownUnique, {
+            method: 'GET',
+            Authorization: 'Bearer' + localStorage.getItem('accessToken') ?? '',
+        })
             .then((res) => res.json())
             .then((data) => {
                 if (Array.isArray(data)) {
@@ -171,7 +177,9 @@ const ReceivableQuery = ({ value, setListInfo, queryApi }) => {
             })
             .catch((e) => console.log('e1=>', e));
         //海纜名稱
-        fetch(submarineCableInfoList, { method: 'GET' })
+        fetch(submarineCableInfoList, {
+            method: 'GET',
+        })
             .then((res) => res.json())
             .then((data) => {
                 setSubmarineCableList(data);

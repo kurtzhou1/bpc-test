@@ -32,7 +32,7 @@ const UploadBillMasterAttachment = ({ isUploadOpen, handleUploadClose, receivabl
 
     const handleUploadFile = () => {
         if (uploadFile.length > 0) {
-            let tmpApi = uploadBillMasterAttachment + '/' ;
+            let tmpApi = uploadBillMasterAttachment + '/';
             const pdfData = new FormData();
             pdfData.append('file', uploadFile[0]);
             // data
@@ -40,19 +40,32 @@ const UploadBillMasterAttachment = ({ isUploadOpen, handleUploadClose, receivabl
                 method: 'POST',
                 body: pdfData,
                 headers: {
-                    Accept: 'application/json'
-                }
+                    Accept: 'application/json',
+                    Authorization: 'Bearer' + localStorage.getItem('accessToken') ?? '',
+                },
             })
                 .then((res) => res.json())
                 .then(() => {
-                    dispatch(setMessageStateOpen({ messageStateOpen: { isOpen: true, severity: 'success', message: '上傳成功' } }));
+                    dispatch(
+                        setMessageStateOpen({
+                            messageStateOpen: {
+                                isOpen: true,
+                                severity: 'success',
+                                message: '上傳成功',
+                            },
+                        }),
+                    );
                     setUploadFile(null);
                     handleUploadClose();
                     receivableQuery();
                 })
                 .catch((e) => console.log('e1=>', e));
         } else {
-            dispatch(setMessageStateOpen({ messageStateOpen: { isOpen: true, severity: 'error', message: '請上傳檔案' } }));
+            dispatch(
+                setMessageStateOpen({
+                    messageStateOpen: { isOpen: true, severity: 'error', message: '請上傳檔案' },
+                }),
+            );
         }
     };
 
@@ -68,23 +81,44 @@ const UploadBillMasterAttachment = ({ isUploadOpen, handleUploadClose, receivabl
 
     return (
         <Dialog maxWidth="xs" fullWidth open={isUploadOpen}>
-            <BootstrapDialogTitle>
-                簽核作業
-            </BootstrapDialogTitle>
+            <BootstrapDialogTitle>簽核作業</BootstrapDialogTitle>
             <DialogContent dividers>
                 <RadioGroup row value={isUpload} onChange={(e) => setIsUpload(e.target.value)}>
-                    <Grid container spacing={2} display="flex" justifyContent="center" alignItems="center">
+                    <Grid
+                        container
+                        spacing={2}
+                        display="flex"
+                        justifyContent="center"
+                        alignItems="center"
+                    >
                         <Grid item xs={12} sm={12} md={12} lg={12} display="flex">
-                            <Box sx={{ display: 'flex', flexFlow: 'column', alignItems: 'center', width: '100%' }}>
+                            <Box
+                                sx={{
+                                    display: 'flex',
+                                    flexFlow: 'column',
+                                    alignItems: 'center',
+                                    width: '100%',
+                                }}
+                            >
                                 <DropzoneArea onChange={handleUploadChange} />
                                 <FormControlLabel
                                     value={true}
-                                    control={<Radio sx={{ '& .MuiSvgIcon-root': { fontSize: { lg: 14, xl: 20 } } }} />}
+                                    control={
+                                        <Radio
+                                            sx={{
+                                                '& .MuiSvgIcon-root': {
+                                                    fontSize: { lg: 14, xl: 20 },
+                                                },
+                                            }}
+                                        />
+                                    }
                                 />
                             </Box>
                         </Grid>
                         <Grid item xs={12} sm={12} md={12} lg={12} display="flex">
-                            <Box sx={{ fontSize: 0.1, textAlign: 'left' }}>{displayName[0] ? `上傳成功：${displayName[0]}` : ''}</Box>
+                            <Box sx={{ fontSize: 0.1, textAlign: 'left' }}>
+                                {displayName[0] ? `上傳成功：${displayName[0]}` : ''}
+                            </Box>
                         </Grid>
                     </Grid>
                 </RadioGroup>

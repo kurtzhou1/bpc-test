@@ -70,6 +70,7 @@ const CreditBalanceDataList = ({ listInfo }) => {
             method: 'POST',
             headers: {
                 'Content-type': 'application/json',
+                Authorization: 'Bearer' + localStorage.getItem('accessToken') ?? '',
             },
             body: JSON.stringify(tmpArray),
         })

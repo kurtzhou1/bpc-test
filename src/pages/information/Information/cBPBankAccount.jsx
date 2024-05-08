@@ -165,7 +165,10 @@ const Corporates = ({ infoList, setInfoList }) => {
     };
 
     const queryCorporatesInfo = () => {
-        fetch(getCorporatesInfo, { method: 'GET' })
+        fetch(getCorporatesInfo, {
+            method: 'GET',
+            Authorization: 'Bearer' + localStorage.getItem('accessToken') ?? '',
+        })
             .then((res) => res.json())
             .then((data) => {
                 console.log('取得Corporates資料成功=>', data);
@@ -225,7 +228,10 @@ const Corporates = ({ infoList, setInfoList }) => {
             fetch(corporates, {
                 method: 'POST',
                 body: JSON.stringify(tmpArray),
-                headers: { 'Content-Type': 'application/json' },
+                headers: {
+                    'Content-Type': 'application/json',
+                    Authorization: 'Bearer' + localStorage.getItem('accessToken') ?? '',
+                },
             })
                 .then((res) => res.json())
                 .then(() => {
@@ -249,7 +255,10 @@ const Corporates = ({ infoList, setInfoList }) => {
         fetch(deleteCorporates, {
             method: 'POST',
             body: JSON.stringify(row),
-            headers: { 'Content-Type': 'application/json' },
+            headers: {
+                'Content-Type': 'application/json',
+                Authorization: 'Bearer' + localStorage.getItem('accessToken') ?? '',
+            },
         })
             .then((res) => res.json())
             .then(() => {
@@ -334,7 +343,10 @@ const Corporates = ({ infoList, setInfoList }) => {
             fetch(editCorporates, {
                 method: 'POST',
                 body: JSON.stringify(tmpArray),
-                headers: { 'Content-Type': 'application/json' },
+                headers: {
+                    'Content-Type': 'application/json',
+                    Authorization: 'Bearer' + localStorage.getItem('accessToken') ?? '',
+                },
             })
                 .then((res) => res.json())
                 .then(() => {

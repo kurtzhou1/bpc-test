@@ -183,6 +183,7 @@ const BillDraftMake = ({
             method: 'POST',
             headers: {
                 Accept: 'application/json',
+                Authorization: 'Bearer' + localStorage.getItem('accessToken') ?? '',
             },
             body: JSON.stringify(tmpData),
         })
@@ -230,6 +231,7 @@ const BillDraftMake = ({
                 method: 'POST',
                 headers: {
                     'Content-type': 'application/json',
+                    Authorization: 'Bearer' + localStorage.getItem('accessToken') ?? '',
                 },
                 body: JSON.stringify(tmpArray),
             })
@@ -247,7 +249,10 @@ const BillDraftMake = ({
                     totalAmount.current = tmpAmount;
                 })
                 .catch((e) => console.log('e1=>', e));
-            fetch(contactUser, { method: 'GET' })
+            fetch(contactUser, {
+                method: 'GET',
+                Authorization: 'Bearer' + localStorage.getItem('accessToken') ?? '',
+            })
                 .then((res) => res.json())
                 .then((data) => {
                     if (Array.isArray(data)) {

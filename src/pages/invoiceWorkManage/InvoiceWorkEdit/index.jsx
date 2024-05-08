@@ -69,7 +69,6 @@ const InvoiceWorkManage = () => {
 
     const queryApi = useRef({});
     const queryApiTemporary = { Status: ['TEMPORARY'] };
-    // const queryApiTemporary = queryInvoice + '/Status=TEMPORARY';
 
     const [submarineCableList, setSubmarineCableList] = useState([]); //海纜名稱下拉選單
     const [listInfo, setListInfo] = useState([]);
@@ -78,7 +77,6 @@ const InvoiceWorkManage = () => {
     const [isReturnOpen, setIsReturnOpen] = useState(false);
     const [supNmList, setSupNmList] = useState([]); //供應商下拉選單
     const returnDataList = useRef([]);
-
     const actionBack = useRef('');
 
     const itemInfoInitial = () => {
@@ -116,6 +114,7 @@ const InvoiceWorkManage = () => {
             method: 'POST',
             headers: {
                 'Content-type': 'application/json',
+                Authorization: 'Bearer' + localStorage.getItem('accessToken') ?? '',
             },
             body: JSON.stringify(queryApi),
         })
@@ -131,6 +130,7 @@ const InvoiceWorkManage = () => {
             method: 'POST',
             headers: {
                 'Content-type': 'application/json',
+                Authorization: 'Bearer' + localStorage.getItem('accessToken') ?? '',
             },
             body: JSON.stringify(queryApiTemporary),
         })
@@ -146,6 +146,7 @@ const InvoiceWorkManage = () => {
             method: 'POST',
             headers: {
                 'Content-type': 'application/json',
+                Authorization: 'Bearer' + localStorage.getItem('accessToken') ?? '',
             },
             body: JSON.stringify(queryApiTemporary),
         })
@@ -203,7 +204,10 @@ const InvoiceWorkManage = () => {
         setAction('');
         setModifyItem('');
         firstQueryInit();
-        fetch(supplierNameDropDownUnique, { method: 'GET' })
+        fetch(supplierNameDropDownUnique, {
+            method: 'GET',
+            Authorization: 'Bearer' + localStorage.getItem('accessToken') ?? '',
+        })
             .then((res) => res.json())
             .then((data) => {
                 if (Array.isArray(data)) {
@@ -273,6 +277,7 @@ const InvoiceWorkManage = () => {
                 method: 'POST',
                 headers: {
                     'Content-type': 'application/json',
+                    Authorization: 'Bearer' + localStorage.getItem('accessToken') ?? '',
                 },
                 body: JSON.stringify(tmpArray),
             })
@@ -301,6 +306,7 @@ const InvoiceWorkManage = () => {
                 method: 'POST',
                 headers: {
                     'Content-type': 'application/json',
+                    Authorization: 'Bearer' + localStorage.getItem('accessToken') ?? '',
                 },
                 body: JSON.stringify(tmpArray),
             })
@@ -341,6 +347,7 @@ const InvoiceWorkManage = () => {
                 method: 'POST',
                 headers: {
                     'Content-type': 'application/json',
+                    Authorization: 'Bearer' + localStorage.getItem('accessToken') ?? '',
                 },
                 body: JSON.stringify(tmpArray),
             })
@@ -381,6 +388,7 @@ const InvoiceWorkManage = () => {
                 method: 'POST',
                 headers: {
                     'Content-type': 'application/json',
+                    Authorization: 'Bearer' + localStorage.getItem('accessToken') ?? '',
                 },
                 body: JSON.stringify(tmpArray),
             })
@@ -391,6 +399,7 @@ const InvoiceWorkManage = () => {
                         method: 'POST',
                         headers: {
                             'Content-type': 'application/json',
+                            Authorization: 'Bearer' + localStorage.getItem('accessToken') ?? '',
                         },
                         body: JSON.stringify(tmpArray),
                     })
@@ -546,6 +555,7 @@ const InvoiceWorkManage = () => {
                 method: 'POST',
                 headers: {
                     'Content-type': 'application/json',
+                    Authorization: 'Bearer' + localStorage.getItem('accessToken') ?? '',
                 },
                 body: JSON.stringify(tmpWKMasterID),
             })
@@ -556,6 +566,7 @@ const InvoiceWorkManage = () => {
                         method: 'POST',
                         headers: {
                             'Content-type': 'application/json',
+                            Authorization: 'Bearer' + localStorage.getItem('accessToken') ?? '',
                         },
                         body: JSON.stringify(tmpWKMasterID),
                     })
@@ -566,6 +577,8 @@ const InvoiceWorkManage = () => {
                                 method: 'POST',
                                 headers: {
                                     'Content-type': 'application/json',
+                                    Authorization:
+                                        'Bearer' + localStorage.getItem('accessToken') ?? '',
                                 },
                                 body: JSON.stringify(combineArray),
                             })

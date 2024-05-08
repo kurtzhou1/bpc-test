@@ -206,7 +206,7 @@ const ResearchBillDetail = ({ datailInfo }) => {
 
   const viewBillDetail = (id) => {
     let tmpQuery = queryToDecutBill + '/BillMasterID=' + id;
-    fetch(tmpQuery, { method: 'GET' })
+    fetch(tmpQuery, { method: 'GET',     Authorization: 'Bearer' + localStorage.getItem('accessToken') ?? '', })
       .then((res) => res.json())
       .then((data) => {
         if (Array.isArray(data)) {

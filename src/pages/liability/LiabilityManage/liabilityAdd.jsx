@@ -225,6 +225,7 @@ const LiabilityAdd = ({
                 method: 'POST',
                 headers: {
                     'Content-type': 'application/json',
+                    Authorization: 'Bearer' + localStorage.getItem('accessToken') ?? '',
                 },
                 body: JSON.stringify({ LBRawID: lBRawID.current }),
             })
@@ -235,6 +236,7 @@ const LiabilityAdd = ({
                         method: 'POST',
                         headers: {
                             'Content-type': 'application/json',
+                            Authorization: 'Bearer' + localStorage.getItem('accessToken') ?? '',
                         },
                         body: JSON.stringify(listInfo),
                     })

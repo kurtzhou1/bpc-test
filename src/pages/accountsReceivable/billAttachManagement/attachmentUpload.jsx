@@ -40,6 +40,7 @@ const AttachmentUpload = ({ isAttachUploadOpen, handleAttachUploadClose, itemID 
                 body: pdfData,
                 headers: {
                     Accept: 'application/json',
+                    Authorization: 'Bearer' + localStorage.getItem('accessToken') ?? '',
                 },
             })
                 .then((res) => res.json())

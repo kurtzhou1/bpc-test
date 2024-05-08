@@ -26,32 +26,6 @@ import { checktokenForLDAP, ssoUrl, redirectUri } from 'components/apis.jsx';
 
 // ==============================|| MAIN LAYOUT ||============================== //
 
-const fakeData = {
-    UserID: 'cht_frank',
-    CB: true,
-    Role: true,
-    UPerMIDNo: 4,
-    CM: true,
-    System: true,
-    UserCName: 'Frank',
-    GlobalQuery: true,
-    SupplierNotify: true,
-    InvoiceWK: true,
-    Report: true,
-    Superior: true,
-    Invoice: true,
-    Data: true,
-    PCode: 'R0',
-    Bill: true,
-    Liability: true,
-    HashedPassword: '$2b$12$vXyuPMAmfL2HkVY8MgAg6.N0j5Mf/v5yK627zSWwjz.orwTgiqUBS',
-    Pay: true,
-    PartyNotify: true,
-    ProfilePhotoURI:
-        'http://chtds.cht.com.tw/photo/Lyncphoto/j4NKy4NKyhloyKHrO1S3/n/y6tKy4tez2VUy3Ve.jpg',
-    SysNotify: true,
-};
-
 const MainLayout = () => {
     const theme = useTheme();
     const matchDownLG = useMediaQuery(theme.breakpoints.down('xl'));
@@ -160,6 +134,7 @@ const MainLayout = () => {
                     method: 'POST',
                     headers: {
                         'Content-type': 'application/json',
+                        Authorization: 'Bearer' + accessToken,
                     },
                     body: JSON.stringify({ accessToken: accessToken }),
                 })
@@ -229,6 +204,7 @@ const MainLayout = () => {
                                 method: 'POST',
                                 headers: {
                                     'Content-type': 'application/json',
+                                    Authorization: 'Bearer' + data.access_token,
                                 },
                                 body: JSON.stringify(data.access_token),
                             })
@@ -275,6 +251,7 @@ const MainLayout = () => {
                 method: 'POST',
                 headers: {
                     'Content-type': 'application/json',
+                    Authorization: 'Bearer' + accessToken,
                 },
                 body: JSON.stringify({ accessToken: accessToken }),
             })

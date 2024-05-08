@@ -109,6 +109,7 @@ const CorrespondenceMake = ({ isDialogOpen, handleDialogClose, payDraftID }) => 
             method: 'POST',
             headers: {
                 'Content-type': 'application/json',
+                Authorization: 'Bearer' + localStorage.getItem('accessToken') ?? '',
             },
             body: JSON.stringify(tmpArray),
         })
@@ -148,6 +149,7 @@ const CorrespondenceMake = ({ isDialogOpen, handleDialogClose, payDraftID }) => 
                 method: 'POST',
                 headers: {
                     'Content-type': 'application/json',
+                    Authorization: 'Bearer' + localStorage.getItem('accessToken') ?? '',
                 },
                 body: JSON.stringify(tmpArray),
             })

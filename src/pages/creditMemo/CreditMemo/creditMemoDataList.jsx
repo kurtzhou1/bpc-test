@@ -53,6 +53,7 @@ const CreditBalanceDataList = ({ listInfo }) => {
             method: 'POST',
             headers: {
                 Accept: 'application/json',
+                Authorization: 'Bearer' + localStorage.getItem('accessToken') ?? '',
             },
             body: JSON.stringify(tmpObject),
         })
@@ -111,6 +112,7 @@ const CreditBalanceDataList = ({ listInfo }) => {
             method: 'POST',
             headers: {
                 Accept: 'application/json',
+                Authorization: 'Bearer' + localStorage.getItem('accessToken') ?? '',
             },
         })
             .then((res) => {

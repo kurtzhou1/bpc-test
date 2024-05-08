@@ -75,6 +75,7 @@ const ReceivableQuery = ({ setListInfo }) => {
             method: 'POST',
             headers: {
                 'Content-type': 'application/json',
+                Authorization: 'Bearer' + localStorage.getItem('accessToken') ?? '',
             },
             body: JSON.stringify(tmpObject),
         })
@@ -90,7 +91,9 @@ const ReceivableQuery = ({ setListInfo }) => {
     useEffect(() => {
         initInfo();
         //海纜名稱
-        fetch(submarineCableInfoList, { method: 'GET' })
+        fetch(submarineCableInfoList, {
+            method: 'GET',
+        })
             .then((res) => res.json())
             .then((data) => {
                 setSubmarineCableList(data);

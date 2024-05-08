@@ -54,7 +54,10 @@ const ToBillDataList = ({ listInfo, apiQuery }) => {
         let tmpQuery = '/' + 'WKMasterID=' + wKMasterID;
         tmpQuery = toBillDataapi + tmpQuery;
         console.log('tmpQuery=>>', tmpQuery);
-        fetch(tmpQuery, { method: 'GET' })
+        fetch(tmpQuery, {
+            method: 'GET',
+            Authorization: 'Bearer' + localStorage.getItem('accessToken') ?? '',
+        })
             .then((res) => res.json())
             .then((data) => {
                 console.log(
@@ -119,6 +122,7 @@ const ToBillDataList = ({ listInfo, apiQuery }) => {
                 method: 'POST',
                 headers: {
                     'Content-type': 'application/json',
+                    Authorization: 'Bearer' + localStorage.getItem('accessToken') ?? '',
                 },
                 body: JSON.stringify(tmpData),
             })

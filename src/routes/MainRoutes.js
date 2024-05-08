@@ -129,6 +129,7 @@ const RequireAuth = ({ children, item }) => {
                         method: 'POST',
                         headers: {
                             'Content-type': 'application/json',
+                            Authorization: 'Bearer' + data.access_token,
                         },
                         body: JSON.stringify({ accessToken: data.access_token }),
                     })

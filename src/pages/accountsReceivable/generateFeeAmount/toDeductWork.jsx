@@ -91,7 +91,10 @@ const ToDeductWork = ({
                 data.WorkTitle +
                 '&PartyName=' +
                 data.PartyName;
-            fetch(tmpQuery, { method: 'GET' })
+            fetch(tmpQuery, {
+                method: 'GET',
+                Authorization: 'Bearer' + localStorage.getItem('accessToken') ?? '',
+            })
                 .then((res) => res.json())
                 .then((response) => {
                     if (Array.isArray(response)) {
@@ -204,6 +207,7 @@ const ToDeductWork = ({
             method: 'POST',
             headers: {
                 'Content-type': 'application/json',
+                Authorization: 'Bearer' + localStorage.getItem('accessToken') ?? '',
             },
             body: JSON.stringify(tmpArray),
         })

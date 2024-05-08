@@ -78,7 +78,10 @@ const GenerateFeeAmount = () => {
         } else {
             tmpQuery = queryApi.current;
         }
-        fetch(tmpQuery, { method: 'GET' })
+        fetch(tmpQuery, {
+            method: 'GET',
+            Authorization: 'Bearer' + localStorage.getItem('accessToken') ?? '',
+        })
             .then((res) => res.json())
             .then((data) => {
                 if (data.length > 0) {

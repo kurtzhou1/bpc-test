@@ -45,7 +45,6 @@ const JournalQuery = ({ setListInfo, queryApi, invoiceStatus, setPage }) => {
     };
 
     const jounaryQuery = () => {
-        // let tmpQuery = '/';
         let tmpObject = {};
         if (supplierName && supplierName !== 'All') {
             // tmpQuery = tmpQuery + 'SupplierName=' + supplierName + '&';
@@ -73,13 +72,13 @@ const JournalQuery = ({ setListInfo, queryApi, invoiceStatus, setPage }) => {
             // tmpQuery = tmpQuery + 'Status=BILLED&Status=PAYING&Status=COMPLETE';
             tmpObject.Status = ['BILLED', 'PAYING', 'COMPLETE'];
         }
-        // tmpQuery = queryInvoice + tmpQuery;
         queryApi.current = tmpObject;
         console.log('立帳發票查詢=>>', tmpObject);
         fetch(queryInvoice, {
             method: 'POST',
             headers: {
                 'Content-type': 'application/json',
+                Authorization: 'Bearer' + localStorage.getItem('accessToken') ?? '',
             },
             body: JSON.stringify(tmpObject),
         })
@@ -93,7 +92,10 @@ const JournalQuery = ({ setListInfo, queryApi, invoiceStatus, setPage }) => {
     };
 
     useEffect(() => {
-        fetch(supplierNameDropDownUnique, { method: 'GET' })
+        fetch(supplierNameDropDownUnique, {
+            method: 'GET',
+            Authorization: 'Bearer' + localStorage.getItem('accessToken') ?? '',
+        })
             .then((res) => res.json())
             .then((data) => {
                 console.log('data=>>', data);
@@ -103,7 +105,9 @@ const JournalQuery = ({ setListInfo, queryApi, invoiceStatus, setPage }) => {
             })
             .catch((e) => console.log('e1=>', e));
         //海纜名稱
-        fetch(submarineCableInfoList, { method: 'GET' })
+        fetch(submarineCableInfoList, {
+            method: 'GET',
+        })
             .then((res) => res.json())
             .then((data) => {
                 setSubmarineCableList(data);

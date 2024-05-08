@@ -41,7 +41,10 @@ const Correspondence = () => {
                 ? '/Status=TEMPORARY&PayeeType=SUPPLIER'
                 : '/Status=COMPLETE&PayeeType=SUPPLIER';
         tmpQuery = queryPaydraft + tmpQuery;
-        fetch(tmpQuery, { method: 'GET' })
+        fetch(tmpQuery, {
+            method: 'GET',
+            Authorization: 'Bearer' + localStorage.getItem('accessToken') ?? '',
+        })
             .then((res) => res.json())
             .then((data) => {
                 if (Array.isArray(data)) {

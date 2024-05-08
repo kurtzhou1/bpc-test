@@ -40,7 +40,10 @@ const CreditBalance = () => {
         let tmpQuery = '/all';
         tmpQuery = queryCB + tmpQuery;
         queryApi.current = tmpQuery;
-        fetch(tmpQuery, { method: 'GET' })
+        fetch(tmpQuery, {
+            method: 'GET',
+            Authorization: 'Bearer' + localStorage.getItem('accessToken') ?? '',
+        })
             .then((res) => res.json())
             .then((data) => {
                 console.log('查詢成功=>>', data);
@@ -85,6 +88,7 @@ const CreditBalance = () => {
                 method: 'POST',
                 headers: {
                     'Content-type': 'application/json',
+                    Authorization: 'Bearer' + localStorage.getItem('accessToken') ?? '',
                 },
                 body: JSON.stringify(sendData),
             })

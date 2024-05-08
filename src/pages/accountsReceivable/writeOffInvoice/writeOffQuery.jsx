@@ -64,6 +64,7 @@ const WriteOffQuery = ({ setListInfo, value }) => {
             method: 'POST',
             headers: {
                 'Content-type': 'application/json',
+                Authorization: 'Bearer' + localStorage.getItem('accessToken') ?? '',
             },
             body: JSON.stringify(tmpObject),
         })
@@ -93,7 +94,9 @@ const WriteOffQuery = ({ setListInfo, value }) => {
 
     useEffect(() => {
         //海纜名稱
-        fetch(submarineCableInfoList, { method: 'GET' })
+        fetch(submarineCableInfoList, {
+            method: 'GET',
+        })
             .then((res) => res.json())
             .then((data) => {
                 setSubmarineCableList(data);

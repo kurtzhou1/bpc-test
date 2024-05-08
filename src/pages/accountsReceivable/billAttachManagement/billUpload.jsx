@@ -40,6 +40,7 @@ const BillUpload = ({ isUploadOpen, handleUploadClose, itemID }) => {
                 body: pdfData,
                 headers: {
                     Accept: 'application/json',
+                    Authorization: 'Bearer' + localStorage.getItem('accessToken') ?? '',
                 },
             })
                 .then((res) => res.json())

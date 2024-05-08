@@ -1,12 +1,11 @@
-import { useState, useRef, useEffect } from 'react';
+import { useState, useRef } from 'react';
 
 // project import
 import { handleNumber, BootstrapDialogTitle } from 'components/commonFunction';
-import { queryCB, sendDuctInfo } from 'components/apis';
+import { queryCB } from 'components/apis';
 import MainCard from 'components/MainCard';
 // material-ui
 import {
-    Typography,
     Button,
     Table,
     Dialog,
@@ -22,8 +21,6 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import { styled } from '@mui/material/styles';
-
-import dayjs from 'dayjs';
 
 // redux
 import { useDispatch } from 'react-redux';
@@ -100,7 +97,10 @@ const ToDeductWork = ({
                 '&PartyName=' +
                 writeOffInfo.PartyName;
             console.log('tmpQuery=>>', tmpQuery);
-            fetch(tmpQuery, { method: 'GET' })
+            fetch(tmpQuery, {
+                method: 'GET',
+                Authorization: 'Bearer' + localStorage.getItem('accessToken') ?? '',
+            })
                 .then((res) => res.json())
                 .then((response) => {
                     if (Array.isArray(response) && response?.length > 0) {

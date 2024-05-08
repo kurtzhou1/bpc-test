@@ -86,7 +86,10 @@ const CreditBalanceQuery = ({ setListInfo, partiesList, submarineCableList, quer
         tmpQuery = queryCB + tmpQuery;
         console.log('tmpQuery=>>', tmpQuery);
         queryApi.current = tmpQuery;
-        fetch(tmpQuery, { method: 'GET' })
+        fetch(tmpQuery, {
+            method: 'GET',
+            Authorization: 'Bearer' + localStorage.getItem('accessToken') ?? '',
+        })
             .then((res) => res.json())
             .then((data) => {
                 console.log('查詢成功=>>', data);

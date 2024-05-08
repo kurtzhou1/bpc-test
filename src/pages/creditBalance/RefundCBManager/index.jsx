@@ -15,13 +15,7 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogActions from '@mui/material/DialogActions';
 
 // api
-import {
-    getPartiesInfoList,
-    submarineCableInfoList,
-    refundView,
-    cBRefund,
-    cBRefundView,
-} from 'components/apis';
+import { getPartiesInfoList, submarineCableInfoList, refundView, cBRefund } from 'components/apis';
 
 // redux
 import { useDispatch } from 'react-redux';
@@ -53,6 +47,7 @@ const CreditBalance = () => {
             method: 'POST',
             headers: {
                 'Content-type': 'application/json',
+                Authorization: 'Bearer' + localStorage.getItem('accessToken') ?? '',
             },
             body: JSON.stringify(queryApi.current),
         })
@@ -77,6 +72,7 @@ const CreditBalance = () => {
                 method: 'POST',
                 headers: {
                     'Content-type': 'application/json',
+                    Authorization: 'Bearer' + localStorage.getItem('accessToken') ?? '',
                 },
                 body: JSON.stringify(tmpArray),
             })

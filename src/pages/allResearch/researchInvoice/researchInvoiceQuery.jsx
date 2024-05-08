@@ -64,6 +64,7 @@ const ResearchBillQuery = ({ setListInfo, setDetailInfo }) => {
             method: 'POST',
             headers: {
                 'Content-type': 'application/json',
+                Authorization: 'Bearer' + localStorage.getItem('accessToken') ?? '',
             },
             body: JSON.stringify(tmpQuery),
         })
@@ -80,7 +81,9 @@ const ResearchBillQuery = ({ setListInfo, setDetailInfo }) => {
 
     useEffect(() => {
         //海纜名稱
-        fetch(submarineCableInfoList, { method: 'GET' })
+        fetch(submarineCableInfoList, {
+            method: 'GET',
+        })
             .then((res) => res.json())
             .then((data) => {
                 setSubmarineCableList(data);

@@ -49,30 +49,18 @@ const CreditMemoQuery = ({ setListInfo }) => {
     const creditMemoQuery = () => {
         let tmpObject = {};
         if (partyName && partyName !== 'All') {
-            // tmpQuery = tmpQuery + 'PartyName=' + partyName + '&';
             tmpObject.PartyName = partyName;
         }
         if (cMNo && cMNo !== '') {
-            // tmpObject = tmpObject + 'CMNo=' + cMNo + '&';
             tmpObject.CMNo = cMNo;
         }
         if (submarineCable && submarineCable !== 'All') {
-            // tmpQuery = tmpQuery + 'SubmarineCable=' + submarineCable + '&';
             tmpObject.SubmarineCable = submarineCable;
         }
         if (workTitle && workTitle !== 'All') {
-            // tmpQuery = tmpQuery + 'WorkTitle=' + workTitle + '&';
             tmpObject.WorkTitle = workTitle;
         }
         if (lastIssueDate[0] && lastIssueDate[1]) {
-            // tmpQuery =
-            //     tmpQuery +
-            //     'startCreateDate=' +
-            //     dayjs(lastIssueDate[0]).format('YYYYMMDD') +
-            //     '&' +
-            //     'endCreateDate=' +
-            //     dayjs(lastIssueDate[1]).format('YYYYMMDD') +
-            //     '&';
             tmpObject.LastIssueDate = {
                 start: dayjs(lastIssueDate[0]).format('YYYYMMDD'),
                 end: dayjs(lastIssueDate[1]).format('YYYYMMDD'),
@@ -83,6 +71,7 @@ const CreditMemoQuery = ({ setListInfo }) => {
             method: 'POST',
             headers: {
                 'Content-type': 'application/json',
+                Authorization: 'Bearer' + localStorage.getItem('accessToken') ?? '',
             },
             body: JSON.stringify(tmpObject),
         })

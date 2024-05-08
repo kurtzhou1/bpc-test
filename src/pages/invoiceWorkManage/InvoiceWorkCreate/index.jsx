@@ -323,6 +323,7 @@ const InvoiceWorkManage = () => {
                 method: 'POST',
                 headers: {
                     'Content-type': 'application/json',
+                    Authorization: 'Bearer' + localStorage.getItem('accessToken') ?? '',
                 },
                 body: JSON.stringify(dataInfo),
             })
@@ -371,7 +372,10 @@ const InvoiceWorkManage = () => {
                     }
                 })
                 .catch((e) => console.log('e1=>', e));
-            fetch(snApi, { method: 'GET' })
+            fetch(snApi, {
+                method: 'GET',
+                Authorization: 'Bearer' + localStorage.getItem('accessToken') ?? '',
+            })
                 .then((res) => res.json())
                 .then((data) => {
                     console.log('SupNmList=>>', data);
@@ -393,7 +397,10 @@ const InvoiceWorkManage = () => {
                 setSubmarineCableList(data);
             })
             .catch((e) => console.log('e1=>', e));
-        fetch(supplierNameDropDownUnique, { method: 'GET' })
+        fetch(supplierNameDropDownUnique, {
+            method: 'GET',
+            Authorization: 'Bearer' + localStorage.getItem('accessToken') ?? '',
+        })
             .then((res) => res.json())
             .then((data) => {
                 if (Array.isArray(data)) {

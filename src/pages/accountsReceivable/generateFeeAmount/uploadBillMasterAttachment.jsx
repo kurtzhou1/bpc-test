@@ -17,9 +17,14 @@ import { uploadBillMasterAttachment } from 'components/apis.jsx';
 import { useDispatch } from 'react-redux';
 import { setMessageStateOpen } from 'store/reducers/dropdown';
 
-const UploadBillMasterAttachment = ({ isUploadOpen, handleUploadClose, billMasterID, receivableQuery }) => {
+const UploadBillMasterAttachment = ({
+    isUploadOpen,
+    handleUploadClose,
+    billMasterID,
+    receivableQuery,
+}) => {
     const dispatch = useDispatch();
-    
+
     const [uploadFile, setUploadFile] = useState(null);
     const [isUpload, setIsUpload] = useState(false); //是否需攤分
     const [displayName, setDisplayName] = useState([]);
@@ -41,19 +46,32 @@ const UploadBillMasterAttachment = ({ isUploadOpen, handleUploadClose, billMaste
                 method: 'POST',
                 body: pdfData,
                 headers: {
-                    Accept: 'application/json'
-                }
+                    Accept: 'application/json',
+                    Authorization: 'Bearer' + localStorage.getItem('accessToken') ?? '',
+                },
             })
                 .then((res) => res.json())
                 .then(() => {
-                    dispatch(setMessageStateOpen({ messageStateOpen: { isOpen: true, severity: 'success', message: '上傳成功' } }));
+                    dispatch(
+                        setMessageStateOpen({
+                            messageStateOpen: {
+                                isOpen: true,
+                                severity: 'success',
+                                message: '上傳成功',
+                            },
+                        }),
+                    );
                     setUploadFile(null);
                     handleUploadClose();
                     receivableQuery();
                 })
                 .catch((e) => console.log('e1=>', e));
         } else {
-            dispatch(setMessageStateOpen({ messageStateOpen: { isOpen: true, severity: 'error', message: '請上傳檔案' } }));
+            dispatch(
+                setMessageStateOpen({
+                    messageStateOpen: { isOpen: true, severity: 'error', message: '請上傳檔案' },
+                }),
+            );
         }
     };
 
@@ -68,29 +86,48 @@ const UploadBillMasterAttachment = ({ isUploadOpen, handleUploadClose, billMaste
     }, [uploadFile]);
 
     return (
-        <Dialog
-            maxWidth="xs"
-            fullWidth
-            open={isUploadOpen}
-        >
-            <BootstrapDialogTitle
-            >
-                簽核作業
-            </BootstrapDialogTitle>
+        <Dialog maxWidth="xs" fullWidth open={isUploadOpen}>
+            <BootstrapDialogTitle>簽核作業</BootstrapDialogTitle>
             <DialogContent dividers>
                 <RadioGroup row value={isUpload} onChange={(e) => setIsUpload(e.target.value)}>
-                    <Grid container spacing={2} display="flex" justifyContent="center" alignItems="center">
+                    <Grid
+                        container
+                        spacing={2}
+                        display="flex"
+                        justifyContent="center"
+                        alignItems="center"
+                    >
                         <Grid item xs={12} sm={12} md={12} lg={12} display="flex">
-                            <Box sx={{ display: 'flex', flexFlow: 'column', alignItems: 'center', width: '100%' }}>
-                                <DropzoneArea onChange={handleUploadChange} acceptedFiles={['.zip']} />
+                            <Box
+                                sx={{
+                                    display: 'flex',
+                                    flexFlow: 'column',
+                                    alignItems: 'center',
+                                    width: '100%',
+                                }}
+                            >
+                                <DropzoneArea
+                                    onChange={handleUploadChange}
+                                    acceptedFiles={['.zip']}
+                                />
                                 <FormControlLabel
                                     value={true}
-                                    control={<Radio sx={{ '& .MuiSvgIcon-root': { fontSize: { lg: 14, xl: 20 } } }} />}
+                                    control={
+                                        <Radio
+                                            sx={{
+                                                '& .MuiSvgIcon-root': {
+                                                    fontSize: { lg: 14, xl: 20 },
+                                                },
+                                            }}
+                                        />
+                                    }
                                 />
                             </Box>
                         </Grid>
                         <Grid item xs={12} sm={12} md={12} lg={12} display="flex">
-                            <Box sx={{ fontSize: 0.1, textAlign: 'left' }}>{displayName[0] ? `上傳成功：${displayName[0]}` : ''}</Box>
+                            <Box sx={{ fontSize: 0.1, textAlign: 'left' }}>
+                                {displayName[0] ? `上傳成功：${displayName[0]}` : ''}
+                            </Box>
                         </Grid>
                     </Grid>
                 </RadioGroup>
@@ -99,14 +136,13 @@ const UploadBillMasterAttachment = ({ isUploadOpen, handleUploadClose, billMaste
                 <Button
                     sx={{ mr: '0.05rem' }}
                     variant="contained"
-                    
                     onClick={() => {
                         handleUploadFile();
                     }}
                 >
                     確定
                 </Button>
-                <Button sx={{ mr: '0.05rem' }} variant="contained" onClick={handleUploadClose} >
+                <Button sx={{ mr: '0.05rem' }} variant="contained" onClick={handleUploadClose}>
                     關閉
                 </Button>
             </DialogActions>

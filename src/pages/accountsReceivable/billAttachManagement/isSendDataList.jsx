@@ -78,6 +78,7 @@ const IsSendDataList = ({ listInfo }) => {
             method: 'POST',
             headers: {
                 Accept: 'application/json',
+                Authorization: 'Bearer' + localStorage.getItem('accessToken') ?? '',
             },
         })
             .then((res) => {
@@ -135,6 +136,7 @@ const IsSendDataList = ({ listInfo }) => {
             method: 'POST',
             headers: {
                 Accept: 'application/json',
+                Authorization: 'Bearer' + localStorage.getItem('accessToken') ?? '',
             },
         })
             .then((res) => {
@@ -183,7 +185,12 @@ const IsSendDataList = ({ listInfo }) => {
     const handleSendMail = (id) => {
         let tmpApi = `${billMasterAndAttachment}/${id}`;
         dispatch(setIsLoading({ isLoading: true }));
-        fetch(tmpApi, { method: 'GET' })
+        fetch(tmpApi, {
+            method: 'GET',
+            headers: {
+                Authorization: 'Bearer' + localStorage.getItem('accessToken') ?? '',
+            },
+        })
             .then((res) => res.json())
             .then((data) => {
                 if (data.message === 'Email sent successfully') {

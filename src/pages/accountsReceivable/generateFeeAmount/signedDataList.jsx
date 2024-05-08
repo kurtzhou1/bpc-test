@@ -17,7 +17,7 @@ import { styled } from '@mui/material/styles';
 
 import dayjs from 'dayjs';
 
-import { updateBM, downBM } from 'components/apis.jsx';
+import { updateBM } from 'components/apis.jsx';
 
 // redux
 import { useDispatch } from 'react-redux';
@@ -57,6 +57,7 @@ const SignedDataList = ({ dataList, receivableQuery }) => {
             method: 'POST',
             headers: {
                 'Content-type': 'application/json',
+                Authorization: 'Bearer' + localStorage.getItem('accessToken') ?? '',
             },
             body: JSON.stringify(tmpData),
         })

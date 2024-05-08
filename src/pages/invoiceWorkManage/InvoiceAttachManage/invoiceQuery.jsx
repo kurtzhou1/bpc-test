@@ -145,6 +145,7 @@ const InvoiceQuery = ({ setListInfo, queryApi, setAction, setPage }) => {
             method: 'POST',
             headers: {
                 'Content-type': 'application/json',
+                Authorization: 'Bearer' + localStorage.getItem('accessToken') ?? '',
             },
             body: JSON.stringify(tmpQuery),
         })
@@ -159,7 +160,10 @@ const InvoiceQuery = ({ setListInfo, queryApi, setAction, setPage }) => {
     };
 
     useEffect(() => {
-        fetch(supplierNameDropDownUnique, { method: 'GET' })
+        fetch(supplierNameDropDownUnique, {
+            method: 'GET',
+            Authorization: 'Bearer' + localStorage.getItem('accessToken') ?? '',
+        })
             .then((res) => res.json())
             .then((data) => {
                 if (Array.isArray(data)) {

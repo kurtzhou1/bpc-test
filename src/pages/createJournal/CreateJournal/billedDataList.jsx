@@ -57,11 +57,17 @@ const BilledDataList = ({ listInfo, apiQuery }) => {
         let tmpQuery = '/' + 'WKMasterID=' + WKMasterID;
         let tmpQueryDetail = journaryDetailView + tmpQuery;
         let tmpQueryMaster = journaryMasterView + tmpQuery;
-        fetch(tmpQueryMaster, { method: 'GET' })
+        fetch(tmpQueryMaster, {
+            method: 'GET',
+            Authorization: 'Bearer' + localStorage.getItem('accessToken') ?? '',
+        })
             .then((res) => res.json())
             .then((data) => {
                 totalAmount.current = data[0].TotalAmount;
-                fetch(tmpQueryDetail, { method: 'GET' })
+                fetch(tmpQueryDetail, {
+                    method: 'GET',
+                    Authorization: 'Bearer' + localStorage.getItem('accessToken') ?? '',
+                })
                     .then((res) => res.json())
                     .then((data2) => {
                         setToBillDataInfo(data2);
@@ -81,6 +87,7 @@ const BilledDataList = ({ listInfo, apiQuery }) => {
             method: 'POST',
             headers: {
                 'Content-type': 'application/json',
+                Authorization: 'Bearer' + localStorage.getItem('accessToken') ?? '',
             },
             body: JSON.stringify(tmpArray),
         })
@@ -93,6 +100,7 @@ const BilledDataList = ({ listInfo, apiQuery }) => {
             method: 'POST',
             headers: {
                 'Content-type': 'application/json',
+                Authorization: 'Bearer' + localStorage.getItem('accessToken') ?? '',
             },
             body: JSON.stringify(tmpArray),
         })

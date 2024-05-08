@@ -21,23 +21,12 @@ import Dialog from '@mui/material/Dialog';
 import DialogContent from '@mui/material/DialogContent';
 import DialogActions from '@mui/material/DialogActions';
 
-// autocomplete
-import CheckBoxOutlineBlankIcon from '@mui/icons-material/CheckBoxOutlineBlank';
-import CheckBoxIcon from '@mui/icons-material/CheckBox';
-
 // project import
-import MainCard from 'components/MainCard';
 import CreditBalanceDeduct from './creditBalanceDeduct';
-import CreditBalanceRefund from './creditBalanceRefund';
 import { BootstrapDialogTitle, TabPanel } from 'components/commonFunction';
 
 // table
-import TableBody from '@mui/material/TableBody';
-import TableContainer from '@mui/material/TableContainer';
-import TableHead from '@mui/material/TableHead';
-import TableRow from '@mui/material/TableRow';
 import TableCell, { tableCellClasses } from '@mui/material/TableCell';
-import Paper from '@mui/material/Paper';
 import { styled } from '@mui/material/styles';
 
 // api
@@ -85,6 +74,7 @@ const CreditBalanceView = ({ cbView, handleViewClose, viewId }) => {
             method: 'POST',
             headers: {
                 Accept: 'application/json',
+                Authorization: 'Bearer' + localStorage.getItem('accessToken') ?? '',
             },
             body: JSON.stringify(tmpData),
         })
@@ -109,6 +99,7 @@ const CreditBalanceView = ({ cbView, handleViewClose, viewId }) => {
             method: 'POST',
             headers: {
                 'Content-type': 'application/json',
+                Authorization: 'Bearer' + localStorage.getItem('accessToken') ?? '',
             },
             body: JSON.stringify(tmpData),
         })
@@ -142,9 +133,6 @@ const CreditBalanceView = ({ cbView, handleViewClose, viewId }) => {
                         <TabPanel value={value} index={0}>
                             <CreditBalanceDeduct cblistInfo={listInfo} />
                         </TabPanel>
-                        {/* <TabPanel value={value} index={1}>
-                            <CreditBalanceRefund cblistInfo={cblistInfo} />
-                        </TabPanel> */}
                     </Grid>
                 </Grid>
             </DialogContent>

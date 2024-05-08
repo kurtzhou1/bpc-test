@@ -50,11 +50,17 @@ const BilledDataList = ({ listInfo }) => {
         let tmpQuery = '/' + 'WKMasterID=' + WKMasterID;
         let tmpQueryDetail = journaryDetailView + tmpQuery;
         let tmpQueryMaster = journaryMasterView + tmpQuery;
-        fetch(tmpQueryMaster, { method: 'GET' })
+        fetch(tmpQueryMaster, {
+            method: 'GET',
+            Authorization: 'Bearer' + localStorage.getItem('accessToken') ?? '',
+        })
             .then((res) => res.json())
             .then((data) => {
                 totalAmount.current = data[0].TotalAmount;
-                fetch(tmpQueryDetail, { method: 'GET' })
+                fetch(tmpQueryDetail, {
+                    method: 'GET',
+                    Authorization: 'Bearer' + localStorage.getItem('accessToken') ?? '',
+                })
                     .then((res) => res.json())
                     .then((data2) => {
                         setToBillDataInfo(data2);

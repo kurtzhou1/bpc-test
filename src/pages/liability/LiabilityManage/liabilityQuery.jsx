@@ -94,7 +94,10 @@ const LiabilityQuery = ({
 
         tmpQuery = queryLiability + tmpQuery;
         queryApi.current = tmpQuery;
-        fetch(tmpQuery, { method: 'GET' })
+        fetch(tmpQuery, {
+            method: 'GET',
+            Authorization: 'Bearer' + localStorage.getItem('accessToken') ?? '',
+        })
             .then((res) => res.json())
             .then((data) => {
                 console.log('查詢liabilityQuery成功=>>', data);
@@ -121,6 +124,7 @@ const LiabilityQuery = ({
                 method: 'POST',
                 headers: {
                     'Content-type': 'application/json',
+                    Authorization: 'Bearer' + localStorage.getItem('accessToken') ?? '',
                 },
                 body: JSON.stringify(tmpArray),
             })

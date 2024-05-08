@@ -139,6 +139,7 @@ const ResearchBillQuery = ({ setListInfo, setDetailInfo }) => {
             method: 'POST',
             headers: {
                 'Content-type': 'application/json',
+                Authorization: 'Bearer' + localStorage.getItem('accessToken') ?? '',
             },
             body: JSON.stringify(tmpQuery),
         })
@@ -158,7 +159,10 @@ const ResearchBillQuery = ({ setListInfo, setDetailInfo }) => {
     };
 
     useEffect(() => {
-        fetch(supplierNameDropDownUnique, { method: 'GET' })
+        fetch(supplierNameDropDownUnique, {
+            method: 'GET',
+            Authorization: 'Bearer' + localStorage.getItem('accessToken') ?? '',
+        })
             .then((res) => res.json())
             .then((data) => {
                 if (Array.isArray(data)) {
@@ -167,7 +171,9 @@ const ResearchBillQuery = ({ setListInfo, setDetailInfo }) => {
             })
             .catch((e) => console.log('e1=>', e));
         //海纜名稱
-        fetch(submarineCableInfoList, { method: 'GET' })
+        fetch(submarineCableInfoList, {
+            method: 'GET',
+        })
             .then((res) => res.json())
             .then((data) => {
                 setSubmarineCableList(data);

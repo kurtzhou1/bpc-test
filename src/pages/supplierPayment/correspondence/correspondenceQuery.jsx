@@ -63,7 +63,10 @@ const CorrespondenceQuery = ({ setListInfo, queryApi, value }) => {
         tmpQuery = queryPaydraft + tmpQuery;
         console.log('tmpQuery=>>', tmpQuery);
         queryApi.current = tmpQuery;
-        fetch(tmpQuery, { method: 'GET' })
+        fetch(tmpQuery, {
+            method: 'GET',
+            Authorization: 'Bearer' + localStorage.getItem('accessToken') ?? '',
+        })
             .then((res) => res.json())
             .then((data) => {
                 if (Array.isArray(data)) {
@@ -76,7 +79,10 @@ const CorrespondenceQuery = ({ setListInfo, queryApi, value }) => {
     };
 
     useEffect(() => {
-        fetch(supplierNameDropDownUnique, { method: 'GET' })
+        fetch(supplierNameDropDownUnique, {
+            method: 'GET',
+            Authorization: 'Bearer' + localStorage.getItem('accessToken') ?? '',
+        })
             .then((res) => res.json())
             .then((data) => {
                 if (Array.isArray(data)) {

@@ -28,7 +28,9 @@ const CreditBalance = () => {
 
     useEffect(() => {
         //海纜名稱
-        fetch(submarineCableInfoList, { method: 'GET' })
+        fetch(submarineCableInfoList, {
+            method: 'GET',
+        })
             .then((res) => res.json())
             .then((data) => {
                 setSubmarineCableList(data);
@@ -59,7 +61,12 @@ const CreditBalance = () => {
                 />
             </Grid>
             <Grid item xs={12}>
-                <CreditBalanceQuery setListInfo={setListInfo} partiesList={partiesList} submarineCableList={submarineCableList} queryApi={queryApi} />
+                <CreditBalanceQuery
+                    setListInfo={setListInfo}
+                    partiesList={partiesList}
+                    submarineCableList={submarineCableList}
+                    queryApi={queryApi}
+                />
             </Grid>
             <Grid item xs={12}>
                 <MainCard title="Credit Balance資料列表">

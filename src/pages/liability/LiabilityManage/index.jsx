@@ -66,7 +66,10 @@ const LiabilityManage = () => {
     };
 
     const apiQuery = () => {
-        fetch(queryApi.current, { method: 'GET' })
+        fetch(queryApi.current, {
+            method: 'GET',
+            Authorization: 'Bearer' + localStorage.getItem('accessToken') ?? '',
+        })
             .then((res) => res.json())
             .then((data) => {
                 console.log('查詢成功=>>', data);
@@ -102,6 +105,7 @@ const LiabilityManage = () => {
                 method: 'POST',
                 headers: {
                     'Content-type': 'application/json',
+                    Authorization: 'Bearer' + localStorage.getItem('accessToken') ?? '',
                 },
                 body: JSON.stringify(list),
             })
@@ -123,6 +127,7 @@ const LiabilityManage = () => {
                             method: 'POST',
                             headers: {
                                 'Content-type': 'application/json',
+                                Authorization: 'Bearer' + localStorage.getItem('accessToken') ?? '',
                             },
                             body: JSON.stringify(list),
                         })
@@ -177,6 +182,7 @@ const LiabilityManage = () => {
             method: 'POST',
             headers: {
                 'Content-type': 'application/json',
+                Authorization: 'Bearer' + localStorage.getItem('accessToken') ?? '',
             },
             body: JSON.stringify(tmpArray),
         })

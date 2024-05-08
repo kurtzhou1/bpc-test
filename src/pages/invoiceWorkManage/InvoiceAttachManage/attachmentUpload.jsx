@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Grid, Button, Box } from '@mui/material';
 import { DropzoneArea } from 'mui-file-dropzone';
-// import { FileUploader } from 'react-drag-drop-files';
 
 // project
 import { BootstrapDialogTitle } from 'components/commonFunction';
@@ -13,7 +12,6 @@ import DialogActions from '@mui/material/DialogActions';
 
 // api
 import { uploadInvoiceWKMasterAttachment } from 'components/apis.jsx';
-// import MainCard from 'components/MainCard';
 
 // redux
 import { useDispatch } from 'react-redux';
@@ -40,6 +38,7 @@ const AttachmentUpload = ({ isAttachUploadOpen, handleAttachUploadClose, itemID 
                 body: pdfData,
                 headers: {
                     Accept: 'application/json',
+                    Authorization: 'Bearer' + localStorage.getItem('accessToken') ?? '',
                 },
             })
                 .then((res) => res.json())

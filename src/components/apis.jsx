@@ -59,7 +59,7 @@ export const uploadBillMasterAttachment = `http://${env}/api/v1/uploadBillMaster
 export const generateReport = `http://${env}/api/v1/CreditBalanceStatement/generateReport`;
 
 // CM
-export const creditMemoApi = `http://${env}/api/v1/CreditMemo`;
+// export const creditMemoApi = `http://${env}/api/v1/CreditMemo`;
 export const creditMemoView = `http://${env}/api/v1/CreditMemo/view`;
 export const getCreditMemoStreamApi = `http://${env}/api/v1/getCreditMemoStream`;
 export const uploadCreditMemoApi = `http://${env}/api/v1/uploadCreditMemo`;
@@ -77,13 +77,13 @@ export const generateBillData = `http://${env}/api/v1/getBillMasterDraftStream`;
 
 // 產製應收帳款-已簽核
 export const updateBM = `http://${env}/api/v1/updateBillMaster`;
-export const downBM = `http://${env}/api/v1/BillMaster/signedDraft`;
+// export const downBM = `http://${env}/api/v1/BillMaster/signedDraft`;
 
 // 產製應收帳款-帳單與附件管理
-export const attachment = `http://${env}/api/v1/BillMaster/attachment`;
+// export const attachment = `http://${env}/api/v1/BillMaster/attachment`;
 
 // 銷帳
-export const sendToWriteOff = `http://${env}/api/v1/BillMaster&BillDetail/toWriteOff`;
+// export const sendToWriteOff = `http://${env}/api/v1/BillMaster&BillDetail/toWriteOff`;
 export const getWriteOffDetail = `http://${env}/api/v1/getWriteOffDetail`;
 export const getBillMasterBillDetail = `http://${env}/api/v1/getBillMaster&BillDetail`;
 export const saveWriteOff = `http://${env}/api/v1/WriteOffDetail/saveWriteOff`;
@@ -109,9 +109,6 @@ export const searchBillMasterByInvoiceWKMaster = `http://${env}/api/v1/searchBil
 export const searchInvoiceWKMasterByBillMaster = `http://${env}/api/v1/searchInvoiceWKMasterByBillMaster`;
 export const searchInvoiceWKMasterIsBilled = `http://${env}/api/v1/searchInvoiceWKMasterIsBilled`;
 
-// 基本資料搜尋
-// export const SubmarineCables = `http://${env}/api/v1/SubmarineCables`;
-
 // 基本資料-Suppliers
 export const suppliers = `http://${env}/api/v1/Suppliers`;
 export const deleteSuppliers = `http://${env}/api/v1/deleteSuppliers`;
@@ -123,9 +120,9 @@ export const deleteParties = `http://${env}/api/v1/deleteParties`;
 export const editParties = `http://${env}/api/v1/updateParties`;
 
 // 基本資料-Contracts
-export const addContracts = `http://${env}/api/v1/Contracts`;
-export const deleteContracts = `http://${env}/api/v1/deleteContracts`;
-export const editContracts = `http://${env}/api/v1/updateContracts`;
+// export const addContracts = `http://${env}/api/v1/Contracts`;
+// export const deleteContracts = `http://${env}/api/v1/deleteContracts`;
+// export const editContracts = `http://${env}/api/v1/updateContracts`;
 
 // 基本資料-SubmarineCables
 export const submarineCables = `http://${env}/api/v1/SubmarineCables`;
@@ -133,9 +130,9 @@ export const deleteSubmarineCables = `http://${env}/api/v1/deleteSubmarineCables
 export const editSubmarineCables = `http://${env}/api/v1/updateSubmarineCables`;
 
 // 基本資料-PartiesByContract
-export const addPartiesByContract = `http://${env}/api/v1/PartiesByContract`;
-export const deletePartiesByContract = `http://${env}/api/v1/deletePartiesByContract`;
-export const editPartiesByContract = `http://${env}/api/v1/updatePartiesByContract`;
+// export const addPartiesByContract = `http://${env}/api/v1/PartiesByContract`;
+// export const deletePartiesByContract = `http://${env}/api/v1/deletePartiesByContract`;
+// export const editPartiesByContract = `http://${env}/api/v1/updatePartiesByContract`;
 
 // 基本資料-Corporates
 export const corporates = `http://${env}/api/v1/Corporates`;
@@ -171,9 +168,9 @@ export const contactUser = `http://${env}/api/v1/User/all`;
 export const querySupplierPayment = `http://${env}/api/v1/payment`;
 export const queryPaydraft = `http://${env}/api/v1/paydraft`;
 export const getPartiesAllInfo = `http://${env}/api/v1/Parties/all`; // 會員名稱
-export const getContractsInfo = `http://${env}/api/v1/Contracts/all`;
+// export const getContractsInfo = `http://${env}/api/v1/Contracts/all`;
 export const getCorporatesInfo = `http://${env}/api/v1/Corporates/all`;
-export const getPartiesByContractInfo = `http://${env}/api/v1/PartiesByContract/all`;
+// export const getPartiesByContractInfo = `http://${env}/api/v1/PartiesByContract/all`;
 
 // CreditBalance
 export const queryCB = `http://${env}/api/v1/CreditBalance`;

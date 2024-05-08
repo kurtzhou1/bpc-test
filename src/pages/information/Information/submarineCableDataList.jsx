@@ -102,8 +102,6 @@ const SubmarineCableDataList = ({ infoList, setInfoList }) => {
 
     const addPartyInfo = () => {
         if (infoCheck()) {
-            //haha
-            let accessToken = localStorage.getItem('accessToken') ?? '';
             let tmpArray = {
                 CableCode: cableCode,
                 CableName: cableName,
@@ -114,7 +112,7 @@ const SubmarineCableDataList = ({ infoList, setInfoList }) => {
                 body: JSON.stringify(tmpArray),
                 headers: {
                     'Content-Type': 'application/json',
-                    Authorization: 'Bearer' + accessToken,
+                    Authorization: 'Bearer' + localStorage.getItem('accessToken') ?? '',
                 },
             })
                 .then((res) => res.json())
@@ -139,7 +137,10 @@ const SubmarineCableDataList = ({ infoList, setInfoList }) => {
         fetch(deleteSubmarineCables, {
             method: 'POST',
             body: JSON.stringify(row),
-            headers: { 'Content-Type': 'application/json' },
+            headers: {
+                'Content-Type': 'application/json',
+                Authorization: 'Bearer' + localStorage.getItem('accessToken') ?? '',
+            },
         })
             .then((res) => res.json())
             .then(() => {
@@ -203,7 +204,10 @@ const SubmarineCableDataList = ({ infoList, setInfoList }) => {
             fetch(editSubmarineCables, {
                 method: 'POST',
                 body: JSON.stringify(tmpArray),
-                headers: { 'Content-Type': 'application/json' },
+                headers: {
+                    'Content-Type': 'application/json',
+                    Authorization: 'Bearer' + localStorage.getItem('accessToken') ?? '',
+                },
             })
                 .then((res) => res.json())
                 .then(() => {

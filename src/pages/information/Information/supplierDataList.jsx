@@ -258,7 +258,10 @@ const SupplierDataList = ({ infoList, setInfoList }) => {
             fetch(suppliers, {
                 method: 'POST',
                 body: JSON.stringify(tmpArray),
-                headers: { 'Content-Type': 'application/json' },
+                headers: {
+                    'Content-Type': 'application/json',
+                    Authorization: 'Bearer' + localStorage.getItem('accessToken') ?? '',
+                },
             })
                 .then((res) => res.json())
                 .then(() => {
@@ -282,7 +285,10 @@ const SupplierDataList = ({ infoList, setInfoList }) => {
         fetch(deleteSuppliers, {
             method: 'POST',
             body: JSON.stringify(row),
-            headers: { 'Content-Type': 'application/json' },
+            headers: {
+                'Content-Type': 'application/json',
+                Authorization: 'Bearer' + localStorage.getItem('accessToken') ?? '',
+            },
         })
             .then((res) => res.json())
             .then(() => {
@@ -392,7 +398,10 @@ const SupplierDataList = ({ infoList, setInfoList }) => {
             fetch(editSuppliers, {
                 method: 'POST',
                 body: JSON.stringify(tmpArray),
-                headers: { 'Content-Type': 'application/json' },
+                headers: {
+                    'Content-Type': 'application/json',
+                    Authorization: 'Bearer' + localStorage.getItem('accessToken') ?? '',
+                },
             })
                 .then((res) => res.json())
                 .then(() => {

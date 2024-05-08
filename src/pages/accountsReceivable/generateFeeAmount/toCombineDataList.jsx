@@ -105,6 +105,7 @@ const ToCombineDataList = ({
             method: 'POST',
             headers: {
                 'Content-type': 'application/json',
+                Authorization: 'Bearer' + localStorage.getItem('accessToken') ?? '',
             },
             body: JSON.stringify(tmpArray),
         })
@@ -143,6 +144,7 @@ const ToCombineDataList = ({
                 method: 'POST',
                 headers: {
                     'Content-type': 'application/json',
+                    Authorization: 'Bearer' + localStorage.getItem('accessToken') ?? '',
                 },
                 body: JSON.stringify(tmpArray),
             })
@@ -153,6 +155,7 @@ const ToCombineDataList = ({
                             method: 'POST',
                             headers: {
                                 'Content-type': 'application/json',
+                                Authorization: 'Bearer' + localStorage.getItem('accessToken') ?? '',
                             },
                             body: JSON.stringify(billList),
                         })
@@ -218,6 +221,7 @@ const ToCombineDataList = ({
                 method: 'POST',
                 headers: {
                     'Content-type': 'application/json',
+                    Authorization: 'Bearer' + localStorage.getItem('accessToken') ?? '',
                 },
                 body: JSON.stringify(sendComBineData.current),
             })

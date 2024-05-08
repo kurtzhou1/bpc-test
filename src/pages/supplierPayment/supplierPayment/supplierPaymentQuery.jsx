@@ -76,7 +76,10 @@ const SupplierPaymentQuery = ({ setListInfo, queryApi, value }) => {
         }
         console.log('按下查詢=>>', tmpQuery);
         queryApi.current = tmpQuery;
-        fetch(tmpQuery, { method: 'GET' })
+        fetch(tmpQuery, {
+            method: 'GET',
+            Authorization: 'Bearer' + localStorage.getItem('accessToken') ?? '',
+        })
             .then((res) => res.json())
             .then((data) => {
                 console.log('data=>>', data);
@@ -90,7 +93,10 @@ const SupplierPaymentQuery = ({ setListInfo, queryApi, value }) => {
     };
 
     useEffect(() => {
-        fetch(supplierNameDropDownUnique, { method: 'GET' })
+        fetch(supplierNameDropDownUnique, {
+            method: 'GET',
+            Authorization: 'Bearer' + localStorage.getItem('accessToken') ?? '',
+        })
             .then((res) => res.json())
             .then((data) => {
                 if (Array.isArray(data)) {

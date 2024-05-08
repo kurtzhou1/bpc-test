@@ -54,7 +54,12 @@ const ToWriteOffDataList = ({ listInfo, writeOffInitQuery }) => {
         let tmpQuery = getWriteOffDetail + '/BillMasterID=' + info.BillMasterID;
         writeOffInfo.current = info;
         setCBWriteOff([]);
-        fetch(tmpQuery, { method: 'GET' })
+        fetch(tmpQuery, {
+            method: 'GET',
+            headers: {
+                Authorization: 'Bearer' + localStorage.getItem('accessToken') ?? '',
+            },
+        })
             .then((res) => res.json())
             .then((data) => {
                 console.log('銷帳作業=>>', data);
@@ -78,6 +83,7 @@ const ToWriteOffDataList = ({ listInfo, writeOffInitQuery }) => {
             method: 'POST',
             headers: {
                 'Content-type': 'application/json',
+                Authorization: 'Bearer' + localStorage.getItem('accessToken') ?? '',
             },
             body: JSON.stringify(tmpArray),
         })
@@ -99,7 +105,12 @@ const ToWriteOffDataList = ({ listInfo, writeOffInitQuery }) => {
 
     const handleFinish = (id) => {
         let tmpQuery = completeWriteOff + '/BillMasterID=' + id;
-        fetch(tmpQuery, { method: 'GET' })
+        fetch(tmpQuery, {
+            method: 'GET',
+            headers: {
+                Authorization: 'Bearer' + localStorage.getItem('accessToken') ?? '',
+            },
+        })
             .then((res) => res.json())
             .then(() => {
                 dispatch(

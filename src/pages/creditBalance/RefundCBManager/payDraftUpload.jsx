@@ -50,6 +50,7 @@ const PayDraftUpload = ({ isUploadOpen, handleUploadClose, payDraftID }) => {
                 body: pdfData,
                 headers: {
                     Accept: 'application/json',
+                    Authorization: 'Bearer' + localStorage.getItem('accessToken') ?? '',
                 },
             })
                 .then((res) => res.json())
