@@ -271,24 +271,24 @@ const MainRoutes = {
                 {
                     path: 'SupplierPayment',
                     element: (
-                        <RequireAuth>
-                            <SupplierPayment item={'Pay'} />
+                        <RequireAuth item={'Pay'}>
+                            <SupplierPayment />
                         </RequireAuth>
                     ),
                 },
                 {
                     path: 'Correspondence',
                     element: (
-                        <RequireAuth>
-                            <Correspondence item={'Pay'} />
+                        <RequireAuth item={'Pay'}>
+                            <Correspondence />
                         </RequireAuth>
                     ),
                 },
                 {
                     path: 'PaymentRecord',
                     element: (
-                        <RequireAuth>
-                            <PaymentRecord item={'Pay'} />
+                        <RequireAuth item={'Pay'}>
+                            <PaymentRecord />
                         </RequireAuth>
                     ),
                 },
@@ -342,52 +342,73 @@ const MainRoutes = {
                 {
                     path: 'ResearchBill',
                     element: (
-                        <RequireAuth>
-                            <ResearchBill item={'GlobalQuery'} />
+                        <RequireAuth item={'GlobalQuery'}>
+                            <ResearchBill />
                         </RequireAuth>
                     ),
                 },
                 {
                     path: 'ResearchInvoice',
                     element: (
-                        <RequireAuth>
-                            <ResearchInvoice item={'GlobalQuery'} />
+                        <RequireAuth item={'GlobalQuery'}>
+                            <ResearchInvoice />
                         </RequireAuth>
                     ),
                 },
                 {
                     path: 'ResearchJournal',
                     element: (
-                        <RequireAuth>
-                            <ResearchJournal item={'GlobalQuery'} />
+                        <RequireAuth item={'GlobalQuery'}>
+                            <ResearchJournal />
                         </RequireAuth>
                     ),
                 },
             ],
         },
-        {
-            path: 'Liability',
-            element: (
-                <RequireAuth>
-                    <LiabilityManage item={'Liability'} />
-                </RequireAuth>
-            ),
-        },
-        {
-            path: 'Notification',
-            element: (
-                <RequireAuth>
-                    <Notification item={'PartyNotify'} />
-                </RequireAuth>
-            ),
-        },
+        // {
+        //     path: 'Liability',
+        //     element: (
+        //         <RequireAuth>
+        //             <LiabilityManage item={'Liability'} />
+        //         </RequireAuth>
+        //     ),
+        // },
+        // {
+        //     path: 'Notification',
+        //     element: (
+        //         <RequireAuth>
+        //             <Notification item={'PartyNotify'} />
+        //         </RequireAuth>
+        //     ),
+        // },
         {
             path: 'Setting',
-            element: (
-                <RequireAuth item={'Data'}>
-                    <Information />
-                </RequireAuth>
-            ),
+            children: [
+                {
+                    path: 'Liability',
+                    element: (
+                        <RequireAuth item={'Liability'}>
+                            <LiabilityManage />
+                        </RequireAuth>
+                    ),
+                },
+                {
+                    path: 'Data',
+                    element: (
+                        <RequireAuth item={'Data'}>
+                            <Information />
+                        </RequireAuth>
+                    ),
+                },
+                {
+                    path: 'SysNotify',
+                    element: (
+                        <RequireAuth>
+                            <Notification item={'SysNotify'} />
+                        </RequireAuth>
+                    ),
+                },
+            ],
         },
         {
             path: 'UploadManage',
