@@ -10,6 +10,7 @@ import CreateInvoiceMain from './createInvoiceMain';
 import CreateInvoiceDetail from './createInvoiceDetail';
 import InvoiceDataList from './invoiceDataList';
 import { activeItem } from 'store/reducers/menu';
+import ChosePurpose from './chosePurpose';
 
 // api
 import {
@@ -42,7 +43,7 @@ const InvoiceWorkManage = () => {
     const [isPro, setIsPro] = useState(false); //是否為Pro-forma
     const [isLiability, setIsLiability] = useState(true); //是否需攤分
     const [isRecharge, setIsRecharge] = useState(false); //是否為短腳補收
-    const [isCreditMemo, setIsCreditMemo] = useState(false); //是否為短腳補收
+    const [code, setCode] = useState(''); //幣別
     const [partyName, setPartyName] = useState(''); //會員名稱
 
     const [supNmList, setSupNmList] = useState([]); //供應商下拉選單
@@ -56,6 +57,8 @@ const InvoiceWorkManage = () => {
     const [editItem, setEditItem] = useState(NaN);
     const [listInfo, setListInfo] = useState([]);
     const [isListEdit, setIsListEdit] = useState(false);
+
+    const [isPurposeDialogOpen, setIsPurposeDialogOpen] = useState(false);
 
     const dispatch = useDispatch();
 
@@ -71,7 +74,7 @@ const InvoiceWorkManage = () => {
         setIsPro(false);
         setIsLiability(true);
         setIsRecharge(false);
-        setIsCreditMemo(false);
+        setCode('');
         setPartyName('');
         setInvoiceDetailInfo([]);
         itemDetailInitial();
@@ -95,7 +98,7 @@ const InvoiceWorkManage = () => {
         Status,
         IsPro,
         IsRecharge,
-        IsCreditMemo,
+        code,
         IsLiability,
         TotalAmount,
     ) => {
@@ -111,7 +114,7 @@ const InvoiceWorkManage = () => {
             Status,
             IsPro,
             IsRecharge,
-            IsCreditMemo,
+            code,
             IsLiability,
             TotalAmount,
         };
@@ -206,6 +209,18 @@ const InvoiceWorkManage = () => {
             );
             return false;
         }
+        if (code === '') {
+            dispatch(
+                setMessageStateOpen({
+                    messageStateOpen: {
+                        isOpen: true,
+                        severity: 'error',
+                        message: '請選擇幣別',
+                    },
+                }),
+            );
+            return false;
+        }
         return true;
     };
 
@@ -228,7 +243,7 @@ const InvoiceWorkManage = () => {
                 'TEMPORARY',
                 isPro === 'true' || isPro === true ? true : false,
                 isRecharge === 'true' || isRecharge === true ? true : false,
-                isCreditMemo === 'true' || isCreditMemo === true ? true : false,
+                code === 'true' || code === true ? true : false,
                 isLiability === 'true' || isLiability === true ? true : false,
                 Number(totalAmount.toString().replaceAll(',', '')).toFixed(2),
             );
@@ -265,7 +280,7 @@ const InvoiceWorkManage = () => {
             setIsPro(tmpArray?.InvoiceWKMaster.IsPro);
             setIsLiability(tmpArray?.InvoiceWKMaster.IsLiability);
             setIsRecharge(tmpArray?.InvoiceWKMaster.IsRecharge);
-            setIsCreditMemo(tmpArray?.InvoiceWKMaster.IsCreditMemo);
+            setCode(tmpArray?.InvoiceWKMaster.Code);
             setPartyName(tmpArray?.InvoiceWKMaster.PartyName);
             setInvoiceDetailInfo(tmpArray?.InvoiceWKDetail);
             setEditItem(editItem);
@@ -293,7 +308,7 @@ const InvoiceWorkManage = () => {
                 'TEMPORARY',
                 isPro === 'true' || isPro === true ? true : false,
                 isRecharge === 'true' || isRecharge === true ? true : false,
-                isCreditMemo === 'true' || isCreditMemo === true ? true : false,
+                code === 'true' || code === true ? true : false,
                 isLiability === 'true' || isLiability === true ? true : false,
                 Number(totalAmount.toString().replaceAll(',', '')).toFixed(2),
             );
@@ -346,6 +361,15 @@ const InvoiceWorkManage = () => {
 
     const handleLink = () => {
         dispatch(activeItem({ openItem: ['item12'] }));
+    };
+
+    const handleDialogOpen = () => {
+        console.log('hello');
+        setIsPurposeDialogOpen(true);
+    };
+
+    const handleDialogClose = () => {
+        setIsPurposeDialogOpen(false);
     };
 
     useEffect(() => {
@@ -419,137 +443,154 @@ const InvoiceWorkManage = () => {
     }, [editItem]);
 
     return (
-        <Grid container spacing={1}>
-            <Grid item xs={12}>
-                <MainCard sx={{ width: '100%' }}>
-                    <Grid container display="flex" spacing={1}>
-                        {/* 左 */}
-                        <Grid item xs={6}>
-                            <CreateInvoiceMain
-                                supplierName={supplierName}
-                                setSupplierName={setSupplierName}
-                                invoiceNo={invoiceNo}
-                                setInvoiceNo={setInvoiceNo}
-                                submarineCable={submarineCable}
-                                setSubmarineCable={setSubmarineCable}
-                                workTitle={workTitle}
-                                setWorkTitle={setWorkTitle}
-                                contractType={contractType}
-                                setContractType={setContractType}
-                                issueDate={issueDate}
-                                setIssueDate={setIssueDate}
-                                dueDate={dueDate}
-                                setDueDate={setDueDate}
-                                totalAmount={totalAmount}
-                                setTotalAmount={setTotalAmount}
-                                isPro={isPro}
-                                setIsPro={setIsPro}
-                                isLiability={isLiability}
-                                setIsLiability={setIsLiability}
-                                isRecharge={isRecharge}
-                                setIsRecharge={setIsRecharge}
-                                isCreditMemo={isCreditMemo}
-                                setIsCreditMemo={setIsCreditMemo}
-                                partyName={partyName}
-                                setPartyName={setPartyName}
-                                supNmList={supNmList}
-                                submarineCableList={submarineCableList}
-                            />
-                        </Grid>
-                        {/* 右 */}
-                        <Grid item xs={6}>
-                            <CreateInvoiceDetail
-                                invoiceDetailInfo={invoiceDetailInfo}
-                                setInvoiceDetailInfo={setInvoiceDetailInfo}
-                                bmStoneList={bmStoneList}
-                                itemDetailInitial={itemDetailInitial}
-                                billMilestone={billMilestone}
-                                setBillMilestone={setBillMilestone}
-                                feeItem={feeItem}
-                                setFeeItem={setFeeItem}
-                                feeAmount={feeAmount}
-                                setFeeAmount={setFeeAmount}
-                            />
-                        </Grid>
-                        {/* 按鈕 */}
-                        <Grid
-                            item
-                            xs={12}
-                            display="flex"
-                            justifyContent="center"
-                            alignItems="center"
-                        >
-                            {isListEdit ? (
-                                <>
-                                    <Button variant="contained" onClick={saveEdit} sx={{ mx: 1 }}>
-                                        儲存編輯
-                                    </Button>
-                                    <Button variant="contained" onClick={cancelEdit} sx={{ mx: 1 }}>
-                                        取消編輯
-                                    </Button>
-                                </>
-                            ) : (
-                                <>
-                                    <Button
-                                        variant="contained"
-                                        onClick={addInvoiceInfo}
-                                        sx={{ mx: 1 }}
-                                    >
-                                        新增發票
-                                    </Button>
-                                    <Button
-                                        variant="contained"
-                                        onClick={itemInfoInitial}
-                                        sx={{ mx: 1 }}
-                                    >
-                                        全部清除
-                                    </Button>
-                                </>
-                            )}
-                        </Grid>
-                    </Grid>
-                </MainCard>
-            </Grid>
-            <Grid item xs={12}>
-                <MainCard sx={{ width: '100%' }}>
-                    <Grid container spacing={2}>
-                        <Grid item xs={12}>
-                            <MainCard title="發票資料建立列表">
-                                <InvoiceDataList
-                                    listInfo={listInfo}
-                                    setEditItem={setEditItem}
-                                    deletelistInfoItem={deletelistInfoItem}
+        <>
+            <ChosePurpose
+                isPurposeDialogOpen={isPurposeDialogOpen}
+                handleDialogClose={handleDialogClose}
+            />
+            <Grid container spacing={1}>
+                <Grid item xs={12}>
+                    <MainCard sx={{ width: '100%' }}>
+                        <Grid container display="flex" spacing={1}>
+                            {/* 左 */}
+                            <Grid item xs={6}>
+                                <CreateInvoiceMain
+                                    handleDialogOpen={handleDialogOpen}
+                                    supplierName={supplierName}
+                                    setSupplierName={setSupplierName}
+                                    invoiceNo={invoiceNo}
+                                    setInvoiceNo={setInvoiceNo}
+                                    submarineCable={submarineCable}
+                                    setSubmarineCable={setSubmarineCable}
+                                    workTitle={workTitle}
+                                    setWorkTitle={setWorkTitle}
+                                    contractType={contractType}
+                                    setContractType={setContractType}
+                                    issueDate={issueDate}
+                                    setIssueDate={setIssueDate}
+                                    dueDate={dueDate}
+                                    setDueDate={setDueDate}
+                                    totalAmount={totalAmount}
+                                    setTotalAmount={setTotalAmount}
+                                    isPro={isPro}
+                                    setIsPro={setIsPro}
+                                    isLiability={isLiability}
+                                    setIsLiability={setIsLiability}
+                                    isRecharge={isRecharge}
+                                    setIsRecharge={setIsRecharge}
+                                    code={code}
+                                    setCode={setCode}
+                                    partyName={partyName}
+                                    setPartyName={setPartyName}
+                                    supNmList={supNmList}
+                                    submarineCableList={submarineCableList}
                                 />
-                            </MainCard>
-                        </Grid>
-                        <Grid
-                            item
-                            xs={12}
-                            display="flex"
-                            justifyContent="center"
-                            alignItems="center"
-                        >
-                            {listInfo.length > 0 ? (
-                                <Button variant="contained" onClick={sendInvoice} sx={{ mx: 1 }}>
-                                    送出發票
-                                </Button>
-                            ) : (
-                                ''
-                            )}
-                            <Link
-                                to="/InvoiceWorkManage/InvoiceWorkEdit"
-                                onClick={handleLink}
-                                style={{ color: '#262626', textDecoration: 'none' }}
+                            </Grid>
+                            {/* 右 */}
+                            <Grid item xs={6}>
+                                <CreateInvoiceDetail
+                                    invoiceDetailInfo={invoiceDetailInfo}
+                                    setInvoiceDetailInfo={setInvoiceDetailInfo}
+                                    bmStoneList={bmStoneList}
+                                    itemDetailInitial={itemDetailInitial}
+                                    billMilestone={billMilestone}
+                                    setBillMilestone={setBillMilestone}
+                                    feeItem={feeItem}
+                                    setFeeItem={setFeeItem}
+                                    feeAmount={feeAmount}
+                                    setFeeAmount={setFeeAmount}
+                                />
+                            </Grid>
+                            {/* 按鈕 */}
+                            <Grid
+                                item
+                                xs={12}
+                                display="flex"
+                                justifyContent="center"
+                                alignItems="center"
                             >
-                                <Button variant="contained" sx={{ mx: 1 }}>
-                                    下一頁
-                                </Button>
-                            </Link>
+                                {isListEdit ? (
+                                    <>
+                                        <Button
+                                            variant="contained"
+                                            onClick={saveEdit}
+                                            sx={{ mx: 1 }}
+                                        >
+                                            儲存編輯
+                                        </Button>
+                                        <Button
+                                            variant="contained"
+                                            onClick={cancelEdit}
+                                            sx={{ mx: 1 }}
+                                        >
+                                            取消編輯
+                                        </Button>
+                                    </>
+                                ) : (
+                                    <>
+                                        <Button
+                                            variant="contained"
+                                            onClick={addInvoiceInfo}
+                                            sx={{ mx: 1 }}
+                                        >
+                                            新增發票
+                                        </Button>
+                                        <Button
+                                            variant="contained"
+                                            onClick={itemInfoInitial}
+                                            sx={{ mx: 1 }}
+                                        >
+                                            全部清除
+                                        </Button>
+                                    </>
+                                )}
+                            </Grid>
                         </Grid>
-                    </Grid>
-                </MainCard>
+                    </MainCard>
+                </Grid>
+                <Grid item xs={12}>
+                    <MainCard sx={{ width: '100%' }}>
+                        <Grid container spacing={2}>
+                            <Grid item xs={12}>
+                                <MainCard title="發票資料建立列表">
+                                    <InvoiceDataList
+                                        listInfo={listInfo}
+                                        setEditItem={setEditItem}
+                                        deletelistInfoItem={deletelistInfoItem}
+                                    />
+                                </MainCard>
+                            </Grid>
+                            <Grid
+                                item
+                                xs={12}
+                                display="flex"
+                                justifyContent="center"
+                                alignItems="center"
+                            >
+                                {listInfo.length > 0 ? (
+                                    <Button
+                                        variant="contained"
+                                        onClick={sendInvoice}
+                                        sx={{ mx: 1 }}
+                                    >
+                                        送出發票
+                                    </Button>
+                                ) : null}
+                                <Link
+                                    to="/InvoiceWorkManage/InvoiceWorkEdit"
+                                    onClick={handleLink}
+                                    style={{ color: '#262626', textDecoration: 'none' }}
+                                >
+                                    <Button variant="contained" sx={{ mx: 1 }}>
+                                        下一頁
+                                    </Button>
+                                </Link>
+                            </Grid>
+                        </Grid>
+                    </MainCard>
+                </Grid>
             </Grid>
-        </Grid>
+        </>
     );
 };
 
