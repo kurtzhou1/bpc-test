@@ -59,6 +59,7 @@ const InvoiceWorkManage = () => {
     const wKMasterID = useRef(); //工作檔ID
     const [bmsList, setBmsList] = useState([]); //計帳段號下拉選單
     const [bmStoneList, setBmStoneList] = useState([]); //計帳段號下拉選單
+    const [code, setCode] = useState(''); //幣別
 
     const [billMilestone, setBillMilestone] = useState(''); //計帳段號
     const [feeItem, setFeeItem] = useState(''); //費用項目
@@ -78,6 +79,8 @@ const InvoiceWorkManage = () => {
     const [supNmList, setSupNmList] = useState([]); //供應商下拉選單
     const returnDataList = useRef([]);
     const actionBack = useRef('');
+
+    const [isPurposeDialogOpen, setIsPurposeDialogOpen] = useState(false);
 
     const itemInfoInitial = () => {
         wKMasterID.current = 0;
@@ -197,6 +200,15 @@ const InvoiceWorkManage = () => {
 
     const handleLink = () => {
         dispatch(activeItem({ openItem: ['item2'] }));
+    };
+
+    const handleDialogOpen = () => {
+        console.log('hello');
+        setIsPurposeDialogOpen(true);
+    };
+
+    const handleDialogClose = () => {
+        setIsPurposeDialogOpen(false);
     };
 
     useEffect(() => {
@@ -684,6 +696,7 @@ const InvoiceWorkManage = () => {
                                 {/* 左 */}
                                 <Grid item xs={6}>
                                     <CreateInvoiceMain
+                                        handleDialogOpen={handleDialogOpen}
                                         supplierName={supplierName}
                                         setSupplierName={setSupplierName}
                                         invoiceNo={invoiceNo}
@@ -706,6 +719,8 @@ const InvoiceWorkManage = () => {
                                         setIsLiability={setIsLiability}
                                         isRecharge={isRecharge}
                                         setIsRecharge={setIsRecharge}
+                                        code={code}
+                                        setCode={setCode}
                                         isCreditMemo={isCreditMemo}
                                         setIsCreditMemo={setIsCreditMemo}
                                         partyName={partyName}

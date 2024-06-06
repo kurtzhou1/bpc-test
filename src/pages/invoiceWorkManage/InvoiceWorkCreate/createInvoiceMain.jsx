@@ -282,7 +282,6 @@ const InvoiceWorkManage = ({
                         fullWidth
                         variant="outlined"
                         size="small"
-                        // type="number"
                         label="填寫發票總金額"
                         onChange={(e) => {
                             setTotalAmount(handleNumber(e.target.value));
@@ -342,7 +341,7 @@ const InvoiceWorkManage = ({
                             ml: { lg: '0rem', xl: '1.5rem' },
                         }}
                     >
-                        主旨/用途：
+                        匯率資料：
                     </Typography>
                 </Grid>
                 <Grid item xs={12} sm={6} md={3} lg={4}>

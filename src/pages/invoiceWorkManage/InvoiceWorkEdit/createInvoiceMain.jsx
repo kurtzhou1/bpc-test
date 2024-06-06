@@ -32,6 +32,7 @@ import { setMessageStateOpen } from 'store/reducers/dropdown';
 // ==============================|| SAMPLE PAGE ||============================== //
 
 const InvoiceWorkManage = ({
+    handleDialogOpen,
     action,
     supplierName,
     setSupplierName,
@@ -55,6 +56,8 @@ const InvoiceWorkManage = ({
     setIsLiability,
     isRecharge,
     setIsRecharge,
+    code,
+    setCode,
     partyName,
     setPartyName,
     submarineCableList,
@@ -341,6 +344,49 @@ const InvoiceWorkManage = ({
                     </FormControl>
                 </Grid>
                 {/* row5 */}
+                <Grid item xs={12} sm={6} md={3} lg={2}>
+                    <Typography
+                        variant="h5"
+                        sx={{
+                            fontSize: { lg: '0.7rem', xl: '0.88rem' },
+                            ml: { lg: '0rem', xl: '1.5rem' },
+                        }}
+                    >
+                        幣別：
+                    </Typography>
+                </Grid>
+                <Grid item xs={12} sm={6} md={3} lg={4}>
+                    <FormControl fullWidth size="small">
+                        <InputLabel>選擇幣別</InputLabel>
+                        <Select value={code} label="幣別" onChange={(e) => setCode(e.target.value)}>
+                            <MenuItem value={'USD'}>USD</MenuItem>
+                            <MenuItem value={'TWD'}>TWD</MenuItem>
+                            <MenuItem value={'JPY'}>JPY</MenuItem>
+                        </Select>
+                    </FormControl>
+                </Grid>
+                <Grid item xs={12} sm={6} md={3} lg={2}>
+                    <Typography
+                        variant="h5"
+                        sx={{
+                            fontSize: { lg: '0.7rem', xl: '0.88rem' },
+                            ml: { lg: '0rem', xl: '1.5rem' },
+                        }}
+                    >
+                        匯率資料：
+                    </Typography>
+                </Grid>
+                <Grid item xs={12} sm={6} md={3} lg={4}>
+                    <FormControl fullWidth>
+                        <TextField
+                            size="small"
+                            inputProps={{
+                                onClick: () => handleDialogOpen(),
+                            }}
+                        />
+                    </FormControl>
+                </Grid>
+                {/* row6 */}
                 <Grid item xs={12} sm={6} md={4} lg={3}>
                     <Typography
                         variant="h5"
@@ -387,7 +433,7 @@ const InvoiceWorkManage = ({
                         </RadioGroup>
                     </FormControl>
                 </Grid>
-                {/* row6 */}
+                {/* row7 */}
                 <Grid item xs={12} sm={6} md={4} lg={3}>
                     <Typography
                         variant="h5"
@@ -479,7 +525,7 @@ const InvoiceWorkManage = ({
                     </FormControl>
                 </Grid>
                 {/* <Grid item xs={12} sm={6} md={6} lg={6} /> */}
-                {/* row7 */}
+                {/* row8 */}
                 <Grid item xs={12} sm={6} md={2} lg={2}>
                     <Typography
                         variant="h5"
