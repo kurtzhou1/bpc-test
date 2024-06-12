@@ -285,14 +285,14 @@ const CorrespondenceMake = ({ isDialogOpen, handleDialogClose, payDraftID }) => 
                                 &nbsp;&nbsp;&nbsp;&nbsp;ACH: {correspondenceInfo?.ACHNo}
                             </Box>
                             <Box sx={{ fontSize: '12px' }}>
-                                &nbsp;&nbsp;&nbsp;&nbsp;Wire/Routing:{' '}
+                                &nbsp;&nbsp;&nbsp;&nbsp;Wire/Routing:
                                 {correspondenceInfo?.WireRouting}
                             </Box>
                             <Box sx={{ fontSize: '12px' }}>
                                 二、本款項請即時匯出，匯款時請附加說明：
                             </Box>
                             <Box sx={{ fontSize: '12px' }}>
-                                &nbsp;&nbsp;&nbsp;&nbsp;Invoice No.{correspondenceInfo?.InvoiceNo},{' '}
+                                &nbsp;&nbsp;&nbsp;&nbsp;Invoice No.{correspondenceInfo?.InvoiceNo},
                                 {cableInfo}, US$
                                 {handleNumber(correspondenceInfo?.TotalFeeAmount)}
                             </Box>

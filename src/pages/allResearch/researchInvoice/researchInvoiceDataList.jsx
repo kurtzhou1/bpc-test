@@ -318,7 +318,6 @@ const ResearchBillDataList = ({ listInfo, setDetailInfo }) => {
                                         {row.BillMaster.BillMilestone}
                                     </StyledTableCell>
                                     <StyledTableCell align="center">
-                                        {' '}
                                         {dayjs(row.BillMaster.DueDate).format('YYYY/MM/DD')}
                                     </StyledTableCell>
                                     <StyledTableCell align="center">

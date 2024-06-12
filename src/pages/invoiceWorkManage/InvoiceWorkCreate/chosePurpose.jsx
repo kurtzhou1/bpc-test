@@ -4,11 +4,11 @@ import {
     Grid,
     Button,
     FormControl,
-    Box,
+    InputLabel,
     TextField,
-    Checkbox,
+    Select,
     Table,
-    Tab,
+    MenuItem,
     RadioGroup,
     FormControlLabel,
     Radio,
@@ -19,6 +19,11 @@ import {
 import Dialog from '@mui/material/Dialog';
 import DialogContent from '@mui/material/DialogContent';
 import DialogActions from '@mui/material/DialogActions';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import dayjs from 'dayjs';
+import { DateRangePicker } from '@mui/x-date-pickers-pro/DateRangePicker';
+import { DesktopDatePicker } from '@mui/x-date-pickers/DesktopDatePicker';
 
 // autocomplete
 import CheckBoxOutlineBlankIcon from '@mui/icons-material/CheckBoxOutlineBlank';
@@ -60,14 +65,110 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
 
 const CorrespondenceMake = ({ handleDialogOpen, isPurposeDialogOpen, handleDialogClose }) => {
     const dispatch = useDispatch();
-    const [correspondenceInfo, setCorrespondenceInfo] = useState({});
-    const [subject1, setSubject1] = useState(''); //主旨1
-    const [cableInfo, setCableInfo] = useState(''); //海纜資訊
+    const [issueDate, setIssueDate] = useState(null); //出帳年月
+    const [code, setCode] = useState(''); //兌換幣別代碼
 
     return (
-        <Dialog maxWidth="lg" fullWidth open={isPurposeDialogOpen}>
-            <BootstrapDialogTitle className="no-print">製作函稿</BootstrapDialogTitle>
-            <DialogContent dividers className="no-print"></DialogContent>
+        <Dialog maxWidth="md" fullWidth open={isPurposeDialogOpen}>
+            <BootstrapDialogTitle className="no-print">選擇用途/主旨</BootstrapDialogTitle>
+            <DialogContent dividers className="no-print">
+                <Grid
+                    container
+                    spacing={1}
+                    display="flex"
+                    justifyContent="center"
+                    alignItems="center"
+                >
+                    <Grid item lg={2} display="flex" justifyContent="end" alignItems="center">
+                        <Typography variant="h5" sx={{ fontSize: { lg: '0.7rem', xl: '0.88rem' } }}>
+                            帳單到期日：
+                        </Typography>
+                    </Grid>
+                    <Grid item lg={2}>
+                        <FormControl>
+                            <LocalizationProvider dateAdapter={AdapterDayjs}>
+                                <DesktopDatePicker
+                                    inputFormat="YYYY/MM/DD"
+                                    value={issueDate}
+                                    onChange={(e) => {
+                                        setIssueDate(e);
+                                    }}
+                                    renderInput={(params) => <TextField size="small" {...params} />}
+                                />
+                            </LocalizationProvider>
+                        </FormControl>
+                    </Grid>
+                    <Grid item lg={2} display="flex" justifyContent="end" alignItems="center">
+                        <Typography variant="h5" sx={{ fontSize: { lg: '0.7rem', xl: '0.88rem' } }}>
+                            兌換幣別代碼：
+                        </Typography>
+                    </Grid>
+                    <Grid item lg={2}>
+                        <FormControl fullWidth size="small">
+                            <InputLabel>選擇幣別</InputLabel>
+                            <Select
+                                value={code}
+                                label="幣別"
+                                onChange={(e) => setCode(e.target.value)}
+                            >
+                                <MenuItem value={'USD'}>USD</MenuItem>
+                                <MenuItem value={'TWD'}>TWD</MenuItem>
+                                <MenuItem value={'JPY'}>JPY</MenuItem>
+                            </Select>
+                        </FormControl>
+                    </Grid>
+                    <Grid item lg={4} />
+                    <Grid item lg={12}>
+                        <TableContainer component={Paper} sx={{ maxHeight: 350 }}>
+                            <Table sx={{ minWidth: 300 }} stickyHeader>
+                                <TableHead>
+                                    <TableRow>
+                                        <StyledTableCell align="center">會員</StyledTableCell>
+                                        <StyledTableCell align="center">發票號碼</StyledTableCell>
+                                        <StyledTableCell align="center">供應商</StyledTableCell>
+                                        <StyledTableCell align="center">海纜名稱</StyledTableCell>
+                                        <StyledTableCell align="center">發票日期</StyledTableCell>
+                                        <StyledTableCell align="center">總金額</StyledTableCell>
+                                    </TableRow>
+                                </TableHead>
+                                <TableBody>
+                                    {[].map((row, id) => {
+                                        return (
+                                            <TableRow
+                                                key={row.PartyName + id}
+                                                sx={{
+                                                    '&:last-child td, &:last-child th': {
+                                                        border: 0,
+                                                    },
+                                                }}
+                                            >
+                                                <TableCell align="center">
+                                                    {row.PartyName}
+                                                </TableCell>
+                                                <TableCell align="center">
+                                                    {row.InvoiceNo}
+                                                </TableCell>
+                                                <TableCell align="center">
+                                                    {row.SupplierName}
+                                                </TableCell>
+                                                <TableCell align="center">
+                                                    {row.SubmarineCable}
+                                                </TableCell>
+                                                <TableCell align="center">
+                                                    {dayjs(row.IssueDate).format('YYYY/MM/DD')}
+                                                </TableCell>
+                                                <TableCell align="center">{`$${handleNumber(
+                                                    row.FeeAmount?.toFixed(2),
+                                                )}`}</TableCell>
+                                            </TableRow>
+                                        );
+                                    })}
+                                </TableBody>
+                            </Table>
+                        </TableContainer>
+                    </Grid>
+                </Grid>
+            </DialogContent>
             <DialogActions className="no-print">
                 <Button sx={{ mr: '0.05rem' }} variant="contained">
                     儲存

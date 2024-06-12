@@ -827,7 +827,6 @@ const RuleAdd = ({
                                                         },
                                                     }}
                                                 >
-                                                    {' '}
                                                     {id === editNumber ? (
                                                         <>
                                                             <StyledTableCell align="center">

@@ -217,6 +217,7 @@ const ToCombineDataList = ({
         if (isDialogOpen) {
             console.log('sendComBineData.current=>>', sendComBineData.current);
             let tmpAmount = 0;
+            setBillList({});
             fetch(combineInvo, {
                 method: 'POST',
                 headers: {
@@ -238,6 +239,7 @@ const ToCombineDataList = ({
                                 },
                             }),
                         );
+                        handleDialogClose();
                     } else if (data?.SubmarineCable === 'SubmarineCable is not unique') {
                         dispatch(
                             setMessageStateOpen({
@@ -248,6 +250,7 @@ const ToCombineDataList = ({
                                 },
                             }),
                         );
+                        handleDialogClose();
                     } else {
                         setBillList(data);
                         billingNoOld.current = data.BillMaster.BillingNo;
@@ -263,7 +266,7 @@ const ToCombineDataList = ({
 
     return (
         <>
-            <Dialog maxWidth="md" fullWidth open={isDialogOpen}>
+            <Dialog maxWidth="lg" fullWidth open={isDialogOpen}>
                 <BootstrapDialogTitle>合併帳單作業</BootstrapDialogTitle>
                 <DialogContent>
                     <Grid
