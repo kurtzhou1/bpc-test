@@ -79,11 +79,31 @@ const ReceivableQuery = ({ value, setListInfo, queryApi }) => {
         if (workTitle && workTitle !== 'All') {
             tmpQuery = tmpQuery + 'WorkTitle=' + workTitle + '&';
         }
-        if (issueDate[0]) {
+        if (issueDate[0] && issueDate[1]) {
             tmpQuery =
                 tmpQuery +
                 'startIssueDate=' +
                 dayjs(issueDate[0]).format('YYYYMMDD') +
+                '&' +
+                'endIssueDate=' +
+                dayjs(issueDate[1]).format('YYYYMMDD') +
+                '&';
+        }
+        if (issueDate[0] && !issueDate[1]) {
+            tmpQuery =
+                tmpQuery +
+                'startIssueDate=' +
+                dayjs(issueDate[0]).format('YYYYMMDD') +
+                '&' +
+                'endIssueDate=' +
+                dayjs(new Date()).format('YYYYMMDD') +
+                '&';
+        }
+        if (!issueDate[0] && issueDate[1]) {
+            tmpQuery =
+                tmpQuery +
+                'startIssueDate=' +
+                '19110101' +
                 '&' +
                 'endIssueDate=' +
                 dayjs(issueDate[1]).format('YYYYMMDD') +

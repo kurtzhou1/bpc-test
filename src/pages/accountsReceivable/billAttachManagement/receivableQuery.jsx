@@ -46,29 +46,20 @@ const ReceivableQuery = ({ setListInfo }) => {
             tmpObject.PartyName = partyName;
         }
         if (submarineCable && submarineCable !== 'All') {
-            // tmpQuery = tmpQuery + 'SubmarineCable=' + submarineCable + '&';
             tmpObject.SubmarineCable = submarineCable;
         }
         if (billingNo && billingNo !== '') {
-            // tmpQuery = tmpQuery + 'BillingNo=' + billingNo + '&';
             tmpObject.BillingNo = billingNo;
         }
         if (workTitle && workTitle !== 'All') {
-            // tmpQuery = tmpQuery + 'WorkTitle=' + workTitle + '&';
             tmpObject.WorkTitle = workTitle;
         }
-        if (issueDate[0]) {
-            // tmpQuery =
-            //     tmpQuery +
-            //     'startIssueDate=' +
-            //     dayjs(issueDate[0]).format('YYYYMMDD') +
-            //     '&' +
-            //     'endIssueDate=' +
-            //     dayjs(issueDate[1]).format('YYYYMMDD') +
-            //     '&';
+        if (issueDate[0] || issueDate[1]) {
             tmpObject.IssueDate = {
-                start: dayjs(issueDate[0]).format('YYYYMMDD'),
-                end: dayjs(issueDate[1]).format('YYYYMMDD'),
+                start: issueDate[0] ? dayjs(issueDate[0]).format('YYYYMMDD') : '19110101',
+                end: issueDate[1]
+                    ? dayjs(issueDate[1]).format('YYYYMMDD')
+                    : dayjs(new Date()).format('YYYYMMDD'),
             };
         }
         fetch(queryToDecutBill, {

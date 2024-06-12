@@ -60,10 +60,12 @@ const CreditMemoQuery = ({ setListInfo }) => {
         if (workTitle && workTitle !== 'All') {
             tmpObject.WorkTitle = workTitle;
         }
-        if (lastIssueDate[0] && lastIssueDate[1]) {
+        if (lastIssueDate[0] || lastIssueDate[1]) {
             tmpObject.LastIssueDate = {
-                start: dayjs(lastIssueDate[0]).format('YYYYMMDD'),
-                end: dayjs(lastIssueDate[1]).format('YYYYMMDD'),
+                start: lastIssueDate[0] ? dayjs(lastIssueDate[0]).format('YYYYMMDD') : '19110101',
+                end: lastIssueDate[1]
+                    ? dayjs(lastIssueDate[1]).format('YYYYMMDD')
+                    : dayjs(new Date()).format('YYYYMMDD'),
             };
         }
 

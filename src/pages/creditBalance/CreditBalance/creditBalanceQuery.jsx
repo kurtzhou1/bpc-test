@@ -70,6 +70,26 @@ const CreditBalanceQuery = ({ setListInfo, partiesList, submarineCableList, quer
                 dayjs(createDate[1]).format('YYYYMMDD') +
                 '&';
         }
+        if (createDate[0] && !createDate[1]) {
+            tmpQuery =
+                tmpQuery +
+                'startCreateDate=' +
+                dayjs(createDate[0]).format('YYYYMMDD') +
+                '&' +
+                'endCreateDate=' +
+                dayjs(new Date()).format('YYYYMMDD') +
+                '&';
+        }
+        if (!createDate[0] && createDate[1]) {
+            tmpQuery =
+                tmpQuery +
+                'startCreateDate=' +
+                '19110101' +
+                '&' +
+                'endCreateDate=' +
+                dayjs(createDate[1]).format('YYYYMMDD') +
+                '&';
+        }
         if (currAmount?.TRUE && !currAmount?.FALSE) {
             tmpQuery = tmpQuery + 'CurrAmount=true&';
         }
