@@ -284,7 +284,6 @@ const CreditBalanceAdd = ({
                             onChange={(e) => setCurrAmount(e.target.value)}
                         />
                     </Grid>
-
                     {/* <Grid item xs={2} sm={2} md={2} lg={2} xl={6} /> */}
                     <Grid item xs={2} sm={2} md={2} lg={2} display="flex" justifyContent="center">
                         <Typography

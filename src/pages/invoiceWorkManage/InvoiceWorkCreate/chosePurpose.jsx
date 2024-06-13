@@ -67,6 +67,7 @@ const CorrespondenceMake = ({ handleDialogOpen, isPurposeDialogOpen, handleDialo
     const dispatch = useDispatch();
     const [issueDate, setIssueDate] = useState(null); //出帳年月
     const [code, setCode] = useState(''); //兌換幣別代碼
+    const [selectPurpose, setSelectPurpose] = useState();
 
     return (
         <Dialog maxWidth="md" fullWidth open={isPurposeDialogOpen}>
@@ -79,7 +80,7 @@ const CorrespondenceMake = ({ handleDialogOpen, isPurposeDialogOpen, handleDialo
                     justifyContent="center"
                     alignItems="center"
                 >
-                    <Grid item lg={2} display="flex" justifyContent="end" alignItems="center">
+                    <Grid item lg={2} display="flex" justifyContent="center" alignItems="center">
                         <Typography variant="h5" sx={{ fontSize: { lg: '0.7rem', xl: '0.88rem' } }}>
                             帳單到期日：
                         </Typography>
@@ -98,7 +99,7 @@ const CorrespondenceMake = ({ handleDialogOpen, isPurposeDialogOpen, handleDialo
                             </LocalizationProvider>
                         </FormControl>
                     </Grid>
-                    <Grid item lg={2} display="flex" justifyContent="end" alignItems="center">
+                    <Grid item lg={2} display="flex" justifyContent="center" alignItems="center">
                         <Typography variant="h5" sx={{ fontSize: { lg: '0.7rem', xl: '0.88rem' } }}>
                             兌換幣別代碼：
                         </Typography>
@@ -123,6 +124,7 @@ const CorrespondenceMake = ({ handleDialogOpen, isPurposeDialogOpen, handleDialo
                             <Table sx={{ minWidth: 300 }} stickyHeader>
                                 <TableHead>
                                     <TableRow>
+                                        <StyledTableCell align="center"></StyledTableCell>
                                         <StyledTableCell align="center">會員</StyledTableCell>
                                         <StyledTableCell align="center">發票號碼</StyledTableCell>
                                         <StyledTableCell align="center">供應商</StyledTableCell>
@@ -142,6 +144,33 @@ const CorrespondenceMake = ({ handleDialogOpen, isPurposeDialogOpen, handleDialo
                                                     },
                                                 }}
                                             >
+                                                <TableCell>
+                                                    <FormControl>
+                                                        <RadioGroup
+                                                            row
+                                                            value={selectPurpose}
+                                                            onChange={(e) =>
+                                                                setSelectPurpose(e.target.value)
+                                                            }
+                                                        >
+                                                            <FormControlLabel
+                                                                value={true}
+                                                                control={
+                                                                    <Radio
+                                                                        sx={{
+                                                                            '& .MuiSvgIcon-root': {
+                                                                                fontSize: {
+                                                                                    lg: 14,
+                                                                                    xl: 20,
+                                                                                },
+                                                                            },
+                                                                        }}
+                                                                    />
+                                                                }
+                                                            />
+                                                        </RadioGroup>
+                                                    </FormControl>
+                                                </TableCell>
                                                 <TableCell align="center">
                                                     {row.PartyName}
                                                 </TableCell>

@@ -52,6 +52,8 @@ const ResearchJournal = Loadable(lazy(() => import('pages/allResearch/researchJo
 const Information = Loadable(lazy(() => import('pages/information/Information')));
 // Liability
 const LiabilityManage = Loadable(lazy(() => import('pages/liability/LiabilityManage')));
+// Liability
+const CurrencyManage = Loadable(lazy(() => import('pages/currency/CurrencyManage')));
 // 上傳資料管理
 const UploadManage = Loadable(lazy(() => import('pages/uploadManage/UploadManage')));
 // 通知管理
@@ -365,22 +367,6 @@ const MainRoutes = {
                 },
             ],
         },
-        // {
-        //     path: 'Liability',
-        //     element: (
-        //         <RequireAuth>
-        //             <LiabilityManage item={'Liability'} />
-        //         </RequireAuth>
-        //     ),
-        // },
-        // {
-        //     path: 'Notification',
-        //     element: (
-        //         <RequireAuth>
-        //             <Notification item={'PartyNotify'} />
-        //         </RequireAuth>
-        //     ),
-        // },
         {
             path: 'Setting',
             children: [
@@ -389,6 +375,14 @@ const MainRoutes = {
                     element: (
                         <RequireAuth item={'Liability'}>
                             <LiabilityManage />
+                        </RequireAuth>
+                    ),
+                },
+                {
+                    path: 'Currency',
+                    element: (
+                        <RequireAuth item={'Currency'}>
+                            <CurrencyManage />
                         </RequireAuth>
                     ),
                 },

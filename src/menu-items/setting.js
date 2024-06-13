@@ -33,6 +33,14 @@ const Setting = {
                 },
                 {
                     id: 'item112',
+                    title: '貨幣與匯率資料管理',
+                    type: 'item',
+                    url: '/Setting/Currency',
+                    icon: icons.TagOutlined,
+                    breadcrumbs: true,
+                },
+                {
+                    id: 'item113',
                     title: '聯盟相關資料管理',
                     type: 'item',
                     url: '/Setting/Data',
@@ -40,7 +48,15 @@ const Setting = {
                     breadcrumbs: true,
                 },
                 {
-                    id: 'item114',
+                    id: 'item115',
+                    title: '內部提醒通知管理',
+                    type: 'item',
+                    url: '/Setting/SysNotify',
+                    icon: icons.TagOutlined,
+                    breadcrumbs: true,
+                },
+                {
+                    id: 'item116',
                     title: '內部提醒通知管理',
                     type: 'item',
                     url: '/Setting/SysNotify',
