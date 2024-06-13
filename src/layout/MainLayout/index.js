@@ -22,7 +22,7 @@ import { setLoginInInfo } from 'store/reducers/dropdown';
 import dayjs from 'dayjs';
 
 // api
-import { checktokenForLDAP, ssoUrl, redirectUri } from 'components/apis.jsx';
+import { checktokenForLDAP, ssoUrlQA, ssoUrlOL, redirectUri } from 'components/apis.jsx';
 
 // ==============================|| MAIN LAYOUT ||============================== //
 
@@ -86,7 +86,7 @@ const MainLayout = () => {
     //messageInfo
     const [isOpenNow, setIsOpenNow] = useState(false);
     const timer = useRef();
-    const { messageStateOpen, isLoading } = useSelector((state) => state.dropdown); //message狀態
+    const { messageStateOpen, isLoading, isOL } = useSelector((state) => state.dropdown); //message狀態
     const Alert = forwardRef(function Alert(props, ref) {
         return <MuiAlert elevation={6} ref={ref} {...props} sx={{ fontSize: 16 }} />;
     });
@@ -170,7 +170,7 @@ const MainLayout = () => {
             } else {
                 const accessCode = window.location.href.split('code=')[1];
                 let tmpArray = {
-                    client_id: 'CBPS.QA.I',
+                    client_id: isOL ? 'CBPS-CBPS.OL.I' : 'CBPS.QA.I',
                     // redirect_uri: redirectUri,
                     redirect_uri:
                         'c2be8338-3cce-494d-880f-9b47773246f9.c7fc3a89-861f-4ece-9362-eb1814c0b5c2.4d93c876-915e-4ed3-bd09-968595f302c8',
@@ -302,7 +302,7 @@ const MainLayout = () => {
             timer = setTimeout(() => {
                 // Here, you can perform actions upon detecting idle time, like logging out the user
                 console.log('User is idle for a specified time.');
-                window.location.replace(ssoUrl);
+                window.location.replace(isOL ? ssoUrlOL : ssoUrlQA);
                 // For instance, you could trigger a function to log out the user or display a message
             }, 1805000); // Adjust this time according to your requirement (e.g., 5 seconds for testing)
         };
