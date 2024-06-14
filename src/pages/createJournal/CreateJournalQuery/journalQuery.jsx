@@ -54,18 +54,12 @@ const JournalQuery = ({ setListInfo, queryApi, invoiceStatus, setPage }) => {
             // tmpQuery = tmpQuery + 'SubmarineCable=' + submarineCable + '&';
             tmpObject.SubmarineCable = submarineCable;
         }
-        if (issueDate[0] && issueDate[1]) {
-            // tmpQuery =
-            //     tmpQuery +
-            //     'startCreateDate=' +
-            //     dayjs(issueDate[0]).format('YYYYMMDD') +
-            //     '&' +
-            //     'endCreateDate=' +
-            //     dayjs(issueDate[1]).format('YYYYMMDD') +
-            //     '&';
+        if (issueDate[0] || issueDate[1]) {
             tmpObject.CreateDate = {
-                start: dayjs(issueDate[0]).format('YYYYMMDD'),
-                end: dayjs(issueDate[1]).format('YYYYMMDD'),
+                start: issueDate[0] ? dayjs(issueDate[0]).format('YYYYMMDD') : '19110101',
+                end: issueDate[1]
+                    ? dayjs(issueDate[1]).format('YYYYMMDD')
+                    : dayjs(new Date()).format('YYYYMMDD'),
             };
         }
         if (invoiceStatus === '0' || invoiceStatus === 0) {

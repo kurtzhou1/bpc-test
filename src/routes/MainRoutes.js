@@ -5,7 +5,7 @@ import Loadable from 'components/Loadable';
 import MainLayout from 'layout/MainLayout';
 import { useSelector } from 'react-redux';
 //api
-import { ssoUrl, checktokenForLDAP, redirectUri } from 'components/apis.jsx';
+import { ssoUrlOL, ssoUrlQA, checktokenForLDAP, redirectUri } from 'components/apis.jsx';
 import { useDispatch } from 'react-redux';
 import dayjs from 'dayjs';
 
@@ -66,7 +66,7 @@ const RequireAuth = ({ children, item }) => {
     console.log('程式起點2=>>', window.location.href.indexOf('code'));
 
     const dispatch = useDispatch();
-    const { isLogin, userInfo } = useSelector((state) => state.dropdown); //message狀態
+    const { isLogin, userInfo, isOL } = useSelector((state) => state.dropdown); //message狀態
     // haha2
     const getExpireTime = localStorage.getItem('expireTimeCBP');
     let accessSSO = 'https://iam-qa.cht.com.tw/auth/realms/B2E/protocol/openid-connect/token';
@@ -97,7 +97,7 @@ const RequireAuth = ({ children, item }) => {
     } else if (window.location.href.indexOf('code') !== -1) {
         const accessCode = window.location.href.split('code=')[1];
         let tmpArray = {
-            client_id: 'CBPS.QA.I',
+            client_id: isOL ? 'CBPS-CBPS.OL.I' : 'CBPS.QA.I',
             redirect_uri: redirectUri,
             code: accessCode,
             grant_type: 'authorization_code',
@@ -167,12 +167,12 @@ const RequireAuth = ({ children, item }) => {
                         .catch((e) => console.log('e1=>', e));
                     return children;
                 } else {
-                    return window.location.replace(ssoUrl);
+                    return window.location.replace(isOL ? ssoUrlOL : ssoUrlQA);
                 }
             })
             .catch((e) => console.log('e1=>', e));
     } else {
-        return window.location.replace(ssoUrl);
+        return window.location.replace(isOL ? ssoUrlOL : ssoUrlQA);
     }
 };
 

@@ -93,14 +93,18 @@ const InvoiceQuery = ({ setListInfo, queryApi, setAction, setPage }) => {
         }
         if (isIssueDate === 'true') {
             tmpQuery.IssueDate = {
-                start: dayjs(issueDate[0]).format('YYYYMMDD'),
-                end: dayjs(issueDate[1]).format('YYYYMMDD'),
+                start: issueDate[0] ? dayjs(issueDate[0]).format('YYYYMMDD') : '19110101',
+                end: issueDate[1]
+                    ? dayjs(issueDate[1]).format('YYYYMMDD')
+                    : dayjs(new Date()).format('YYYYMMDD'),
             };
         }
         if (isIssueDate === 'false') {
             tmpQuery.DueDate = {
-                start: dayjs(issueDate[0]).format('YYYYMMDD'),
-                end: dayjs(issueDate[1]).format('YYYYMMDD'),
+                start: issueDate[0] ? dayjs(issueDate[0]).format('YYYYMMDD') : '19110101',
+                end: issueDate[1]
+                    ? dayjs(issueDate[1]).format('YYYYMMDD')
+                    : dayjs(new Date()).format('YYYYMMDD'),
             };
         }
         if (

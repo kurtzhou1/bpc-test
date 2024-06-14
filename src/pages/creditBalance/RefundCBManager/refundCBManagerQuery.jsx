@@ -68,17 +68,13 @@ const CreditBalanceQuery = ({ value, setListInfo, partiesList, submarineCableLis
             // tmpQuery = tmpQuery + 'WorkTitle=' + workTitle + '&';
             tmpQuery.WorkTitle = workTitle;
         }
-        if (createDate[0] && createDate[1]) {
-            // tmpQuery =
-            //   tmpQuery +
-            //   'startCreateDate=' +
-            //   dayjs(createDate[0]).format('YYYYMMDD') +
-            //   '&' +
-            //   'endCreateDate=' +
-            //   dayjs(createDate[1]).format('YYYYMMDD') +
-            //   '&';
-            tmpQuery.startDueDate = dayjs(createDate[0]).format('YYYYMMDD');
-            tmpQuery.endDueDate = dayjs(createDate[1]).format('YYYYMMDD');
+        if (createDate[0] || createDate[1]) {
+            tmpQuery.CreateDate = {
+                start: createDate[0] ? dayjs(createDate[0]).format('YYYYMMDD') : '19110101',
+                end: createDate[1]
+                    ? dayjs(createDate[1]).format('YYYYMMDD')
+                    : dayjs(new Date()).format('YYYYMMDD'),
+            };
         }
         if (currAmount?.TRUE && !currAmount?.FALSE) {
             // tmpQuery = tmpQuery + 'CurrAmount=true&';
@@ -89,13 +85,6 @@ const CreditBalanceQuery = ({ value, setListInfo, partiesList, submarineCableLis
             tmpQuery.CurrAmount = 'false';
         }
 
-        // if (tmpQuery.includes('&')) {
-        //   tmpQuery = tmpQuery.slice(0, -1);
-        // } else {
-        //   tmpQuery = tmpQuery + 'all';
-        // }
-
-        // tmpQuery = refundView + tmpQuery;
         console.log('tmpQuery=>>', tmpQuery);
         queryApi.current = tmpQuery;
         fetch(queryApiValue, {

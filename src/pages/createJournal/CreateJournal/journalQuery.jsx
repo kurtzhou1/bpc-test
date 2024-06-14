@@ -46,39 +46,41 @@ const JournalQuery = ({
 
     const jounaryQuery = () => {
         // let tmpQuery = '/';
-        let tmpArray = {};
+        let tmpObject = {};
         if (supplierName && supplierName !== 'All') {
             // tmpQuery = tmpQuery + 'SupplierName=' + supplierName + '&';
-            tmpArray.SupplierName = supplierName;
+            tmpObject.SupplierName = supplierName;
         }
         if (submarineCable && submarineCable !== 'All') {
             // tmpQuery = tmpQuery + 'SubmarineCable=' + submarineCable + '&';
-            tmpArray.SubmarineCable = submarineCable;
+            tmpObject.SubmarineCable = submarineCable;
         }
-        if (issueDate[0] && issueDate[1]) {
-            tmpArray.CreateDate = {
-                start: dayjs(issueDate[0]).format('YYYYMMDD'),
-                end: dayjs(issueDate[1]).format('YYYYMMDD'),
+        if (issueDate[0] || issueDate[1]) {
+            tmpObject.CreateDate = {
+                start: issueDate[0] ? dayjs(issueDate[0]).format('YYYYMMDD') : '19110101',
+                end: issueDate[1]
+                    ? dayjs(issueDate[1]).format('YYYYMMDD')
+                    : dayjs(new Date()).format('YYYYMMDD'),
             };
         }
         if (invoiceStatus === '0' || invoiceStatus === 0) {
             // tmpQuery = tmpQuery + 'Status=' + 'VALIDATED' + '&';
-            tmpArray.Status = 'VALIDATED';
+            tmpObject.Status = 'VALIDATED';
         } else if (invoiceStatus === '1' || invoiceStatus === 1) {
             // tmpQuery = tmpQuery + 'Status=' + 'BILLED' + '&';
-            tmpArray.Status = 'BILLED';
+            tmpObject.Status = 'BILLED';
         } else {
-            tmpArray.Status = 'INVALID';
+            tmpObject.Status = 'INVALID';
         }
-        queryApi.current = tmpArray;
-        console.log('tmpQuery=>>', tmpArray);
+        queryApi.current = tmpObject;
+        console.log('tmpQuery=>>', tmpObject);
         fetch(queryInvoice, {
             method: 'POST',
             headers: {
                 'Content-type': 'application/json',
                 Authorization: 'Bearer' + localStorage.getItem('accessToken') ?? '',
             },
-            body: JSON.stringify(tmpArray),
+            body: JSON.stringify(tmpObject),
         })
             .then((res) => res.json())
             .then((data) => {

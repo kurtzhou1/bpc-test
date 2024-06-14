@@ -78,7 +78,26 @@ const LiabilityQuery = ({
                 dayjs(createDate[1]).format('YYYYMMDD') +
                 '&';
         }
-        // End = 'true' || 'false' || 'all'
+        if (createDate[0] && !createDate[1]) {
+            tmpQuery =
+                tmpQuery +
+                'startCreateDate=' +
+                dayjs(createDate[0]).format('YYYYMMDD') +
+                '&' +
+                'endCreateDate=' +
+                dayjs(new Date()).format('YYYYMMDD') +
+                '&';
+        }
+        if (!createDate[0] && createDate[1]) {
+            tmpQuery =
+                tmpQuery +
+                'startCreateDate=' +
+                '19110101' +
+                '&' +
+                'endCreateDate=' +
+                dayjs(createDate[1]).format('YYYYMMDD') +
+                '&';
+        }
         if (invoiceStatusQuery?.TRUE && !invoiceStatusQuery?.FALSE) {
             tmpQuery = tmpQuery + 'End=true&';
         }
@@ -333,16 +352,7 @@ const LiabilityQuery = ({
                     </FormGroup>
                     {/* </FormControl> */}
                 </Grid>
-                <Grid
-                    item
-                    xs={6}
-                    sm={6}
-                    md={3}
-                    lg={3}
-                    display="flex"
-                    justifyContent="end"
-                    alignItems="center"
-                >
+                <Grid item md={3} lg={3} display="flex" justifyContent="end" alignItems="center">
                     <Button sx={{ mr: '0.5rem' }} variant="contained" onClick={liabilityQuery}>
                         查詢
                     </Button>

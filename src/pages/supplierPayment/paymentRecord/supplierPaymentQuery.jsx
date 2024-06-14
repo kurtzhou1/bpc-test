@@ -59,10 +59,12 @@ const SupplierPaymentQuery = ({ setListInfo }) => {
         if (invoiceNo && invoiceNo !== '') {
             tmpQuery.InvoiceNo = invoiceNo;
         }
-        if (paidDate[0]) {
+        if (paidDate[0] || paidDate[1]) {
             tmpQuery.IssueDate = {
-                start: dayjs(paidDate[0]).format('YYYYMMDD'),
-                end: dayjs(paidDate[1]).format('YYYYMMDD'),
+                start: paidDate[0] ? dayjs(paidDate[0]).format('YYYYMMDD') : '19110101',
+                end: paidDate[1]
+                    ? dayjs(paidDate[1]).format('YYYYMMDD')
+                    : dayjs(new Date()).format('YYYYMMDD'),
             };
         }
         fetch(getPayMasterPayStatement, {
