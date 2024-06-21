@@ -29,9 +29,17 @@ const LoginRoutes = {
                 <RequireAuth>
                     <AuthLogin />
                 </RequireAuth>
-            )
-        }
-    ]
+            ),
+        },
+        {
+            path: '*',
+            element: (
+                <RequireAuth>
+                    <AuthLogin />
+                </RequireAuth>
+            ),
+        },
+    ],
 };
 
 export default LoginRoutes;

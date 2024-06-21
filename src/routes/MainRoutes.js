@@ -62,20 +62,13 @@ const Notification = Loadable(lazy(() => import('pages/notification/Notification
 
 const RequireAuth = ({ children, item }) => {
     console.log('程式起點2=>>', window.location.href.indexOf('code'));
-
+    console.log('children, item=>>', children, item);
     const dispatch = useDispatch();
     const { isLogin, userInfo, isOL } = useSelector((state) => state.dropdown); //message狀態
     // haha2
     const getExpireTime = localStorage.getItem('expireTimeCBP');
     let accessSSO = 'https://iam-qa.cht.com.tw/auth/realms/B2E/protocol/openid-connect/token';
     console.log('window.location.href.indexOf("code")=>>', window.location.href.indexOf('code'));
-    // console.log(
-    //   '1=>>',
-    //   window.location.host.includes('localhost'),
-    //   '2=>>',
-    //   dayjs(getExpireTime).diff(new Date(), 'minute') > 0,
-    // );
-
     const sendNoPermission = () => {
         // dispatch(
         //   setMessageStateOpen({
