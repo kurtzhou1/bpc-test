@@ -44,33 +44,33 @@ const LiabilityDataList = ({
         },
     }));
 
-    console.log('listInfo=>>', listInfo);
-
     return (
         <>
             <TableContainer component={Paper} sx={{ maxHeight: window.screen.height * 0.5 }}>
                 <Table sx={{ minWidth: 300 }} stickyHeader>
                     <TableHead>
                         <TableRow>
-                            <StyledTableCell align="center">NO</StyledTableCell>
                             <StyledTableCell align="center">海纜名稱</StyledTableCell>
                             <StyledTableCell align="center">海纜作業</StyledTableCell>
-                            <StyledTableCell align="center">帳務計費段</StyledTableCell>
-                            <StyledTableCell align="center">會員名稱</StyledTableCell>
-                            <StyledTableCell align="center">攤分比例</StyledTableCell>
-                            <StyledTableCell align="center">異動原因</StyledTableCell>
+                            <StyledTableCell align="center">出帳年月</StyledTableCell>
+                            <StyledTableCell align="center">主旨/用途</StyledTableCell>
+                            <StyledTableCell align="center">原始幣別代碼</StyledTableCell>
+                            <StyledTableCell align="center">兌換幣別代碼</StyledTableCell>
+                            <StyledTableCell align="center">匯率</StyledTableCell>
+                            <StyledTableCell align="center">備註</StyledTableCell>
+                            <StyledTableCell align="center">編輯人員</StyledTableCell>
+                            <StyledTableCell align="center">建立日期</StyledTableCell>
                             <StyledTableCell align="center">終止日期</StyledTableCell>
                             <StyledTableCell align="center">Action</StyledTableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {listInfo?.map((row, id) => {
+                        {[]?.map((row, id) => {
                             return (
                                 <TableRow
                                     key={row.BillMilestone + row.LBRatio + id}
                                     sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                                 >
-                                    <StyledTableCell align="center">{id + 1}</StyledTableCell>
                                     <StyledTableCell align="center">
                                         {row.SubmarineCable}
                                     </StyledTableCell>

@@ -250,6 +250,9 @@ const LiabilityManage = () => {
         <Grid container spacing={1}>
             <Grid item xs={12} display="flex" justifyContent="right">
                 <Button sx={{ mr: '0.25rem' }} variant="contained" onClick={handleDialogOpen}>
+                    $ 貨幣管理
+                </Button>
+                <Button sx={{ mr: '0.25rem' }} variant="contained" onClick={handleDialogOpen}>
                     + 新增貨幣與匯率資料
                 </Button>
                 <LiabilityAdd

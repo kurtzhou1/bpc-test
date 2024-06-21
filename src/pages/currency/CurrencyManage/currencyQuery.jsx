@@ -45,6 +45,7 @@ const LiabilityQuery = ({
     const [invoiceStatusQuery, setInvoiceStatusQuery] = useState({ TRUE: false, FALSE: false }); //處理狀態
     const [bmStoneList, setBmStoneList] = useState([]); //計帳段號下拉選單(需要選擇海纜名稱或海纜作業才能出現)
     const [issueDate, setIssueDate] = useState(null); //發票日期
+    const [subject, setSubject] = useState('');
 
     const initQuery = () => {
         setBillMilestoneQuery('All');
@@ -214,7 +215,7 @@ const LiabilityQuery = ({
                             ml: { lg: '0.5rem', xl: '1.5rem' },
                         }}
                     >
-                        建立日期：
+                        出帳日期：
                     </Typography>
                 </Grid>
                 <Grid item md={2} lg={2} xl={2}>
@@ -230,6 +231,28 @@ const LiabilityQuery = ({
                             />
                         </LocalizationProvider>
                     </FormControl>
+                </Grid>
+                <Grid item md={1} lg={1} display="flex">
+                    <Typography
+                        variant="h5"
+                        sx={{
+                            fontSize: { lg: '0.7rem', xl: '0.88rem' },
+                            ml: { lg: '0.5rem', xl: '1.5rem' },
+                        }}
+                    >
+                        主旨/用途：
+                    </Typography>
+                </Grid>
+                <Grid item md={2} lg={2} xl={2}>
+                    <TextField
+                        fullWidth
+                        variant="outlined"
+                        value={subject}
+                        size="small"
+                        // label="主旨"
+                        inputProps={{ maxLength: 65 }}
+                        onChange={(e) => setSubject(e.target.value)}
+                    />
                 </Grid>
                 <Grid item md={1} lg={1} xl={1}>
                     <Typography
@@ -258,9 +281,20 @@ const LiabilityQuery = ({
                     </FormControl>
                 </Grid>
                 {/* row2 */}
+                <Grid item md={1} lg={1} xl={1}>
+                    <Typography
+                        variant="h5"
+                        sx={{
+                            fontSize: { lg: '0.7rem', xl: '0.88rem' },
+                            ml: { lg: '0.5rem', xl: '1.5rem' },
+                        }}
+                    >
+                        原始幣別
+                    </Typography>
+                </Grid>
                 <Grid item md={2} lg={2} xl={2}>
                     <FormControl fullWidth size="small">
-                        <InputLabel>兌換幣別：</InputLabel>
+                        <InputLabel>原始幣別：</InputLabel>
                         <Select
                             value={billMilestoneQuery}
                             label="幣別代碼"
@@ -310,7 +344,6 @@ const LiabilityQuery = ({
                             label="未終止"
                         />
                     </FormGroup>
-                    {/* </FormControl> */}
                 </Grid>
                 <Grid item md={3} lg={3} display="flex" justifyContent="end" alignItems="center">
                     <Button sx={{ mr: '0.5rem' }} variant="contained" onClick={liabilityQuery}>
