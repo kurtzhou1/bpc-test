@@ -5,7 +5,8 @@ import { Grid, Button } from '@mui/material';
 import MainCard from 'components/MainCard';
 import CurrencyQuery from './currencyQuery';
 import CurrencyDataList from './currencyDataList';
-import LiabilityAdd from './liabilityAdd';
+import CurrencyAdd from './currencyAdd';
+import CurrencyManage from './currencyManage';
 
 // api
 import {
@@ -26,7 +27,6 @@ import { setMessageStateOpen } from 'store/reducers/dropdown';
 const LiabilityManage = () => {
     const dispatch = useDispatch();
     const [listInfo, setListInfo] = useState([]);
-    const [isDialogOpen, setIsDialogOpen] = useState(false); //新增編輯Liability
     const [dialogAction, setDialogAction] = useState('');
 
     const [billMilestone, setBillMilestone] = useState(''); //計帳段號
@@ -40,22 +40,31 @@ const LiabilityManage = () => {
 
     const [filterList, setFilterList] = useState(listInfo);
 
-    // const [bmStoneList, setBmStoneList] = useState([]); //計帳段號下拉選單
     const [setBmStoneList] = useState([]); //計帳段號下拉選單
     const [partyList, setPartyList] = useState([]); //會員名稱下拉選單
     const [submarineCableList, setSubmarineCableList] = useState([]); //海纜名稱下拉選單
     const [workTitleList, setWorkTitleList] = useState([]); //海纜作業下拉選單
+    const [isCurrencyOpen, setIsCurrencyOpen] = useState(false);
+    const [isAddCurrencyOpen, setIsAddCurrencyOpen] = useState(false); //新增編輯Currency
     const lBRawID = useRef(0); //LBRawID
 
     const queryApi = useRef(queryLiability + '/all');
 
-    const handleDialogOpen = () => {
-        setIsDialogOpen(true);
+    const handleCurrencyManageOpen = () => {
+        setIsCurrencyOpen(true);
+    };
+
+    const handleCurrencyManageClose = () => {
+        setIsCurrencyOpen(false);
+    };
+
+    const handleAddCurrencyOpen = () => {
+        setIsAddCurrencyOpen(true);
         setDialogAction('add');
     };
 
-    const handleDialogClose = () => {
-        setIsDialogOpen(false);
+    const handleAddCurrencyClose = () => {
+        setIsAddCurrencyOpen(false);
     };
 
     const itemDetailInitial = () => {
@@ -199,7 +208,7 @@ const LiabilityManage = () => {
                 );
                 apiQuery();
                 setEditItem(NaN);
-                handleDialogClose();
+                handleAddCurrencyClose();
             })
             .catch((e) => console.log('e1=>', e));
     };
@@ -215,7 +224,7 @@ const LiabilityManage = () => {
         itemDetailInitial();
         if (editItem >= 0) {
             editlistInfoItem();
-            setIsDialogOpen(true);
+            setIsAddCurrencyOpen(true);
         }
     }, [editItem]);
 
@@ -249,19 +258,27 @@ const LiabilityManage = () => {
     return (
         <Grid container spacing={1}>
             <Grid item xs={12} display="flex" justifyContent="right">
-                <Button sx={{ mr: '0.25rem' }} variant="contained" onClick={handleDialogOpen}>
+                <Button
+                    sx={{ mr: '0.25rem' }}
+                    variant="contained"
+                    onClick={handleCurrencyManageOpen}
+                >
                     $ 貨幣管理
                 </Button>
-                <Button sx={{ mr: '0.25rem' }} variant="contained" onClick={handleDialogOpen}>
+                <Button sx={{ mr: '0.25rem' }} variant="contained" onClick={handleAddCurrencyOpen}>
                     + 新增貨幣與匯率資料
                 </Button>
-                <LiabilityAdd
-                    handleDialogClose={handleDialogClose}
+                <CurrencyManage
+                    handleCurrencyManageClose={handleCurrencyManageClose}
+                    isCurrencyOpen={isCurrencyOpen}
+                />
+                <CurrencyAdd
+                    handleAddCurrencyClose={handleAddCurrencyClose}
                     addLiability={addLiability}
                     saveEdit={saveEdit}
                     partyName={partyName}
                     setPartyName={setPartyName}
-                    isDialogOpen={isDialogOpen}
+                    isAddCurrencyOpen={isAddCurrencyOpen}
                     billMilestone={billMilestone}
                     setBillMilestone={setBillMilestone}
                     workTitle={workTitle}
@@ -295,7 +312,7 @@ const LiabilityManage = () => {
                     <CurrencyDataList
                         listInfo={filterList.length > 0 ? filterList : listInfo}
                         setDialogAction={setDialogAction}
-                        setIsDialogOpen={setIsDialogOpen}
+                        setIsAddCurrencyOpen={setIsAddCurrencyOpen}
                         setEditItem={setEditItem}
                         apiQuery={apiQuery}
                     />
