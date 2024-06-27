@@ -17,6 +17,9 @@ import {
 import Dialog from '@mui/material/Dialog';
 import DialogContent from '@mui/material/DialogContent';
 import DialogActions from '@mui/material/DialogActions';
+import { DesktopDatePicker } from '@mui/x-date-pickers/DesktopDatePicker';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 
 // autocomplete
 import CheckBoxOutlineBlankIcon from '@mui/icons-material/CheckBoxOutlineBlank';
@@ -57,26 +60,17 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
     },
 }));
 
-const LiabilityAdd = ({
-    handleDialogClose,
+const CurrencyAdd = ({
+    handleAddCurrencyClose,
+    isAddCurrencyOpen,
     addLiability,
     saveEdit,
-    partyName,
-    setPartyName,
-    isDialogOpen,
     billMilestone,
     setBillMilestone,
-    workTitle,
-    setWorkTitle,
-    submarineCable,
-    setSubmarineCable,
     dialogAction,
     lBRatio,
     setLBRatio,
     modifyNote,
-    setModifyNote,
-    note,
-    setNote,
     setEditItem,
     lBRawID,
     apiQuery,
@@ -84,6 +78,15 @@ const LiabilityAdd = ({
     const dispatch = useDispatch();
     const [listInfo, setListInfo] = useState([]);
     const [splitNumber, setSplitNumber] = useState('');
+    const [issueDate, setIssueDate] = useState(null); //發票日期
+    const [subject, setSubject] = useState('');
+    const [invoiceNo, setInvoiceNo] = useState('');
+    const [billingNo, setBillingNo] = useState('');
+    const [submarineCable, setSubmarineCable] = useState('');
+    const [workTitle, setWorkTitle] = useState('');
+    const [currAmount, setCurrAmount] = useState(0);
+    const [note, setNote] = useState('');
+
     const [submarineCableList, setSubmarineCableList] = useState([]); //海纜名稱下拉選單
     const [partiesList, setPartiesList] = useState([]); //會員下拉選單
 
@@ -92,7 +95,7 @@ const LiabilityAdd = ({
 
     const itemDetailInitial = () => {
         setBillMilestone('');
-        setPartyName([]);
+        setSubject([]);
         setLBRatio('');
         setWorkTitle('');
         setSubmarineCable('');
@@ -101,14 +104,14 @@ const LiabilityAdd = ({
     };
 
     const itemDetailPartInitial = () => {
-        setPartyName([]);
+        setSubject([]);
         setLBRatio('');
         setSplitNumber('');
         setNote('');
     };
 
     const infoCheck = () => {
-        if (partyName.length === 0) {
+        if (subject.length === 0) {
             dispatch(
                 setMessageStateOpen({
                     messageStateOpen: {
@@ -176,11 +179,11 @@ const LiabilityAdd = ({
         if (infoCheck()) {
             let tmpArray = listInfo.map((i) => i);
             console.log('', tmpArray);
-            let partyArray = partyName;
+            let partyArray = subject;
             partyArray.forEach((e) => {
                 tmpArray.push({
                     BillMilestone: billMilestone,
-                    PartyName: e,
+                    subject: e,
                     LBRatio: lBRatio,
                     SubmarineCable: submarineCable,
                     WorkTitle: workTitle,
@@ -196,11 +199,11 @@ const LiabilityAdd = ({
     //分段+
     const addSplit = () => {
         let tmpArray = listInfo.map((i) => i);
-        let partyArray = partyName;
+        let partyArray = subject;
         partyArray.forEach((e) => {
             tmpArray.push({
                 BillMilestone: billMilestone + splitNumber,
-                PartyName: e,
+                subject: e,
                 LBRatio: lBRatio,
                 SubmarineCable: submarineCable,
                 WorkTitle: workTitle,
@@ -251,7 +254,7 @@ const LiabilityAdd = ({
                                     },
                                 }),
                             );
-                            handleDialogClose();
+                            handleAddCurrencyClose();
                             itemDetailInitial();
                             setEditItem(NaN);
                             setListInfo([]);
@@ -291,13 +294,9 @@ const LiabilityAdd = ({
     }, []);
 
     return (
-        <Dialog maxWidth="md" fullWidth open={isDialogOpen}>
+        <Dialog maxWidth="sm" fullWidth open={isAddCurrencyOpen}>
             <BootstrapDialogTitle>
-                {dialogAction === 'Split'
-                    ? `切割計費段${billMilestone}的Liabilty`
-                    : dialogAction === 'Edit'
-                    ? '編輯Liability'
-                    : '新增Liability'}
+                {dialogAction === 'Edit' ? '編輯新增貨幣與匯率資料' : '新增新增貨幣與匯率資料'}
             </BootstrapDialogTitle>
             <DialogContent dividers>
                 <Grid
@@ -307,70 +306,7 @@ const LiabilityAdd = ({
                     justifyContent="center"
                     alignItems="center"
                 >
-                    <Grid item xs={2} sm={2} md={2} lg={2} display="flex" justifyContent="center">
-                        <Typography
-                            variant="h5"
-                            sx={{
-                                fontSize: { lg: '0.7rem', xl: '0.88rem' },
-                                ml: { lg: '0.5rem', xl: '1.5rem' },
-                            }}
-                        >
-                            計帳段號：
-                        </Typography>
-                    </Grid>
-                    {dialogAction === 'Split' ? (
-                        <Grid
-                            item
-                            xs={2}
-                            sm={2}
-                            md={2}
-                            lg={2}
-                            display="flex"
-                            justifyContent="center"
-                        >
-                            <TextField
-                                fullWidth
-                                variant="outlined"
-                                disabled={dialogAction === 'Split'}
-                                value={billMilestone}
-                                size="small"
-                                label="計帳段號"
-                                inputProps={{ style: { textTransform: 'uppercase' } }}
-                                onChange={(e) => setBillMilestone(e.target.value)}
-                            />
-                            <TextField
-                                fullWidth
-                                variant="outlined"
-                                value={splitNumber}
-                                size="small"
-                                label="分段"
-                                inputProps={{ maxLength: 2, style: { textTransform: 'lowercase' } }}
-                                onChange={(e) => setSplitNumber(e.target.value)}
-                            />
-                        </Grid>
-                    ) : (
-                        <Grid
-                            item
-                            xs={2}
-                            sm={2}
-                            md={2}
-                            lg={2}
-                            display="flex"
-                            justifyContent="center"
-                        >
-                            <TextField
-                                fullWidth
-                                variant="outlined"
-                                disabled={dialogAction === 'Edit' || listInfo.length > 0}
-                                value={billMilestone}
-                                size="small"
-                                label="大小寫視為不同段號"
-                                // inputProps={{ style: { textTransform: 'uppercase' } }}
-                                onChange={(e) => setBillMilestone(e.target.value)}
-                            />
-                        </Grid>
-                    )}
-                    <Grid item xs={2} sm={2} md={2} lg={2} display="flex" justifyContent="center">
+                    <Grid item md={3} lg={3} display="flex" justifyContent="center">
                         <Typography
                             variant="h5"
                             sx={{
@@ -381,31 +317,17 @@ const LiabilityAdd = ({
                             海纜名稱：
                         </Typography>
                     </Grid>
-                    <Grid item xs={2} sm={2} md={2} lg={2} display="flex" justifyContent="center">
-                        <FormControl fullWidth size="small">
-                            <InputLabel size="small" id="billMilestone">
-                                選擇海纜名稱
-                            </InputLabel>
-                            <Select
-                                disabled={
-                                    dialogAction === 'Edit' ||
-                                    listInfo.length > 0 ||
-                                    dialogAction === 'Split'
-                                }
-                                size="small"
-                                value={submarineCable}
-                                label="填寫海纜名稱"
-                                onChange={(e) => setSubmarineCable(e.target.value)}
-                            >
-                                {submarineCableList.map((i) => (
-                                    <MenuItem key={i.CableName} value={i.CableName}>
-                                        {i.CableName}
-                                    </MenuItem>
-                                ))}
-                            </Select>
-                        </FormControl>
+                    <Grid item md={3} lg={3}>
+                        <TextField
+                            fullWidth
+                            variant="outlined"
+                            value={submarineCable}
+                            size="small"
+                            label="填寫海纜名稱"
+                            onChange={(e) => setSubmarineCable(e.target.value)}
+                        />
                     </Grid>
-                    <Grid item xs={2} sm={2} md={2} lg={2} display="flex" justifyContent="center">
+                    <Grid item md={3} lg={3} display="flex" justifyContent="center">
                         <Typography
                             variant="h5"
                             sx={{
@@ -416,51 +338,17 @@ const LiabilityAdd = ({
                             海纜作業：
                         </Typography>
                     </Grid>
-                    <Grid item xs={2} sm={2} md={2} lg={2} display="flex" justifyContent="center">
-                        <FormControl fullWidth size="small">
-                            <InputLabel size="small" id="billMilestone">
-                                選擇海纜作業
-                            </InputLabel>
-                            <Select
-                                disabled={
-                                    dialogAction === 'Edit' ||
-                                    listInfo.length > 0 ||
-                                    dialogAction === 'Split'
-                                }
-                                size="small"
-                                value={workTitle}
-                                label="填寫海纜作業"
-                                onChange={(e) => setWorkTitle(e.target.value)}
-                            >
-                                <MenuItem value={'Construction'}>Construction</MenuItem>
-                                <MenuItem value={'Upgrade'}>Upgrade</MenuItem>
-                                <MenuItem value={'O&M'}>O&M</MenuItem>
-                            </Select>
-                        </FormControl>
-                    </Grid>
-                    <Grid item xs={2} sm={2} md={2} lg={2} display="flex" justifyContent="center">
-                        <Typography
-                            variant="h5"
-                            sx={{
-                                fontSize: { lg: '0.7rem', xl: '0.88rem' },
-                                ml: { lg: '0.5rem', xl: '1.5rem' },
-                            }}
-                        >
-                            攤分比例：
-                        </Typography>
-                    </Grid>
-                    <Grid item xs={2} sm={2} md={2} lg={2}>
+                    <Grid item md={3} lg={3}>
                         <TextField
                             fullWidth
                             variant="outlined"
-                            disabled={dialogAction === 'Edit' || dialogAction === 'Split'}
-                            value={lBRatio}
+                            value={workTitle}
                             size="small"
-                            label="填寫攤分比例"
-                            onChange={(e) => setLBRatio(e.target.value)}
+                            label="填寫海纜作業"
+                            onChange={(e) => setWorkTitle(e.target.value)}
                         />
                     </Grid>
-                    <Grid item xs={2} sm={2} md={2} lg={2} display="flex" justifyContent="center">
+                    <Grid item xs={3} sm={3} md={3} lg={3} display="flex" justifyContent="center">
                         <Typography
                             variant="h5"
                             sx={{
@@ -468,39 +356,158 @@ const LiabilityAdd = ({
                                 ml: { lg: '0.5rem', xl: '1.5rem' },
                             }}
                         >
-                            會員名稱：
+                            出帳日期：
                         </Typography>
                     </Grid>
-                    <Grid item xs={6} sm={6} md={6} lg={6}>
-                        <Autocomplete
-                            multiple
-                            options={partiesList}
-                            value={partyName}
-                            disabled={dialogAction === 'Edit' || dialogAction === 'Split'}
+                    <Grid item xs={3} sm={3} md={3} lg={3}>
+                        <FormControl>
+                            <LocalizationProvider dateAdapter={AdapterDayjs}>
+                                <DesktopDatePicker
+                                    inputFormat="YYYY/MM/DD"
+                                    value={issueDate}
+                                    onChange={(e) => {
+                                        setIssueDate(e);
+                                    }}
+                                    renderInput={(params) => <TextField size="small" {...params} />}
+                                />
+                            </LocalizationProvider>
+                        </FormControl>
+                    </Grid>
+                    <Grid item xs={3} sm={3} md={3} lg={3} display="flex" justifyContent="center">
+                        <Typography
+                            variant="h5"
+                            sx={{
+                                fontSize: { lg: '0.7rem', xl: '0.88rem' },
+                                ml: { lg: '0.5rem', xl: '1.5rem' },
+                            }}
+                        >
+                            主旨/用途：
+                        </Typography>
+                    </Grid>
+                    <Grid item xs={3} sm={3} md={3} lg={3}>
+                        <TextField
+                            fullWidth
+                            variant="outlined"
+                            value={subject}
                             size="small"
-                            disableCloseOnSelect
-                            onChange={(event, newValue) => {
-                                setPartyName(newValue);
-                            }}
-                            getOptionLabel={(option) => option}
-                            renderOption={(props, option, { selected }) => {
-                                return (
-                                    <li {...props}>
-                                        <Checkbox
-                                            icon={icon}
-                                            checkedIcon={checkedIcon}
-                                            style={{ marginRight: 8 }}
-                                            checked={selected}
-                                        />
-                                        {option}
-                                    </li>
-                                );
-                            }}
-                            renderInput={(params) => <TextField {...params} label="選擇會員名稱" />}
+                            label="填寫主旨/用途"
+                            onChange={(e) => setSubject(e.target.value)}
                         />
                     </Grid>
-                    {/* row3 */}
-                    <Grid item xs={2} sm={2} md={2} lg={2} display="flex" justifyContent="center">
+                    <Grid item xs={3} sm={3} md={3} lg={3} display="flex" justifyContent="center">
+                        <Typography
+                            variant="h5"
+                            sx={{
+                                fontSize: { lg: '0.7rem', xl: '0.88rem' },
+                                ml: { lg: '0.5rem', xl: '1.5rem' },
+                            }}
+                        >
+                            原始幣別：
+                        </Typography>
+                    </Grid>
+                    <Grid item xs={3} sm={3} md={3} lg={3}>
+                        <FormControl fullWidth size="small">
+                            <Select
+                                // value={billMilestoneQuery}
+                                label="幣別代碼"
+                                // onChange={(e) => setBillMilestoneQuery(e.target.value)}
+                            >
+                                <MenuItem value={'All'}>All</MenuItem>
+                                <MenuItem value={'USD'}>USD</MenuItem>
+                                <MenuItem value={'TWD'}>TWD</MenuItem>
+                                <MenuItem value={'JP'}>JP</MenuItem>
+                            </Select>
+                        </FormControl>
+                    </Grid>
+                    <Grid item xs={3} sm={3} md={3} lg={3} display="flex" justifyContent="center">
+                        <Typography
+                            variant="h5"
+                            sx={{
+                                fontSize: { lg: '0.7rem', xl: '0.88rem' },
+                                ml: { lg: '0.5rem', xl: '1.5rem' },
+                            }}
+                        >
+                            原始幣別中文：
+                        </Typography>
+                    </Grid>
+                    <Grid item xs={3} sm={3} md={3} lg={3}>
+                        <TextField
+                            fullWidth
+                            variant="outlined"
+                            value={note}
+                            size="small"
+                            label="原始幣別中文"
+                            onChange={(e) => setNote(e.target.value)}
+                        />
+                    </Grid>
+                    <Grid item xs={3} sm={3} md={3} lg={3} display="flex" justifyContent="center">
+                        <Typography
+                            variant="h5"
+                            sx={{
+                                fontSize: { lg: '0.7rem', xl: '0.88rem' },
+                                ml: { lg: '0.5rem', xl: '1.5rem' },
+                            }}
+                        >
+                            兌換幣別：
+                        </Typography>
+                    </Grid>
+                    <Grid item xs={3} sm={3} md={3} lg={3}>
+                        <FormControl fullWidth size="small">
+                            <Select
+                                // value={billMilestoneQuery}
+                                label="幣別代碼"
+                                // onChange={(e) => setBillMilestoneQuery(e.target.value)}
+                            >
+                                <MenuItem value={'All'}>All</MenuItem>
+                                <MenuItem value={'USD'}>USD</MenuItem>
+                                <MenuItem value={'TWD'}>TWD</MenuItem>
+                                <MenuItem value={'JP'}>JP</MenuItem>
+                            </Select>
+                        </FormControl>
+                    </Grid>
+                    <Grid item xs={3} sm={3} md={3} lg={3} display="flex" justifyContent="center">
+                        <Typography
+                            variant="h5"
+                            sx={{
+                                fontSize: { lg: '0.7rem', xl: '0.88rem' },
+                                ml: { lg: '0.5rem', xl: '1.5rem' },
+                            }}
+                        >
+                            兌換幣別中文：
+                        </Typography>
+                    </Grid>
+                    <Grid item xs={3} sm={3} md={3} lg={3}>
+                        <TextField
+                            fullWidth
+                            variant="outlined"
+                            value={note}
+                            size="small"
+                            label="兌換幣別中文"
+                            onChange={(e) => setNote(e.target.value)}
+                        />
+                    </Grid>
+                    <Grid item xs={3} sm={3} md={3} lg={3} display="flex" justifyContent="center">
+                        <Typography
+                            variant="h5"
+                            sx={{
+                                fontSize: { lg: '0.7rem', xl: '0.88rem' },
+                                ml: { lg: '0.5rem', xl: '1.5rem' },
+                            }}
+                        >
+                            匯率：
+                        </Typography>
+                    </Grid>
+                    <Grid item xs={3} sm={3} md={3} lg={3}>
+                        <TextField
+                            fullWidth
+                            variant="outlined"
+                            value={invoiceNo}
+                            size="small"
+                            label="填寫匯率"
+                            onChange={(e) => setInvoiceNo(e.target.value)}
+                        />
+                    </Grid>
+                    <Grid item xs={3} sm={3} md={3} lg={3} display="flex" justifyContent="center">
                         <Typography
                             variant="h5"
                             sx={{
@@ -511,150 +518,22 @@ const LiabilityAdd = ({
                             備註：
                         </Typography>
                     </Grid>
-                    <Grid item xs={4} sm={4} md={4} lg={4}>
+                    <Grid item xs={3} sm={3} md={3} lg={3}>
                         <TextField
                             fullWidth
                             variant="outlined"
-                            value={note}
-                            // disabled={dialogAction === 'Edit' || dialogAction === 'Split'}
+                            value={billingNo}
                             size="small"
                             label="填寫備註"
-                            onChange={(e) => setNote(e.target.value)}
+                            onChange={(e) => setBillingNo(e.target.value)}
                         />
                     </Grid>
-                    <Grid item xs={2} sm={2} md={2} lg={2} display="flex" justifyContent="center">
-                        {dialogAction === 'Edit' ? (
-                            <Typography
-                                variant="h5"
-                                sx={{
-                                    fontSize: { lg: '0.7rem', xl: '0.88rem' },
-                                    ml: { lg: '0.5rem', xl: '1.5rem' },
-                                }}
-                            >
-                                異動原因：
-                            </Typography>
-                        ) : null}
-                    </Grid>
-                    <Grid item xs={3} sm={3} md={3} lg={3}>
-                        {dialogAction === 'Edit' ? (
-                            <TextField
-                                fullWidth
-                                variant="outlined"
-                                value={modifyNote}
-                                size="small"
-                                label="填寫異動原因"
-                                onChange={(e) => setModifyNote(e.target.value)}
-                            />
-                        ) : null}
-                    </Grid>
-                    <Grid
-                        item
-                        xs={1}
-                        sm={1}
-                        md={1}
-                        lg={1}
-                        display="flex"
-                        alignItems="center"
-                        justifyContent="end"
-                    >
-                        {dialogAction !== 'Edit' ? (
-                            <Button
-                                size="small"
-                                style={{
-                                    maxWidth: '2rem',
-                                    maxHeight: '2rem',
-                                    minWidth: '2rem',
-                                    minHeight: '2rem',
-                                }}
-                                variant="contained"
-                                onClick={dialogAction === 'Split' ? addSplit : addList}
-                            >
-                                +
-                            </Button>
-                        ) : null}
-                    </Grid>
-                    {dialogAction !== 'Edit' ? (
-                        <Grid item xs={12} sm={12} md={12} lg={12}>
-                            <TableContainer component={Paper} sx={{ maxHeight: 350 }}>
-                                <Table sx={{ minWidth: 300 }} stickyHeader>
-                                    <TableHead>
-                                        <TableRow>
-                                            <StyledTableCell align="center">
-                                                計帳段號
-                                            </StyledTableCell>
-                                            <StyledTableCell align="center">
-                                                會員名稱
-                                            </StyledTableCell>
-                                            <StyledTableCell align="center">
-                                                攤分比例
-                                            </StyledTableCell>
-                                            <StyledTableCell align="center">
-                                                海纜名稱
-                                            </StyledTableCell>
-                                            <StyledTableCell align="center">
-                                                海纜作業
-                                            </StyledTableCell>
-                                            <StyledTableCell align="center">Action</StyledTableCell>
-                                        </TableRow>
-                                    </TableHead>
-                                    <TableBody>
-                                        {listInfo?.map((row, id) => {
-                                            return (
-                                                <TableRow
-                                                    // key={row.InvoiceWKMaster?.invoiceNo + row.InvoiceWKMaster?.supplierName + id}
-                                                    sx={{
-                                                        '&:last-child td, &:last-child th': {
-                                                            border: 0,
-                                                        },
-                                                    }}
-                                                >
-                                                    <StyledTableCell align="center">
-                                                        {row.BillMilestone}
-                                                    </StyledTableCell>
-                                                    <StyledTableCell align="center">
-                                                        {row.PartyName}
-                                                    </StyledTableCell>
-                                                    <StyledTableCell align="center">{`${row.LBRatio}%`}</StyledTableCell>
-                                                    <StyledTableCell align="center">
-                                                        {row.SubmarineCable}
-                                                    </StyledTableCell>
-                                                    <StyledTableCell align="center">
-                                                        {row.WorkTitle}
-                                                    </StyledTableCell>
-                                                    <StyledTableCell align="center">
-                                                        <Button
-                                                            color="error"
-                                                            onClick={() => {
-                                                                deletelistInfoItem(id);
-                                                            }}
-                                                        >
-                                                            刪除
-                                                        </Button>
-                                                    </StyledTableCell>
-                                                </TableRow>
-                                            );
-                                        })}
-                                    </TableBody>
-                                </Table>
-                            </TableContainer>
-                        </Grid>
-                    ) : null}
                 </Grid>
             </DialogContent>
             <DialogActions>
                 {dialogAction === 'Edit' ? (
                     <Button sx={{ mr: '0.05rem' }} variant="contained" onClick={saveEdit}>
                         儲存
-                    </Button>
-                ) : dialogAction === 'Split' ? (
-                    <Button
-                        sx={{ mr: '0.05rem' }}
-                        variant="contained"
-                        onClick={() => {
-                            excuteSplit();
-                        }}
-                    >
-                        分段
                     </Button>
                 ) : (
                     <Button
@@ -671,7 +550,7 @@ const LiabilityAdd = ({
                     sx={{ mr: '0.05rem' }}
                     variant="contained"
                     onClick={() => {
-                        handleDialogClose();
+                        handleAddCurrencyClose();
                         itemDetailInitial();
                         setEditItem(NaN);
                         setListInfo([]);
@@ -684,4 +563,4 @@ const LiabilityAdd = ({
     );
 };
 
-export default LiabilityAdd;
+export default CurrencyAdd;

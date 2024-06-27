@@ -274,11 +274,11 @@ const LiabilityManage = () => {
                 />
                 <CurrencyAdd
                     handleAddCurrencyClose={handleAddCurrencyClose}
+                    isAddCurrencyOpen={isAddCurrencyOpen}
                     addLiability={addLiability}
                     saveEdit={saveEdit}
                     partyName={partyName}
                     setPartyName={setPartyName}
-                    isAddCurrencyOpen={isAddCurrencyOpen}
                     billMilestone={billMilestone}
                     setBillMilestone={setBillMilestone}
                     workTitle={workTitle}
