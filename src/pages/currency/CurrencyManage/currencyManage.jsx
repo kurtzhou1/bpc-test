@@ -30,8 +30,11 @@ import { styled } from '@mui/material/styles';
 
 // project
 import { BootstrapDialogTitle } from 'components/commonFunction';
+import { setMessageStateOpen } from 'store/reducers/dropdown';
 
 // api
+import { addCurrencyData, getCurrencyData } from 'components/apis.jsx';
+
 // redux
 import { useDispatch } from 'react-redux';
 
@@ -52,22 +55,94 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
 const CurrencyManage = ({ handleCurrencyManageClose, isCurrencyOpen }) => {
     const dispatch = useDispatch();
     const [listInfo, setListInfo] = useState([]);
-    const [cableName, setCableName] = useState(''); //海纜名稱
-    const [cableCode, setCableCode] = useState(''); //代碼
-    const [note, setNote] = useState(''); //摘要
+    const [cName, setCName] = useState(''); //貨幣中文
+    const [code, setCode] = useState(''); //貨幣代碼
     const cableIDEdit = useRef(-1);
-    const [cableCodeEdit, setCableCodeEdit] = useState(''); //代碼編輯
-    const [cableNameEdit, setCableNameEdit] = useState(''); //供應商編輯
-    const [noteEdit, setNoteEdit] = useState(''); //帳號名稱編輯
+    const [codeEdit, setCodeEdit] = useState(''); //貨幣代碼編輯
+    const [cNameEdit, setCNameEdit] = useState(''); //貨幣中文編輯
 
     const icon = <CheckBoxOutlineBlankIcon fontSize="small" />;
     const checkedIcon = <CheckBoxIcon fontSize="small" />;
 
-    //刪除
-    const deletelistInfoItem = (deleteItem) => {
-        let tmpArray = listInfo.map((i) => i);
-        tmpArray.splice(deleteItem, 1);
-        setListInfo([...tmpArray]);
+    const infoCheck = () => {
+        if (code === '') {
+            dispatch(
+                setMessageStateOpen({
+                    messageStateOpen: {
+                        isOpen: true,
+                        severity: 'error',
+                        message: '請輸入貨幣代碼',
+                    },
+                }),
+            );
+            return false;
+        }
+        if (cName === '') {
+            dispatch(
+                setMessageStateOpen({
+                    messageStateOpen: {
+                        isOpen: true,
+                        severity: 'error',
+                        message: '請輸入貨幣中文',
+                    },
+                }),
+            );
+            return false;
+        }
+        return true;
+    };
+
+    const addCode = () => {
+        if (infoCheck()) {
+            let tmpObject = {};
+            tmpObject.Code = code;
+            tmpObject.CName = cName;
+            console.log('tmpObject=>>', tmpObject);
+            fetch(addCurrencyData, {
+                method: 'POST',
+                headers: {
+                    'Content-type': 'application/json',
+                    Authorization: 'Bearer' + localStorage.getItem('accessToken') ?? '',
+                },
+                body: JSON.stringify(tmpObject),
+            })
+                .then((res) => res.json())
+                .then((data) => {
+                    if (data.alert_msg) {
+                        dispatch(
+                            setMessageStateOpen({
+                                messageStateOpen: {
+                                    isOpen: true,
+                                    severity: 'error',
+                                    message: data.alert_msg,
+                                },
+                            }),
+                        );
+                    } else {
+                        dispatch(
+                            setMessageStateOpen({
+                                messageStateOpen: {
+                                    isOpen: true,
+                                    severity: 'success',
+                                    message: '新增成功',
+                                },
+                            }),
+                        );
+                        fetch(getCurrencyData, {
+                            method: 'GET',
+                            Authorization: 'Bearer' + localStorage.getItem('accessToken') ?? '',
+                        })
+                            .then((res) => res.json())
+                            .then((data) => {
+                                if (Array.isArray(data)) {
+                                    setListInfo(data);
+                                }
+                            })
+                            .catch((e) => console.log('e1=>', e));
+                    }
+                })
+                .catch((e) => console.log('e1=>', e));
+        }
     };
 
     return (
@@ -90,18 +165,18 @@ const CurrencyManage = ({ handleCurrencyManageClose, isCurrencyOpen }) => {
                                 <TableCell align="center">
                                     <TextField
                                         size="small"
-                                        value={cableCode}
+                                        value={code}
                                         onChange={(e) => {
-                                            setCableCode(e.target.value);
+                                            setCode(e.target.value);
                                         }}
                                     />
                                 </TableCell>
                                 <TableCell align="center">
                                     <TextField
                                         size="small"
-                                        value={cableName}
+                                        value={cName}
                                         onChange={(e) => {
-                                            setCableName(e.target.value);
+                                            setCName(e.target.value);
                                         }}
                                     />
                                 </TableCell>
@@ -113,20 +188,33 @@ const CurrencyManage = ({ handleCurrencyManageClose, isCurrencyOpen }) => {
                                             '& button': { mx: { md: 0.6, lg: 1, xl: 1.8 }, p: 0 },
                                         }}
                                     >
-                                        <Button color="success" variant="outlined">
+                                        <Button
+                                            color="success"
+                                            variant="outlined"
+                                            onClick={addCode}
+                                        >
                                             新增
                                         </Button>
                                     </Box>
                                 </TableCell>
                             </TableRow>
-                            {[]?.map((row, id) => {
+                            {listInfo?.map((row, id) => {
                                 return (
                                     <TableRow
-                                        key={row.CableCode + id}
+                                        key={row.Code + id}
                                         sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                                     >
                                         {row.CableID !== cableIDEdit.current ? (
                                             <>
+                                                <StyledTableCell align="center">
+                                                    {id + 1}
+                                                </StyledTableCell>
+                                                <StyledTableCell align="center">
+                                                    {row.Code}
+                                                </StyledTableCell>
+                                                <StyledTableCell align="center">
+                                                    {row.CName}
+                                                </StyledTableCell>
                                                 <StyledTableCell align="center">
                                                     <Box
                                                         sx={{
@@ -146,21 +234,30 @@ const CurrencyManage = ({ handleCurrencyManageClose, isCurrencyOpen }) => {
                                                         </Button>
                                                     </Box>
                                                 </StyledTableCell>
-                                                <StyledTableCell align="center">
-                                                    {id + 1}
-                                                </StyledTableCell>
-                                                <StyledTableCell align="center">
-                                                    {row.CableCode}
-                                                </StyledTableCell>
-                                                <StyledTableCell align="center">
-                                                    {row.CableName}
-                                                </StyledTableCell>
-                                                <StyledTableCell align="center">
-                                                    {row.Note}
-                                                </StyledTableCell>
                                             </>
                                         ) : (
                                             <>
+                                                <TableCell align="center">{id + 1}</TableCell>
+                                                <TableCell align="center">
+                                                    <TextField
+                                                        size="small"
+                                                        // style={{ width: '30%' }}
+                                                        value={codeEdit}
+                                                        onChange={(e) => {
+                                                            setCodeEdit(e.target.value);
+                                                        }}
+                                                    />
+                                                </TableCell>
+                                                <TableCell align="center">
+                                                    <TextField
+                                                        size="small"
+                                                        // style={{ width: '30%' }}
+                                                        value={cNameEdit}
+                                                        onChange={(e) => {
+                                                            setCNameEdit(e.target.value);
+                                                        }}
+                                                    />
+                                                </TableCell>
                                                 <StyledTableCell align="center">
                                                     <Box
                                                         sx={{
@@ -180,36 +277,6 @@ const CurrencyManage = ({ handleCurrencyManageClose, isCurrencyOpen }) => {
                                                         </Button>
                                                     </Box>
                                                 </StyledTableCell>
-                                                <TableCell align="center">{id + 1}</TableCell>
-                                                <TableCell align="center">
-                                                    <TextField
-                                                        size="small"
-                                                        // style={{ width: '30%' }}
-                                                        value={cableCodeEdit}
-                                                        onChange={(e) => {
-                                                            setCableCodeEdit(e.target.value);
-                                                        }}
-                                                    />
-                                                </TableCell>
-                                                <TableCell align="center">
-                                                    <TextField
-                                                        size="small"
-                                                        // style={{ width: '30%' }}
-                                                        value={cableNameEdit}
-                                                        onChange={(e) => {
-                                                            setCableNameEdit(e.target.value);
-                                                        }}
-                                                    />
-                                                </TableCell>
-                                                <TableCell align="center">
-                                                    <TextField
-                                                        size="small"
-                                                        value={noteEdit}
-                                                        onChange={(e) => {
-                                                            setNoteEdit(e.target.value);
-                                                        }}
-                                                    />
-                                                </TableCell>
                                             </>
                                         )}
                                     </TableRow>
@@ -219,6 +286,15 @@ const CurrencyManage = ({ handleCurrencyManageClose, isCurrencyOpen }) => {
                     </Table>
                 </TableContainer>
             </DialogContent>
+            <DialogActions>
+                <Button
+                    sx={{ mr: '0.05rem' }}
+                    variant="contained"
+                    onClick={handleCurrencyManageClose}
+                >
+                    關閉
+                </Button>
+            </DialogActions>
         </Dialog>
     );
 };

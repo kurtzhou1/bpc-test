@@ -183,3 +183,8 @@ export const cBRefundView = `http://${env}/api/v1/initPayDraft/CBRefund/view`;
 export const uploadPayDraft = `http://${env}/api/v1/uploadPayDraft/CBRefund`;
 export const updatePayDraft = `http://${env}/api/v1/updatePayDraft/CBRefund`;
 export const getInvoiceWKMasterInvoiceWKDetail = `http://${env}/api/v1/getInvoiceWKMaster&InvoiceWKDetail`;
+
+// currency
+export const addCurrencyData = `https://${env}/api/v1/add_currency_data`;
+export const getCurrencyData = `https://${env}/api/v1/get_currency_data`;
+export const addCurrencyExchangeData = `https://${env}/api/v1/add_currency_exchange_data`;
