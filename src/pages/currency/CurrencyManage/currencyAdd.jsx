@@ -85,7 +85,7 @@ const CurrencyAdd = ({
     const [exgRate, setExgRate] = useState(0);
     const [workTitle, setWorkTitle] = useState('');
     const [fromCode, setFromCode] = useState({});
-    const [toCode, setToCode] = useState('');
+    const [toCode, setToCode] = useState({});
     const [note, setNote] = useState('');
     const [fromCName, setFromCName] = useState('');
     const [toCName, setToCName] = useState('');
@@ -401,7 +401,7 @@ const CurrencyAdd = ({
                         <FormControl fullWidth size="small">
                             <Select value={toCode} onChange={(e) => setToCode(e.target.value)}>
                                 {currencyListInfo.map((i) => (
-                                    <MenuItem key={i.Code} value={i.Code}>
+                                    <MenuItem key={i.Code} value={i}>
                                         {i.Code}
                                     </MenuItem>
                                 ))}
@@ -427,7 +427,6 @@ const CurrencyAdd = ({
                             size="small"
                             disabled
                             label="請選取左方兌換幣別"
-                            onChange={(e) => setToCName(e.target.value)}
                         />
                     </Grid>
                     <Grid item xs={3} sm={3} md={3} lg={3} display="flex" justifyContent="center">
