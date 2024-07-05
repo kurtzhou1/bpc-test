@@ -18,6 +18,7 @@ import {
     compareLiability,
     addLiabilityapi,
     updateLiability,
+    getCurrencyData,
 } from 'components/apis.jsx';
 
 // redux
@@ -28,6 +29,7 @@ const LiabilityManage = () => {
     const dispatch = useDispatch();
     const [listInfo, setListInfo] = useState([]);
     const [dialogAction, setDialogAction] = useState('');
+    const [currencyListInfo, setCurrencyListInfo] = useState([]);
 
     const [billMilestone, setBillMilestone] = useState(''); //計帳段號
     const [workTitle, setWorkTitle] = useState(''); //海纜作業
@@ -51,6 +53,7 @@ const LiabilityManage = () => {
     const queryApi = useRef(queryLiability + '/all');
 
     const handleCurrencyManageOpen = () => {
+        getCurrencyDataFun();
         setIsCurrencyOpen(true);
     };
 
@@ -213,11 +216,19 @@ const LiabilityManage = () => {
             .catch((e) => console.log('e1=>', e));
     };
 
-    const searchFunction = (searchedVal) => {
-        const filteredRows = listInfo.filter((row) => {
-            return row.PartyName.toLowerCase().includes(searchedVal.toLowerCase());
-        });
-        setFilterList(filteredRows);
+    const getCurrencyDataFun = () => {
+        fetch(getCurrencyData, {
+            method: 'GET',
+            Authorization: 'Bearer' + localStorage.getItem('accessToken') ?? '',
+        })
+            .then((res) => res.json())
+            .then((data) => {
+                console.log('data=>>', data);
+                if (Array.isArray(data)) {
+                    setCurrencyListInfo(data);
+                }
+            })
+            .catch((e) => console.log('e1=>', e));
     };
 
     useEffect(() => {
@@ -271,10 +282,14 @@ const LiabilityManage = () => {
                 <CurrencyManage
                     handleCurrencyManageClose={handleCurrencyManageClose}
                     isCurrencyOpen={isCurrencyOpen}
+                    currencyListInfo={currencyListInfo}
+                    setCurrencyListInfo={setCurrencyListInfo}
+                    getCurrencyDataFun={getCurrencyDataFun}
                 />
                 <CurrencyAdd
                     handleAddCurrencyClose={handleAddCurrencyClose}
                     isAddCurrencyOpen={isAddCurrencyOpen}
+                    currencyListInfo={currencyListInfo}
                     addLiability={addLiability}
                     saveEdit={saveEdit}
                     partyName={partyName}

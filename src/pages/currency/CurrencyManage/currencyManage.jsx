@@ -33,7 +33,7 @@ import { BootstrapDialogTitle } from 'components/commonFunction';
 import { setMessageStateOpen } from 'store/reducers/dropdown';
 
 // api
-import { addCurrencyData, getCurrencyData } from 'components/apis.jsx';
+import { addCurrencyData } from 'components/apis.jsx';
 
 // redux
 import { useDispatch } from 'react-redux';
@@ -52,17 +52,23 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
     },
 }));
 
-const CurrencyManage = ({ handleCurrencyManageClose, isCurrencyOpen }) => {
+const CurrencyManage = ({
+    handleCurrencyManageClose,
+    isCurrencyOpen,
+    currencyListInfo,
+    getCurrencyDataFun,
+}) => {
     const dispatch = useDispatch();
-    const [listInfo, setListInfo] = useState([]);
     const [cName, setCName] = useState(''); //貨幣中文
     const [code, setCode] = useState(''); //貨幣代碼
     const cableIDEdit = useRef(-1);
     const [codeEdit, setCodeEdit] = useState(''); //貨幣代碼編輯
     const [cNameEdit, setCNameEdit] = useState(''); //貨幣中文編輯
 
-    const icon = <CheckBoxOutlineBlankIcon fontSize="small" />;
-    const checkedIcon = <CheckBoxIcon fontSize="small" />;
+    const initData = () => {
+        setCName('');
+        setCode('');
+    };
 
     const infoCheck = () => {
         if (code === '') {
@@ -128,17 +134,8 @@ const CurrencyManage = ({ handleCurrencyManageClose, isCurrencyOpen }) => {
                                 },
                             }),
                         );
-                        fetch(getCurrencyData, {
-                            method: 'GET',
-                            Authorization: 'Bearer' + localStorage.getItem('accessToken') ?? '',
-                        })
-                            .then((res) => res.json())
-                            .then((data) => {
-                                if (Array.isArray(data)) {
-                                    setListInfo(data);
-                                }
-                            })
-                            .catch((e) => console.log('e1=>', e));
+                        initData();
+                        getCurrencyDataFun();
                     }
                 })
                 .catch((e) => console.log('e1=>', e));
@@ -198,7 +195,7 @@ const CurrencyManage = ({ handleCurrencyManageClose, isCurrencyOpen }) => {
                                     </Box>
                                 </TableCell>
                             </TableRow>
-                            {listInfo?.map((row, id) => {
+                            {currencyListInfo?.map((row, id) => {
                                 return (
                                     <TableRow
                                         key={row.Code + id}

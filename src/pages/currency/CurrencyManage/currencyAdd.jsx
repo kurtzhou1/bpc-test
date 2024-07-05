@@ -12,6 +12,7 @@ import {
     Autocomplete,
     Table,
 } from '@mui/material';
+import dayjs from 'dayjs';
 
 // day
 import Dialog from '@mui/material/Dialog';
@@ -63,6 +64,7 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
 const CurrencyAdd = ({
     handleAddCurrencyClose,
     isAddCurrencyOpen,
+    currencyListInfo,
     addLiability,
     saveEdit,
     billMilestone,
@@ -89,7 +91,6 @@ const CurrencyAdd = ({
     const [toCName, setToCName] = useState('');
 
     const [submarineCableList, setSubmarineCableList] = useState([]); //海纜名稱下拉選單
-    const [codeList, setCodeList] = useState([]);
 
     const icon = <CheckBoxOutlineBlankIcon fontSize="small" />;
     const checkedIcon = <CheckBoxIcon fontSize="small" />;
@@ -146,7 +147,8 @@ const CurrencyAdd = ({
             );
             return false;
         }
-        if (billYM) {
+        console.log('billYM=>>', billYM);
+        if (!billYM) {
             dispatch(
                 setMessageStateOpen({
                     messageStateOpen: {
@@ -201,13 +203,14 @@ const CurrencyAdd = ({
         if (infoCheck()) {
             let tmpArray = {};
             tmpArray.SubmarineCable = submarineCable;
-            tmpArray.BillYM = billYM;
+            tmpArray.BillYM = dayjs(billYM).format('YYYY-MM-DD');
             tmpArray.Purpose = purpose;
             tmpArray.ExgRate = exgRate;
             tmpArray.WorkTitle = workTitle;
             tmpArray.FromCode = fromCode.Code;
             tmpArray.ToCode = toCode.Code;
             tmpArray.Note = note;
+            console.log('tmpArray=>>', tmpArray);
             fetch(addCurrencyExchangeData, {
                 method: 'POST',
                 headers: {
@@ -250,17 +253,6 @@ const CurrencyAdd = ({
             .then((res) => res.json())
             .then((data) => {
                 setSubmarineCableList(data);
-            })
-            .catch((e) => console.log('e1=>', e));
-        fetch(getCurrencyData, {
-            method: 'GET',
-            Authorization: 'Bearer' + localStorage.getItem('accessToken') ?? '',
-        })
-            .then((res) => res.json())
-            .then((data) => {
-                if (Array.isArray(data)) {
-                    setCodeList(data);
-                }
             })
             .catch((e) => console.log('e1=>', e));
     }, []);
@@ -379,12 +371,8 @@ const CurrencyAdd = ({
                     </Grid>
                     <Grid item xs={3} sm={3} md={3} lg={3}>
                         <FormControl fullWidth size="small">
-                            <Select
-                                value={fromCode}
-                                label="幣別代碼"
-                                onChange={(e) => setFromCode(e.target.value)}
-                            >
-                                {codeList.map((i) => (
+                            <Select value={fromCode} onChange={(e) => setFromCode(e.target.value)}>
+                                {currencyListInfo.map((i) => (
                                     <MenuItem key={i.Code} value={i}>
                                         {i.Code}
                                     </MenuItem>
@@ -426,12 +414,8 @@ const CurrencyAdd = ({
                     </Grid>
                     <Grid item xs={3} sm={3} md={3} lg={3}>
                         <FormControl fullWidth size="small">
-                            <Select
-                                value={toCode}
-                                label="幣別代碼"
-                                onChange={(e) => setToCode(e.target.value)}
-                            >
-                                {codeList.map((i) => (
+                            <Select value={toCode} onChange={(e) => setToCode(e.target.value)}>
+                                {currencyListInfo.map((i) => (
                                     <MenuItem key={i.Code} value={i.Code}>
                                         {i.Code}
                                     </MenuItem>
