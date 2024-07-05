@@ -316,7 +316,7 @@ const LiabilityManage = () => {
             <Grid item xs={12}>
                 <CurrencyQuery
                     setListInfo={setListInfo}
-                    // bmStoneList={bmStoneList}
+                    currencyListInfo={currencyListInfo}
                     partyList={partyList}
                     submarineCableList={submarineCableList}
                     workTitleList={workTitleList}

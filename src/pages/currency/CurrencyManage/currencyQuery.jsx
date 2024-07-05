@@ -32,7 +32,7 @@ import PropTypes from 'prop-types';
 
 const LiabilityQuery = ({
     setListInfo,
-    partyList,
+    currencyListInfo,
     submarineCableList,
     workTitleList,
     queryApi,
@@ -46,7 +46,8 @@ const LiabilityQuery = ({
     const [bmStoneList, setBmStoneList] = useState([]); //計帳段號下拉選單(需要選擇海纜名稱或海纜作業才能出現)
     const [issueDate, setIssueDate] = useState(null); //發票日期
     const [subject, setSubject] = useState('');
-
+    const [fromCode, setFromCode] = useState('');
+    const [toCode, setToCode] = useState('');
     const initQuery = () => {
         setBillMilestoneQuery('All');
         setPartyNameQuery('All');
@@ -268,15 +269,12 @@ const LiabilityQuery = ({
                 <Grid item md={2} lg={2} xl={2}>
                     <FormControl fullWidth size="small">
                         <InputLabel>原始幣別：</InputLabel>
-                        <Select
-                            value={billMilestoneQuery}
-                            label="幣別代碼"
-                            onChange={(e) => setBillMilestoneQuery(e.target.value)}
-                        >
-                            <MenuItem value={'All'}>All</MenuItem>
-                            <MenuItem value={'USD'}>USD</MenuItem>
-                            <MenuItem value={'TWD'}>TWD</MenuItem>
-                            <MenuItem value={'JP'}>JP</MenuItem>
+                        <Select value={fromCode} onChange={(e) => setFromCode(e.target.value)}>
+                            {currencyListInfo.map((i) => (
+                                <MenuItem key={i.Code} value={i.Code}>
+                                    {i.Code}
+                                </MenuItem>
+                            ))}
                         </Select>
                     </FormControl>
                 </Grid>
@@ -289,21 +287,18 @@ const LiabilityQuery = ({
                             ml: { lg: '0.5rem', xl: '1.5rem' },
                         }}
                     >
-                        原始幣別
+                        兌換幣別
                     </Typography>
                 </Grid>
                 <Grid item md={2} lg={2} xl={2}>
                     <FormControl fullWidth size="small">
-                        <InputLabel>原始幣別：</InputLabel>
-                        <Select
-                            value={billMilestoneQuery}
-                            label="幣別代碼"
-                            onChange={(e) => setBillMilestoneQuery(e.target.value)}
-                        >
-                            <MenuItem value={'All'}>All</MenuItem>
-                            <MenuItem value={'USD'}>USD</MenuItem>
-                            <MenuItem value={'TWD'}>TWD</MenuItem>
-                            <MenuItem value={'JP'}>JP</MenuItem>
+                        <InputLabel>兌換幣別：</InputLabel>
+                        <Select value={toCode} onChange={(e) => setToCode(e.target.value)}>
+                            {currencyListInfo.map((i) => (
+                                <MenuItem key={i.Code} value={i.Code}>
+                                    {i.Code}
+                                </MenuItem>
+                            ))}
                         </Select>
                     </FormControl>
                 </Grid>
