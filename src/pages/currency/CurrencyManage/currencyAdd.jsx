@@ -95,21 +95,6 @@ const CurrencyAdd = ({
     const icon = <CheckBoxOutlineBlankIcon fontSize="small" />;
     const checkedIcon = <CheckBoxIcon fontSize="small" />;
 
-    const itemDetailInitial = () => {
-        setBillMilestone('');
-        setPurpose([]);
-        setLBRatio('');
-        setWorkTitle('');
-        setSubmarineCable('');
-        setNote('');
-    };
-
-    const itemDetailPartInitial = () => {
-        setPurpose([]);
-        setLBRatio('');
-        setNote('');
-    };
-
     const infoCheck = () => {
         if (purpose === '') {
             dispatch(
@@ -160,7 +145,7 @@ const CurrencyAdd = ({
             );
             return false;
         }
-        if (fromCode.Code) {
+        if (fromCode.Code === '') {
             dispatch(
                 setMessageStateOpen({
                     messageStateOpen: {
@@ -172,7 +157,7 @@ const CurrencyAdd = ({
             );
             return false;
         }
-        if (toCode.Code) {
+        if (toCode.Code === '') {
             dispatch(
                 setMessageStateOpen({
                     messageStateOpen: {
