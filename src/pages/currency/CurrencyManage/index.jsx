@@ -52,6 +52,21 @@ const LiabilityManage = () => {
 
     const queryApi = useRef(queryLiability + '/all');
 
+    const getCurrencyDataFun = () => {
+        fetch(getCurrencyData, {
+            method: 'GET',
+            Authorization: 'Bearer' + localStorage.getItem('accessToken') ?? '',
+        })
+            .then((res) => res.json())
+            .then((data) => {
+                console.log('data=>>', data);
+                if (Array.isArray(data)) {
+                    setCurrencyListInfo(data);
+                }
+            })
+            .catch((e) => console.log('e1=>', e));
+    };
+
     const handleCurrencyManageOpen = () => {
         getCurrencyDataFun();
         setIsCurrencyOpen(true);
@@ -62,6 +77,7 @@ const LiabilityManage = () => {
     };
 
     const handleAddCurrencyOpen = () => {
+        getCurrencyDataFun();
         setIsAddCurrencyOpen(true);
         setDialogAction('add');
     };
@@ -212,21 +228,6 @@ const LiabilityManage = () => {
                 apiQuery();
                 setEditItem(NaN);
                 handleAddCurrencyClose();
-            })
-            .catch((e) => console.log('e1=>', e));
-    };
-
-    const getCurrencyDataFun = () => {
-        fetch(getCurrencyData, {
-            method: 'GET',
-            Authorization: 'Bearer' + localStorage.getItem('accessToken') ?? '',
-        })
-            .then((res) => res.json())
-            .then((data) => {
-                console.log('data=>>', data);
-                if (Array.isArray(data)) {
-                    setCurrencyListInfo(data);
-                }
             })
             .catch((e) => console.log('e1=>', e));
     };
