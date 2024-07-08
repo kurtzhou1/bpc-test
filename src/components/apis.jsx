@@ -188,3 +188,4 @@ export const getInvoiceWKMasterInvoiceWKDetail = `http://${env}/api/v1/getInvoic
 export const addCurrencyData = `https://${env}/api/v1/add_currency_data`;
 export const getCurrencyData = `https://${env}/api/v1/get_currency_data`;
 export const addCurrencyExchangeData = `https://${env}/api/v1/add_currency_exchange_data`;
+export const getCurrencyExchangeData = `https://${env}/api/v1/get_currency_exchange_data`;

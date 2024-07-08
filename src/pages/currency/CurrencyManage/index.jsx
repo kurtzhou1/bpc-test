@@ -40,8 +40,6 @@ const LiabilityManage = () => {
     const [note, setNote] = useState(''); //備註
     const [modifyNote, setModifyNote] = useState(''); //異動原因
 
-    const [filterList, setFilterList] = useState(listInfo);
-
     const [setBmStoneList] = useState([]); //計帳段號下拉選單
     const [partyList, setPartyList] = useState([]); //會員名稱下拉選單
     const [submarineCableList, setSubmarineCableList] = useState([]); //海纜名稱下拉選單
@@ -315,6 +313,7 @@ const LiabilityManage = () => {
             </Grid>
             <Grid item xs={12}>
                 <CurrencyQuery
+                    listInfo={listInfo}
                     setListInfo={setListInfo}
                     currencyListInfo={currencyListInfo}
                     partyList={partyList}
@@ -326,7 +325,7 @@ const LiabilityManage = () => {
             <Grid item xs={12}>
                 <MainCard title="貨幣與匯率資料列表">
                     <CurrencyDataList
-                        listInfo={filterList.length > 0 ? filterList : listInfo}
+                        listInfo={listInfo}
                         setDialogAction={setDialogAction}
                         setIsAddCurrencyOpen={setIsAddCurrencyOpen}
                         setEditItem={setEditItem}

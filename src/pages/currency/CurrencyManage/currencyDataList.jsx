@@ -65,7 +65,7 @@ const LiabilityDataList = ({
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {[]?.map((row, id) => {
+                        {listInfo?.map((row, id) => {
                             return (
                                 <TableRow
                                     key={row.BillMilestone + row.LBRatio + id}
@@ -78,17 +78,21 @@ const LiabilityDataList = ({
                                         {row.WorkTitle}
                                     </StyledTableCell>
                                     <StyledTableCell align="center">
-                                        {row.BillMilestone}
+                                        {row.BillYM ? dayjs(row.BillYM).format('YYYY/MM/DD') : ''}
+                                    </StyledTableCell>
+                                    <StyledTableCell align="center">{row.Purpose}</StyledTableCell>
+                                    <StyledTableCell align="center">{row.FromCode}</StyledTableCell>
+                                    <StyledTableCell align="center">{row.Tocode}</StyledTableCell>
+                                    <StyledTableCell align="center">{row.ExgRate}</StyledTableCell>
+                                    <StyledTableCell align="center">{row.Note}</StyledTableCell>
+                                    <StyledTableCell align="center">{row.Editor}</StyledTableCell>
+                                    <StyledTableCell align="center">
+                                        {row.CreateTime
+                                            ? dayjs(row.CreateTime).format('YYYY/MM/DD')
+                                            : ''}
                                     </StyledTableCell>
                                     <StyledTableCell align="center">
-                                        {row.PartyName}
-                                    </StyledTableCell>
-                                    <StyledTableCell align="center">{row.LBRatio}%</StyledTableCell>
-                                    <StyledTableCell align="center">
-                                        {row.ModifyNote}
-                                    </StyledTableCell>
-                                    <StyledTableCell align="center">
-                                        {row.EndDate ? dayjs(row.EndDate).format('YYYY/MM/DD') : ''}
+                                        {row.EndTime ? dayjs(row.EndTime).format('YYYY/MM/DD') : ''}
                                     </StyledTableCell>
                                     <StyledTableCell align="center">
                                         <Box

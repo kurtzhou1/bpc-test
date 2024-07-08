@@ -24,7 +24,13 @@ import dayjs from 'dayjs';
 import { TextField } from '@mui/material/index';
 
 //api
-import { queryLiability, dropdownmenuBillMilestone } from 'components/apis.jsx';
+import {
+    queryLiability,
+    dropdownmenuBillMilestone,
+    getCurrencyExchangeData,
+} from 'components/apis.jsx';
+import { useDispatch } from 'react-redux';
+import { setMessageStateOpen } from 'store/reducers/dropdown';
 
 import PropTypes from 'prop-types';
 
@@ -37,110 +43,109 @@ const LiabilityQuery = ({
     workTitleList,
     queryApi,
 }) => {
-    const [billMilestoneQuery, setBillMilestoneQuery] = useState('All'); //計帳段號
-    const [partyNameQuery, setPartyNameQuery] = useState('All'); //會員名稱
-    const [createDate, setCreateDate] = useState([null, null]); //建立日期
-    const [submarineCableQuery, setSubmarineCableQuery] = useState('All'); //海纜名稱
+    const [submarineCable, setSubmarineCable] = useState('All'); //海纜名稱
     const [workTitle, setWorkTitle] = useState('All'); //海纜作業
-    const [invoiceStatusQuery, setInvoiceStatusQuery] = useState({ TRUE: false, FALSE: false }); //處理狀態
-    const [bmStoneList, setBmStoneList] = useState([]); //計帳段號下拉選單(需要選擇海纜名稱或海纜作業才能出現)
-    const [issueDate, setIssueDate] = useState(null); //發票日期
-    const [subject, setSubject] = useState('');
+    const [billYM, setBillYM] = useState(null); //出帳日期
+    const [purpose, setPurpose] = useState(''); //主旨/用途
     const [fromCode, setFromCode] = useState('');
     const [toCode, setToCode] = useState('');
+    const [ifEnd, setIfEnd] = useState({ true: false, false: false }); //終止狀態
+    const dispatch = useDispatch();
+
     const initQuery = () => {
-        setBillMilestoneQuery('All');
-        setPartyNameQuery('All');
-        setCreateDate([null, null]);
-        setSubmarineCableQuery('All');
+        setSubmarineCable('All');
         setWorkTitle('All');
-        setInvoiceStatusQuery({ TRUE: false, FALSE: false });
+        setIfEnd({ TRUE: false, FALSE: false });
     };
 
     const liabilityQuery = () => {
-        let tmpQuery = '/';
-        if (billMilestoneQuery && billMilestoneQuery !== 'All') {
-            tmpQuery = tmpQuery + 'BillMilestone=' + billMilestoneQuery + '&';
+        let tmpObject = {};
+        if (submarineCable && submarineCable !== 'All') {
+            tmpObject.SubmarineCable = submarineCable;
         }
-        if (partyNameQuery && partyNameQuery !== 'All') {
-            tmpQuery = tmpQuery + 'PartyName=' + partyNameQuery + '&';
-        }
-        if (submarineCableQuery && submarineCableQuery !== 'All') {
-            tmpQuery = tmpQuery + 'SubmarineCable=' + submarineCableQuery + '&';
-        }
+
         if (workTitle && workTitle !== 'All') {
-            tmpQuery = tmpQuery + 'WorkTitle=' + workTitle + '&';
+            tmpObject.WorkTitle = workTitle;
         }
-        if (createDate[0] && createDate[1]) {
-            tmpQuery =
-                tmpQuery +
-                'startCreateDate=' +
-                dayjs(createDate[0]).format('YYYYMMDD') +
-                '&' +
-                'endCreateDate=' +
-                dayjs(createDate[1]).format('YYYYMMDD') +
-                '&';
+        if (billYM) {
+            tmpObject.BillYM = dayjs(billYM).format('YYYY/MM/DD');
         }
+        if (purpose !== '') {
+            tmpObject.Purpose = purpose;
+        }
+        if (fromCode !== '') {
+            tmpObject.FromCode = fromCode;
+        }
+        if (toCode !== '') {
+            tmpObject.Tocode = toCode;
+        }
+
         // End = 'true' || 'false' || 'all'
-        if (invoiceStatusQuery?.TRUE && !invoiceStatusQuery?.FALSE) {
-            tmpQuery = tmpQuery + 'End=true&';
-        }
-        if (invoiceStatusQuery?.FALSE && !invoiceStatusQuery?.TRUE) {
-            tmpQuery = tmpQuery + 'End=false&';
+        if (ifEnd?.true || ifEnd?.false) {
+            tmpObject.ifEnd = ifEnd;
         }
 
-        if (tmpQuery.includes('&')) {
-            tmpQuery = tmpQuery.slice(0, -1);
-        } else {
-            tmpQuery = tmpQuery + 'all';
-        }
-
-        tmpQuery = queryLiability + tmpQuery;
-        queryApi.current = tmpQuery;
-        fetch(tmpQuery, {
-            method: 'GET',
-            Authorization: 'Bearer' + localStorage.getItem('accessToken') ?? '',
+        queryApi.current = tmpObject;
+        fetch(getCurrencyExchangeData, {
+            method: 'POST',
+            headers: {
+                'Content-type': 'application/json',
+                Authorization: 'Bearer' + localStorage.getItem('accessToken') ?? '',
+            },
+            body: JSON.stringify(tmpObject),
         })
             .then((res) => res.json())
             .then((data) => {
-                console.log('查詢liabilityQuery成功=>>', data);
-                setListInfo(data);
+                if (Array.isArray(data)) {
+                    setListInfo(data);
+                } else {
+                    setListInfo([]);
+                    dispatch(
+                        setMessageStateOpen({
+                            messageStateOpen: {
+                                isOpen: true,
+                                severity: 'info',
+                                message: '查無資料',
+                            },
+                        }),
+                    );
+                }
             })
             .catch((e) => console.log('e1=>', e));
     };
 
     const handleChange = (event) => {
-        setInvoiceStatusQuery({ ...invoiceStatusQuery, [event.target.name]: event.target.checked });
+        setIfEnd({ ...ifEnd, [event.target.name]: event.target.checked });
     };
 
     useEffect(() => {
-        let tmpArray = {};
-        if (submarineCableQuery !== '') {
-            tmpArray.SubmarineCable = submarineCableQuery;
-        }
-        if (workTitle !== '') {
-            tmpArray.WorkTitle = workTitle;
-        }
-        if (Object.keys(tmpArray).length !== 0) {
-            console.log('tmpArray=>>', tmpArray);
-            fetch(dropdownmenuBillMilestone, {
-                method: 'POST',
-                headers: {
-                    'Content-type': 'application/json',
-                    Authorization: 'Bearer' + localStorage.getItem('accessToken') ?? '',
-                },
-                body: JSON.stringify(tmpArray),
+        fetch(getCurrencyExchangeData, {
+            method: 'POST',
+            headers: {
+                'Content-type': 'application/json',
+                Authorization: 'Bearer' + localStorage.getItem('accessToken') ?? '',
+            },
+            body: JSON.stringify(),
+        })
+            .then((res) => res.json())
+            .then((data) => {
+                if (Array.isArray(data)) {
+                    setListInfo(data);
+                } else {
+                    setListInfo([]);
+                    dispatch(
+                        setMessageStateOpen({
+                            messageStateOpen: {
+                                isOpen: true,
+                                severity: 'info',
+                                message: '查無資料',
+                            },
+                        }),
+                    );
+                }
             })
-                .then((res) => res.json())
-                .then((data) => {
-                    console.log('data抓取成功=>>', data);
-                    if (Array.isArray(data)) {
-                        setBmStoneList(data);
-                    }
-                })
-                .catch((e) => console.log('e1=>', e));
-        }
-    }, [submarineCableQuery, workTitle]);
+            .catch((e) => console.log('e1=>', e));
+    }, []);
 
     return (
         <MainCard title="貨幣與匯率條件查詢" sx={{ width: '100%' }}>
@@ -164,9 +169,9 @@ const LiabilityQuery = ({
                         </InputLabel>
                         <Select
                             size="small"
-                            value={submarineCableQuery}
+                            value={submarineCable}
                             label="填寫海纜名稱"
-                            onChange={(e) => setSubmarineCableQuery(e.target.value)}
+                            onChange={(e) => setSubmarineCable(e.target.value)}
                         >
                             <MenuItem value={'All'}>All</MenuItem>
                             {submarineCableList.map((i) => (
@@ -224,9 +229,9 @@ const LiabilityQuery = ({
                         <LocalizationProvider dateAdapter={AdapterDayjs}>
                             <DesktopDatePicker
                                 inputFormat="YYYY/MM/DD"
-                                value={issueDate}
+                                value={billYM}
                                 onChange={(e) => {
-                                    setIssueDate(e);
+                                    setBillYM(e);
                                 }}
                                 renderInput={(params) => <TextField size="small" {...params} />}
                             />
@@ -248,11 +253,11 @@ const LiabilityQuery = ({
                     <TextField
                         fullWidth
                         variant="outlined"
-                        value={subject}
+                        value={purpose}
                         size="small"
                         // label="主旨"
                         inputProps={{ maxLength: 65 }}
-                        onChange={(e) => setSubject(e.target.value)}
+                        onChange={(e) => setPurpose(e.target.value)}
                     />
                 </Grid>
                 <Grid item md={1} lg={1} xl={1}>
@@ -315,13 +320,13 @@ const LiabilityQuery = ({
                 </Grid>
                 <Grid item md={2} lg={2}>
                     {/* <FormControl> */}
-                    <FormGroup row value={invoiceStatusQuery}>
+                    <FormGroup row value={ifEnd}>
                         <FormControlLabel
                             control={
                                 <Checkbox
                                     name={'TRUE'}
                                     onChange={handleChange}
-                                    checked={invoiceStatusQuery.TRUE}
+                                    checked={ifEnd.TRUE}
                                     sx={{ '& .MuiSvgIcon-root': { fontSize: { lg: 14, xl: 20 } } }}
                                 />
                             }
@@ -332,7 +337,7 @@ const LiabilityQuery = ({
                                 <Checkbox
                                     name={'FALSE'}
                                     onChange={handleChange}
-                                    checked={invoiceStatusQuery.FALSE}
+                                    checked={ifEnd.FALSE}
                                     sx={{ '& .MuiSvgIcon-root': { fontSize: { lg: 14, xl: 20 } } }}
                                 />
                             }
@@ -355,7 +360,7 @@ const LiabilityQuery = ({
 
 LiabilityQuery.propTypes = {
     setListInfo: PropTypes.func,
-    // bmStoneList: PropTypes.array,
+    // dataList: PropTypes.array,
     partyList: PropTypes.array,
     submarineCableList: PropTypes.array,
     workTitleList: PropTypes.array,
