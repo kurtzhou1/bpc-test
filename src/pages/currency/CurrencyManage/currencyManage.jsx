@@ -1,17 +1,5 @@
-import { useEffect, useState, useRef } from 'react';
-import {
-    Box,
-    Grid,
-    Button,
-    FormControl,
-    InputLabel,
-    Select,
-    MenuItem,
-    TextField,
-    Checkbox,
-    Autocomplete,
-    Table,
-} from '@mui/material';
+import { useState, useRef } from 'react';
+import { Box, Button, TextField, Table } from '@mui/material';
 
 // day
 import Dialog from '@mui/material/Dialog';
@@ -33,7 +21,7 @@ import { BootstrapDialogTitle } from 'components/commonFunction';
 import { setMessageStateOpen } from 'store/reducers/dropdown';
 
 // api
-import { addCurrencyData } from 'components/apis.jsx';
+import { addCurrencyData, updateCurrencyData } from 'components/apis.jsx';
 
 // redux
 import { useDispatch } from 'react-redux';
@@ -61,13 +49,18 @@ const CurrencyManage = ({
     const dispatch = useDispatch();
     const [cName, setCName] = useState(''); //貨幣中文
     const [code, setCode] = useState(''); //貨幣代碼
-    const cableIDEdit = useRef(-1);
+    const currencyIDEdit = useRef(-1);
     const [codeEdit, setCodeEdit] = useState(''); //貨幣代碼編輯
     const [cNameEdit, setCNameEdit] = useState(''); //貨幣中文編輯
 
     const initData = () => {
         setCName('');
         setCode('');
+    };
+
+    const initEditData = () => {
+        setCNameEdit('');
+        setCodeEdit('');
     };
 
     const infoCheck = () => {
@@ -84,6 +77,34 @@ const CurrencyManage = ({
             return false;
         }
         if (cName === '') {
+            dispatch(
+                setMessageStateOpen({
+                    messageStateOpen: {
+                        isOpen: true,
+                        severity: 'error',
+                        message: '請輸入貨幣中文',
+                    },
+                }),
+            );
+            return false;
+        }
+        return true;
+    };
+
+    const editCheck = () => {
+        if (codeEdit === '') {
+            dispatch(
+                setMessageStateOpen({
+                    messageStateOpen: {
+                        isOpen: true,
+                        severity: 'error',
+                        message: '請輸入貨幣代碼',
+                    },
+                }),
+            );
+            return false;
+        }
+        if (cNameEdit === '') {
             dispatch(
                 setMessageStateOpen({
                     messageStateOpen: {
@@ -140,6 +161,104 @@ const CurrencyManage = ({
                 })
                 .catch((e) => console.log('e1=>', e));
         }
+    };
+
+    const editCode = (row) => {
+        currencyIDEdit.current = row.CurrencyID;
+        setCNameEdit(row.CName);
+        setCodeEdit(row.Code);
+    };
+
+    const deleteCode = (id) => {
+        currencyIDEdit.current = -1;
+        initData();
+        let tmpObject = {};
+        tmpObject.Currency = id;
+        console.log('tmpObject=>>', tmpObject);
+        fetch(updateCurrencyData, {
+            method: 'POST',
+            headers: {
+                'Content-type': 'application/json',
+                Authorization: 'Bearer' + localStorage.getItem('accessToken') ?? '',
+            },
+            body: JSON.stringify(tmpObject),
+        })
+            .then((res) => res.json())
+            .then((data) => {
+                if (data.alert_msg) {
+                    dispatch(
+                        setMessageStateOpen({
+                            messageStateOpen: {
+                                isOpen: true,
+                                severity: 'error',
+                                message: data.alert_msg,
+                            },
+                        }),
+                    );
+                } else {
+                    dispatch(
+                        setMessageStateOpen({
+                            messageStateOpen: {
+                                isOpen: true,
+                                severity: 'success',
+                                message: '刪除成功',
+                            },
+                        }),
+                    );
+                    getCurrencyDataFun();
+                }
+            })
+            .catch((e) => console.log('e1=>', e));
+    };
+
+    const saveEditCodeInfo = (id) => {
+        if (editCheck()) {
+            let tmpObject = {};
+            tmpObject.Currency = id;
+            tmpObject.Code = cNameEdit;
+            tmpObject.CName = codeEdit;
+            console.log('tmpObject=>>', tmpObject);
+            fetch(updateCurrencyData, {
+                method: 'POST',
+                headers: {
+                    'Content-type': 'application/json',
+                    Authorization: 'Bearer' + localStorage.getItem('accessToken') ?? '',
+                },
+                body: JSON.stringify(tmpObject),
+            })
+                .then((res) => res.json())
+                .then((data) => {
+                    if (data.alert_msg) {
+                        dispatch(
+                            setMessageStateOpen({
+                                messageStateOpen: {
+                                    isOpen: true,
+                                    severity: 'error',
+                                    message: data.alert_msg,
+                                },
+                            }),
+                        );
+                    } else {
+                        dispatch(
+                            setMessageStateOpen({
+                                messageStateOpen: {
+                                    isOpen: true,
+                                    severity: 'success',
+                                    message: '編輯成功',
+                                },
+                            }),
+                        );
+                        initEditData();
+                        getCurrencyDataFun();
+                    }
+                })
+                .catch((e) => console.log('e1=>', e));
+        }
+    };
+
+    const cancelEdit = () => {
+        currencyIDEdit.current = -1;
+        initData();
     };
 
     return (
@@ -201,7 +320,7 @@ const CurrencyManage = ({
                                         key={row.Code + id}
                                         sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                                     >
-                                        {row.CableID !== cableIDEdit.current ? (
+                                        {row.CurrencyID !== currencyIDEdit.current ? (
                                             <>
                                                 <StyledTableCell align="center">
                                                     {id + 1}
@@ -223,10 +342,22 @@ const CurrencyManage = ({
                                                             },
                                                         }}
                                                     >
-                                                        <Button color="primary" variant="outlined">
+                                                        <Button
+                                                            color="primary"
+                                                            variant="outlined"
+                                                            onClick={() => {
+                                                                editCode(row);
+                                                            }}
+                                                        >
                                                             編輯
                                                         </Button>
-                                                        <Button color="error" variant="outlined">
+                                                        <Button
+                                                            color="error"
+                                                            variant="outlined"
+                                                            onClick={() => {
+                                                                deleteCode(row);
+                                                            }}
+                                                        >
                                                             刪除
                                                         </Button>
                                                     </Box>
@@ -266,10 +397,20 @@ const CurrencyManage = ({
                                                             },
                                                         }}
                                                     >
-                                                        <Button color="primary" variant="outlined">
+                                                        <Button
+                                                            color="primary"
+                                                            variant="outlined"
+                                                            onClick={() => {
+                                                                saveEditCodeInfo(row.CurrencyID);
+                                                            }}
+                                                        >
                                                             儲存
                                                         </Button>
-                                                        <Button color="error" variant="outlined">
+                                                        <Button
+                                                            color="error"
+                                                            variant="outlined"
+                                                            onClick={cancelEdit}
+                                                        >
                                                             關閉
                                                         </Button>
                                                     </Box>

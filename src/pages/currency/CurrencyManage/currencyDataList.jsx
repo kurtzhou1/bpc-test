@@ -16,7 +16,7 @@ import { styled } from '@mui/material/styles';
 import dayjs from 'dayjs';
 import { useState } from 'react';
 
-const LiabilityDataList = ({
+const CurrencyDataList = ({
     listInfo,
     setDialogAction,
     setIsDialogOpen,
@@ -78,7 +78,7 @@ const LiabilityDataList = ({
                                         {row.WorkTitle}
                                     </StyledTableCell>
                                     <StyledTableCell align="center">
-                                        {row.BillYM ? dayjs(row.BillYM).format('YYYY/MM/DD') : ''}
+                                        {row.BillYM ? dayjs(row.BillYM).format('YYYY/MM') : ''}
                                     </StyledTableCell>
                                     <StyledTableCell align="center">{row.Purpose}</StyledTableCell>
                                     <StyledTableCell align="center">{row.FromCode}</StyledTableCell>
@@ -89,7 +89,7 @@ const LiabilityDataList = ({
                                     <StyledTableCell align="center">
                                         {row.CreateTime
                                             ? dayjs(row.CreateTime).format('YYYY/MM/DD')
-                                            : ''}
+                                            : null}
                                     </StyledTableCell>
                                     <StyledTableCell align="center">
                                         {row.EndTime ? dayjs(row.EndTime).format('YYYY/MM/DD') : ''}
@@ -155,4 +155,4 @@ const LiabilityDataList = ({
     );
 };
 
-export default LiabilityDataList;
+export default CurrencyDataList;

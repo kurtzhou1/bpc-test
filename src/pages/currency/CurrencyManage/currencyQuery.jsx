@@ -7,7 +7,6 @@ import {
     InputLabel,
     Select,
     MenuItem,
-    Box,
     FormControlLabel,
     FormGroup,
     Checkbox,
@@ -24,11 +23,7 @@ import dayjs from 'dayjs';
 import { TextField } from '@mui/material/index';
 
 //api
-import {
-    queryLiability,
-    dropdownmenuBillMilestone,
-    getCurrencyExchangeData,
-} from 'components/apis.jsx';
+import { getCurrencyExchangeData } from 'components/apis.jsx';
 import { useDispatch } from 'react-redux';
 import { setMessageStateOpen } from 'store/reducers/dropdown';
 
@@ -62,7 +57,7 @@ const LiabilityQuery = ({
         setIfEnd({ true: false, false: false });
     };
 
-    const liabilityQuery = () => {
+    const currencyQuery = () => {
         let tmpObject = {};
         if (submarineCable && submarineCable !== 'All') {
             tmpObject.SubmarineCable = submarineCable;
@@ -77,18 +72,20 @@ const LiabilityQuery = ({
         if (purpose !== '') {
             tmpObject.Purpose = purpose;
         }
-        if (fromCode !== '') {
+        if (fromCode && fromCode !== 'All') {
             tmpObject.FromCode = fromCode;
         }
-        if (toCode !== '') {
+        if (toCode && toCode !== 'All') {
             tmpObject.Tocode = toCode;
         }
 
         // End = 'true' || 'false' || 'all'
-        if (ifEnd?.true || ifEnd?.false) {
-            tmpObject.ifEnd = ifEnd;
+        if (ifEnd?.true && !ifEnd?.false) {
+            tmpObject.ifEnd = true;
         }
-
+        if (!ifEnd?.true && ifEnd?.false) {
+            tmpObject.ifEnd = false;
+        }
         queryApi.current = tmpObject;
         fetch(getCurrencyExchangeData, {
             method: 'POST',
@@ -272,12 +269,13 @@ const LiabilityQuery = ({
                             ml: { lg: '0.5rem', xl: '1.5rem' },
                         }}
                     >
-                        原始幣別
+                        原始幣別：
                     </Typography>
                 </Grid>
                 <Grid item md={2} lg={2} xl={2}>
                     <FormControl fullWidth size="small">
-                        <InputLabel>原始幣別：</InputLabel>
+                        <InputLabel>原始幣別</InputLabel>
+                        <MenuItem value={'All'}>All</MenuItem>
                         <Select value={fromCode} onChange={(e) => setFromCode(e.target.value)}>
                             {currencyListInfo.map((i) => (
                                 <MenuItem key={i.Code} value={i.Code}>
@@ -296,12 +294,13 @@ const LiabilityQuery = ({
                             ml: { lg: '0.5rem', xl: '1.5rem' },
                         }}
                     >
-                        兌換幣別
+                        兌換幣別：
                     </Typography>
                 </Grid>
                 <Grid item md={2} lg={2} xl={2}>
                     <FormControl fullWidth size="small">
-                        <InputLabel>兌換幣別：</InputLabel>
+                        <InputLabel>兌換幣別</InputLabel>
+                        <MenuItem value={'All'}>All</MenuItem>
                         <Select value={toCode} onChange={(e) => setToCode(e.target.value)}>
                             {currencyListInfo.map((i) => (
                                 <MenuItem key={i.Code} value={i.Code}>
@@ -328,9 +327,9 @@ const LiabilityQuery = ({
                         <FormControlLabel
                             control={
                                 <Checkbox
-                                    name={'TRUE'}
+                                    name={'true'}
                                     onChange={handleChange}
-                                    checked={ifEnd.TRUE}
+                                    checked={ifEnd.true}
                                     sx={{ '& .MuiSvgIcon-root': { fontSize: { lg: 14, xl: 20 } } }}
                                 />
                             }
@@ -339,9 +338,9 @@ const LiabilityQuery = ({
                         <FormControlLabel
                             control={
                                 <Checkbox
-                                    name={'FALSE'}
+                                    name={'false'}
                                     onChange={handleChange}
-                                    checked={ifEnd.FALSE}
+                                    checked={ifEnd.false}
                                     sx={{ '& .MuiSvgIcon-root': { fontSize: { lg: 14, xl: 20 } } }}
                                 />
                             }
@@ -350,7 +349,7 @@ const LiabilityQuery = ({
                     </FormGroup>
                 </Grid>
                 <Grid item md={3} lg={3} display="flex" justifyContent="end" alignItems="center">
-                    <Button sx={{ mr: '0.5rem' }} variant="contained" onClick={liabilityQuery}>
+                    <Button sx={{ mr: '0.5rem' }} variant="contained" onClick={currencyQuery}>
                         查詢
                     </Button>
                     <Button variant="contained" onClick={initQuery}>

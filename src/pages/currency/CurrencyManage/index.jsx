@@ -66,7 +66,6 @@ const LiabilityManage = () => {
     };
 
     const handleCurrencyManageOpen = () => {
-        getCurrencyDataFun();
         setIsCurrencyOpen(true);
     };
 
@@ -75,7 +74,6 @@ const LiabilityManage = () => {
     };
 
     const handleAddCurrencyOpen = () => {
-        getCurrencyDataFun();
         setIsAddCurrencyOpen(true);
         setDialogAction('add');
     };
@@ -263,6 +261,7 @@ const LiabilityManage = () => {
                 setWorkTitleList(data);
             })
             .catch((e) => console.log('e1=>', e));
+        getCurrencyDataFun();
     }, []);
 
     return (
