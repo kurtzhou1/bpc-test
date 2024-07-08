@@ -55,7 +55,11 @@ const LiabilityQuery = ({
     const initQuery = () => {
         setSubmarineCable('All');
         setWorkTitle('All');
-        setIfEnd({ TRUE: false, FALSE: false });
+        setBillYM(null);
+        setPurpose('');
+        setFromCode('');
+        setToCode('');
+        setIfEnd({ true: false, false: false });
     };
 
     const liabilityQuery = () => {
