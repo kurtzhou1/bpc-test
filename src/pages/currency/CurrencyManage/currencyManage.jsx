@@ -173,7 +173,7 @@ const CurrencyManage = ({
         currencyIDEdit.current = -1;
         initData();
         let tmpObject = {};
-        tmpObject.Currency = id;
+        tmpObject.CurrencyID = id;
         console.log('tmpObject=>>', tmpObject);
         fetch(updateCurrencyData, {
             method: 'POST',
@@ -214,7 +214,7 @@ const CurrencyManage = ({
     const saveEditCodeInfo = (id) => {
         if (editCheck()) {
             let tmpObject = {};
-            tmpObject.Currency = id;
+            tmpObject.CurrencyID = id;
             tmpObject.Code = cNameEdit;
             tmpObject.CName = codeEdit;
             console.log('tmpObject=>>', tmpObject);
