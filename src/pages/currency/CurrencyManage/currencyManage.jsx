@@ -21,7 +21,7 @@ import { BootstrapDialogTitle } from 'components/commonFunction';
 import { setMessageStateOpen } from 'store/reducers/dropdown';
 
 // api
-import { addCurrencyData, updateCurrencyData } from 'components/apis.jsx';
+import { addCurrencyData, updateCurrencyData, deleteCurrencyData } from 'components/apis.jsx';
 
 // redux
 import { useDispatch } from 'react-redux';
@@ -175,7 +175,7 @@ const CurrencyManage = ({
         let tmpObject = {};
         tmpObject.CurrencyID = id;
         console.log('tmpObject=>>', tmpObject);
-        fetch(updateCurrencyData, {
+        fetch(deleteCurrencyData, {
             method: 'POST',
             headers: {
                 'Content-type': 'application/json',
@@ -215,8 +215,8 @@ const CurrencyManage = ({
         if (editCheck()) {
             let tmpObject = {};
             tmpObject.CurrencyID = id;
-            tmpObject.Code = cNameEdit;
-            tmpObject.CName = codeEdit;
+            tmpObject.Code = codeEdit;
+            tmpObject.CName = cNameEdit;
             console.log('tmpObject=>>', tmpObject);
             fetch(updateCurrencyData, {
                 method: 'POST',
