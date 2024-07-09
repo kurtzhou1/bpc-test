@@ -356,7 +356,7 @@ const CurrencyManage = ({
                                                             color="error"
                                                             variant="outlined"
                                                             onClick={() => {
-                                                                deleteCode(row);
+                                                                deleteCode(row.CurrencyID);
                                                             }}
                                                         >
                                                             刪除
