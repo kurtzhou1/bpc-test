@@ -59,6 +59,7 @@ const CurrencyManage = ({
     };
 
     const initEditData = () => {
+        currencyIDEdit.current = -1;
         setCNameEdit('');
         setCodeEdit('');
     };

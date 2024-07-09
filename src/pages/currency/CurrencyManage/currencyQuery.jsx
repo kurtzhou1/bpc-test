@@ -42,8 +42,8 @@ const LiabilityQuery = ({
     const [workTitle, setWorkTitle] = useState('All'); //海纜作業
     const [billYM, setBillYM] = useState(null); //出帳日期
     const [purpose, setPurpose] = useState(''); //主旨/用途
-    const [fromCode, setFromCode] = useState('');
-    const [toCode, setToCode] = useState('');
+    const [fromCode, setFromCode] = useState('All');
+    const [toCode, setToCode] = useState('All');
     const [ifEnd, setIfEnd] = useState({ true: false, false: false }); //終止狀態
     const dispatch = useDispatch();
 
@@ -52,8 +52,8 @@ const LiabilityQuery = ({
         setWorkTitle('All');
         setBillYM(null);
         setPurpose('');
-        setFromCode('');
-        setToCode('');
+        setFromCode('All');
+        setToCode('All');
         setIfEnd({ true: false, false: false });
     };
 
@@ -275,8 +275,8 @@ const LiabilityQuery = ({
                 <Grid item md={2} lg={2} xl={2}>
                     <FormControl fullWidth size="small">
                         <InputLabel>原始幣別</InputLabel>
-                        <MenuItem value={'All'}>All</MenuItem>
                         <Select value={fromCode} onChange={(e) => setFromCode(e.target.value)}>
+                            <MenuItem value={'All'}>All</MenuItem>
                             {currencyListInfo.map((i) => (
                                 <MenuItem key={i.Code} value={i.Code}>
                                     {i.Code}
@@ -300,8 +300,8 @@ const LiabilityQuery = ({
                 <Grid item md={2} lg={2} xl={2}>
                     <FormControl fullWidth size="small">
                         <InputLabel>兌換幣別</InputLabel>
-                        <MenuItem value={'All'}>All</MenuItem>
                         <Select value={toCode} onChange={(e) => setToCode(e.target.value)}>
+                            <MenuItem value={'All'}>All</MenuItem>
                             {currencyListInfo.map((i) => (
                                 <MenuItem key={i.Code} value={i.Code}>
                                     {i.Code}
