@@ -22,7 +22,15 @@ import { setLoginInInfo } from 'store/reducers/dropdown';
 import dayjs from 'dayjs';
 
 // api
-import { checktokenForLDAP, ssoUrlQA, ssoUrlOL, redirectUri } from 'components/apis.jsx';
+import {
+    checktokenForLDAP,
+    ssoUrlQA,
+    ssoUrlOL,
+    redirectUriQA,
+    redirectUriOL,
+    accessSSOQA,
+    accessSSOOL,
+} from 'components/apis.jsx';
 
 // ==============================|| MAIN LAYOUT ||============================== //
 
@@ -120,7 +128,7 @@ const MainLayout = () => {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [drawerOpen]);
 
-    let accessSSO = 'https://iam-qa.cht.com.tw/auth/realms/B2E/protocol/openid-connect/token';
+    let accessSSO = isOL ? accessSSOOL : accessSSOQA;
 
     useEffect(() => {
         //haha1
@@ -171,9 +179,9 @@ const MainLayout = () => {
                 const accessCode = window.location.href.split('code=')[1];
                 let tmpArray = {
                     client_id: isOL ? 'CBPS-CBPS.OL.I' : 'CBPS.QA.I',
-                    // redirect_uri: redirectUri,
-                    redirect_uri:
-                        'c2be8338-3cce-494d-880f-9b47773246f9.c7fc3a89-861f-4ece-9362-eb1814c0b5c2.4d93c876-915e-4ed3-bd09-968595f302c8',
+                    redirect_uri: isOL ? redirectUriOL : redirectUriQA,
+                    // redirect_uri:
+                    //     'c2be8338-3cce-494d-880f-9b47773246f9.c7fc3a89-861f-4ece-9362-eb1814c0b5c2.4d93c876-915e-4ed3-bd09-968595f302c8',
                     code: accessCode,
                     grant_type: 'authorization_code',
                 };

@@ -5,7 +5,15 @@ import Loadable from 'components/Loadable';
 import MainLayout from 'layout/MainLayout';
 import { useSelector } from 'react-redux';
 //api
-import { ssoUrlOL, ssoUrlQA, checktokenForLDAP, redirectUri } from 'components/apis.jsx';
+import {
+    ssoUrlOL,
+    ssoUrlQA,
+    checktokenForLDAP,
+    redirectUriOL,
+    redirectUriQA,
+    accessSSOOL,
+    accessSSOQA,
+} from 'components/apis.jsx';
 import { useDispatch } from 'react-redux';
 import dayjs from 'dayjs';
 
@@ -67,7 +75,7 @@ const RequireAuth = ({ children, item }) => {
     const { isLogin, userInfo, isOL } = useSelector((state) => state.dropdown); //message狀態
     // haha2
     const getExpireTime = localStorage.getItem('expireTimeCBP');
-    let accessSSO = 'https://iam-qa.cht.com.tw/auth/realms/B2E/protocol/openid-connect/token';
+    let accessSSO = isOL ? accessSSOOL : accessSSOQA;
     console.log('window.location.href.indexOf("code")=>>', window.location.href.indexOf('code'));
     const sendNoPermission = () => {
         // dispatch(
@@ -89,7 +97,7 @@ const RequireAuth = ({ children, item }) => {
         const accessCode = window.location.href.split('code=')[1];
         let tmpArray = {
             client_id: isOL ? 'CBPS-CBPS.OL.I' : 'CBPS.QA.I',
-            redirect_uri: redirectUri,
+            redirect_uri: isOL ? redirectUriOL : redirectUriQA,
             code: accessCode,
             grant_type: 'authorization_code',
         };
