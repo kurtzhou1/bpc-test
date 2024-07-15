@@ -295,7 +295,7 @@ const Corporates = ({ infoList, setInfoList }) => {
     };
 
     const editCheck = () => {
-        if (submarineCable === '') {
+        if (submarineCableEdit === '') {
             dispatch(
                 setMessageStateOpen({
                     messageStateOpen: {
@@ -307,7 +307,7 @@ const Corporates = ({ infoList, setInfoList }) => {
             );
             return false;
         }
-        if (workTitle === '') {
+        if (workTitleEdit === '') {
             dispatch(
                 setMessageStateOpen({
                     messageStateOpen: {
