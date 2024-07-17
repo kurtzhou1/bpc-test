@@ -516,7 +516,6 @@ const LiabilityAdd = ({
                             fullWidth
                             variant="outlined"
                             value={note}
-                            // disabled={dialogAction === 'Edit' || dialogAction === 'Split'}
                             size="small"
                             label="填寫備註"
                             onChange={(e) => setNote(e.target.value)}

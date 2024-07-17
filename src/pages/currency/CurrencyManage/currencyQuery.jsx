@@ -78,8 +78,6 @@ const LiabilityQuery = ({
         if (toCode && toCode !== 'All') {
             tmpObject.Tocode = toCode;
         }
-
-        // End = 'true' || 'false' || 'all'
         if (ifEnd?.true && !ifEnd?.false) {
             tmpObject.ifEnd = true;
         }
@@ -118,35 +116,6 @@ const LiabilityQuery = ({
     const handleChange = (event) => {
         setIfEnd({ ...ifEnd, [event.target.name]: event.target.checked });
     };
-
-    useEffect(() => {
-        fetch(getCurrencyExchangeData, {
-            method: 'POST',
-            headers: {
-                'Content-type': 'application/json',
-                Authorization: 'Bearer' + localStorage.getItem('accessToken') ?? '',
-            },
-            body: JSON.stringify(),
-        })
-            .then((res) => res.json())
-            .then((data) => {
-                if (Array.isArray(data)) {
-                    setListInfo(data);
-                } else {
-                    setListInfo([]);
-                    dispatch(
-                        setMessageStateOpen({
-                            messageStateOpen: {
-                                isOpen: true,
-                                severity: 'info',
-                                message: '查無資料',
-                            },
-                        }),
-                    );
-                }
-            })
-            .catch((e) => console.log('e1=>', e));
-    }, []);
 
     return (
         <MainCard title="貨幣與匯率條件查詢" sx={{ width: '100%' }}>

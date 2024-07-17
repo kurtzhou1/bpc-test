@@ -1,5 +1,5 @@
 // let env = 'internal-cbpsAlb-1176080923.ap-northeast-1.elb.amazonaws.com'
-let env = '10.193.130.75:8000';
+let env = '172.26.154.82:8000';
 
 export const ssoUrlQA =
     'https://iam-qa.cht.com.tw/auth/realms/B2E/protocol/openid-connect/auth?client_id=CBPS.QA.I&response_type=code&redirect_uri=https://cbpsqa.cht.com.tw&scope=ldap';
@@ -190,9 +190,10 @@ export const updatePayDraft = `http://${env}/api/v1/updatePayDraft/CBRefund`;
 export const getInvoiceWKMasterInvoiceWKDetail = `http://${env}/api/v1/getInvoiceWKMaster&InvoiceWKDetail`;
 
 // currency
-export const addCurrencyData = `https://${env}/api/v1/add_currency_data`;
-export const getCurrencyData = `https://${env}/api/v1/get_currency_data`;
-export const addCurrencyExchangeData = `https://${env}/api/v1/add_currency_exchange_data`;
-export const getCurrencyExchangeData = `https://${env}/api/v1/get_currency_exchange_data`;
-export const updateCurrencyData = `https://${env}/api/v1/update_currency_data`;
-export const deleteCurrencyData = `https://${env}/api/v1/delete_currency_data`;
+export const addCurrencyData = `http://${env}/api/v1/add_currency_data`;
+export const getCurrencyData = `http://${env}/api/v1/get_currency_data`;
+export const addCurrencyExchangeData = `http://${env}/api/v1/add_currency_exchange_data`;
+export const getCurrencyExchangeData = `http://${env}/api/v1/get_currency_exchange_data`;
+export const updateCurrencyData = `http://${env}/api/v1/update_currency_data`;
+export const deleteCurrencyData = `http://${env}/api/v1/delete_currency_data`;
+export const updateCurrencyExchangeData = `http://${env}/api/v1/update_currency_exchange_data`;

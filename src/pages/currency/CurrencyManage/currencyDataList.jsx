@@ -1,7 +1,7 @@
 // import { useState } from 'react';
 
 // project import
-import LiabilityTerminate from './liabilityTerminate';
+import CurrencyTerminate from './currencyTerminate';
 
 // material-ui
 import { Button, Table, Box } from '@mui/material';
@@ -12,19 +12,20 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import { styled } from '@mui/material/styles';
-
 import dayjs from 'dayjs';
 import { useState } from 'react';
+import { useDispatch } from 'react-redux';
 
 const CurrencyDataList = ({
     listInfo,
     setDialogAction,
-    setIsDialogOpen,
+    setIsAddCurrencyOpen,
     setEditItem,
-    apiQuery,
+    currencyQuery,
 }) => {
     const [dialogTerminate, setDialogTerminate] = useState(false);
-    const [terminateInfo, setTerminateInfo] = useState({});
+    const [terminateInfo, setTerminateInfo] = useState();
+    const dispatch = useDispatch();
 
     const handleDialogClose = () => {
         setDialogTerminate(false);
@@ -43,6 +44,8 @@ const CurrencyDataList = ({
             paddingBottom: '0.2rem',
         },
     }));
+
+    console.log('listInfo=>>', listInfo);
 
     return (
         <>
@@ -68,7 +71,7 @@ const CurrencyDataList = ({
                         {listInfo?.map((row, id) => {
                             return (
                                 <TableRow
-                                    key={row.BillMilestone + row.LBRatio + id}
+                                    key={row.SubmarineCable + row.CurrencyExgID + id}
                                     sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                                 >
                                     <StyledTableCell align="center">
@@ -78,11 +81,11 @@ const CurrencyDataList = ({
                                         {row.WorkTitle}
                                     </StyledTableCell>
                                     <StyledTableCell align="center">
-                                        {row.BillYM ? dayjs(row.BillYM).format('YYYY/MM') : ''}
+                                        {row.BillYM ? dayjs(row.BillYM).format('YYYY/mm') : ''}
                                     </StyledTableCell>
                                     <StyledTableCell align="center">{row.Purpose}</StyledTableCell>
                                     <StyledTableCell align="center">{row.FromCode}</StyledTableCell>
-                                    <StyledTableCell align="center">{row.Tocode}</StyledTableCell>
+                                    <StyledTableCell align="center">{row.ToCode}</StyledTableCell>
                                     <StyledTableCell align="center">{row.ExgRate}</StyledTableCell>
                                     <StyledTableCell align="center">{row.Note}</StyledTableCell>
                                     <StyledTableCell align="center">{row.Editor}</StyledTableCell>
@@ -105,33 +108,26 @@ const CurrencyDataList = ({
                                                 },
                                             }}
                                         >
-                                            {row.EndDate ? null : (
+                                            {row.EndTime ? null : (
                                                 <Button
                                                     color="primary"
                                                     variant="outlined"
                                                     onClick={() => {
                                                         setDialogAction('Edit');
-                                                        setIsDialogOpen(true);
-                                                        setEditItem(id);
+                                                        setIsAddCurrencyOpen(true);
+                                                        setEditItem(row);
                                                     }}
                                                 >
                                                     編輯
                                                 </Button>
                                             )}
-                                            {row.EndDate ? null : (
+                                            {row.EndTime ? null : (
                                                 <Button
                                                     color="error"
                                                     variant="outlined"
                                                     onClick={() => {
                                                         setDialogTerminate(true);
-                                                        setTerminateInfo({
-                                                            BillMilestone: row.BillMilestone,
-                                                            PartyName: row.PartyName,
-                                                            LBRawID: row.LBRawID,
-                                                            EndDate: dayjs(new Date()).format(
-                                                                'YYYY-MM-DD HH:mm:ss',
-                                                            ),
-                                                        });
+                                                        setTerminateInfo(row.CurrencyExgID);
                                                     }}
                                                 >
                                                     終止
@@ -145,11 +141,11 @@ const CurrencyDataList = ({
                     </TableBody>
                 </Table>
             </TableContainer>
-            <LiabilityTerminate
+            <CurrencyTerminate
                 dialogTerminate={dialogTerminate}
                 handleDialogClose={handleDialogClose}
                 terminateInfo={terminateInfo}
-                apiQuery={apiQuery}
+                currencyQuery={currencyQuery}
             />
         </>
     );

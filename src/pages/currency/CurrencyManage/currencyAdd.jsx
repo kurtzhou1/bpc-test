@@ -27,7 +27,6 @@ import CheckBoxOutlineBlankIcon from '@mui/icons-material/CheckBoxOutlineBlank';
 import CheckBoxIcon from '@mui/icons-material/CheckBox';
 
 // table
-import { TableBody, TableHead, TableContainer, TableRow } from '@mui/material';
 import TableCell, { tableCellClasses } from '@mui/material/TableCell';
 import Paper from '@mui/material/Paper';
 import { styled } from '@mui/material/styles';
@@ -36,12 +35,7 @@ import { styled } from '@mui/material/styles';
 import { BootstrapDialogTitle } from 'components/commonFunction';
 
 // api
-import {
-    addCurrencyExchangeData,
-    getCurrencyData,
-    submarineCableInfoList,
-    getPartiesInfoList,
-} from 'components/apis.jsx';
+import { addCurrencyExchangeData, updateCurrencyExchangeData } from 'components/apis.jsx';
 
 // redux
 import { useDispatch } from 'react-redux';
@@ -65,35 +59,41 @@ const CurrencyAdd = ({
     handleAddCurrencyClose,
     isAddCurrencyOpen,
     currencyListInfo,
-    addLiability,
-    saveEdit,
-    billMilestone,
-    setBillMilestone,
+    submarineCableList,
+    editItem,
+    currencyQuery,
+    setListInfo,
     dialogAction,
     lBRatio,
     setLBRatio,
     modifyNote,
     setEditItem,
     lBRawID,
-    apiQuery,
 }) => {
     const dispatch = useDispatch();
-    const [listInfo, setListInfo] = useState([]);
     const [submarineCable, setSubmarineCable] = useState('');
     const [billYM, setBillYM] = useState(null); //發票日期
     const [purpose, setPurpose] = useState('');
     const [exgRate, setExgRate] = useState(0);
     const [workTitle, setWorkTitle] = useState('');
-    const [fromCode, setFromCode] = useState({});
-    const [toCode, setToCode] = useState({});
-    const [note, setNote] = useState('');
+    const [fromCode, setFromCode] = useState('');
     const [fromCName, setFromCName] = useState('');
+    const [toCode, setToCode] = useState('');
     const [toCName, setToCName] = useState('');
+    const [note, setNote] = useState('');
 
-    const [submarineCableList, setSubmarineCableList] = useState([]); //海纜名稱下拉選單
-
-    const icon = <CheckBoxOutlineBlankIcon fontSize="small" />;
-    const checkedIcon = <CheckBoxIcon fontSize="small" />;
+    const initInfo = () => {
+        setSubmarineCable('');
+        setBillYM(null);
+        setPurpose('');
+        setExgRate(0);
+        setWorkTitle('');
+        setFromCode('');
+        setFromCName('');
+        setToCode('');
+        setToCName('');
+        setNote('');
+    };
 
     const infoCheck = () => {
         if (purpose === '') {
@@ -132,7 +132,6 @@ const CurrencyAdd = ({
             );
             return false;
         }
-        console.log('billYM=>>', billYM);
         if (!billYM) {
             dispatch(
                 setMessageStateOpen({
@@ -186,17 +185,69 @@ const CurrencyAdd = ({
 
     const addCurrencyData = () => {
         if (infoCheck()) {
+            console.log('dialogAction=>>', dialogAction);
+            if (dialogAction === 'Add') {
+                let tmpArray = {};
+                tmpArray.SubmarineCable = submarineCable;
+                tmpArray.BillYM = dayjs(billYM).format('YYYYMM');
+                tmpArray.Purpose = purpose;
+                tmpArray.ExgRate = exgRate;
+                tmpArray.WorkTitle = workTitle;
+                tmpArray.FromCode = fromCode;
+                tmpArray.ToCode = toCode;
+                tmpArray.Note = note;
+                console.log('tmpArray=>>', tmpArray);
+                fetch(addCurrencyExchangeData, {
+                    method: 'POST',
+                    headers: {
+                        'Content-type': 'application/json',
+                        Authorization: 'Bearer' + localStorage.getItem('accessToken') ?? '',
+                    },
+                    body: JSON.stringify(tmpArray),
+                })
+                    .then((res) => res.json())
+                    .then((data) => {
+                        if (data.alert_msg) {
+                            dispatch(
+                                setMessageStateOpen({
+                                    messageStateOpen: {
+                                        isOpen: true,
+                                        severity: 'error',
+                                        message: data.alert_msg,
+                                    },
+                                }),
+                            );
+                        } else {
+                            initInfo();
+                            handleAddCurrencyClose();
+                            dispatch(
+                                setMessageStateOpen({
+                                    messageStateOpen: {
+                                        isOpen: true,
+                                        severity: 'success',
+                                        message: '新增成功',
+                                    },
+                                }),
+                            );
+                            currencyQuery();
+                        }
+                    })
+                    .catch((e) => console.log('e1=>', e));
+            }
+        }
+
+        if (dialogAction === 'Edit') {
             let tmpArray = {};
+            tmpArray.CurrencyExgID = editItem.CurrencyExgID;
             tmpArray.SubmarineCable = submarineCable;
-            tmpArray.BillYM = dayjs(billYM).format('YYYY-MM-DD');
+            tmpArray.BillYM = dayjs(billYM).format('YYYYMM');
             tmpArray.Purpose = purpose;
             tmpArray.ExgRate = exgRate;
             tmpArray.WorkTitle = workTitle;
-            tmpArray.FromCode = fromCode.Code;
-            tmpArray.ToCode = toCode.Code;
+            tmpArray.FromCode = fromCode;
+            tmpArray.ToCode = toCode;
             tmpArray.Note = note;
-            console.log('tmpArray=>>', tmpArray);
-            fetch(addCurrencyExchangeData, {
+            fetch(updateCurrencyExchangeData, {
                 method: 'POST',
                 headers: {
                     'Content-type': 'application/json',
@@ -217,35 +268,53 @@ const CurrencyAdd = ({
                             }),
                         );
                     } else {
+                        initInfo();
+                        handleAddCurrencyClose();
                         dispatch(
                             setMessageStateOpen({
                                 messageStateOpen: {
                                     isOpen: true,
                                     severity: 'success',
-                                    message: '新增成功',
+                                    message: '編輯成功',
                                 },
                             }),
                         );
+                        currencyQuery();
                     }
                 })
                 .catch((e) => console.log('e1=>', e));
         }
     };
 
+    const handleFromCode = (e) => {
+        setFromCode(e);
+        setFromCName(currencyListInfo.filter((i) => i.Code === e)[0].CName ?? '');
+    };
+
+    const handleToCode = (e) => {
+        setToCode(e);
+        setToCName(currencyListInfo.filter((i) => i.Code === e)[0].CName ?? '');
+    };
+
     useEffect(() => {
-        //海纜名稱
-        fetch(submarineCableInfoList, { method: 'GET' })
-            .then((res) => res.json())
-            .then((data) => {
-                setSubmarineCableList(data);
-            })
-            .catch((e) => console.log('e1=>', e));
-    }, []);
+        if (editItem?.CurrencyExgID && isAddCurrencyOpen) {
+            setSubmarineCable(editItem.SubmarineCable);
+            setBillYM(editItem.BillYM);
+            setPurpose(editItem.Purpose);
+            setExgRate(editItem.ExgRate);
+            setWorkTitle(editItem.WorkTitle);
+            setFromCode(editItem.FromCode);
+            setFromCName(editItem.FromCName);
+            setToCode(editItem.ToCode);
+            setToCName(editItem.ToCName);
+            setNote(editItem.Note);
+        }
+    }, [editItem?.CurrencyExgID, isAddCurrencyOpen]);
 
     return (
         <Dialog maxWidth="sm" fullWidth open={isAddCurrencyOpen}>
             <BootstrapDialogTitle>
-                {dialogAction === 'Edit' ? '編輯新增貨幣與匯率資料' : '新增新增貨幣與匯率資料'}
+                {dialogAction === 'Edit' ? '編輯貨幣與匯率資料' : '新增貨幣與匯率資料'}
             </BootstrapDialogTitle>
             <DialogContent dividers>
                 <Grid
@@ -267,14 +336,20 @@ const CurrencyAdd = ({
                         </Typography>
                     </Grid>
                     <Grid item md={3} lg={3}>
-                        <TextField
-                            fullWidth
-                            variant="outlined"
-                            value={submarineCable}
-                            size="small"
-                            label="填寫海纜名稱"
-                            onChange={(e) => setSubmarineCable(e.target.value)}
-                        />
+                        <FormControl fullWidth size="small">
+                            <InputLabel>選擇海纜</InputLabel>
+                            <Select
+                                value={submarineCable}
+                                label="海纜"
+                                onChange={(e) => setSubmarineCable(e.target.value)}
+                            >
+                                {submarineCableList.map((i) => (
+                                    <MenuItem key={i} value={i}>
+                                        {i}
+                                    </MenuItem>
+                                ))}
+                            </Select>
+                        </FormControl>
                     </Grid>
                     <Grid item md={3} lg={3} display="flex" justifyContent="center">
                         <Typography
@@ -288,14 +363,18 @@ const CurrencyAdd = ({
                         </Typography>
                     </Grid>
                     <Grid item md={3} lg={3}>
-                        <TextField
-                            fullWidth
-                            variant="outlined"
-                            value={workTitle}
-                            size="small"
-                            label="填寫海纜作業"
-                            onChange={(e) => setWorkTitle(e.target.value)}
-                        />
+                        <FormControl fullWidth size="small">
+                            <InputLabel>選擇海纜作業</InputLabel>
+                            <Select
+                                value={workTitle}
+                                label="海纜作業"
+                                onChange={(e) => setWorkTitle(e.target.value)}
+                            >
+                                <MenuItem value={'Upgrade'}>Upgrade</MenuItem>
+                                <MenuItem value={'Construction'}>Construction</MenuItem>
+                                <MenuItem value={'O&M'}>O&M</MenuItem>
+                            </Select>
+                        </FormControl>
                     </Grid>
                     <Grid item xs={3} sm={3} md={3} lg={3} display="flex" justifyContent="center">
                         <Typography
@@ -312,7 +391,8 @@ const CurrencyAdd = ({
                         <FormControl>
                             <LocalizationProvider dateAdapter={AdapterDayjs}>
                                 <DesktopDatePicker
-                                    inputFormat="YYYY/MM/DD"
+                                    inputFormat="YYYYMM"
+                                    views={['year', 'month']}
                                     value={billYM}
                                     onChange={(e) => {
                                         setBillYM(e);
@@ -356,9 +436,12 @@ const CurrencyAdd = ({
                     </Grid>
                     <Grid item xs={3} sm={3} md={3} lg={3}>
                         <FormControl fullWidth size="small">
-                            <Select value={fromCode} onChange={(e) => setFromCode(e.target.value)}>
+                            <Select
+                                value={fromCode}
+                                onChange={(e) => handleFromCode(e.target.value)}
+                            >
                                 {currencyListInfo.map((i) => (
-                                    <MenuItem key={i.Code} value={i}>
+                                    <MenuItem key={i.Code} value={i.Code}>
                                         {i.Code}
                                     </MenuItem>
                                 ))}
@@ -380,7 +463,7 @@ const CurrencyAdd = ({
                         <TextField
                             fullWidth
                             variant="outlined"
-                            value={fromCode.CName ?? ''}
+                            value={fromCName}
                             size="small"
                             disabled
                             label="請選取左方原始幣別"
@@ -399,9 +482,9 @@ const CurrencyAdd = ({
                     </Grid>
                     <Grid item xs={3} sm={3} md={3} lg={3}>
                         <FormControl fullWidth size="small">
-                            <Select value={toCode} onChange={(e) => setToCode(e.target.value)}>
+                            <Select value={toCode} onChange={(e) => handleToCode(e.target.value)}>
                                 {currencyListInfo.map((i) => (
-                                    <MenuItem key={i.Code} value={i}>
+                                    <MenuItem key={i.Code} value={i.Code}>
                                         {i.Code}
                                     </MenuItem>
                                 ))}
@@ -423,7 +506,7 @@ const CurrencyAdd = ({
                         <TextField
                             fullWidth
                             variant="outlined"
-                            value={toCode.CName ?? ''}
+                            value={toCName}
                             size="small"
                             disabled
                             label="請選取左方兌換幣別"
@@ -477,7 +560,14 @@ const CurrencyAdd = ({
                 <Button sx={{ mr: '0.05rem' }} variant="contained" onClick={addCurrencyData}>
                     儲存
                 </Button>
-                <Button sx={{ mr: '0.05rem' }} variant="contained" onClick={handleAddCurrencyClose}>
+                <Button
+                    sx={{ mr: '0.05rem' }}
+                    variant="contained"
+                    onClick={() => {
+                        handleAddCurrencyClose();
+                        initInfo();
+                    }}
+                >
                     關閉
                 </Button>
             </DialogActions>

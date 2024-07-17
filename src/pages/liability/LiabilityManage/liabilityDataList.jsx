@@ -44,8 +44,6 @@ const LiabilityDataList = ({
         },
     }));
 
-    console.log('listInfo=>>', listInfo);
-
     return (
         <>
             <TableContainer component={Paper} sx={{ maxHeight: window.screen.height * 0.5 }}>
@@ -115,19 +113,6 @@ const LiabilityDataList = ({
                                                     編輯
                                                 </Button>
                                             )}
-                                            {/* {row.EndDate ? null : (
-                                                <Button
-                                                    color="success"
-                                                    variant="outlined"
-                                                    onClick={() => {
-                                                        setDialogAction('Split');
-                                                        setIsDialogOpen(true);
-                                                        setEditItem(id);
-                                                    }}
-                                                >
-                                                    分段
-                                                </Button>
-                                            )} //3/30 暫時註解分段 */}
                                             {row.EndDate ? null : (
                                                 <Button
                                                     color="error"

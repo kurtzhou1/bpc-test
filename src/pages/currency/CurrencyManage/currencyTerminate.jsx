@@ -19,7 +19,7 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogActions from '@mui/material/DialogActions';
 
 // api
-import { deleteLiability } from 'components/apis.jsx';
+import { updateCurrencyExchangeData } from 'components/apis.jsx';
 
 // project
 import { BootstrapDialogTitle } from 'components/commonFunction';
@@ -28,18 +28,21 @@ import { BootstrapDialogTitle } from 'components/commonFunction';
 import { useDispatch } from 'react-redux';
 import { setMessageStateOpen } from 'store/reducers/dropdown';
 
-const LiabilityTerminate = ({ dialogTerminate, handleDialogClose, terminateInfo, apiQuery }) => {
+const CurrencyTerminate = ({
+    dialogTerminate,
+    handleDialogClose,
+    terminateInfo,
+    currencyQuery,
+}) => {
     const dispatch = useDispatch();
-    const [endNote, setEndNote] = useState('');
 
     const terminalLiability = () => {
         let tmpArray = {
-            LBRawID: terminateInfo.LBRawID,
-            EndDate: terminateInfo.EndDate,
-            ModifyNote: endNote ? endNote : '',
+            CurrencyExgID: terminateInfo,
+            ifEnd: true,
         };
         console.log('', tmpArray);
-        fetch(deleteLiability, {
+        fetch(updateCurrencyExchangeData, {
             method: 'POST',
             headers: {
                 'Content-type': 'application/json',
@@ -58,7 +61,7 @@ const LiabilityTerminate = ({ dialogTerminate, handleDialogClose, terminateInfo,
                         },
                     }),
                 );
-                apiQuery();
+                currencyQuery();
                 handleDialogClose();
             })
             .catch((e) => console.log('e1=>', e));
@@ -93,10 +96,10 @@ const LiabilityTerminate = ({ dialogTerminate, handleDialogClose, terminateInfo,
                                 ml: { lg: '0.5rem', xl: '1.5rem' },
                             }}
                         >
-                            {`是否確定刪除${terminateInfo.BillMilestone}、${terminateInfo.PartyName}的Liability資料`}
+                            是否確定終止？
                         </Typography>
                     </Grid>
-                    <Grid item xs={12} sm={12} md={12} lg={12} display="flex">
+                    {/* <Grid item xs={12} sm={12} md={12} lg={12} display="flex">
                         <TextField
                             fullWidth
                             variant="outlined"
@@ -105,7 +108,7 @@ const LiabilityTerminate = ({ dialogTerminate, handleDialogClose, terminateInfo,
                             label="填寫終止原因"
                             onChange={(e) => setEndNote(e.target.value)}
                         />
-                    </Grid>
+                    </Grid> */}
                 </Grid>
             </DialogContent>
             <DialogActions>
@@ -127,4 +130,4 @@ const LiabilityTerminate = ({ dialogTerminate, handleDialogClose, terminateInfo,
     );
 };
 
-export default LiabilityTerminate;
+export default CurrencyTerminate;
