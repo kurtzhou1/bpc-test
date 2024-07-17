@@ -6,8 +6,13 @@ export const ssoUrlQA =
 export const ssoUrlOL =
     'https://iam.cht.com.tw/auth/realms/B2E/protocol/openid-connect/auth?client_id=CBPS-CBPS.OL.I&response_type=code&redirect_uri=https://cbps.cht.com.tw&scope=ldap';
 
-export const redirectUri = 'https://cbpsqa.cht.com.tw';
+export const redirectUriQA = 'https://cbpsqa.cht.com.tw';
+export const redirectUriOL = 'https://cbps.cht.com.tw';
 // 'http://internal-cbpsalbfrontend-1323185980.ap-northeast-1.elb.amazonaws.com';
+
+export const accessSSOQA =
+    'https://iam-qa.cht.com.tw/auth/realms/B2E/protocol/openid-connect/token';
+export const accessSSOOL = 'https://iam.cht.com.tw/auth/realms/B2E/protocol/openid-connect/token';
 
 // Login
 export const generatetoken = `http://${env}/api/v1/generatetoken`;
