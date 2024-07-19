@@ -19,6 +19,7 @@ import {
     billMilestoneList,
     generateInvoice,
     supplierNameDropDownUnique,
+    getCurrencyData,
 } from 'components/apis.jsx';
 import { handleNumber } from 'components/commonFunction';
 
@@ -43,12 +44,13 @@ const InvoiceWorkManage = () => {
     const [isPro, setIsPro] = useState(false); //是否為Pro-forma
     const [isLiability, setIsLiability] = useState(true); //是否需攤分
     const [isRecharge, setIsRecharge] = useState(false); //是否為短腳補收
-    const [code, setCode] = useState(''); //幣別
+    const [fromCode, setFromCode] = useState(''); //幣別
     const [partyName, setPartyName] = useState(''); //會員名稱
 
     const [supNmList, setSupNmList] = useState([]); //供應商下拉選單
     const [submarineCableList, setSubmarineCableList] = useState([]); //海纜名稱下拉選單
     const [bmStoneList, setBmStoneList] = useState([]); //計帳段號下拉選單
+    const [codeList, setCodeList] = useState([]);
 
     const [billMilestone, setBillMilestone] = useState(''); //計帳段號
     const [feeItem, setFeeItem] = useState(''); //費用項目
@@ -74,7 +76,7 @@ const InvoiceWorkManage = () => {
         setIsPro(false);
         setIsLiability(true);
         setIsRecharge(false);
-        setCode('');
+        setFromCode('');
         setPartyName('');
         setInvoiceDetailInfo([]);
         itemDetailInitial();
@@ -98,7 +100,7 @@ const InvoiceWorkManage = () => {
         Status,
         IsPro,
         IsRecharge,
-        code,
+        fromCode,
         IsLiability,
         TotalAmount,
     ) => {
@@ -114,7 +116,7 @@ const InvoiceWorkManage = () => {
             Status,
             IsPro,
             IsRecharge,
-            code,
+            fromCode,
             IsLiability,
             TotalAmount,
         };
@@ -209,13 +211,13 @@ const InvoiceWorkManage = () => {
             );
             return false;
         }
-        if (code === '') {
+        if (fromCode === '') {
             dispatch(
                 setMessageStateOpen({
                     messageStateOpen: {
                         isOpen: true,
                         severity: 'error',
-                        message: '請選擇幣別',
+                        message: '請選擇原始幣別',
                     },
                 }),
             );
@@ -243,7 +245,7 @@ const InvoiceWorkManage = () => {
                 'TEMPORARY',
                 isPro === 'true' || isPro === true ? true : false,
                 isRecharge === 'true' || isRecharge === true ? true : false,
-                code === 'true' || code === true ? true : false,
+                fromCode === 'true' || fromCode === true ? true : false,
                 isLiability === 'true' || isLiability === true ? true : false,
                 Number(totalAmount.toString().replaceAll(',', '')).toFixed(2),
             );
@@ -280,7 +282,7 @@ const InvoiceWorkManage = () => {
             setIsPro(tmpArray?.InvoiceWKMaster.IsPro);
             setIsLiability(tmpArray?.InvoiceWKMaster.IsLiability);
             setIsRecharge(tmpArray?.InvoiceWKMaster.IsRecharge);
-            setCode(tmpArray?.InvoiceWKMaster.Code);
+            setFromCode(tmpArray?.InvoiceWKMaster.Code);
             setPartyName(tmpArray?.InvoiceWKMaster.PartyName);
             setInvoiceDetailInfo(tmpArray?.InvoiceWKDetail);
             setEditItem(editItem);
@@ -308,7 +310,7 @@ const InvoiceWorkManage = () => {
                 'TEMPORARY',
                 isPro === 'true' || isPro === true ? true : false,
                 isRecharge === 'true' || isRecharge === true ? true : false,
-                code === 'true' || code === true ? true : false,
+                fromCode === 'true' || fromCode === true ? true : false,
                 isLiability === 'true' || isLiability === true ? true : false,
                 Number(totalAmount.toString().replaceAll(',', '')).toFixed(2),
             );
@@ -363,9 +365,62 @@ const InvoiceWorkManage = () => {
         dispatch(activeItem({ openItem: ['item12'] }));
     };
 
+    const dialogCheck = () => {
+        if (submarineCable === '') {
+            dispatch(
+                setMessageStateOpen({
+                    messageStateOpen: {
+                        isOpen: true,
+                        severity: 'error',
+                        message: '請輸入海纜名稱',
+                    },
+                }),
+            );
+            return false;
+        }
+        if (workTitle === '') {
+            dispatch(
+                setMessageStateOpen({
+                    messageStateOpen: {
+                        isOpen: true,
+                        severity: 'error',
+                        message: '請輸入海纜作業',
+                    },
+                }),
+            );
+            return false;
+        }
+        if (workTitle === '') {
+            dispatch(
+                setMessageStateOpen({
+                    messageStateOpen: {
+                        isOpen: true,
+                        severity: 'error',
+                        message: '請輸入海纜作業',
+                    },
+                }),
+            );
+            return false;
+        }
+        if (fromCode === '') {
+            dispatch(
+                setMessageStateOpen({
+                    messageStateOpen: {
+                        isOpen: true,
+                        severity: 'error',
+                        message: '請選擇原始幣別',
+                    },
+                }),
+            );
+            return false;
+        }
+        return true;
+    };
+
     const handleDialogOpen = () => {
-        console.log('hello');
-        setIsPurposeDialogOpen(true);
+        if (dialogCheck()) {
+            setIsPurposeDialogOpen(true);
+        }
     };
 
     const handleDialogClose = () => {
@@ -432,6 +487,12 @@ const InvoiceWorkManage = () => {
                 }
             })
             .catch((e) => console.log('e1=>', e));
+        fetch(getCurrencyData, { method: 'GET' })
+            .then((res) => res.json())
+            .then((data) => {
+                setCodeList(data);
+            })
+            .catch((e) => console.log('e1=>', e));
     }, []);
 
     useEffect(() => {
@@ -447,6 +508,10 @@ const InvoiceWorkManage = () => {
             <ChosePurpose
                 isPurposeDialogOpen={isPurposeDialogOpen}
                 handleDialogClose={handleDialogClose}
+                submarineCable={submarineCable}
+                workTitle={workTitle}
+                fromCode={fromCode}
+                codeList={codeList}
             />
             <Grid container spacing={1}>
                 <Grid item xs={12}>
@@ -478,12 +543,13 @@ const InvoiceWorkManage = () => {
                                     setIsLiability={setIsLiability}
                                     isRecharge={isRecharge}
                                     setIsRecharge={setIsRecharge}
-                                    code={code}
-                                    setCode={setCode}
+                                    fromCode={fromCode}
+                                    setFromCode={setFromCode}
                                     partyName={partyName}
                                     setPartyName={setPartyName}
                                     supNmList={supNmList}
                                     submarineCableList={submarineCableList}
+                                    codeList={codeList}
                                 />
                             </Grid>
                             {/* 右 */}

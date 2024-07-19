@@ -43,7 +43,7 @@ import Paper from '@mui/material/Paper';
 import { styled } from '@mui/material/styles';
 
 // api
-import { getPayDraftStreamCBRefund } from 'components/apis.jsx';
+import { getCurrencyExchangeData, submarineCables } from 'components/apis.jsx';
 
 // redux
 import { useDispatch } from 'react-redux';
@@ -63,16 +63,87 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
     },
 }));
 
-const CorrespondenceMake = ({ handleDialogOpen, isPurposeDialogOpen, handleDialogClose }) => {
+const CorrespondenceMake = ({
+    isPurposeDialogOpen,
+    handleDialogClose,
+    SubmarineCable,
+    workTitle,
+    fromCode,
+    codeList,
+}) => {
     const dispatch = useDispatch();
-    const [issueDate, setIssueDate] = useState(null); //出帳年月
-    const [code, setCode] = useState(''); //兌換幣別代碼
+    const [billYM, setBillYM] = useState(null); //入帳單到期日
+    const [toCode, setToCode] = useState(''); //兌換幣別代碼
     const [selectPurpose, setSelectPurpose] = useState();
+    const [dataList, setDataList] = useState([]);
+
+    const infoCheck = () => {
+        console.log('=>>>>', billYM, !billYM ? 1 : 2);
+        if (!billYM) {
+            dispatch(
+                setMessageStateOpen({
+                    messageStateOpen: {
+                        isOpen: true,
+                        severity: 'error',
+                        message: '請輸入帳單到期日',
+                    },
+                }),
+            );
+            return false;
+        }
+        if (toCode === '') {
+            dispatch(
+                setMessageStateOpen({
+                    messageStateOpen: {
+                        isOpen: true,
+                        severity: 'error',
+                        message: '請輸入兌換幣別',
+                    },
+                }),
+            );
+            return false;
+        }
+        return true;
+    };
+
+    const handleQuery = () => {
+        if (infoCheck()) {
+            let tmpObject = {
+                SubmarineCable: submarineCables,
+                WorkTitle: workTitle,
+                BillYM: dayjs(billYM).format('YYYYMM'),
+                FromCode: fromCode,
+                ToCode: toCode,
+                ifEnd: false,
+            };
+            fetch(getCurrencyExchangeData, {
+                method: 'POST',
+                headers: {
+                    'Content-type': 'application/json',
+                    Authorization: 'Bearer' + localStorage.getItem('accessToken') ?? '',
+                },
+                body: JSON.stringify(tmpObject),
+            })
+                .then((res) => res.json())
+                .then(() => {
+                    dispatch(
+                        setMessageStateOpen({
+                            messageStateOpen: {
+                                isOpen: true,
+                                severity: 'success',
+                                message: '查詢成功',
+                            },
+                        }),
+                    );
+                })
+                .catch((e) => console.log('e1=>', e));
+        }
+    };
 
     return (
         <Dialog maxWidth="md" fullWidth open={isPurposeDialogOpen}>
-            <BootstrapDialogTitle className="no-print">選擇用途/主旨</BootstrapDialogTitle>
-            <DialogContent dividers className="no-print">
+            <BootstrapDialogTitle>選擇用途/主旨</BootstrapDialogTitle>
+            <DialogContent dividers>
                 <Grid
                     container
                     spacing={1}
@@ -82,17 +153,18 @@ const CorrespondenceMake = ({ handleDialogOpen, isPurposeDialogOpen, handleDialo
                 >
                     <Grid item lg={2} display="flex" justifyContent="center" alignItems="center">
                         <Typography variant="h5" sx={{ fontSize: { lg: '0.7rem', xl: '0.88rem' } }}>
-                            帳單到期日：
+                            帳單到期：
                         </Typography>
                     </Grid>
                     <Grid item lg={2}>
                         <FormControl>
                             <LocalizationProvider dateAdapter={AdapterDayjs}>
                                 <DesktopDatePicker
-                                    inputFormat="YYYY/MM/DD"
-                                    value={issueDate}
+                                    inputFormat="YYYYMM"
+                                    views={['year', 'month']}
+                                    value={billYM}
                                     onChange={(e) => {
-                                        setIssueDate(e);
+                                        setBillYM(e);
                                     }}
                                     renderInput={(params) => <TextField size="small" {...params} />}
                                 />
@@ -106,19 +178,30 @@ const CorrespondenceMake = ({ handleDialogOpen, isPurposeDialogOpen, handleDialo
                     </Grid>
                     <Grid item lg={2}>
                         <FormControl fullWidth size="small">
-                            <InputLabel>選擇幣別</InputLabel>
+                            <InputLabel>選擇兌換幣別</InputLabel>
                             <Select
-                                value={code}
+                                value={toCode}
                                 label="幣別"
-                                onChange={(e) => setCode(e.target.value)}
+                                onChange={(e) => setToCode(e.target.value)}
                             >
-                                <MenuItem value={'USD'}>USD</MenuItem>
-                                <MenuItem value={'TWD'}>TWD</MenuItem>
-                                <MenuItem value={'JPY'}>JPY</MenuItem>
+                                {codeList.map((i) => (
+                                    <MenuItem key={i.Code} value={i.Code}>
+                                        {i.Code}
+                                    </MenuItem>
+                                ))}
                             </Select>
                         </FormControl>
                     </Grid>
-                    <Grid item lg={4} />
+                    <Grid item lg={4}>
+                        <Button
+                            sx={{ mr: '0.05rem' }}
+                            size="small"
+                            variant="contained"
+                            onClick={handleQuery}
+                        >
+                            查詢
+                        </Button>
+                    </Grid>
                     <Grid item lg={12}>
                         <TableContainer component={Paper} sx={{ maxHeight: 350 }}>
                             <Table sx={{ minWidth: 300 }} stickyHeader>
@@ -134,7 +217,7 @@ const CorrespondenceMake = ({ handleDialogOpen, isPurposeDialogOpen, handleDialo
                                     </TableRow>
                                 </TableHead>
                                 <TableBody>
-                                    {[].map((row, id) => {
+                                    {dataList.map((row, id) => {
                                         return (
                                             <TableRow
                                                 key={row.PartyName + id}
@@ -198,7 +281,7 @@ const CorrespondenceMake = ({ handleDialogOpen, isPurposeDialogOpen, handleDialo
                     </Grid>
                 </Grid>
             </DialogContent>
-            <DialogActions className="no-print">
+            <DialogActions>
                 <Button sx={{ mr: '0.05rem' }} variant="contained">
                     儲存
                 </Button>

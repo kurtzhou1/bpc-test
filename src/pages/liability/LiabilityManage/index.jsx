@@ -10,7 +10,7 @@ import LiabilityAdd from './liabilityAdd';
 // api
 import {
     billMilestoneLiabilityList,
-    submarineCableLiabilityList,
+    dropdownmenuSubmarineCable,
     partiesLiabilityList,
     workTitleLiabilityList,
     queryLiability,
@@ -226,7 +226,7 @@ const LiabilityManage = () => {
                 setBmStoneList(data);
             })
             .catch((e) => console.log('e1=>', e));
-        fetch(submarineCableLiabilityList, { method: 'GET' })
+        fetch(dropdownmenuSubmarineCable, { method: 'GET' })
             .then((res) => res.json())
             .then((data) => {
                 setSubmarineCableList(data);

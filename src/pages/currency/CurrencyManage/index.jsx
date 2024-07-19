@@ -11,7 +11,7 @@ import CurrencyManage from './currencyManage';
 // api
 import {
     billMilestoneLiabilityList,
-    submarineCableLiabilityList,
+    dropdownmenuSubmarineCable,
     partiesLiabilityList,
     workTitleLiabilityList,
     queryLiability,
@@ -133,7 +133,7 @@ const LiabilityManage = () => {
     }, [editItem]);
 
     useEffect(() => {
-        fetch(submarineCableLiabilityList, { method: 'GET' })
+        fetch(dropdownmenuSubmarineCable, { method: 'GET' })
             .then((res) => res.json())
             .then((data) => {
                 setSubmarineCableList(data);

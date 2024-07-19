@@ -45,8 +45,6 @@ const CurrencyDataList = ({
         },
     }));
 
-    console.log('listInfo=>>', listInfo);
-
     return (
         <>
             <TableContainer component={Paper} sx={{ maxHeight: window.screen.height * 0.5 }}>

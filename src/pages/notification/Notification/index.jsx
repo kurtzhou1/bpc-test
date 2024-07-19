@@ -13,7 +13,7 @@ import NotificationQuery from './notificationQuery';
 
 // api
 import {
-    submarineCableLiabilityList,
+    dropdownmenuSubmarineCable,
     partiesLiabilityList,
     getSysInvNotifyRule,
 } from 'components/apis.jsx';
@@ -66,7 +66,7 @@ const Information = () => {
     };
 
     useEffect(() => {
-        fetch(submarineCableLiabilityList, { method: 'GET' })
+        fetch(dropdownmenuSubmarineCable, { method: 'GET' })
             .then((res) => res.json())
             .then((data) => {
                 setSubmarineCableList(data);

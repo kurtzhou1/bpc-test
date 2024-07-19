@@ -198,7 +198,8 @@ const LiabilityQuery = ({
                     <FormControl>
                         <LocalizationProvider dateAdapter={AdapterDayjs}>
                             <DesktopDatePicker
-                                inputFormat="YYYY/MM/DD"
+                                inputFormat="YYYYMM"
+                                views={['year', 'month']}
                                 value={billYM}
                                 onChange={(e) => {
                                     setBillYM(e);
