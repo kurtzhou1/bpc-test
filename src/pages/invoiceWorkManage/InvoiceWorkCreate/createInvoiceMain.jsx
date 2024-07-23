@@ -61,6 +61,7 @@ const InvoiceWorkManage = ({
     supNmList,
     submarineCableList,
     codeList,
+    selectPurpose,
 }) => {
     const { t } = useTranslation();
     const dispatch = useDispatch();
@@ -355,6 +356,10 @@ const InvoiceWorkManage = ({
                     <FormControl fullWidth>
                         <TextField
                             size="small"
+                            InputProps={{
+                                readOnly: true,
+                            }}
+                            value={selectPurpose}
                             inputProps={{
                                 onClick: () => handleDialogOpen(),
                             }}

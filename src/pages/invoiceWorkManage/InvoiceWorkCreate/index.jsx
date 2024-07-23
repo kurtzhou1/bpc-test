@@ -46,15 +46,15 @@ const InvoiceWorkManage = () => {
     const [isRecharge, setIsRecharge] = useState(false); //是否為短腳補收
     const [fromCode, setFromCode] = useState(''); //幣別
     const [partyName, setPartyName] = useState(''); //會員名稱
-
     const [supNmList, setSupNmList] = useState([]); //供應商下拉選單
     const [submarineCableList, setSubmarineCableList] = useState([]); //海纜名稱下拉選單
     const [bmStoneList, setBmStoneList] = useState([]); //計帳段號下拉選單
     const [codeList, setCodeList] = useState([]);
-
     const [billMilestone, setBillMilestone] = useState(''); //計帳段號
     const [feeItem, setFeeItem] = useState(''); //費用項目
     const [feeAmount, setFeeAmount] = useState(''); //費用金額
+    const [currencyExgID, setCurrencyExgID] = useState(null);
+    const [selectPurpose, setSelectPurpose] = useState('');
 
     const [editItem, setEditItem] = useState(NaN);
     const [listInfo, setListInfo] = useState([]);
@@ -80,6 +80,8 @@ const InvoiceWorkManage = () => {
         setPartyName('');
         setInvoiceDetailInfo([]);
         itemDetailInitial();
+        setCurrencyExgID(null);
+        setSelectPurpose('');
     };
 
     const itemDetailInitial = () => {
@@ -100,9 +102,11 @@ const InvoiceWorkManage = () => {
         Status,
         IsPro,
         IsRecharge,
-        fromCode,
         IsLiability,
         TotalAmount,
+        CurrencyExgID,
+        SelectPurpose,
+        fromCode,
     ) => {
         return {
             InvoiceNo,
@@ -116,9 +120,11 @@ const InvoiceWorkManage = () => {
             Status,
             IsPro,
             IsRecharge,
-            fromCode,
             IsLiability,
             TotalAmount,
+            CurrencyExgID,
+            SelectPurpose,
+            Code: fromCode,
         };
     };
 
@@ -245,9 +251,11 @@ const InvoiceWorkManage = () => {
                 'TEMPORARY',
                 isPro === 'true' || isPro === true ? true : false,
                 isRecharge === 'true' || isRecharge === true ? true : false,
-                fromCode === 'true' || fromCode === true ? true : false,
                 isLiability === 'true' || isLiability === true ? true : false,
                 Number(totalAmount.toString().replaceAll(',', '')).toFixed(2),
+                currencyExgID,
+                selectPurpose,
+                fromCode,
             );
             console.log('新增發票=>>', tmpArray);
             let combineArray = {
@@ -285,6 +293,8 @@ const InvoiceWorkManage = () => {
             setFromCode(tmpArray?.InvoiceWKMaster.Code);
             setPartyName(tmpArray?.InvoiceWKMaster.PartyName);
             setInvoiceDetailInfo(tmpArray?.InvoiceWKDetail);
+            setSelectPurpose(tmpArray?.InvoiceWKMaster.SelectPurpose);
+            setCurrencyExgID(tmpArray?.InvoiceWKMaster.CurrencyExgID);
             setEditItem(editItem);
         }
     };
@@ -310,10 +320,13 @@ const InvoiceWorkManage = () => {
                 'TEMPORARY',
                 isPro === 'true' || isPro === true ? true : false,
                 isRecharge === 'true' || isRecharge === true ? true : false,
-                fromCode === 'true' || fromCode === true ? true : false,
                 isLiability === 'true' || isLiability === true ? true : false,
                 Number(totalAmount.toString().replaceAll(',', '')).toFixed(2),
+                currencyExgID,
+                selectPurpose,
+                fromCode,
             );
+            console.log('tmpAddArray=>>', tmpAddArray);
             let combineArray = {
                 InvoiceWKMaster: tmpAddArray,
                 InvoiceWKDetail: invoiceDetailInfo,
@@ -336,6 +349,8 @@ const InvoiceWorkManage = () => {
     //送出
     const sendInvoice = () => {
         listInfo.forEach((dataInfo) => {
+            delete dataInfo?.InvoiceWKMaster.SelectPurpose;
+            console.log('dataInfo=>>', dataInfo);
             fetch(generateInvoice, {
                 method: 'POST',
                 headers: {
@@ -445,7 +460,6 @@ const InvoiceWorkManage = () => {
             fetch(bmApi, { method: 'GET' })
                 .then((res) => res.json())
                 .then((data) => {
-                    console.log('BmStoneList=>>', data);
                     if (Array.isArray(data)) {
                         setBmStoneList(data);
                     }
@@ -498,10 +512,13 @@ const InvoiceWorkManage = () => {
     useEffect(() => {
         itemInfoInitial();
         if (editItem >= 0) {
+            console.log('editItem=>>', editItem);
             editlistInfoItem();
             setIsListEdit(true);
         }
     }, [editItem]);
+
+    console.log('currencyExgIDcurrencyExgID=>>', currencyExgID);
 
     return (
         <>
@@ -512,6 +529,10 @@ const InvoiceWorkManage = () => {
                 workTitle={workTitle}
                 fromCode={fromCode}
                 codeList={codeList}
+                selectPurpose={selectPurpose}
+                setSelectPurpose={setSelectPurpose}
+                currencyExgID={currencyExgID}
+                setCurrencyExgID={setCurrencyExgID}
             />
             <Grid container spacing={1}>
                 <Grid item xs={12}>
@@ -550,6 +571,7 @@ const InvoiceWorkManage = () => {
                                     supNmList={supNmList}
                                     submarineCableList={submarineCableList}
                                     codeList={codeList}
+                                    selectPurpose={selectPurpose}
                                 />
                             </Grid>
                             {/* 右 */}

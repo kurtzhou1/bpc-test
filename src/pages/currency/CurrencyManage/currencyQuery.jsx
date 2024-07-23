@@ -97,6 +97,15 @@ const LiabilityQuery = ({
             .then((data) => {
                 if (Array.isArray(data)) {
                     setListInfo(data);
+                    dispatch(
+                        setMessageStateOpen({
+                            messageStateOpen: {
+                                isOpen: true,
+                                severity: 'info',
+                                message: '查詢成功',
+                            },
+                        }),
+                    );
                 } else {
                     setListInfo([]);
                     dispatch(

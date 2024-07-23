@@ -48,6 +48,7 @@ import { getCurrencyExchangeData, submarineCables } from 'components/apis.jsx';
 // redux
 import { useDispatch } from 'react-redux';
 import { setMessageStateOpen } from 'store/reducers/dropdown';
+import { BackpackRounded } from '../../../../node_modules/@mui/icons-material/index';
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
     [`&.${tableCellClasses.head}`]: {
@@ -66,19 +67,22 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
 const CorrespondenceMake = ({
     isPurposeDialogOpen,
     handleDialogClose,
-    SubmarineCable,
+    submarineCable,
     workTitle,
     fromCode,
     codeList,
+    currencyExgID,
+    setSelectPurpose,
+    setCurrencyExgID,
 }) => {
     const dispatch = useDispatch();
     const [billYM, setBillYM] = useState(null); //入帳單到期日
     const [toCode, setToCode] = useState(''); //兌換幣別代碼
-    const [selectPurpose, setSelectPurpose] = useState();
     const [dataList, setDataList] = useState([]);
+    const [tempCurrencyExgID, setTempCurrencyExgID] = useState(null);
+    const tempSelectPurpose = useRef('');
 
     const infoCheck = () => {
-        console.log('=>>>>', billYM, !billYM ? 1 : 2);
         if (!billYM) {
             dispatch(
                 setMessageStateOpen({
@@ -106,10 +110,25 @@ const CorrespondenceMake = ({
         return true;
     };
 
+    const handleChange = (row) => {
+        // setCurrencyExgID(row.CurrencyExgID);
+        // setSelectPurpose(row.Purpose);
+        setTempCurrencyExgID(row.CurrencyExgID);
+        tempSelectPurpose.current = row.Purpose;
+    };
+
+    const handleSave = () => {
+        setSelectPurpose(tempSelectPurpose.current);
+        setCurrencyExgID(tempCurrencyExgID);
+        setTempCurrencyExgID(null);
+        tempSelectPurpose.current = '';
+        handleDialogClose();
+    };
+
     const handleQuery = () => {
         if (infoCheck()) {
             let tmpObject = {
-                SubmarineCable: submarineCables,
+                SubmarineCable: submarineCable,
                 WorkTitle: workTitle,
                 BillYM: dayjs(billYM).format('YYYYMM'),
                 FromCode: fromCode,
@@ -125,7 +144,8 @@ const CorrespondenceMake = ({
                 body: JSON.stringify(tmpObject),
             })
                 .then((res) => res.json())
-                .then(() => {
+                .then((data) => {
+                    setDataList(data);
                     dispatch(
                         setMessageStateOpen({
                             messageStateOpen: {
@@ -140,6 +160,14 @@ const CorrespondenceMake = ({
         }
     };
 
+    useEffect(() => {
+        if (isPurposeDialogOpen) {
+            setTempCurrencyExgID(currencyExgID);
+        }
+    }, [isPurposeDialogOpen]);
+
+    console.log('tempCurrencyExgID=>>', tempCurrencyExgID, currencyExgID);
+
     return (
         <Dialog maxWidth="md" fullWidth open={isPurposeDialogOpen}>
             <BootstrapDialogTitle>選擇用途/主旨</BootstrapDialogTitle>
@@ -151,12 +179,12 @@ const CorrespondenceMake = ({
                     justifyContent="center"
                     alignItems="center"
                 >
-                    <Grid item lg={2} display="flex" justifyContent="center" alignItems="center">
+                    <Grid item md={2} display="flex" justifyContent="end" alignItems="center">
                         <Typography variant="h5" sx={{ fontSize: { lg: '0.7rem', xl: '0.88rem' } }}>
                             帳單到期：
                         </Typography>
                     </Grid>
-                    <Grid item lg={2}>
+                    <Grid item md={2}>
                         <FormControl>
                             <LocalizationProvider dateAdapter={AdapterDayjs}>
                                 <DesktopDatePicker
@@ -171,12 +199,12 @@ const CorrespondenceMake = ({
                             </LocalizationProvider>
                         </FormControl>
                     </Grid>
-                    <Grid item lg={2} display="flex" justifyContent="center" alignItems="center">
+                    <Grid item md={2} display="flex" justifyContent="end" alignItems="center">
                         <Typography variant="h5" sx={{ fontSize: { lg: '0.7rem', xl: '0.88rem' } }}>
                             兌換幣別代碼：
                         </Typography>
                     </Grid>
-                    <Grid item lg={2}>
+                    <Grid item md={2}>
                         <FormControl fullWidth size="small">
                             <InputLabel>選擇兌換幣別</InputLabel>
                             <Select
@@ -192,86 +220,59 @@ const CorrespondenceMake = ({
                             </Select>
                         </FormControl>
                     </Grid>
-                    <Grid item lg={4}>
-                        <Button
-                            sx={{ mr: '0.05rem' }}
-                            size="small"
-                            variant="contained"
-                            onClick={handleQuery}
-                        >
+                    <Grid item md={4}>
+                        <Button size="small" variant="contained" onClick={handleQuery}>
                             查詢
                         </Button>
                     </Grid>
-                    <Grid item lg={12}>
+                    <Grid item md={12}>
                         <TableContainer component={Paper} sx={{ maxHeight: 350 }}>
-                            <Table sx={{ minWidth: 300 }} stickyHeader>
+                            <Table stickyHeader>
                                 <TableHead>
                                     <TableRow>
                                         <StyledTableCell align="center"></StyledTableCell>
-                                        <StyledTableCell align="center">會員</StyledTableCell>
-                                        <StyledTableCell align="center">發票號碼</StyledTableCell>
-                                        <StyledTableCell align="center">供應商</StyledTableCell>
-                                        <StyledTableCell align="center">海纜名稱</StyledTableCell>
-                                        <StyledTableCell align="center">發票日期</StyledTableCell>
-                                        <StyledTableCell align="center">總金額</StyledTableCell>
+                                        <StyledTableCell align="center">主旨/用途</StyledTableCell>
+                                        <StyledTableCell align="center">匯率</StyledTableCell>
+                                        <StyledTableCell align="center">備註</StyledTableCell>
+                                        <StyledTableCell align="center">建立日期</StyledTableCell>
+                                        <StyledTableCell align="center">編輯人員</StyledTableCell>
                                     </TableRow>
                                 </TableHead>
                                 <TableBody>
                                     {dataList.map((row, id) => {
                                         return (
-                                            <TableRow
-                                                key={row.PartyName + id}
-                                                sx={{
-                                                    '&:last-child td, &:last-child th': {
-                                                        border: 0,
-                                                    },
-                                                }}
-                                            >
-                                                <TableCell>
-                                                    <FormControl>
-                                                        <RadioGroup
-                                                            row
-                                                            value={selectPurpose}
-                                                            onChange={(e) =>
-                                                                setSelectPurpose(e.target.value)
-                                                            }
-                                                        >
-                                                            <FormControlLabel
-                                                                value={true}
-                                                                control={
-                                                                    <Radio
-                                                                        sx={{
-                                                                            '& .MuiSvgIcon-root': {
-                                                                                fontSize: {
-                                                                                    lg: 14,
-                                                                                    xl: 20,
-                                                                                },
+                                            <TableRow key={row.CurrencyExgID + id}>
+                                                <TableCell width="5%">
+                                                    <RadioGroup
+                                                        row
+                                                        value={tempCurrencyExgID ?? currencyExgID}
+                                                        onChange={() => handleChange(row)}
+                                                        sx={{ justifyContent: 'center' }}
+                                                    >
+                                                        <FormControlLabel
+                                                            value={row.CurrencyExgID}
+                                                            sx={{ display: 'contents' }}
+                                                            control={
+                                                                <Radio
+                                                                    sx={{
+                                                                        '& .MuiSvgIcon-root': {
+                                                                            fontSize: {
+                                                                                xl: 18,
                                                                             },
-                                                                        }}
-                                                                    />
-                                                                }
-                                                            />
-                                                        </RadioGroup>
-                                                    </FormControl>
+                                                                        },
+                                                                    }}
+                                                                />
+                                                            }
+                                                        />
+                                                    </RadioGroup>
                                                 </TableCell>
+                                                <TableCell align="center">{row.Purpose}</TableCell>
+                                                <TableCell align="center">{row.ExgRate}</TableCell>
+                                                <TableCell align="center">{row.Note}</TableCell>
                                                 <TableCell align="center">
-                                                    {row.PartyName}
+                                                    {dayjs(row.CreateTime).format('YYYY/MM/DD')}
                                                 </TableCell>
-                                                <TableCell align="center">
-                                                    {row.InvoiceNo}
-                                                </TableCell>
-                                                <TableCell align="center">
-                                                    {row.SupplierName}
-                                                </TableCell>
-                                                <TableCell align="center">
-                                                    {row.SubmarineCable}
-                                                </TableCell>
-                                                <TableCell align="center">
-                                                    {dayjs(row.IssueDate).format('YYYY/MM/DD')}
-                                                </TableCell>
-                                                <TableCell align="center">{`$${handleNumber(
-                                                    row.FeeAmount?.toFixed(2),
-                                                )}`}</TableCell>
+                                                <TableCell align="center">{row.Editor}</TableCell>
                                             </TableRow>
                                         );
                                     })}
@@ -282,7 +283,7 @@ const CorrespondenceMake = ({
                 </Grid>
             </DialogContent>
             <DialogActions>
-                <Button sx={{ mr: '0.05rem' }} variant="contained">
+                <Button sx={{ mr: '0.05rem' }} variant="contained" onClick={handleSave}>
                     儲存
                 </Button>
                 <Button sx={{ mr: '0.05rem' }} variant="contained" onClick={handleDialogClose}>

@@ -79,7 +79,7 @@ const CurrencyDataList = ({
                                         {row.WorkTitle}
                                     </StyledTableCell>
                                     <StyledTableCell align="center">
-                                        {row.BillYM ? dayjs(row.BillYM).format('YYYY/mm') : ''}
+                                        {row.BillYM ? dayjs(row.BillYM).format('YYYY/MM') : ''}
                                     </StyledTableCell>
                                     <StyledTableCell align="center">{row.Purpose}</StyledTableCell>
                                     <StyledTableCell align="center">{row.FromCode}</StyledTableCell>

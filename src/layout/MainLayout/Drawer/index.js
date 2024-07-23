@@ -29,8 +29,6 @@ const MainDrawer = ({ open, handleDrawerToggle, window }) => {
     );
     const drawerFooter = useMemo(() => <DrawerFooter />, []);
 
-    console.log('matchDownMD=>>', matchDownMD);
-
     return (
         <Box
             component="nav"

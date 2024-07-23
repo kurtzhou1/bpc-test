@@ -218,7 +218,6 @@ const CurrencyAdd = ({
                                 }),
                             );
                         } else {
-                            initInfo();
                             handleAddCurrencyClose();
                             dispatch(
                                 setMessageStateOpen({
@@ -229,6 +228,7 @@ const CurrencyAdd = ({
                                     },
                                 }),
                             );
+                            initInfo();
                             currencyQuery();
                         }
                     })

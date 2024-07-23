@@ -1,5 +1,6 @@
 // let env = 'internal-cbpsAlb-1176080923.ap-northeast-1.elb.amazonaws.com'
-let env = '172.26.154.82:8000';
+let env = '127.0.0.1:8000';
+// let env = '172.26.154.82:8000';
 
 export const ssoUrlQA =
     'https://iam-qa.cht.com.tw/auth/realms/B2E/protocol/openid-connect/auth?client_id=CBPS.QA.I&response_type=code&redirect_uri=https://cbpsqa.cht.com.tw&scope=ldap';

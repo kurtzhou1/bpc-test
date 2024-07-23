@@ -90,6 +90,7 @@ const RequireAuth = ({ children, item }) => {
 
     if (
         window.location.host.includes('localhost') ||
+        window.location.host.includes('127.0.0.1') ||
         dayjs(getExpireTime).diff(new Date(), 'minute') > 0 ||
         isLogin
     ) {
