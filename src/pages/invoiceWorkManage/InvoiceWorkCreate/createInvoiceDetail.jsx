@@ -183,7 +183,7 @@ const CreateInvoiceDetail = ({
         <MainCard title="發票工作明細檔建立" sx={{ height: '100%' }}>
             <Grid container display="flex" justifyContent="center" alignItems="center" spacing={1}>
                 {/* row1 */}
-                <Grid item lg={2}>
+                <Grid item md={2}>
                     <Typography
                         variant="h5"
                         sx={{
@@ -194,7 +194,7 @@ const CreateInvoiceDetail = ({
                         計帳段號：
                     </Typography>
                 </Grid>
-                <Grid item lg={4}>
+                <Grid item md={4}>
                     <FormControl fullWidth>
                         <InputLabel size="small" id="billMilestone">
                             選擇計帳段號
@@ -213,7 +213,7 @@ const CreateInvoiceDetail = ({
                         </Select>
                     </FormControl>
                 </Grid>
-                <Grid item lg={2}>
+                <Grid item md={2}>
                     <Typography
                         variant="h5"
                         sx={{
@@ -224,19 +224,18 @@ const CreateInvoiceDetail = ({
                         費用金額：
                     </Typography>
                 </Grid>
-                <Grid item lg={4}>
+                <Grid item md={4}>
                     <TextField
                         fullWidth
                         variant="outlined"
                         value={feeAmount}
-                        // type="number"
                         size="small"
                         label="($)填寫金額"
                         onChange={(e) => setFeeAmount(handleNumber(e.target.value))}
                     />
                 </Grid>
                 {/* row2 */}
-                <Grid item lg={2}>
+                <Grid item md={2}>
                     <Typography
                         variant="h5"
                         size="small"
@@ -248,7 +247,7 @@ const CreateInvoiceDetail = ({
                         費用項目：
                     </Typography>
                 </Grid>
-                <Grid item lg={10}>
+                <Grid item md={10}>
                     <StyledEngineProvider injectFirst>
                         <CssVarsProvider>
                             <Textarea
@@ -263,7 +262,7 @@ const CreateInvoiceDetail = ({
                     </StyledEngineProvider>
                 </Grid>
                 {/* row3 */}
-                <Grid item lg={12} display="flex" justifyContent="end" alignItems="center">
+                <Grid item md={12} display="flex" justifyContent="end" alignItems="center">
                     {isEdit ? (
                         <Button
                             size="small"
@@ -303,7 +302,7 @@ const CreateInvoiceDetail = ({
                         </Button>
                     )}
                 </Grid>
-                <Grid item lg={12}>
+                <Grid item md={12}>
                     <TableContainer component={Paper} sx={{ maxHeight: { lg: 200, md: 275 } }}>
                         <Table sx={{ minWidth: 300 }} stickyHeader>
                             <TableHead>

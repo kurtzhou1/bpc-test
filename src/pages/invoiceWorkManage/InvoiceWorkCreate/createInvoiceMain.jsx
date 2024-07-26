@@ -182,8 +182,8 @@ const InvoiceWorkManage = ({
                             label="發票供應商"
                             onChange={(e) => setSupplierName(e.target.value)}
                         >
-                            {supNmList.map((i) => (
-                                <MenuItem key={i.SupplierName} value={i.SupplierName}>
+                            {supNmList.map((i, id) => (
+                                <MenuItem key={i.SupplierName + id} value={i.SupplierName}>
                                     {i.SupplierName}
                                 </MenuItem>
                             ))}
