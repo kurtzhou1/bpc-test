@@ -27,8 +27,6 @@ const InvoiceDataList = ({ listInfo, setEditItem, deletelistInfoItem }) => {
         },
     }));
 
-    console.log('listInfo=>>', listInfo);
-
     return (
         <TableContainer component={Paper} sx={{ maxHeight: window.screen.height * 0.5 }}>
             <Table sx={{ minWidth: 300 }} stickyHeader>
@@ -40,9 +38,8 @@ const InvoiceDataList = ({ listInfo, setEditItem, deletelistInfoItem }) => {
                         <StyledTableCell align="center">合約種類</StyledTableCell>
                         <StyledTableCell align="center">發票日期</StyledTableCell>
                         <StyledTableCell align="center">明細數量</StyledTableCell>
-                        <StyledTableCell align="center">總金額</StyledTableCell>
-                        <StyledTableCell align="center">原始幣別</StyledTableCell>
-                        <StyledTableCell align="center">匯率資料</StyledTableCell>
+                        <StyledTableCell align="center">原始金額</StyledTableCell>
+                        <StyledTableCell align="center">換匯後金額</StyledTableCell>
                         <StyledTableCell align="center">Action</StyledTableCell>
                     </TableRow>
                 </TableHead>
@@ -72,13 +69,13 @@ const InvoiceDataList = ({ listInfo, setEditItem, deletelistInfoItem }) => {
                                     {row.InvoiceWKDetail.length}
                                 </StyledTableCell>
                                 <StyledTableCell align="center">
-                                    {handleNumber(row.InvoiceWKMaster.TotalAmount)}
-                                </StyledTableCell>
-                                <StyledTableCell align="center">
+                                    {handleNumber(row.InvoiceWKMaster.TotalAmount)}{' '}
                                     {row.InvoiceWKMaster.Code}
                                 </StyledTableCell>
                                 <StyledTableCell align="center">
-                                    {row.InvoiceWKMaster.SelectPurpose}
+                                    {row.InvoiceWKMaster.TotalAmount *
+                                        (row.InvoiceWKMaster.ExgRate || 1)}{' '}
+                                    {row.InvoiceWKMaster.ToCode || row.InvoiceWKMaster.Code}
                                 </StyledTableCell>
                                 <StyledTableCell align="center">
                                     <Button

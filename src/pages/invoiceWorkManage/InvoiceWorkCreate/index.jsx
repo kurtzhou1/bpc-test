@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 // material-ui
 import { Grid, Button } from '@mui/material';
@@ -54,7 +54,7 @@ const InvoiceWorkManage = () => {
     const [feeItem, setFeeItem] = useState(''); //費用項目
     const [feeAmount, setFeeAmount] = useState(''); //費用金額
     const [currencyExgID, setCurrencyExgID] = useState(null);
-    const [selectPurpose, setSelectPurpose] = useState('');
+    const rateInfo = useRef({});
 
     const [editItem, setEditItem] = useState(NaN);
     const [listInfo, setListInfo] = useState([]);
@@ -65,6 +65,7 @@ const InvoiceWorkManage = () => {
     const dispatch = useDispatch();
 
     const itemInfoInitial = () => {
+        rateInfo.current = {};
         setSupplierName('');
         setInvoiceNo('');
         setSubmarineCable('');
@@ -81,7 +82,6 @@ const InvoiceWorkManage = () => {
         setInvoiceDetailInfo([]);
         itemDetailInitial();
         setCurrencyExgID(null);
-        setSelectPurpose('');
     };
 
     const itemDetailInitial = () => {
@@ -105,8 +105,10 @@ const InvoiceWorkManage = () => {
         IsLiability,
         TotalAmount,
         CurrencyExgID,
-        SelectPurpose,
+        Purpose,
         fromCode,
+        ExgRate,
+        ToCode,
     ) => {
         return {
             InvoiceNo,
@@ -123,8 +125,10 @@ const InvoiceWorkManage = () => {
             IsLiability,
             TotalAmount,
             CurrencyExgID,
-            SelectPurpose,
+            Purpose,
             Code: fromCode,
+            ExgRate,
+            ToCode,
         };
     };
 
@@ -254,8 +258,10 @@ const InvoiceWorkManage = () => {
                 isLiability === 'true' || isLiability === true ? true : false,
                 Number(totalAmount.toString().replaceAll(',', '')),
                 currencyExgID,
-                selectPurpose,
+                rateInfo.current.Purpose,
                 fromCode,
+                rateInfo.current.ExgRate,
+                rateInfo.current.ToCode,
             );
             console.log('新增發票=>>', tmpArray);
             let combineArray = {
@@ -293,9 +299,13 @@ const InvoiceWorkManage = () => {
             setFromCode(tmpArray?.InvoiceWKMaster.Code);
             setPartyName(tmpArray?.InvoiceWKMaster.PartyName);
             setInvoiceDetailInfo(tmpArray?.InvoiceWKDetail);
-            setSelectPurpose(tmpArray?.InvoiceWKMaster.SelectPurpose);
             setCurrencyExgID(tmpArray?.InvoiceWKMaster.CurrencyExgID);
             setEditItem(editItem);
+            rateInfo.current = {
+                Purpose: tmpArray?.InvoiceWKMaster.Purpose,
+                ExgRate: tmpArray?.InvoiceWKMaster.ExgRate,
+                ToCode: tmpArray?.InvoiceWKMaster.ToCode,
+            };
         }
     };
 
@@ -323,10 +333,11 @@ const InvoiceWorkManage = () => {
                 isLiability === 'true' || isLiability === true ? true : false,
                 Number(totalAmount.toString().replaceAll(',', '')),
                 currencyExgID,
-                selectPurpose,
+                rateInfo.current.Purpose,
                 fromCode,
+                rateInfo.current.ExgRate,
+                rateInfo.current.ToCode,
             );
-            console.log('tmpAddArray=>>', tmpAddArray);
             let combineArray = {
                 InvoiceWKMaster: tmpAddArray,
                 InvoiceWKDetail: invoiceDetailInfo,
@@ -349,8 +360,8 @@ const InvoiceWorkManage = () => {
     //送出
     const sendInvoice = () => {
         listInfo.forEach((dataInfo) => {
-            delete dataInfo?.InvoiceWKMaster.SelectPurpose;
-            console.log('dataInfo=>>', dataInfo);
+            delete dataInfo.InvoiceWKMaster.ToCode;
+            delete dataInfo.InvoiceWKMaster.ExgRate;
             fetch(generateInvoice, {
                 method: 'POST',
                 headers: {
@@ -471,7 +482,6 @@ const InvoiceWorkManage = () => {
             })
                 .then((res) => res.json())
                 .then((data) => {
-                    console.log('SupNmList=>>', data);
                     if (Array.isArray(data)) {
                         setSupNmList(data);
                     }
@@ -512,13 +522,10 @@ const InvoiceWorkManage = () => {
     useEffect(() => {
         itemInfoInitial();
         if (editItem >= 0) {
-            console.log('editItem=>>', editItem);
             editlistInfoItem();
             setIsListEdit(true);
         }
     }, [editItem]);
-
-    console.log('currencyExgIDcurrencyExgID=>>', currencyExgID);
 
     return (
         <>
@@ -529,10 +536,9 @@ const InvoiceWorkManage = () => {
                 workTitle={workTitle}
                 fromCode={fromCode}
                 codeList={codeList}
-                selectPurpose={selectPurpose}
-                setSelectPurpose={setSelectPurpose}
                 currencyExgID={currencyExgID}
                 setCurrencyExgID={setCurrencyExgID}
+                rateInfo={rateInfo}
             />
             <Grid container spacing={1}>
                 <Grid item xs={12}>
@@ -571,7 +577,7 @@ const InvoiceWorkManage = () => {
                                     supNmList={supNmList}
                                     submarineCableList={submarineCableList}
                                     codeList={codeList}
-                                    selectPurpose={selectPurpose}
+                                    purpose={rateInfo.current.Purpose}
                                 />
                             </Grid>
                             {/* 右 */}

@@ -65,7 +65,8 @@ const InvoiceDataList = ({ listInfo, setAction, setModifyItem, page, setPage }) 
                         <StyledTableCell align="center">發票日期</StyledTableCell>
                         <StyledTableCell align="center">發票到期日</StyledTableCell>
                         <StyledTableCell align="center">明細數量</StyledTableCell>
-                        <StyledTableCell align="center">總金額</StyledTableCell>
+                        <StyledTableCell align="center">原始金額</StyledTableCell>
+                        <StyledTableCell align="center">換匯後金額</StyledTableCell>
                         <StyledTableCell align="center">Status</StyledTableCell>
                         <StyledTableCell align="center">Action</StyledTableCell>
                     </TableRow>
@@ -114,7 +115,11 @@ const InvoiceDataList = ({ listInfo, setAction, setModifyItem, page, setPage }) 
                                     {row.InvoiceWKDetail.length}
                                 </StyledTableCell>
                                 <StyledTableCell align="center">
-                                    {handleNumber(row.InvoiceWKMaster.TotalAmount)}
+                                    {handleNumber(row.InvoiceWKMaster.TotalAmount)}{' '}
+                                    {row.InvoiceWKMaster.Code}
+                                </StyledTableCell>
+                                <StyledTableCell align="center">
+                                    {handleNumber(row.InvoiceWKMaster.ExgTotalAmount)}
                                 </StyledTableCell>
                                 <StyledTableCell align="center">
                                     {row.InvoiceWKMaster.Status === 'TEMPORARY'

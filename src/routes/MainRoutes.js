@@ -72,7 +72,6 @@ const Notification = Loadable(lazy(() => import('pages/notification/Notification
 
 const RequireAuth = ({ children, item }) => {
     console.log('程式起點2=>>', window.location.href.indexOf('code'));
-    console.log('children, item=>>', children, item);
     const dispatch = useDispatch();
     const { isLogin, userInfo, isOL } = useSelector((state) => state.dropdown); //message狀態
     // haha2

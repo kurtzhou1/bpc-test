@@ -91,9 +91,7 @@ const ChosePurpose = ({
     };
 
     const handleSave = () => {
-        console.log('????=>>', tempSelectPurpose.current);
         rateInfo.current = tempSelectPurpose.current;
-        // setPurpose(tempSelectPurpose.current);
         setCurrencyExgID(tempCurrencyExgID);
         setTempCurrencyExgID(null);
         handleDialogClose();

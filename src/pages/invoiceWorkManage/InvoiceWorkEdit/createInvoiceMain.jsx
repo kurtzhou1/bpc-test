@@ -56,11 +56,13 @@ const InvoiceWorkManage = ({
     setIsLiability,
     isRecharge,
     setIsRecharge,
-    code,
-    setCode,
+    fromCode,
+    setFromCode,
     partyName,
     setPartyName,
     submarineCableList,
+    codeList,
+    purpose,
 }) => {
     const [supNmList, setSupNmList] = useState([]); //供應商下拉選單
     const dispatch = useDispatch();
@@ -357,11 +359,17 @@ const InvoiceWorkManage = ({
                 </Grid>
                 <Grid item xs={12} sm={6} md={3} lg={4}>
                     <FormControl fullWidth size="small">
-                        <InputLabel>選擇幣別</InputLabel>
-                        <Select value={code} label="幣別" onChange={(e) => setCode(e.target.value)}>
-                            <MenuItem value={'USD'}>USD</MenuItem>
-                            <MenuItem value={'TWD'}>TWD</MenuItem>
-                            <MenuItem value={'JPY'}>JPY</MenuItem>
+                        <InputLabel>選擇原始幣別</InputLabel>
+                        <Select
+                            value={fromCode}
+                            label="幣別"
+                            onChange={(e) => setFromCode(e.target.value)}
+                        >
+                            {codeList?.map((i) => (
+                                <MenuItem key={i.Code} value={i.Code}>
+                                    {i.Code}
+                                </MenuItem>
+                            ))}
                         </Select>
                     </FormControl>
                 </Grid>
@@ -380,7 +388,9 @@ const InvoiceWorkManage = ({
                     <FormControl fullWidth>
                         <TextField
                             size="small"
-                            inputProps={{
+                            value={purpose}
+                            InputProps={{
+                                readOnly: true,
                                 onClick: () => handleDialogOpen(),
                             }}
                         />
