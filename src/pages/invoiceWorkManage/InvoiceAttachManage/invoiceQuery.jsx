@@ -194,7 +194,11 @@ const InvoiceQuery = ({ setListInfo, queryApi, setAction, setPage }) => {
             <Grid container display="flex" alignItems="center" spacing={2}>
                 {/* row1 */}
                 <Grid item xs={2} sm={2} md={1} lg={1}>
-                    <Typography variant="h5" sx={{ fontSize: { lg: '0.7rem', xl: '0.88rem' } }}>
+                    <Typography
+                        component={'span'}
+                        variant="h5"
+                        sx={{ fontSize: { lg: '0.7rem', xl: '0.88rem' } }}
+                    >
                         供應商：
                     </Typography>
                 </Grid>
@@ -216,7 +220,11 @@ const InvoiceQuery = ({ setListInfo, queryApi, setAction, setPage }) => {
                     </FormControl>
                 </Grid>
                 <Grid item sm={1} md={1} lg={1}>
-                    <Typography variant="h5" sx={{ fontSize: { lg: '0.7rem', xl: '0.88rem' } }}>
+                    <Typography
+                        component={'span'}
+                        variant="h5"
+                        sx={{ fontSize: { lg: '0.7rem', xl: '0.88rem' } }}
+                    >
                         海纜名稱：
                     </Typography>
                 </Grid>
@@ -238,7 +246,11 @@ const InvoiceQuery = ({ setListInfo, queryApi, setAction, setPage }) => {
                     </FormControl>
                 </Grid>
                 <Grid item sm={1} md={1} lg={1}>
-                    <Typography variant="h5" sx={{ fontSize: { lg: '0.7rem', xl: '0.88rem' } }}>
+                    <Typography
+                        component={'span'}
+                        variant="h5"
+                        sx={{ fontSize: { lg: '0.7rem', xl: '0.88rem' } }}
+                    >
                         海纜作業：
                     </Typography>
                 </Grid>
@@ -258,7 +270,11 @@ const InvoiceQuery = ({ setListInfo, queryApi, setAction, setPage }) => {
                     </FormControl>
                 </Grid>
                 <Grid item sm={1} md={1} lg={1}>
-                    <Typography variant="h5" sx={{ fontSize: { lg: '0.7rem', xl: '0.88rem' } }}>
+                    <Typography
+                        component={'span'}
+                        variant="h5"
+                        sx={{ fontSize: { lg: '0.7rem', xl: '0.88rem' } }}
+                    >
                         計帳段號：
                     </Typography>
                 </Grid>
@@ -281,7 +297,11 @@ const InvoiceQuery = ({ setListInfo, queryApi, setAction, setPage }) => {
                 </Grid>
                 {/* row2 */}
                 <Grid item sm={1} md={1} lg={1}>
-                    <Typography variant="h5" sx={{ fontSize: { lg: '0.7rem', xl: '0.88rem' } }}>
+                    <Typography
+                        component={'span'}
+                        variant="h5"
+                        sx={{ fontSize: { lg: '0.7rem', xl: '0.88rem' } }}
+                    >
                         發票號碼：
                     </Typography>
                 </Grid>
@@ -298,7 +318,11 @@ const InvoiceQuery = ({ setListInfo, queryApi, setAction, setPage }) => {
                     </FormControl>
                 </Grid>
                 <Grid item sm={1} md={1} lg={1}>
-                    <Typography variant="h5" sx={{ fontSize: { lg: '0.7rem', xl: '0.88rem' } }}>
+                    <Typography
+                        component={'span'}
+                        variant="h5"
+                        sx={{ fontSize: { lg: '0.7rem', xl: '0.88rem' } }}
+                    >
                         日期條件：
                     </Typography>
                 </Grid>
@@ -354,7 +378,11 @@ const InvoiceQuery = ({ setListInfo, queryApi, setAction, setPage }) => {
                     </LocalizationProvider>
                 </Grid>
                 <Grid item sm={1} md={1} lg={1}>
-                    <Typography variant="h5" sx={{ fontSize: { lg: '0.7rem', xl: '0.88rem' } }}>
+                    <Typography
+                        component={'span'}
+                        variant="h5"
+                        sx={{ fontSize: { lg: '0.7rem', xl: '0.88rem' } }}
+                    >
                         處理狀態：
                     </Typography>
                 </Grid>

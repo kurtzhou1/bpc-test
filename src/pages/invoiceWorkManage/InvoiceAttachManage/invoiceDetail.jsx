@@ -43,6 +43,7 @@ const InvoiceDetail = ({ isDetailOpen, isDetailClose, modifyItem }) => {
     };
 
     useEffect(() => {
+        console.log('??????=>>', isDetailOpen);
         if (isDetailOpen) {
             let tmpData = modifyItem.map((i) => i);
             tmpData.forEach((row1) => {
@@ -145,15 +146,3 @@ const InvoiceDetail = ({ isDetailOpen, isDetailClose, modifyItem }) => {
 };
 
 export default InvoiceDetail;
-
-InvoiceDetail.propTypes = {
-    // actionName: React.String,
-    // invoiceNo: React.String,
-    // dueDate: PropTypes.instanceOf(Date),
-    // editPaymentInfo: React.Array,
-    // savePaymentEdit: React.func,
-    // handleDialogClose: React.func,
-    isDetailOpen: React.bool,
-};
-
-// isDetailOpen, isDetailClose, modifyItem
