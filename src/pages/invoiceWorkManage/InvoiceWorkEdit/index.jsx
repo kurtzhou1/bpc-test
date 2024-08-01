@@ -245,7 +245,7 @@ const InvoiceWorkManage = () => {
 
     useEffect(() => {
         let tmpModifyItem;
-        if (action === '待立帳' || action === '作廢' || action === '退回') {
+        if (action === '待立帳' || action === '作廢' || action === '退回' || action === '刪除') {
             listInfo.forEach((i) => {
                 if (i.InvoiceWKMaster.InvoiceNo === modifyItem) {
                     tmpModifyItem = i.InvoiceWKMaster.WKMasterID;
@@ -272,7 +272,7 @@ const InvoiceWorkManage = () => {
                             messageStateOpen: {
                                 isOpen: true,
                                 severity: 'success',
-                                message: 'Validated成功',
+                                message: '待立帳成功',
                             },
                         }),
                     );
@@ -389,6 +389,9 @@ const InvoiceWorkManage = () => {
                     })
                         .then((res) => res.json())
                         .then(() => {
+                            setPage(0);
+                            setAction('');
+                            initQuery();
                             dispatch(
                                 setMessageStateOpen({
                                     messageStateOpen: {
@@ -398,9 +401,6 @@ const InvoiceWorkManage = () => {
                                     },
                                 }),
                             );
-                            setPage(0);
-                            setAction('');
-                            initQuery();
                         })
                         .catch((e) => console.log('e1=>', e));
                 })
@@ -501,7 +501,6 @@ const InvoiceWorkManage = () => {
     };
 
     const addInvoiceInfo = () => {
-        //防呆
         if (infoCheck()) {
             let tmpArray = createData(
                 wKMasterID.current,

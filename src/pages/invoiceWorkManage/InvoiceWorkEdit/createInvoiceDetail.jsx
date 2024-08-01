@@ -124,14 +124,12 @@ const CreateInvoiceDetail = ({
     };
 
     const itemDetailEdit = (id) => {
-        if (infoCheck()) {
-            setIsEdit(true);
-            editItem.current = id;
-            let tmpArray = invoiceDetailInfo[id];
-            setBillMilestone(tmpArray.BillMilestone);
-            setFeeItem(tmpArray.FeeItem);
-            setFeeAmount(handleNumber(tmpArray.FeeAmount));
-        }
+        setIsEdit(true);
+        editItem.current = id;
+        let tmpArray = invoiceDetailInfo[id];
+        setBillMilestone(tmpArray.BillMilestone);
+        setFeeItem(tmpArray.FeeItem);
+        setFeeAmount(handleNumber(tmpArray.FeeAmount));
     };
 
     const itemDetailSave = () => {
@@ -172,12 +170,12 @@ const CreateInvoiceDetail = ({
     }, []);
 
     return (
-        <MainCard title={`${action === '編輯' ? '編輯' : ''}發票明細檔`} sx={{ height: '100%' }}>
+        <MainCard title={`${action === '編輯' ? '編輯' : null}發票明細檔`} sx={{ height: '100%' }}>
             <Grid container display="flex" justifyContent="center" alignItems="center" spacing={1}>
                 {/* row1 */}
                 {action === '編輯' ? (
                     <>
-                        <Grid item xs={12} sm={6} md={2} lg={2}>
+                        <Grid item md={2} lg={2}>
                             <Typography
                                 variant="h5"
                                 sx={{
@@ -188,7 +186,7 @@ const CreateInvoiceDetail = ({
                                 計帳段號：
                             </Typography>
                         </Grid>
-                        <Grid item xs={12} sm={6} md={4} lg={4}>
+                        <Grid item md={4} lg={4}>
                             <FormControl fullWidth>
                                 <InputLabel
                                     size="small"
@@ -268,8 +266,6 @@ const CreateInvoiceDetail = ({
                 {action === '編輯' ? (
                     <Grid
                         item
-                        xs={12}
-                        sm={12}
                         md={12}
                         lg={12}
                         display="flex"
