@@ -1,5 +1,6 @@
 import { useState, useRef, useEffect } from 'react';
 import React from 'react';
+import PropTypes from 'prop-types';
 
 // project import
 import { handleNumber, BootstrapDialogTitle } from 'components/commonFunction';
@@ -150,7 +151,7 @@ PayStatementList.propTypes = {
     // editPaymentInfo: React.Array,
     // savePaymentEdit: React.func,
     // handleDialogClose: React.func,
-    isDetailOpen: React.bool,
+    isDetailOpen: PropTypes.bool,
 };
 
 // isDetailOpen, isDetailClose, modifyItem

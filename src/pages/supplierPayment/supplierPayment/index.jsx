@@ -89,9 +89,7 @@ const SupplierPayment = () => {
                                     付款送出(進入函稿)
                                 </Button>
                             </>
-                        ) : (
-                            ''
-                        )}
+                        ) : null}
                     </Box>
                     <CustomTabPanel value={value} index={0}>
                         <ToPaymentDataList

@@ -1,5 +1,6 @@
 import { useState, useRef, useEffect } from 'react';
 import React from 'react';
+import PropTypes from 'prop-types';
 
 // project import
 import { handleNumber, BootstrapDialogTitle } from 'components/commonFunction';
@@ -145,11 +146,11 @@ const BillDetail = ({ isDetailOpen, isDetailClose, modifyItem }) => {
 export default BillDetail;
 
 BillDetail.propTypes = {
-    // actionName: React.String,
-    // invoiceNo: React.String,
-    // dueDate: PropTypes.instanceOf(Date),
-    // editPaymentInfo: React.Array,
-    // savePaymentEdit: React.func,
-    // handleDialogClose: React.func,
-    // isDetailOpen: React.bool,
+    actionName: PropTypes.string,
+    invoiceNo: PropTypes.string,
+    dueDate: PropTypes.string,
+    editPaymentInfo: PropTypes.array,
+    savePaymentEdit: PropTypes.func,
+    handleDialogClose: PropTypes.func,
+    isDetailOpen: PropTypes.bool,
 };

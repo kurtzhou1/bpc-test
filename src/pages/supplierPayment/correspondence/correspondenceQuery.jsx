@@ -272,7 +272,7 @@ const CorrespondenceQuery = ({ setListInfo, queryApi, value }) => {
 
 CorrespondenceQuery.propTypes = {
     setListInfo: PropTypes.func,
-    queryApi: PropTypes.string,
+    queryApi: PropTypes.object,
     value: PropTypes.number,
 };
 

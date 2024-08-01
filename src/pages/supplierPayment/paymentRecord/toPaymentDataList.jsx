@@ -145,11 +145,11 @@ const ToPaymentDataList = ({ listInfo }) => {
 export default ToPaymentDataList;
 
 ToPaymentDataList.propTypes = {
-    listInfo: React.Array,
-    supplierPaymentQuery: React.func,
-    actionName: React.String,
-    invoiceNo: React.String,
-    dueDate: PropTypes.instanceOf(Date),
-    handleDialogClose: React.func,
-    isDialogOpen: React.bool,
+    listInfo: PropTypes.array,
+    supplierPaymentQuery: PropTypes.func,
+    actionName: PropTypes.string,
+    invoiceNo: PropTypes.string,
+    dueDate: PropTypes.string,
+    handleDialogClose: PropTypes.func,
+    isDialogOpen: PropTypes.bool,
 };

@@ -63,113 +63,6 @@ const ToPaymentDataList = ({
     setIsSend,
     supplierPaymentQuery,
 }) => {
-    // const [isColumn2Open, setIsColumn2Open] = useState(true);
-    // const [isColumn3Open, setIsColumn3Open] = useState(true);
-    // const [isColumn4Open, setIsColumn4Open] = useState(true);
-    // const dispatch = useDispatch();
-    // let tmpBMArray = [];
-
-    // const columns1 = [
-    //     { id: '海纜名稱', label: '海纜名稱', minWidth: '90px', align: 'center', className: '' },
-    //     { id: '海纜作業', label: '海纜作業', minWidth: '90px', align: 'center' },
-    //     { id: '計帳段號', label: '計帳段號', minWidth: '90px', align: 'center' }
-    // ];
-
-    // const columns2 = [
-    //     { id: 'Suppliers', label: 'Suppliers', minWidth: '90px', align: 'center', className: '' },
-    //     {
-    //         id: "Supplier's Invoice No.",
-    //         label: "Supplier's Invoice No.",
-    //         minWidth: '90px',
-    //         align: 'center'
-    //     },
-    //     {
-    //         id: 'Amt(USD)',
-    //         label: 'Amt(USD)',
-    //         minWidth: '90px',
-    //         align: 'center'
-    //     },
-    //     {
-    //         id: 'dueDate',
-    //         label: 'DueDate',
-    //         minWidth: '90px',
-    //         align: 'center'
-    //     }
-    // ];
-
-    // const columns3 = [
-    //     {
-    //         id: 'Invoice#(CBP to Party)',
-    //         label: 'Invoice#(CBP to Party)',
-    //         minWidth: '90px',
-    //         align: 'center'
-    //     },
-
-    //     {
-    //         id: 'Party',
-    //         label: 'Party',
-    //         minWidth: '90px',
-    //         align: 'center'
-    //     },
-    //     {
-    //         id: 'Description',
-    //         label: 'Description',
-    //         minWidth: '90px',
-    //         align: 'center'
-    //     },
-    //     {
-    //         id: 'Amount Billed(USD)',
-    //         label: 'Amount Billed(USD)',
-    //         minWidth: '90px',
-    //         align: 'center'
-    //     },
-    //     {
-    //         id: 'Due Date',
-    //         label: 'Due Date',
-    //         minWidth: '90px',
-    //         align: 'center'
-    //     },
-    //     {
-    //         id: 'Received Amt(USD)',
-    //         label: 'Received Amt(USD)',
-    //         minWidth: '90px',
-    //         align: 'center'
-    //     },
-    //     {
-    //         id: 'Diff',
-    //         label: 'Diff',
-    //         minWidth: '90px',
-    //         align: 'center'
-    //     },
-    //     {
-    //         id: 'Remark',
-    //         label: 'Remark',
-    //         minWidth: '90px',
-    //         align: 'center'
-    //     }
-    // ];
-
-    // const columns4 = [
-    //     {
-    //         id: 'Amt(USD)',
-    //         label: 'Amt(USD)',
-    //         minWidth: '90px',
-    //         align: 'center'
-    //     },
-    //     {
-    //         id: 'Remittance Date',
-    //         label: 'Remittance Date',
-    //         minWidth: '90px',
-    //         align: 'center'
-    //     },
-    //     {
-    //         id: 'Diff',
-    //         label: 'Diff',
-    //         minWidth: '90px',
-    //         align: 'center'
-    //     }
-    // ];
-
     const [toPaymentList, setToPaymentList] = useState([]);
     const [isDialogOpen, setIsDialogOpen] = useState(false); //折抵作業
     const [isSendDialogOpen, setIsSendDialogOpen] = useState(false); //折抵作業
@@ -625,14 +518,12 @@ const ToPaymentDataList = ({
 export default ToPaymentDataList;
 
 ToPaymentDataList.propTypes = {
-    listInfo: React.Array,
-    supplierPaymentQuery: React.func,
+    listInfo: PropTypes.array,
+    supplierPaymentQuery: PropTypes.func,
     // setIsSend:React.SetStateAction<string>,
-
-    actionName: React.String,
-    invoiceNo: React.String,
-    dueDate: PropTypes.instanceOf(Date),
-
-    handleDialogClose: React.func,
-    isDialogOpen: React.bool,
+    actionName: PropTypes.string,
+    invoiceNo: PropTypes.string,
+    dueDate: PropTypes.string,
+    // handleDialogClose: React.func,
+    isDialogOpen: PropTypes.bool,
 };
