@@ -23,7 +23,8 @@ import DialogActions from '@mui/material/DialogActions';
 
 // project import
 import CreditBalanceDeduct from './creditBalanceDeduct';
-import { BootstrapDialogTitle, TabPanel } from 'components/commonFunction';
+import CustomTabPanel from 'components/CustomTabPanel';
+import { BootstrapDialogTitle } from 'components/commonFunction';
 
 // table
 import TableCell, { tableCellClasses } from '@mui/material/TableCell';
@@ -130,9 +131,9 @@ const CreditBalanceView = ({ cbView, handleViewClose, viewId }) => {
                                 {/* <Tab label="退費紀錄" {...a11yProps(1)} /> */}
                             </Tabs>
                         </Box>
-                        <TabPanel value={value} index={0}>
+                        <CustomTabPanel value={value} index={0}>
                             <CreditBalanceDeduct cblistInfo={listInfo} />
-                        </TabPanel>
+                        </CustomTabPanel>
                     </Grid>
                 </Grid>
             </DialogContent>

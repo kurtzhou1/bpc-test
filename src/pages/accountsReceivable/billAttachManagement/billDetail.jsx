@@ -151,5 +151,5 @@ BillDetail.propTypes = {
     // editPaymentInfo: React.Array,
     // savePaymentEdit: React.func,
     // handleDialogClose: React.func,
-    isDetailOpen: React.bool,
+    // isDetailOpen: React.bool,
 };

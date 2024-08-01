@@ -7,7 +7,7 @@ import CorrespondenceMake from './correspondenceMake';
 import ToEditDataList from './toEditDataList';
 import EditedDataList from './editedDataList';
 
-import { TabPanel } from 'components/commonFunction';
+import CustomTabPanel from 'components/CustomTabPanel';
 // material-ui
 import { Grid, Box, Tabs, Tab } from '@mui/material';
 import { queryPaydraft } from 'components/apis.jsx';
@@ -74,12 +74,12 @@ const Correspondence = () => {
                                 <Tab label="已編輯" {...a11yProps(1)} />
                             </Tabs>
                         </Box>
-                        <TabPanel value={value} index={0}>
+                        <CustomTabPanel value={value} index={0}>
                             <ToEditDataList listInfo={listInfo} initQuery={initQuery} />
-                        </TabPanel>
-                        <TabPanel value={value} index={1}>
+                        </CustomTabPanel>
+                        <CustomTabPanel value={value} index={1}>
                             <EditedDataList listInfo={listInfo} />
-                        </TabPanel>
+                        </CustomTabPanel>
                     </MainCard>
                 </Grid>
             </Grid>

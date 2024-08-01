@@ -1,13 +1,13 @@
-import { useEffect, useState, useRef } from 'react';
+import { useState, useRef } from 'react';
 import { Grid, Box, Tabs, Tab } from '@mui/material';
 
 // project import
 import MainCard from 'components/MainCard';
+import CustomTabPanel from 'components/CustomTabPanel';
 import JournalQuery from './journalQuery';
 import ToBillDataList from './toBillDataList';
 import BilledDataList from './billedDataList';
 import InvalidateDataList from './invalidateDataList';
-import { TabPanel } from 'components/commonFunction';
 
 // api
 import { queryInvoice } from 'components/apis.jsx';
@@ -19,7 +19,6 @@ const CreateJournal = () => {
     const [supplierName, setSupplierName] = useState('All'); //供應商
     const [submarineCable, setSubmarineCable] = useState('All'); //海纜名稱
     const [issueDate, setIssueDate] = useState([null, null]); //發票日期
-    // const isFirst = useRef(true);
     const queryApi = useRef({});
     const initQuery = () => {
         setSupplierName('All');
@@ -99,15 +98,15 @@ const CreateJournal = () => {
                             <Tab label="已作廢" {...a11yProps(2)} />
                         </Tabs>
                     </Box>
-                    <TabPanel value={value} index={0}>
+                    <CustomTabPanel value={value} index={0}>
                         <ToBillDataList listInfo={listInfo} apiQuery={apiQuery} />
-                    </TabPanel>
-                    <TabPanel value={value} index={1}>
+                    </CustomTabPanel>
+                    <CustomTabPanel value={value} index={1}>
                         <BilledDataList listInfo={listInfo} apiQuery={apiQuery} />
-                    </TabPanel>
-                    <TabPanel value={value} index={2}>
+                    </CustomTabPanel>
+                    <CustomTabPanel value={value} index={2}>
                         <InvalidateDataList listInfo={listInfo} apiQuery={apiQuery} />
-                    </TabPanel>
+                    </CustomTabPanel>
                 </MainCard>
             </Grid>
         </Grid>

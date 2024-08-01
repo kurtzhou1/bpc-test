@@ -178,17 +178,17 @@ const ToBillDataList = ({ listInfo, apiQuery }) => {
                                             }}
                                         >
                                             <TableCell align="center">{row.FeeItem}</TableCell>
-                                            <TableCell align="center">{`$${handleNumber(
-                                                row.FeeAmountPre,
-                                            )}`}</TableCell>
+                                            <TableCell align="center">
+                                                {handleNumber(row.FeeAmountPre)}
+                                            </TableCell>
                                             <TableCell align="center">
                                                 {row.BillMilestone}
                                             </TableCell>
                                             <TableCell align="center">{row.PartyName}</TableCell>
-                                            <TableCell align="center">{`${row.LBRatio}%`}</TableCell>
-                                            <TableCell align="center">{`$${handleNumber(
-                                                row.FeeAmountPost,
-                                            )}`}</TableCell>
+                                            <TableCell align="center">{row.LBRatio}%</TableCell>
+                                            <TableCell align="center">
+                                                {handleNumber(row.FeeAmountPost)}
+                                            </TableCell>
                                             <TableCell align="center">{row.WHTAmount}</TableCell>
                                             <TableCell align="center">
                                                 <TextField
@@ -202,9 +202,9 @@ const ToBillDataList = ({ listInfo, apiQuery }) => {
                                                     }}
                                                 />
                                             </TableCell>
-                                            <TableCell align="center">{`$${handleNumber(
-                                                afterDiff.toFixed(2),
-                                            )}`}</TableCell>
+                                            <TableCell align="center">
+                                                {handleNumber(afterDiff.toFixed(2))}
+                                            </TableCell>
                                         </TableRow>
                                     );
                                 })}
@@ -277,7 +277,7 @@ const ToBillDataList = ({ listInfo, apiQuery }) => {
                                                 display: 'flex',
                                                 justifyContent: 'center',
                                                 '& button': {
-                                                    mx: { sm: 0.3, md: 0.3, lg: 0.6, xl: 1.5 },
+                                                    mx: { md: 0.3, lg: 0.6, xl: 1.5 },
                                                     p: 0,
                                                 },
                                             }}

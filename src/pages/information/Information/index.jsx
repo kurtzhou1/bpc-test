@@ -11,11 +11,9 @@ import {
     Select,
     MenuItem,
 } from '@mui/material';
-import CloseIcon from '@mui/icons-material/Close';
-// import { styled } from '@mui/material/styles';
 
 // project import
-import { TabPanel } from 'components/commonFunction';
+import CustomTabPanel from 'components/CustomTabPanel';
 import MainCard from 'components/MainCard';
 import SupplierDataList from './supplierDataList';
 import PartyDataList from './partyDataList';
@@ -357,18 +355,18 @@ const Information = () => {
                             <Tab sx={{ p: 0 }} label="聯盟金融帳戶" {...a11yProps(3)} />
                         </Tabs>
                     </Box>
-                    <TabPanel value={value} index={0}>
+                    <CustomTabPanel value={value} index={0}>
                         <SubmarineCableDataList infoList={infoList} setInfoList={setInfoList} />
-                    </TabPanel>
-                    <TabPanel value={value} index={1}>
+                    </CustomTabPanel>
+                    <CustomTabPanel value={value} index={1}>
                         <SupplierDataList infoList={infoList} setInfoList={setInfoList} />
-                    </TabPanel>
-                    <TabPanel value={value} index={2}>
+                    </CustomTabPanel>
+                    <CustomTabPanel value={value} index={2}>
                         <PartyDataList infoList={infoList} setInfoList={setInfoList} />
-                    </TabPanel>
-                    <TabPanel value={value} index={3}>
+                    </CustomTabPanel>
+                    <CustomTabPanel value={value} index={3}>
                         <CBPBankAccount infoList={infoList} setInfoList={setInfoList} />
-                    </TabPanel>
+                    </CustomTabPanel>
                 </MainCard>
             </Grid>
         </Grid>

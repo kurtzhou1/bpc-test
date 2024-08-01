@@ -110,7 +110,7 @@ const InvoiceWorkManage = ({
                     <Typography
                         variant="h5"
                         sx={{
-                            fontSize: { lg: '0.7rem', xl: '0.88rem' },
+                            fontSize: '0.88rem',
                             ml: { lg: '0rem', xl: '1.5rem' },
                         }}
                     >
@@ -137,7 +137,7 @@ const InvoiceWorkManage = ({
                     <Typography
                         variant="h5"
                         sx={{
-                            fontSize: { lg: '0.7rem', xl: '0.88rem' },
+                            fontSize: '0.88rem',
                             ml: { lg: '0rem', xl: '1.5rem' },
                         }}
                     >
@@ -163,7 +163,7 @@ const InvoiceWorkManage = ({
                     <Typography
                         variant="h5"
                         sx={{
-                            fontSize: { lg: '0.7rem', xl: '0.88rem' },
+                            fontSize: '0.88rem',
                             ml: { lg: '0rem', xl: '1.5rem' },
                         }}
                     >
@@ -179,8 +179,8 @@ const InvoiceWorkManage = ({
                             label="發票供應商"
                             onChange={(e) => setSupplierName(e.target.value)}
                         >
-                            {supNmList.map((i) => (
-                                <MenuItem key={i.SupplierName} value={i.SupplierName}>
+                            {supNmList.map((i, id) => (
+                                <MenuItem key={i.SupplierName + id} value={i.SupplierName}>
                                     {i.SupplierName}
                                 </MenuItem>
                             ))}
@@ -191,7 +191,7 @@ const InvoiceWorkManage = ({
                     <Typography
                         variant="h5"
                         sx={{
-                            fontSize: { lg: '0.7rem', xl: '0.88rem' },
+                            fontSize: '0.88rem',
                             ml: { lg: '0rem', xl: '1.5rem' },
                         }}
                     >
@@ -218,7 +218,7 @@ const InvoiceWorkManage = ({
                     <Typography
                         variant="h5"
                         sx={{
-                            fontSize: { lg: '0.7rem', xl: '0.88rem' },
+                            fontSize: '0.88rem',
                             ml: { lg: '0rem', xl: '1.5rem' },
                         }}
                     >
@@ -242,7 +242,7 @@ const InvoiceWorkManage = ({
                     <Typography
                         variant="h5"
                         sx={{
-                            fontSize: { lg: '0.7rem', xl: '0.88rem' },
+                            fontSize: '0.88rem',
                             ml: { lg: '0rem', xl: '1.5rem' },
                         }}
                     >
@@ -268,7 +268,7 @@ const InvoiceWorkManage = ({
                     <Typography
                         variant="h5"
                         sx={{
-                            fontSize: { lg: '0.7rem', xl: '0.88rem' },
+                            fontSize: '0.88rem',
                             ml: { lg: '0rem', xl: '1.5rem' },
                         }}
                     >
@@ -292,7 +292,7 @@ const InvoiceWorkManage = ({
                     <Typography
                         variant="h5"
                         sx={{
-                            fontSize: { lg: '0.7rem', xl: '0.88rem' },
+                            fontSize: '0.88rem',
                             ml: { lg: '0rem', xl: '1.5rem' },
                         }}
                     >
@@ -316,7 +316,7 @@ const InvoiceWorkManage = ({
                     <Typography
                         variant="h5"
                         sx={{
-                            fontSize: { lg: '0.7rem', xl: '0.88rem' },
+                            fontSize: '0.88rem',
                             ml: { lg: '0rem', xl: '1.5rem' },
                         }}
                     >
@@ -356,7 +356,7 @@ const InvoiceWorkManage = ({
                     <Typography
                         variant="h5"
                         sx={{
-                            fontSize: { lg: '0.7rem', xl: '0.88rem' },
+                            fontSize: '0.88rem',
                             ml: { lg: '0rem', xl: '1.5rem' },
                         }}
                     >
@@ -399,7 +399,7 @@ const InvoiceWorkManage = ({
                     <Typography
                         variant="h5"
                         sx={{
-                            fontSize: { lg: '0.7rem', xl: '0.88rem' },
+                            fontSize: '0.88rem',
                             ml: { lg: '0rem', xl: '1.5rem' },
                         }}
                     >
@@ -444,7 +444,7 @@ const InvoiceWorkManage = ({
                     <Typography
                         variant="h5"
                         sx={{
-                            fontSize: { lg: '0.7rem', xl: '0.88rem' },
+                            fontSize: '0.88rem',
                             ml: { lg: '0rem', xl: '1.5rem' },
                         }}
                     >

@@ -3,7 +3,7 @@ import { Grid, Button, Box, Tabs, Tab } from '@mui/material';
 // import { styled } from '@mui/material/styles';
 
 // project import
-import { TabPanel } from 'components/commonFunction';
+import CustomTabPanel from 'components/CustomTabPanel';
 import MainCard from 'components/MainCard';
 import RuleAdd from './ruleAdd';
 import MemberBillDataList from './memberBillDataList';
@@ -113,20 +113,20 @@ const Information = () => {
                             <Tab label="帳單內部通知" {...a11yProps(2)} />
                         </Tabs>
                     </Box>
-                    <TabPanel value={value} index={0}>
+                    <CustomTabPanel value={value} index={0}>
                         <MemberBillDataList listInfo={listInfo} />
-                    </TabPanel>
-                    <TabPanel value={value} index={1}>
+                    </CustomTabPanel>
+                    <CustomTabPanel value={value} index={1}>
                         <InvoiceNotificationDataList
                             listInfo={listInfo}
                             partiesList={partiesList}
                             submarineCableList={submarineCableList}
                             initQuery={initQuery}
                         />
-                    </TabPanel>
-                    <TabPanel value={value} index={2}>
+                    </CustomTabPanel>
+                    <CustomTabPanel value={value} index={2}>
                         <BillNotificationDataList listInfo={listInfo} />
-                    </TabPanel>
+                    </CustomTabPanel>
                 </MainCard>
             </Grid>
         </Grid>

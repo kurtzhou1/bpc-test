@@ -7,7 +7,7 @@ import MainCard from 'components/MainCard';
 import CreditBalanceQuery from './refundCBManagerQuery';
 import RefundCBManagerDataList from './refundCBManagerDataList';
 import RefundDraftDataList from './refundDraftDataList';
-import { TabPanel } from 'components/commonFunction';
+import CustomTabPanel from 'components/CustomTabPanel';
 import { BootstrapDialogTitle } from 'components/commonFunction';
 
 import Dialog from '@mui/material/Dialog';
@@ -146,23 +146,23 @@ const CreditBalance = () => {
                                 <Tab label="已完成" {...a11yProps(2)} />
                             </Tabs>
                         </Box>
-                        <TabPanel value={value} index={0}>
+                        <CustomTabPanel value={value} index={0}>
                             <RefundCBManagerDataList
                                 listInfo={listInfo}
                                 cbToCn={cbToCn}
                                 setCbToCn={setCbToCn}
                             />
-                        </TabPanel>
-                        <TabPanel value={value} index={1}>
+                        </CustomTabPanel>
+                        <CustomTabPanel value={value} index={1}>
                             <RefundDraftDataList listInfo={listInfo} />
-                        </TabPanel>
-                        <TabPanel value={value} index={2}>
+                        </CustomTabPanel>
+                        <CustomTabPanel value={value} index={2}>
                             <RefundCBManagerDataList
                                 listInfo={listInfo}
                                 cbToCn={cbToCn}
                                 setCbToCn={setCbToCn}
                             />
-                        </TabPanel>
+                        </CustomTabPanel>
                     </MainCard>
                 </Grid>
                 {value === 0 ? (

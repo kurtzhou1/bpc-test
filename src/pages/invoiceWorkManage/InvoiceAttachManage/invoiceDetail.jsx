@@ -43,7 +43,6 @@ const InvoiceDetail = ({ isDetailOpen, isDetailClose, modifyItem }) => {
     };
 
     useEffect(() => {
-        console.log('??????=>>', isDetailOpen);
         if (isDetailOpen) {
             let tmpData = modifyItem.map((i) => i);
             tmpData.forEach((row1) => {
