@@ -23,7 +23,6 @@ import { TextField } from '@mui/material/index';
 import MainCard from 'components/MainCard';
 
 // api
-// api
 import {
     getInvoiceWKMasterInvoiceWKDetail,
     supplierNameDropDownUnique,
@@ -444,7 +443,7 @@ const InvoiceQuery = ({ setListInfo, queryApi, setAction, setPage }) => {
 
 InvoiceQuery.propTypes = {
     setListInfo: PropTypes.func,
-    queryApi: PropTypes.string,
+    queryApi: PropTypes.object,
     supNmList: PropTypes.array,
     submarineCableList: PropTypes.array,
     bmsList: PropTypes.array,
