@@ -312,7 +312,7 @@ const CurrencyAdd = ({
     }, [editItem?.CurrencyExgID, isAddCurrencyOpen]);
 
     return (
-        <Dialog maxWidth="sm" fullWidth open={isAddCurrencyOpen}>
+        <Dialog maxWidth="md" fullWidth open={isAddCurrencyOpen}>
             <BootstrapDialogTitle>
                 {dialogAction === 'Edit' ? '編輯貨幣與匯率資料' : '新增貨幣與匯率資料'}
             </BootstrapDialogTitle>
