@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import {
     Typography,
     Grid,
@@ -254,7 +254,7 @@ const CreditBalanceQuery = ({ value, setListInfo, partiesList, submarineCableLis
                             </Typography>
                         </Grid>
                         <Grid item sm={2} md={2} lg={2}>
-                            <FormControl row size="small">
+                            <FormControl size="small">
                                 <FormGroup row size="small" value={currAmount}>
                                     <FormControlLabel
                                         control={

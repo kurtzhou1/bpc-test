@@ -227,7 +227,7 @@ const CreditBalanceQuery = ({ setListInfo, partiesList, submarineCableList, quer
                     </Typography>
                 </Grid>
                 <Grid item xs={2} sm={2} md={2} lg={2}>
-                    <FormControl row size="small">
+                    <FormControl size="small">
                         <FormGroup row size="small" value={currAmount}>
                             <FormControlLabel
                                 control={

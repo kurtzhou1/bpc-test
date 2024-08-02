@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import {
     Typography,
     Grid,
@@ -18,7 +18,6 @@ import MainCard from 'components/MainCard';
 
 // day
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import { DesktopDatePicker } from '@mui/x-date-pickers/DesktopDatePicker';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import dayjs from 'dayjs';
 import { DateRangePicker } from '@mui/x-date-pickers-pro/DateRangePicker';
@@ -227,7 +226,7 @@ const CreditBalanceQuery = ({ setListInfo, partiesList, submarineCableList, quer
                     </Typography>
                 </Grid>
                 <Grid item xs={2} sm={2} md={2} lg={2}>
-                    <FormControl row size="small">
+                    <FormControl size="small">
                         <FormGroup row size="small" value={currAmount}>
                             <FormControlLabel
                                 control={
