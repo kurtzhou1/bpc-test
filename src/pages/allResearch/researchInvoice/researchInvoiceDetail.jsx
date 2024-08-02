@@ -210,7 +210,6 @@ const ResearchBillDetail = ({ datailInfo }) => {
                                         {row.SupplierName}
                                     </StyledTableCell>
                                     <StyledTableCell align="center">
-                                        {' '}
                                         {dayjs(row.DueDate).format('YYYY/MM/DD')}
                                     </StyledTableCell>
                                     <StyledTableCell align="center">

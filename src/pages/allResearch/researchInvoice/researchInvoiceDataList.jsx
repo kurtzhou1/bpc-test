@@ -143,18 +143,13 @@ const ResearchBillDataList = ({ listInfo, setDetailInfo }) => {
                             </Typography>
                         </Grid>
                         <Grid item xs={3} sm={3} md={3} lg={3}>
-                            <FormControl>
-                                <LocalizationProvider dateAdapter={AdapterDayjs}>
-                                    <DesktopDatePicker
-                                        inputFormat="YYYY/MM/DD"
-                                        value={billMasterInfo.DueDate}
-                                        disabled
-                                        renderInput={(params) => (
-                                            <TextField size="small" {...params} />
-                                        )}
-                                    />
-                                </LocalizationProvider>
-                            </FormControl>
+                            <TextField
+                                value={dayjs(billMasterInfo.DueDate).format('YYYY/MM/DD')}
+                                fullWidth
+                                disabled={true}
+                                variant="outlined"
+                                size="small"
+                            />
                         </Grid>
                         <Grid item xs={12} sm={12} md={12} lg={12}>
                             <TableContainer component={Paper} sx={{ maxHeight: 350 }}>
