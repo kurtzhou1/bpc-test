@@ -1,14 +1,11 @@
 import { useState, useRef } from 'react';
-import { Typography, Grid, Button, FormControl, Box, TextField, Table } from '@mui/material';
+import { Typography, Grid, Button, Box, TextField, Table } from '@mui/material';
 
 // day
 import Dialog from '@mui/material/Dialog';
 import DialogContent from '@mui/material/DialogContent';
 import DialogActions from '@mui/material/DialogActions';
 import dayjs from 'dayjs';
-import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import { DesktopDatePicker } from '@mui/x-date-pickers/DesktopDatePicker';
 
 // project import
 import { BootstrapDialogTitle } from 'components/commonFunction';
@@ -24,6 +21,10 @@ import { styled } from '@mui/material/styles';
 
 // api
 import { queryToDecutBill } from 'components/apis.jsx';
+
+// redux
+import { useDispatch } from 'react-redux';
+import { setMessageStateOpen } from 'store/reducers/dropdown';
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
     [`&.${tableCellClasses.head}`]: {
@@ -45,6 +46,7 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
 }));
 
 const ResearchBillDetail = ({ datailInfo }) => {
+    const dispatch = useDispatch();
     const [isDialogOpen, setIsDialogOpen] = useState(false); //檢視
     const [billMasterInfo, setBillMasterInfo] = useState({});
     const [billDetailInfo, setBillDetailInfo] = useState([]);
@@ -78,7 +80,17 @@ const ResearchBillDetail = ({ datailInfo }) => {
                     setIsDialogOpen(true);
                 }
             })
-            .catch((e) => console.log('e1=>', e));
+            .catch(() => {
+                dispatch(
+                    setMessageStateOpen({
+                        messageStateOpen: {
+                            isOpen: true,
+                            severity: 'error',
+                            message: '網路異常，請檢查網路連線或與系統窗口聯絡',
+                        },
+                    }),
+                );
+            });
     };
 
     const handleClose = () => {

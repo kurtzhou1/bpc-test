@@ -27,6 +27,10 @@ import {
     submarineCableInfoList,
 } from 'components/apis.jsx';
 
+// redux
+import { useDispatch } from 'react-redux';
+import { setMessageStateOpen } from 'store/reducers/dropdown';
+
 // ==============================|| SAMPLE PAGE ||============================== //
 
 const JournalQuery = ({
@@ -41,18 +45,16 @@ const JournalQuery = ({
     setIssueDate,
     initQuery,
 }) => {
+    const dispatch = useDispatch();
     const [supNmList, setSupNmList] = useState([]); //供應商下拉選單
     const [submarineCableList, setSubmarineCableList] = useState([]); //海纜名稱下拉選單
 
     const jounaryQuery = () => {
-        // let tmpQuery = '/';
         let tmpObject = {};
         if (supplierName && supplierName !== 'All') {
-            // tmpQuery = tmpQuery + 'SupplierName=' + supplierName + '&';
             tmpObject.SupplierName = supplierName;
         }
         if (submarineCable && submarineCable !== 'All') {
-            // tmpQuery = tmpQuery + 'SubmarineCable=' + submarineCable + '&';
             tmpObject.SubmarineCable = submarineCable;
         }
         if (issueDate[0] || issueDate[1]) {
@@ -64,10 +66,8 @@ const JournalQuery = ({
             };
         }
         if (invoiceStatus === '0' || invoiceStatus === 0) {
-            // tmpQuery = tmpQuery + 'Status=' + 'VALIDATED' + '&';
             tmpObject.Status = 'VALIDATED';
         } else if (invoiceStatus === '1' || invoiceStatus === 1) {
-            // tmpQuery = tmpQuery + 'Status=' + 'BILLED' + '&';
             tmpObject.Status = 'BILLED';
         } else {
             tmpObject.Status = 'INVALID';
@@ -85,9 +85,18 @@ const JournalQuery = ({
             .then((res) => res.json())
             .then((data) => {
                 setListInfo(data);
-                // initQuery();
             })
-            .catch((e) => console.log('e1=>', e));
+            .catch(() => {
+                dispatch(
+                    setMessageStateOpen({
+                        messageStateOpen: {
+                            isOpen: true,
+                            severity: 'error',
+                            message: '網路異常，請檢查網路連線或與系統窗口聯絡',
+                        },
+                    }),
+                );
+            });
     };
 
     useEffect(() => {
@@ -102,7 +111,17 @@ const JournalQuery = ({
                     setSupNmList(data);
                 }
             })
-            .catch((e) => console.log('e1=>', e));
+            .catch(() => {
+                dispatch(
+                    setMessageStateOpen({
+                        messageStateOpen: {
+                            isOpen: true,
+                            severity: 'error',
+                            message: '網路異常，請檢查網路連線或與系統窗口聯絡',
+                        },
+                    }),
+                );
+            });
         //海纜名稱
         fetch(submarineCableInfoList, {
             method: 'GET',
@@ -111,7 +130,17 @@ const JournalQuery = ({
             .then((data) => {
                 setSubmarineCableList(data);
             })
-            .catch((e) => console.log('e1=>', e));
+            .catch(() => {
+                dispatch(
+                    setMessageStateOpen({
+                        messageStateOpen: {
+                            isOpen: true,
+                            severity: 'error',
+                            message: '網路異常，請檢查網路連線或與系統窗口聯絡',
+                        },
+                    }),
+                );
+            });
     }, []);
 
     return (

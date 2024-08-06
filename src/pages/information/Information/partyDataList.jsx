@@ -246,7 +246,17 @@ const PartyDataList = ({ infoList, setInfoList }) => {
                     setInfoList(data);
                 }
             })
-            .catch((e) => console.log('e1=>', e));
+            .catch(() => {
+                dispatch(
+                    setMessageStateOpen({
+                        messageStateOpen: {
+                            isOpen: true,
+                            severity: 'error',
+                            message: '網路異常，請檢查網路連線或與系統窗口聯絡',
+                        },
+                    }),
+                );
+            });
     };
 
     const infoCheck = () => {
@@ -348,7 +358,17 @@ const PartyDataList = ({ infoList, setInfoList }) => {
                     infoInit();
                     queryPartiesInfo();
                 })
-                .catch((e) => console.log('e1=>', e));
+                .catch(() => {
+                    dispatch(
+                        setMessageStateOpen({
+                            messageStateOpen: {
+                                isOpen: true,
+                                severity: 'error',
+                                message: '網路異常，請檢查網路連線或與系統窗口聯絡',
+                            },
+                        }),
+                    );
+                });
         }
     };
 
@@ -371,7 +391,17 @@ const PartyDataList = ({ infoList, setInfoList }) => {
                 );
                 queryPartiesInfo();
             })
-            .catch((e) => console.log('e1=>', e));
+            .catch(() => {
+                dispatch(
+                    setMessageStateOpen({
+                        messageStateOpen: {
+                            isOpen: true,
+                            severity: 'error',
+                            message: '網路異常，請檢查網路連線或與系統窗口聯絡',
+                        },
+                    }),
+                );
+            });
     };
 
     const editPartyInfo = (row) => {
@@ -521,7 +551,17 @@ const PartyDataList = ({ infoList, setInfoList }) => {
                     editInfoInit();
                     queryPartiesInfo();
                 })
-                .catch((e) => console.log('e1=>', e));
+                .catch(() => {
+                    dispatch(
+                        setMessageStateOpen({
+                            messageStateOpen: {
+                                isOpen: true,
+                                severity: 'error',
+                                message: '網路異常，請檢查網路連線或與系統窗口聯絡',
+                            },
+                        }),
+                    );
+                });
         }
     };
 
@@ -536,7 +576,17 @@ const PartyDataList = ({ infoList, setInfoList }) => {
             .then((data) => {
                 setSubmarineCableList(data);
             })
-            .catch((e) => console.log('e1=>', e));
+            .catch(() => {
+                dispatch(
+                    setMessageStateOpen({
+                        messageStateOpen: {
+                            isOpen: true,
+                            severity: 'error',
+                            message: '網路異常，請檢查網路連線或與系統窗口聯絡',
+                        },
+                    }),
+                );
+            });
     }, []);
 
     return (

@@ -92,7 +92,17 @@ const ToBillDataList = ({ listInfo, apiQuery }) => {
                     );
                 }
             })
-            .catch((e) => console.log('e1=>', e));
+            .catch(() => {
+                dispatch(
+                    setMessageStateOpen({
+                        messageStateOpen: {
+                            isOpen: true,
+                            severity: 'error',
+                            message: '網路異常，請檢查網路連線或與系統窗口聯絡',
+                        },
+                    }),
+                );
+            });
     };
 
     const changeDiff = (diff, id) => {
@@ -127,12 +137,30 @@ const ToBillDataList = ({ listInfo, apiQuery }) => {
                 body: JSON.stringify(tmpData),
             })
                 .then((res) => res.json())
-                .then((data) => {
-                    alert('送出立帳成功');
+                .then(() => {
+                    dispatch(
+                        setMessageStateOpen({
+                            messageStateOpen: {
+                                isOpen: true,
+                                severity: 'success',
+                                message: '送出立帳成功',
+                            },
+                        }),
+                    );
                     apiQuery();
                     handleDialogClose();
                 })
-                .catch((e) => console.log('e1=>', e));
+                .catch(() => {
+                    dispatch(
+                        setMessageStateOpen({
+                            messageStateOpen: {
+                                isOpen: true,
+                                severity: 'error',
+                                message: '網路異常，請檢查網路連線或與系統窗口聯絡',
+                            },
+                        }),
+                    );
+                });
         } else {
             dispatch(
                 setMessageStateOpen({

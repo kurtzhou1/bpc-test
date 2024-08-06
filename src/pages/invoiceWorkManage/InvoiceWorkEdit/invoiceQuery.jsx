@@ -26,6 +26,10 @@ import MainCard from 'components/MainCard';
 import { queryInvoice, supplierNameDropDownUnique } from 'components/apis.jsx';
 import dayjs from 'dayjs';
 
+// redux
+import { useDispatch } from 'react-redux';
+import { setMessageStateOpen } from 'store/reducers/dropdown';
+
 const InvoiceQuery = ({
     setListInfo,
     queryApi,
@@ -34,6 +38,7 @@ const InvoiceQuery = ({
     setAction,
     setPage,
 }) => {
+    const dispatch = useDispatch();
     const [issueDate, setIssueDate] = useState([null, null]); //發票日期
     const [supplierNameQuery, setSupplierNameQuery] = useState('All'); //供應商
     const [submarineCableQuery, setSubmarineCableQuery] = useState('All'); //海纜名稱
@@ -154,7 +159,17 @@ const InvoiceQuery = ({
                 setListInfo(data);
                 setAction('');
             })
-            .catch((e) => console.log('e1=>', e));
+            .catch(() => {
+                dispatch(
+                    setMessageStateOpen({
+                        messageStateOpen: {
+                            isOpen: true,
+                            severity: 'error',
+                            message: '網路異常，請檢查網路連線或與系統窗口聯絡',
+                        },
+                    }),
+                );
+            });
     };
 
     useEffect(() => {
@@ -168,7 +183,17 @@ const InvoiceQuery = ({
                     setSupNmList(data);
                 }
             })
-            .catch((e) => console.log('e1=>', e));
+            .catch(() => {
+                dispatch(
+                    setMessageStateOpen({
+                        messageStateOpen: {
+                            isOpen: true,
+                            severity: 'error',
+                            message: '網路異常，請檢查網路連線或與系統窗口聯絡',
+                        },
+                    }),
+                );
+            });
     }, []);
 
     return (
@@ -427,7 +452,6 @@ const InvoiceQuery = ({
                 </Grid>
                 <Grid
                     item
-                    xs={12}
                     sm={3}
                     md={3}
                     lg={3}

@@ -114,8 +114,8 @@ const ToCombineDataList = ({
                 if (data.BillingNo.length > 0) {
                     setBillingNo(data.BillingNo);
                 }
-            })
-            .catch((e) => console.log('e1=>', e));
+            });
+        Event.preventDefault();
     };
 
     //合併帳單
@@ -177,7 +177,17 @@ const ToCombineDataList = ({
                                 handleDialogClose();
                                 receivableQuery();
                             })
-                            .catch((e) => console.log('e1=>', e));
+                            .catch(() => {
+                                dispatch(
+                                    setMessageStateOpen({
+                                        messageStateOpen: {
+                                            isOpen: true,
+                                            severity: 'error',
+                                            message: '網路異常，請檢查網路連線或與系統窗口聯絡',
+                                        },
+                                    }),
+                                );
+                            });
                     } else {
                         dispatch(
                             setMessageStateOpen({
@@ -190,7 +200,17 @@ const ToCombineDataList = ({
                         );
                     }
                 })
-                .catch((e) => console.log('e1=>', e));
+                .catch(() => {
+                    dispatch(
+                        setMessageStateOpen({
+                            messageStateOpen: {
+                                isOpen: true,
+                                severity: 'error',
+                                message: '網路異常，請檢查網路連線或與系統窗口聯絡',
+                            },
+                        }),
+                    );
+                });
         }
     };
 
@@ -257,7 +277,17 @@ const ToCombineDataList = ({
                         totalAmount.current = tmpAmount;
                     }
                 })
-                .catch((e) => console.log('e1=>', e));
+                .catch(() => {
+                    dispatch(
+                        setMessageStateOpen({
+                            messageStateOpen: {
+                                isOpen: true,
+                                severity: 'error',
+                                message: '網路異常，請檢查網路連線或與系統窗口聯絡',
+                            },
+                        }),
+                    );
+                });
         }
     }, [isDialogOpen]);
 

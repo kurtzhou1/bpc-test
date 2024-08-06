@@ -58,7 +58,17 @@ const InvoiceWorkManage = () => {
             .then((data) => {
                 setListInfo(data);
             })
-            .catch((e) => console.log('e1=>', e));
+            .catch(() => {
+                dispatch(
+                    setMessageStateOpen({
+                        messageStateOpen: {
+                            isOpen: true,
+                            severity: 'error',
+                            message: '網路異常，請檢查網路連線或與系統窗口聯絡',
+                        },
+                    }),
+                );
+            });
     };
 
     const queryInitTemporary = () => {
@@ -74,7 +84,17 @@ const InvoiceWorkManage = () => {
             .then((data) => {
                 setListInfo(data);
             })
-            .catch((e) => console.log('e1=>', e));
+            .catch(() => {
+                dispatch(
+                    setMessageStateOpen({
+                        messageStateOpen: {
+                            isOpen: true,
+                            severity: 'error',
+                            message: '網路異常，請檢查網路連線或與系統窗口聯絡',
+                        },
+                    }),
+                );
+            });
     };
 
     useEffect(() => {
@@ -91,20 +111,50 @@ const InvoiceWorkManage = () => {
                     setSupNmList(data);
                 }
             })
-            .catch((e) => console.log('e1=>', e));
+            .catch(() => {
+                dispatch(
+                    setMessageStateOpen({
+                        messageStateOpen: {
+                            isOpen: true,
+                            severity: 'error',
+                            message: '網路異常，請檢查網路連線或與系統窗口聯絡',
+                        },
+                    }),
+                );
+            });
         //海纜名稱
         fetch(submarineCableInfoList, { method: 'GET' })
             .then((res) => res.json())
             .then((data) => {
                 setSubmarineCableList(data);
             })
-            .catch((e) => console.log('e1=>', e));
+            .catch(() => {
+                dispatch(
+                    setMessageStateOpen({
+                        messageStateOpen: {
+                            isOpen: true,
+                            severity: 'error',
+                            message: '網路異常，請檢查網路連線或與系統窗口聯絡',
+                        },
+                    }),
+                );
+            });
         fetch(billMilestoneLiabilityList, { method: 'GET' })
             .then((res) => res.json())
             .then((data) => {
                 setBmsList(data);
             })
-            .catch((e) => console.log('e1=>', e));
+            .catch(() => {
+                dispatch(
+                    setMessageStateOpen({
+                        messageStateOpen: {
+                            isOpen: true,
+                            severity: 'error',
+                            message: '網路異常，請檢查網路連線或與系統窗口聯絡',
+                        },
+                    }),
+                );
+            });
     }, []);
 
     useEffect(() => {
@@ -144,7 +194,17 @@ const InvoiceWorkManage = () => {
                     setAction('');
                     queryInitTemporary();
                 })
-                .catch((e) => console.log('e1=>', e));
+                .catch(() => {
+                    dispatch(
+                        setMessageStateOpen({
+                            messageStateOpen: {
+                                isOpen: true,
+                                severity: 'error',
+                                message: '網路異常，請檢查網路連線或與系統窗口聯絡',
+                            },
+                        }),
+                    );
+                });
         }
         if (action === '作廢') {
             let tmpArray = {
@@ -185,7 +245,17 @@ const InvoiceWorkManage = () => {
                         );
                     }
                 })
-                .catch((e) => console.log('e1=>', e));
+                .catch(() => {
+                    dispatch(
+                        setMessageStateOpen({
+                            messageStateOpen: {
+                                isOpen: true,
+                                severity: 'error',
+                                message: '網路異常，請檢查網路連線或與系統窗口聯絡',
+                            },
+                        }),
+                    );
+                });
         }
         if (action === '退回') {
             let tmpArray = {
@@ -226,7 +296,17 @@ const InvoiceWorkManage = () => {
                         );
                     }
                 })
-                .catch((e) => console.log('e1=>', e));
+                .catch(() => {
+                    dispatch(
+                        setMessageStateOpen({
+                            messageStateOpen: {
+                                isOpen: true,
+                                severity: 'error',
+                                message: '網路異常，請檢查網路連線或與系統窗口聯絡',
+                            },
+                        }),
+                    );
+                });
         }
         if (action === '刪除') {
             let tmpArray = {
@@ -266,9 +346,29 @@ const InvoiceWorkManage = () => {
                             setAction('');
                             initQuery();
                         })
-                        .catch((e) => console.log('e1=>', e));
+                        .catch(() => {
+                            dispatch(
+                                setMessageStateOpen({
+                                    messageStateOpen: {
+                                        isOpen: true,
+                                        severity: 'error',
+                                        message: '網路異常，請檢查網路連線或與系統窗口聯絡',
+                                    },
+                                }),
+                            );
+                        });
                 })
-                .catch((e) => console.log('e1=>', e));
+                .catch(() => {
+                    dispatch(
+                        setMessageStateOpen({
+                            messageStateOpen: {
+                                isOpen: true,
+                                severity: 'error',
+                                message: '網路異常，請檢查網路連線或與系統窗口聯絡',
+                            },
+                        }),
+                    );
+                });
         }
     }, [action]);
 

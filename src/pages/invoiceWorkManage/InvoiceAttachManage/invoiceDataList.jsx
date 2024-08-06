@@ -260,10 +260,10 @@ const InvoiceDataList = ({ listInfo, page, setPage }) => {
                                         {row.InvoiceWKMaster?.SubmarineCable}
                                     </StyledTableCell>
                                     <StyledTableCell align="center">
-                                        {tmpBMArray.join(',')}
+                                        {row.InvoiceWKMaster?.WorkTitle}
                                     </StyledTableCell>
                                     <StyledTableCell align="center">
-                                        {row.InvoiceWKMaster?.WorkTitle}
+                                        {tmpBMArray.join(',')}
                                     </StyledTableCell>
                                     <StyledTableCell align="center">
                                         {dayjs(row.InvoiceWKMaster?.DueDate).format('YYYY/MM/DD')}

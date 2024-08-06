@@ -13,9 +13,14 @@ import dayjs from 'dayjs';
 import { TextField } from '@mui/material/index';
 import { DesktopDatePicker } from '@mui/x-date-pickers/DesktopDatePicker';
 
+// redux
+import { useDispatch } from 'react-redux';
+import { setMessageStateOpen } from 'store/reducers/dropdown';
+
 // ==============================|| SAMPLE PAGE ||============================== //
 
 const CorrespondenceQuery = ({ setListInfo, queryApi, value }) => {
+    const dispatch = useDispatch();
     const [issueDate, setIssueDate] = useState(null); //發票日期
     const [supplierName, setSupplierName] = useState('All'); //供應商
     const [submarineCable, setSubmarineCable] = useState('All'); //海纜名稱
@@ -89,14 +94,34 @@ const CorrespondenceQuery = ({ setListInfo, queryApi, value }) => {
                     setSupNmList(data);
                 }
             })
-            .catch((e) => console.log('e1=>', e));
+            .catch(() => {
+                dispatch(
+                    setMessageStateOpen({
+                        messageStateOpen: {
+                            isOpen: true,
+                            severity: 'error',
+                            message: '網路異常，請檢查網路連線或與系統窗口聯絡',
+                        },
+                    }),
+                );
+            });
         //海纜名稱
         fetch(submarineCableInfoList, { method: 'GET' })
             .then((res) => res.json())
             .then((data) => {
                 setSubmarineCableList(data);
             })
-            .catch((e) => console.log('e1=>', e));
+            .catch(() => {
+                dispatch(
+                    setMessageStateOpen({
+                        messageStateOpen: {
+                            isOpen: true,
+                            severity: 'error',
+                            message: '網路異常，請檢查網路連線或與系統窗口聯絡',
+                        },
+                    }),
+                );
+            });
     }, []);
 
     return (

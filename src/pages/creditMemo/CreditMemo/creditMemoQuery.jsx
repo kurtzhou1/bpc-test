@@ -8,9 +8,6 @@ import {
     Select,
     MenuItem,
     Box,
-    FormGroup,
-    FormControlLabel,
-    Checkbox,
 } from '@mui/material';
 
 // project import
@@ -18,7 +15,6 @@ import MainCard from 'components/MainCard';
 
 // day
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import { DesktopDatePicker } from '@mui/x-date-pickers/DesktopDatePicker';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import dayjs from 'dayjs';
 import { DateRangePicker } from '@mui/x-date-pickers-pro/DateRangePicker';
@@ -27,9 +23,14 @@ import { TextField } from '@mui/material/index';
 // api
 import { creditMemoView, submarineCableInfoList, getPartiesInfoList } from 'components/apis.jsx';
 
+// redux
+import { useDispatch } from 'react-redux';
+import { setMessageStateOpen } from 'store/reducers/dropdown';
+
 // ==============================|| SAMPLE PAGE ||============================== //
 
 const CreditMemoQuery = ({ setListInfo }) => {
+    const dispatch = useDispatch();
     const [partyName, setPartyName] = useState('All'); //會員名稱
     const [submarineCable, setSubmarineCable] = useState('All'); //海纜名稱
     const [workTitle, setWorkTitle] = useState('All'); //海纜作業
@@ -83,7 +84,17 @@ const CreditMemoQuery = ({ setListInfo }) => {
                     setListInfo(data);
                 }
             })
-            .catch((e) => console.log('e1=>', e));
+            .catch(() => {
+                dispatch(
+                    setMessageStateOpen({
+                        messageStateOpen: {
+                            isOpen: true,
+                            severity: 'error',
+                            message: '網路異常，請檢查網路連線或與系統窗口聯絡',
+                        },
+                    }),
+                );
+            });
     };
 
     useEffect(() => {
@@ -93,14 +104,34 @@ const CreditMemoQuery = ({ setListInfo }) => {
             .then((data) => {
                 setSubmarineCableList(data);
             })
-            .catch((e) => console.log('e1=>', e));
+            .catch(() => {
+                dispatch(
+                    setMessageStateOpen({
+                        messageStateOpen: {
+                            isOpen: true,
+                            severity: 'error',
+                            message: '網路異常，請檢查網路連線或與系統窗口聯絡',
+                        },
+                    }),
+                );
+            });
         //會員名稱
         fetch(getPartiesInfoList, { method: 'GET' })
             .then((res) => res.json())
             .then((data) => {
                 setPartiesList(data);
             })
-            .catch((e) => console.log('e1=>', e));
+            .catch(() => {
+                dispatch(
+                    setMessageStateOpen({
+                        messageStateOpen: {
+                            isOpen: true,
+                            severity: 'error',
+                            message: '網路異常，請檢查網路連線或與系統窗口聯絡',
+                        },
+                    }),
+                );
+            });
     }, []);
 
     return (

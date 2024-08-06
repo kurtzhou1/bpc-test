@@ -8,8 +8,6 @@ import {
     Select,
     MenuItem,
     Box,
-    Checkbox,
-    FormGroup,
 } from '@mui/material';
 
 // project import
@@ -29,9 +27,14 @@ import {
     submarineCableInfoList,
 } from 'components/apis.jsx';
 
+// redux
+import { useDispatch } from 'react-redux';
+import { setMessageStateOpen } from 'store/reducers/dropdown';
+
 // ==============================|| SAMPLE PAGE ||============================== //
 
 const JournalQuery = ({ setListInfo, queryApi, invoiceStatus, setPage }) => {
+    const dispatch = useDispatch();
     const [supplierName, setSupplierName] = useState('All'); //供應商
     const [submarineCable, setSubmarineCable] = useState('All'); //海纜名稱
     const [issueDate, setIssueDate] = useState([null, null]); //發票日期
@@ -82,7 +85,17 @@ const JournalQuery = ({ setListInfo, queryApi, invoiceStatus, setPage }) => {
                 setListInfo(data);
                 setPage(0);
             })
-            .catch((e) => console.log('e1=>', e));
+            .catch(() => {
+                dispatch(
+                    setMessageStateOpen({
+                        messageStateOpen: {
+                            isOpen: true,
+                            severity: 'error',
+                            message: '網路異常，請檢查網路連線或與系統窗口聯絡',
+                        },
+                    }),
+                );
+            });
     };
 
     useEffect(() => {
@@ -97,7 +110,17 @@ const JournalQuery = ({ setListInfo, queryApi, invoiceStatus, setPage }) => {
                     setSupNmList(data);
                 }
             })
-            .catch((e) => console.log('e1=>', e));
+            .catch(() => {
+                dispatch(
+                    setMessageStateOpen({
+                        messageStateOpen: {
+                            isOpen: true,
+                            severity: 'error',
+                            message: '網路異常，請檢查網路連線或與系統窗口聯絡',
+                        },
+                    }),
+                );
+            });
         //海纜名稱
         fetch(submarineCableInfoList, {
             method: 'GET',
@@ -106,7 +129,17 @@ const JournalQuery = ({ setListInfo, queryApi, invoiceStatus, setPage }) => {
             .then((data) => {
                 setSubmarineCableList(data);
             })
-            .catch((e) => console.log('e1=>', e));
+            .catch(() => {
+                dispatch(
+                    setMessageStateOpen({
+                        messageStateOpen: {
+                            isOpen: true,
+                            severity: 'error',
+                            message: '網路異常，請檢查網路連線或與系統窗口聯絡',
+                        },
+                    }),
+                );
+            });
     }, []);
 
     return (

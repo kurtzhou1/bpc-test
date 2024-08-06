@@ -18,7 +18,12 @@ import {
     getSysInvNotifyRule,
 } from 'components/apis.jsx';
 
+// redux
+import { useDispatch } from 'react-redux';
+import { setMessageStateOpen } from 'store/reducers/dropdown';
+
 const Information = () => {
+    const dispatch = useDispatch();
     const [isDialogOpen, setIsDialogOpen] = useState(false);
     const [listInfo, setListInfo] = useState([]);
     const [partiesList, setPartiesList] = useState([]); //會員名稱下拉選單
@@ -61,7 +66,17 @@ const Information = () => {
                     console.log('initQuery=>>', data);
                     setListInfo(data);
                 })
-                .catch((e) => console.log('e1=>', e));
+                .catch(() => {
+                    dispatch(
+                        setMessageStateOpen({
+                            messageStateOpen: {
+                                isOpen: true,
+                                severity: 'error',
+                                message: '網路異常，請檢查網路連線或與系統窗口聯絡',
+                            },
+                        }),
+                    );
+                });
         }
     };
 
@@ -71,13 +86,33 @@ const Information = () => {
             .then((data) => {
                 setSubmarineCableList(data);
             })
-            .catch((e) => console.log('e1=>', e));
+            .catch(() => {
+                dispatch(
+                    setMessageStateOpen({
+                        messageStateOpen: {
+                            isOpen: true,
+                            severity: 'error',
+                            message: '網路異常，請檢查網路連線或與系統窗口聯絡',
+                        },
+                    }),
+                );
+            });
         fetch(partiesLiabilityList, { method: 'GET' })
             .then((res) => res.json())
             .then((data) => {
                 setPartiesList(data);
             })
-            .catch((e) => console.log('e1=>', e));
+            .catch(() => {
+                dispatch(
+                    setMessageStateOpen({
+                        messageStateOpen: {
+                            isOpen: true,
+                            severity: 'error',
+                            message: '網路異常，請檢查網路連線或與系統窗口聯絡',
+                        },
+                    }),
+                );
+            });
     }, []);
 
     return (

@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import PropTypes from 'prop-types';
 import {
     Typography,
     Grid,
@@ -26,21 +27,16 @@ import { TextField } from '@mui/material/index';
 //api
 import { queryLiability, dropdownmenuBillMilestone } from 'components/apis.jsx';
 
-import PropTypes from 'prop-types';
+// redux
+import { useDispatch } from 'react-redux';
+import { setMessageStateOpen } from 'store/reducers/dropdown';
 
-// ==============================|| SAMPLE PAGE ||============================== //
-
-const LiabilityQuery = ({
-    setListInfo,
-    partyList,
-    submarineCableList,
-    workTitleList,
-    queryApi,
-}) => {
+const LiabilityQuery = ({ setListInfo, partyList, submarineCableList, queryApi }) => {
+    const dispatch = useDispatch();
     const [billMilestoneQuery, setBillMilestoneQuery] = useState('All'); //計帳段號
     const [partyNameQuery, setPartyNameQuery] = useState('All'); //會員名稱
     const [createDate, setCreateDate] = useState([null, null]); //建立日期
-    const [submarineCableQuery, setSubmarineCableQuery] = useState('All'); //海纜名稱
+    const [submarineCable, setSubmarineCable] = useState('All'); //海纜名稱
     const [workTitle, setWorkTitle] = useState('All'); //海纜作業
     const [invoiceStatusQuery, setInvoiceStatusQuery] = useState({ TRUE: false, FALSE: false }); //處理狀態
     const [bmStoneList, setBmStoneList] = useState([]); //計帳段號下拉選單(需要選擇海纜名稱或海纜作業才能出現)
@@ -49,7 +45,7 @@ const LiabilityQuery = ({
         setBillMilestoneQuery('All');
         setPartyNameQuery('All');
         setCreateDate([null, null]);
-        setSubmarineCableQuery('All');
+        setSubmarineCable('All');
         setWorkTitle('All');
         setInvoiceStatusQuery({ TRUE: false, FALSE: false });
     };
@@ -62,8 +58,8 @@ const LiabilityQuery = ({
         if (partyNameQuery && partyNameQuery !== 'All') {
             tmpQuery = tmpQuery + 'PartyName=' + partyNameQuery + '&';
         }
-        if (submarineCableQuery && submarineCableQuery !== 'All') {
-            tmpQuery = tmpQuery + 'SubmarineCable=' + submarineCableQuery + '&';
+        if (submarineCable && submarineCable !== 'All') {
+            tmpQuery = tmpQuery + 'SubmarineCable=' + submarineCable + '&';
         }
         if (workTitle && workTitle !== 'All') {
             tmpQuery = tmpQuery + 'WorkTitle=' + workTitle + '&';
@@ -122,7 +118,17 @@ const LiabilityQuery = ({
                 console.log('查詢liabilityQuery成功=>>', data);
                 setListInfo(data);
             })
-            .catch((e) => console.log('e1=>', e));
+            .catch(() => {
+                dispatch(
+                    setMessageStateOpen({
+                        messageStateOpen: {
+                            isOpen: true,
+                            severity: 'error',
+                            message: '網路異常，請檢查網路連線或與系統窗口聯絡',
+                        },
+                    }),
+                );
+            });
     };
 
     const handleChange = (event) => {
@@ -130,33 +136,43 @@ const LiabilityQuery = ({
     };
 
     useEffect(() => {
-        let tmpArray = {};
-        if (submarineCableQuery !== '') {
-            tmpArray.SubmarineCable = submarineCableQuery;
+        let tmpObject = {};
+        if (submarineCable !== '' && submarineCable !== 'All') {
+            tmpObject.SubmarineCable = submarineCable;
         }
-        if (workTitle !== '') {
-            tmpArray.WorkTitle = workTitle;
+        if (workTitle !== '' && workTitle !== 'All') {
+            tmpObject.WorkTitle = workTitle;
         }
-        if (Object.keys(tmpArray).length !== 0) {
-            console.log('tmpArray=>>', tmpArray);
-            fetch(dropdownmenuBillMilestone, {
-                method: 'POST',
-                headers: {
-                    'Content-type': 'application/json',
-                    Authorization: 'Bearer' + localStorage.getItem('accessToken') ?? '',
-                },
-                body: JSON.stringify(tmpArray),
+        // if (Object.keys(tmpObject).length !== 0) {
+        console.log('tmpObject=>>', tmpObject);
+        fetch(dropdownmenuBillMilestone, {
+            method: 'POST',
+            headers: {
+                'Content-type': 'application/json',
+                Authorization: 'Bearer' + localStorage.getItem('accessToken') ?? '',
+            },
+            body: JSON.stringify(tmpObject),
+        })
+            .then((res) => res.json())
+            .then((data) => {
+                console.log('data抓取成功=>>', data);
+                if (Array.isArray(data)) {
+                    setBmStoneList(data);
+                }
             })
-                .then((res) => res.json())
-                .then((data) => {
-                    console.log('data抓取成功=>>', data);
-                    if (Array.isArray(data)) {
-                        setBmStoneList(data);
-                    }
-                })
-                .catch((e) => console.log('e1=>', e));
-        }
-    }, [submarineCableQuery, workTitle]);
+            .catch(() => {
+                dispatch(
+                    setMessageStateOpen({
+                        messageStateOpen: {
+                            isOpen: true,
+                            severity: 'error',
+                            message: '網路異常，請檢查網路連線或與系統窗口聯絡',
+                        },
+                    }),
+                );
+            });
+        // }
+    }, [submarineCable, workTitle]);
 
     return (
         <MainCard title="Liability條件查詢" sx={{ width: '100%' }}>
@@ -180,9 +196,9 @@ const LiabilityQuery = ({
                         </InputLabel>
                         <Select
                             size="small"
-                            value={submarineCableQuery}
+                            value={submarineCable}
                             label="填寫海纜名稱"
-                            onChange={(e) => setSubmarineCableQuery(e.target.value)}
+                            onChange={(e) => setSubmarineCable(e.target.value)}
                         >
                             <MenuItem value={'All'}>All</MenuItem>
                             {submarineCableList.map((i) => (
@@ -216,11 +232,9 @@ const LiabilityQuery = ({
                             onChange={(e) => setWorkTitle(e.target.value)}
                         >
                             <MenuItem value={'All'}>All</MenuItem>
-                            {workTitleList.map((i) => (
-                                <MenuItem key={i} value={i}>
-                                    {i}
-                                </MenuItem>
-                            ))}
+                            <MenuItem value={'Upgrade'}>Upgrade</MenuItem>
+                            <MenuItem value={'Construction'}>Construction</MenuItem>
+                            <MenuItem value={'O&M'}>O&M</MenuItem>
                         </Select>
                     </FormControl>
                 </Grid>
@@ -325,7 +339,6 @@ const LiabilityQuery = ({
                     </Typography>
                 </Grid>
                 <Grid item xs={4} sm={4} md={2} lg={2}>
-                    {/* <FormControl> */}
                     <FormGroup row value={invoiceStatusQuery}>
                         <FormControlLabel
                             control={
@@ -350,7 +363,6 @@ const LiabilityQuery = ({
                             label="未終止"
                         />
                     </FormGroup>
-                    {/* </FormControl> */}
                 </Grid>
                 <Grid item md={3} lg={3} display="flex" justifyContent="end" alignItems="center">
                     <Button sx={{ mr: '0.5rem' }} variant="contained" onClick={liabilityQuery}>
@@ -371,7 +383,7 @@ LiabilityQuery.propTypes = {
     partyList: PropTypes.array,
     submarineCableList: PropTypes.array,
     workTitleList: PropTypes.array,
-    queryApi: PropTypes.string,
+    queryApi: PropTypes.object,
 };
 
 export default LiabilityQuery;

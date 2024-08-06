@@ -7,8 +7,7 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogActions from '@mui/material/DialogActions';
 import dayjs from 'dayjs';
 // project import
-import MainCard from 'components/MainCard';
-import { BootstrapDialogTitle, TabPanel } from 'components/commonFunction';
+import { BootstrapDialogTitle } from 'components/commonFunction';
 import { handleNumber } from 'components/commonFunction';
 
 // table
@@ -22,6 +21,10 @@ import { styled } from '@mui/material/styles';
 
 // api
 import { journaryDetailView } from 'components/apis.jsx';
+
+// redux
+import { useDispatch } from 'react-redux';
+import { setMessageStateOpen } from 'store/reducers/dropdown';
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
     [`&.${tableCellClasses.head}`]: {
@@ -44,6 +47,7 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
 }));
 
 const ResearchBillDetail = ({ datailInfo }) => {
+    const dispatch = useDispatch();
     const [listDetailInfo, setListDetailInfo] = useState([]);
     const [isDialogOpen, setIsDialogOpen] = useState(false); //檢視
     const totalPaidAmount = useRef(0);
@@ -76,8 +80,17 @@ const ResearchBillDetail = ({ datailInfo }) => {
                     setIsDialogOpen(true);
                 }
             })
-            .catch((e) => console.log('e1=>', e));
-        // setIsDialogOpen(true);
+            .catch(() => {
+                dispatch(
+                    setMessageStateOpen({
+                        messageStateOpen: {
+                            isOpen: true,
+                            severity: 'error',
+                            message: '網路異常，請檢查網路連線或與系統窗口聯絡',
+                        },
+                    }),
+                );
+            });
     };
 
     return (

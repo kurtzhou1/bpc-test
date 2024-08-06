@@ -253,7 +253,17 @@ const RuleAdd = ({
                         handleAddRuleClose();
                         formInitial();
                     })
-                    .catch((e) => console.log('e1=>', e));
+                    .catch(() => {
+                        dispatch(
+                            setMessageStateOpen({
+                                messageStateOpen: {
+                                    isOpen: true,
+                                    severity: 'error',
+                                    message: '網路異常，請檢查網路連線或與系統窗口聯絡',
+                                },
+                            }),
+                        );
+                    });
             }
         } else if (value === 1) {
             if (action === 'Add') {
@@ -298,7 +308,17 @@ const RuleAdd = ({
                         formInitial();
                         initQuery();
                     })
-                    .catch((e) => console.log('e1=>', e));
+                    .catch(() => {
+                        dispatch(
+                            setMessageStateOpen({
+                                messageStateOpen: {
+                                    isOpen: true,
+                                    severity: 'error',
+                                    message: '網路異常，請檢查網路連線或與系統窗口聯絡',
+                                },
+                            }),
+                        );
+                    });
             } else if (action === 'Edit') {
                 let tmpListInfo = sysInvNotifyRecipients;
                 let tmpArray = {
@@ -341,7 +361,17 @@ const RuleAdd = ({
                         formInitial();
                         initQuery();
                     })
-                    .catch((e) => console.log('e1=>', e));
+                    .catch(() => {
+                        dispatch(
+                            setMessageStateOpen({
+                                messageStateOpen: {
+                                    isOpen: true,
+                                    severity: 'error',
+                                    message: '網路異常，請檢查網路連線或與系統窗口聯絡',
+                                },
+                            }),
+                        );
+                    });
             }
         }
     };

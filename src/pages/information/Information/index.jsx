@@ -31,7 +31,12 @@ import {
     corporates,
 } from 'components/apis.jsx';
 
+// redux
+import { useDispatch } from 'react-redux';
+import { setMessageStateOpen } from 'store/reducers/dropdown';
+
 const Information = () => {
+    const dispatch = useDispatch();
     const [value, setValue] = useState(0);
     const [submarineCableList, setSubmarineCableList] = useState([]); //海纜名稱下拉選單
     const [supNmList, setSupNmList] = useState([]); //供應商下拉選單
@@ -90,7 +95,17 @@ const Information = () => {
                         setInfoList([]);
                     }
                 })
-                .catch((e) => console.log('e1=>', e));
+                .catch(() => {
+                    dispatch(
+                        setMessageStateOpen({
+                            messageStateOpen: {
+                                isOpen: true,
+                                severity: 'error',
+                                message: '網路異常，請檢查網路連線或與系統窗口聯絡',
+                            },
+                        }),
+                    );
+                });
         } else if (value === 1) {
             tmpQuery = suppliers + tmpQuery;
             fetch(tmpQuery, {
@@ -110,7 +125,17 @@ const Information = () => {
                         setInfoList([]);
                     }
                 })
-                .catch((e) => console.log('e1=>', e));
+                .catch(() => {
+                    dispatch(
+                        setMessageStateOpen({
+                            messageStateOpen: {
+                                isOpen: true,
+                                severity: 'error',
+                                message: '網路異常，請檢查網路連線或與系統窗口聯絡',
+                            },
+                        }),
+                    );
+                });
         } else if (value === 2) {
             tmpQuery = parties + tmpQuery;
             fetch(tmpQuery, {
@@ -130,7 +155,17 @@ const Information = () => {
                         setInfoList([]);
                     }
                 })
-                .catch((e) => console.log('e1=>', e));
+                .catch(() => {
+                    dispatch(
+                        setMessageStateOpen({
+                            messageStateOpen: {
+                                isOpen: true,
+                                severity: 'error',
+                                message: '網路異常，請檢查網路連線或與系統窗口聯絡',
+                            },
+                        }),
+                    );
+                });
         } else {
             tmpQuery = corporates + tmpQuery;
             fetch(tmpQuery, {
@@ -150,7 +185,17 @@ const Information = () => {
                         setInfoList([]);
                     }
                 })
-                .catch((e) => console.log('e1=>', e));
+                .catch(() => {
+                    dispatch(
+                        setMessageStateOpen({
+                            messageStateOpen: {
+                                isOpen: true,
+                                severity: 'error',
+                                message: '網路異常，請檢查網路連線或與系統窗口聯絡',
+                            },
+                        }),
+                    );
+                });
         }
     };
 
@@ -173,21 +218,51 @@ const Information = () => {
                     setSupNmList(data);
                 }
             })
-            .catch((e) => console.log('e1=>', e));
+            .catch(() => {
+                dispatch(
+                    setMessageStateOpen({
+                        messageStateOpen: {
+                            isOpen: true,
+                            severity: 'error',
+                            message: '網路異常，請檢查網路連線或與系統窗口聯絡',
+                        },
+                    }),
+                );
+            });
         //海纜名稱
         fetch(submarineCableInfoList, { method: 'GET' })
             .then((res) => res.json())
             .then((data) => {
                 setSubmarineCableList(data);
             })
-            .catch((e) => console.log('e1=>', e));
+            .catch(() => {
+                dispatch(
+                    setMessageStateOpen({
+                        messageStateOpen: {
+                            isOpen: true,
+                            severity: 'error',
+                            message: '網路異常，請檢查網路連線或與系統窗口聯絡',
+                        },
+                    }),
+                );
+            });
         //會員名稱
         fetch(getPartiesInfoList, { method: 'GET' })
             .then((res) => res.json())
             .then((data) => {
                 setPartiesList(data);
             })
-            .catch((e) => console.log('e1=>', e));
+            .catch(() => {
+                dispatch(
+                    setMessageStateOpen({
+                        messageStateOpen: {
+                            isOpen: true,
+                            severity: 'error',
+                            message: '網路異常，請檢查網路連線或與系統窗口聯絡',
+                        },
+                    }),
+                );
+            });
     }, []);
 
     useEffect(() => {

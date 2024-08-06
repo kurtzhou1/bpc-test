@@ -68,8 +68,16 @@ const ToWriteOffDataList = ({ listInfo, writeOffInitQuery }) => {
                     setIsDialogOpen(true);
                 }
             })
-            .catch((e) => {
-                console.log('e1=>', e);
+            .catch(() => {
+                dispatch(
+                    setMessageStateOpen({
+                        messageStateOpen: {
+                            isOpen: true,
+                            severity: 'error',
+                            message: '網路異常，請檢查網路連線或與系統窗口聯絡',
+                        },
+                    }),
+                );
             });
     };
 
@@ -100,7 +108,17 @@ const ToWriteOffDataList = ({ listInfo, writeOffInitQuery }) => {
                 );
                 writeOffInitQuery();
             })
-            .catch((e) => console.log('e1=>', e));
+            .catch(() => {
+                dispatch(
+                    setMessageStateOpen({
+                        messageStateOpen: {
+                            isOpen: true,
+                            severity: 'error',
+                            message: '網路異常，請檢查網路連線或與系統窗口聯絡',
+                        },
+                    }),
+                );
+            });
     };
 
     const handleFinish = (id) => {
@@ -124,8 +142,16 @@ const ToWriteOffDataList = ({ listInfo, writeOffInitQuery }) => {
                 );
                 writeOffInitQuery();
             })
-            .catch((e) => {
-                console.log('e1=>', e);
+            .catch(() => {
+                dispatch(
+                    setMessageStateOpen({
+                        messageStateOpen: {
+                            isOpen: true,
+                            severity: 'error',
+                            message: '網路異常，請檢查網路連線或與系統窗口聯絡',
+                        },
+                    }),
+                );
             });
     };
 

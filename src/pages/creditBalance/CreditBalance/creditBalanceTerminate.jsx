@@ -1,27 +1,10 @@
 import { useState } from 'react';
-import {
-    Typography,
-    Grid,
-    Button,
-    FormControl,
-    InputLabel,
-    Select,
-    MenuItem,
-    Box,
-    TextField,
-    Checkbox,
-    Autocomplete,
-    Table,
-} from '@mui/material';
+import { Typography, Grid, Button, TextField } from '@mui/material';
 
 // day
 import Dialog from '@mui/material/Dialog';
 import DialogContent from '@mui/material/DialogContent';
 import DialogActions from '@mui/material/DialogActions';
-
-// autocomplete
-import CheckBoxOutlineBlankIcon from '@mui/icons-material/CheckBoxOutlineBlank';
-import CheckBoxIcon from '@mui/icons-material/CheckBox';
 
 // api
 import { updateLiability } from 'components/apis.jsx';
@@ -29,17 +12,17 @@ import { updateLiability } from 'components/apis.jsx';
 // project
 import { BootstrapDialogTitle } from 'components/commonFunction';
 
-const CreditBalanceTerminate = ({ cbTerminal, handleTerminalClose }) => {
-    const [endNote, setEndNote] = useState([]);
+// redux
+import { useDispatch } from 'react-redux';
+import { setMessageStateOpen } from 'store/reducers/dropdown';
 
+const CreditBalanceTerminate = ({ cbTerminal, handleTerminalClose }) => {
+    const dispatch = useDispatch();
+    const [endNote, setEndNote] = useState([]);
     const terminalLiability = () => {
-        // console.log('terminateInfo=>>', terminateInfo);
         let tmpArray = {
-            // LBRawID: terminateInfo.LBRawID,
-            // EndDate: terminateInfo.EndDate,
             EndNote: endNote ? endNote : '',
         };
-        console.log('', tmpArray);
         fetch(updateLiability, {
             method: 'POST',
             headers: {
@@ -51,24 +34,33 @@ const CreditBalanceTerminate = ({ cbTerminal, handleTerminalClose }) => {
             .then((res) => res.json())
             .then(() => {
                 alert('終止成功');
-                // apiQuery();
+                dispatch(
+                    setMessageStateOpen({
+                        messageStateOpen: {
+                            isOpen: true,
+                            severity: 'success',
+                            message: '終止成功',
+                        },
+                    }),
+                );
                 handleTerminalClose();
             })
-            .catch((e) => console.log('e1=>', e));
+            .catch(() => {
+                dispatch(
+                    setMessageStateOpen({
+                        messageStateOpen: {
+                            isOpen: true,
+                            severity: 'error',
+                            message: '網路異常，請檢查網路連線或與系統窗口聯絡',
+                        },
+                    }),
+                );
+            });
     };
 
     return (
-        <Dialog
-            // onClose={handleTerminalClose}
-            maxWidth="xs"
-            fullWidth
-            open={cbTerminal}
-        >
-            <BootstrapDialogTitle
-            //  onClose={handleTerminalClose}
-            >
-                確認終止訊息
-            </BootstrapDialogTitle>
+        <Dialog maxWidth="xs" fullWidth open={cbTerminal}>
+            <BootstrapDialogTitle>確認終止訊息</BootstrapDialogTitle>
             <DialogContent dividers>
                 <Grid
                     container
@@ -86,7 +78,6 @@ const CreditBalanceTerminate = ({ cbTerminal, handleTerminalClose }) => {
                                 ml: { lg: '0.5rem', xl: '1.5rem' },
                             }}
                         >
-                            {/* {`是否確定刪除${terminateInfo.BillMilestone}、${terminateInfo.PartyName}的Credit Balance資料`} */}
                             {`是否確定終止此Credit Balance資料`}
                         </Typography>
                     </Grid>

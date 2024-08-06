@@ -26,9 +26,12 @@ import { TextField } from '@mui/material/index';
 // api
 import { queryCB } from 'components/apis.jsx';
 
-// ==============================|| SAMPLE PAGE ||============================== //
+// redux
+import { useDispatch } from 'react-redux';
+import { setMessageStateOpen } from 'store/reducers/dropdown';
 
 const CreditBalanceQuery = ({ setListInfo, partiesList, submarineCableList, queryApi }) => {
+    const dispatch = useDispatch();
     const [partyName, setPartyName] = useState('All'); //會員名稱
     const [cBType, setCBType] = useState('All'); //CB種類
     const [submarineCable, setSubmarineCable] = useState('All'); //海纜名稱
@@ -116,7 +119,17 @@ const CreditBalanceQuery = ({ setListInfo, partiesList, submarineCableList, quer
                     setListInfo(data);
                 }
             })
-            .catch((e) => console.log('e1=>', e));
+            .catch(() => {
+                dispatch(
+                    setMessageStateOpen({
+                        messageStateOpen: {
+                            isOpen: true,
+                            severity: 'error',
+                            message: '網路異常，請檢查網路連線或與系統窗口聯絡',
+                        },
+                    }),
+                );
+            });
     };
 
     const handleChange = (event) => {

@@ -1,40 +1,17 @@
 import { useEffect, useState, useRef } from 'react';
-import {
-    Typography,
-    Grid,
-    Button,
-    FormControl,
-    Box,
-    TextField,
-    Checkbox,
-    Table,
-    Tab,
-    RadioGroup,
-    FormControlLabel,
-    Radio,
-    TableCell,
-} from '@mui/material';
+import { Typography, Grid, Button, Box, TextField, TableCell } from '@mui/material';
 
 // day
 import Dialog from '@mui/material/Dialog';
 import DialogContent from '@mui/material/DialogContent';
 import DialogActions from '@mui/material/DialogActions';
 
-// autocomplete
-import CheckBoxOutlineBlankIcon from '@mui/icons-material/CheckBoxOutlineBlank';
-import CheckBoxIcon from '@mui/icons-material/CheckBox';
-
 // project import
 import MainCard from 'components/MainCard';
 import { handleNumber, BootstrapDialogTitle, TabPanel } from 'components/commonFunction';
 
 // table
-import TableBody from '@mui/material/TableBody';
-import TableContainer from '@mui/material/TableContainer';
-import TableHead from '@mui/material/TableHead';
-import TableRow from '@mui/material/TableRow';
 import { tableCellClasses } from '@mui/material/TableCell';
-import Paper from '@mui/material/Paper';
 import { styled } from '@mui/material/styles';
 
 // api
@@ -46,20 +23,6 @@ import './styles.css';
 // redux
 import { useDispatch } from 'react-redux';
 import { setMessageStateOpen } from 'store/reducers/dropdown';
-
-const StyledTableCell = styled(TableCell)(({ theme }) => ({
-    [`&.${tableCellClasses.head}`]: {
-        // backgroundColor: theme.palette.common.gary,
-        color: theme.palette.common.black,
-        paddingTop: '0.2rem',
-        paddingBottom: '0.2rem',
-    },
-    [`&.${tableCellClasses.body}`]: {
-        fontSize: 14,
-        paddingTop: '0.2rem',
-        paddingBottom: '0.2rem',
-    },
-}));
 
 const CorrespondenceMake = ({ isDialogOpen, handleDialogClose, payDraftID }) => {
     const dispatch = useDispatch();
@@ -130,7 +93,17 @@ const CorrespondenceMake = ({ isDialogOpen, handleDialogClose, payDraftID }) => 
                     setCableInfo(data.CableInfo);
                     // dispatch(setMessageStateOpen({ messageStateOpen: { isOpen: true, severity: 'success', message: '送出成功' } }));
                 })
-                .catch((e) => console.log('e1=>', e));
+                .catch(() => {
+                    dispatch(
+                        setMessageStateOpen({
+                            messageStateOpen: {
+                                isOpen: true,
+                                severity: 'error',
+                                message: '網路異常，請檢查網路連線或與系統窗口聯絡',
+                            },
+                        }),
+                    );
+                });
         }
     }, [isDialogOpen]);
 

@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import {
     Typography,
     Grid,
@@ -18,7 +18,6 @@ import MainCard from 'components/MainCard';
 
 // day
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import { DesktopDatePicker } from '@mui/x-date-pickers/DesktopDatePicker';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import dayjs from 'dayjs';
 import { DateRangePicker } from '@mui/x-date-pickers-pro/DateRangePicker';
@@ -27,9 +26,14 @@ import { TextField } from '@mui/material/index';
 // api
 import { queryCB } from 'components/apis.jsx';
 
+// redux
+import { useDispatch } from 'react-redux';
+import { setMessageStateOpen } from 'store/reducers/dropdown';
+
 // ==============================|| SAMPLE PAGE ||============================== //
 
 const CreditBalanceQuery = ({ setListInfo, partiesList, submarineCableList, queryApi }) => {
+    const dispatch = useDispatch();
     const [partyName, setPartyName] = useState('All'); //會員名稱
     const [cBType, setCBType] = useState('All'); //CB種類
     const [submarineCable, setSubmarineCable] = useState('All'); //海纜名稱
@@ -117,7 +121,17 @@ const CreditBalanceQuery = ({ setListInfo, partiesList, submarineCableList, quer
                     setListInfo(data);
                 }
             })
-            .catch((e) => console.log('e1=>', e));
+            .catch(() => {
+                dispatch(
+                    setMessageStateOpen({
+                        messageStateOpen: {
+                            isOpen: true,
+                            severity: 'error',
+                            message: '網路異常，請檢查網路連線或與系統窗口聯絡',
+                        },
+                    }),
+                );
+            });
     };
 
     const handleChange = (event) => {

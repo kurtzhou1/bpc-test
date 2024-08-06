@@ -27,17 +27,13 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import { styled } from '@mui/material/styles';
 
-// icon
-// import DoNotDisturbOnIcon from '@mui/icons-material/DoNotDisturbOn';
-// import AddCircleIcon from '@mui/icons-material/AddCircle';
-
 import dayjs from 'dayjs';
 
 import { sendPayment } from 'components/apis.jsx';
 
 // redux
-// import { useDispatch } from 'react-redux';
-// import { setMessageStateOpen } from 'store/reducers/dropdown';
+import { useDispatch } from 'react-redux';
+import { setMessageStateOpen } from 'store/reducers/dropdown';
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
     [`&.${tableCellClasses.head}`]: {
@@ -63,6 +59,7 @@ const ToPaymentDataList = ({
     setIsSend,
     supplierPaymentQuery,
 }) => {
+    const dispatch = useDispatch();
     const [toPaymentList, setToPaymentList] = useState([]);
     const [isDialogOpen, setIsDialogOpen] = useState(false); //折抵作業
     const [isSendDialogOpen, setIsSendDialogOpen] = useState(false); //折抵作業
@@ -175,7 +172,17 @@ const ToPaymentDataList = ({
                 setFinishList([]);
                 supplierPaymentQuery();
             })
-            .catch((e) => console.log('e1=>', e));
+            .catch(() => {
+                dispatch(
+                    setMessageStateOpen({
+                        messageStateOpen: {
+                            isOpen: true,
+                            severity: 'error',
+                            message: '網路異常，請檢查網路連線或與系統窗口聯絡',
+                        },
+                    }),
+                );
+            });
     };
 
     useEffect(() => {
@@ -435,7 +442,6 @@ const ToPaymentDataList = ({
                                             checked={
                                                 cbToCn[row?.InvoiceWKMaster?.InvoiceNo] || false
                                             }
-                                            // sx={{ '& .MuiSvgIcon-root': { fontSize: { lg: 14, xl: 20 } } }}
                                         />
                                     </TableCell>
                                     <StyledTableCell align="center">{id + 1}</StyledTableCell>

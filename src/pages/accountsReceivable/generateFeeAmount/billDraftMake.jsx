@@ -44,6 +44,10 @@ import { generateBillData, contactUser } from 'components/apis.jsx';
 import Logo1 from 'assets/images/logo1.gif';
 import Logo2 from 'assets/images/logo2.png';
 
+// redux
+import { useDispatch } from 'react-redux';
+import { setMessageStateOpen } from 'store/reducers/dropdown';
+
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
     [`&.${tableCellClasses.head}`]: {
         padding: '0.1rem',
@@ -135,6 +139,7 @@ const BillDraftMake = ({
     issueDateDefault,
     dueDateDefault,
 }) => {
+    const dispatch = useDispatch();
     const [dataList, setDataList] = useState([]);
     const [contact, setContact] = useState('chang_ty');
     const [contactList, setContactList] = useState([]);
@@ -242,7 +247,17 @@ const BillDraftMake = ({
                     });
                     totalAmount.current = tmpAmount;
                 })
-                .catch((e) => console.log('e1=>', e));
+                .catch(() => {
+                    dispatch(
+                        setMessageStateOpen({
+                            messageStateOpen: {
+                                isOpen: true,
+                                severity: 'error',
+                                message: '網路異常，請檢查網路連線或與系統窗口聯絡',
+                            },
+                        }),
+                    );
+                });
             fetch(contactUser, {
                 method: 'GET',
                 Authorization: 'Bearer' + localStorage.getItem('accessToken') ?? '',
@@ -253,7 +268,17 @@ const BillDraftMake = ({
                         setContactList(data);
                     }
                 })
-                .catch((e) => console.log('e1=>', e));
+                .catch(() => {
+                    dispatch(
+                        setMessageStateOpen({
+                            messageStateOpen: {
+                                isOpen: true,
+                                severity: 'error',
+                                message: '網路異常，請檢查網路連線或與系統窗口聯絡',
+                            },
+                        }),
+                    );
+                });
         }
     }, [billMasterID, isDialogOpen]);
     useEffect(() => {

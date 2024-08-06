@@ -11,9 +11,13 @@ import InvalidateDataList from './invalidateDataList';
 
 // api
 import { queryInvoice } from 'components/apis.jsx';
-// import dayjs from 'dayjs';
+
+// redux
+import { useDispatch } from 'react-redux';
+import { setMessageStateOpen } from 'store/reducers/dropdown';
 
 const CreateJournal = () => {
+    const dispatch = useDispatch();
     const [listInfo, setListInfo] = useState([]);
     const [value, setValue] = useState(0);
     const [supplierName, setSupplierName] = useState('All'); //供應商
@@ -53,7 +57,17 @@ const CreateJournal = () => {
                 console.log('查詢成功=>>', data);
                 setListInfo(data);
             })
-            .catch((e) => console.log('e1=>', e));
+            .catch(() => {
+                dispatch(
+                    setMessageStateOpen({
+                        messageStateOpen: {
+                            isOpen: true,
+                            severity: 'error',
+                            message: '網路異常，請檢查網路連線或與系統窗口聯絡',
+                        },
+                    }),
+                );
+            });
     };
 
     const a11yProps = (index) => {
