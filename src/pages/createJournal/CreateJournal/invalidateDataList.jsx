@@ -24,7 +24,12 @@ import dayjs from 'dayjs';
 
 import { journaryDetailView, journaryMasterView } from 'components/apis.jsx';
 
+// redux
+import { useDispatch } from 'react-redux';
+import { setMessageStateOpen } from 'store/reducers/dropdown';
+
 const BilledDataList = ({ listInfo }) => {
+    const dispatch = useDispatch();
     const [isDialogOpen, setIsDialogOpen] = useState(false);
     const [toBillDataInfo, setToBillDataInfo] = useState([]); //發票明細檔
     const totalAmount = useRef(0);
@@ -66,9 +71,29 @@ const BilledDataList = ({ listInfo }) => {
                         setToBillDataInfo(data2);
                         setIsDialogOpen(true);
                     })
-                    .catch((e) => console.log('e1=>', e));
+                    .catch(() => {
+                        dispatch(
+                            setMessageStateOpen({
+                                messageStateOpen: {
+                                    isOpen: true,
+                                    severity: 'error',
+                                    message: '網路異常，請檢查網路連線或與系統窗口聯絡',
+                                },
+                            }),
+                        );
+                    });
             })
-            .catch((e) => console.log('e1=>', e));
+            .catch(() => {
+                dispatch(
+                    setMessageStateOpen({
+                        messageStateOpen: {
+                            isOpen: true,
+                            severity: 'error',
+                            message: '網路異常，請檢查網路連線或與系統窗口聯絡',
+                        },
+                    }),
+                );
+            });
     };
 
     return (

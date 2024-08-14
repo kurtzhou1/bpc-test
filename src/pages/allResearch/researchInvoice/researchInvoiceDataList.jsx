@@ -2,11 +2,10 @@ import { useRef, useState } from 'react';
 
 // project import
 import { handleNumber } from 'components/commonFunction';
-import { BootstrapDialogTitle, TabPanel } from 'components/commonFunction';
-import { DesktopDatePicker } from '@mui/x-date-pickers/DesktopDatePicker';
+import { BootstrapDialogTitle } from 'components/commonFunction';
 
 // material-ui
-import { Typography, Button, Table, Box, Grid, TextField, FormControl } from '@mui/material';
+import { Typography, Button, Table, Box, Grid, TextField } from '@mui/material';
 import TableBody from '@mui/material/TableBody';
 import TableCell, { tableCellClasses } from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
@@ -16,14 +15,16 @@ import Paper from '@mui/material/Paper';
 import { styled } from '@mui/material/styles';
 
 import dayjs from 'dayjs';
-import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import Dialog from '@mui/material/Dialog';
 import DialogContent from '@mui/material/DialogContent';
 import DialogActions from '@mui/material/DialogActions';
-import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 
 // api
 import { queryToDecutBill } from 'components/apis.jsx';
+
+// redux
+import { useDispatch } from 'react-redux';
+import { setMessageStateOpen } from 'store/reducers/dropdown';
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
     [`&.${tableCellClasses.head}`]: {
@@ -50,6 +51,7 @@ const ResearchBillDataList = ({ listInfo, setDetailInfo }) => {
     const [billMasterInfo, setBillMasterInfo] = useState({});
     const [billDetailInfo, setBillDetailInfo] = useState([]);
     const totalPaidAmount = useRef(0);
+    const dispatch = useDispatch();
 
     const initData = () => {
         totalPaidAmount.current = 0;
@@ -84,7 +86,17 @@ const ResearchBillDataList = ({ listInfo, setDetailInfo }) => {
                     setIsDialogOpen(true);
                 }
             })
-            .catch((e) => console.log('e1=>', e));
+            .catch(() => {
+                dispatch(
+                    setMessageStateOpen({
+                        messageStateOpen: {
+                            isOpen: true,
+                            severity: 'error',
+                            message: '網路異常，請檢查網路連線或與系統窗口聯絡',
+                        },
+                    }),
+                );
+            });
     };
 
     return (
@@ -143,18 +155,13 @@ const ResearchBillDataList = ({ listInfo, setDetailInfo }) => {
                             </Typography>
                         </Grid>
                         <Grid item xs={3} sm={3} md={3} lg={3}>
-                            <FormControl>
-                                <LocalizationProvider dateAdapter={AdapterDayjs}>
-                                    <DesktopDatePicker
-                                        inputFormat="YYYY/MM/DD"
-                                        value={billMasterInfo.DueDate}
-                                        disabled
-                                        renderInput={(params) => (
-                                            <TextField size="small" {...params} />
-                                        )}
-                                    />
-                                </LocalizationProvider>
-                            </FormControl>
+                            <TextField
+                                value={dayjs(billMasterInfo.DueDate).format('YYYY/MM/DD')}
+                                fullWidth
+                                disabled={true}
+                                variant="outlined"
+                                size="small"
+                            />
                         </Grid>
                         <Grid item xs={12} sm={12} md={12} lg={12}>
                             <TableContainer component={Paper} sx={{ maxHeight: 350 }}>

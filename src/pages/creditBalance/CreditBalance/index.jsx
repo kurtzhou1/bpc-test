@@ -11,7 +11,12 @@ import CreditBalanceAdd from './creditBalanceAdd';
 // api
 import { getPartiesInfoList, submarineCableInfoList } from 'components/apis';
 
+// redux
+import { useDispatch } from 'react-redux';
+import { setMessageStateOpen } from 'store/reducers/dropdown';
+
 const CreditBalance = () => {
+    const dispatch = useDispatch();
     const queryApi = useRef('/all');
     const [listInfo, setListInfo] = useState([]);
     const [isDialogOpen, setIsDialogOpen] = useState(false);
@@ -35,14 +40,34 @@ const CreditBalance = () => {
             .then((data) => {
                 setSubmarineCableList(data);
             })
-            .catch((e) => console.log('e1=>', e));
+            .catch(() => {
+                dispatch(
+                    setMessageStateOpen({
+                        messageStateOpen: {
+                            isOpen: true,
+                            severity: 'error',
+                            message: '網路異常，請檢查網路連線或與系統窗口聯絡',
+                        },
+                    }),
+                );
+            });
         //會員名稱
         fetch(getPartiesInfoList, { method: 'GET' })
             .then((res) => res.json())
             .then((data) => {
                 setPartiesList(data);
             })
-            .catch((e) => console.log('e1=>', e));
+            .catch(() => {
+                dispatch(
+                    setMessageStateOpen({
+                        messageStateOpen: {
+                            isOpen: true,
+                            severity: 'error',
+                            message: '網路異常，請檢查網路連線或與系統窗口聯絡',
+                        },
+                    }),
+                );
+            });
     }, []);
 
     return (

@@ -1,21 +1,10 @@
 import { useState, useRef, useEffect } from 'react';
 import React from 'react';
-import PropTypes from 'prop-types';
 
 // project import
 import { handleNumber, BootstrapDialogTitle } from 'components/commonFunction';
-import MainCard from 'components/MainCard';
 // material-ui
-import {
-    Typography,
-    Button,
-    Table,
-    Dialog,
-    DialogContent,
-    Grid,
-    DialogActions,
-    TextField,
-} from '@mui/material';
+import { Button, Table, Dialog, DialogContent, Grid, DialogActions } from '@mui/material';
 import TableBody from '@mui/material/TableBody';
 import TableCell, { tableCellClasses } from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
@@ -23,11 +12,6 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import { styled } from '@mui/material/styles';
-
-import dayjs from 'dayjs';
-
-// redux
-import { useDispatch } from 'react-redux';
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
     [`&.${tableCellClasses.head}`]: {
@@ -50,7 +34,6 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
 }));
 
 const InvoiceDetail = ({ isDetailOpen, isDetailClose, modifyItem }) => {
-    const dispatch = useDispatch();
     let feeAmount = useRef(0); // 總費用金額加總(上)
     const [dataList, setDataList] = useState([]);
 
@@ -162,15 +145,3 @@ const InvoiceDetail = ({ isDetailOpen, isDetailClose, modifyItem }) => {
 };
 
 export default InvoiceDetail;
-
-InvoiceDetail.propTypes = {
-    // actionName: React.String,
-    // invoiceNo: React.String,
-    // dueDate: PropTypes.instanceOf(Date),
-    // editPaymentInfo: React.Array,
-    // savePaymentEdit: React.func,
-    // handleDialogClose: React.func,
-    isDetailOpen: React.bool,
-};
-
-// isDetailOpen, isDetailClose, modifyItem

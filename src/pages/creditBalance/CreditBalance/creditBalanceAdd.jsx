@@ -80,7 +80,17 @@ const CreditBalanceAdd = ({
                     setListInfo(data);
                 }
             })
-            .catch((e) => console.log('e1=>', e));
+            .catch(() => {
+                dispatch(
+                    setMessageStateOpen({
+                        messageStateOpen: {
+                            isOpen: true,
+                            severity: 'error',
+                            message: '網路異常，請檢查網路連線或與系統窗口聯絡',
+                        },
+                    }),
+                );
+            });
     };
 
     const infoCheck = () => {
@@ -167,12 +177,30 @@ const CreditBalanceAdd = ({
             })
                 .then((res) => res.json())
                 .then(() => {
-                    alert('送出Credit Balance成功');
+                    dispatch(
+                        setMessageStateOpen({
+                            messageStateOpen: {
+                                isOpen: true,
+                                severity: 'success',
+                                message: '送出Credit Balance成功',
+                            },
+                        }),
+                    );
                     handleDialogClose();
                     infoInitial();
                     creditBalanceQuery();
                 })
-                .catch((e) => console.log('e1=>', e));
+                .catch(() => {
+                    dispatch(
+                        setMessageStateOpen({
+                            messageStateOpen: {
+                                isOpen: true,
+                                severity: 'error',
+                                message: '網路異常，請檢查網路連線或與系統窗口聯絡',
+                            },
+                        }),
+                    );
+                });
         }
     };
 

@@ -3,7 +3,7 @@ import { Grid, Button, Box, Tabs, Tab } from '@mui/material';
 
 // project import
 import MainCard from 'components/MainCard';
-import { TabPanel } from 'components/commonFunction';
+import CustomTabPanel from 'components/CustomTabPanel';
 import ToCombineDataList from './toCombineDataList';
 import ToDeductDataList from './toDeductDataList';
 import DeductedDataList from './deductedDataList';
@@ -99,8 +99,16 @@ const GenerateFeeAmount = () => {
                     );
                 }
             })
-            .catch((e) => {
-                console.log('e1=>', e);
+            .catch(() => {
+                dispatch(
+                    setMessageStateOpen({
+                        messageStateOpen: {
+                            isOpen: true,
+                            severity: 'error',
+                            message: '網路異常，請檢查網路連線或與系統窗口聯絡',
+                        },
+                    }),
+                );
             });
     };
 
@@ -150,7 +158,7 @@ const GenerateFeeAmount = () => {
                             </Button>
                         ) : null}
                     </Box>
-                    <TabPanel value={value} index={0}>
+                    <CustomTabPanel value={value} index={0}>
                         <ToCombineDataList
                             handleDialogClose={handleDialogClose}
                             isDialogOpen={isDialogOpen}
@@ -160,25 +168,25 @@ const GenerateFeeAmount = () => {
                             receivableQuery={receivableQueryInit}
                             initList={initList}
                         />
-                    </TabPanel>
-                    <TabPanel value={value} index={1}>
+                    </CustomTabPanel>
+                    <CustomTabPanel value={value} index={1}>
                         <ToDeductDataList
                             dataList={listInfo}
                             receivableQuery={receivableQueryInit}
                         />
-                    </TabPanel>
-                    <TabPanel value={value} index={2}>
+                    </CustomTabPanel>
+                    <CustomTabPanel value={value} index={2}>
                         <DeductedDataList
                             dataList={listInfo}
                             receivableQuery={receivableQueryInit}
                         />
-                    </TabPanel>
-                    <TabPanel value={value} index={3}>
+                    </CustomTabPanel>
+                    <CustomTabPanel value={value} index={3}>
                         <SignedDataList dataList={listInfo} receivableQuery={receivableQueryInit} />
-                    </TabPanel>
-                    <TabPanel value={value} index={4}>
+                    </CustomTabPanel>
+                    <CustomTabPanel value={value} index={4}>
                         <InvalidatedDataList dataList={listInfo} />
-                    </TabPanel>
+                    </CustomTabPanel>
                 </MainCard>
             </Grid>
         </Grid>

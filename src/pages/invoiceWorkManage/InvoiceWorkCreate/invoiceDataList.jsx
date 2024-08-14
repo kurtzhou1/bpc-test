@@ -47,7 +47,7 @@ const InvoiceDataList = ({ listInfo, setEditItem, deletelistInfoItem }) => {
                     {listInfo?.map((row, id) => {
                         return (
                             <TableRow
-                                key={row.InvoiceWKMaster?.InvoiceNo}
+                                key={row.InvoiceWKMaster?.InvoiceNo + id}
                                 sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                             >
                                 <StyledTableCell align="center">

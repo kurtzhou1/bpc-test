@@ -3,7 +3,7 @@ import { Grid, Box, Tabs, Tab } from '@mui/material';
 // import { styled } from '@mui/material/styles';
 
 // project import
-import { TabPanel } from 'components/commonFunction';
+import CustomTabPanel from 'components/CustomTabPanel';
 import MainCard from 'components/MainCard';
 import ToWriteOffDataList from './toWriteOffDataList';
 import WriteOffedDataList from './writeOffedDataList';
@@ -54,8 +54,16 @@ const WriteOffInvoice = () => {
                     );
                 }
             })
-            .catch((e) => {
-                console.log('e1=>', e);
+            .catch(() => {
+                dispatch(
+                    setMessageStateOpen({
+                        messageStateOpen: {
+                            isOpen: true,
+                            severity: 'error',
+                            message: '網路異常，請檢查網路連線或與系統窗口聯絡',
+                        },
+                    }),
+                );
             });
     };
 
@@ -72,15 +80,15 @@ const WriteOffInvoice = () => {
                             <Tab label="已銷帳" {...a11yProps(1)} />
                         </Tabs>
                     </Box>
-                    <TabPanel value={value} index={0}>
+                    <CustomTabPanel value={value} index={0}>
                         <ToWriteOffDataList
                             listInfo={listInfo}
                             writeOffInitQuery={writeOffInitQuery}
                         />
-                    </TabPanel>
-                    <TabPanel value={value} index={1}>
+                    </CustomTabPanel>
+                    <CustomTabPanel value={value} index={1}>
                         <WriteOffedDataList listInfo={listInfo} />
-                    </TabPanel>
+                    </CustomTabPanel>
                 </MainCard>
             </Grid>
         </Grid>

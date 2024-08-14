@@ -44,6 +44,10 @@ import { generateBillData, contactUser } from 'components/apis.jsx';
 import Logo1 from 'assets/images/logo1.gif';
 import Logo2 from 'assets/images/logo2.png';
 
+// redux
+import { useDispatch } from 'react-redux';
+import { setMessageStateOpen } from 'store/reducers/dropdown';
+
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
     [`&.${tableCellClasses.head}`]: {
         padding: '0.1rem',
@@ -134,9 +138,8 @@ const BillDraftMake = ({
     submarineCableName,
     issueDateDefault,
     dueDateDefault,
-    action,
-    billingNo,
 }) => {
+    const dispatch = useDispatch();
     const [dataList, setDataList] = useState([]);
     const [contact, setContact] = useState('chang_ty');
     const [contactList, setContactList] = useState([]);
@@ -149,14 +152,10 @@ const BillDraftMake = ({
     const [dueDate, setDueDate] = useState(dueDateDefault); //發票日期
     const [logo, setLogo] = useState(1);
     const [subject1, setSubject1] = useState(''); //主旨1
-    // const [subject2, setSubject2] = useState(''); //主旨2
     const [subject3, setSubject3] = useState(''); //主旨3
 
     const itemDetailInitial = () => {
         setDetailInfo([]);
-        // setContactList([]);
-        // setPartyInfo('');
-        // setSubmarineCableInfo?('');
     };
 
     const clearDetail = () => {
@@ -248,7 +247,17 @@ const BillDraftMake = ({
                     });
                     totalAmount.current = tmpAmount;
                 })
-                .catch((e) => console.log('e1=>', e));
+                .catch(() => {
+                    dispatch(
+                        setMessageStateOpen({
+                            messageStateOpen: {
+                                isOpen: true,
+                                severity: 'error',
+                                message: '網路異常，請檢查網路連線或與系統窗口聯絡',
+                            },
+                        }),
+                    );
+                });
             fetch(contactUser, {
                 method: 'GET',
                 Authorization: 'Bearer' + localStorage.getItem('accessToken') ?? '',
@@ -259,7 +268,17 @@ const BillDraftMake = ({
                         setContactList(data);
                     }
                 })
-                .catch((e) => console.log('e1=>', e));
+                .catch(() => {
+                    dispatch(
+                        setMessageStateOpen({
+                            messageStateOpen: {
+                                isOpen: true,
+                                severity: 'error',
+                                message: '網路異常，請檢查網路連線或與系統窗口聯絡',
+                            },
+                        }),
+                    );
+                });
         }
     }, [billMasterID, isDialogOpen]);
     useEffect(() => {
@@ -392,7 +411,6 @@ const BillDraftMake = ({
                                             variant="outlined"
                                             value={subject3}
                                             size="small"
-                                            // label="帳單種類"
                                             inputProps={{ maxLength: 65 }}
                                             onChange={(e) => setSubject3(e.target.value)}
                                         />
@@ -502,17 +520,6 @@ const BillDraftMake = ({
                                 {submarineCableName} Cable Network {subject1} Central Billing Party
                                 {subject3} Invoice
                             </Box>
-                            {/* <Box
-                                sx={{
-                                    fontSize: '24px',
-                                    m: 1,
-                                    textAlign: 'center',
-                                    fontWeight: 'bold',
-                                }}
-                            >
-                                {submarineCableName} Cable Network {subject1} Central Billing Party
-                                {subject3} Invoice
-                            </Box> */}
                             <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
                                 <Box sx={{ m: 1, minWidth: '40%', with: '40%' }}>
                                     <Box sx={{ fontSize: '12px', textAlign: 'left' }}>
@@ -555,7 +562,7 @@ const BillDraftMake = ({
                                     justifyContent: 'space-between',
                                 }}
                             >
-                                <Box>{pONo?.length > 0 ? `PO No. ${pONo}` : ''}</Box>
+                                <Box>{pONo?.length > 0 ? `PO No. ${pONo}` : null}</Box>
                                 <Box>(Currency：USD)</Box>
                             </Box>
                             <Box>

@@ -63,7 +63,6 @@ const LiabilityDataList = ({
                     </TableHead>
                     <TableBody>
                         {listInfo?.map((row, id) => {
-                            console.log('row=>>', row, id);
                             return (
                                 <TableRow
                                     key={row.BillMilestone + row.LBRatio + id}

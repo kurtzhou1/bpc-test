@@ -43,8 +43,6 @@ const ResearchBillDataList = ({ listInfo, setDetailInfo }) => {
         setCbTerminal(false);
     };
 
-    console.log('listInfo222=>>', listInfo);
-
     return (
         <TableContainer component={Paper} sx={{ maxHeight: 350 }}>
             <Table sx={{ minWidth: 300 }} stickyHeader>
@@ -65,7 +63,6 @@ const ResearchBillDataList = ({ listInfo, setDetailInfo }) => {
                 </TableHead>
                 <TableBody>
                     {listInfo?.map((row, id) => {
-                        console.log('row=>>', row);
                         return (
                             <TableRow
                                 key={row.InvoiceWKMaster.InvoiceNo + id}

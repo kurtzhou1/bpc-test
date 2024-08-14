@@ -4,7 +4,6 @@ import { useState, useRef } from 'react';
 import { handleNumber, BootstrapDialogTitle } from 'components/commonFunction';
 // material-ui
 import {
-    Typography,
     Button,
     Table,
     Dialog,
@@ -30,7 +29,12 @@ import {
     updateInvoiceMaster,
 } from 'components/apis.jsx';
 
+// redux
+import { useDispatch } from 'react-redux';
+import { setMessageStateOpen } from 'store/reducers/dropdown';
+
 const BilledDataList = ({ listInfo, apiQuery }) => {
+    const dispatch = useDispatch();
     const [isDialogOpen, setIsDialogOpen] = useState(false);
     const [toBillDataInfo, setToBillDataInfo] = useState([]); //發票明細檔
     const totalAmount = useRef(0);
@@ -73,9 +77,29 @@ const BilledDataList = ({ listInfo, apiQuery }) => {
                         setToBillDataInfo(data2);
                         setIsDialogOpen(true);
                     })
-                    .catch((e) => console.log('e1=>', e));
+                    .catch(() => {
+                        dispatch(
+                            setMessageStateOpen({
+                                messageStateOpen: {
+                                    isOpen: true,
+                                    severity: 'error',
+                                    message: '網路異常，請檢查網路連線或與系統窗口聯絡',
+                                },
+                            }),
+                        );
+                    });
             })
-            .catch((e) => console.log('e1=>', e));
+            .catch(() => {
+                dispatch(
+                    setMessageStateOpen({
+                        messageStateOpen: {
+                            isOpen: true,
+                            severity: 'error',
+                            message: '網路異常，請檢查網路連線或與系統窗口聯絡',
+                        },
+                    }),
+                );
+            });
     };
 
     const billDataViewInvalid = (WKMasterID) => {
@@ -95,7 +119,17 @@ const BilledDataList = ({ listInfo, apiQuery }) => {
             .then(() => {
                 console.log('updateInvoice invalid success');
             })
-            .catch((e) => console.log('e1=>', e));
+            .catch(() => {
+                dispatch(
+                    setMessageStateOpen({
+                        messageStateOpen: {
+                            isOpen: true,
+                            severity: 'error',
+                            message: '網路異常，請檢查網路連線或與系統窗口聯絡',
+                        },
+                    }),
+                );
+            });
         fetch(updateInvoiceMaster, {
             method: 'POST',
             headers: {
@@ -106,10 +140,27 @@ const BilledDataList = ({ listInfo, apiQuery }) => {
         })
             .then((res) => res.json())
             .then(() => {
-                console.log('updateInvoiceMaster invalid success');
-                alert('作廢成功');
+                dispatch(
+                    setMessageStateOpen({
+                        messageStateOpen: {
+                            isOpen: true,
+                            severity: 'success',
+                            message: '作廢成功',
+                        },
+                    }),
+                );
             })
-            .catch((e) => console.log('e1=>', e));
+            .catch(() => {
+                dispatch(
+                    setMessageStateOpen({
+                        messageStateOpen: {
+                            isOpen: true,
+                            severity: 'error',
+                            message: '網路異常，請檢查網路連線或與系統窗口聯絡',
+                        },
+                    }),
+                );
+            });
         apiQuery();
     };
 

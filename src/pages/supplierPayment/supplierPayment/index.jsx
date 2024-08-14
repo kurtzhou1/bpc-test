@@ -2,7 +2,7 @@ import { useState, useRef, useEffect } from 'react';
 import { Grid, Button, Box, Tabs, Tab } from '@mui/material';
 
 // project import
-import { TabPanel } from 'components/commonFunction';
+import CustomTabPanel from 'components/CustomTabPanel';
 import MainCard from 'components/MainCard';
 import ToPaymentDataList from './toPaymentDataList';
 import PaymentedDataList from './paymentedDataList';
@@ -89,11 +89,9 @@ const SupplierPayment = () => {
                                     付款送出(進入函稿)
                                 </Button>
                             </>
-                        ) : (
-                            ''
-                        )}
+                        ) : null}
                     </Box>
-                    <TabPanel value={value} index={0}>
+                    <CustomTabPanel value={value} index={0}>
                         <ToPaymentDataList
                             listInfo={listInfo}
                             cbToCn={cbToCn}
@@ -102,10 +100,10 @@ const SupplierPayment = () => {
                             setIsSend={setIsSend}
                             supplierPaymentQuery={supplierPaymentQuery}
                         />
-                    </TabPanel>
-                    <TabPanel value={value} index={1}>
+                    </CustomTabPanel>
+                    <CustomTabPanel value={value} index={1}>
                         <PaymentedDataList listInfo={listInfo} />
-                    </TabPanel>
+                    </CustomTabPanel>
                 </MainCard>
             </Grid>
         </Grid>

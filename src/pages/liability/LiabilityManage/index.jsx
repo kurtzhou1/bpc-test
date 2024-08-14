@@ -12,7 +12,6 @@ import {
     billMilestoneLiabilityList,
     dropdownmenuSubmarineCable,
     partiesLiabilityList,
-    workTitleLiabilityList,
     queryLiability,
     compareLiability,
     addLiabilityapi,
@@ -44,7 +43,6 @@ const LiabilityManage = () => {
     const [setBmStoneList] = useState([]); //計帳段號下拉選單
     const [partyList, setPartyList] = useState([]); //會員名稱下拉選單
     const [submarineCableList, setSubmarineCableList] = useState([]); //海纜名稱下拉選單
-    const [workTitleList, setWorkTitleList] = useState([]); //海纜作業下拉選單
     const lBRawID = useRef(0); //LBRawID
 
     const queryApi = useRef(queryLiability + '/all');
@@ -75,7 +73,17 @@ const LiabilityManage = () => {
                 console.log('查詢成功=>>', data);
                 setListInfo(data);
             })
-            .catch((e) => console.log('e1=>', e));
+            .catch(() => {
+                dispatch(
+                    setMessageStateOpen({
+                        messageStateOpen: {
+                            isOpen: true,
+                            severity: 'error',
+                            message: '網路異常，請檢查網路連線或與系統窗口聯絡',
+                        },
+                    }),
+                );
+            });
     };
 
     //新增
@@ -144,10 +152,30 @@ const LiabilityManage = () => {
                                 );
                                 setAdd([]);
                             })
-                            .catch((e) => console.log('e1=>', e));
+                            .catch(() => {
+                                dispatch(
+                                    setMessageStateOpen({
+                                        messageStateOpen: {
+                                            isOpen: true,
+                                            severity: 'error',
+                                            message: '網路異常，請檢查網路連線或與系統窗口聯絡',
+                                        },
+                                    }),
+                                );
+                            });
                     }
                 })
-                .catch((e) => console.log('e1=>', e));
+                .catch(() => {
+                    dispatch(
+                        setMessageStateOpen({
+                            messageStateOpen: {
+                                isOpen: true,
+                                severity: 'error',
+                                message: '網路異常，請檢查網路連線或與系統窗口聯絡',
+                            },
+                        }),
+                    );
+                });
         }
     };
 
@@ -201,7 +229,17 @@ const LiabilityManage = () => {
                 setEditItem(NaN);
                 handleDialogClose();
             })
-            .catch((e) => console.log('e1=>', e));
+            .catch(() => {
+                dispatch(
+                    setMessageStateOpen({
+                        messageStateOpen: {
+                            isOpen: true,
+                            severity: 'error',
+                            message: '網路異常，請檢查網路連線或與系統窗口聯絡',
+                        },
+                    }),
+                );
+            });
     };
 
     const searchFunction = (searchedVal) => {
@@ -226,24 +264,33 @@ const LiabilityManage = () => {
                 setBmStoneList(data);
             })
             .catch((e) => console.log('e1=>', e));
-        fetch(dropdownmenuSubmarineCable, { method: 'GET' })
-            .then((res) => res.json())
-            .then((data) => {
-                setSubmarineCableList(data);
-            })
-            .catch((e) => console.log('e1=>', e));
+        fetch(dropdownmenuSubmarineCable, { method: 'GET' }).catch(() => {
+            dispatch(
+                setMessageStateOpen({
+                    messageStateOpen: {
+                        isOpen: true,
+                        severity: 'error',
+                        message: '網路異常，請檢查網路連線或與系統窗口聯絡',
+                    },
+                }),
+            );
+        });
         fetch(partiesLiabilityList, { method: 'GET' })
             .then((res) => res.json())
             .then((data) => {
                 setPartyList(data);
             })
-            .catch((e) => console.log('e1=>', e));
-        fetch(workTitleLiabilityList, { method: 'GET' })
-            .then((res) => res.json())
-            .then((data) => {
-                setWorkTitleList(data);
-            })
-            .catch((e) => console.log('e1=>', e));
+            .catch(() => {
+                dispatch(
+                    setMessageStateOpen({
+                        messageStateOpen: {
+                            isOpen: true,
+                            severity: 'error',
+                            message: '網路異常，請檢查網路連線或與系統窗口聯絡',
+                        },
+                    }),
+                );
+            });
     }, []);
 
     return (
@@ -280,10 +327,8 @@ const LiabilityManage = () => {
             <Grid item xs={12}>
                 <LiabilityQuery
                     setListInfo={setListInfo}
-                    // bmStoneList={bmStoneList}
                     partyList={partyList}
                     submarineCableList={submarineCableList}
-                    workTitleList={workTitleList}
                     queryApi={queryApi}
                 />
             </Grid>

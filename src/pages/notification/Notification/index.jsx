@@ -3,7 +3,7 @@ import { Grid, Button, Box, Tabs, Tab } from '@mui/material';
 // import { styled } from '@mui/material/styles';
 
 // project import
-import { TabPanel } from 'components/commonFunction';
+import CustomTabPanel from 'components/CustomTabPanel';
 import MainCard from 'components/MainCard';
 import RuleAdd from './ruleAdd';
 import MemberBillDataList from './memberBillDataList';
@@ -18,7 +18,12 @@ import {
     getSysInvNotifyRule,
 } from 'components/apis.jsx';
 
+// redux
+import { useDispatch } from 'react-redux';
+import { setMessageStateOpen } from 'store/reducers/dropdown';
+
 const Information = () => {
+    const dispatch = useDispatch();
     const [isDialogOpen, setIsDialogOpen] = useState(false);
     const [listInfo, setListInfo] = useState([]);
     const [partiesList, setPartiesList] = useState([]); //會員名稱下拉選單
@@ -61,7 +66,17 @@ const Information = () => {
                     console.log('initQuery=>>', data);
                     setListInfo(data);
                 })
-                .catch((e) => console.log('e1=>', e));
+                .catch(() => {
+                    dispatch(
+                        setMessageStateOpen({
+                            messageStateOpen: {
+                                isOpen: true,
+                                severity: 'error',
+                                message: '網路異常，請檢查網路連線或與系統窗口聯絡',
+                            },
+                        }),
+                    );
+                });
         }
     };
 
@@ -71,13 +86,33 @@ const Information = () => {
             .then((data) => {
                 setSubmarineCableList(data);
             })
-            .catch((e) => console.log('e1=>', e));
+            .catch(() => {
+                dispatch(
+                    setMessageStateOpen({
+                        messageStateOpen: {
+                            isOpen: true,
+                            severity: 'error',
+                            message: '網路異常，請檢查網路連線或與系統窗口聯絡',
+                        },
+                    }),
+                );
+            });
         fetch(partiesLiabilityList, { method: 'GET' })
             .then((res) => res.json())
             .then((data) => {
                 setPartiesList(data);
             })
-            .catch((e) => console.log('e1=>', e));
+            .catch(() => {
+                dispatch(
+                    setMessageStateOpen({
+                        messageStateOpen: {
+                            isOpen: true,
+                            severity: 'error',
+                            message: '網路異常，請檢查網路連線或與系統窗口聯絡',
+                        },
+                    }),
+                );
+            });
     }, []);
 
     return (
@@ -113,20 +148,20 @@ const Information = () => {
                             <Tab label="帳單內部通知" {...a11yProps(2)} />
                         </Tabs>
                     </Box>
-                    <TabPanel value={value} index={0}>
+                    <CustomTabPanel value={value} index={0}>
                         <MemberBillDataList listInfo={listInfo} />
-                    </TabPanel>
-                    <TabPanel value={value} index={1}>
+                    </CustomTabPanel>
+                    <CustomTabPanel value={value} index={1}>
                         <InvoiceNotificationDataList
                             listInfo={listInfo}
                             partiesList={partiesList}
                             submarineCableList={submarineCableList}
                             initQuery={initQuery}
                         />
-                    </TabPanel>
-                    <TabPanel value={value} index={2}>
+                    </CustomTabPanel>
+                    <CustomTabPanel value={value} index={2}>
                         <BillNotificationDataList listInfo={listInfo} />
-                    </TabPanel>
+                    </CustomTabPanel>
                 </MainCard>
             </Grid>
         </Grid>

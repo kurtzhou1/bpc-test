@@ -20,6 +20,8 @@ import dayjs from 'dayjs';
 // redux
 import { setLoginInInfo, setUserInfo } from 'store/reducers/dropdown';
 import jwt_decode from 'jwt-decode';
+import { setMessageStateOpen } from 'store/reducers/dropdown';
+
 // render - dashboard
 const DashboardDefault = Loadable(lazy(() => import('pages/dashboard')));
 // 發票工作管理
@@ -165,13 +167,33 @@ const RequireAuth = ({ children, item }) => {
                             );
                             if (data[item] === false) sendNoPermission();
                         })
-                        .catch((e) => console.log('e1=>', e));
+                        .catch(() => {
+                            dispatch(
+                                setMessageStateOpen({
+                                    messageStateOpen: {
+                                        isOpen: true,
+                                        severity: 'error',
+                                        message: '網路異常，請檢查網路連線或與系統窗口聯絡',
+                                    },
+                                }),
+                            );
+                        });
                     return children;
                 } else {
                     return window.location.replace(isOL ? ssoUrlOL : ssoUrlQA);
                 }
             })
-            .catch((e) => console.log('e1=>', e));
+            .catch(() => {
+                dispatch(
+                    setMessageStateOpen({
+                        messageStateOpen: {
+                            isOpen: true,
+                            severity: 'error',
+                            message: '網路異常，請檢查網路連線或與系統窗口聯絡',
+                        },
+                    }),
+                );
+            });
     } else {
         return window.location.replace(isOL ? ssoUrlOL : ssoUrlQA);
     }

@@ -11,11 +11,9 @@ import {
     Select,
     MenuItem,
 } from '@mui/material';
-import CloseIcon from '@mui/icons-material/Close';
-// import { styled } from '@mui/material/styles';
 
 // project import
-import { TabPanel } from 'components/commonFunction';
+import CustomTabPanel from 'components/CustomTabPanel';
 import MainCard from 'components/MainCard';
 import SupplierDataList from './supplierDataList';
 import PartyDataList from './partyDataList';
@@ -33,7 +31,12 @@ import {
     corporates,
 } from 'components/apis.jsx';
 
+// redux
+import { useDispatch } from 'react-redux';
+import { setMessageStateOpen } from 'store/reducers/dropdown';
+
 const Information = () => {
+    const dispatch = useDispatch();
     const [value, setValue] = useState(0);
     const [submarineCableList, setSubmarineCableList] = useState([]); //海纜名稱下拉選單
     const [supNmList, setSupNmList] = useState([]); //供應商下拉選單
@@ -92,7 +95,17 @@ const Information = () => {
                         setInfoList([]);
                     }
                 })
-                .catch((e) => console.log('e1=>', e));
+                .catch(() => {
+                    dispatch(
+                        setMessageStateOpen({
+                            messageStateOpen: {
+                                isOpen: true,
+                                severity: 'error',
+                                message: '網路異常，請檢查網路連線或與系統窗口聯絡',
+                            },
+                        }),
+                    );
+                });
         } else if (value === 1) {
             tmpQuery = suppliers + tmpQuery;
             fetch(tmpQuery, {
@@ -112,7 +125,17 @@ const Information = () => {
                         setInfoList([]);
                     }
                 })
-                .catch((e) => console.log('e1=>', e));
+                .catch(() => {
+                    dispatch(
+                        setMessageStateOpen({
+                            messageStateOpen: {
+                                isOpen: true,
+                                severity: 'error',
+                                message: '網路異常，請檢查網路連線或與系統窗口聯絡',
+                            },
+                        }),
+                    );
+                });
         } else if (value === 2) {
             tmpQuery = parties + tmpQuery;
             fetch(tmpQuery, {
@@ -132,7 +155,17 @@ const Information = () => {
                         setInfoList([]);
                     }
                 })
-                .catch((e) => console.log('e1=>', e));
+                .catch(() => {
+                    dispatch(
+                        setMessageStateOpen({
+                            messageStateOpen: {
+                                isOpen: true,
+                                severity: 'error',
+                                message: '網路異常，請檢查網路連線或與系統窗口聯絡',
+                            },
+                        }),
+                    );
+                });
         } else {
             tmpQuery = corporates + tmpQuery;
             fetch(tmpQuery, {
@@ -152,7 +185,17 @@ const Information = () => {
                         setInfoList([]);
                     }
                 })
-                .catch((e) => console.log('e1=>', e));
+                .catch(() => {
+                    dispatch(
+                        setMessageStateOpen({
+                            messageStateOpen: {
+                                isOpen: true,
+                                severity: 'error',
+                                message: '網路異常，請檢查網路連線或與系統窗口聯絡',
+                            },
+                        }),
+                    );
+                });
         }
     };
 
@@ -175,21 +218,51 @@ const Information = () => {
                     setSupNmList(data);
                 }
             })
-            .catch((e) => console.log('e1=>', e));
+            .catch(() => {
+                dispatch(
+                    setMessageStateOpen({
+                        messageStateOpen: {
+                            isOpen: true,
+                            severity: 'error',
+                            message: '網路異常，請檢查網路連線或與系統窗口聯絡',
+                        },
+                    }),
+                );
+            });
         //海纜名稱
         fetch(submarineCableInfoList, { method: 'GET' })
             .then((res) => res.json())
             .then((data) => {
                 setSubmarineCableList(data);
             })
-            .catch((e) => console.log('e1=>', e));
+            .catch(() => {
+                dispatch(
+                    setMessageStateOpen({
+                        messageStateOpen: {
+                            isOpen: true,
+                            severity: 'error',
+                            message: '網路異常，請檢查網路連線或與系統窗口聯絡',
+                        },
+                    }),
+                );
+            });
         //會員名稱
         fetch(getPartiesInfoList, { method: 'GET' })
             .then((res) => res.json())
             .then((data) => {
                 setPartiesList(data);
             })
-            .catch((e) => console.log('e1=>', e));
+            .catch(() => {
+                dispatch(
+                    setMessageStateOpen({
+                        messageStateOpen: {
+                            isOpen: true,
+                            severity: 'error',
+                            message: '網路異常，請檢查網路連線或與系統窗口聯絡',
+                        },
+                    }),
+                );
+            });
     }, []);
 
     useEffect(() => {
@@ -357,18 +430,18 @@ const Information = () => {
                             <Tab sx={{ p: 0 }} label="聯盟金融帳戶" {...a11yProps(3)} />
                         </Tabs>
                     </Box>
-                    <TabPanel value={value} index={0}>
+                    <CustomTabPanel value={value} index={0}>
                         <SubmarineCableDataList infoList={infoList} setInfoList={setInfoList} />
-                    </TabPanel>
-                    <TabPanel value={value} index={1}>
+                    </CustomTabPanel>
+                    <CustomTabPanel value={value} index={1}>
                         <SupplierDataList infoList={infoList} setInfoList={setInfoList} />
-                    </TabPanel>
-                    <TabPanel value={value} index={2}>
+                    </CustomTabPanel>
+                    <CustomTabPanel value={value} index={2}>
                         <PartyDataList infoList={infoList} setInfoList={setInfoList} />
-                    </TabPanel>
-                    <TabPanel value={value} index={3}>
+                    </CustomTabPanel>
+                    <CustomTabPanel value={value} index={3}>
                         <CBPBankAccount infoList={infoList} setInfoList={setInfoList} />
-                    </TabPanel>
+                    </CustomTabPanel>
                 </MainCard>
             </Grid>
         </Grid>

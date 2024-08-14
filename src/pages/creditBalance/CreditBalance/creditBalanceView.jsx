@@ -1,20 +1,5 @@
-import { useEffect, useState, useRef } from 'react';
-import {
-    Typography,
-    Grid,
-    Button,
-    FormControl,
-    InputLabel,
-    Select,
-    MenuItem,
-    Box,
-    TextField,
-    Checkbox,
-    Autocomplete,
-    Table,
-    Tabs,
-    Tab,
-} from '@mui/material';
+import { useEffect, useState } from 'react';
+import { Grid, Button, Box, Tabs, Tab } from '@mui/material';
 
 // day
 import Dialog from '@mui/material/Dialog';
@@ -23,30 +8,18 @@ import DialogActions from '@mui/material/DialogActions';
 
 // project import
 import CreditBalanceDeduct from './creditBalanceDeduct';
-import { BootstrapDialogTitle, TabPanel } from 'components/commonFunction';
-
-// table
-import TableCell, { tableCellClasses } from '@mui/material/TableCell';
-import { styled } from '@mui/material/styles';
+import CustomTabPanel from 'components/CustomTabPanel';
+import { BootstrapDialogTitle } from 'components/commonFunction';
 
 // api
 import { generateReport } from 'components/apis.jsx';
 
-const StyledTableCell = styled(TableCell)(({ theme }) => ({
-    [`&.${tableCellClasses.head}`]: {
-        // backgroundColor: theme.palette.common.gary,
-        color: theme.palette.common.black,
-        paddingTop: '0.2rem',
-        paddingBottom: '0.2rem',
-    },
-    [`&.${tableCellClasses.body}`]: {
-        fontSize: 14,
-        paddingTop: '0.2rem',
-        paddingBottom: '0.2rem',
-    },
-}));
+// redux
+import { useDispatch } from 'react-redux';
+import { setMessageStateOpen } from 'store/reducers/dropdown';
 
 const CreditBalanceView = ({ cbView, handleViewClose, viewId }) => {
+    const dispatch = useDispatch();
     const [listInfo, setListInfo] = useState([]);
     const [value, setValue] = useState(0);
 
@@ -87,7 +60,17 @@ const CreditBalanceView = ({ cbView, handleViewClose, viewId }) => {
                 link.download = `CB報表.xlsx`;
                 link.click();
             })
-            .catch((e) => console.log('e1=>', e));
+            .catch(() => {
+                dispatch(
+                    setMessageStateOpen({
+                        messageStateOpen: {
+                            isOpen: true,
+                            severity: 'error',
+                            message: '網路異常，請檢查網路連線或與系統窗口聯絡',
+                        },
+                    }),
+                );
+            });
     };
 
     const getData = () => {
@@ -109,7 +92,17 @@ const CreditBalanceView = ({ cbView, handleViewClose, viewId }) => {
                     setListInfo(data);
                 }
             })
-            .catch((e) => console.log('e1=>', e));
+            .catch(() => {
+                dispatch(
+                    setMessageStateOpen({
+                        messageStateOpen: {
+                            isOpen: true,
+                            severity: 'error',
+                            message: '網路異常，請檢查網路連線或與系統窗口聯絡',
+                        },
+                    }),
+                );
+            });
     };
 
     useEffect(() => {
@@ -130,9 +123,9 @@ const CreditBalanceView = ({ cbView, handleViewClose, viewId }) => {
                                 {/* <Tab label="退費紀錄" {...a11yProps(1)} /> */}
                             </Tabs>
                         </Box>
-                        <TabPanel value={value} index={0}>
+                        <CustomTabPanel value={value} index={0}>
                             <CreditBalanceDeduct cblistInfo={listInfo} />
-                        </TabPanel>
+                        </CustomTabPanel>
                     </Grid>
                 </Grid>
             </DialogContent>

@@ -1,25 +1,28 @@
-import { useEffect, useState, useRef } from 'react';
+import { useState, useRef } from 'react';
 import { Grid, Box, Tabs, Tab } from '@mui/material';
 
 // project import
 import MainCard from 'components/MainCard';
+import CustomTabPanel from 'components/CustomTabPanel';
 import JournalQuery from './journalQuery';
 import ToBillDataList from './toBillDataList';
 import BilledDataList from './billedDataList';
 import InvalidateDataList from './invalidateDataList';
-import { TabPanel } from 'components/commonFunction';
 
 // api
 import { queryInvoice } from 'components/apis.jsx';
-// import dayjs from 'dayjs';
+
+// redux
+import { useDispatch } from 'react-redux';
+import { setMessageStateOpen } from 'store/reducers/dropdown';
 
 const CreateJournal = () => {
+    const dispatch = useDispatch();
     const [listInfo, setListInfo] = useState([]);
     const [value, setValue] = useState(0);
     const [supplierName, setSupplierName] = useState('All'); //供應商
     const [submarineCable, setSubmarineCable] = useState('All'); //海纜名稱
     const [issueDate, setIssueDate] = useState([null, null]); //發票日期
-    // const isFirst = useRef(true);
     const queryApi = useRef({});
     const initQuery = () => {
         setSupplierName('All');
@@ -54,7 +57,17 @@ const CreateJournal = () => {
                 console.log('查詢成功=>>', data);
                 setListInfo(data);
             })
-            .catch((e) => console.log('e1=>', e));
+            .catch(() => {
+                dispatch(
+                    setMessageStateOpen({
+                        messageStateOpen: {
+                            isOpen: true,
+                            severity: 'error',
+                            message: '網路異常，請檢查網路連線或與系統窗口聯絡',
+                        },
+                    }),
+                );
+            });
     };
 
     const a11yProps = (index) => {
@@ -99,15 +112,15 @@ const CreateJournal = () => {
                             <Tab label="已作廢" {...a11yProps(2)} />
                         </Tabs>
                     </Box>
-                    <TabPanel value={value} index={0}>
+                    <CustomTabPanel value={value} index={0}>
                         <ToBillDataList listInfo={listInfo} apiQuery={apiQuery} />
-                    </TabPanel>
-                    <TabPanel value={value} index={1}>
+                    </CustomTabPanel>
+                    <CustomTabPanel value={value} index={1}>
                         <BilledDataList listInfo={listInfo} apiQuery={apiQuery} />
-                    </TabPanel>
-                    <TabPanel value={value} index={2}>
+                    </CustomTabPanel>
+                    <CustomTabPanel value={value} index={2}>
                         <InvalidateDataList listInfo={listInfo} apiQuery={apiQuery} />
-                    </TabPanel>
+                    </CustomTabPanel>
                 </MainCard>
             </Grid>
         </Grid>

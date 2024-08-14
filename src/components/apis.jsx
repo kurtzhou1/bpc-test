@@ -1,6 +1,6 @@
 // let env = 'internal-cbpsAlb-1176080923.ap-northeast-1.elb.amazonaws.com'
-let env = '127.0.0.1:8000';
-// let env = '172.26.154.82:8000';
+// let env = '10.193.130.75:8000';
+let env = 'localhost:8000';
 
 export const ssoUrlQA =
     'https://iam-qa.cht.com.tw/auth/realms/B2E/protocol/openid-connect/auth?client_id=CBPS.QA.I&response_type=code&redirect_uri=https://cbpsqa.cht.com.tw&scope=ldap';
@@ -164,7 +164,7 @@ export const billMilestoneLiabilityList = `http://${env}/api/v1/dropdownmenuBill
 export const billMilestoneList = `http://${env}/api/v1/BillMilestone/`;
 export const dropdownmenuSubmarineCable = `http://${env}/api/v1/dropdownmenuSubmarineCable`;
 export const partiesLiabilityList = `http://${env}/api/v1/dropdownmenuParties`;
-export const workTitleLiabilityList = `http://${env}/api/v1/dropdownmenuWorkTitle`;
+// export const workTitleLiabilityList = `http://${env}/api/v1/dropdownmenuWorkTitle`;
 export const queryLiability = `http://${env}/api/v1/Liability`;
 export const toBillDataapi = `http://${env}/api/v1/getInvoiceMaster&InvoiceDetailStream`;
 export const journaryDetailView = `http://${env}/api/v1/InvoiceDetail`;

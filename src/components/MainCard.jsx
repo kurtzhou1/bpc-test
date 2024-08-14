@@ -1,9 +1,17 @@
 import PropTypes from 'prop-types';
-import { forwardRef, useState } from 'react';
+import { forwardRef } from 'react';
 
 // material-ui
 import { useTheme } from '@mui/material/styles';
-import { Card, CardContent, CardHeader, Divider, Typography, InputBase, TextField, Input, InputAdornment } from '@mui/material';
+import {
+    Card,
+    CardContent,
+    CardHeader,
+    Divider,
+    Typography,
+    Input,
+    InputAdornment,
+} from '@mui/material';
 
 //search
 import { styled, alpha } from '@mui/material/styles';
@@ -16,7 +24,7 @@ import Highlighter from './third-party/Highlighter';
 const headerSX = {
     px: 2.5,
     py: 1.3,
-    '& .MuiCardHeader-action': { m: '0px auto', alignSelf: 'center' }
+    '& .MuiCardHeader-action': { m: '0px auto', alignSelf: 'center' },
 };
 
 // ==============================|| CUSTOM - MAIN CARD ||============================== //
@@ -42,57 +50,10 @@ const MainCard = forwardRef(
             searchTitle,
             ...others
         },
-        ref
+        ref,
     ) => {
         const theme = useTheme();
         boxShadow = theme.palette.mode === 'dark' ? boxShadow || true : boxShadow;
-
-        // const StyledInputBase = styled(InputBase)(({ theme }) => ({
-        //     color: 'inherit',
-        //     '& .MuiInputBase-input': {
-        //         // vertical padding + font size from searchIcon
-        //         paddingLeft: `calc(1em + ${theme.spacing(4)})`,
-        //         paddingTop: 0,
-        //         paddingBottom: 0,
-        //         transition: theme.transitions.create('width'),
-        //         width: '100%',
-        //         [theme.breakpoints.up('sm')]: {
-        //             width: '12ch',
-        //             '&:focus': {
-        //                 width: '20ch'
-        //             }
-        //         }
-        //     }
-        // }));
-
-        // const SearchIconWrapper = styled('div')(({ theme }) => ({
-        //     padding: theme.spacing(0, 2),
-        //     height: '100%',
-        //     position: 'absolute',
-        //     pointerEvents: 'none',
-        //     display: 'flex',
-        //     alignItems: 'center',
-        //     justifyContent: 'center'
-        // }));
-
-        // const Search = styled('div')(({ theme }) => ({
-        //     position: 'relative',
-        //     borderRadius: theme.shape.borderRadius,
-        //     backgroundColor: alpha(theme.palette.common.black, 0.05),
-        //     '&:hover': {
-        //         backgroundColor: alpha(theme.palette.common.black, 0.15)
-        //     },
-        //     marginLeft: 0,
-        //     width: '100%',
-        //     [theme.breakpoints.up('sm')]: {
-        //         marginLeft: theme.spacing(1),
-        //         width: 'auto'
-        //     }
-        // }));
-
-        // const searchFunction = (e) => {
-        //     requestSearch(e);
-        // };
 
         return (
             <Card
@@ -103,17 +64,23 @@ const MainCard = forwardRef(
                     ...sx,
                     border: border ? '1px solid' : 'none',
                     borderRadius: 2,
-                    borderColor: theme.palette.mode === 'dark' ? theme.palette.divider : theme.palette.grey.A800,
-                    boxShadow: boxShadow && (!border || theme.palette.mode === 'dark') ? shadow || theme.customShadows.z1 : 'inherit',
+                    borderColor:
+                        theme.palette.mode === 'dark'
+                            ? theme.palette.divider
+                            : theme.palette.grey.A800,
+                    boxShadow:
+                        boxShadow && (!border || theme.palette.mode === 'dark')
+                            ? shadow || theme.customShadows.z1
+                            : 'inherit',
                     ':hover': {
-                        boxShadow: boxShadow ? shadow || theme.customShadows.z1 : 'inherit'
+                        boxShadow: boxShadow ? shadow || theme.customShadows.z1 : 'inherit',
                     },
                     '& pre': {
                         m: 0,
                         p: '16px !important',
                         fontFamily: theme.typography.fontFamily,
-                        fontSize: '0.75rem'
-                    }
+                        fontSize: '0.75rem',
+                    },
                 }}
             >
                 {/* card header and action */}
@@ -125,8 +92,15 @@ const MainCard = forwardRef(
                         sx={headerSX}
                         titleTypographyProps={{ variant: 'subtitle1' }}
                         title={
-                            <Typography sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                                <Typography>{title}</Typography>
+                            <Typography
+                                component={'span'}
+                                sx={{
+                                    display: 'flex',
+                                    justifyContent: 'space-between',
+                                    alignItems: 'center',
+                                }}
+                            >
+                                <Typography component={'span'}>{title}</Typography>
                                 {search && (
                                     <Input
                                         placeholder={searchTitle ? searchTitle : 'Search…'}
@@ -146,7 +120,15 @@ const MainCard = forwardRef(
                     />
                 )}
                 {darkTitle && title && (
-                    <CardHeader sx={headerSX} title={<Typography variant="h3">{title}</Typography>} action={secondary} />
+                    <CardHeader
+                        sx={headerSX}
+                        title={
+                            <Typography component={'span'} variant="h3">
+                                {title}
+                            </Typography>
+                        }
+                        action={secondary}
+                    />
                 )}
 
                 {/* content & header divider */}
@@ -167,7 +149,7 @@ const MainCard = forwardRef(
                 )}
             </Card>
         );
-    }
+    },
 );
 
 MainCard.propTypes = {
@@ -183,7 +165,7 @@ MainCard.propTypes = {
     title: PropTypes.string,
     codeHighlight: PropTypes.bool,
     content: PropTypes.bool,
-    children: PropTypes.node
+    children: PropTypes.node,
 };
 
 export default MainCard;
