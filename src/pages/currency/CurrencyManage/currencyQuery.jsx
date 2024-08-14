@@ -31,13 +31,7 @@ import PropTypes from 'prop-types';
 
 // ==============================|| SAMPLE PAGE ||============================== //
 
-const LiabilityQuery = ({
-    setListInfo,
-    currencyListInfo,
-    submarineCableList,
-    workTitleList,
-    queryApi,
-}) => {
+const LiabilityQuery = ({ setListInfo, currencyListInfo, submarineCableList, queryApi }) => {
     const [submarineCable, setSubmarineCable] = useState('All'); //海纜名稱
     const [workTitle, setWorkTitle] = useState('All'); //海纜作業
     const [billYM, setBillYM] = useState(null); //出帳日期
@@ -184,11 +178,9 @@ const LiabilityQuery = ({
                             onChange={(e) => setWorkTitle(e.target.value)}
                         >
                             <MenuItem value={'All'}>All</MenuItem>
-                            {workTitleList.map((i) => (
-                                <MenuItem key={i} value={i}>
-                                    {i}
-                                </MenuItem>
-                            ))}
+                            <MenuItem value={'Upgrade'}>Upgrade</MenuItem>
+                            <MenuItem value={'Construction'}>Construction</MenuItem>
+                            <MenuItem value={'O&M'}>O&M</MenuItem>
                         </Select>
                     </FormControl>
                 </Grid>

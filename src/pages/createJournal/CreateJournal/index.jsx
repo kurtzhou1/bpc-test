@@ -10,7 +10,7 @@ import BilledDataList from './billedDataList';
 import InvalidateDataList from './invalidateDataList';
 
 // api
-import { queryInvoice } from 'components/apis.jsx';
+import { getInvoiceWKMasterInvoiceWKDetail } from 'components/apis.jsx';
 
 // redux
 import { useDispatch } from 'react-redux';
@@ -44,7 +44,7 @@ const CreateJournal = () => {
             tmpArray.Status = 'INVALID';
         }
         console.log('tmpArray=>>', tmpArray);
-        fetch(queryInvoice, {
+        fetch(getInvoiceWKMasterInvoiceWKDetail, {
             method: 'POST',
             headers: {
                 'Content-type': 'application/json',

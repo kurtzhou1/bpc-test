@@ -1,6 +1,6 @@
 // let env = 'internal-cbpsAlb-1176080923.ap-northeast-1.elb.amazonaws.com'
 // let env = '10.193.130.75:8000';
-let env = 'localhost:8000';
+let env = '127.0.0.1:8000';
 
 export const ssoUrlQA =
     'https://iam-qa.cht.com.tw/auth/realms/B2E/protocol/openid-connect/auth?client_id=CBPS.QA.I&response_type=code&redirect_uri=https://cbpsqa.cht.com.tw&scope=ldap';
@@ -27,7 +27,7 @@ export const generateInvoice = `http://${env}/api/v1/generateInvoiceWKMaster&Inv
 export const updateInvoice = `http://${env}/api/v1/updateInvoiceWKMaster`;
 
 // 查詢發票工作檔狀態
-export const queryInvoice = `http://${env}/api/v1/getInvoiceWKMaster&InvoiceWKDetail`;
+export const getInvoiceWKMasterInvoiceWKDetail = `http://${env}/api/v1/getInvoiceWKMaster&InvoiceWKDetail`;
 
 // 刪除發票工作檔
 export const deleteInvoiceWKMaster = `http://${env}/api/v1/deleteInvoiceWKMaster`;
@@ -188,7 +188,6 @@ export const cBRefund = `http://${env}/api/v1/initPayDraft/CBRefund`;
 export const cBRefundView = `http://${env}/api/v1/initPayDraft/CBRefund/view`;
 export const uploadPayDraft = `http://${env}/api/v1/uploadPayDraft/CBRefund`;
 export const updatePayDraft = `http://${env}/api/v1/updatePayDraft/CBRefund`;
-export const getInvoiceWKMasterInvoiceWKDetail = `http://${env}/api/v1/getInvoiceWKMaster&InvoiceWKDetail`;
 
 // currency
 export const addCurrencyData = `http://${env}/api/v1/add_currency_data`;

@@ -119,7 +119,8 @@ const InvoiceDataList = ({ listInfo, setAction, setModifyItem, page, setPage }) 
                                     {row.InvoiceWKMaster.Code}
                                 </StyledTableCell>
                                 <StyledTableCell align="center">
-                                    {handleNumber(row.InvoiceWKMaster.ExgTotalAmount)}
+                                    {handleNumber(row.InvoiceWKMaster.ExgTotalAmount)}{' '}
+                                    {row.InvoiceWKMaster.ToCode}
                                 </StyledTableCell>
                                 <StyledTableCell align="center">
                                     {row.InvoiceWKMaster.Status === 'TEMPORARY'

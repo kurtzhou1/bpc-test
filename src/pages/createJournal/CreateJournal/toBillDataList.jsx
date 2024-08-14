@@ -51,7 +51,7 @@ const ToBillDataList = ({ listInfo, apiQuery }) => {
 
     //立帳作業
     const toBillData = (wKMasterID) => {
-        let tmpQuery = '/' + 'WKMasterID=' + wKMasterID;
+        let tmpQuery = '/WKMasterID=' + wKMasterID;
         tmpQuery = toBillDataapi + tmpQuery;
         console.log('tmpQuery=>>', tmpQuery);
         fetch(tmpQuery, {
@@ -120,9 +120,6 @@ const ToBillDataList = ({ listInfo, apiQuery }) => {
     const sendJounaryInfo = () => {
         if (Number(totalAmount).toFixed(2) === Number(currentAmount).toFixed(2)) {
             let tmpArray = toBillDataMain.current.map((i) => i);
-            // tmpArray.forEach((i) => {
-            //     delete i.InvMasterID;
-            // });
             let tmpData = {
                 TotalAmount: totalAmount,
                 InvoiceMaster: tmpArray,
@@ -266,7 +263,8 @@ const ToBillDataList = ({ listInfo, apiQuery }) => {
                             <StyledTableCell align="center">合約種類</StyledTableCell>
                             <StyledTableCell align="center">發票日期</StyledTableCell>
                             <StyledTableCell align="center">明細數量</StyledTableCell>
-                            <StyledTableCell align="center">總金額</StyledTableCell>
+                            <StyledTableCell align="center">原始金額</StyledTableCell>
+                            <StyledTableCell align="center">換匯後金額</StyledTableCell>
                             <StyledTableCell align="center">Action</StyledTableCell>
                         </TableRow>
                     </TableHead>
@@ -297,7 +295,12 @@ const ToBillDataList = ({ listInfo, apiQuery }) => {
                                         {row.InvoiceWKDetail.length}
                                     </StyledTableCell>
                                     <StyledTableCell align="center">
-                                        {handleNumber(row.InvoiceWKMaster.TotalAmount)}
+                                        {handleNumber(row.InvoiceWKMaster.TotalAmount)}{' '}
+                                        {row.InvoiceWKMaster.Code}
+                                    </StyledTableCell>
+                                    <StyledTableCell align="center">
+                                        {handleNumber(row.InvoiceWKMaster.ExgTotalAmount)}{' '}
+                                        {row.InvoiceWKMaster.ToCode}
                                     </StyledTableCell>
                                     <StyledTableCell align="center">
                                         <Box

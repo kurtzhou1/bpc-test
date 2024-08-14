@@ -23,7 +23,7 @@ import { TextField } from '@mui/material/index';
 import MainCard from 'components/MainCard';
 
 // api
-import { queryInvoice, supplierNameDropDownUnique } from 'components/apis.jsx';
+import { getInvoiceWKMasterInvoiceWKDetail, supplierNameDropDownUnique } from 'components/apis.jsx';
 import dayjs from 'dayjs';
 
 // redux
@@ -145,7 +145,7 @@ const InvoiceQuery = ({
         }
         queryApi.current = tmpObject;
         console.log('tmpQuery=>>', tmpObject);
-        fetch(queryInvoice, {
+        fetch(getInvoiceWKMasterInvoiceWKDetail, {
             method: 'POST',
             headers: {
                 'Content-type': 'application/json',

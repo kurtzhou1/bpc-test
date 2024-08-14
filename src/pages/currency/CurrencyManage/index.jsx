@@ -13,7 +13,6 @@ import {
     billMilestoneLiabilityList,
     dropdownmenuSubmarineCable,
     partiesLiabilityList,
-    workTitleLiabilityList,
     queryLiability,
     compareLiability,
     addLiabilityapi,
@@ -42,7 +41,6 @@ const LiabilityManage = () => {
 
     const [partyList, setPartyList] = useState([]); //會員名稱下拉選單
     const [submarineCableList, setSubmarineCableList] = useState([]); //海纜名稱下拉選單
-    const [workTitleList, setWorkTitleList] = useState([]); //海纜作業下拉選單
     const [isCurrencyOpen, setIsCurrencyOpen] = useState(false);
     const [isAddCurrencyOpen, setIsAddCurrencyOpen] = useState(false); //新增編輯Currency
     const lBRawID = useRef(0); //LBRawID
@@ -145,12 +143,6 @@ const LiabilityManage = () => {
                 setPartyList(data);
             })
             .catch((e) => console.log('e1=>', e));
-        fetch(workTitleLiabilityList, { method: 'GET' })
-            .then((res) => res.json())
-            .then((data) => {
-                setWorkTitleList(data);
-            })
-            .catch((e) => console.log('e1=>', e));
         getCurrencyDataFun();
     }, []);
 
@@ -206,7 +198,6 @@ const LiabilityManage = () => {
                     currencyListInfo={currencyListInfo}
                     partyList={partyList}
                     submarineCableList={submarineCableList}
-                    workTitleList={workTitleList}
                     queryApi={queryApi}
                 />
             </Grid>

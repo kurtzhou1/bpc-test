@@ -22,7 +22,7 @@ import { TextField } from '@mui/material/index';
 
 //api
 import {
-    queryInvoice,
+    getInvoiceWKMasterInvoiceWKDetail,
     supplierNameDropDownUnique,
     submarineCableInfoList,
 } from 'components/apis.jsx';
@@ -71,7 +71,7 @@ const JournalQuery = ({ setListInfo, queryApi, invoiceStatus, setPage }) => {
         }
         queryApi.current = tmpObject;
         console.log('立帳發票查詢=>>', tmpObject);
-        fetch(queryInvoice, {
+        fetch(getInvoiceWKMasterInvoiceWKDetail, {
             method: 'POST',
             headers: {
                 'Content-type': 'application/json',

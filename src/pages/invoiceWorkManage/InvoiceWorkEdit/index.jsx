@@ -16,7 +16,7 @@ import ChosePurpose from './chosePurpose';
 
 // api
 import {
-    queryInvoice,
+    getInvoiceWKMasterInvoiceWKDetail,
     generateInvoice,
     updateInvoice,
     deleteInvoiceWKMaster,
@@ -111,7 +111,7 @@ const InvoiceWorkManage = () => {
     };
 
     const initQuery = () => {
-        fetch(queryInvoice, {
+        fetch(getInvoiceWKMasterInvoiceWKDetail, {
             method: 'POST',
             headers: {
                 'Content-type': 'application/json',
@@ -138,7 +138,7 @@ const InvoiceWorkManage = () => {
     };
 
     const queryInitTemporary = () => {
-        fetch(queryInvoice, {
+        fetch(getInvoiceWKMasterInvoiceWKDetail, {
             method: 'POST',
             headers: {
                 'Content-type': 'application/json',
@@ -164,7 +164,7 @@ const InvoiceWorkManage = () => {
     };
 
     const firstQueryInit = () => {
-        fetch(queryInvoice, {
+        fetch(getInvoiceWKMasterInvoiceWKDetail, {
             method: 'POST',
             headers: {
                 'Content-type': 'application/json',
