@@ -37,12 +37,15 @@ const InvoiceQuery = ({
     bmsList,
     setAction,
     setPage,
+    currencyListInfo,
 }) => {
     const dispatch = useDispatch();
     const [issueDate, setIssueDate] = useState([null, null]); //發票日期
     const [supplierNameQuery, setSupplierNameQuery] = useState('All'); //供應商
     const [submarineCableQuery, setSubmarineCableQuery] = useState('All'); //海纜名稱
     const [supNmList, setSupNmList] = useState([]); //供應商下拉選單
+    const [fromCode, setFromCode] = useState('All');
+    const [toCode, setToCode] = useState('All');
     const [invoiceStatusQuery, setInvoiceStatusQuery] = useState({
         BILLED: false,
         COMPLETE: false,
@@ -70,6 +73,8 @@ const InvoiceQuery = ({
         setBillMilestoneQuery('All');
         setInvoiceNoQuery('');
         setIsIssueDate('');
+        setFromCode('');
+        setToCode('');
     };
 
     const handleChange = (event) => {
@@ -89,6 +94,12 @@ const InvoiceQuery = ({
         }
         if (billMilestoneQuery && billMilestoneQuery !== 'All') {
             tmpObject.BillMilestone = billMilestoneQuery;
+        }
+        if (fromCode && fromCode !== 'All') {
+            tmpObject.FromCode = fromCode;
+        }
+        if (toCode && toCode !== 'All') {
+            tmpObject.ToCode = toCode;
         }
         if (isIssueDate === 'true') {
             tmpObject.IssueDate = {
@@ -386,8 +397,62 @@ const InvoiceQuery = ({
                         onChange={(e) => setInvoiceNoQuery(e.target.value)}
                     />
                 </Grid>
-                <Grid item xs={0} sm={4} md={3} lg={3} />
-                <Grid item xs={12} sm={0} md={3} lg={3} />
+                <Grid item xs={12} sm={2} md={1} lg={1}>
+                    <Typography
+                        variant="h5"
+                        sx={{
+                            fontSize: { lg: '0.7rem', xl: '0.88rem' },
+                            ml: { lg: '0.5rem', xl: '1.5rem' },
+                        }}
+                    >
+                        原始幣別：
+                    </Typography>
+                </Grid>
+                <Grid item xs={12} sm={2} md={2} lg={2}>
+                    <FormControl fullWidth size="small">
+                        <InputLabel>選擇原始幣別</InputLabel>
+                        <Select
+                            value={fromCode}
+                            label="幣別"
+                            onChange={(e) => setFromCode(e.target.value)}
+                        >
+                            <MenuItem value={'All'}>All</MenuItem>
+                            {currencyListInfo?.map((i) => (
+                                <MenuItem key={i.Code} value={i.Code}>
+                                    {i.Code}
+                                </MenuItem>
+                            ))}
+                        </Select>
+                    </FormControl>
+                </Grid>
+                <Grid item xs={12} sm={2} md={1} lg={1}>
+                    <Typography
+                        variant="h5"
+                        sx={{
+                            fontSize: { lg: '0.7rem', xl: '0.88rem' },
+                            ml: { lg: '0.5rem', xl: '1.5rem' },
+                        }}
+                    >
+                        兌換幣別：
+                    </Typography>
+                </Grid>
+                <Grid item xs={12} sm={2} md={2} lg={2}>
+                    <FormControl fullWidth size="small">
+                        <InputLabel>選擇兌換幣別</InputLabel>
+                        <Select
+                            value={toCode}
+                            label="幣別"
+                            onChange={(e) => setToCode(e.target.value)}
+                        >
+                            <MenuItem value={'All'}>All</MenuItem>
+                            {currencyListInfo?.map((i) => (
+                                <MenuItem key={i.Code} value={i.Code}>
+                                    {i.Code}
+                                </MenuItem>
+                            ))}
+                        </Select>
+                    </FormControl>
+                </Grid>
                 {/* row3 */}
                 <Grid item xs={12} sm={9} md={9} lg={9} display="flex" alignItems="center">
                     <Typography
@@ -450,15 +515,7 @@ const InvoiceQuery = ({
                         />
                     </LocalizationProvider>
                 </Grid>
-                <Grid
-                    item
-                    sm={3}
-                    md={3}
-                    lg={3}
-                    display="flex"
-                    justifyContent="end"
-                    alignItems="center"
-                >
+                <Grid item md={3} lg={3} display="flex" justifyContent="end" alignItems="center">
                     <Button sx={{ mr: '0.25rem' }} variant="contained" onClick={invoiceQuery}>
                         查詢
                     </Button>

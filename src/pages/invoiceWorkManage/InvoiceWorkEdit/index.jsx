@@ -61,7 +61,6 @@ const InvoiceWorkManage = () => {
     const [bmsList, setBmsList] = useState([]); //計帳段號下拉選單
     const [bmStoneList, setBmStoneList] = useState([]); //計帳段號下拉選單
     const [fromCode, setFromCode] = useState(''); //幣別
-    const [codeList, setCodeList] = useState([]);
     const [currencyExgID, setCurrencyExgID] = useState(null);
     const [billMilestone, setBillMilestone] = useState(''); //計帳段號
     const [feeItem, setFeeItem] = useState(''); //費用項目
@@ -71,6 +70,7 @@ const InvoiceWorkManage = () => {
     const queryApi = useRef({});
     const queryApiTemporary = { Status: ['TEMPORARY'] };
     const [submarineCableList, setSubmarineCableList] = useState([]); //海纜名稱下拉選單
+    const [currencyListInfo, setCurrencyListInfo] = useState([]); //幣別下拉選單
     const [listInfo, setListInfo] = useState([]);
     const [page, setPage] = useState(0); //分頁Page
     const [isReturnOpen, setIsReturnOpen] = useState(false);
@@ -244,66 +244,6 @@ const InvoiceWorkManage = () => {
     const handleDialogClose = () => {
         setIsPurposeDialogOpen(false);
     };
-    useEffect(() => {
-        itemInfoInitial();
-        setAction('');
-        setModifyItem('');
-        firstQueryInit();
-        fetch(supplierNameDropDownUnique, {
-            method: 'GET',
-            Authorization: 'Bearer' + localStorage.getItem('accessToken') ?? '',
-        })
-            .then((res) => res.json())
-            .then((data) => {
-                if (Array.isArray(data)) {
-                    setSupNmList(data);
-                }
-            })
-            .catch(() => {
-                dispatch(
-                    setMessageStateOpen({
-                        messageStateOpen: {
-                            isOpen: true,
-                            severity: 'error',
-                            message: '網路異常，請檢查網路連線或與系統窗口聯絡',
-                        },
-                    }),
-                );
-            });
-        //海纜名稱
-        fetch(submarineCableInfoList, { method: 'GET' })
-            .then((res) => res.json())
-            .then((data) => {
-                setSubmarineCableList(data);
-            })
-            .catch(() => {
-                dispatch(
-                    setMessageStateOpen({
-                        messageStateOpen: {
-                            isOpen: true,
-                            severity: 'error',
-                            message: '網路異常，請檢查網路連線或與系統窗口聯絡',
-                        },
-                    }),
-                );
-            });
-        fetch(billMilestoneLiabilityList, { method: 'GET' })
-            .then((res) => res.json())
-            .then((data) => {
-                setBmsList(data);
-            })
-            .catch(() => {
-                dispatch(
-                    setMessageStateOpen({
-                        messageStateOpen: {
-                            isOpen: true,
-                            severity: 'error',
-                            message: '網路異常，請檢查網路連線或與系統窗口聯絡',
-                        },
-                    }),
-                );
-            });
-    }, []);
 
     useEffect(() => {
         if ((modifyItem !== '' && action === '編輯') || (modifyItem !== '' && action === '檢視')) {
@@ -798,26 +738,72 @@ const InvoiceWorkManage = () => {
                     setSupNmList(data);
                 }
             })
-            .catch((e) => console.log('e1=>', e));
+            .catch(() => {
+                dispatch(
+                    setMessageStateOpen({
+                        messageStateOpen: {
+                            isOpen: true,
+                            severity: 'error',
+                            message: '網路異常，請檢查網路連線或與系統窗口聯絡',
+                        },
+                    }),
+                );
+            });
         //海纜名稱
         fetch(submarineCableInfoList, { method: 'GET' })
             .then((res) => res.json())
             .then((data) => {
                 setSubmarineCableList(data);
             })
-            .catch((e) => console.log('e1=>', e));
+            .catch(() => {
+                dispatch(
+                    setMessageStateOpen({
+                        messageStateOpen: {
+                            isOpen: true,
+                            severity: 'error',
+                            message: '網路異常，請檢查網路連線或與系統窗口聯絡',
+                        },
+                    }),
+                );
+            });
         fetch(billMilestoneLiabilityList, { method: 'GET' })
             .then((res) => res.json())
             .then((data) => {
                 setBmsList(data);
             })
-            .catch((e) => console.log('e1=>', e));
-        fetch(getCurrencyData, { method: 'GET' })
+            .catch(() => {
+                dispatch(
+                    setMessageStateOpen({
+                        messageStateOpen: {
+                            isOpen: true,
+                            severity: 'error',
+                            message: '網路異常，請檢查網路連線或與系統窗口聯絡',
+                        },
+                    }),
+                );
+            });
+        fetch(getCurrencyData, {
+            method: 'GET',
+            Authorization: 'Bearer' + localStorage.getItem('accessToken') ?? '',
+        })
             .then((res) => res.json())
             .then((data) => {
-                setCodeList(data);
+                console.log('data=>>', data);
+                if (Array.isArray(data)) {
+                    setCurrencyListInfo(data);
+                }
             })
-            .catch((e) => console.log('e1=>', e));
+            .catch(() => {
+                dispatch(
+                    setMessageStateOpen({
+                        messageStateOpen: {
+                            isOpen: true,
+                            severity: 'error',
+                            message: '網路異常，請檢查網路連線或與系統窗口聯絡',
+                        },
+                    }),
+                );
+            });
     }, []);
 
     return (
@@ -828,7 +814,7 @@ const InvoiceWorkManage = () => {
                 submarineCable={submarineCable}
                 workTitle={workTitle}
                 fromCode={fromCode}
-                codeList={codeList}
+                currencyListInfo={currencyListInfo}
                 currencyExgID={currencyExgID}
                 setCurrencyExgID={setCurrencyExgID}
                 rateInfo={rateInfo}
@@ -852,6 +838,7 @@ const InvoiceWorkManage = () => {
                                     bmsList={bmsList}
                                     setAction={setAction}
                                     setPage={setPage}
+                                    currencyListInfo={currencyListInfo}
                                 />
                             </Grid>
                         </Grid>
@@ -910,7 +897,7 @@ const InvoiceWorkManage = () => {
                                         setPartyName={setPartyName}
                                         submarineCableList={submarineCableList}
                                         action={action}
-                                        codeList={codeList}
+                                        currencyListInfo={currencyListInfo}
                                         purpose={rateInfo.current.Purpose}
                                     />
                                 </Grid>

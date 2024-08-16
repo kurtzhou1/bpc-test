@@ -16,6 +16,7 @@ import {
     compareLiability,
     addLiabilityapi,
     updateLiability,
+    submarineCableInfoList,
 } from 'components/apis.jsx';
 
 // redux
@@ -39,8 +40,6 @@ const LiabilityManage = () => {
 
     const [filterList, setFilterList] = useState(listInfo);
 
-    // const [bmStoneList, setBmStoneList] = useState([]); //計帳段號下拉選單
-    const [setBmStoneList] = useState([]); //計帳段號下拉選單
     const [partyList, setPartyList] = useState([]); //會員名稱下拉選單
     const [submarineCableList, setSubmarineCableList] = useState([]); //海纜名稱下拉選單
     const lBRawID = useRef(0); //LBRawID
@@ -258,12 +257,6 @@ const LiabilityManage = () => {
     }, [editItem]);
 
     useEffect(() => {
-        fetch(billMilestoneLiabilityList, { method: 'GET' })
-            .then((res) => res.json())
-            .then((data) => {
-                setBmStoneList(data);
-            })
-            .catch((e) => console.log('e1=>', e));
         fetch(dropdownmenuSubmarineCable, { method: 'GET' }).catch(() => {
             dispatch(
                 setMessageStateOpen({
@@ -279,6 +272,26 @@ const LiabilityManage = () => {
             .then((res) => res.json())
             .then((data) => {
                 setPartyList(data);
+            })
+            .catch(() => {
+                dispatch(
+                    setMessageStateOpen({
+                        messageStateOpen: {
+                            isOpen: true,
+                            severity: 'error',
+                            message: '網路異常，請檢查網路連線或與系統窗口聯絡',
+                        },
+                    }),
+                );
+            });
+        //海纜名稱
+        fetch(submarineCableInfoList, {
+            method: 'GET',
+        })
+            .then((res) => res.json())
+            .then((data) => {
+                console.log('data=>>', data);
+                setSubmarineCableList(data);
             })
             .catch(() => {
                 dispatch(

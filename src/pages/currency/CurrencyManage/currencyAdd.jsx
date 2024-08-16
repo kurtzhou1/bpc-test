@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import {
     Typography,
     Grid,
@@ -8,9 +8,6 @@ import {
     Select,
     MenuItem,
     TextField,
-    Checkbox,
-    Autocomplete,
-    Table,
 } from '@mui/material';
 import dayjs from 'dayjs';
 
@@ -28,14 +25,17 @@ import CheckBoxIcon from '@mui/icons-material/CheckBox';
 
 // table
 import TableCell, { tableCellClasses } from '@mui/material/TableCell';
-import Paper from '@mui/material/Paper';
 import { styled } from '@mui/material/styles';
 
 // project
 import { BootstrapDialogTitle } from 'components/commonFunction';
 
 // api
-import { addCurrencyExchangeData, updateCurrencyExchangeData } from 'components/apis.jsx';
+import {
+    addCurrencyExchangeData,
+    updateCurrencyExchangeData,
+    corporatesView,
+} from 'components/apis.jsx';
 
 // redux
 import { useDispatch } from 'react-redux';
@@ -81,6 +81,7 @@ const CurrencyAdd = ({
     const [toCode, setToCode] = useState('');
     const [toCName, setToCName] = useState('');
     const [note, setNote] = useState('');
+    const isDataExist = useRef(false);
 
     const initInfo = () => {
         setSubmarineCable('');
@@ -175,6 +176,18 @@ const CurrencyAdd = ({
                         isOpen: true,
                         severity: 'error',
                         message: '請輸入匯率',
+                    },
+                }),
+            );
+            return false;
+        }
+        if (!isDataExist.current) {
+            dispatch(
+                setMessageStateOpen({
+                    messageStateOpen: {
+                        isOpen: true,
+                        severity: 'error',
+                        message: '請先新增聯盟資料',
                     },
                 }),
             );
@@ -295,6 +308,49 @@ const CurrencyAdd = ({
         setToCode(e);
         setToCName(currencyListInfo.filter((i) => i.Code === e)[0].CName ?? '');
     };
+
+    useEffect(() => {
+        if (submarineCable && workTitle) {
+            let tmpObject = {
+                SubmarineCable: submarineCable,
+                WorkTitle: workTitle,
+            };
+
+            fetch(corporatesView, {
+                method: 'POST',
+                headers: {
+                    'Content-type': 'application/json',
+                    Authorization: 'Bearer' + localStorage.getItem('accessToken') ?? '',
+                },
+                body: JSON.stringify(tmpObject),
+            })
+                .then((res) => res.json())
+                .then((data) => {
+                    if (data.length === 0) {
+                        dispatch(
+                            setMessageStateOpen({
+                                messageStateOpen: {
+                                    isOpen: true,
+                                    severity: 'error',
+                                    message: '請先新增聯盟資料',
+                                },
+                            }),
+                        );
+                    } else {
+                        dispatch(
+                            setMessageStateOpen({
+                                messageStateOpen: {
+                                    isOpen: true,
+                                    severity: 'success',
+                                    message: '已有聯盟資料，請繼續輸入其他匯率資訊',
+                                },
+                            }),
+                        );
+                        isDataExist.current = true;
+                    }
+                });
+        }
+    }, [submarineCable, workTitle]);
 
     useEffect(() => {
         if (editItem?.CurrencyExgID && isAddCurrencyOpen) {

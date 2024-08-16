@@ -143,7 +143,6 @@ const LiabilityQuery = ({ setListInfo, partyList, submarineCableList, queryApi }
         if (workTitle !== '' && workTitle !== 'All') {
             tmpObject.WorkTitle = workTitle;
         }
-        // if (Object.keys(tmpObject).length !== 0) {
         console.log('tmpObject=>>', tmpObject);
         fetch(dropdownmenuBillMilestone, {
             method: 'POST',
@@ -202,8 +201,8 @@ const LiabilityQuery = ({ setListInfo, partyList, submarineCableList, queryApi }
                         >
                             <MenuItem value={'All'}>All</MenuItem>
                             {submarineCableList.map((i) => (
-                                <MenuItem key={i} value={i}>
-                                    {i}
+                                <MenuItem key={i.CableName} value={i.CableName}>
+                                    {i.CableName}
                                 </MenuItem>
                             ))}
                         </Select>
@@ -383,7 +382,7 @@ LiabilityQuery.propTypes = {
     partyList: PropTypes.array,
     submarineCableList: PropTypes.array,
     workTitleList: PropTypes.array,
-    queryApi: PropTypes.object,
+    queryApi: PropTypes.string,
 };
 
 export default LiabilityQuery;

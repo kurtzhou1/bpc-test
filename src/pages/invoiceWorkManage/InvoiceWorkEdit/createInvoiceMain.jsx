@@ -61,7 +61,7 @@ const InvoiceWorkManage = ({
     partyName,
     setPartyName,
     submarineCableList,
-    codeList,
+    currencyListInfo,
     purpose,
 }) => {
     const [supNmList, setSupNmList] = useState([]); //供應商下拉選單
@@ -385,7 +385,7 @@ const InvoiceWorkManage = ({
                             label="幣別"
                             onChange={(e) => setFromCode(e.target.value)}
                         >
-                            {codeList?.map((i) => (
+                            {currencyListInfo?.map((i) => (
                                 <MenuItem key={i.Code} value={i.Code}>
                                     {i.Code}
                                 </MenuItem>

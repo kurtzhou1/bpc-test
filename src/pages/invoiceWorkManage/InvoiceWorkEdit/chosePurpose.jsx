@@ -63,7 +63,7 @@ const ChosePurpose = ({
     submarineCable,
     workTitle,
     fromCode,
-    codeList,
+    currencyListInfo,
     currencyExgID,
     setCurrencyExgID,
     rateInfo,
@@ -122,17 +122,29 @@ const ChosePurpose = ({
         })
             .then((res) => res.json())
             .then((data) => {
-                console.log('data=>>', data);
-                setDataList(data);
-                dispatch(
-                    setMessageStateOpen({
-                        messageStateOpen: {
-                            isOpen: true,
-                            severity: 'success',
-                            message: '查詢成功',
-                        },
-                    }),
-                );
+                if (data.length > 0) {
+                    setDataList(data);
+                    dispatch(
+                        setMessageStateOpen({
+                            messageStateOpen: {
+                                isOpen: true,
+                                severity: 'success',
+                                message: '查詢成功',
+                            },
+                        }),
+                    );
+                } else {
+                    setDataList(data);
+                    dispatch(
+                        setMessageStateOpen({
+                            messageStateOpen: {
+                                isOpen: true,
+                                severity: 'success',
+                                message: '查無資料',
+                            },
+                        }),
+                    );
+                }
             })
             .catch((e) => console.log('e1=>', e));
     };
@@ -187,7 +199,7 @@ const ChosePurpose = ({
                                 label="幣別"
                                 onChange={(e) => setToCode(e.target.value)}
                             >
-                                {codeList.map((i) => (
+                                {currencyListInfo.map((i) => (
                                     <MenuItem key={i.Code} value={i.Code}>
                                         {i.Code}
                                     </MenuItem>

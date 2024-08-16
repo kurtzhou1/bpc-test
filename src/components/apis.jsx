@@ -197,3 +197,4 @@ export const getCurrencyExchangeData = `http://${env}/api/v1/get_currency_exchan
 export const updateCurrencyData = `http://${env}/api/v1/update_currency_data`;
 export const deleteCurrencyData = `http://${env}/api/v1/delete_currency_data`;
 export const updateCurrencyExchangeData = `http://${env}/api/v1/update_currency_exchange_data`;
+export const corporatesView = `http://${env}/api/v1/Corporates/view`;
