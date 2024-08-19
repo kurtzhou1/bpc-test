@@ -94,6 +94,7 @@ const CurrencyAdd = ({
         setToCode('');
         setToCName('');
         setNote('');
+        isDataExist.current = false;
     };
 
     const infoCheck = () => {
@@ -181,6 +182,7 @@ const CurrencyAdd = ({
             );
             return false;
         }
+        console.log('isDataExist.current=>>', !isDataExist.current);
         if (!isDataExist.current) {
             dispatch(
                 setMessageStateOpen({
@@ -209,7 +211,6 @@ const CurrencyAdd = ({
                 tmpArray.FromCode = fromCode;
                 tmpArray.ToCode = toCode;
                 tmpArray.Note = note;
-                console.log('tmpArray=>>', tmpArray);
                 fetch(addCurrencyExchangeData, {
                     method: 'POST',
                     headers: {
@@ -336,6 +337,7 @@ const CurrencyAdd = ({
                                 },
                             }),
                         );
+                        isDataExist.current = false;
                     } else {
                         dispatch(
                             setMessageStateOpen({
