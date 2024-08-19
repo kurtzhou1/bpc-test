@@ -53,6 +53,7 @@ const InvoiceWorkManage = () => {
     const [billMilestone, setBillMilestone] = useState(''); //計帳段號
     const [feeItem, setFeeItem] = useState(''); //費用項目
     const [feeAmount, setFeeAmount] = useState(''); //費用金額
+    const isTax = useRef(false);
     const [currencyExgID, setCurrencyExgID] = useState(null);
     const rateInfo = useRef({});
 
@@ -359,6 +360,7 @@ const InvoiceWorkManage = () => {
 
     //送出
     const sendInvoice = () => {
+        console.log('listInfo=>>', listInfo);
         listInfo.forEach((dataInfo) => {
             delete dataInfo.InvoiceWKMaster.ToCode;
             delete dataInfo.InvoiceWKMaster.ExgRate;
@@ -643,6 +645,7 @@ const InvoiceWorkManage = () => {
                                     setFeeItem={setFeeItem}
                                     feeAmount={feeAmount}
                                     setFeeAmount={setFeeAmount}
+                                    isTax={isTax}
                                 />
                             </Grid>
                             {/* 按鈕 */}

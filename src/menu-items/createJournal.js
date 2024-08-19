@@ -4,7 +4,7 @@ import { TagOutlined, AuditOutlined } from '@ant-design/icons';
 // constant
 const icons = {
     AuditOutlined,
-    TagOutlined
+    TagOutlined,
 };
 
 // ==============================|| EXTRA PAGES MENU ITEMS ||============================== //
@@ -29,19 +29,19 @@ const createJournal = {
                     type: 'item',
                     url: '/CreateJournal/CreateJournal',
                     icon: icons.TagOutlined,
-                    breadcrumbs: true
+                    breadcrumbs: true,
                 },
                 {
                     id: 'item22',
-                    title: '已立帳查詢',
+                    title: '立帳查詢',
                     type: 'item',
                     url: '/CreateJournal/JournalQuery',
                     icon: icons.TagOutlined,
-                    breadcrumbs: true
-                }
-            ]
-        }
-    ]
+                    breadcrumbs: true,
+                },
+            ],
+        },
+    ],
 };
 
 export default createJournal;

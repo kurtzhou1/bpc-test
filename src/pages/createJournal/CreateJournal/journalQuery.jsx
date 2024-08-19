@@ -25,6 +25,7 @@ import {
     getInvoiceWKMasterInvoiceWKDetail,
     supplierNameDropDownUnique,
     submarineCableInfoList,
+    getCurrencyData,
 } from 'components/apis.jsx';
 
 // redux
@@ -48,8 +49,11 @@ const JournalQuery = ({
     const dispatch = useDispatch();
     const [supNmList, setSupNmList] = useState([]); //供應商下拉選單
     const [submarineCableList, setSubmarineCableList] = useState([]); //海纜名稱下拉選單
+    const [code, setCode] = useState('All');
+    const [toCode, setToCode] = useState('All');
+    const [currencyListInfo, setCurrencyListInfo] = useState([]);
 
-    const jounaryQuery = () => {
+    const journalQuery = () => {
         let tmpObject = {};
         if (supplierName && supplierName !== 'All') {
             tmpObject.SupplierName = supplierName;
@@ -64,6 +68,12 @@ const JournalQuery = ({
                     ? dayjs(issueDate[1]).format('YYYYMMDD')
                     : dayjs(new Date()).format('YYYYMMDD'),
             };
+        }
+        if (code && code !== 'All') {
+            tmpObject.Code = code;
+        }
+        if (toCode && toCode !== 'All') {
+            tmpObject.ToCode = toCode;
         }
         if (invoiceStatus === '0' || invoiceStatus === 0) {
             tmpObject.Status = 'VALIDATED';
@@ -141,13 +151,26 @@ const JournalQuery = ({
                     }),
                 );
             });
+        //幣別
+        fetch(getCurrencyData, {
+            method: 'GET',
+            Authorization: 'Bearer' + localStorage.getItem('accessToken') ?? '',
+        })
+            .then((res) => res.json())
+            .then((data) => {
+                console.log('data=>>', data);
+                if (Array.isArray(data)) {
+                    setCurrencyListInfo(data);
+                }
+            })
+            .catch((e) => console.log('e1=>', e));
     }, []);
 
     return (
         <MainCard title="發票查詢" sx={{ width: '100%' }}>
             <Grid container display="flex" justifyContent="center" alignItems="center" spacing={2}>
                 {/* row1 */}
-                <Grid item xs={2} sm={2} md={1} lg={1}>
+                <Grid item md={1} lg={1}>
                     <Typography
                         textAlign="right"
                         variant="h5"
@@ -208,7 +231,7 @@ const JournalQuery = ({
                         發票日期：
                     </Typography>
                 </Grid>
-                <Grid item xs={9} sm={9} md={3} lg={3}>
+                <Grid item md={5} lg={5}>
                     <LocalizationProvider
                         dateAdapter={AdapterDayjs}
                         localeText={{ start: '起始日', end: '結束日' }}
@@ -229,18 +252,57 @@ const JournalQuery = ({
                         />
                     </LocalizationProvider>
                 </Grid>
-                <Grid item xs={2} sm={2} md={2} lg={2} />
-                <Grid
-                    item
-                    xs={12}
-                    sm={12}
-                    md={12}
-                    lg={12}
-                    display="flex"
-                    justifyContent="end"
-                    alignItems="center"
-                >
-                    <Button sx={{ mr: '0.5rem' }} variant="contained" onClick={jounaryQuery}>
+                {/* row2 */}
+                <Grid item md={1} lg={1} xl={1}>
+                    <Typography
+                        variant="h5"
+                        textAlign="right"
+                        sx={{
+                            fontSize: { lg: '0.7rem', xl: '0.88rem' },
+                        }}
+                    >
+                        原始幣別：
+                    </Typography>
+                </Grid>
+                <Grid item md={2} lg={2} xl={2}>
+                    <FormControl fullWidth size="small">
+                        <InputLabel>原始幣別</InputLabel>
+                        <Select value={code} onChange={(e) => setCode(e.target.value)}>
+                            <MenuItem value={'All'}>All</MenuItem>
+                            {currencyListInfo.map((i) => (
+                                <MenuItem key={i.Code} value={i.Code}>
+                                    {i.Code}
+                                </MenuItem>
+                            ))}
+                        </Select>
+                    </FormControl>
+                </Grid>
+                <Grid item md={1} lg={1} xl={1}>
+                    <Typography
+                        variant="h5"
+                        textAlign="right"
+                        sx={{
+                            fontSize: { lg: '0.7rem', xl: '0.88rem' },
+                        }}
+                    >
+                        兌換幣別：
+                    </Typography>
+                </Grid>
+                <Grid item md={2} lg={2} xl={2}>
+                    <FormControl fullWidth size="small">
+                        <InputLabel>兌換幣別</InputLabel>
+                        <Select value={toCode} onChange={(e) => setToCode(e.target.value)}>
+                            <MenuItem value={'All'}>All</MenuItem>
+                            {currencyListInfo.map((i) => (
+                                <MenuItem key={i.Code} value={i.Code}>
+                                    {i.Code}
+                                </MenuItem>
+                            ))}
+                        </Select>
+                    </FormControl>
+                </Grid>
+                <Grid item md={6} lg={6} display="flex" justifyContent="end" alignItems="center">
+                    <Button sx={{ mr: '0.5rem' }} variant="contained" onClick={journalQuery}>
                         查詢
                     </Button>
                     <Button variant="contained" onClick={initQuery}>

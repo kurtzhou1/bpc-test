@@ -62,6 +62,7 @@ const InvoiceWorkManage = () => {
     const [bmStoneList, setBmStoneList] = useState([]); //計帳段號下拉選單
     const [fromCode, setFromCode] = useState(''); //幣別
     const [currencyExgID, setCurrencyExgID] = useState(null);
+    const isTax = useRef(false);
     const [billMilestone, setBillMilestone] = useState(''); //計帳段號
     const [feeItem, setFeeItem] = useState(''); //費用項目
     const [feeAmount, setFeeAmount] = useState(''); //費用金額
@@ -915,6 +916,7 @@ const InvoiceWorkManage = () => {
                                         setFeeItem={setFeeItem}
                                         feeAmount={feeAmount}
                                         setFeeAmount={setFeeAmount}
+                                        isTax={isTax}
                                     />
                                 </Grid>
                                 {action === '編輯' ? (

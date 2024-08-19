@@ -16,7 +16,7 @@ const Setting = {
     type: 'group',
     children: [
         {
-            id: 'item11',
+            id: 'item111',
             title: '基本資料設定',
             type: 'collapse',
             url: '/Setting/Data',

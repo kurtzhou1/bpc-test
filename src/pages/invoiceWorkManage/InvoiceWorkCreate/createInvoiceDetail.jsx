@@ -43,13 +43,14 @@ const CreateInvoiceDetail = ({
     setFeeItem,
     feeAmount,
     setFeeAmount,
+    isTax,
 }) => {
     const [isEdit, setIsEdit] = useState(false);
     const editItem = useRef(0);
     const dispatch = useDispatch();
 
-    const createData = (FeeItem, BillMilestone, FeeAmount) => {
-        return { FeeItem, BillMilestone, FeeAmount };
+    const createData = (FeeItem, BillMilestone, IsTax, FeeAmount) => {
+        return { FeeItem, BillMilestone, IsTax, FeeAmount };
     };
 
     const StyledTableCell = styled(TableCell)(({ theme }) => ({
@@ -111,7 +112,12 @@ const CreateInvoiceDetail = ({
         if (infoCheck()) {
             let tmpArray = invoiceDetailInfo.map((i) => i);
             tmpArray.push(
-                createData(feeItem.trim(), billMilestone, Number(feeAmount.replaceAll(',', ''))),
+                createData(
+                    feeItem.trim(),
+                    billMilestone,
+                    false,
+                    Number(feeAmount.replaceAll(',', '')),
+                ),
             );
             // tmpArray.reverse();
             setInvoiceDetailInfo([...tmpArray]);
@@ -134,6 +140,7 @@ const CreateInvoiceDetail = ({
         setBillMilestone(tmpArray.BillMilestone);
         setFeeItem(tmpArray.FeeItem);
         setFeeAmount(handleNumber(tmpArray.FeeAmount));
+        isTax.current = tmpArray.IsTax;
     };
 
     //儲存編輯
@@ -143,7 +150,12 @@ const CreateInvoiceDetail = ({
             let tmpArray = invoiceDetailInfo.map((i) => i);
             tmpArray.splice(editItem.current, 1);
             tmpArray.push(
-                createData(feeItem, billMilestone, Number(feeAmount.replaceAll(',', ''))),
+                createData(
+                    feeItem,
+                    billMilestone,
+                    isTax.current,
+                    Number(feeAmount.replaceAll(',', '')),
+                ),
             );
             tmpArray.reverse();
             setInvoiceDetailInfo([...tmpArray]);
@@ -166,6 +178,7 @@ const CreateInvoiceDetail = ({
             createData(
                 '(tax)' + info.FeeItem.trim(),
                 info.BillMilestone,
+                true,
                 Number(info.FeeAmount / 10),
             ),
         );
@@ -309,6 +322,7 @@ const CreateInvoiceDetail = ({
                                 <TableRow>
                                     <StyledTableCell align="center">費用項目</StyledTableCell>
                                     <StyledTableCell align="center">計帳段號</StyledTableCell>
+                                    <StyledTableCell align="center">是否為稅</StyledTableCell>
                                     <StyledTableCell align="center">費用金額</StyledTableCell>
                                     <StyledTableCell align="center">Action</StyledTableCell>
                                 </TableRow>
@@ -324,6 +338,9 @@ const CreateInvoiceDetail = ({
                                         </StyledTableCell>
                                         <StyledTableCell align="center">
                                             {row.BillMilestone}
+                                        </StyledTableCell>
+                                        <StyledTableCell align="center">
+                                            {row.IsTax ? '是' : '否'}
                                         </StyledTableCell>
                                         <StyledTableCell align="center">
                                             {handleNumber(row.FeeAmount)}

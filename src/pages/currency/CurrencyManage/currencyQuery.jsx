@@ -36,7 +36,7 @@ const LiabilityQuery = ({ setListInfo, currencyListInfo, submarineCableList, que
     const [workTitle, setWorkTitle] = useState('All'); //海纜作業
     const [billYM, setBillYM] = useState(null); //出帳日期
     const [purpose, setPurpose] = useState(''); //主旨/用途
-    const [fromCode, setFromCode] = useState('All');
+    const [code, setCode] = useState('All');
     const [toCode, setToCode] = useState('All');
     const [ifEnd, setIfEnd] = useState({ true: false, false: false }); //終止狀態
     const dispatch = useDispatch();
@@ -46,7 +46,7 @@ const LiabilityQuery = ({ setListInfo, currencyListInfo, submarineCableList, que
         setWorkTitle('All');
         setBillYM(null);
         setPurpose('');
-        setFromCode('All');
+        setCode('All');
         setToCode('All');
         setIfEnd({ true: false, false: false });
     };
@@ -66,8 +66,8 @@ const LiabilityQuery = ({ setListInfo, currencyListInfo, submarineCableList, que
         if (purpose !== '') {
             tmpObject.Purpose = purpose;
         }
-        if (fromCode && fromCode !== 'All') {
-            tmpObject.FromCode = fromCode;
+        if (code && code !== 'All') {
+            tmpObject.Code = code;
         }
         if (toCode && toCode !== 'All') {
             tmpObject.Tocode = toCode;
@@ -245,7 +245,7 @@ const LiabilityQuery = ({ setListInfo, currencyListInfo, submarineCableList, que
                 <Grid item md={2} lg={2} xl={2}>
                     <FormControl fullWidth size="small">
                         <InputLabel>原始幣別</InputLabel>
-                        <Select value={fromCode} onChange={(e) => setFromCode(e.target.value)}>
+                        <Select value={code} onChange={(e) => setCode(e.target.value)}>
                             <MenuItem value={'All'}>All</MenuItem>
                             {currencyListInfo.map((i) => (
                                 <MenuItem key={i.Code} value={i.Code}>
@@ -255,7 +255,6 @@ const LiabilityQuery = ({ setListInfo, currencyListInfo, submarineCableList, que
                         </Select>
                     </FormControl>
                 </Grid>
-                {/* row2 */}
                 <Grid item md={1} lg={1} xl={1}>
                     <Typography
                         variant="h5"
