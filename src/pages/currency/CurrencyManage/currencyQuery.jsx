@@ -227,7 +227,6 @@ const LiabilityQuery = ({ setListInfo, currencyListInfo, submarineCableList, que
                         variant="outlined"
                         value={purpose}
                         size="small"
-                        // label="主旨"
                         inputProps={{ maxLength: 65 }}
                         onChange={(e) => setPurpose(e.target.value)}
                     />
