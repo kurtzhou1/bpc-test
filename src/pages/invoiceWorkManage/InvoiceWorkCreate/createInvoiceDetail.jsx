@@ -149,14 +149,7 @@ const CreateInvoiceDetail = ({
             setIsEdit(false);
             let tmpArray = invoiceDetailInfo.map((i) => i);
             tmpArray.splice(editItem.current, 1);
-            tmpArray.push(
-                createData(
-                    feeItem,
-                    billMilestone,
-                    isTax.current,
-                    Number(feeAmount.replaceAll(',', '')),
-                ),
-            );
+            tmpArray.push(createData(feeItem, billMilestone, isTax.current, feeAmount));
             tmpArray.reverse();
             setInvoiceDetailInfo([...tmpArray]);
             itemDetailInitial();

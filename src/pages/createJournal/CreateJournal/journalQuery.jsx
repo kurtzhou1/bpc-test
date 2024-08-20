@@ -179,7 +179,7 @@ const JournalQuery = ({
                         海纜名稱：
                     </Typography>
                 </Grid>
-                <Grid item xs={4} sm={4} md={2} lg={2}>
+                <Grid item sm={4} md={2} lg={2}>
                     <FormControl fullWidth size="small">
                         <InputLabel>選擇海纜</InputLabel>
                         <Select
@@ -196,7 +196,7 @@ const JournalQuery = ({
                         </Select>
                     </FormControl>
                 </Grid>
-                <Grid item xs={2} sm={2} md={1} lg={1}>
+                <Grid item sm={2} md={1} lg={1}>
                     <Typography
                         variant="h5"
                         textAlign="right"
@@ -222,7 +222,7 @@ const JournalQuery = ({
                         </Select>
                     </FormControl>
                 </Grid>
-                <Grid item xs={3} sm={3} md={1} lg={1}>
+                <Grid item sm={2} md={1} lg={1}>
                     <Typography
                         textAlign="right"
                         variant="h5"
@@ -231,7 +231,7 @@ const JournalQuery = ({
                         發票日期：
                     </Typography>
                 </Grid>
-                <Grid item md={5} lg={5}>
+                <Grid item sm={10} md={5} lg={5}>
                     <LocalizationProvider
                         dateAdapter={AdapterDayjs}
                         localeText={{ start: '起始日', end: '結束日' }}
@@ -253,7 +253,7 @@ const JournalQuery = ({
                     </LocalizationProvider>
                 </Grid>
                 {/* row2 */}
-                <Grid item md={1} lg={1} xl={1}>
+                <Grid item md={2} lg={1} xl={1}>
                     <Typography
                         variant="h5"
                         textAlign="right"
@@ -264,7 +264,7 @@ const JournalQuery = ({
                         原始幣別：
                     </Typography>
                 </Grid>
-                <Grid item md={2} lg={2} xl={2}>
+                <Grid item md={3} lg={2} xl={2}>
                     <FormControl fullWidth size="small">
                         <InputLabel>原始幣別</InputLabel>
                         <Select value={code} onChange={(e) => setCode(e.target.value)}>
@@ -277,7 +277,7 @@ const JournalQuery = ({
                         </Select>
                     </FormControl>
                 </Grid>
-                <Grid item md={1} lg={1} xl={1}>
+                <Grid item md={2} lg={1} xl={1}>
                     <Typography
                         variant="h5"
                         textAlign="right"
@@ -288,7 +288,7 @@ const JournalQuery = ({
                         兌換幣別：
                     </Typography>
                 </Grid>
-                <Grid item md={2} lg={2} xl={2}>
+                <Grid item md={3} lg={2} xl={2}>
                     <FormControl fullWidth size="small">
                         <InputLabel>兌換幣別</InputLabel>
                         <Select value={toCode} onChange={(e) => setToCode(e.target.value)}>
@@ -301,7 +301,7 @@ const JournalQuery = ({
                         </Select>
                     </FormControl>
                 </Grid>
-                <Grid item md={6} lg={6} display="flex" justifyContent="end" alignItems="center">
+                <Grid item md={4} lg={6} display="flex" justifyContent="end" alignItems="center">
                     <Button sx={{ mr: '0.5rem' }} variant="contained" onClick={journalQuery}>
                         查詢
                     </Button>
