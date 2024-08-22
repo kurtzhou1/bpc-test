@@ -173,7 +173,9 @@ const ToBillDataList = ({ listInfo, page, setPage }) => {
                             <StyledTableCell align="center">合約種類</StyledTableCell>
                             <StyledTableCell align="center">發票日期</StyledTableCell>
                             <StyledTableCell align="center">明細數量</StyledTableCell>
-                            <StyledTableCell align="center">總金額</StyledTableCell>
+                            <StyledTableCell align="center">原始金額</StyledTableCell>
+                            <StyledTableCell align="center">換匯後金額</StyledTableCell>
+                            <StyledTableCell align="center">狀態</StyledTableCell>
                             <StyledTableCell align="center">Action</StyledTableCell>
                         </TableRow>
                     </TableHead>
@@ -189,27 +191,37 @@ const ToBillDataList = ({ listInfo, page, setPage }) => {
                                 >
                                     <StyledTableCell align="center">{id + 1}</StyledTableCell>
                                     <StyledTableCell align="center">
-                                        {row?.InvoiceWKMaster?.InvoiceNo}
+                                        {row?.InvoiceWKMaster.InvoiceNo}
                                     </StyledTableCell>
                                     <StyledTableCell align="center">
-                                        {row?.InvoiceWKMaster?.SupplierName}
+                                        {row?.InvoiceWKMaster.SupplierName}
                                     </StyledTableCell>
                                     <StyledTableCell align="center">
-                                        {row?.InvoiceWKMaster?.SubmarineCable}
+                                        {row?.InvoiceWKMaster.SubmarineCable}
                                     </StyledTableCell>
                                     <StyledTableCell align="center">
-                                        {row?.InvoiceWKMaster?.WorkTitle}
+                                        {row?.InvoiceWKMaster.WorkTitle}
                                     </StyledTableCell>
                                     <StyledTableCell align="center">
-                                        {dayjs(row?.InvoiceWKMaster?.IssueDate).format(
-                                            'YYYY/MM/DD',
-                                        )}
+                                        {dayjs(row?.InvoiceWKMaster.IssueDate).format('YYYY/MM/DD')}
                                     </StyledTableCell>
                                     <StyledTableCell align="center">
                                         {row?.InvoiceWKDetail?.length}
                                     </StyledTableCell>
                                     <StyledTableCell align="center">
-                                        {handleNumber(row?.InvoiceWKMaster?.TotalAmount)}
+                                        {handleNumber(row.InvoiceWKMaster.TotalAmount)}{' '}
+                                        {row.InvoiceWKMaster.Code}
+                                    </StyledTableCell>
+                                    <StyledTableCell align="center">
+                                        {handleNumber(row.InvoiceWKMaster.ExgTotalAmount)}{' '}
+                                        {row.InvoiceWKMaster.ToCode}
+                                    </StyledTableCell>
+                                    <StyledTableCell align="center">
+                                        {row?.InvoiceWKMaster.Status === 'VALIDATED'
+                                            ? '待立帳'
+                                            : row?.InvoiceWKMaster.Status === 'BILLED'
+                                            ? '已立帳'
+                                            : row?.InvoiceWKMaster.Status}
                                     </StyledTableCell>
                                     <StyledTableCell align="center">
                                         <Box
