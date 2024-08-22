@@ -49,7 +49,7 @@ export const deleteLiability = `http://${env}/api/v1/deleteLiability`;
 export const dropdownmenuBillMilestone = `http://${env}/api/v1/dropdownmenuBillMilestone`;
 
 // 立帳的發票查詢
-export const sendJounary = `http://${env}/api/v1/addInvoiceMaster&InvoiceDetail`;
+export const addInvoiceMasterInvoiceDetail = `http://${env}/api/v1/addInvoiceMaster&InvoiceDetail`;
 export const updateInvoiceMaster = `http://${env}/api/v1/updateInvoiceMaster`;
 export const checkInvoiceNo = `http://${env}/api/v1/checkInvoiceNo`;
 

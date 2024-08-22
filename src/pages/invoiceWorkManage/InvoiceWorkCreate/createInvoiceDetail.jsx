@@ -112,12 +112,7 @@ const CreateInvoiceDetail = ({
         if (infoCheck()) {
             let tmpArray = invoiceDetailInfo.map((i) => i);
             tmpArray.push(
-                createData(
-                    feeItem.trim(),
-                    billMilestone,
-                    false,
-                    Number(feeAmount.replaceAll(',', '')),
-                ),
+                createData(feeItem.trim(), billMilestone, 0, Number(feeAmount.replaceAll(',', ''))),
             );
             // tmpArray.reverse();
             setInvoiceDetailInfo([...tmpArray]);
@@ -171,7 +166,7 @@ const CreateInvoiceDetail = ({
             createData(
                 '(tax)' + info.FeeItem.trim(),
                 info.BillMilestone,
-                true,
+                1,
                 Number(info.FeeAmount / 10),
             ),
         );
@@ -333,7 +328,7 @@ const CreateInvoiceDetail = ({
                                             {row.BillMilestone}
                                         </StyledTableCell>
                                         <StyledTableCell align="center">
-                                            {row.IsTax ? '是' : '否'}
+                                            {row.IsTax === 1 ? '是' : '否'}
                                         </StyledTableCell>
                                         <StyledTableCell align="center">
                                             {handleNumber(row.FeeAmount)}

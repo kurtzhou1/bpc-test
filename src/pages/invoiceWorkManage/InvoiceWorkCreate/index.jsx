@@ -53,7 +53,7 @@ const InvoiceWorkManage = () => {
     const [billMilestone, setBillMilestone] = useState(''); //計帳段號
     const [feeItem, setFeeItem] = useState(''); //費用項目
     const [feeAmount, setFeeAmount] = useState(''); //費用金額
-    const isTax = useRef(false);
+    const isTax = useRef(0);
     const [currencyExgID, setCurrencyExgID] = useState(null);
     const rateInfo = useRef({});
 

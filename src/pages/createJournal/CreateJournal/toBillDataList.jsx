@@ -18,11 +18,31 @@ import TableCell, { tableCellClasses } from '@mui/material/TableCell';
 import { styled } from '@mui/material/styles';
 import dayjs from 'dayjs';
 
-import { toBillDataapi, sendJounary } from 'components/apis.jsx';
+import { toBillDataapi, addInvoiceMasterInvoiceDetail } from 'components/apis.jsx';
 
 // redux
 import { useDispatch } from 'react-redux';
 import { setMessageStateOpen } from 'store/reducers/dropdown';
+
+const StyledTableCell = styled(TableCell)(({ theme }) => ({
+    [`&.${tableCellClasses.head}`]: {
+        // backgroundColor: theme.palette.common.gary,
+        color: theme.palette.common.black,
+        paddingTop: '0.2rem',
+        paddingBottom: '0.2rem',
+    },
+    [`&.${tableCellClasses.body}`]: {
+        fontSize: 14,
+        paddingTop: '0.2rem',
+        paddingBottom: '0.2rem',
+    },
+    [`&.${tableCellClasses.body}.totalAmount`]: {
+        fontSize: 14,
+        paddingTop: '0.2rem',
+        paddingBottom: '0.2rem',
+        backgroundColor: '#CFD8DC',
+    },
+}));
 
 const ToBillDataList = ({ listInfo, apiQuery }) => {
     const dispatch = useDispatch();
@@ -31,22 +51,18 @@ const ToBillDataList = ({ listInfo, apiQuery }) => {
     const [toBillDataInfo, setToBillDataInfo] = useState([]); //發票明細檔
     const [totalAmount, setTotalAmount] = useState(0); //發票總金額
     const [currentAmount, setCurrentAmount] = useState(0); //目前金額
-    const StyledTableCell = styled(TableCell)(({ theme }) => ({
-        [`&.${tableCellClasses.head}`]: {
-            // backgroundColor: theme.palette.common.gary,
-            color: theme.palette.common.black,
-            paddingTop: '0.2rem',
-            paddingBottom: '0.2rem',
-        },
-        [`&.${tableCellClasses.body}`]: {
-            fontSize: 14,
-            paddingTop: '0.2rem',
-            paddingBottom: '0.2rem',
-        },
-    }));
+    let codeType = useRef(''); //幣別
+    let differAmount = useRef(0); //尾差值總和
+    let feeAmountPostAmount = useRef(0); //攤分後金額總合
+
+    const infoInit = () => {
+        differAmount.current = 0;
+        feeAmountPostAmount.current = 0;
+    };
 
     const handleDialogClose = () => {
         setIsDialogOpen(false);
+        infoInit();
     };
 
     //立帳作業
@@ -60,21 +76,32 @@ const ToBillDataList = ({ listInfo, apiQuery }) => {
         })
             .then((res) => res.json())
             .then((data) => {
-                console.log(
-                    'data=>>',
-                    data,
-                    Array.isArray(data.InvoiceDetail),
-                    Array.isArray(data.InvoiceMaster),
-                );
-                let tmpAmount = 0;
+                console.log('data=>>', data);
                 if (Array.isArray(data.InvoiceDetail) && Array.isArray(data.InvoiceMaster)) {
+                    let tmpAmount = 0;
+                    let tmpfeeAmountPostAmount = 0;
+                    const reduceArray = Object.values(
+                        data.InvoiceDetail.reduce((acc, item) => {
+                            const keyName = item.PartyName;
+                            if (!acc[keyName]) {
+                                acc[keyName] = [];
+                            }
+                            acc[keyName].push(item);
+                            return acc;
+                        }, []),
+                    );
+                    setToBillDataInfo(reduceArray);
+
                     toBillDataMain.current = data.InvoiceMaster;
-                    setToBillDataInfo(data.InvoiceDetail);
                     setTotalAmount(data.TotalAmount);
                     data.InvoiceDetail.forEach((i) => {
                         tmpAmount = tmpAmount + i.FeeAmountPost + i.Difference;
+                        tmpfeeAmountPostAmount = tmpfeeAmountPostAmount + i.FeeAmountPost;
+                        codeType.current = i.ToCode;
                     });
+                    console.log('tmpfeeAmountPostAmount=>>', tmpfeeAmountPostAmount);
                     setCurrentAmount(tmpAmount.toFixed(2));
+                    feeAmountPostAmount.current = tmpfeeAmountPostAmount;
                     setIsDialogOpen(true);
                 } else {
                     toBillDataMain.current = [];
@@ -105,27 +132,34 @@ const ToBillDataList = ({ listInfo, apiQuery }) => {
             });
     };
 
-    const changeDiff = (diff, id) => {
+    const changeDiff = (diff, idFirst, idSecond) => {
+        console.log('????=>>', toBillDataInfo[idFirst][idSecond]);
         let tmpArray = toBillDataInfo.map((i) => i);
         let tmpAmount = 0;
-        tmpArray[id].Difference = Number(diff);
-        tmpArray.forEach((i) => {
-            tmpAmount = tmpAmount + i.FeeAmountPost + i.Difference;
+        let tmpDifferAmount = 0;
+        tmpArray[idFirst][idSecond].Difference = Number(diff);
+        tmpArray.forEach((PartyNameArray) => {
+            PartyNameArray.forEach((i) => {
+                tmpAmount = tmpAmount + i.FeeAmountPost + i.Difference;
+                tmpDifferAmount = tmpDifferAmount + i.Difference;
+            });
         });
+        differAmount.current = tmpDifferAmount;
         setToBillDataInfo(tmpArray);
         setCurrentAmount(tmpAmount.toFixed(2));
     };
 
     // 送出立帳(新增)
-    const sendJounaryInfo = () => {
+    const sendJournalInfo = () => {
         if (Number(totalAmount).toFixed(2) === Number(currentAmount).toFixed(2)) {
             let tmpArray = toBillDataMain.current.map((i) => i);
             let tmpData = {
                 TotalAmount: totalAmount,
                 InvoiceMaster: tmpArray,
-                InvoiceDetail: toBillDataInfo,
+                InvoiceDetail: [].concat(...toBillDataInfo),
             };
-            fetch(sendJounary, {
+            console.log('tmpData=>>', tmpData);
+            fetch(addInvoiceMasterInvoiceDetail, {
                 method: 'POST',
                 headers: {
                     'Content-type': 'application/json',
@@ -175,11 +209,15 @@ const ToBillDataList = ({ listInfo, apiQuery }) => {
         <>
             <Dialog maxWidth="xxl" fullWidth open={isDialogOpen}>
                 <BootstrapDialogTitle>立帳作業</BootstrapDialogTitle>
+                <Box display="flex" justifyContent="end" sx={{ marginRight: '2rem' }}>
+                    幣別：{codeType.current}
+                </Box>
                 <DialogContent>
                     <TableContainer component={Paper}>
                         <Table stickyHeader>
                             <TableHead>
                                 <TableRow>
+                                    <StyledTableCell align="center">No</StyledTableCell>
                                     <StyledTableCell align="center">費用項目</StyledTableCell>
                                     <StyledTableCell align="center">費用金額</StyledTableCell>
                                     <StyledTableCell align="center">計帳段號</StyledTableCell>
@@ -192,59 +230,207 @@ const ToBillDataList = ({ listInfo, apiQuery }) => {
                                 </TableRow>
                             </TableHead>
                             <TableBody>
-                                {toBillDataInfo.map((row, id) => {
-                                    let afterDiff =
-                                        row.FeeAmountPost + row.Difference - row.WHTAmount;
-                                    return (
-                                        <TableRow
-                                            key={row.FeeAmountPre + row?.LBRatio + id}
-                                            sx={{
-                                                '&:last-child td, &:last-child th': { border: 0 },
-                                            }}
-                                        >
-                                            <TableCell align="center">{row.FeeItem}</TableCell>
-                                            <TableCell align="center">
-                                                {handleNumber(row.FeeAmountPre)}
-                                            </TableCell>
-                                            <TableCell align="center">
-                                                {row.BillMilestone}
-                                            </TableCell>
-                                            <TableCell align="center">{row.PartyName}</TableCell>
-                                            <TableCell align="center">{row.LBRatio}%</TableCell>
-                                            <TableCell align="center">
-                                                {handleNumber(row.FeeAmountPost)}
-                                            </TableCell>
-                                            <TableCell align="center">{row.WHTAmount}</TableCell>
-                                            <TableCell align="center">
-                                                <TextField
-                                                    label="$"
-                                                    inputProps={{ step: '.01' }}
-                                                    size="small"
-                                                    type="number"
-                                                    style={{ width: '50%' }}
-                                                    onChange={(e) => {
-                                                        changeDiff(e.target.value, id);
+                                {toBillDataInfo.map((rowFirst, idFirst) => {
+                                    return rowFirst.map((rowSecond, idSecond) => {
+                                        let afterDiff =
+                                            rowSecond.FeeAmountPost +
+                                            rowSecond.Difference -
+                                            rowSecond.WHTAmount;
+                                        return (
+                                            <TableRow
+                                                key={
+                                                    rowSecond.FeeAmountPre +
+                                                    rowSecond?.LBRatio +
+                                                    idFirst
+                                                }
+                                                sx={{
+                                                    '&:last-child td, &:last-child th': {
+                                                        border: 0,
+                                                    },
+                                                }}
+                                            >
+                                                <TableCell
+                                                    align="center"
+                                                    sx={{
+                                                        borderTop:
+                                                            idFirst !== 0 && idSecond === 0
+                                                                ? '0.5px solid black'
+                                                                : null,
                                                     }}
-                                                />
-                                            </TableCell>
-                                            <TableCell align="center">
-                                                {handleNumber(afterDiff.toFixed(2))}
-                                            </TableCell>
-                                        </TableRow>
-                                    );
+                                                >
+                                                    {idFirst}
+                                                </TableCell>
+                                                <TableCell
+                                                    align="center"
+                                                    sx={{
+                                                        borderTop:
+                                                            idFirst !== 0 && idSecond === 0
+                                                                ? '0.5px solid black'
+                                                                : null,
+                                                    }}
+                                                >
+                                                    {rowSecond.FeeItem}
+                                                </TableCell>
+                                                <TableCell
+                                                    align="center"
+                                                    sx={{
+                                                        borderTop:
+                                                            idFirst !== 0 && idSecond === 0
+                                                                ? '0.5px solid black'
+                                                                : null,
+                                                    }}
+                                                >
+                                                    {handleNumber(rowSecond.FeeAmountPre)}
+                                                </TableCell>
+                                                <TableCell
+                                                    align="center"
+                                                    sx={{
+                                                        borderTop:
+                                                            idFirst !== 0 && idSecond === 0
+                                                                ? '0.5px solid black'
+                                                                : null,
+                                                    }}
+                                                >
+                                                    {rowSecond.BillMilestone}
+                                                </TableCell>
+                                                <TableCell
+                                                    align="center"
+                                                    sx={{
+                                                        borderTop:
+                                                            idFirst !== 0 && idSecond === 0
+                                                                ? '0.5px solid black'
+                                                                : null,
+                                                    }}
+                                                >
+                                                    {rowSecond.PartyName}
+                                                </TableCell>
+                                                <TableCell
+                                                    align="center"
+                                                    sx={{
+                                                        borderTop:
+                                                            idFirst !== 0 && idSecond === 0
+                                                                ? '0.5px solid black'
+                                                                : null,
+                                                    }}
+                                                >
+                                                    {rowSecond.LBRatio}%
+                                                </TableCell>
+                                                <TableCell
+                                                    align="center"
+                                                    sx={{
+                                                        borderTop:
+                                                            idFirst !== 0 && idSecond === 0
+                                                                ? '0.5px solid black'
+                                                                : null,
+                                                    }}
+                                                >
+                                                    {handleNumber(rowSecond.FeeAmountPost)}
+                                                </TableCell>
+                                                <TableCell
+                                                    align="center"
+                                                    sx={{
+                                                        borderTop:
+                                                            idFirst !== 0 && idSecond === 0
+                                                                ? '0.5px solid black'
+                                                                : null,
+                                                    }}
+                                                >
+                                                    {rowSecond.WHTAmount}
+                                                </TableCell>
+                                                <TableCell
+                                                    align="center"
+                                                    sx={{
+                                                        borderTop:
+                                                            idFirst !== 0 && idSecond === 0
+                                                                ? '0.5px solid black'
+                                                                : null,
+                                                    }}
+                                                >
+                                                    <TextField
+                                                        label="$"
+                                                        inputProps={{ step: '.01' }}
+                                                        size="small"
+                                                        type="number"
+                                                        style={{ width: '50%' }}
+                                                        onChange={(e) => {
+                                                            changeDiff(
+                                                                e.target.value,
+                                                                idFirst,
+                                                                idSecond,
+                                                            );
+                                                        }}
+                                                    />
+                                                </TableCell>
+                                                <TableCell
+                                                    align="center"
+                                                    sx={{
+                                                        borderTop:
+                                                            idFirst !== 0 && idSecond === 0
+                                                                ? '0.5px solid black'
+                                                                : null,
+                                                    }}
+                                                >
+                                                    {handleNumber(afterDiff.toFixed(2))}{' '}
+                                                </TableCell>
+                                            </TableRow>
+                                        );
+                                    });
                                 })}
+                                <TableRow
+                                    sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                                >
+                                    <StyledTableCell className="totalAmount" align="center">
+                                        Total
+                                    </StyledTableCell>
+                                    <StyledTableCell
+                                        className="totalAmount"
+                                        align="center"
+                                    ></StyledTableCell>
+                                    <StyledTableCell
+                                        className="totalAmount"
+                                        align="center"
+                                    ></StyledTableCell>
+                                    <StyledTableCell
+                                        className="totalAmount"
+                                        align="center"
+                                    ></StyledTableCell>
+                                    <StyledTableCell
+                                        className="totalAmount"
+                                        align="center"
+                                    ></StyledTableCell>
+                                    <StyledTableCell
+                                        className="totalAmount"
+                                        align="center"
+                                    ></StyledTableCell>
+                                    <StyledTableCell className="totalAmount" align="center">
+                                        {handleNumber(feeAmountPostAmount.current.toFixed(2))}
+                                    </StyledTableCell>
+                                    <StyledTableCell
+                                        className="totalAmount"
+                                        align="center"
+                                    ></StyledTableCell>
+                                    <StyledTableCell className="totalAmount" align="center">
+                                        {handleNumber(differAmount.current.toFixed(2))}
+                                    </StyledTableCell>
+                                    <StyledTableCell className="totalAmount" align="center">
+                                        {handleNumber(currentAmount)}
+                                    </StyledTableCell>
+                                </TableRow>
                             </TableBody>
                         </Table>
                     </TableContainer>
-                    <DialogContentText sx={{ fontSize: '20px', mt: '0.5rem' }}>
+                    {/* <DialogContentText sx={{ fontSize: '20px', mt: '0.5rem' }}>
                         發票總金額：${handleNumber(totalAmount)}
                     </DialogContentText>
                     <DialogContentText sx={{ fontSize: '20px', color: '#CC0000' }}>
                         目前金額：${handleNumber(currentAmount)}
-                    </DialogContentText>
+                    </DialogContentText> */}
                 </DialogContent>
+                <Box display="flex" justifyContent="end" sx={{ marginRight: '2rem' }}>
+                    幣別：{codeType.current}
+                </Box>
                 <DialogActions>
-                    <Button sx={{ mr: '0.05rem' }} variant="contained" onClick={sendJounaryInfo}>
+                    <Button sx={{ mr: '0.05rem' }} variant="contained" onClick={sendJournalInfo}>
                         新增
                     </Button>
                     <Button sx={{ mr: '0.05rem' }} variant="contained" onClick={handleDialogClose}>
