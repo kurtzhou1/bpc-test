@@ -17,6 +17,7 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 // project import
 import MainCard from 'components/MainCard';
 import { handleNumber } from 'components/commonFunction';
+import NumericFormatCustom from 'components/numericFormatCustom';
 import { TextField } from '@mui/material/index';
 
 import { useTranslation } from 'react-i18next';
@@ -27,8 +28,6 @@ import { checkInvoiceNo } from 'components/apis';
 // redux
 import { useDispatch } from 'react-redux';
 import { setMessageStateOpen } from 'store/reducers/dropdown';
-
-// ==============================|| SAMPLE PAGE ||============================== //
 
 const InvoiceWorkManage = ({
     handleDialogOpen,
@@ -114,6 +113,8 @@ const InvoiceWorkManage = ({
                 );
             });
     };
+
+    console.log('totalAmount=>>', totalAmount, typeof totalAmount);
 
     return (
         <MainCard title="發票工作主檔建立" sx={{ height: '100%' }}>
@@ -295,10 +296,23 @@ const InvoiceWorkManage = ({
                         variant="outlined"
                         size="small"
                         label="填寫發票總金額"
+                        InputProps={{
+                            inputComponent: NumericFormatCustom,
+                        }}
+                        onChange={(e) => {
+                            setTotalAmount(e.target.value);
+                        }}
+                    />
+                    {/* <TextField
+                        value={totalAmount}
+                        fullWidth
+                        variant="outlined"
+                        size="small"
+                        label="填寫發票總金額"
                         onChange={(e) => {
                             setTotalAmount(handleNumber(e.target.value));
                         }}
-                    />
+                    /> */}
                 </Grid>
                 <Grid item xs={12} sm={6} md={3} lg={2}>
                     <Typography

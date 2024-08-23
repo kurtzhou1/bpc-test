@@ -139,10 +139,7 @@ const InvoiceWorkManage = () => {
         invoiceDetailInfo.forEach((i) => {
             detailAmount = detailAmount + i.FeeAmount;
         });
-        if (
-            Number(totalAmount.toString().replaceAll(',', '')).toFixed(2) !==
-            Number(detailAmount).toFixed(2)
-        ) {
+        if (Number(totalAmount).toFixed(2) !== Number(detailAmount).toFixed(2)) {
             dispatch(
                 setMessageStateOpen({
                     messageStateOpen: {
@@ -257,7 +254,8 @@ const InvoiceWorkManage = () => {
                 isPro === 'true' || isPro === true ? true : false,
                 isRecharge === 'true' || isRecharge === true ? true : false,
                 isLiability === 'true' || isLiability === true ? true : false,
-                Number(totalAmount.toString().replaceAll(',', '')),
+                // Number(totalAmount.toString().replaceAll(',', '')),
+                Number(totalAmount),
                 currencyExgID,
                 rateInfo.current.Purpose,
                 fromCode,
@@ -332,7 +330,7 @@ const InvoiceWorkManage = () => {
                 isPro === 'true' || isPro === true ? true : false,
                 isRecharge === 'true' || isRecharge === true ? true : false,
                 isLiability === 'true' || isLiability === true ? true : false,
-                Number(totalAmount.toString().replaceAll(',', '')),
+                Number(totalAmount),
                 currencyExgID,
                 rateInfo.current.Purpose,
                 fromCode,

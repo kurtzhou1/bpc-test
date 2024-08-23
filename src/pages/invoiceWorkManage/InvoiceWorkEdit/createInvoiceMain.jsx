@@ -19,6 +19,7 @@ import { DesktopDatePicker } from '@mui/x-date-pickers/DesktopDatePicker';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 // project import
 import MainCard from 'components/MainCard';
+import NumericFormatCustom from 'components/numericFormatCustom';
 import { TextField } from '@mui/material/index';
 import { handleNumber } from 'components/commonFunction';
 
@@ -334,8 +335,10 @@ const InvoiceWorkManage = ({
                         fullWidth
                         variant="outlined"
                         size="small"
-                        // type="number"
                         label="填寫發票總金額"
+                        InputProps={{
+                            inputComponent: NumericFormatCustom,
+                        }}
                         onChange={(e) => {
                             setTotalAmount(handleNumber(e.target.value));
                         }}
