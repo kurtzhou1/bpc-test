@@ -4,6 +4,7 @@ import { useEffect, useState, useRef } from 'react';
 import MainCard from 'components/MainCard';
 import { TextField } from '@mui/material/index';
 import { handleNumber } from 'components/commonFunction';
+import NumericFormatCustom from 'components/numericFormatCustom';
 
 // material-ui
 import {
@@ -134,7 +135,7 @@ const CreateInvoiceDetail = ({
         let tmpArray = invoiceDetailInfo[id];
         setBillMilestone(tmpArray.BillMilestone);
         setFeeItem(tmpArray.FeeItem);
-        setFeeAmount(handleNumber(tmpArray.FeeAmount));
+        setFeeAmount(tmpArray.FeeAmount);
         isTax.current = tmpArray.IsTax;
     };
 
@@ -231,8 +232,11 @@ const CreateInvoiceDetail = ({
                         variant="outlined"
                         value={feeAmount}
                         size="small"
-                        label="($)填寫金額"
-                        onChange={(e) => setFeeAmount(handleNumber(e.target.value))}
+                        label="填寫金額"
+                        InputProps={{
+                            inputComponent: NumericFormatCustom,
+                        }}
+                        onChange={(e) => setFeeAmount(e.target.value)}
                     />
                 </Grid>
                 {/* row2 */}
@@ -331,7 +335,7 @@ const CreateInvoiceDetail = ({
                                             {row.IsTax === 1 ? '是' : '否'}
                                         </StyledTableCell>
                                         <StyledTableCell align="center">
-                                            {handleNumber(row.FeeAmount)}
+                                            {row.FeeAmount}
                                         </StyledTableCell>
                                         <StyledTableCell align="center">
                                             {row.FeeItem.includes('(tax)') ? null : (

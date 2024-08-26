@@ -258,7 +258,8 @@ const ToBillDataList = ({ listInfo, apiQuery }) => {
                                                                 : null,
                                                     }}
                                                 >
-                                                    {idFirst}
+                                                    {(idFirst + 1) * rowFirst.length -
+                                                        (rowFirst.length - idSecond - 1)}
                                                 </TableCell>
                                                 <TableCell
                                                     align="center"

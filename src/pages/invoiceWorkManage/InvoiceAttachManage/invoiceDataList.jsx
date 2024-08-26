@@ -286,7 +286,7 @@ const InvoiceDataList = ({ listInfo, page, setPage }) => {
                                                 display: 'flex',
                                                 justifyContent: 'center',
                                                 '& button': {
-                                                    mx: { md: 0.2, lg: 0.2, xl: 1 },
+                                                    mx: { md: 0.2, lg: 0.2 },
                                                     p: 0,
                                                 },
                                             }}

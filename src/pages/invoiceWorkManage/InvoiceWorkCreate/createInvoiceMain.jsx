@@ -16,7 +16,6 @@ import { DesktopDatePicker } from '@mui/x-date-pickers/DesktopDatePicker';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 // project import
 import MainCard from 'components/MainCard';
-import { handleNumber } from 'components/commonFunction';
 import NumericFormatCustom from 'components/numericFormatCustom';
 import { TextField } from '@mui/material/index';
 

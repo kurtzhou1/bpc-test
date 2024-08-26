@@ -221,6 +221,8 @@ const ToBillDataList = ({ listInfo, page, setPage }) => {
                                             ? '待立帳'
                                             : row?.InvoiceWKMaster.Status === 'BILLED'
                                             ? '已立帳'
+                                            : row?.InvoiceWKMaster.Status === 'TEMPORARY'
+                                            ? '暫存'
                                             : row?.InvoiceWKMaster.Status}
                                     </StyledTableCell>
                                     <StyledTableCell align="center">

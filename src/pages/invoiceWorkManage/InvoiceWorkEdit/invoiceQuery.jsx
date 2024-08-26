@@ -96,7 +96,7 @@ const InvoiceQuery = ({
             tmpObject.BillMilestone = billMilestoneQuery;
         }
         if (fromCode && fromCode !== 'All') {
-            tmpObject.FromCode = fromCode;
+            tmpObject.Code = fromCode;
         }
         if (toCode && toCode !== 'All') {
             tmpObject.ToCode = toCode;

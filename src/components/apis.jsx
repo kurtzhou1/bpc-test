@@ -1,5 +1,7 @@
 // let env = 'internal-cbpsAlb-1176080923.ap-northeast-1.elb.amazonaws.com'
 // let env = '10.193.130.75:8000';
+// cbpsqabe.cht.com.tw
+// cbpsbe.cht.com.tw
 let env = '127.0.0.1:8000';
 
 export const ssoUrlQA =
