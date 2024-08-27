@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from 'react';
+import { useState, useRef } from 'react';
 import { Grid, Button, Box, Tabs, Tab } from '@mui/material';
 
 // project import
@@ -64,9 +64,7 @@ const SupplierPayment = () => {
                 <SupplierPaymentQuery setListInfo={setListInfo} queryApi={queryApi} value={value} />
             </Grid>
             <Grid item xs={12}>
-                <MainCard
-                    title={`${value === 0 ? '待確認' : value === 1 ? '已確認' : '函稿'}資料列表`}
-                >
+                <MainCard title={`${value === 0 ? '待確認' : '函稿'}資料列表`}>
                     <Box sx={{ borderBottom: 1, borderColor: 'divider', position: 'relative' }}>
                         <Tabs value={value} onChange={handleChange}>
                             <Tab label="待確認" {...a11yProps(0)} />

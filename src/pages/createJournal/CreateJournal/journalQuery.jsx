@@ -42,6 +42,10 @@ const JournalQuery = ({
     setSupplierName,
     submarineCable,
     setSubmarineCable,
+    code,
+    setCode,
+    toCode,
+    setToCode,
     issueDate,
     setIssueDate,
     initQuery,
@@ -49,8 +53,6 @@ const JournalQuery = ({
     const dispatch = useDispatch();
     const [supNmList, setSupNmList] = useState([]); //供應商下拉選單
     const [submarineCableList, setSubmarineCableList] = useState([]); //海纜名稱下拉選單
-    const [code, setCode] = useState('All');
-    const [toCode, setToCode] = useState('All');
     const [currencyListInfo, setCurrencyListInfo] = useState([]);
 
     const journalQuery = () => {

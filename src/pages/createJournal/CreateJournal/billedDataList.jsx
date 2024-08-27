@@ -33,32 +33,46 @@ import {
 import { useDispatch } from 'react-redux';
 import { setMessageStateOpen } from 'store/reducers/dropdown';
 
+const StyledTableCell = styled(TableCell)(({ theme }) => ({
+    [`&.${tableCellClasses.head}`]: {
+        // backgroundColor: theme.palette.common.gary,
+        color: theme.palette.common.black,
+        paddingTop: '0.2rem',
+        paddingBottom: '0.2rem',
+    },
+    [`&.${tableCellClasses.body}`]: {
+        fontSize: 14,
+        paddingTop: '0.2rem',
+        paddingBottom: '0.2rem',
+    },
+    [`&.${tableCellClasses.body}.totalAmount`]: {
+        fontSize: 14,
+        paddingTop: '0.2rem',
+        paddingBottom: '0.2rem',
+        backgroundColor: '#CFD8DC',
+    },
+}));
+
 const BilledDataList = ({ listInfo, apiQuery }) => {
     const dispatch = useDispatch();
     const [isDialogOpen, setIsDialogOpen] = useState(false);
     const [toBillDataInfo, setToBillDataInfo] = useState([]); //發票明細檔
     const totalAmount = useRef(0);
+    let differAmount = useRef(0); //尾差值總和
+    let feeAmountPostAmount = useRef(0); //攤分後金額總合
 
-    const StyledTableCell = styled(TableCell)(({ theme }) => ({
-        [`&.${tableCellClasses.head}`]: {
-            // backgroundColor: theme.palette.common.gary,
-            color: theme.palette.common.black,
-            paddingTop: '0.2rem',
-            paddingBottom: '0.2rem',
-        },
-        [`&.${tableCellClasses.body}`]: {
-            fontSize: 14,
-            paddingTop: '0.2rem',
-            paddingBottom: '0.2rem',
-        },
-    }));
+    const infoInit = () => {
+        differAmount.current = 0;
+        feeAmountPostAmount.current = 0;
+    };
 
     const handleDialogClose = () => {
         setIsDialogOpen(false);
+        infoInit();
     };
 
     const billDataView = (WKMasterID) => {
-        let tmpQuery = '/' + 'WKMasterID=' + WKMasterID;
+        let tmpQuery = '/WKMasterID=' + WKMasterID;
         let tmpQueryDetail = journaryDetailView + tmpQuery;
         let tmpQueryMaster = journaryMasterView + tmpQuery;
         fetch(tmpQueryMaster, {
@@ -74,10 +88,24 @@ const BilledDataList = ({ listInfo, apiQuery }) => {
                 })
                     .then((res) => res.json())
                     .then((data2) => {
-                        setToBillDataInfo(data2);
+                        console.log('data2=>>', data2);
+                        const reduceArray = Object.values(
+                            data2.reduce((acc, item) => {
+                                const keyName = item.PartyName;
+                                if (!acc[keyName]) {
+                                    acc[keyName] = [];
+                                }
+                                acc[keyName].push(item);
+                                return acc;
+                            }, []),
+                        );
+                        console.log('reduceArray=>>', reduceArray);
+                        setToBillDataInfo(reduceArray);
+                        // setToBillDataInfo(data2);
                         setIsDialogOpen(true);
                     })
                     .catch(() => {
+                        setToBillDataInfo([]);
                         dispatch(
                             setMessageStateOpen({
                                 messageStateOpen: {
@@ -164,6 +192,8 @@ const BilledDataList = ({ listInfo, apiQuery }) => {
         apiQuery();
     };
 
+    console.log('toBillDataInfo=>>', toBillDataInfo);
+
     return (
         <>
             <Dialog maxWidth="xl" fullWidth open={isDialogOpen}>
@@ -173,6 +203,7 @@ const BilledDataList = ({ listInfo, apiQuery }) => {
                         <Table sx={{ minWidth: 300 }} stickyHeader>
                             <TableHead>
                                 <TableRow>
+                                    <StyledTableCell align="center">No</StyledTableCell>
                                     <StyledTableCell align="center">費用項目</StyledTableCell>
                                     <StyledTableCell align="center">費用金額</StyledTableCell>
                                     <StyledTableCell align="center">會員</StyledTableCell>
@@ -184,39 +215,163 @@ const BilledDataList = ({ listInfo, apiQuery }) => {
                                 </TableRow>
                             </TableHead>
                             <TableBody>
-                                {toBillDataInfo?.map((row, id) => {
-                                    let afterDiff =
-                                        row.FeeAmountPost + row.Difference - row.WHTAmount;
-                                    return (
-                                        <TableRow
-                                            key={row.PartyName + row.LBRatio + id}
-                                            sx={{
-                                                '&:last-child td, &:last-child th': { border: 0 },
-                                            }}
-                                        >
-                                            <TableCell align="center">{row.FeeItem}</TableCell>
-                                            <TableCell align="center">{`$${handleNumber(
-                                                row.FeeAmountPre,
-                                            )}`}</TableCell>
-                                            <TableCell align="center">{row.PartyName}</TableCell>
-                                            <TableCell align="center">{`${row.LBRatio}%`}</TableCell>
-                                            <TableCell align="center">{`$${handleNumber(
-                                                row.FeeAmountPost,
-                                            )}`}</TableCell>
-                                            <TableCell align="center">{row.WHTAmount}</TableCell>
-                                            <TableCell align="center">{`$${row.Difference}`}</TableCell>
-                                            <TableCell align="center">{`$${handleNumber(
-                                                afterDiff.toFixed(2),
-                                            )}`}</TableCell>
-                                        </TableRow>
-                                    );
+                                {toBillDataInfo.map((rowFirst, idFirst) => {
+                                    return rowFirst.map((rowSecond, idSecond) => {
+                                        console.log('rowSecond=>>', rowSecond);
+                                        let afterDiff =
+                                            rowSecond.FeeAmountPost +
+                                            rowSecond.Difference -
+                                            rowSecond.WHTAmount;
+                                        return (
+                                            <TableRow
+                                                key={
+                                                    rowSecond.PartyName +
+                                                    rowSecond.LBRatio +
+                                                    idFirst +
+                                                    idSecond
+                                                }
+                                                sx={{
+                                                    '&:last-child td, &:last-child th': {
+                                                        border: 0,
+                                                    },
+                                                }}
+                                            >
+                                                <TableCell
+                                                    align="center"
+                                                    sx={{
+                                                        borderTop:
+                                                            idFirst !== 0 && idSecond === 0
+                                                                ? '0.5px solid black'
+                                                                : null,
+                                                    }}
+                                                >
+                                                    {(idFirst + 1) * rowFirst.length -
+                                                        (rowFirst.length - idSecond - 1)}
+                                                </TableCell>
+                                                <TableCell
+                                                    align="center"
+                                                    sx={{
+                                                        borderTop:
+                                                            idFirst !== 0 && idSecond === 0
+                                                                ? '0.5px solid black'
+                                                                : null,
+                                                    }}
+                                                >
+                                                    {rowSecond.FeeItem}
+                                                </TableCell>
+                                                <TableCell
+                                                    align="center"
+                                                    sx={{
+                                                        borderTop:
+                                                            idFirst !== 0 && idSecond === 0
+                                                                ? '0.5px solid black'
+                                                                : null,
+                                                    }}
+                                                >
+                                                    ${handleNumber(rowSecond.FeeAmountPre)}
+                                                </TableCell>
+                                                <TableCell
+                                                    align="center"
+                                                    sx={{
+                                                        borderTop:
+                                                            idFirst !== 0 && idSecond === 0
+                                                                ? '0.5px solid black'
+                                                                : null,
+                                                    }}
+                                                >
+                                                    {rowSecond.PartyName}
+                                                </TableCell>
+                                                <TableCell
+                                                    align="center"
+                                                    sx={{
+                                                        borderTop:
+                                                            idFirst !== 0 && idSecond === 0
+                                                                ? '0.5px solid black'
+                                                                : null,
+                                                    }}
+                                                >
+                                                    {rowSecond.LBRatio}
+                                                </TableCell>
+                                                <TableCell
+                                                    align="center"
+                                                    sx={{
+                                                        borderTop:
+                                                            idFirst !== 0 && idSecond === 0
+                                                                ? '0.5px solid black'
+                                                                : null,
+                                                    }}
+                                                >
+                                                    ${handleNumber(rowSecond.FeeAmountPost)}
+                                                </TableCell>
+                                                <TableCell
+                                                    align="center"
+                                                    sx={{
+                                                        borderTop:
+                                                            idFirst !== 0 && idSecond === 0
+                                                                ? '0.5px solid black'
+                                                                : null,
+                                                    }}
+                                                >
+                                                    {rowSecond.WHTAmount}
+                                                </TableCell>
+                                                <TableCell
+                                                    align="center"
+                                                    sx={{
+                                                        borderTop:
+                                                            idFirst !== 0 && idSecond === 0
+                                                                ? '0.5px solid black'
+                                                                : null,
+                                                    }}
+                                                >
+                                                    ${rowSecond.Difference}
+                                                </TableCell>
+                                                <TableCell
+                                                    align="center"
+                                                    sx={{
+                                                        borderTop:
+                                                            idFirst !== 0 && idSecond === 0
+                                                                ? '0.5px solid black'
+                                                                : null,
+                                                    }}
+                                                >
+                                                    ${handleNumber(afterDiff.toFixed(2))}
+                                                </TableCell>
+                                            </TableRow>
+                                        );
+                                    });
                                 })}
+                                <TableRow
+                                    sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                                >
+                                    <StyledTableCell className="totalAmount" align="center">
+                                        Total
+                                    </StyledTableCell>
+                                    <StyledTableCell
+                                        className="totalAmount"
+                                        align="center"
+                                    ></StyledTableCell>
+                                    <StyledTableCell
+                                        className="totalAmount"
+                                        align="center"
+                                    ></StyledTableCell>
+                                    <StyledTableCell
+                                        className="totalAmount"
+                                        align="center"
+                                    ></StyledTableCell>
+                                    <StyledTableCell
+                                        className="totalAmount"
+                                        align="center"
+                                    ></StyledTableCell>
+                                    <StyledTableCell className="totalAmount" align="center">
+                                        {handleNumber(feeAmountPostAmount.current.toFixed(2))}
+                                    </StyledTableCell>
+                                </TableRow>
                             </TableBody>
                         </Table>
                     </TableContainer>
-                    <DialogContentText sx={{ fontSize: '20px', mt: '0.5rem' }}>
+                    {/* <DialogContentText sx={{ fontSize: '20px', mt: '0.5rem' }}>
                         發票總金額：${handleNumber(totalAmount.current)}
-                    </DialogContentText>
+                    </DialogContentText> */}
                 </DialogContent>
                 <DialogActions>
                     <Button sx={{ mr: '0.05rem' }} variant="contained" onClick={handleDialogClose}>
@@ -232,7 +387,7 @@ const BilledDataList = ({ listInfo, apiQuery }) => {
                             <StyledTableCell align="center">發票號碼</StyledTableCell>
                             <StyledTableCell align="center">供應商</StyledTableCell>
                             <StyledTableCell align="center">海纜名稱</StyledTableCell>
-                            <StyledTableCell align="center">合約種類</StyledTableCell>
+                            <StyledTableCell align="center">海纜作業</StyledTableCell>
                             <StyledTableCell align="center">發票日期</StyledTableCell>
                             <StyledTableCell align="center">明細數量</StyledTableCell>
                             <StyledTableCell align="center">原始金額</StyledTableCell>

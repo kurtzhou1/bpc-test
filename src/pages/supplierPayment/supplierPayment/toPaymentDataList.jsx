@@ -407,19 +407,19 @@ const ToPaymentDataList = ({
                 <Table sx={{ minWidth: 300 }} stickyHeader>
                     <TableHead>
                         <TableRow>
-                            <TableCell align="center"></TableCell>
-                            <TableCell align="center">NO</TableCell>
-                            <TableCell align="center">發票號碼</TableCell>
-                            <TableCell align="center">供應商</TableCell>
-                            <TableCell align="center">海纜名稱</TableCell>
-                            <TableCell align="center">海纜作業</TableCell>
-                            <TableCell align="center">發票到期日</TableCell>
-                            <TableCell align="center">總金額</TableCell>
-                            <TableCell align="center">累計實收金額</TableCell>
-                            <TableCell align="center">累計實付金額</TableCell>
-                            <TableCell align="center">本次付款金額</TableCell>
-                            <TableCell align="center">Action</TableCell>
-                            <TableCell align="center">摘要說明</TableCell>
+                            <StyledTableCell align="center"></StyledTableCell>
+                            <StyledTableCell align="center">NO</StyledTableCell>
+                            <StyledTableCell align="center">發票號碼</StyledTableCell>
+                            <StyledTableCell align="center">供應商</StyledTableCell>
+                            <StyledTableCell align="center">海纜名稱</StyledTableCell>
+                            <StyledTableCell align="center">海纜作業</StyledTableCell>
+                            <StyledTableCell align="center">發票到期日</StyledTableCell>
+                            <StyledTableCell align="center">總金額</StyledTableCell>
+                            <StyledTableCell align="center">累計實收金額</StyledTableCell>
+                            <StyledTableCell align="center">累計實付金額</StyledTableCell>
+                            <StyledTableCell align="center">本次付款金額</StyledTableCell>
+                            <StyledTableCell align="center">Action</StyledTableCell>
+                            <StyledTableCell align="center">摘要說明</StyledTableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>

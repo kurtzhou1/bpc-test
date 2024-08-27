@@ -164,7 +164,7 @@ const BilledDataList = ({ listInfo }) => {
                             <StyledTableCell align="center">發票號碼</StyledTableCell>
                             <StyledTableCell align="center">供應商</StyledTableCell>
                             <StyledTableCell align="center">海纜名稱</StyledTableCell>
-                            <StyledTableCell align="center">合約種類</StyledTableCell>
+                            <StyledTableCell align="center">海纜作業</StyledTableCell>
                             <StyledTableCell align="center">發票日期</StyledTableCell>
                             <StyledTableCell align="center">明細數量</StyledTableCell>
                             <StyledTableCell align="center">原始金額</StyledTableCell>

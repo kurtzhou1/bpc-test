@@ -957,7 +957,7 @@ const InvoiceWorkManage = () => {
                         onClick={handleLink}
                         style={{ color: '#262626', textDecoration: 'none' }}
                     >
-                        <Button variant="contained">切換至立帳管理</Button>
+                        <Button variant="contained">切換至立帳作業</Button>
                     </Link>
                 </Grid>
             </Grid>

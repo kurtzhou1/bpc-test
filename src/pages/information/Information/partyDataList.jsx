@@ -148,7 +148,7 @@ const PartyDataList = ({ infoList, setInfoList }) => {
     const [address, setAddress] = useState(''); //公司地址
     const [contact, setContact] = useState(''); //聯繫窗口
     const [email, setEmail] = useState(''); //電子郵件
-    const [test, setTest] = useState(''); //預付稅款百分比
+    const [wHTRate, setWHTRate] = useState(''); //預付稅款百分比
     const [tel, setTel] = useState(''); //電話
     const [companyName, setCompanyName] = useState('');
     const [bankAcctName, setBankAcctName] = useState('');
@@ -169,7 +169,7 @@ const PartyDataList = ({ infoList, setInfoList }) => {
     const [addressEdit, setAddressEdit] = useState(''); //國際銀行代碼編輯
     const [contactEdit, setContactEdit] = useState(''); //國際銀行帳戶號碼編輯
     const [emailEdit, setEmailEdit] = useState(''); //銀行名稱編輯
-    const [testEdit, setTestEdit] = useState(''); //預付稅款百分比編輯
+    const [wHTRateEdit, setWHTRateEdit] = useState(''); //預付稅款百分比編輯
     const [telEdit, setTelEdit] = useState('');
     const [companyNameEdit, setCompanyNameEdit] = useState('');
     const [bankAcctNameEdit, setBankAcctNameEdit] = useState('');
@@ -195,7 +195,7 @@ const PartyDataList = ({ infoList, setInfoList }) => {
         setAddress('');
         setContact('');
         setEmail('');
-        setTest('');
+        setWHTRate('');
         setTel('');
         setCompanyName('');
         setBankAcctName('');
@@ -219,7 +219,7 @@ const PartyDataList = ({ infoList, setInfoList }) => {
         setAddressEdit('');
         setContactEdit('');
         setEmailEdit('');
-        setTestEdit('');
+        setWHTRateEdit('');
         setTelEdit('');
         setCompanyNameEdit('');
         setBankAcctNameEdit('');
@@ -308,6 +308,18 @@ const PartyDataList = ({ infoList, setInfoList }) => {
             );
             return false;
         }
+        if (wHTRate === '') {
+            dispatch(
+                setMessageStateOpen({
+                    messageStateOpen: {
+                        isOpen: true,
+                        severity: 'error',
+                        message: '請輸入預付稅款百分比',
+                    },
+                }),
+            );
+            return false;
+        }
         return true;
     };
 
@@ -321,7 +333,7 @@ const PartyDataList = ({ infoList, setInfoList }) => {
                 Address: address,
                 Contact: contact,
                 Email: email,
-                Test: test,
+                WHTRate: wHTRate,
                 Tel: tel,
                 CompanyName: companyName,
                 BankAcctName: bankAcctName,
@@ -414,7 +426,7 @@ const PartyDataList = ({ infoList, setInfoList }) => {
         setAddressEdit(row.Address);
         setContactEdit(row.Contact);
         setEmailEdit(row.Email);
-        setTestEdit(row.Test);
+        setWHTRateEdit(row.WHTRate);
         setTelEdit(row.Tel);
         setCompanyNameEdit(row.CompanyName);
         setBankAcctNameEdit(row.BankAcctName);
@@ -437,7 +449,7 @@ const PartyDataList = ({ infoList, setInfoList }) => {
         setAddress(row.Address);
         setContact(row.Contact);
         setEmail(row.Email);
-        setTest(row.Test);
+        setWHTRate(row.WHTRate);
         setTel(row.Tel);
         setCompanyName(row.CompanyName);
         setBankAcctName(row.BankAcctName);
@@ -501,6 +513,18 @@ const PartyDataList = ({ infoList, setInfoList }) => {
             );
             return false;
         }
+        if (wHTRateEdit === '') {
+            dispatch(
+                setMessageStateOpen({
+                    messageStateOpen: {
+                        isOpen: true,
+                        severity: 'error',
+                        message: '請輸入預付稅款百分比',
+                    },
+                }),
+            );
+            return false;
+        }
         return true;
     };
 
@@ -515,7 +539,7 @@ const PartyDataList = ({ infoList, setInfoList }) => {
                 Address: addressEdit,
                 Contact: contactEdit,
                 Email: emailEdit,
-                Test: testEdit,
+                WHTRate: wHTRateEdit,
                 Tel: telEdit,
                 CompanyName: companyNameEdit,
                 BankAcctName: bankAcctNameEdit,
@@ -826,9 +850,9 @@ const PartyDataList = ({ infoList, setInfoList }) => {
                                 <TableCell align="center">
                                     <TextField
                                         size="small"
-                                        value={test}
+                                        value={wHTRate}
                                         onChange={(e) => {
-                                            setTest(e.target.value);
+                                            setWHTRate(e.target.value);
                                         }}
                                     />
                                 </TableCell>
@@ -1085,7 +1109,7 @@ const PartyDataList = ({ infoList, setInfoList }) => {
                                                     {row.PartyCode}
                                                 </StyledTableCell>
                                                 <StyledTableCell align="center">
-                                                    {row.Test}
+                                                    {row.WHTRate}
                                                 </StyledTableCell>
                                                 <StyledTableCell align="center">
                                                     {row.CompanyName}
@@ -1269,9 +1293,9 @@ const PartyDataList = ({ infoList, setInfoList }) => {
                                                 <TableCell align="center">
                                                     <TextField
                                                         sx={{ width: '3rem' }}
-                                                        value={emailEdit}
+                                                        value={wHTRateEdit}
                                                         onChange={(e) => {
-                                                            setEmailEdit(e.target.value);
+                                                            setWHTRateEdit(e.target.value);
                                                         }}
                                                     />
                                                 </TableCell>

@@ -3,16 +3,7 @@ import { useState, useRef } from 'react';
 // project import
 import { handleNumber, BootstrapDialogTitle } from 'components/commonFunction';
 // material-ui
-import {
-    Button,
-    Table,
-    Dialog,
-    DialogContent,
-    DialogContentText,
-    DialogActions,
-    TextField,
-    Box,
-} from '@mui/material';
+import { Button, Table, Dialog, DialogContent, DialogActions, TextField, Box } from '@mui/material';
 import { TableBody, TableContainer, TableHead, TableRow, Paper } from '@mui/material';
 import TableCell, { tableCellClasses } from '@mui/material/TableCell';
 import { styled } from '@mui/material/styles';
@@ -76,7 +67,6 @@ const ToBillDataList = ({ listInfo, apiQuery }) => {
         })
             .then((res) => res.json())
             .then((data) => {
-                console.log('data=>>', data);
                 if (Array.isArray(data.InvoiceDetail) && Array.isArray(data.InvoiceMaster)) {
                     let tmpAmount = 0;
                     let tmpfeeAmountPostAmount = 0;
@@ -99,7 +89,6 @@ const ToBillDataList = ({ listInfo, apiQuery }) => {
                         tmpfeeAmountPostAmount = tmpfeeAmountPostAmount + i.FeeAmountPost;
                         codeType.current = i.ToCode;
                     });
-                    console.log('tmpfeeAmountPostAmount=>>', tmpfeeAmountPostAmount);
                     setCurrentAmount(tmpAmount.toFixed(2));
                     feeAmountPostAmount.current = tmpfeeAmountPostAmount;
                     setIsDialogOpen(true);
@@ -204,6 +193,8 @@ const ToBillDataList = ({ listInfo, apiQuery }) => {
             );
         }
     };
+
+    console.log('toBillDataInfo=>>', toBillDataInfo);
 
     return (
         <>
@@ -447,7 +438,7 @@ const ToBillDataList = ({ listInfo, apiQuery }) => {
                             <StyledTableCell align="center">發票號碼</StyledTableCell>
                             <StyledTableCell align="center">供應商</StyledTableCell>
                             <StyledTableCell align="center">海纜名稱</StyledTableCell>
-                            <StyledTableCell align="center">合約種類</StyledTableCell>
+                            <StyledTableCell align="center">海纜作業</StyledTableCell>
                             <StyledTableCell align="center">發票日期</StyledTableCell>
                             <StyledTableCell align="center">明細數量</StyledTableCell>
                             <StyledTableCell align="center">原始金額</StyledTableCell>

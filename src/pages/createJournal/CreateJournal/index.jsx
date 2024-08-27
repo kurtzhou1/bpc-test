@@ -22,11 +22,15 @@ const CreateJournal = () => {
     const [value, setValue] = useState(0);
     const [supplierName, setSupplierName] = useState('All'); //供應商
     const [submarineCable, setSubmarineCable] = useState('All'); //海纜名稱
+    const [code, setCode] = useState('All');
+    const [toCode, setToCode] = useState('All');
     const [issueDate, setIssueDate] = useState([null, null]); //發票日期
     const queryApi = useRef({});
     const initQuery = () => {
         setSupplierName('All');
         setSubmarineCable('All');
+        setCode('All');
+        setToCode('All');
         setIssueDate([null, null]);
     };
 
@@ -94,6 +98,10 @@ const CreateJournal = () => {
                     setSupplierName={setSupplierName}
                     submarineCable={submarineCable}
                     setSubmarineCable={setSubmarineCable}
+                    code={code}
+                    setCode={setCode}
+                    toCode={toCode}
+                    setToCode={setToCode}
                     issueDate={issueDate}
                     setIssueDate={setIssueDate}
                     initQuery={initQuery}

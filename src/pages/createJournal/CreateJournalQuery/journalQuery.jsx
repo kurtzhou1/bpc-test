@@ -48,6 +48,8 @@ const JournalQuery = ({ setListInfo, queryApi, invoiceStatus, setPage }) => {
     const initQuery = () => {
         setSupplierName('All');
         setSubmarineCable('All');
+        setCode('All');
+        setToCode('All');
         setIssueDate([null, null]);
     };
 
