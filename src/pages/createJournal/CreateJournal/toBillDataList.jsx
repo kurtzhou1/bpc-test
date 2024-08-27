@@ -67,9 +67,9 @@ const ToBillDataList = ({ listInfo, apiQuery }) => {
         })
             .then((res) => res.json())
             .then((data) => {
+                console.log('data=>>', data);
                 if (Array.isArray(data.InvoiceDetail) && Array.isArray(data.InvoiceMaster)) {
                     let tmpAmount = 0;
-                    let tmpfeeAmountPostAmount = 0;
                     const reduceArray = Object.values(
                         data.InvoiceDetail.reduce((acc, item) => {
                             const keyName = item.PartyName;
@@ -86,11 +86,10 @@ const ToBillDataList = ({ listInfo, apiQuery }) => {
                     setTotalAmount(data.TotalAmount);
                     data.InvoiceDetail.forEach((i) => {
                         tmpAmount = tmpAmount + i.FeeAmountPost + i.Difference;
-                        tmpfeeAmountPostAmount = tmpfeeAmountPostAmount + i.FeeAmountPost;
                         codeType.current = i.ToCode;
                     });
                     setCurrentAmount(tmpAmount.toFixed(2));
-                    feeAmountPostAmount.current = tmpfeeAmountPostAmount;
+                    feeAmountPostAmount.current = data.TotalAmount;
                     setIsDialogOpen(true);
                 } else {
                     toBillDataMain.current = [];
@@ -193,8 +192,6 @@ const ToBillDataList = ({ listInfo, apiQuery }) => {
             );
         }
     };
-
-    console.log('toBillDataInfo=>>', toBillDataInfo);
 
     return (
         <>

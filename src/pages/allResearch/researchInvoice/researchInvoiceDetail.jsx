@@ -20,7 +20,7 @@ import Paper from '@mui/material/Paper';
 import { styled } from '@mui/material/styles';
 
 // api
-import { journaryDetailView } from 'components/apis.jsx';
+import { journalDetailView } from 'components/apis.jsx';
 
 // redux
 import { useDispatch } from 'react-redux';
@@ -63,7 +63,7 @@ const ResearchBillDetail = ({ datailInfo }) => {
     };
 
     const viewBillDetail = (id) => {
-        let tmpQuery = journaryDetailView + '/WKMasterID=' + id;
+        let tmpQuery = journalDetailView + '/WKMasterID=' + id;
         fetch(tmpQuery, {
             method: 'GET',
             Authorization: 'Bearer' + localStorage.getItem('accessToken') ?? '',

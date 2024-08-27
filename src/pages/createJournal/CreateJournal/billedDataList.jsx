@@ -3,15 +3,7 @@ import { useState, useRef } from 'react';
 // project import
 import { handleNumber, BootstrapDialogTitle } from 'components/commonFunction';
 // material-ui
-import {
-    Button,
-    Table,
-    Dialog,
-    DialogContent,
-    DialogContentText,
-    DialogActions,
-    Box,
-} from '@mui/material';
+import { Button, Table, Dialog, DialogContent, DialogActions, Box } from '@mui/material';
 import TableBody from '@mui/material/TableBody';
 import TableCell, { tableCellClasses } from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
@@ -23,8 +15,8 @@ import { styled } from '@mui/material/styles';
 import dayjs from 'dayjs';
 
 import {
-    journaryDetailView,
-    journaryMasterView,
+    journalDetailView,
+    journalMasterView,
     updateInvoice,
     updateInvoiceMaster,
 } from 'components/apis.jsx';
@@ -73,14 +65,15 @@ const BilledDataList = ({ listInfo, apiQuery }) => {
 
     const billDataView = (WKMasterID) => {
         let tmpQuery = '/WKMasterID=' + WKMasterID;
-        let tmpQueryDetail = journaryDetailView + tmpQuery;
-        let tmpQueryMaster = journaryMasterView + tmpQuery;
+        let tmpQueryDetail = journalDetailView + tmpQuery;
+        let tmpQueryMaster = journalMasterView + tmpQuery;
         fetch(tmpQueryMaster, {
             method: 'GET',
             Authorization: 'Bearer' + localStorage.getItem('accessToken') ?? '',
         })
             .then((res) => res.json())
             .then((data) => {
+                console.log('data1=>>', data);
                 totalAmount.current = data[0].TotalAmount;
                 fetch(tmpQueryDetail, {
                     method: 'GET',
@@ -89,6 +82,7 @@ const BilledDataList = ({ listInfo, apiQuery }) => {
                     .then((res) => res.json())
                     .then((data2) => {
                         console.log('data2=>>', data2);
+                        let tmpDifferAmount = 0;
                         const reduceArray = Object.values(
                             data2.reduce((acc, item) => {
                                 const keyName = item.PartyName;
@@ -99,9 +93,11 @@ const BilledDataList = ({ listInfo, apiQuery }) => {
                                 return acc;
                             }, []),
                         );
-                        console.log('reduceArray=>>', reduceArray);
+                        data2.forEach((i) => {
+                            tmpDifferAmount = tmpDifferAmount + i.Difference;
+                        });
+                        differAmount.current = tmpDifferAmount;
                         setToBillDataInfo(reduceArray);
-                        // setToBillDataInfo(data2);
                         setIsDialogOpen(true);
                     })
                     .catch(() => {
@@ -192,14 +188,12 @@ const BilledDataList = ({ listInfo, apiQuery }) => {
         apiQuery();
     };
 
-    console.log('toBillDataInfo=>>', toBillDataInfo);
-
     return (
         <>
             <Dialog maxWidth="xl" fullWidth open={isDialogOpen}>
                 <BootstrapDialogTitle>立帳作業</BootstrapDialogTitle>
                 <DialogContent>
-                    <TableContainer component={Paper} sx={{ maxHeight: 350 }}>
+                    <TableContainer component={Paper} sx={{ maxHeight: window.screen.height }}>
                         <Table sx={{ minWidth: 300 }} stickyHeader>
                             <TableHead>
                                 <TableRow>
@@ -217,7 +211,6 @@ const BilledDataList = ({ listInfo, apiQuery }) => {
                             <TableBody>
                                 {toBillDataInfo.map((rowFirst, idFirst) => {
                                     return rowFirst.map((rowSecond, idSecond) => {
-                                        console.log('rowSecond=>>', rowSecond);
                                         let afterDiff =
                                             rowSecond.FeeAmountPost +
                                             rowSecond.Difference -
@@ -363,7 +356,17 @@ const BilledDataList = ({ listInfo, apiQuery }) => {
                                         align="center"
                                     ></StyledTableCell>
                                     <StyledTableCell className="totalAmount" align="center">
-                                        {handleNumber(feeAmountPostAmount.current.toFixed(2))}
+                                        {handleNumber(totalAmount.current.toFixed(2))}
+                                    </StyledTableCell>
+                                    <StyledTableCell
+                                        className="totalAmount"
+                                        align="center"
+                                    ></StyledTableCell>
+                                    <StyledTableCell className="totalAmount" align="center">
+                                        {handleNumber(differAmount.current.toFixed(2))}
+                                    </StyledTableCell>
+                                    <StyledTableCell className="totalAmount" align="center">
+                                        {handleNumber(differAmount.current.toFixed(2))}
                                     </StyledTableCell>
                                 </TableRow>
                             </TableBody>

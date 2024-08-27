@@ -22,7 +22,7 @@ import { styled } from '@mui/material/styles';
 
 import dayjs from 'dayjs';
 
-import { journaryDetailView, journaryMasterView } from 'components/apis.jsx';
+import { journalDetailView, journalMasterView } from 'components/apis.jsx';
 
 // redux
 import { useDispatch } from 'react-redux';
@@ -53,8 +53,8 @@ const BilledDataList = ({ listInfo }) => {
 
     const billDataView = (WKMasterID) => {
         let tmpQuery = '/' + 'WKMasterID=' + WKMasterID;
-        let tmpQueryDetail = journaryDetailView + tmpQuery;
-        let tmpQueryMaster = journaryMasterView + tmpQuery;
+        let tmpQueryDetail = journalDetailView + tmpQuery;
+        let tmpQueryMaster = journalMasterView + tmpQuery;
         fetch(tmpQueryMaster, {
             method: 'GET',
             Authorization: 'Bearer' + localStorage.getItem('accessToken') ?? '',
