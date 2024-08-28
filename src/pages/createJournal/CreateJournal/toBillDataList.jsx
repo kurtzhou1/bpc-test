@@ -121,7 +121,6 @@ const ToBillDataList = ({ listInfo, apiQuery }) => {
     };
 
     const changeDiff = (diff, idFirst, idSecond) => {
-        console.log('????=>>', toBillDataInfo[idFirst][idSecond]);
         let tmpArray = toBillDataInfo.map((i) => i);
         let tmpAmount = 0;
         let tmpDifferAmount = 0;

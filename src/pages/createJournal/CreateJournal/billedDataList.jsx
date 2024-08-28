@@ -50,12 +50,13 @@ const BilledDataList = ({ listInfo, apiQuery }) => {
     const [isDialogOpen, setIsDialogOpen] = useState(false);
     const [toBillDataInfo, setToBillDataInfo] = useState([]); //發票明細檔
     const totalAmount = useRef(0);
+    let codeType = useRef(''); //幣別
     let differAmount = useRef(0); //尾差值總和
-    let feeAmountPostAmount = useRef(0); //攤分後金額總合
+    let afterDiffAmount = useRef(0); //總費用金額總和
 
     const infoInit = () => {
         differAmount.current = 0;
-        feeAmountPostAmount.current = 0;
+        afterDiffAmount.current = 0;
     };
 
     const handleDialogClose = () => {
@@ -81,8 +82,8 @@ const BilledDataList = ({ listInfo, apiQuery }) => {
                 })
                     .then((res) => res.json())
                     .then((data2) => {
-                        console.log('data2=>>', data2);
                         let tmpDifferAmount = 0;
+                        let tmpAfterDiffAmount = 0;
                         const reduceArray = Object.values(
                             data2.reduce((acc, item) => {
                                 const keyName = item.PartyName;
@@ -95,7 +96,11 @@ const BilledDataList = ({ listInfo, apiQuery }) => {
                         );
                         data2.forEach((i) => {
                             tmpDifferAmount = tmpDifferAmount + i.Difference;
+                            tmpAfterDiffAmount =
+                                tmpAfterDiffAmount + (i.FeeAmountPost + i.Difference - i.WHTAmount);
+                            codeType.current = i.ToCode;
                         });
+                        afterDiffAmount.current = tmpAfterDiffAmount;
                         differAmount.current = tmpDifferAmount;
                         setToBillDataInfo(reduceArray);
                         setIsDialogOpen(true);
@@ -192,8 +197,14 @@ const BilledDataList = ({ listInfo, apiQuery }) => {
         <>
             <Dialog maxWidth="xl" fullWidth open={isDialogOpen}>
                 <BootstrapDialogTitle>立帳作業</BootstrapDialogTitle>
+                <Box display="flex" justifyContent="end" sx={{ marginRight: '2rem' }}>
+                    幣別：{codeType.current}
+                </Box>
                 <DialogContent>
-                    <TableContainer component={Paper} sx={{ maxHeight: window.screen.height }}>
+                    <TableContainer
+                        component={Paper}
+                        sx={{ maxHeight: window.screen.height * 0.45 }}
+                    >
                         <Table sx={{ minWidth: 300 }} stickyHeader>
                             <TableHead>
                                 <TableRow>
@@ -366,7 +377,7 @@ const BilledDataList = ({ listInfo, apiQuery }) => {
                                         {handleNumber(differAmount.current.toFixed(2))}
                                     </StyledTableCell>
                                     <StyledTableCell className="totalAmount" align="center">
-                                        {handleNumber(differAmount.current.toFixed(2))}
+                                        {handleNumber(afterDiffAmount.current.toFixed(2))}
                                     </StyledTableCell>
                                 </TableRow>
                             </TableBody>
@@ -376,6 +387,9 @@ const BilledDataList = ({ listInfo, apiQuery }) => {
                         發票總金額：${handleNumber(totalAmount.current)}
                     </DialogContentText> */}
                 </DialogContent>
+                <Box display="flex" justifyContent="end" sx={{ marginRight: '2rem' }}>
+                    幣別：{codeType.current}
+                </Box>
                 <DialogActions>
                     <Button sx={{ mr: '0.05rem' }} variant="contained" onClick={handleDialogClose}>
                         關閉
