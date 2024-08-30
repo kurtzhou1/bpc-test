@@ -239,7 +239,9 @@ const InvoiceWorkManage = () => {
     };
 
     const handleDialogOpen = () => {
-        setIsPurposeDialogOpen(true);
+        if (action !== '檢視') {
+            setIsPurposeDialogOpen(true);
+        }
     };
 
     const handleDialogClose = () => {
@@ -267,7 +269,11 @@ const InvoiceWorkManage = () => {
                     setInvoiceDetailInfo(i.InvoiceWKDetail);
                     setFromCode(i.InvoiceWKMaster.Code);
                     setCurrencyExgID(i.InvoiceWKMaster.CurrencyExgID);
-                    rateInfo.current = { Purpose: i.InvoiceWKMaster.Purpose };
+                    rateInfo.current = {
+                        Purpose: i.InvoiceWKMaster.Purpose,
+                        ExgRate: i.InvoiceWKMaster.ExgRate,
+                        ToCode: i.InvoiceWKMaster.ToCode,
+                    };
                     wKMasterID.current = i.InvoiceWKMaster.WKMasterID;
                 }
             });
@@ -493,12 +499,21 @@ const InvoiceWorkManage = () => {
         // 金額確認
         let detailAmount = 0;
         invoiceDetailInfo.forEach((i) => {
-            detailAmount = detailAmount + i.FeeAmount;
+            console.log('i=>>', i);
+            detailAmount = detailAmount + Number(i.FeeAmount);
         });
-        if (
-            Number(totalAmount.toString().replaceAll(',', '')).toFixed(2) !==
-            Number(detailAmount).toFixed(2)
-        ) {
+        console.log(
+            'totalAmount=>>',
+            typeof totalAmount,
+            '2=>>',
+            typeof detailAmount,
+            '3=>>',
+            totalAmount,
+            detailAmount,
+            Number(totalAmount).toFixed(20),
+            Number(detailAmount).toFixed(20),
+        );
+        if (Number(totalAmount).toFixed(20) !== Number(detailAmount).toFixed(20)) {
             dispatch(
                 setMessageStateOpen({
                     messageStateOpen: {
@@ -600,10 +615,13 @@ const InvoiceWorkManage = () => {
                 isRecharge === 'true' || isRecharge === true ? true : false,
                 isCreditMemo === 'true' || isCreditMemo === true ? true : false,
                 isLiability === 'true' || isLiability === true ? true : false,
-                Number(totalAmount.toString().replaceAll(',', '')),
+                // Number(totalAmount.toString().replaceAll(',', '')),
+                Number(totalAmount),
                 currencyExgID,
                 rateInfo.current.Purpose,
                 fromCode,
+                rateInfo.current.ExgRate,
+                rateInfo.current.ToCode,
             );
             let combineArray = {
                 InvoiceWKMaster: tmpArray,

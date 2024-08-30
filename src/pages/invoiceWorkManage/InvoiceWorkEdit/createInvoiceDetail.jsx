@@ -110,9 +110,7 @@ const CreateInvoiceDetail = ({
     const itemDetailAdd = () => {
         if (infoCheck()) {
             let tmpArray = invoiceDetailInfo;
-            tmpArray.push(
-                createData(feeItem.trim(), billMilestone, 0, Number(feeAmount.replaceAll(',', ''))),
-            );
+            tmpArray.push(createData(feeItem.trim(), billMilestone, 0, feeAmount));
             setInvoiceDetailInfo([...tmpArray]);
             itemDetailInitial();
         }
@@ -135,21 +133,16 @@ const CreateInvoiceDetail = ({
     };
 
     const itemDetailSave = () => {
-        setIsEdit(false);
-        let tmpArray = invoiceDetailInfo.map((i) => i);
-        tmpArray.splice(editItem.current, 1);
-        tmpArray.push(
-            createData(
-                feeItem,
-                billMilestone,
-                isTax.current,
-                Number(feeAmount.replaceAll(',', '')),
-            ),
-        );
-        tmpArray.reverse();
-        setInvoiceDetailInfo([...tmpArray]);
-        itemDetailInitial();
-        editItem.current = 0;
+        if (infoCheck()) {
+            setIsEdit(false);
+            let tmpArray = invoiceDetailInfo.map((i) => i);
+            tmpArray.splice(editItem.current, 1);
+            tmpArray.push(createData(feeItem, billMilestone, isTax.current, feeAmount));
+            tmpArray.reverse();
+            setInvoiceDetailInfo([...tmpArray]);
+            itemDetailInitial();
+            editItem.current = 0;
+        }
     };
 
     const itemDetailCancel = () => {
@@ -179,8 +172,10 @@ const CreateInvoiceDetail = ({
         itemDetailInitial();
     }, []);
 
+    console.log('invoiceDetailInfo=>>', invoiceDetailInfo);
+
     return (
-        <MainCard title={`${action === '編輯' ? '編輯' : null}發票明細檔`} sx={{ height: '100%' }}>
+        <MainCard title="發票明細檔" sx={{ height: '100%' }}>
             <Grid container display="flex" justifyContent="center" alignItems="center" spacing={1}>
                 {/* row1 */}
                 {action === '編輯' ? (
@@ -335,7 +330,7 @@ const CreateInvoiceDetail = ({
                             <TableBody>
                                 {invoiceDetailInfo?.map((row, id) => (
                                     <TableRow
-                                        key={row.FeeItem + row.BillMilestone}
+                                        key={row.FeeItem + row.BillMilestone + id}
                                         sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                                     >
                                         <StyledTableCell component="th" scope="row">
@@ -345,7 +340,7 @@ const CreateInvoiceDetail = ({
                                             {row.BillMilestone}
                                         </StyledTableCell>
                                         <StyledTableCell align="center">
-                                            {row.IsTax === 1 ? '是' : '否'}
+                                            {row.IsTax ? '是' : '否'}
                                         </StyledTableCell>
                                         <StyledTableCell align="center">
                                             {handleNumber(row.FeeAmount)}

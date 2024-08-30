@@ -169,9 +169,9 @@ const InvoiceWorkManage = ({
                     <FormControl fullWidth size="small">
                         <InputLabel>選擇海纜</InputLabel>
                         <Select
-                            disabled={action === '檢視'}
                             value={submarineCable}
                             label="發票供應商"
+                            inputProps={{ readOnly: action === '檢視' }}
                             onChange={(e) => setSubmarineCable(e.target.value)}
                         >
                             {submarineCableList.map((i) => (
@@ -197,9 +197,9 @@ const InvoiceWorkManage = ({
                     <FormControl fullWidth size="small">
                         <InputLabel>選擇海纜作業</InputLabel>
                         <Select
-                            disabled={action === '檢視'}
                             value={workTitle}
                             label="填寫海纜作業"
+                            inputProps={{ readOnly: action === '檢視' }}
                             onChange={(e) => setWorkTitle(e.target.value)}
                         >
                             <MenuItem value={'Construction'}>Construction</MenuItem>
@@ -226,7 +226,7 @@ const InvoiceWorkManage = ({
                         <Select
                             value={supplierName}
                             label="發票供應商"
-                            disabled={action === '檢視'}
+                            inputProps={{ readOnly: action === '檢視' }}
                             onChange={(e) => setSupplierName(e.target.value)}
                         >
                             {supNmList.map((i) => (
@@ -252,11 +252,12 @@ const InvoiceWorkManage = ({
                     <TextField
                         fullWidth
                         variant="outlined"
-                        disabled={action === '檢視'}
+                        // disabled={action === '檢視'}
                         value={invoiceNo}
                         size="small"
                         label="發票號碼"
                         inputProps={{
+                            readOnly: action === '檢視',
                             onBlur: () => {
                                 invoiceNoCheck();
                             },
@@ -280,9 +281,9 @@ const InvoiceWorkManage = ({
                     <FormControl fullWidth size="small">
                         <InputLabel>選擇合約種類</InputLabel>
                         <Select
-                            disabled={action === '檢視'}
                             value={contractType}
                             label="發票供應商"
+                            inputProps={{ readOnly: action === '檢視' }}
                             onChange={(e) => setContractType(e.target.value)}
                         >
                             <MenuItem value={'SC'}>SC</MenuItem>
@@ -307,7 +308,7 @@ const InvoiceWorkManage = ({
                             <DesktopDatePicker
                                 inputFormat="YYYY/MM/DD"
                                 value={issueDate}
-                                disabled={action === '檢視'}
+                                readOnly={action === '檢視'}
                                 onChange={(e) => {
                                     setIssueDate(e);
                                 }}
@@ -331,12 +332,12 @@ const InvoiceWorkManage = ({
                 <Grid item xs={12} sm={6} md={4} lg={4}>
                     <TextField
                         value={totalAmount}
-                        disabled={action === '檢視'}
                         fullWidth
                         variant="outlined"
                         size="small"
                         label="填寫發票總金額"
                         InputProps={{
+                            readOnly: action === '檢視',
                             inputComponent: NumericFormatCustom,
                         }}
                         onChange={(e) => {
@@ -361,7 +362,7 @@ const InvoiceWorkManage = ({
                             <DesktopDatePicker
                                 inputFormat="YYYY/MM/DD"
                                 value={dueDate}
-                                disabled={action === '檢視'}
+                                readOnly={action === '檢視'}
                                 onChange={(e) => setDueDate(e)}
                                 renderInput={(params) => <TextField size="small" {...params} />}
                             />
@@ -386,6 +387,7 @@ const InvoiceWorkManage = ({
                         <Select
                             value={fromCode}
                             label="幣別"
+                            inputProps={{ readOnly: action === '檢視' }}
                             onChange={(e) => setFromCode(e.target.value)}
                         >
                             {currencyListInfo?.map((i) => (
@@ -433,12 +435,7 @@ const InvoiceWorkManage = ({
                 </Grid>
                 <Grid item xs={12} sm={6} md={4} lg={3}>
                     <FormControl>
-                        <RadioGroup
-                            row
-                            value={isPro}
-                            disabled={action === '檢視'}
-                            onChange={(e) => setIsPro(e.target.value)}
-                        >
+                        <RadioGroup row value={isPro} onChange={(e) => setIsPro(e.target.value)}>
                             <FormControlLabel
                                 value={true}
                                 disabled={action === '檢視'}
@@ -557,7 +554,6 @@ const InvoiceWorkManage = ({
                         </RadioGroup>
                     </FormControl>
                 </Grid>
-                {/* <Grid item xs={12} sm={6} md={6} lg={6} /> */}
                 {/* row8 */}
                 <Grid item xs={12} sm={6} md={2} lg={2}>
                     <Typography

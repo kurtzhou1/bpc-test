@@ -137,9 +137,20 @@ const InvoiceWorkManage = () => {
         // 金額確認
         let detailAmount = 0;
         invoiceDetailInfo.forEach((i) => {
-            detailAmount = detailAmount + i.FeeAmount;
+            detailAmount = detailAmount + Number(i.FeeAmount);
         });
-        if (Number(totalAmount).toFixed(2) !== Number(detailAmount).toFixed(2)) {
+        console.log(
+            'totalAmount=>>',
+            typeof totalAmount,
+            '2=>>',
+            typeof detailAmount,
+            '3=>>',
+            totalAmount,
+            detailAmount,
+            Number(totalAmount).toFixed(20),
+            Number(detailAmount).toFixed(20),
+        );
+        if (Number(totalAmount).toFixed(20) !== Number(detailAmount).toFixed(20)) {
             dispatch(
                 setMessageStateOpen({
                     messageStateOpen: {

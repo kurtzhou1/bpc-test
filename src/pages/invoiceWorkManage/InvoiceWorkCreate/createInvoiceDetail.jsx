@@ -3,7 +3,6 @@ import { useEffect, useState, useRef } from 'react';
 // project import
 import MainCard from 'components/MainCard';
 import { TextField } from '@mui/material/index';
-import { handleNumber } from 'components/commonFunction';
 import NumericFormatCustom from 'components/numericFormatCustom';
 
 // material-ui
@@ -112,9 +111,7 @@ const CreateInvoiceDetail = ({
     const itemDetailAdd = () => {
         if (infoCheck()) {
             let tmpArray = invoiceDetailInfo.map((i) => i);
-            tmpArray.push(
-                createData(feeItem.trim(), billMilestone, 0, Number(feeAmount.replaceAll(',', ''))),
-            );
+            tmpArray.push(createData(feeItem.trim(), billMilestone, 0, feeAmount));
             // tmpArray.reverse();
             setInvoiceDetailInfo([...tmpArray]);
             itemDetailInitial();
