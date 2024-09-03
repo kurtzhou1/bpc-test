@@ -4,6 +4,7 @@ import { useEffect, useState, useRef } from 'react';
 import MainCard from 'components/MainCard';
 import { TextField } from '@mui/material/index';
 import NumericFormatCustom from 'components/numericFormatCustom';
+import { handleNumber } from 'components/commonFunction';
 
 // material-ui
 import {
@@ -229,11 +230,15 @@ const CreateInvoiceDetail = ({
                         variant="outlined"
                         value={feeAmount}
                         size="small"
-                        label="填寫金額"
+                        label="填寫費用金額(限制包含小數點16位數)"
                         InputProps={{
                             inputComponent: NumericFormatCustom,
                         }}
-                        onChange={(e) => setFeeAmount(e.target.value)}
+                        onChange={(e) => {
+                            if (e.target.value.length <= 16) {
+                                setFeeAmount(e.target.value);
+                            }
+                        }}
                     />
                 </Grid>
                 {/* row2 */}
@@ -332,7 +337,7 @@ const CreateInvoiceDetail = ({
                                             {row.IsTax === 1 ? '是' : '否'}
                                         </StyledTableCell>
                                         <StyledTableCell align="center">
-                                            {row.FeeAmount}
+                                            {handleNumber(row.FeeAmount)}
                                         </StyledTableCell>
                                         <StyledTableCell align="center">
                                             {row.FeeItem.includes('(tax)') ? null : (

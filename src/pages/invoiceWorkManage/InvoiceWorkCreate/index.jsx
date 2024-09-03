@@ -139,18 +139,8 @@ const InvoiceWorkManage = () => {
         invoiceDetailInfo.forEach((i) => {
             detailAmount = detailAmount + Number(i.FeeAmount);
         });
-        console.log(
-            'totalAmount=>>',
-            typeof totalAmount,
-            '2=>>',
-            typeof detailAmount,
-            '3=>>',
-            totalAmount,
-            detailAmount,
-            Number(totalAmount).toFixed(20),
-            Number(detailAmount).toFixed(20),
-        );
-        if (Number(totalAmount).toFixed(20) !== Number(detailAmount).toFixed(20)) {
+
+        if (Number(totalAmount).toFixed(6) !== Number(detailAmount).toFixed(6)) {
             dispatch(
                 setMessageStateOpen({
                     messageStateOpen: {
@@ -265,7 +255,6 @@ const InvoiceWorkManage = () => {
                 isPro === 'true' || isPro === true ? true : false,
                 isRecharge === 'true' || isRecharge === true ? true : false,
                 isLiability === 'true' || isLiability === true ? true : false,
-                // Number(totalAmount.toString().replaceAll(',', '')),
                 Number(totalAmount),
                 currencyExgID,
                 rateInfo.current.Purpose,
@@ -273,7 +262,9 @@ const InvoiceWorkManage = () => {
                 rateInfo.current.ExgRate,
                 rateInfo.current.ToCode,
             );
-            console.log('新增發票=>>', tmpArray);
+            invoiceDetailInfo.forEach((i) => {
+                i.FeeAmount = Number(i.FeeAmount);
+            });
             let combineArray = {
                 InvoiceWKMaster: tmpArray,
                 InvoiceWKDetail: invoiceDetailInfo,
@@ -324,9 +315,9 @@ const InvoiceWorkManage = () => {
         //防呆
         if (infoCheck()) {
             setEditItem(NaN);
-            let tmpArray = listInfo.map((i) => i);
-            tmpArray.splice(editItem, 1);
-            let tmpAddArray = createData(
+            let tmpList = listInfo.map((i) => i);
+            tmpList.splice(editItem, 1);
+            let tmpArray = createData(
                 invoiceNo.trim() === ''
                     ? 'No.' + dayjs(new Date()).format('YYYYMMDDHHmmss')
                     : invoiceNo,
@@ -348,13 +339,16 @@ const InvoiceWorkManage = () => {
                 rateInfo.current.ExgRate,
                 rateInfo.current.ToCode,
             );
+            invoiceDetailInfo.forEach((i) => {
+                i.FeeAmount = Number(i.FeeAmount);
+            });
             let combineArray = {
-                InvoiceWKMaster: tmpAddArray,
+                InvoiceWKMaster: tmpArray,
                 InvoiceWKDetail: invoiceDetailInfo,
             };
-            tmpArray.push(combineArray);
-            tmpArray.reverse();
-            setListInfo([...tmpArray]);
+            tmpList.push(combineArray);
+            tmpList.reverse();
+            setListInfo([...tmpList]);
             itemInfoInitial();
             setIsListEdit(false);
         }
@@ -738,7 +732,7 @@ const InvoiceWorkManage = () => {
                                     style={{ color: '#262626', textDecoration: 'none' }}
                                 >
                                     <Button variant="contained" sx={{ mx: 1 }}>
-                                        下一頁
+                                        下一步
                                     </Button>
                                 </Link>
                             </Grid>

@@ -113,8 +113,6 @@ const InvoiceWorkManage = ({
             });
     };
 
-    console.log('totalAmount=>>', totalAmount, typeof totalAmount);
-
     return (
         <MainCard title="發票工作主檔建立" sx={{ height: '100%' }}>
             <Grid container display="flex" justifyContent="center" alignItems="center" spacing={1}>
@@ -243,7 +241,6 @@ const InvoiceWorkManage = ({
                         <InputLabel>選擇合約種類</InputLabel>
                         <Select
                             value={contractType}
-                            label="發票供應商"
                             onChange={(e) => setContractType(e.target.value)}
                         >
                             <MenuItem value={'SC'}>SC</MenuItem>
@@ -294,24 +291,16 @@ const InvoiceWorkManage = ({
                         fullWidth
                         variant="outlined"
                         size="small"
-                        label="填寫發票總金額"
+                        label="填寫發票總金額(限制包含小數點16位數)"
                         InputProps={{
                             inputComponent: NumericFormatCustom,
                         }}
                         onChange={(e) => {
-                            setTotalAmount(e.target.value);
+                            if (e.target.value.length <= 16) {
+                                setTotalAmount(e.target.value);
+                            }
                         }}
                     />
-                    {/* <TextField
-                        value={totalAmount}
-                        fullWidth
-                        variant="outlined"
-                        size="small"
-                        label="填寫發票總金額"
-                        onChange={(e) => {
-                            setTotalAmount(handleNumber(e.target.value));
-                        }}
-                    /> */}
                 </Grid>
                 <Grid item xs={12} sm={6} md={3} lg={2}>
                     <Typography

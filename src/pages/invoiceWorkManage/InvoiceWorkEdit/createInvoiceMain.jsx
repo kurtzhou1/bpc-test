@@ -341,7 +341,7 @@ const InvoiceWorkManage = ({
                             inputComponent: NumericFormatCustom,
                         }}
                         onChange={(e) => {
-                            setTotalAmount(handleNumber(e.target.value));
+                            setTotalAmount(e.target.value);
                         }}
                     />
                 </Grid>

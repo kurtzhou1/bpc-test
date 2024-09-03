@@ -192,6 +192,8 @@ const InvoiceWorkManage = () => {
             });
     };
 
+    console.log('listInfo=>>', listInfo);
+
     const createData = (
         WKMasterID,
         InvoiceNo,
@@ -260,7 +262,7 @@ const InvoiceWorkManage = () => {
                     setContractType(i.InvoiceWKMaster.ContractType);
                     setIssueDate(i.InvoiceWKMaster.IssueDate);
                     setDueDate(i.InvoiceWKMaster.DueDate);
-                    setTotalAmount(handleNumber(i.InvoiceWKMaster.TotalAmount));
+                    setTotalAmount(i.InvoiceWKMaster.TotalAmount);
                     setIsPro(i.InvoiceWKMaster.IsPro);
                     setIsLiability(i.InvoiceWKMaster.IsLiability);
                     setIsRecharge(i.InvoiceWKMaster.IsRecharge);
@@ -499,21 +501,9 @@ const InvoiceWorkManage = () => {
         // 金額確認
         let detailAmount = 0;
         invoiceDetailInfo.forEach((i) => {
-            console.log('i=>>', i);
             detailAmount = detailAmount + Number(i.FeeAmount);
         });
-        console.log(
-            'totalAmount=>>',
-            typeof totalAmount,
-            '2=>>',
-            typeof detailAmount,
-            '3=>>',
-            totalAmount,
-            detailAmount,
-            Number(totalAmount).toFixed(20),
-            Number(detailAmount).toFixed(20),
-        );
-        if (Number(totalAmount).toFixed(20) !== Number(detailAmount).toFixed(20)) {
+        if (Number(totalAmount).toFixed(6) !== Number(detailAmount).toFixed(6)) {
             dispatch(
                 setMessageStateOpen({
                     messageStateOpen: {
@@ -596,7 +586,7 @@ const InvoiceWorkManage = () => {
         return true;
     };
 
-    const addInvoiceInfo = () => {
+    const saveEdit = () => {
         if (infoCheck()) {
             let tmpArray = createData(
                 wKMasterID.current,
@@ -615,7 +605,6 @@ const InvoiceWorkManage = () => {
                 isRecharge === 'true' || isRecharge === true ? true : false,
                 isCreditMemo === 'true' || isCreditMemo === true ? true : false,
                 isLiability === 'true' || isLiability === true ? true : false,
-                // Number(totalAmount.toString().replaceAll(',', '')),
                 Number(totalAmount),
                 currencyExgID,
                 rateInfo.current.Purpose,
@@ -623,6 +612,9 @@ const InvoiceWorkManage = () => {
                 rateInfo.current.ExgRate,
                 rateInfo.current.ToCode,
             );
+            invoiceDetailInfo.forEach((i) => {
+                i.FeeAmount = Number(i.FeeAmount);
+            });
             let combineArray = {
                 InvoiceWKMaster: tmpArray,
                 InvoiceWKDetail: invoiceDetailInfo,
@@ -637,6 +629,7 @@ const InvoiceWorkManage = () => {
             let tmpWKMasterID = {
                 WKMasterID: tmpModifyItem,
             };
+            console.log('tmpWKMasterID=>>', tmpWKMasterID);
             fetch(deleteInvoiceWKMaster, {
                 method: 'POST',
                 headers: {
@@ -947,7 +940,7 @@ const InvoiceWorkManage = () => {
                                     >
                                         <Button
                                             variant="contained"
-                                            onClick={addInvoiceInfo}
+                                            onClick={saveEdit}
                                             sx={{ mx: 1 }}
                                         >
                                             儲存編輯
