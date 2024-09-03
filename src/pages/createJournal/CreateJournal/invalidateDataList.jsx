@@ -154,7 +154,7 @@ const BilledDataList = ({ listInfo }) => {
                                     <StyledTableCell align="center">會員</StyledTableCell>
                                     <StyledTableCell align="center">攤分比例</StyledTableCell>
                                     <StyledTableCell align="center">攤分後金額</StyledTableCell>
-                                    <StyledTableCell align="center">預付稅款</StyledTableCell>
+                                    <StyledTableCell align="center">是否為稅</StyledTableCell>
                                     <StyledTableCell align="center">調整尾差值</StyledTableCell>
                                     <StyledTableCell align="center">總費用金額</StyledTableCell>
                                 </TableRow>
@@ -211,9 +211,9 @@ const BilledDataList = ({ listInfo }) => {
                                                                 ? '0.5px solid black'
                                                                 : null,
                                                     }}
-                                                >{`$${handleNumber(
-                                                    rowSecond.FeeAmountPre,
-                                                )}`}</TableCell>
+                                                >
+                                                    ${handleNumber(rowSecond.FeeAmountPre)}
+                                                </TableCell>
                                                 <TableCell
                                                     align="center"
                                                     sx={{
@@ -242,19 +242,8 @@ const BilledDataList = ({ listInfo }) => {
                                                                 ? '0.5px solid black'
                                                                 : null,
                                                     }}
-                                                >{`$${handleNumber(
-                                                    rowSecond.FeeAmountPost,
-                                                )}`}</TableCell>
-                                                <TableCell
-                                                    align="center"
-                                                    sx={{
-                                                        borderTop:
-                                                            idFirst !== 0 && idSecond === 0
-                                                                ? '0.5px solid black'
-                                                                : null,
-                                                    }}
                                                 >
-                                                    {rowSecond.WHTAmount}
+                                                    ${handleNumber(rowSecond.FeeAmountPost)}
                                                 </TableCell>
                                                 <TableCell
                                                     align="center"
@@ -264,7 +253,10 @@ const BilledDataList = ({ listInfo }) => {
                                                                 ? '0.5px solid black'
                                                                 : null,
                                                     }}
-                                                >{`$${rowSecond.Difference}`}</TableCell>
+                                                >
+                                                    {/* {rowSecond.WHTAmount} */}
+                                                    {rowSecond.IsTax ? '是' : '否'}
+                                                </TableCell>
                                                 <TableCell
                                                     align="center"
                                                     sx={{
@@ -273,9 +265,20 @@ const BilledDataList = ({ listInfo }) => {
                                                                 ? '0.5px solid black'
                                                                 : null,
                                                     }}
-                                                >{`$${handleNumber(
-                                                    afterDiff.toFixed(2),
-                                                )}`}</TableCell>
+                                                >
+                                                    ${rowSecond.Difference}
+                                                </TableCell>
+                                                <TableCell
+                                                    align="center"
+                                                    sx={{
+                                                        borderTop:
+                                                            idFirst !== 0 && idSecond === 0
+                                                                ? '0.5px solid black'
+                                                                : null,
+                                                    }}
+                                                >
+                                                    ${handleNumber(afterDiff.toFixed(2))}
+                                                </TableCell>
                                             </TableRow>
                                         );
                                     });

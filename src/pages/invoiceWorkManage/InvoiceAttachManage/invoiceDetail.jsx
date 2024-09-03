@@ -4,7 +4,7 @@ import React from 'react';
 // project import
 import { handleNumber, BootstrapDialogTitle } from 'components/commonFunction';
 // material-ui
-import { Button, Table, Dialog, DialogContent, Grid, DialogActions } from '@mui/material';
+import { Button, Table, Dialog, DialogContent, Grid, DialogActions, Box } from '@mui/material';
 import TableBody from '@mui/material/TableBody';
 import TableCell, { tableCellClasses } from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
@@ -33,7 +33,7 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
     },
 }));
 
-const InvoiceDetail = ({ isDetailOpen, isDetailClose, modifyItem }) => {
+const InvoiceDetail = ({ toCodeType, isDetailOpen, isDetailClose, modifyItem }) => {
     let feeAmount = useRef(0); // 總費用金額加總(上)
     const [dataList, setDataList] = useState([]);
 
@@ -53,8 +53,11 @@ const InvoiceDetail = ({ isDetailOpen, isDetailClose, modifyItem }) => {
     }, [isDetailOpen]);
 
     return (
-        <Dialog maxWidth="sm" open={isDetailOpen}>
+        <Dialog maxWidth="md" open={isDetailOpen}>
             <BootstrapDialogTitle>發票明細</BootstrapDialogTitle>
+            <Box display="flex" justifyContent="end" sx={{ marginRight: '2rem' }}>
+                幣別：{toCodeType}
+            </Box>
             <DialogContent>
                 <Grid
                     container

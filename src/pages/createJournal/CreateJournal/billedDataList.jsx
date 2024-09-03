@@ -214,7 +214,8 @@ const BilledDataList = ({ listInfo, apiQuery }) => {
                                     <StyledTableCell align="center">會員</StyledTableCell>
                                     <StyledTableCell align="center">攤分比例</StyledTableCell>
                                     <StyledTableCell align="center">攤分後金額</StyledTableCell>
-                                    <StyledTableCell align="center">預付稅款</StyledTableCell>
+                                    {/* <StyledTableCell align="center">預付稅款</StyledTableCell> */}
+                                    <StyledTableCell align="center">是否為稅</StyledTableCell>
                                     <StyledTableCell align="center">調整尾差值</StyledTableCell>
                                     <StyledTableCell align="center">總費用金額</StyledTableCell>
                                 </TableRow>
@@ -316,7 +317,7 @@ const BilledDataList = ({ listInfo, apiQuery }) => {
                                                                 : null,
                                                     }}
                                                 >
-                                                    {rowSecond.WHTAmount}
+                                                    {rowSecond.IsTax ? '是' : '否'}
                                                 </TableCell>
                                                 <TableCell
                                                     align="center"

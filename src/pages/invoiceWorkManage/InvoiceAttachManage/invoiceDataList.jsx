@@ -48,6 +48,7 @@ const InvoiceDataList = ({ listInfo, page, setPage }) => {
     const [isAttachUploadOpen, setIsAttachUploadOpen] = useState(false);
     const [isDetailOpen, setIsDetailOpen] = useState(false);
     const [modifyItem, setModifyItem] = useState([]);
+    const toCodeType = useRef('');
     const itemID = useRef(-1);
     const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - listInfo.length) : 0;
     let tmpBMArray = [];
@@ -194,9 +195,12 @@ const InvoiceDataList = ({ listInfo, page, setPage }) => {
             });
     };
 
+    console.log('listInfo=>>', listInfo);
+
     return (
         <>
             <InvoiceDetail
+                toCodeType={toCodeType.current}
                 modifyItem={modifyItem}
                 isDetailOpen={isDetailOpen}
                 isDetailClose={isDetailClose}
@@ -225,7 +229,7 @@ const InvoiceDataList = ({ listInfo, page, setPage }) => {
                             <StyledTableCell align="center">明細數量</StyledTableCell>
                             <StyledTableCell align="center">總金額</StyledTableCell>
                             <StyledTableCell align="center">累計實付金額</StyledTableCell>
-                            <StyledTableCell align="center">累計減項金額</StyledTableCell>
+                            {/* <StyledTableCell align="center">累計減項金額</StyledTableCell> */}
                             <StyledTableCell align="center">Action</StyledTableCell>
                         </TableRow>
                     </TableHead>
@@ -272,14 +276,16 @@ const InvoiceDataList = ({ listInfo, page, setPage }) => {
                                         {row.InvoiceWKDetail.length}
                                     </StyledTableCell>
                                     <StyledTableCell align="center">
-                                        {handleNumber(row.InvoiceWKMaster.TotalAmount)}
+                                        {handleNumber(row.InvoiceWKMaster.TotalAmount)}{' '}
+                                        {row.InvoiceWKMaster.ToCode}
                                     </StyledTableCell>
                                     <StyledTableCell align="center">
-                                        {handleNumber(row.InvoiceWKMaster.TotalAmount)}
+                                        {handleNumber(row.InvoiceWKMaster.PaidAmount)}{' '}
+                                        {row.InvoiceWKMaster.ToCode}
                                     </StyledTableCell>
-                                    <StyledTableCell align="center">
+                                    {/* <StyledTableCell align="center">
                                         {handleNumber(row.InvoiceWKMaster.TotalAmount)}
-                                    </StyledTableCell>
+                                    </StyledTableCell> */}
                                     <TableCell align="center">
                                         <Box
                                             sx={{
@@ -297,6 +303,7 @@ const InvoiceDataList = ({ listInfo, page, setPage }) => {
                                                 size="small"
                                                 onClick={() => {
                                                     setModifyItem(row.InvoiceWKDetail);
+                                                    toCodeType.current = row.InvoiceWKMaster.ToCode;
                                                     setIsDetailOpen(true);
                                                 }}
                                             >
