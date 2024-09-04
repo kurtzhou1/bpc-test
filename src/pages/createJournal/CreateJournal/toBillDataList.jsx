@@ -17,7 +17,6 @@ import { setMessageStateOpen } from 'store/reducers/dropdown';
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
     [`&.${tableCellClasses.head}`]: {
-        // backgroundColor: theme.palette.common.gary,
         color: theme.palette.common.black,
         paddingTop: '0.2rem',
         paddingBottom: '0.2rem',
@@ -40,7 +39,7 @@ const ToBillDataList = ({ listInfo, apiQuery }) => {
     const [isDialogOpen, setIsDialogOpen] = useState(false);
     const toBillDataMain = useRef();
     const [toBillDataInfo, setToBillDataInfo] = useState([]); //發票明細檔
-    const [totalAmount, setTotalAmount] = useState(0); //發票總金額
+    const [totalAmount, setTotalAmount] = useState('0'); //發票總金額
     const [currentAmount, setCurrentAmount] = useState(0); //目前金額
     let codeType = useRef(''); //幣別
     let differAmount = useRef(0); //尾差值總和
@@ -81,20 +80,19 @@ const ToBillDataList = ({ listInfo, apiQuery }) => {
                         }, []),
                     );
                     setToBillDataInfo(reduceArray);
-
                     toBillDataMain.current = data.InvoiceMaster;
-                    setTotalAmount(data.TotalAmount);
+                    setTotalAmount(data.TotalAmount.toString());
                     data.InvoiceDetail.forEach((i) => {
                         tmpAmount = tmpAmount + i.FeeAmountPost + i.Difference;
                         codeType.current = i.ToCode;
                     });
-                    setCurrentAmount(tmpAmount.toFixed(2));
+                    setCurrentAmount(tmpAmount);
                     feeAmountPostAmount.current = data.TotalAmount;
                     setIsDialogOpen(true);
                 } else {
                     toBillDataMain.current = [];
                     setToBillDataInfo([]);
-                    setTotalAmount(0);
+                    setTotalAmount('0');
                     setCurrentAmount(0);
                     dispatch(
                         setMessageStateOpen({
@@ -133,12 +131,13 @@ const ToBillDataList = ({ listInfo, apiQuery }) => {
         });
         differAmount.current = tmpDifferAmount;
         setToBillDataInfo(tmpArray);
-        setCurrentAmount(tmpAmount.toFixed(2));
+        console.log('tmpAmount=>>', tmpAmount);
+        setCurrentAmount(tmpAmount);
     };
 
     // 送出立帳(新增)
     const sendJournalInfo = () => {
-        if (Number(totalAmount).toFixed(2) === Number(currentAmount).toFixed(2)) {
+        if (Number(totalAmount).toFixed(6) === Number(currentAmount).toFixed(6)) {
             let tmpArray = toBillDataMain.current.map((i) => i);
             let tmpData = {
                 TotalAmount: totalAmount,
@@ -223,6 +222,15 @@ const ToBillDataList = ({ listInfo, apiQuery }) => {
                                             rowSecond.FeeAmountPost +
                                             rowSecond.Difference -
                                             rowSecond.WHTAmount;
+                                        console.log(
+                                            typeof rowSecond.FeeAmountPost,
+                                            typeof rowSecond.Difference,
+                                            typeof rowSecond.WHTAmount,
+                                            rowSecond.FeeAmountPost,
+                                            rowSecond.Difference,
+                                            rowSecond.WHTAmount,
+                                            afterDiff,
+                                        );
                                         return (
                                             <TableRow
                                                 key={
@@ -337,7 +345,7 @@ const ToBillDataList = ({ listInfo, apiQuery }) => {
                                                 >
                                                     <TextField
                                                         label="$"
-                                                        inputProps={{ step: '.01' }}
+                                                        inputProps={{ step: '.000001' }}
                                                         size="small"
                                                         type="number"
                                                         style={{ width: '50%' }}
@@ -359,7 +367,7 @@ const ToBillDataList = ({ listInfo, apiQuery }) => {
                                                                 : null,
                                                     }}
                                                 >
-                                                    {handleNumber(afterDiff.toFixed(2))}{' '}
+                                                    {handleNumber(afterDiff)}
                                                 </TableCell>
                                             </TableRow>
                                         );
@@ -392,14 +400,14 @@ const ToBillDataList = ({ listInfo, apiQuery }) => {
                                         align="center"
                                     ></StyledTableCell>
                                     <StyledTableCell className="totalAmount" align="center">
-                                        {handleNumber(feeAmountPostAmount.current.toFixed(2))}
+                                        {handleNumber(feeAmountPostAmount.current)}
                                     </StyledTableCell>
                                     <StyledTableCell
                                         className="totalAmount"
                                         align="center"
                                     ></StyledTableCell>
                                     <StyledTableCell className="totalAmount" align="center">
-                                        {handleNumber(differAmount.current.toFixed(2))}
+                                        {handleNumber(differAmount.current)}
                                     </StyledTableCell>
                                     <StyledTableCell className="totalAmount" align="center">
                                         {handleNumber(currentAmount)}

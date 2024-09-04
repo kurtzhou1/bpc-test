@@ -277,7 +277,7 @@ const BilledDataList = ({ listInfo }) => {
                                                                 : null,
                                                     }}
                                                 >
-                                                    ${handleNumber(afterDiff.toFixed(2))}
+                                                    ${handleNumber(afterDiff)}
                                                 </TableCell>
                                             </TableRow>
                                         );
@@ -306,17 +306,17 @@ const BilledDataList = ({ listInfo }) => {
                                         align="center"
                                     ></StyledTableCell>
                                     <StyledTableCell className="totalAmount" align="center">
-                                        {handleNumber(totalAmount.current.toFixed(2))}
+                                        {handleNumber(totalAmount.current)}
                                     </StyledTableCell>
                                     <StyledTableCell
                                         className="totalAmount"
                                         align="center"
                                     ></StyledTableCell>
                                     <StyledTableCell className="totalAmount" align="center">
-                                        {handleNumber(differAmount.current.toFixed(2))}
+                                        {handleNumber(differAmount.current)}
                                     </StyledTableCell>
                                     <StyledTableCell className="totalAmount" align="center">
-                                        {handleNumber(afterDiffAmount.current.toFixed(2))}
+                                        {handleNumber(afterDiffAmount.current)}
                                     </StyledTableCell>
                                 </TableRow>
                             </TableBody>

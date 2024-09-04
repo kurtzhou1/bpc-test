@@ -56,7 +56,7 @@ const InvalidatedDataList = ({ listInfo, BootstrapDialogTitle, apiQuery }) => {
     //立帳作業
     const toBillData = (wKMasterID) => {
         console.log('立帳作業wKMasterID=>>', wKMasterID);
-        let tmpQuery = '/' + 'WKMasterID=' + wKMasterID;
+        let tmpQuery = '/WKMasterID=' + wKMasterID;
         tmpQuery = toBillDataapi + tmpQuery;
         console.log('tmpQuery=>>', tmpQuery);
         fetch(tmpQuery, { method: 'GET' })

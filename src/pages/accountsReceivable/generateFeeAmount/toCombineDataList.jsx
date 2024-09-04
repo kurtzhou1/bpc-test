@@ -446,9 +446,9 @@ const ToCombineDataList = ({
                                                     <TableCell align="center">
                                                         {dayjs(row.IssueDate).format('YYYY/MM/DD')}
                                                     </TableCell>
-                                                    <TableCell align="center">{`$${handleNumber(
-                                                        row.FeeAmount?.toFixed(2),
-                                                    )}`}</TableCell>
+                                                    <TableCell align="center">
+                                                        ${handleNumber(row.FeeAmount)}
+                                                    </TableCell>
                                                 </TableRow>
                                             );
                                         })}
@@ -476,12 +476,9 @@ const ToCombineDataList = ({
                                                 className="totalAmount"
                                                 align="center"
                                             ></StyledTableCell>
-                                            <StyledTableCell
-                                                className="totalAmount"
-                                                align="center"
-                                            >{`$${handleNumber(
-                                                totalAmount.current?.toFixed(2),
-                                            )}`}</StyledTableCell>
+                                            <StyledTableCell className="totalAmount" align="center">
+                                                ${handleNumber(totalAmount.current)}
+                                            </StyledTableCell>
                                         </TableRow>
                                     </TableBody>
                                 </Table>
@@ -541,9 +538,9 @@ const ToCombineDataList = ({
                                     <TableCell align="center">
                                         {dayjs(row?.IssueDate).format('YYYY/MM/DD')}
                                     </TableCell>
-                                    <TableCell align="center">{`$${handleNumber(
-                                        row?.FeeAmountPost.toFixed(2),
-                                    )}`}</TableCell>
+                                    <TableCell align="center">
+                                        ${handleNumber(row?.FeeAmountPost)}
+                                    </TableCell>
                                 </TableRow>
                             );
                         })}
