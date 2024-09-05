@@ -28,8 +28,6 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
 const ToGenerateDataList = ({ dataList, receivableQuery }) => {
     const [isDeductOpen, setIsDeductOpen] = useState(false); //檢視、折抵作業
     const [isDialogOpen, setIsDialogOpen] = useState(false); //檢視帳單
-
-    // const [isDeductWorkOpen, setIsDeductWorkOpen] = useState(false); //作廢
     const [infoBack, setInfoBack] = useState(false); //退回
     const billMasterInfo = useRef([]);
     const billDetailInfo = useRef([]);

@@ -85,7 +85,7 @@ export const downloadCreditMemoApi = `${httpEnv}://${env}/api/v1/downloadCreditM
 export const combineInvo = `${httpEnv}://${env}/api/v1/getBillMaster&BillDetailStream`;
 export const isBillNoCheckOK = `${httpEnv}://${env}/api/v1/checkBillingNo`;
 export const generateBillNoCovert = `${httpEnv}://${env}/api/v1/checkBillingNo/convert`;
-export const invoCombine = `${httpEnv}://${env}/api/v1/initBillMaster&BillDetail`;
+export const initBillMasterBillDetail = `${httpEnv}://${env}/api/v1/initBillMaster&BillDetail`;
 export const sendDuctInfo = `${httpEnv}://${env}/api/v1/generateBillMaster&BillDetail`;
 
 // 產製應收帳款-已抵扣

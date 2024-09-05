@@ -105,7 +105,6 @@ const BilledDataList = ({ listInfo }) => {
                         afterDiffAmount.current = tmpAfterDiffAmount;
                         differAmount.current = tmpDifferAmount;
                         setToBillDataInfo(reduceArray);
-                        // setToBillDataInfo(data2);
                         setIsDialogOpen(true);
                     })
                     .catch(() => {

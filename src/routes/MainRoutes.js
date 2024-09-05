@@ -79,13 +79,7 @@ const RequireAuth = ({ children, item }) => {
     // haha2
     const getExpireTime = localStorage.getItem('expireTimeCBP');
     let accessSSO = isOL ? accessSSOOL : accessSSOQA;
-    console.log('window.location.href.indexOf("code")=>>', window.location.href.indexOf('code'));
     const sendNoPermission = () => {
-        // dispatch(
-        //   setMessageStateOpen({
-        //     messageStateOpen: { isOpen: true, severity: 'error', message: '無權限進入' },
-        //   }),
-        // );
         return window.location.replace(window.location.protocol + '//' + window.location.host);
     };
 

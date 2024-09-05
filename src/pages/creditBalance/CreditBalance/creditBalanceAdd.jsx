@@ -290,7 +290,6 @@ const CreditBalanceAdd = ({
                             </Select>
                         </FormControl>
                     </Grid>
-                    {/* <Grid item xs={2} sm={2} md={2} lg={2} xl={6} /> */}
                     <Grid item xs={2} sm={2} md={2} lg={2} display="flex" justifyContent="center">
                         <Typography
                             variant="h5"
@@ -299,7 +298,7 @@ const CreditBalanceAdd = ({
                                 ml: { lg: '0.5rem', xl: '1.5rem' },
                             }}
                         >
-                            剩餘金額：
+                            金額：
                         </Typography>
                     </Grid>
                     <Grid item xs={2} sm={2} md={2} lg={2}>
@@ -308,7 +307,7 @@ const CreditBalanceAdd = ({
                             variant="outlined"
                             value={handleNumber(currAmount)}
                             size="small"
-                            label="填寫剩餘金額"
+                            label="填寫金額(限制16位數)"
                             onChange={(e) => setCurrAmount(e.target.value)}
                         />
                     </Grid>

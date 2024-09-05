@@ -277,7 +277,7 @@ const InvoiceDataList = ({ listInfo, page, setPage }) => {
                                     </StyledTableCell>
                                     <StyledTableCell align="center">
                                         {handleNumber(row.InvoiceWKMaster.TotalAmount)}{' '}
-                                        {row.InvoiceWKMaster.ToCode}
+                                        {row.InvoiceWKMaster.Code}
                                     </StyledTableCell>
                                     <StyledTableCell align="center">
                                         {handleNumber(row.InvoiceWKMaster.PaidAmount)}{' '}
@@ -303,7 +303,7 @@ const InvoiceDataList = ({ listInfo, page, setPage }) => {
                                                 size="small"
                                                 onClick={() => {
                                                     setModifyItem(row.InvoiceWKDetail);
-                                                    toCodeType.current = row.InvoiceWKMaster.ToCode;
+                                                    toCodeType.current = row.InvoiceWKMaster.Code;
                                                     setIsDetailOpen(true);
                                                 }}
                                             >

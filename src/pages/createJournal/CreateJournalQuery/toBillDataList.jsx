@@ -171,10 +171,6 @@ const ToBillDataList = ({ listInfo, page, setPage }) => {
                                     return rowFirst.map((rowSecond, idSecond) => {
                                         let afterDiff =
                                             rowSecond.FeeAmountPost + rowSecond.Difference;
-                                        {
-                                            /* {toBillDataInfo?.map((row, id) => {
-                                    let afterDiff = row.FeeAmountPost + row.Difference; */
-                                        }
                                         return (
                                             <TableRow
                                                 key={rowSecond?.FeeItem + idFirst + idSecond}

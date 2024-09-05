@@ -214,7 +214,6 @@ const BilledDataList = ({ listInfo, apiQuery }) => {
                                     <StyledTableCell align="center">會員</StyledTableCell>
                                     <StyledTableCell align="center">攤分比例</StyledTableCell>
                                     <StyledTableCell align="center">攤分後金額</StyledTableCell>
-                                    {/* <StyledTableCell align="center">預付稅款</StyledTableCell> */}
                                     <StyledTableCell align="center">是否為稅</StyledTableCell>
                                     <StyledTableCell align="center">調整尾差值</StyledTableCell>
                                     <StyledTableCell align="center">總費用金額</StyledTableCell>
@@ -417,7 +416,7 @@ const BilledDataList = ({ listInfo, apiQuery }) => {
                         {listInfo?.map((row, id) => {
                             return (
                                 <TableRow
-                                    key={id + row?.InvoiceWKMaster?.InvoiceNo + id}
+                                    key={row?.InvoiceWKMaster?.InvoiceNo + id}
                                     sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                                 >
                                     <StyledTableCell align="center">{id + 1}</StyledTableCell>

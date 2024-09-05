@@ -222,21 +222,13 @@ const ToBillDataList = ({ listInfo, apiQuery }) => {
                                             rowSecond.FeeAmountPost +
                                             rowSecond.Difference -
                                             rowSecond.WHTAmount;
-                                        console.log(
-                                            typeof rowSecond.FeeAmountPost,
-                                            typeof rowSecond.Difference,
-                                            typeof rowSecond.WHTAmount,
-                                            rowSecond.FeeAmountPost,
-                                            rowSecond.Difference,
-                                            rowSecond.WHTAmount,
-                                            afterDiff,
-                                        );
                                         return (
                                             <TableRow
                                                 key={
                                                     rowSecond.FeeAmountPre +
                                                     rowSecond?.LBRatio +
-                                                    idFirst
+                                                    idFirst +
+                                                    idSecond
                                                 }
                                                 sx={{
                                                     '&:last-child td, &:last-child th': {

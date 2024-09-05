@@ -2,7 +2,12 @@ import { useState, useRef, useEffect } from 'react';
 
 // project import
 import { handleNumber, BootstrapDialogTitle } from 'components/commonFunction';
-import { combineInvo, isBillNoCheckOK, invoCombine, generateBillNoCovert } from 'components/apis';
+import {
+    combineInvo,
+    isBillNoCheckOK,
+    initBillMasterBillDetail,
+    generateBillNoCovert,
+} from 'components/apis';
 // material-ui
 import {
     Typography,
@@ -97,7 +102,7 @@ const ToCombineDataList = ({
     };
 
     //自動產生號碼
-    const billNoGenerate = () => {
+    const billNoGenerate = (e) => {
         let tmpArray = {
             BillingNo: billingNoOld.current,
         };
@@ -115,7 +120,7 @@ const ToCombineDataList = ({
                     setBillingNo(data.BillingNo);
                 }
             });
-        Event.preventDefault();
+        e.preventDefault();
     };
 
     //合併帳單
@@ -139,7 +144,7 @@ const ToCombineDataList = ({
             billList.DueDate = dayjs(issueDate).format('YYYY-MM-DD HH:mm:ss');
             billList.PONo = poNo;
             delete billList.BillMaster.SupplierName;
-            console.log('billList=>>', billList.DueDate);
+            console.log('tmpArray=>>', tmpArray);
             fetch(isBillNoCheckOK, {
                 method: 'POST',
                 headers: {
@@ -151,7 +156,8 @@ const ToCombineDataList = ({
                 .then((res) => res.json())
                 .then((data) => {
                     if (!data.isExist) {
-                        fetch(invoCombine, {
+                        console.log('billList=>>', billList);
+                        fetch(initBillMasterBillDetail, {
                             method: 'POST',
                             headers: {
                                 'Content-type': 'application/json',
@@ -250,6 +256,7 @@ const ToCombineDataList = ({
                 .then((data) => {
                     console.log('data=>>>', data);
                     if (data?.PartyName === 'PartyName is not unique') {
+                        handleDialogClose();
                         dispatch(
                             setMessageStateOpen({
                                 messageStateOpen: {
@@ -261,6 +268,7 @@ const ToCombineDataList = ({
                         );
                         handleDialogClose();
                     } else if (data?.SubmarineCable === 'SubmarineCable is not unique') {
+                        handleDialogClose();
                         dispatch(
                             setMessageStateOpen({
                                 messageStateOpen: {
@@ -270,8 +278,19 @@ const ToCombineDataList = ({
                                 },
                             }),
                         );
+                    } else if (data?.alert_msg) {
                         handleDialogClose();
+                        dispatch(
+                            setMessageStateOpen({
+                                messageStateOpen: {
+                                    isOpen: true,
+                                    severity: 'error',
+                                    message: data.alert_msg,
+                                },
+                            }),
+                        );
                     } else {
+                        console.log('=>>>', data);
                         setBillList(data);
                         billingNoOld.current = data.BillMaster.BillingNo;
                         data.BillDetail.forEach((i) => {
@@ -308,6 +327,7 @@ const ToCombineDataList = ({
                     >
                         <Grid
                             item
+                            md={1}
                             lg={1}
                             display="flex"
                             justifyContent="center"
@@ -320,7 +340,7 @@ const ToCombineDataList = ({
                                 帳單到期日：
                             </Typography>
                         </Grid>
-                        <Grid item lg={2}>
+                        <Grid item md={2} lg={2}>
                             <FormControl>
                                 <LocalizationProvider dateAdapter={AdapterDayjs}>
                                     <DesktopDatePicker
@@ -338,6 +358,7 @@ const ToCombineDataList = ({
                         </Grid>
                         <Grid
                             item
+                            md={1}
                             lg={1}
                             display="flex"
                             justifyContent="center"
@@ -350,7 +371,7 @@ const ToCombineDataList = ({
                                 PO號碼：
                             </Typography>
                         </Grid>
-                        <Grid item lg={2}>
+                        <Grid item md={2} lg={2}>
                             <TextField
                                 value={poNo}
                                 fullWidth
@@ -365,6 +386,7 @@ const ToCombineDataList = ({
                         </Grid>
                         <Grid
                             item
+                            md={1}
                             lg={1}
                             display="flex"
                             justifyContent="center"
@@ -377,7 +399,7 @@ const ToCombineDataList = ({
                                 帳單號碼：
                             </Typography>
                         </Grid>
-                        <Grid item lg={2}>
+                        <Grid item md={2} lg={2}>
                             <TextField
                                 value={billingNo}
                                 fullWidth
@@ -390,7 +412,14 @@ const ToCombineDataList = ({
                                 }}
                             />
                         </Grid>
-                        <Grid item lg={2} display="flex" justifyContent="start" alignItems="center">
+                        <Grid
+                            item
+                            md={2}
+                            lg={2}
+                            display="flex"
+                            justifyContent="start"
+                            alignItems="center"
+                        >
                             <Button
                                 sx={{ ml: '0.rem' }}
                                 variant="contained"
@@ -400,8 +429,8 @@ const ToCombineDataList = ({
                                 自動產生
                             </Button>
                         </Grid>
-                        <Grid item lg={1} />
-                        <Grid item lg={12}>
+                        <Grid item md={1} lg={1} />
+                        <Grid item md={12} lg={12}>
                             <TableContainer component={Paper} sx={{ maxHeight: 350 }}>
                                 <Table sx={{ minWidth: 300 }} stickyHeader>
                                     <TableHead>
