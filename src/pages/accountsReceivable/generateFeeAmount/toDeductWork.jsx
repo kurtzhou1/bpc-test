@@ -4,6 +4,7 @@ import { useState, useRef, useEffect } from 'react';
 import { handleNumber, BootstrapDialogTitle } from 'components/commonFunction';
 import { queryCB, sendDuctInfo } from 'components/apis';
 import MainCard from 'components/MainCard';
+import Decimal from 'decimal.js';
 // material-ui
 import {
     Typography,
@@ -78,13 +79,12 @@ const ToDeductWork = ({
         setFeeAmountTotal(0);
     };
 
+    //按下折抵
     const deductWork = (data) => {
-        console.log('data=>>', data);
-        let tmpArrayFiliter = tmpDeductArray.current.filter(
+        let tmpArrayFilter = tmpDeductArray.current.filter(
             (i) => i.BillDetailID === data.BillDetailID,
         );
-        console.log('tmpArrayFiliter=>>', tmpArrayFiliter);
-        if (tmpArrayFiliter.length === 0) {
+        if (tmpArrayFilter.length === 0) {
             let tmpQuery =
                 queryCB +
                 '/SubmarineCable=' +
@@ -125,7 +125,7 @@ const ToDeductWork = ({
                     );
                 });
         } else {
-            setTmpCBArray(tmpArrayFiliter[0].CB);
+            setTmpCBArray(tmpArrayFilter[0].CB);
         }
         editItem.current = data.BillDetailID;
         setIsDeductWorkOpen(true);
@@ -134,9 +134,9 @@ const ToDeductWork = ({
     const changeDiff = (currAmount, maxValue, value, cbid) => {
         //原始可折抵金額,可折抵金額,目前輸入值
         let resule = 0;
-        let tmpArrayFiliter = tmpCBArray.filter((i) => i.CBID === cbid);
+        let tmpArrayFilter = tmpCBArray.filter((i) => i.CBID === cbid);
         let tmpArray = tmpCBArray.map((i) => i);
-        if (tmpArrayFiliter.length > 0) {
+        if (tmpArrayFilter.length > 0) {
             tmpArray.forEach((i) => {
                 if (i.CBID === cbid) {
                     if (Number(maxValue) === 0 || Number(value) <= 0) {
@@ -176,11 +176,11 @@ const ToDeductWork = ({
     const saveDeduct = () => {
         let tmpFeeAmount = 0;
         let deductAmount = 0;
-        let tmpArrayFiliter = tmpDeductArray.current.filter(
+        let tmpArrayFilter = tmpDeductArray.current.filter(
             (i) => i.BillDetailID === editItem.current,
         );
         let tmpArray = tmpDeductArray.current.map((i) => i);
-        if (tmpArrayFiliter.length > 0) {
+        if (tmpArrayFilter.length > 0) {
             tmpArray.forEach((i) => {
                 if (i.BillDetailID === editItem.current) {
                     i.CB = tmpCBArray;
@@ -191,11 +191,11 @@ const ToDeductWork = ({
         }
         tmpArray.forEach((i1) => {
             i1.CB.forEach((i2) => {
-                deductAmount = deductAmount + i2.TransAmount;
+                deductAmount = new Decimal(deductAmount).add(new Decimal(i2.TransAmount));
             });
         });
         billDetailInfo.forEach((i) => {
-            tmpFeeAmount = tmpFeeAmount + i.FeeAmount;
+            tmpFeeAmount = new Decimal(tmpFeeAmount).add(new Decimal(i.FeeAmount));
         });
         dedAmount.current = deductAmount;
         tmpDeductArray.current = tmpArray;
@@ -448,6 +448,7 @@ const ToDeductWork = ({
                                                     <TableCell
                                                         align="center"
                                                         sx={{
+                                                            //haha
                                                             color:
                                                                 row.OrgFeeAmount -
                                                                     dedAmountTmp -
@@ -457,11 +458,10 @@ const ToDeductWork = ({
                                                                     : 'red',
                                                         }}
                                                     >
-                                                        $
                                                         {handleNumber(
-                                                            row.OrgFeeAmount -
-                                                                dedAmountTmp -
-                                                                row.WHTAmount,
+                                                            new Decimal(row.OrgFeeAmount)
+                                                                .minus(new Decimal(dedAmountTmp))
+                                                                .minus(new Decimal(row.WHTAmount)),
                                                         )}
                                                     </TableCell>
                                                     {actionName === 'deduct' ? (
@@ -575,28 +575,24 @@ const ToDeductWork = ({
                                                 </TableHead>
                                                 <TableBody>
                                                     {cbDataList.map((row, id) => {
-                                                        let tmpDeducted = 0; //已經於別的項目折抵的金額
+                                                        let otherItemsDeducted = 0; //已經於別的項目折抵的金額
                                                         let deductFee = 0; //可折抵金額
                                                         let afterDiff = 0; //剩餘可折抵金額
                                                         //其他項目目前折抵金額-開始
-                                                        console.log(
-                                                            'tmpDeductArray.current=>>',
-                                                            tmpDeductArray.current,
-                                                        );
                                                         tmpDeductArray.current.forEach((i1) => {
                                                             if (
                                                                 i1.BillDetailID !== editItem.current
                                                             ) {
                                                                 i1.CB.forEach((i2) => {
                                                                     if (i2.CBID === row.CBID) {
-                                                                        tmpDeducted =
-                                                                            tmpDeducted +
+                                                                        otherItemsDeducted =
+                                                                            otherItemsDeducted +
                                                                             i2.TransAmount;
                                                                     }
                                                                 });
                                                             }
                                                         });
-                                                        // tmpDeducted = tmpDeducted.toFixed(2);
+                                                        // otherItemsDeducted = otherItemsDeducted.toFixed(2);
                                                         //其他項目目前折抵金額-結束
                                                         //當前項目目前折抵金額-開始
                                                         let tmpArray = tmpCBArray.filter(
@@ -605,15 +601,29 @@ const ToDeductWork = ({
                                                         let deductNumber = tmpArray[0]
                                                             ? tmpArray[0].TransAmount
                                                             : 0;
-                                                        deductFee = row.CurrAmount - tmpDeducted;
-                                                        console.log(
-                                                            '??=>>',
-                                                            row.CurrAmount,
-                                                            tmpDeducted,
-                                                        );
+                                                        deductFee = new Decimal(row.CurrAmount)
+                                                            .minus(new Decimal(otherItemsDeducted))
+                                                            .toNumber();
+
+                                                        // afterDiff =
+                                                        //     row.CurrAmount - otherItemsDeducted > 0
+                                                        //         ? row.CurrAmount - otherItemsDeducted
+                                                        //         : 0;
+                                                        // afterDiff =
+                                                        // row.CurrAmount - deductNumber > 0
+                                                        //     ? new Decimal(row.CurrAmount)
+                                                        //           .minus(
+                                                        //               new Decimal(deductNumber),
+                                                        //           )
+                                                        //           .toNumber()
+                                                        //     : 0;
                                                         afterDiff =
-                                                            row.CurrAmount - tmpDeducted > 0
-                                                                ? row.CurrAmount - tmpDeducted
+                                                            deductFee - deductNumber > 0
+                                                                ? new Decimal(deductFee)
+                                                                      .minus(
+                                                                          new Decimal(deductNumber),
+                                                                      )
+                                                                      .toNumber()
                                                                 : 0;
                                                         return (
                                                             <TableRow

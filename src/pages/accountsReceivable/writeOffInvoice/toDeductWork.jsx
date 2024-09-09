@@ -330,7 +330,7 @@ const ToDeductWork = ({
                     </Grid>
                     {isDeductWorkOpen ? (
                         <Grid item xs={12} sm={12} md={12} lg={12}>
-                            <MainCard title={`可折抵CB`}>
+                            <MainCard title={``}>
                                 <Grid container>
                                     <Grid item xs={12} sm={12} md={12} lg={12}>
                                         <TableContainer component={Paper} sx={{ maxHeight: 350 }}>
