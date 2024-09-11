@@ -74,7 +74,6 @@ const BilledDataList = ({ listInfo, apiQuery }) => {
         })
             .then((res) => res.json())
             .then((data) => {
-                console.log('data1=>>', data);
                 // totalAmount.current = data[0].TotalAmount;
                 fetch(tmpQueryDetail, {
                     method: 'GET',
