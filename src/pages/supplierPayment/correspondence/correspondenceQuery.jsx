@@ -263,7 +263,14 @@ const CorrespondenceQuery = ({ setListInfo, queryApi, value }) => {
                                 </LocalizationProvider>
                             </FormControl>
                         </Grid>
-                        <Grid item lg={9} display="flex" justifyContent="end" alignItems="center">
+                        <Grid
+                            item
+                            md={9}
+                            lg={9}
+                            display="flex"
+                            justifyContent="end"
+                            alignItems="center"
+                        >
                             <Button
                                 sx={{ mr: '0.5rem' }}
                                 variant="contained"
@@ -277,7 +284,14 @@ const CorrespondenceQuery = ({ setListInfo, queryApi, value }) => {
                         </Grid>
                     </>
                 ) : (
-                    <Grid item lg={12} display="flex" justifyContent="end" alignItems="center">
+                    <Grid
+                        item
+                        md={12}
+                        lg={12}
+                        display="flex"
+                        justifyContent="end"
+                        alignItems="center"
+                    >
                         <Button
                             sx={{ mr: '0.5rem' }}
                             variant="contained"

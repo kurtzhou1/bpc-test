@@ -3,6 +3,8 @@ import { useState, useRef, useEffect } from 'react';
 // project import
 import { handleNumber, BootstrapDialogTitle } from 'components/commonFunction';
 import MainCard from 'components/MainCard';
+import NumericFormatCustom from 'components/numericFormatCustom';
+import Decimal from 'decimal.js';
 // material-ui
 import {
     Typography,
@@ -35,6 +37,7 @@ import { saveWriteOff } from 'components/apis.jsx';
 // redux
 import { useDispatch } from 'react-redux';
 import { setMessageStateOpen } from 'store/reducers/dropdown';
+import { number } from 'prop-types';
 
 // api
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
@@ -77,7 +80,7 @@ const WriteOffWork = ({
     const cbData = useRef(); //CB折抵作業
 
     let tmpBankFee = 0; //本次手續費
-    let tmpreceiveAmount = 0; //本次實收
+    let tmpReceiveAmount = 0; //本次實收
     let tmpTotal = 0; //本次總金額
     let tmpOverAmount = 0; //重溢繳
     let tmpShortAmount = 0; //短繳
@@ -86,78 +89,148 @@ const WriteOffWork = ({
 
     // 本次手續費
     const changeBankFee = (bankFee, id) => {
+        console.log('=>>>', bankFee, typeof bankFee);
         let tmpArray = toWriteOffDetailInfo.map((i) => i);
         tmpArray.forEach((i) => {
             if (i.BillDetailID === id) {
-                let tmpBRAmount =
-                    Number(i.ReceiveAmount.toString().replaceAll(',', '')) +
-                    Number(bankFee.toString().replaceAll(',', '')) +
-                    (Number(i.CBWriteOffAmount?.toString().replaceAll(',', '')) || 0);
-                i.BankFee = Number(bankFee.toString().replaceAll(',', ''));
+                let tmpBRAmount = new Decimal(i.ReceiveAmount)
+                    .add(new Decimal(bankFee))
+                    .add(new Decimal(i.CBWriteOffAmount) || 0)
+                    .toNumber();
+                i.BankFee = Number(bankFee);
                 i.BRAmount = tmpBRAmount;
                 i.OverAmount =
-                    Number(i.ReceiveAmount.toString().replaceAll(',', '')) +
-                        (Number(i.CBWriteOffAmount?.toString().replaceAll(',', '')) || 0) +
-                        Number(i.ReceivedAmount.toString().replaceAll(',', '')) -
-                        Number(i.FeeAmount.toString().replaceAll(',', '')) <=
+                    Number(i.ReceiveAmount) +
+                        (Number(i.CBWriteOffAmount) || 0) +
+                        Number(i.ReceivedAmount) -
+                        Number(i.FeeAmount) <=
                     0
                         ? 0
-                        : Number(i.ReceiveAmount.toString().replaceAll(',', '')) +
-                          (Number(i.CBWriteOffAmount?.toString().replaceAll(',', '')) || 0) +
-                          Number(i.ReceivedAmount.toString().replaceAll(',', '')) -
-                          Number(i.FeeAmount.toString().replaceAll(',', ''));
+                        : new Decimal(i.ReceiveAmount || 0)
+                              .add(new Decimal(i.CBWriteOffAmount) || 0)
+                              .add(new Decimal(i.ReceivedAmount || 0))
+                              .minus(new Decimal(i.FeeAmount || 0))
+                              .toNumber();
                 i.ShortAmount =
-                    Number(i.FeeAmount.toString().replaceAll(',', '')) -
-                        Number(i.ReceivedAmount.toString().replaceAll(',', '')) -
-                        Number(i.BankFees.toString().replaceAll(',', '')) -
+                    Number(i.FeeAmount) -
+                        Number(i.ReceivedAmount) -
+                        Number(i.BankFees) -
                         tmpBRAmount <=
                     0
                         ? 0
-                        : Number(i.FeeAmount.toString().replaceAll(',', '')) -
-                          Number(i.ReceivedAmount.toString().replaceAll(',', '')) -
-                          Number(i.BankFees.toString().replaceAll(',', '')) -
-                          tmpBRAmount;
+                        : new Decimal(i.FeeAmount)
+                              .minus(new Decimal(i.ReceivedAmount))
+                              .minus(new Decimal(i.BankFees))
+                              .minus(new Decimal(tmpBRAmount))
+                              .toNumber();
             }
         });
         setToWriteOffDetailInfo(tmpArray);
+        // tmpArray.forEach((i) => {
+        //     if (i.BillDetailID === id) {
+        //         let tmpBRAmount =
+        //             Number(i.ReceiveAmount.toString().replaceAll(',', '')) +
+        //             Number(bankFee.toString().replaceAll(',', '')) +
+        //             (Number(i.CBWriteOffAmount?.toString().replaceAll(',', '')) || 0);
+        //         i.BankFee = Number(bankFee.toString().replaceAll(',', ''));
+        //         i.BRAmount = tmpBRAmount;
+        //         i.OverAmount =
+        //             Number(i.ReceiveAmount.toString().replaceAll(',', '')) +
+        //                 (Number(i.CBWriteOffAmount?.toString().replaceAll(',', '')) || 0) +
+        //                 Number(i.ReceivedAmount.toString().replaceAll(',', '')) -
+        //                 Number(i.FeeAmount.toString().replaceAll(',', '')) <=
+        //             0
+        //                 ? 0
+        //                 : Number(i.ReceiveAmount.toString().replaceAll(',', '')) +
+        //                   (Number(i.CBWriteOffAmount?.toString().replaceAll(',', '')) || 0) +
+        //                   Number(i.ReceivedAmount.toString().replaceAll(',', '')) -
+        //                   Number(i.FeeAmount.toString().replaceAll(',', ''));
+        //         i.ShortAmount =
+        //             Number(i.FeeAmount.toString().replaceAll(',', '')) -
+        //                 Number(i.ReceivedAmount.toString().replaceAll(',', '')) -
+        //                 Number(i.BankFees.toString().replaceAll(',', '')) -
+        //                 tmpBRAmount <=
+        //             0
+        //                 ? 0
+        //                 : Number(i.FeeAmount.toString().replaceAll(',', '')) -
+        //                   Number(i.ReceivedAmount.toString().replaceAll(',', '')) -
+        //                   Number(i.BankFees.toString().replaceAll(',', '')) -
+        //                   tmpBRAmount;
+        //     }
+        // });
     };
 
     // 本次實收
     const changeReceiveAmount = (receiveAmount, id) => {
+        console.log('changeReceiveAmount=>>', receiveAmount);
         let tmpArray = toWriteOffDetailInfo.map((i) => i);
         tmpArray.forEach((i) => {
             if (i.BillDetailID === id) {
-                let tmpBRAmount =
-                    Number(i.BankFee.toString().replaceAll(',', '')) +
-                    Number(receiveAmount.toString().replaceAll(',', '')) +
-                    (Number(i.CBWriteOffAmount?.toString().replaceAll(',', '')) || 0);
-                i.ReceiveAmount = Number(receiveAmount.toString().replaceAll(',', ''));
+                let tmpBRAmount = new Decimal(i.BankFee)
+                    .add(new Decimal(receiveAmount))
+                    .add(new Decimal(i.CBWriteOffAmount) || 0)
+                    .toNumber();
+                i.ReceiveAmount = Number(receiveAmount);
                 i.BRAmount = tmpBRAmount;
                 i.OverAmount =
-                    Number(receiveAmount.toString().replaceAll(',', '')) +
-                        (Number(i.CBWriteOffAmount?.toString().replaceAll(',', '')) || 0) +
-                        Number(i.ReceivedAmount.toString().replaceAll(',', '')) -
-                        Number(i.FeeAmount.toString().replaceAll(',', '')) <=
+                    Number(receiveAmount) +
+                        (Number(i.CBWriteOffAmount) || 0) +
+                        Number(i.ReceivedAmount) -
+                        Number(i.FeeAmount) <=
                     0
                         ? 0
-                        : Number(receiveAmount.toString().replaceAll(',', '')) +
-                          (Number(i.CBWriteOffAmount?.toString().replaceAll(',', '')) || 0) +
-                          Number(i.ReceivedAmount.toString().replaceAll(',', '')) -
-                          Number(i.FeeAmount.toString().replaceAll(',', ''));
+                        : new Decimal(receiveAmount)
+                              .add(new Decimal(i.CBWriteOffAmount) || 0)
+                              .add(new Decimal(i.ReceivedAmount))
+                              .minus(new Decimal(i.FeeAmount))
+                              .toNumber();
                 i.ShortAmount =
-                    Number(i.FeeAmount.toString().replaceAll(',', '')) -
-                        Number(i.ReceivedAmount.toString().replaceAll(',', '')) -
-                        Number(i.BankFees.toString().replaceAll(',', '')) -
+                    Number(i.FeeAmount) -
+                        Number(i.ReceivedAmount) -
+                        Number(i.BankFees) -
                         tmpBRAmount <=
                     0
                         ? 0
-                        : Number(i.FeeAmount.toString().replaceAll(',', '')) -
-                          Number(i.ReceivedAmount.toString().replaceAll(',', '')) -
-                          Number(i.BankFees.toString().replaceAll(',', '')) -
-                          tmpBRAmount;
+                        : new Decimal(i.FeeAmount)
+                              .minus(new Decimal(i.ReceivedAmount))
+                              .minus(new Decimal(i.BankFees))
+                              .minus(new Decimal(tmpBRAmount))
+                              .toNumber();
             }
         });
         setToWriteOffDetailInfo(tmpArray);
+        // tmpArray.forEach((i) => {
+        //     if (i.BillDetailID === id) {
+        //         let tmpBRAmount =
+        //             Number(i.BankFee.toString().replaceAll(',', '')) +
+        //             Number(receiveAmount.toString().replaceAll(',', '')) +
+        //             (Number(i.CBWriteOffAmount?.toString().replaceAll(',', '')) || 0);
+        //         i.ReceiveAmount = Number(receiveAmount.toString().replaceAll(',', ''));
+        //         i.BRAmount = tmpBRAmount;
+        //         i.OverAmount =
+        //             Number(receiveAmount.toString().replaceAll(',', '')) +
+        //                 (Number(i.CBWriteOffAmount?.toString().replaceAll(',', '')) || 0) +
+        //                 Number(i.ReceivedAmount.toString().replaceAll(',', '')) -
+        //                 Number(i.FeeAmount.toString().replaceAll(',', '')) <=
+        //             0
+        //                 ? 0
+        //                 : Number(receiveAmount.toString().replaceAll(',', '')) +
+        //                   (Number(i.CBWriteOffAmount?.toString().replaceAll(',', '')) || 0) +
+        //                   Number(i.ReceivedAmount.toString().replaceAll(',', '')) -
+        //                   Number(i.FeeAmount.toString().replaceAll(',', ''));
+        //         i.ShortAmount =
+        //             Number(i.FeeAmount.toString().replaceAll(',', '')) -
+        //                 Number(i.ReceivedAmount.toString().replaceAll(',', '')) -
+        //                 Number(i.BankFees.toString().replaceAll(',', '')) -
+        //                 tmpBRAmount <=
+        //             0
+        //                 ? 0
+        //                 : Number(i.FeeAmount.toString().replaceAll(',', '')) -
+        //                   Number(i.ReceivedAmount.toString().replaceAll(',', '')) -
+        //                   Number(i.BankFees.toString().replaceAll(',', '')) -
+        //                   tmpBRAmount;
+        //     }
+        // });
     };
 
     const changeReceiveDate = (receiveDate, id, index) => {
@@ -189,24 +262,42 @@ const WriteOffWork = ({
             if (i.BillDetailID === id) {
                 i.Status = status;
                 if (status === 'OK') {
-                    tmpChangeState =
-                        Number(i.ReceiveAmount.toString().replaceAll(',', '')) +
-                        Number(i.ShortAmount.toString().replaceAll(',', ''));
-                    i.ReceiveAmount = tmpChangeState?.toFixed(2);
-                    i.BRAmount = tmpChangeState + Number(i.BankFee.toString().replaceAll(',', ''));
+                    tmpChangeState = new Decimal(i.ReceiveAmount)
+                        .add(new Decimal(i.ShortAmount))
+                        .toNumber();
+                    i.ReceiveAmount = tmpChangeState;
+                    i.BRAmount = new Decimal(tmpChangeState).add(new Decimal(i.BankFee)).toNumber();
                     i.ShortAmount =
-                        Number(i.FeeAmount.toString().replaceAll(',', '')) -
-                            Number(i.ReceivedAmount.toString().replaceAll(',', '')) -
-                            Number(i.BankFees.toString().replaceAll(',', '')) -
+                        Number(i.FeeAmount) -
+                            Number(i.ReceivedAmount) -
+                            Number(i.BankFees) -
                             tmpChangeState -
-                            Number(i.BankFee.toString().replaceAll(',', '')) <=
+                            Number(i.BankFee) <=
                         0
                             ? 0
-                            : Number(i.FeeAmount.toString().replaceAll(',', '')) -
-                              Number(i.ReceivedAmount.toString().replaceAll(',', '')) -
-                              Number(i.BankFees.toString().replaceAll(',', '')) -
-                              tmpChangeState -
-                              Number(i.BankFee.toString().replaceAll(',', ''));
+                            : new Decimal(i.FeeAmount)
+                                  .minus(new Decimal(i.ReceivedAmount))
+                                  .minus(new Decimal(i.BankFees))
+                                  .minus(new Decimal(tmpChangeState))
+                                  .minus(new Decimal(i.BankFee))
+                                  .toNumber();
+
+                    // tmpChangeState = Number(i.ReceiveAmount) + Number(i.ShortAmount);
+                    // i.ReceiveAmount = tmpChangeState;
+                    // i.BRAmount = tmpChangeState + Number(i.BankFee);
+                    // i.ShortAmount =
+                    //     Number(i.FeeAmount) -
+                    //         Number(i.ReceivedAmount) -
+                    //         Number(i.BankFees) -
+                    //         tmpChangeState -
+                    //         Number(i.BankFee) <=
+                    //     0
+                    //         ? 0
+                    //         : Number(i.FeeAmount) -
+                    //           Number(i.ReceivedAmount) -
+                    //           Number(i.BankFees) -
+                    //           tmpChangeState -
+                    //           Number(i.BankFee);
                 }
             }
         });
@@ -224,41 +315,54 @@ const WriteOffWork = ({
         let tmpBankFeesTotal = 0; //累計手續費
         if (action === 'view') {
             tmpArray.forEach((i) => {
+                console.log('i=>>', i);
                 i.ReceiveAmount = 0; //本次實收(暫時)
                 i.BankFee = 0; //本次手續費(暫時)
                 i.BRAmount = 0; //總金額(暫時)
-                tmpOrgFeeAmountTotal = tmpOrgFeeAmountTotal + i.OrgFeeAmount;
-                tmpDedAmountTotal = tmpDedAmountTotal + i.DedAmount;
-                tmpWHTAmountTotal = tmpWHTAmountTotal + i.WHTAmount;
-                tmpFeeAmountTotal = tmpFeeAmountTotal + i.FeeAmount;
-                tmpReceivedAmountTotal = tmpReceivedAmountTotal + i.ReceivedAmount;
-                tmpBankFeesTotal = tmpBankFeesTotal + i.BankFees;
-                // i.BRAmount = Number(i.BankFee.toString().replaceAll(',', '')) + Number(i.ReceiveAmount.toString().replaceAll(',', '')) + (Number(i.CBWriteOffAmount?.toString().replaceAll(',', '')) || 0);
+                tmpOrgFeeAmountTotal = new Decimal(tmpOrgFeeAmountTotal)
+                    .add(new Decimal(i.OrgFeeAmount || 0))
+                    .toNumber();
+                tmpDedAmountTotal = new Decimal(tmpDedAmountTotal)
+                    .add(new Decimal(i.DedAmount))
+                    .toNumber();
+                tmpWHTAmountTotal = new Decimal(tmpWHTAmountTotal)
+                    .add(new Decimal(i.WHTAmount))
+                    .toNumber();
+                tmpFeeAmountTotal = new Decimal(tmpFeeAmountTotal)
+                    .add(new Decimal(i.FeeAmount))
+                    .toNumber();
+                tmpReceivedAmountTotal = new Decimal(tmpReceivedAmountTotal)
+                    .add(new Decimal(i.ReceivedAmount))
+                    .toNumber();
+                tmpBankFeesTotal = new Decimal(tmpBankFeesTotal)
+                    .add(new Decimal(i.BankFees))
+                    .toNumber();
                 i.OverAmount =
-                    Number(i.ReceiveAmount.toString().replaceAll(',', '')) +
-                        (Number(i.CBWriteOffAmount?.toString().replaceAll(',', '')) || 0) +
-                        Number(i.ReceivedAmount.toString().replaceAll(',', '')) -
-                        Number(i.FeeAmount.toString().replaceAll(',', '')) <=
+                    Number(i.ReceiveAmount) +
+                        (Number(i.CBWriteOffAmount) || 0) +
+                        Number(i.ReceivedAmount) -
+                        Number(i.FeeAmount) <=
                     0
                         ? 0
-                        : Number(i.ReceiveAmount.toString().replaceAll(',', '')) +
-                          (Number(i.CBWriteOffAmount?.toString().replaceAll(',', '')) || 0) +
-                          Number(i.ReceivedAmount.toString().replaceAll(',', '')) -
-                          Number(i.FeeAmount.toString().replaceAll(',', ''));
+                        : new Decimal(i.ReceiveAmount)
+                              .add(new Decimal(i.CBWriteOffAmount || 0))
+                              .add(new Decimal(i.ReceivedAmount))
+                              .minus(new Decimal(i.FeeAmount))
+                              .toNumber();
                 i.ShortAmount =
-                    Number(i.FeeAmount.toString().replaceAll(',', '')) -
-                        Number(i.ReceivedAmount.toString().replaceAll(',', '')) -
-                        Number(i.BankFees.toString().replaceAll(',', '')) -
-                        Number(i.BRAmount.toString().replaceAll(',', '')) -
-                        (Number(i.CBWriteOffAmount?.toString().replaceAll(',', '')) || 0) <=
+                    Number(i.FeeAmount) -
+                        Number(i.ReceivedAmount) -
+                        Number(i.BankFees) -
+                        Number(i.BRAmount) -
+                        (Number(i.CBWriteOffAmount) || 0) <=
                     0
                         ? 0
-                        : Number(i.FeeAmount.toString().replaceAll(',', '')) -
-                              Number(i.ReceivedAmount.toString().replaceAll(',', '')) -
-                              Number(i.BankFees.toString().replaceAll(',', '')) -
-                              Number(i.BRAmount.toString().replaceAll(',', '')) -
-                              (Number(i.CBWriteOffAmount?.toString().replaceAll(',', '')) || 0) ??
-                          0;
+                        : new Decimal(i.FeeAmount)
+                              .minus(new Decimal(i.ReceivedAmount))
+                              .minus(new Decimal(i.BankFees))
+                              .minus(new Decimal(i.BRAmount))
+                              .minus(new Decimal(i.CBWriteOffAmount || 0))
+                              .toNumber() ?? 0;
             });
             orgFeeAmountTotal.current = tmpOrgFeeAmountTotal; //原始費用
             dedAmountTotal.current = tmpDedAmountTotal; //折扣
@@ -269,36 +373,41 @@ const WriteOffWork = ({
             setToWriteOffDetailInfo(tmpArray);
         } else {
             tmpArray.forEach((i) => {
-                tmpOrgFeeAmountTotal = tmpOrgFeeAmountTotal + i.OrgFeeAmount;
-                tmpDedAmountTotal = tmpDedAmountTotal + i.DedAmount;
-                tmpFeeAmountTotal = tmpFeeAmountTotal + i.FeeAmount;
-                tmpReceivedAmountTotal = tmpReceivedAmountTotal + i.ReceivedAmount;
-                tmpBankFeesTotal = tmpBankFeesTotal + i.BankFees;
-                // i.BRAmount = (Number(i.BankFee?.toString().replaceAll(',', '')) || 0) + (Number(i.ReceiveAmount?.toString().replaceAll(',', '')) || 0) + (Number(i.CBWriteOffAmount?.toString().replaceAll(',', '')) || 0);
+                tmpOrgFeeAmountTotal = new Decimal(tmpOrgFeeAmountTotal).add(
+                    new Decimal(i.OrgFeeAmount),
+                );
+                tmpDedAmountTotal = new Decimal(tmpDedAmountTotal).add(new Decimal(i.DedAmount));
+                tmpFeeAmountTotal = new Decimal(tmpFeeAmountTotal).add(new Decimal(i.FeeAmount));
+                tmpReceivedAmountTotal = new Decimal(tmpReceivedAmountTotal).add(
+                    new Decimal(i.ReceivedAmount),
+                );
+                tmpBankFeesTotal = new Decimal(tmpBankFeesTotal).add(new Decimal(i.BankFees));
                 i.OverAmount =
-                    Number(i.ReceiveAmount.toString().replaceAll(',', '')) +
-                        (Number(i.CBWriteOffAmount?.toString().replaceAll(',', '')) || 0) +
-                        Number(i.ReceivedAmount.toString().replaceAll(',', '')) -
-                        Number(i.FeeAmount.toString().replaceAll(',', '')) <=
+                    Number(i.ReceiveAmount) +
+                        (Number(i.CBWriteOffAmount) || 0) +
+                        Number(i.ReceivedAmount) -
+                        Number(i.FeeAmount) <=
                     0
                         ? 0
-                        : Number(i.ReceiveAmount.toString().replaceAll(',', '')) +
-                          (Number(i.CBWriteOffAmount?.toString().replaceAll(',', '')) || 0) +
-                          Number(i.ReceivedAmount.toString().replaceAll(',', '')) -
-                          Number(i.FeeAmount.toString().replaceAll(',', ''));
+                        : new Decimal(i.ReceiveAmount)
+                              .add(new Decimal(i.CBWriteOffAmount) || 0)
+                              .add(new Decimal(i.ReceivedAmount))
+                              .minus(new Decimal(i.FeeAmount))
+                              .toNumber();
                 i.ShortAmount =
-                    Number(i.FeeAmount.toString().replaceAll(',', '')) -
-                        Number(i.ReceivedAmount.toString().replaceAll(',', '')) -
-                        Number(i.BankFees.toString().replaceAll(',', '')) -
-                        Number(i.BRAmount.toString().replaceAll(',', '')) -
-                        (Number(i.CBWriteOffAmount?.toString().replaceAll(',', '')) || 0) <=
+                    Number(i.FeeAmount) -
+                        Number(i.ReceivedAmount) -
+                        Number(i.BankFees) -
+                        Number(i.BRAmount) -
+                        (Number(i.CBWriteOffAmount) || 0) <=
                     0
                         ? 0
-                        : Number(i.FeeAmount.toString().replaceAll(',', '')) -
-                          Number(i.ReceivedAmount.toString().replaceAll(',', '')) -
-                          Number(i.BankFees.toString().replaceAll(',', '')) -
-                          Number(i.BRAmount.toString().replaceAll(',', '')) -
-                          (Number(i.CBWriteOffAmount?.toString().replaceAll(',', '')) || 0);
+                        : new Decimal(i.FeeAmount)
+                              .minus(new Decimal(i.ReceivedAmount))
+                              .minus(new Decimal(i.BankFees))
+                              .minus(new Decimal(i.BRAmount))
+                              .minus(new Decimal(i.CBWriteOffAmount) || 0)
+                              .toNumber();
             });
             orgFeeAmountTotal.current = tmpOrgFeeAmountTotal; //原始費用
             dedAmountTotal.current = tmpDedAmountTotal; //折扣
@@ -370,36 +479,40 @@ const WriteOffWork = ({
         if (!isDeductOpen && toWriteOffDetailInfo.length > 0) {
             let tmpArray = JSON.parse(JSON.stringify(toWriteOffDetailInfo));
             tmpArray.forEach((i) => {
-                i.BRAmount =
-                    (Number(i.BankFee?.toString().replaceAll(',', '')) || 0) +
-                    (Number(i.ReceiveAmount?.toString().replaceAll(',', '')) || 0) +
-                    (Number(i.CBWriteOffAmount?.toString().replaceAll(',', '')) || 0);
+                i.BRAmount = (new Decimal(i.BankFee) || 0)
+                    .add(new Decimal(i.ReceiveAmount) || 0)
+                    .add(new Decimal(i.CBWriteOffAmount) || 0)
+                    .toNumber();
                 i.OverAmount =
-                    Number(i.ReceiveAmount.toString().replaceAll(',', '')) +
-                        (Number(i.CBWriteOffAmount?.toString().replaceAll(',', '')) || 0) +
-                        Number(i.ReceivedAmount.toString().replaceAll(',', '')) -
-                        Number(i.FeeAmount.toString().replaceAll(',', '')) <=
+                    Number(i.ReceiveAmount) +
+                        (Number(i.CBWriteOffAmount) || 0) +
+                        Number(i.ReceivedAmount) -
+                        Number(i.FeeAmount) <=
                     0
                         ? 0
-                        : Number(i.ReceiveAmount.toString().replaceAll(',', '')) +
-                          (Number(i.CBWriteOffAmount?.toString().replaceAll(',', '')) || 0) +
-                          Number(i.ReceivedAmount.toString().replaceAll(',', '')) -
-                          Number(i.FeeAmount.toString().replaceAll(',', ''));
+                        : new Decimal(i.ReceiveAmount)
+                              .add(new Decimal(i.CBWriteOffAmount) || 0)
+                              .add(new Decimal(i.ReceivedAmount))
+                              .minus(new Decimal(i.FeeAmount))
+                              .toNumber();
                 i.ShortAmount =
-                    Number(i.FeeAmount.toString().replaceAll(',', '')) -
-                        Number(i.ReceivedAmount.toString().replaceAll(',', '')) -
-                        Number(i.BankFees.toString().replaceAll(',', '')) -
-                        Number(i.BRAmount.toString().replaceAll(',', '')) <=
+                    Number(i.FeeAmount) -
+                        Number(i.ReceivedAmount) -
+                        Number(i.BankFees) -
+                        Number(i.BRAmount) <=
                     0
                         ? 0
-                        : Number(i.FeeAmount.toString().replaceAll(',', '')) -
-                          Number(i.ReceivedAmount.toString().replaceAll(',', '')) -
-                          Number(i.BankFees.toString().replaceAll(',', '')) -
-                          Number(i.BRAmount.toString().replaceAll(',', ''));
+                        : new Decimal(i.FeeAmount)
+                              .minus(new Decimal(i.ReceivedAmount))
+                              .minus(new Decimal(i.BankFees))
+                              .minus(new Decimal(i.BRAmount))
+                              .toNumber();
             });
             setToWriteOffDetailInfo(tmpArray);
         }
     }, [isDeductOpen]);
+
+    console.log('toWriteOffDetailInfo=>>', toWriteOffDetailInfo);
 
     return (
         <>
@@ -425,7 +538,7 @@ const WriteOffWork = ({
                         alignItems="center"
                         sx={{ fontSize: 10 }}
                     >
-                        <Grid item xs={12} sm={12} md={12} lg={12}>
+                        <Grid item md={12} lg={12}>
                             <Grid
                                 container
                                 spacing={0}
@@ -449,7 +562,7 @@ const WriteOffWork = ({
                                     <TextField
                                         value={writeOffInfo?.PartyName}
                                         fullWidth
-                                        disabled={true}
+                                        readOnly
                                         variant="outlined"
                                         size="small"
                                     />
@@ -469,7 +582,7 @@ const WriteOffWork = ({
                                     <TextField
                                         value={dayjs(writeOffInfo?.DueDate).format('YYYY/MM/DD')}
                                         fullWidth
-                                        disabled={true}
+                                        readOnly
                                         variant="outlined"
                                         size="small"
                                     />
@@ -489,7 +602,7 @@ const WriteOffWork = ({
                                     <TextField
                                         value={writeOffInfo?.SubmarineCable}
                                         fullWidth
-                                        disabled={true}
+                                        readOnly
                                         variant="outlined"
                                         size="small"
                                     />
@@ -509,14 +622,14 @@ const WriteOffWork = ({
                                     <TextField
                                         value={writeOffInfo?.WorkTitle}
                                         fullWidth
-                                        disabled={true}
+                                        readOnly
                                         variant="outlined"
                                         size="small"
                                     />
                                 </Grid>
                             </Grid>
                         </Grid>
-                        <Grid item xs={12} sm={12} md={12} lg={12}>
+                        <Grid item md={12} lg={12}>
                             <MainCard title="帳單明細列表">
                                 <TableContainer
                                     component={Paper}
@@ -562,11 +675,9 @@ const WriteOffWork = ({
                                                         本次實收
                                                     </StyledTableCell>
                                                 )}
-                                                {action === 'view' ? null : (
-                                                    <StyledTableCell align="center">
-                                                        CB折抵
-                                                    </StyledTableCell>
-                                                )}
+                                                <StyledTableCell align="center">
+                                                    CB折抵
+                                                </StyledTableCell>
                                                 {action === 'view' ? null : (
                                                     <StyledTableCell align="center">
                                                         本次總金額
@@ -596,24 +707,24 @@ const WriteOffWork = ({
                                         </TableHead>
                                         <TableBody>
                                             {toWriteOffDetailInfo?.map((row, id) => {
-                                                tmpBankFee =
-                                                    tmpBankFee +
-                                                    Number(
-                                                        row.BankFee.toString().replaceAll(',', ''),
-                                                    ); //本次手續費
-                                                tmpreceiveAmount =
-                                                    tmpreceiveAmount +
-                                                    Number(
-                                                        row.ReceiveAmount.toString().replaceAll(
-                                                            ',',
-                                                            '',
-                                                        ),
-                                                    ); //本次實收
-                                                tmpTotal = tmpTotal + row.BRAmount; //實收加總
-                                                tmpOverAmount = tmpOverAmount + row.OverAmount; //溢繳加總
-                                                tmpShortAmount = tmpShortAmount + row.ShortAmount; //短繳加總
-                                                tmpcbAmountTotal =
-                                                    tmpcbAmountTotal + (row.CBWriteOffAmount || 0); //CB加總
+                                                tmpBankFee = new Decimal(tmpBankFee)
+                                                    .add(new Decimal(row.BankFee))
+                                                    .toNumber();
+                                                tmpReceiveAmount = new Decimal(tmpReceiveAmount)
+                                                    .add(new Decimal(row.ReceiveAmount))
+                                                    .toNumber();
+                                                tmpTotal = new Decimal(tmpTotal)
+                                                    .add(new Decimal(row.BRAmount))
+                                                    .toNumber(); //實收加總
+                                                tmpOverAmount = new Decimal(tmpOverAmount)
+                                                    .add(new Decimal(row.OverAmount))
+                                                    .toNumber(); //溢繳加總
+                                                tmpShortAmount = new Decimal(tmpShortAmount)
+                                                    .add(new Decimal(row.ShortAmount))
+                                                    .toNumber(); //短繳加總
+                                                tmpcbAmountTotal = new Decimal(tmpcbAmountTotal)
+                                                    .add(new Decimal(row.CBWriteOffAmount || 0))
+                                                    .toNumber(); //CB加總
                                                 return (
                                                     <TableRow
                                                         key={
@@ -647,55 +758,54 @@ const WriteOffWork = ({
                                                         >
                                                             {row?.BillMilestone}
                                                         </TableCell>
+                                                        {/* 原始費用 */}
                                                         <TableCell align="center">
-                                                            {handleNumber(
-                                                                row?.OrgFeeAmount?.toFixed(2),
-                                                            )}
+                                                            {handleNumber(row?.OrgFeeAmount)}
                                                         </TableCell>
                                                         {/* 折抵 */}
                                                         <TableCell align="center">
-                                                            {handleNumber(
-                                                                row?.DedAmount?.toFixed(2),
-                                                            )}
+                                                            {handleNumber(row?.DedAmount)}
                                                         </TableCell>
                                                         {/* 預付稅款 */}
                                                         <TableCell align="center">
-                                                            {handleNumber(
-                                                                row?.WHTAmount?.toFixed(2),
-                                                            )}
+                                                            {handleNumber(row?.WHTAmount)}
                                                         </TableCell>
                                                         {/* 應收 */}
                                                         <TableCell align="center">
                                                             {handleNumber(
-                                                                (
-                                                                    row?.FeeAmount - row?.WHTAmount
-                                                                )?.toFixed(2),
+                                                                new Decimal(row?.FeeAmount || 0)
+                                                                    .minus(
+                                                                        new Decimal(
+                                                                            row?.WHTAmount || 0,
+                                                                        ),
+                                                                    )
+                                                                    .toNumber(),
                                                             )}
                                                         </TableCell>
                                                         {/* 累計實收 */}
                                                         <TableCell align="center">
-                                                            {handleNumber(
-                                                                row?.ReceivedAmount?.toFixed(2),
-                                                            )}
+                                                            {handleNumber(row?.ReceivedAmount)}
                                                         </TableCell>
                                                         {/* 累計手續費 */}
                                                         <TableCell align="center">
-                                                            {handleNumber(
-                                                                row?.BankFees?.toFixed(2),
-                                                            )}
+                                                            {handleNumber(row?.BankFees)}
                                                         </TableCell>
                                                         {/* 本次手續費 */}
                                                         {action === 'view' ? null : (
                                                             <TableCell align="center">
                                                                 <TextField
                                                                     // inputProps={{ step: '.01' }}
-                                                                    sx={{ minWidth: 75 }}
+                                                                    sx={{ minWidth: 80 }}
                                                                     size="small"
                                                                     fullWidth
-                                                                    value={handleNumber(
-                                                                        row.BankFee,
-                                                                    )}
-                                                                    // type="number"
+                                                                    // value={handleNumber(
+                                                                    //     row.BankFee,
+                                                                    // )}
+                                                                    value={row.BankFee}
+                                                                    InputProps={{
+                                                                        inputComponent:
+                                                                            NumericFormatCustom,
+                                                                    }}
                                                                     onChange={(e) =>
                                                                         changeBankFee(
                                                                             e.target.value,
@@ -709,11 +819,16 @@ const WriteOffWork = ({
                                                         {action === 'view' ? null : (
                                                             <TableCell align="center">
                                                                 <TextField
-                                                                    sx={{ minWidth: 75 }}
+                                                                    sx={{ minWidth: 80 }}
                                                                     size="small"
-                                                                    value={handleNumber(
-                                                                        row.ReceiveAmount,
-                                                                    )}
+                                                                    // value={handleNumber(
+                                                                    //     row.ReceiveAmount,
+                                                                    // )}
+                                                                    value={row.ReceiveAmount}
+                                                                    InputProps={{
+                                                                        inputComponent:
+                                                                            NumericFormatCustom,
+                                                                    }}
                                                                     onChange={(e) => {
                                                                         changeReceiveAmount(
                                                                             e.target.value,
@@ -724,36 +839,31 @@ const WriteOffWork = ({
                                                             </TableCell>
                                                         )}
                                                         {/* CB折抵 */}
-                                                        {action === 'view' ? null : (
+                                                        {/* {action === 'view' ? null : (
                                                             <TableCell align="center">
                                                                 {handleNumber(
-                                                                    row?.CBWriteOffAmount?.toFixed(
-                                                                        2,
-                                                                    ),
+                                                                    row?.CBWriteOffAmount,
                                                                 )}
                                                             </TableCell>
-                                                        )}
+                                                        )} */}
+                                                        <TableCell align="center">
+                                                            {handleNumber(row?.CBWriteOffAmount)}
+                                                        </TableCell>
                                                         {/* 本次總金額 */}
                                                         {action === 'view' ? null : (
                                                             <TableCell align="center">
-                                                                {handleNumber(
-                                                                    row?.BRAmount?.toFixed(2),
-                                                                )}
+                                                                {handleNumber(row?.BRAmount)}
                                                             </TableCell>
                                                         )}
                                                         {/* 重溢繳 */}
                                                         {/* 重溢繳 : 本次實收+CB折抵+累計實收-應繳 > 0，則顯示其金額差額 */}
                                                         <TableCell align="center">
-                                                            {handleNumber(
-                                                                row?.OverAmount?.toFixed(2),
-                                                            )}
+                                                            {handleNumber(row?.OverAmount)}
                                                         </TableCell>
                                                         {/* 短繳 */}
                                                         {/* 短繳：應繳金額-累計實收金額-總金額(含手續費)  5/25以後 */}
                                                         <TableCell align="center">
-                                                            {handleNumber(
-                                                                row?.ShortAmount?.toFixed(2),
-                                                            )}
+                                                            {handleNumber(row?.ShortAmount)}
                                                         </TableCell>
                                                         {/* 收款日期 */}
                                                         <TableCell align="center">
@@ -831,9 +941,7 @@ const WriteOffWork = ({
                                                                 </MenuItem>
                                                             </Select>
                                                         </TableCell>
-                                                        {action === 'view' ? (
-                                                            ''
-                                                        ) : (
+                                                        {action === 'view' ? null : (
                                                             <TableCell align="center">
                                                                 <Box>
                                                                     <Button
@@ -880,65 +988,56 @@ const WriteOffWork = ({
                                                     className="totalAmount"
                                                     align="center"
                                                 >
-                                                    {handleNumber(
-                                                        orgFeeAmountTotal.current?.toFixed(2),
-                                                    )}
+                                                    {handleNumber(orgFeeAmountTotal.current)}
                                                 </StyledTableCell>
                                                 {/* 抵扣 */}
                                                 <StyledTableCell
                                                     className="totalAmount"
                                                     align="center"
                                                 >
-                                                    {handleNumber(
-                                                        dedAmountTotal.current?.toFixed(2),
-                                                    )}
+                                                    {handleNumber(dedAmountTotal.current)}
                                                 </StyledTableCell>
-                                                {/* 預付稅款 */}
+                                                {/* 預付稅款Total */}
+                                                <StyledTableCell
+                                                    className="totalAmount"
+                                                    align="center"
+                                                >
+                                                    {handleNumber(wHTAmountTotal.current)}
+                                                </StyledTableCell>
+                                                {/* 應收Total */}
                                                 <StyledTableCell
                                                     className="totalAmount"
                                                     align="center"
                                                 >
                                                     {handleNumber(
-                                                        wHTAmountTotal.current?.toFixed(2),
+                                                        new Decimal(feeAmountTotal.current).minus(
+                                                            new Decimal(
+                                                                wHTAmountTotal.current,
+                                                            ).toNumber(),
+                                                        ),
                                                     )}
                                                 </StyledTableCell>
-                                                {/* 應收 */}
+                                                {/* 累計實收Total */}
                                                 <StyledTableCell
                                                     className="totalAmount"
                                                     align="center"
                                                 >
-                                                    {handleNumber(
-                                                        (
-                                                            feeAmountTotal.current -
-                                                            wHTAmountTotal.current
-                                                        )?.toFixed(2),
-                                                    )}
+                                                    {handleNumber(receivedAmountTotal.current)}
                                                 </StyledTableCell>
-                                                {/* 累計實收 */}
+                                                {/* 累計手續費Total */}
                                                 <StyledTableCell
                                                     className="totalAmount"
                                                     align="center"
                                                 >
-                                                    {handleNumber(
-                                                        receivedAmountTotal.current?.toFixed(2),
-                                                    )}
+                                                    {handleNumber(bankFeesTotal.current)}
                                                 </StyledTableCell>
-                                                {/* 累計手續費 */}
-                                                <StyledTableCell
-                                                    className="totalAmount"
-                                                    align="center"
-                                                >
-                                                    {handleNumber(
-                                                        bankFeesTotal.current?.toFixed(2),
-                                                    )}
-                                                </StyledTableCell>
-                                                {/* 本次手續費 */}
+                                                {/* 本次手續費Total */}
                                                 {action === 'view' ? null : (
                                                     <StyledTableCell
                                                         className="totalAmount"
                                                         align="center"
                                                     >
-                                                        {handleNumber(tmpBankFee?.toFixed(2))}
+                                                        {handleNumber(tmpBankFee)}
                                                     </StyledTableCell>
                                                 )}
                                                 {/* 本次實收 */}
@@ -947,7 +1046,7 @@ const WriteOffWork = ({
                                                         className="totalAmount"
                                                         align="center"
                                                     >
-                                                        {handleNumber(tmpreceiveAmount?.toFixed(2))}
+                                                        {handleNumber(tmpReceiveAmount)}
                                                     </StyledTableCell>
                                                 )}
                                                 {/* CB折抵 */}
@@ -955,7 +1054,7 @@ const WriteOffWork = ({
                                                     className="totalAmount"
                                                     align="center"
                                                 >
-                                                    {handleNumber(tmpcbAmountTotal?.toFixed(2))}
+                                                    {handleNumber(tmpcbAmountTotal)}
                                                 </StyledTableCell>
                                                 {/* 本次總金額 */}
                                                 {action === 'view' ? null : (
@@ -963,20 +1062,21 @@ const WriteOffWork = ({
                                                         className="totalAmount"
                                                         align="center"
                                                     >
-                                                        {handleNumber(tmpTotal?.toFixed(2))}
+                                                        {handleNumber(tmpTotal)}
                                                     </StyledTableCell>
                                                 )}
+                                                {/* 短繳Total */}
                                                 <StyledTableCell
                                                     className="totalAmount"
                                                     align="center"
                                                 >
-                                                    {handleNumber(tmpOverAmount?.toFixed(2))}
+                                                    {handleNumber(tmpOverAmount)}
                                                 </StyledTableCell>
                                                 <StyledTableCell
                                                     className="totalAmount"
                                                     align="center"
                                                 >
-                                                    {handleNumber(tmpShortAmount?.toFixed(2))}
+                                                    {handleNumber(tmpShortAmount)}
                                                 </StyledTableCell>
                                                 <StyledTableCell
                                                     className="totalAmount"
@@ -990,10 +1090,12 @@ const WriteOffWork = ({
                                                     className="totalAmount"
                                                     align="center"
                                                 ></StyledTableCell>
-                                                <StyledTableCell
-                                                    className="totalAmount"
-                                                    align="center"
-                                                ></StyledTableCell>
+                                                {action === 'view' ? null : (
+                                                    <StyledTableCell
+                                                        className="totalAmount"
+                                                        align="center"
+                                                    ></StyledTableCell>
+                                                )}
                                             </TableRow>
                                         </TableBody>
                                     </Table>

@@ -255,7 +255,7 @@ const JournalQuery = ({
                     </LocalizationProvider>
                 </Grid>
                 {/* row2 */}
-                <Grid item md={2} lg={1} xl={1}>
+                <Grid item md={1} lg={1} xl={1}>
                     <Typography
                         variant="h5"
                         textAlign="right"
@@ -266,7 +266,7 @@ const JournalQuery = ({
                         原始幣別：
                     </Typography>
                 </Grid>
-                <Grid item md={3} lg={2} xl={2}>
+                <Grid item md={2} lg={2} xl={2}>
                     <FormControl fullWidth size="small">
                         <InputLabel>原始幣別</InputLabel>
                         <Select value={code} onChange={(e) => setCode(e.target.value)}>
@@ -279,7 +279,7 @@ const JournalQuery = ({
                         </Select>
                     </FormControl>
                 </Grid>
-                <Grid item md={2} lg={1} xl={1}>
+                <Grid item md={1} lg={1} xl={1}>
                     <Typography
                         variant="h5"
                         textAlign="right"
@@ -290,7 +290,7 @@ const JournalQuery = ({
                         兌換幣別：
                     </Typography>
                 </Grid>
-                <Grid item md={3} lg={2} xl={2}>
+                <Grid item md={2} lg={2} xl={2}>
                     <FormControl fullWidth size="small">
                         <InputLabel>兌換幣別</InputLabel>
                         <Select value={toCode} onChange={(e) => setToCode(e.target.value)}>
@@ -303,7 +303,7 @@ const JournalQuery = ({
                         </Select>
                     </FormControl>
                 </Grid>
-                <Grid item md={4} lg={6} display="flex" justifyContent="end" alignItems="center">
+                <Grid item md={6} lg={6} display="flex" justifyContent="end" alignItems="center">
                     <Button sx={{ mr: '0.5rem' }} variant="contained" onClick={journalQuery}>
                         查詢
                     </Button>

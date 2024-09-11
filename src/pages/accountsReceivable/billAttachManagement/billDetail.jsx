@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 
 // project import
 import { handleNumber, BootstrapDialogTitle } from 'components/commonFunction';
+import Decimal from 'decimal.js';
 // material-ui
 import { Button, Table, Dialog, DialogContent, Grid, DialogActions } from '@mui/material';
 import TableBody from '@mui/material/TableBody';
@@ -47,7 +48,7 @@ const BillDetail = ({ isDetailOpen, isDetailClose, modifyItem }) => {
         if (isDetailOpen) {
             let tmpData = modifyItem.map((i) => i);
             tmpData.forEach((row1) => {
-                feeAmount.current = feeAmount.current + row1.FeeAmount;
+                feeAmount.current = new Decimal(feeAmount.current).add(new Decimal(row1.FeeAmount));
             });
             setDataList(tmpData);
         }
@@ -93,7 +94,7 @@ const BillDetail = ({ isDetailOpen, isDetailClose, modifyItem }) => {
                                                     {row.BillMilestone}
                                                 </TableCell>
                                                 <TableCell align="center">
-                                                    {handleNumber(row.FeeAmount.toFixed(2))}
+                                                    {handleNumber(row.FeeAmount)}
                                                 </TableCell>
                                             </TableRow>
                                         );
@@ -113,7 +114,7 @@ const BillDetail = ({ isDetailOpen, isDetailClose, modifyItem }) => {
                                             align="center"
                                         ></StyledTableCell>
                                         <StyledTableCell className="totalAmount" align="center">
-                                            {handleNumber(feeAmount.current.toFixed(2))}
+                                            {handleNumber(feeAmount.current)}
                                         </StyledTableCell>
                                         <StyledTableCell
                                             className="totalAmount"

@@ -239,7 +239,7 @@ const WriteOffQuery = ({ setListInfo, value }) => {
                         帳單號碼：
                     </Typography>
                 </Grid>
-                <Grid item xs={2} sm={2} md={2} lg={2}>
+                <Grid item sm={2} md={2} lg={2}>
                     <FormControl fullWidth size="small">
                         <TextField
                             fullWidth
@@ -251,7 +251,7 @@ const WriteOffQuery = ({ setListInfo, value }) => {
                         />
                     </FormControl>
                 </Grid>
-                <Grid item lg={12} display="flex" justifyContent="end" alignItems="center">
+                <Grid item md={12} lg={12} display="flex" justifyContent="end" alignItems="center">
                     <Button sx={{ mr: '0.5rem' }} variant="contained" onClick={writeOffQuery}>
                         查詢
                     </Button>

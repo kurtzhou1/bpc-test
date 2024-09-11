@@ -2,6 +2,7 @@ import { useState, useRef, useEffect } from 'react';
 
 // project import
 import { handleNumber, BootstrapDialogTitle } from 'components/commonFunction';
+import Decimal from 'decimal.js';
 // material-ui
 import { Button, Table, Dialog, DialogContent, Grid, DialogActions } from '@mui/material';
 import TableBody from '@mui/material/TableBody';
@@ -51,9 +52,12 @@ const DeductedWork = ({ isDeductedWorkOpen, handleDeductedClose, billDetailInfo 
         if (isDeductedWorkOpen) {
             tmpData.forEach((row1, id) => {
                 tmpCBArray = [];
-                feeAmount.current = feeAmount.current + row1.BillDetail.FeeAmount;
-                dedAmount.current = dedAmount.current + row1.BillDetail.DedAmount;
-                // wHTAmountTotal.current = wHTAmountTotal.current + row1.BillDetail.WHTAmountTotal;
+                feeAmount.current = new Decimal(feeAmount.current).add(
+                    new Decimal(row1.BillDetail.FeeAmount),
+                );
+                dedAmount.current = new Decimal(dedAmount.current).add(
+                    new Decimal(row1.BillDetail.DedAmount),
+                );
                 row1.CB.forEach((row2) => {
                     tmpCBArray.push(row2.CBType);
                 });
@@ -85,7 +89,6 @@ const DeductedWork = ({ isDeductedWorkOpen, handleDeductedClose, billDetailInfo 
                                         <StyledTableCell align="center">計帳段號</StyledTableCell>
                                         <StyledTableCell align="center">折抵CB</StyledTableCell>
                                         <StyledTableCell align="center">折抵金額</StyledTableCell>
-                                        {/* <StyledTableCell align="center">預付稅款</StyledTableCell> */}
                                         <StyledTableCell align="center">總金額</StyledTableCell>
                                     </TableRow>
                                 </TableHead>
@@ -113,19 +116,10 @@ const DeductedWork = ({ isDeductedWorkOpen, handleDeductedClose, billDetailInfo 
                                                 </TableCell>
                                                 <TableCell align="center">{row.CBTYPE}</TableCell>
                                                 <TableCell align="center">
-                                                    $
-                                                    {handleNumber(
-                                                        row.BillDetail.DedAmount.toFixed(2),
-                                                    )}
+                                                    ${handleNumber(row.BillDetail.DedAmount)}
                                                 </TableCell>
-                                                {/* <StyledTableCell align="center">
-                                                    ${row.WHTAmountTotal}
-                                                </StyledTableCell> */}
                                                 <TableCell align="center">
-                                                    $
-                                                    {handleNumber(
-                                                        row.BillDetail.FeeAmount.toFixed(2),
-                                                    )}
+                                                    ${handleNumber(row.BillDetail.FeeAmount)}
                                                 </TableCell>
                                             </TableRow>
                                         );
@@ -149,13 +143,13 @@ const DeductedWork = ({ isDeductedWorkOpen, handleDeductedClose, billDetailInfo 
                                             align="center"
                                         ></StyledTableCell>
                                         <StyledTableCell className="totalAmount" align="center">
-                                            ${handleNumber(dedAmount.current.toFixed(2))}
+                                            ${handleNumber(dedAmount.current)}
                                         </StyledTableCell>
                                         {/* <StyledTableCell className="totalAmount" align="center">
-                                            ${handleNumber(wHTAmountTotal.current.toFixed(2))}
+                                            ${handleNumber(wHTAmountTotal.current)}
                                         </StyledTableCell> */}
                                         <StyledTableCell className="totalAmount" align="center">
-                                            ${handleNumber(feeAmount.current.toFixed(2))}
+                                            ${handleNumber(feeAmount.current)}
                                         </StyledTableCell>
                                     </TableRow>
                                 </TableBody>

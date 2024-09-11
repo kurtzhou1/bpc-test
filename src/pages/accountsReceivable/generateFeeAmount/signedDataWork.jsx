@@ -2,6 +2,7 @@ import { useState, useRef, useEffect } from 'react';
 
 // project import
 import { handleNumber, BootstrapDialogTitle } from 'components/commonFunction';
+import Decimal from 'decimal.js';
 // material-ui
 import { Button, Table, Dialog, DialogContent, Grid, DialogActions } from '@mui/material';
 import TableBody from '@mui/material/TableBody';
@@ -51,9 +52,11 @@ const SignedDataWork = ({ isViewOpen, handleDeductedClose, billDetailInfo }) => 
         if (isViewOpen) {
             tmpData.forEach((i) => {
                 console.log('i.WHTAmount=>>', wHTAmountTotal.current, i.WHTAmount);
-                feeAmount.current = feeAmount.current + i.FeeAmount;
-                dedAmount.current = dedAmount.current + i.DedAmount;
-                wHTAmountTotal.current = wHTAmountTotal.current + i.WHTAmount;
+                feeAmount.current = new Decimal(feeAmount.current).add(new Decimal(i.FeeAmount));
+                dedAmount.current = new Decimal(dedAmount.current).add(new Decimal(i.DedAmount));
+                wHTAmountTotal.current = new Decimal(wHTAmountTotal.current).add(
+                    new Decimal(i.WHTAmount),
+                );
             });
             setDataList(tmpData);
         }
@@ -101,13 +104,13 @@ const SignedDataWork = ({ isViewOpen, handleDeductedClose, billDetailInfo }) => 
                                                     {row?.BillMilestone}
                                                 </TableCell>
                                                 <TableCell align="center">
-                                                    ${handleNumber(row?.DedAmount.toFixed(2))}
+                                                    ${handleNumber(row?.DedAmount)}
                                                 </TableCell>
                                                 <TableCell align="center">
-                                                    ${handleNumber(row?.WHTAmount.toFixed(2))}
+                                                    ${handleNumber(row?.WHTAmount)}
                                                 </TableCell>
                                                 <TableCell align="center">
-                                                    ${handleNumber(row?.FeeAmount.toFixed(2))}
+                                                    ${handleNumber(row?.FeeAmount)}
                                                 </TableCell>
                                             </TableRow>
                                         );
@@ -127,13 +130,13 @@ const SignedDataWork = ({ isViewOpen, handleDeductedClose, billDetailInfo }) => 
                                             align="center"
                                         ></StyledTableCell>
                                         <StyledTableCell className="totalAmount" align="center">
-                                            ${handleNumber(dedAmount.current.toFixed(2))}
+                                            ${handleNumber(dedAmount.current)}
                                         </StyledTableCell>
                                         <StyledTableCell className="totalAmount" align="center">
-                                            ${handleNumber(wHTAmountTotal.current.toFixed(2))}
+                                            ${handleNumber(wHTAmountTotal.current)}
                                         </StyledTableCell>
                                         <StyledTableCell className="totalAmount" align="center">
-                                            ${handleNumber(feeAmount.current.toFixed(2))}
+                                            ${handleNumber(feeAmount.current)}
                                         </StyledTableCell>
                                     </TableRow>
                                 </TableBody>

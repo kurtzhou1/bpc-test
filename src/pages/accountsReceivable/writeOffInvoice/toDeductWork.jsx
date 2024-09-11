@@ -4,6 +4,7 @@ import { useState, useRef } from 'react';
 import { handleNumber, BootstrapDialogTitle } from 'components/commonFunction';
 import { queryCB } from 'components/apis';
 import MainCard from 'components/MainCard';
+import Decimal from 'decimal.js';
 // material-ui
 import {
     Button,
@@ -84,10 +85,10 @@ const ToDeductWork = ({
     };
 
     const deductWork = (data) => {
-        let tmpArrayFiliter = tmpDeductArray.current.filter(
+        let tmpArrayFilter = tmpDeductArray.current.filter(
             (i) => i.BillDetailID === data.BillDetailID,
         );
-        if (tmpArrayFiliter.length === 0) {
+        if (tmpArrayFilter.length === 0) {
             let tmpQuery =
                 queryCB +
                 '/SubmarineCable=' +
@@ -103,6 +104,7 @@ const ToDeductWork = ({
             })
                 .then((res) => res.json())
                 .then((response) => {
+                    console.log('response=>>', response);
                     if (Array.isArray(response) && response?.length > 0) {
                         setCbDataList(response);
                     } else {
@@ -129,7 +131,7 @@ const ToDeductWork = ({
                     );
                 });
         } else {
-            setTmpCBArray(tmpArrayFiliter[0].CB);
+            setTmpCBArray(tmpArrayFilter[0].CB);
         }
         editItem.current = data.BillDetailID;
         setIsDeductWorkOpen(true);
@@ -138,9 +140,9 @@ const ToDeductWork = ({
     const changeDiff = (currAmount, maxValue, value, cbid) => {
         //原始可折抵金額,可折抵金額,目前輸入值
         let resule = 0;
-        let tmpArrayFiliter = tmpCBArray.filter((i) => i.CBID === cbid);
+        let tmpArrayFilter = tmpCBArray.filter((i) => i.CBID === cbid);
         let tmpArray = tmpCBArray.map((i) => i);
-        if (tmpArrayFiliter.length > 0) {
+        if (tmpArrayFilter.length > 0) {
             tmpArray.forEach((i) => {
                 if (i.CBID === cbid) {
                     if (Number(maxValue) === 0 || Number(value) <= 0) {
@@ -180,11 +182,11 @@ const ToDeductWork = ({
     const saveDeduct = () => {
         let tmpWriteOffDetailInfo = [...toWriteOffDetailInfo];
         let deductAmount = 0;
-        let tmpArrayFiliter = tmpDeductArray.current.filter(
+        let tmpArrayFilter = tmpDeductArray.current.filter(
             (i) => i.BillDetailID === editItem.current,
         );
         let tmpArray = tmpDeductArray.current.map((i) => i);
-        if (tmpArrayFiliter.length > 0) {
+        if (tmpArrayFilter.length > 0) {
             tmpArray.forEach((i) => {
                 if (i.BillDetailID === editItem.current) {
                     i.CB = tmpCBArray;
@@ -194,14 +196,9 @@ const ToDeductWork = ({
             tmpArray.push({ BillDetailID: editItem.current, CB: tmpCBArray });
         }
         tmpArray.forEach((i1) => {
-            // i1.CB.forEach((i2) => {
-            //     console.log('i2=>>', i2);
-            //     deductAmount = deductAmount + i2.TransAmount;
-            // });
             if (i1.BillDetailID === cbData.current?.BillDetailID) {
                 i1.CB.forEach((i2) => {
-                    // tmpDeductAmountForOneItem = tmpDeductAmountForOneItem + i3.TransAmount;
-                    deductAmount = deductAmount + i2.TransAmount;
+                    deductAmount = new Decimal(deductAmount).add(new Decimal(i2.TransAmount));
                 });
             }
         });
@@ -222,12 +219,11 @@ const ToDeductWork = ({
     };
 
     const handleReset = () => {
-        handleDeductClose();
+        // handleDeductClose();
         resetData();
+        setIsDeductWorkOpen(false);
         setCBWriteOff(tmpDeductArray.current);
     };
-
-    console.log('tmpCBArray=>>', tmpCBArray);
 
     return (
         <Dialog maxWidth="xxl" open={isDeductOpen}>
@@ -239,9 +235,8 @@ const ToDeductWork = ({
                     display="flex"
                     justifyContent="center"
                     alignItems="center"
-                    sx={{ fontSize: 10 }}
                 >
-                    <Grid item xs={12} sm={12} md={12} lg={12}>
+                    <Grid item md={12} lg={12}>
                         <MainCard title="帳單明細列表">
                             <TableContainer component={Paper} sx={{ maxHeight: 350 }}>
                                 <Table sx={{ minWidth: 300 }} stickyHeader>
@@ -256,14 +251,12 @@ const ToDeductWork = ({
                                             <StyledTableCell align="center">
                                                 累計實收
                                             </StyledTableCell>
-                                            {/* <StyledTableCell align="center">費用金額</StyledTableCell> */}
                                             <StyledTableCell align="center">
                                                 折抵金額
                                             </StyledTableCell>
                                             <StyledTableCell align="center">
                                                 應收金額
                                             </StyledTableCell>
-                                            {/* <StyledTableCell align="center">總金額</StyledTableCell> */}
                                             <StyledTableCell align="center">Action</StyledTableCell>
                                         </TableRow>
                                     </TableHead>
@@ -279,13 +272,12 @@ const ToDeductWork = ({
                                             <TableCell align="center">
                                                 {cbData.current?.FeeItem}
                                             </TableCell>
-                                            <TableCell align="center">{`$${handleNumber(
-                                                cbData.current?.ReceivedAmount?.toFixed(2),
-                                            )}`}</TableCell>
-                                            {/* <TableCell align="center">{`$${handleNumber(cbData.current?.OrgFeeAmount?.toFixed(2))}`}</TableCell> */}
-                                            <TableCell align="center">{`$${handleNumber(
-                                                cbData.current?.CBWriteOffAmount?.toFixed(2),
-                                            )}`}</TableCell>
+                                            <TableCell align="center">
+                                                ${handleNumber(cbData.current?.ReceivedAmount)}
+                                            </TableCell>
+                                            <TableCell align="center">
+                                                ${handleNumber(cbData.current?.CBWriteOffAmount)}
+                                            </TableCell>
                                             <TableCell
                                                 align="center"
                                                 sx={{
@@ -296,15 +288,19 @@ const ToDeductWork = ({
                                                             ? 'black'
                                                             : 'red',
                                                 }}
-                                            >{`$${handleNumber(
-                                                (
-                                                    cbData.current?.OrgFeeAmount -
-                                                    cbData.current?.CBWriteOffAmount
-                                                )?.toFixed(2),
-                                            )}`}</TableCell>
-                                            {/* <TableCell align="center">{`$${handleNumber(
-                        cbData.current?.FeeAmount?.toFixed(2),
-                      )}`}</TableCell> */}
+                                            >
+                                                $
+                                                {handleNumber(
+                                                    new Decimal(cbData.current?.OrgFeeAmount || 0)
+                                                        .minus(
+                                                            new Decimal(
+                                                                cbData.current?.CBWriteOffAmount ||
+                                                                    0,
+                                                            ),
+                                                        )
+                                                        .toNumber(),
+                                                )}
+                                            </TableCell>
                                             <TableCell align="center">
                                                 <Button
                                                     color="primary"
@@ -359,7 +355,7 @@ const ToDeductWork = ({
                                                 </TableHead>
                                                 <TableBody>
                                                     {cbDataList.map((row, id) => {
-                                                        let tmpDeducted = 0; //已經於別的項目折抵的金額
+                                                        let otherItemsDeducted = 0; //已經於別的項目折抵的金額
                                                         let deductFee = 0; //可折抵金額
                                                         let afterDiff = 0; //剩餘可折抵金額
                                                         //其他項目目前折抵金額-開始
@@ -369,14 +365,19 @@ const ToDeductWork = ({
                                                             ) {
                                                                 i1.CB.forEach((i2) => {
                                                                     if (i2.CBID === row.CBID) {
-                                                                        tmpDeducted =
-                                                                            tmpDeducted +
-                                                                            i2.TransAmount;
+                                                                        otherItemsDeducted =
+                                                                            new Decimal(
+                                                                                otherItemsDeducted,
+                                                                            ).add(
+                                                                                new Decimal(
+                                                                                    i2.TransAmount,
+                                                                                ),
+                                                                            );
                                                                     }
                                                                 });
                                                             }
                                                         });
-                                                        tmpDeducted = tmpDeducted.toFixed(2);
+                                                        // tmpDeducted = tmpDeducted.toFixed(2);
                                                         //其他項目目前折抵金額-結束
                                                         //當前項目目前折抵金額-開始
                                                         let tmpArray = tmpCBArray.filter(
@@ -385,10 +386,16 @@ const ToDeductWork = ({
                                                         let deductNumber = tmpArray[0]
                                                             ? tmpArray[0].TransAmount
                                                             : 0;
-                                                        deductFee = row.CurrAmount - tmpDeducted;
+                                                        deductFee = new Decimal(row.CurrAmount)
+                                                            .minus(new Decimal(otherItemsDeducted))
+                                                            .toNumber();
                                                         afterDiff =
-                                                            row.CurrAmount - tmpDeducted > 0
-                                                                ? row.CurrAmount - tmpDeducted
+                                                            row.CurrAmount - deductNumber > 0
+                                                                ? new Decimal(deductFee)
+                                                                      .minus(
+                                                                          new Decimal(deductNumber),
+                                                                      )
+                                                                      .toNumber()
                                                                 : 0;
                                                         return (
                                                             <TableRow
@@ -407,9 +414,7 @@ const ToDeductWork = ({
                                                                     {row.CBType}
                                                                 </TableCell>
                                                                 <TableCell align="center">
-                                                                    {handleNumber(
-                                                                        deductFee.toFixed(2),
-                                                                    )}
+                                                                    {handleNumber(deductFee)}
                                                                 </TableCell>
                                                                 <TableCell align="center">
                                                                     {row.Note}
@@ -419,23 +424,24 @@ const ToDeductWork = ({
                                                                         label="$"
                                                                         size="small"
                                                                         type="number"
+                                                                        inputProps={{
+                                                                            step: '.000001',
+                                                                        }}
                                                                         style={{ width: '50%' }}
                                                                         value={deductNumber}
                                                                         onChange={(e) => {
                                                                             changeDiff(
                                                                                 row.CurrAmount,
-                                                                                deductFee.toFixed(
-                                                                                    2,
-                                                                                ),
+                                                                                deductFee,
                                                                                 e.target.value,
                                                                                 row.CBID,
                                                                             );
                                                                         }}
                                                                     />
                                                                 </TableCell>
-                                                                <TableCell align="center">{`$${handleNumber(
-                                                                    afterDiff.toFixed(2),
-                                                                )}`}</TableCell>
+                                                                <TableCell align="center">
+                                                                    ${handleNumber(afterDiff)}
+                                                                </TableCell>
                                                             </TableRow>
                                                         );
                                                     })}
@@ -443,15 +449,7 @@ const ToDeductWork = ({
                                             </Table>
                                         </TableContainer>
                                     </Grid>
-                                    <Grid
-                                        item
-                                        xs={12}
-                                        sm={12}
-                                        md={12}
-                                        lg={12}
-                                        display="flex"
-                                        justifyContent="end"
-                                    >
+                                    <Grid item md={12} lg={12} display="flex" justifyContent="end">
                                         <Button
                                             color="primary"
                                             variant="contained"
@@ -467,9 +465,7 @@ const ToDeductWork = ({
                                 </Grid>
                             </MainCard>
                         </Grid>
-                    ) : (
-                        ''
-                    )}
+                    ) : null}
                 </Grid>
                 {/* <DialogContentText sx={{ fontSize: '20px', mt: '0.5rem' }}>總金額：${handleNumber(totalAmount)}</DialogContentText> */}
             </DialogContent>

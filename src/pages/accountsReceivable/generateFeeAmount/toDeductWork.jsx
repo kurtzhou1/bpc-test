@@ -99,7 +99,8 @@ const ToDeductWork = ({
             })
                 .then((res) => res.json())
                 .then((response) => {
-                    if (Array.isArray(response)) {
+                    console.log('response=>>', response.length !== 0);
+                    if (Array.isArray(response) && response.length !== 0) {
                         setCbDataList(response);
                     } else {
                         dispatch(
@@ -206,8 +207,13 @@ const ToDeductWork = ({
     };
 
     const handleReset = () => {
-        handleDeductClose();
-        initData();
+        setTmpCBArray([]);
+        tmpDeductArray.current = [];
+        editItem.current = '';
+        // orgFeeAmount.current = 0;
+        dedAmount.current = 0;
+        // wHTAmountTotal.current = 0;
+        // setFeeAmountTotal(0);
     };
 
     const sendDuctWork = () => {
@@ -304,7 +310,7 @@ const ToDeductWork = ({
                                     <TextField
                                         value={billMasterInfo.PartyName}
                                         fullWidth
-                                        disabled={true}
+                                        readOnly
                                         variant="outlined"
                                         size="small"
                                     />
@@ -324,7 +330,7 @@ const ToDeductWork = ({
                                     <TextField
                                         value={dayjs(billMasterInfo.DueDate).format('YYYY/MM/DD')}
                                         fullWidth
-                                        disabled={true}
+                                        readOnly
                                         variant="outlined"
                                         size="small"
                                     />
@@ -346,7 +352,7 @@ const ToDeductWork = ({
                                     <TextField
                                         value={billMasterInfo.SubmarineCable}
                                         fullWidth
-                                        disabled={true}
+                                        readOnly
                                         variant="outlined"
                                         size="small"
                                     />
@@ -366,7 +372,7 @@ const ToDeductWork = ({
                                     <TextField
                                         value={billMasterInfo.WorkTitle}
                                         fullWidth
-                                        disabled={true}
+                                        readOnly
                                         variant="outlined"
                                         size="small"
                                     />
@@ -448,7 +454,6 @@ const ToDeductWork = ({
                                                     <TableCell
                                                         align="center"
                                                         sx={{
-                                                            //haha
                                                             color:
                                                                 row.OrgFeeAmount -
                                                                     dedAmountTmp -
@@ -586,8 +591,15 @@ const ToDeductWork = ({
                                                                 i1.CB.forEach((i2) => {
                                                                     if (i2.CBID === row.CBID) {
                                                                         otherItemsDeducted =
-                                                                            otherItemsDeducted +
-                                                                            i2.TransAmount;
+                                                                            new Decimal(
+                                                                                otherItemsDeducted,
+                                                                            )
+                                                                                .add(
+                                                                                    new Decimal(
+                                                                                        i2.TransAmount,
+                                                                                    ),
+                                                                                )
+                                                                                .toNumber();
                                                                     }
                                                                 });
                                                             }
