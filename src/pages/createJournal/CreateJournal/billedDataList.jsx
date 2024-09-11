@@ -75,13 +75,14 @@ const BilledDataList = ({ listInfo, apiQuery }) => {
             .then((res) => res.json())
             .then((data) => {
                 console.log('data1=>>', data);
-                totalAmount.current = data[0].TotalAmount;
+                // totalAmount.current = data[0].TotalAmount;
                 fetch(tmpQueryDetail, {
                     method: 'GET',
                     Authorization: 'Bearer' + localStorage.getItem('accessToken') ?? '',
                 })
                     .then((res) => res.json())
                     .then((data2) => {
+                        let tmpFeeAmountPost = 0;
                         let tmpDifferAmount = 0;
                         let tmpAfterDiffAmount = 0;
                         const reduceArray = Object.values(
@@ -95,11 +96,13 @@ const BilledDataList = ({ listInfo, apiQuery }) => {
                             }, []),
                         );
                         data2.forEach((i) => {
+                            tmpFeeAmountPost = tmpFeeAmountPost + i.FeeAmountPost;
                             tmpDifferAmount = tmpDifferAmount + i.Difference;
                             tmpAfterDiffAmount =
                                 tmpAfterDiffAmount + (i.FeeAmountPost + i.Difference - i.WHTAmount);
                             codeType.current = i.ToCode;
                         });
+                        totalAmount.current = tmpFeeAmountPost;
                         afterDiffAmount.current = tmpAfterDiffAmount;
                         differAmount.current = tmpDifferAmount;
                         setToBillDataInfo(reduceArray);
