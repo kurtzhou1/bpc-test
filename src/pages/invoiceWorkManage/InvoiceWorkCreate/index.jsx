@@ -20,6 +20,7 @@ import {
     generateInvoice,
     supplierNameDropDownUnique,
     getCurrencyData,
+    dropdownmenuParties,
 } from 'components/apis.jsx';
 import { handleNumber } from 'components/commonFunction';
 
@@ -48,6 +49,7 @@ const InvoiceWorkManage = () => {
     const [partyName, setPartyName] = useState(''); //會員名稱
     const [supNmList, setSupNmList] = useState([]); //供應商下拉選單
     const [submarineCableList, setSubmarineCableList] = useState([]); //海纜名稱下拉選單
+    const [partyNameList, setPartyNameList] = useState([]); //會員下拉選單
     const [bmStoneList, setBmStoneList] = useState([]); //計帳段號下拉選單
     const [codeList, setCodeList] = useState([]);
     const [billMilestone, setBillMilestone] = useState(''); //計帳段號
@@ -363,7 +365,6 @@ const InvoiceWorkManage = () => {
 
     //送出
     const sendInvoice = () => {
-        console.log('listInfo=>>', listInfo);
         listInfo.forEach((dataInfo) => {
             delete dataInfo.InvoiceWKMaster.ToCode;
             delete dataInfo.InvoiceWKMaster.ExgRate;
@@ -459,6 +460,8 @@ const InvoiceWorkManage = () => {
     };
 
     useEffect(() => {
+        rateInfo.current = {};
+        setCurrencyExgID(null);
         if (workTitle && submarineCable) {
             let bmApi =
                 billMilestoneList +
@@ -519,6 +522,23 @@ const InvoiceWorkManage = () => {
     }, [workTitle, submarineCable]);
 
     useEffect(() => {
+        fetch(dropdownmenuParties, { method: 'GET' })
+            .then((res) => res.json())
+            .then((data) => {
+                console.log('data=>>', data);
+                setPartyNameList(data);
+            })
+            .catch(() => {
+                dispatch(
+                    setMessageStateOpen({
+                        messageStateOpen: {
+                            isOpen: true,
+                            severity: 'error',
+                            message: '網路異常，請檢查網路連線或與系統窗口聯絡',
+                        },
+                    }),
+                );
+            });
         fetch(submarineCableInfoList, { method: 'GET' })
             .then((res) => res.json())
             .then((data) => {
@@ -633,6 +653,7 @@ const InvoiceWorkManage = () => {
                                     submarineCableList={submarineCableList}
                                     codeList={codeList}
                                     purpose={rateInfo.current.Purpose}
+                                    partyNameList={partyNameList}
                                 />
                             </Grid>
                             {/* 右 */}

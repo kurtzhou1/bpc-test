@@ -10,7 +10,6 @@ import InvoiceQuery from './invoiceQuery';
 import CreateInvoiceMain from './createInvoiceMain';
 import CreateInvoiceDetail from './createInvoiceDetail';
 import InvoiceDataList from './invoiceDataList';
-import { handleNumber } from 'components/commonFunction';
 import ReturnDataList from './returnDataList';
 import ChosePurpose from './chosePurpose';
 
@@ -28,6 +27,7 @@ import {
     submarineCableInfoList,
     billMilestoneLiabilityList,
     getCurrencyData,
+    dropdownmenuParties,
 } from 'components/apis.jsx';
 
 // redux
@@ -71,6 +71,7 @@ const InvoiceWorkManage = () => {
     const queryApi = useRef({});
     const queryApiTemporary = { Status: ['TEMPORARY'] };
     const [submarineCableList, setSubmarineCableList] = useState([]); //海纜名稱下拉選單
+    const [partyNameList, setPartyNameList] = useState([]); //會員下拉選單
     const [currencyListInfo, setCurrencyListInfo] = useState([]); //幣別下拉選單
     const [listInfo, setListInfo] = useState([]);
     const [page, setPage] = useState(0); //分頁Page
@@ -122,7 +123,6 @@ const InvoiceWorkManage = () => {
         })
             .then((res) => res.json())
             .then((data) => {
-                console.log('data=>>', data);
                 setListInfo(data);
             })
             .catch(() => {
@@ -175,7 +175,6 @@ const InvoiceWorkManage = () => {
         })
             .then((res) => res.json())
             .then((data) => {
-                console.log('data=>>', data);
                 orderDate(data);
                 setListInfo(data);
             })
@@ -191,8 +190,6 @@ const InvoiceWorkManage = () => {
                 );
             });
     };
-
-    console.log('listInfo=>>', listInfo);
 
     const createData = (
         WKMasterID,
@@ -254,7 +251,6 @@ const InvoiceWorkManage = () => {
         if ((modifyItem !== '' && action === '編輯') || (modifyItem !== '' && action === '檢視')) {
             listInfo.forEach((i) => {
                 if (i.InvoiceWKMaster.InvoiceNo === modifyItem) {
-                    console.log('i=>>', i);
                     setSupplierName(i.InvoiceWKMaster.SupplierName);
                     setInvoiceNo(i.InvoiceWKMaster.InvoiceNo);
                     setSubmarineCable(i.InvoiceWKMaster.SubmarineCable);
@@ -619,7 +615,6 @@ const InvoiceWorkManage = () => {
                 InvoiceWKMaster: tmpArray,
                 InvoiceWKDetail: invoiceDetailInfo,
             };
-            console.log('combineArray=>>', combineArray);
             let tmpModifyItem;
             listInfo.forEach((i) => {
                 if (i.InvoiceWKMaster.InvoiceNo === modifyItem) {
@@ -629,7 +624,6 @@ const InvoiceWorkManage = () => {
             let tmpWKMasterID = {
                 WKMasterID: tmpModifyItem,
             };
-            console.log('tmpWKMasterID=>>', tmpWKMasterID);
             fetch(deleteInvoiceWKMaster, {
                 method: 'POST',
                 headers: {
@@ -708,6 +702,8 @@ const InvoiceWorkManage = () => {
     };
 
     useEffect(() => {
+        rateInfo.current = {};
+        setCurrencyExgID(null);
         if (workTitle && submarineCable) {
             let bmApi =
                 billMilestoneList +
@@ -732,6 +728,9 @@ const InvoiceWorkManage = () => {
                         }),
                     );
                 });
+        } else {
+            setBmStoneList([]);
+            setSupNmList([]);
         }
     }, [workTitle, submarineCable]);
 
@@ -740,6 +739,22 @@ const InvoiceWorkManage = () => {
         setAction('');
         setModifyItem('');
         firstQueryInit();
+        fetch(dropdownmenuParties, { method: 'GET' })
+            .then((res) => res.json())
+            .then((data) => {
+                setPartyNameList(data);
+            })
+            .catch(() => {
+                dispatch(
+                    setMessageStateOpen({
+                        messageStateOpen: {
+                            isOpen: true,
+                            severity: 'error',
+                            message: '網路異常，請檢查網路連線或與系統窗口聯絡',
+                        },
+                    }),
+                );
+            });
         fetch(supplierNameDropDownUnique, {
             method: 'GET',
             Authorization: 'Bearer' + localStorage.getItem('accessToken') ?? '',
@@ -911,6 +926,7 @@ const InvoiceWorkManage = () => {
                                         action={action}
                                         currencyListInfo={currencyListInfo}
                                         purpose={rateInfo.current.Purpose}
+                                        partyNameList={partyNameList}
                                     />
                                 </Grid>
                                 {/* 右 */}

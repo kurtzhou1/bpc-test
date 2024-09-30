@@ -198,6 +198,14 @@ const MainRoutes = {
     element: <MainLayout />,
     children: [
         {
+            path: '*',
+            element: (
+                <RequireAuth>
+                    <DashboardDefault />
+                </RequireAuth>
+            ),
+        },
+        {
             path: '/',
             element: (
                 <RequireAuth>

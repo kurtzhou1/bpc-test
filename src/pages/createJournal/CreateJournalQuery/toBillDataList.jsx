@@ -97,11 +97,12 @@ const ToBillDataList = ({ listInfo, page, setPage }) => {
                         let tmpDifferAmount = 0;
                         let tmpAfterDiffAmount = 0;
                         const reduceArray = Object.values(
-                            data2.reduce((acc, item) => {
+                            data2.reduce((acc, item, index) => {
                                 const keyName = item.PartyName;
                                 if (!acc[keyName]) {
                                     acc[keyName] = [];
                                 }
+                                item.itemCount = index + 1;
                                 acc[keyName].push(item);
                                 return acc;
                             }, []),
@@ -147,7 +148,7 @@ const ToBillDataList = ({ listInfo, page, setPage }) => {
     return (
         <>
             <Dialog maxWidth="xl" fullWidth open={isDialogOpen}>
-                <BootstrapDialogTitle>立帳作業</BootstrapDialogTitle>
+                <BootstrapDialogTitle>立帳作業檢視</BootstrapDialogTitle>
                 <Box display="flex" justifyContent="end" sx={{ marginRight: '2rem' }}>
                     幣別：{codeType.current}
                 </Box>
@@ -161,7 +162,9 @@ const ToBillDataList = ({ listInfo, page, setPage }) => {
                                 <TableRow>
                                     <StyledTableCell align="center">No</StyledTableCell>
                                     <StyledTableCell align="center">費用項目</StyledTableCell>
+                                    <StyledTableCell align="center">是否為税</StyledTableCell>
                                     <StyledTableCell align="center">費用金額</StyledTableCell>
+                                    <StyledTableCell align="center">記帳段號</StyledTableCell>
                                     <StyledTableCell align="center">會員</StyledTableCell>
                                     <StyledTableCell align="center">攤分比例</StyledTableCell>
                                     <StyledTableCell align="center">攤分後金額</StyledTableCell>
@@ -192,8 +195,7 @@ const ToBillDataList = ({ listInfo, page, setPage }) => {
                                                                 : null,
                                                     }}
                                                 >
-                                                    {(idFirst + 1) * rowFirst.length -
-                                                        (rowFirst.length - idSecond - 1)}
+                                                    {rowSecond.itemCount}
                                                 </TableCell>
                                                 <TableCell
                                                     align="center"
@@ -214,9 +216,31 @@ const ToBillDataList = ({ listInfo, page, setPage }) => {
                                                                 ? '0.5px solid black'
                                                                 : null,
                                                     }}
-                                                >{`$${handleNumber(
-                                                    rowSecond.FeeAmountPre,
-                                                )}`}</TableCell>
+                                                >
+                                                    {rowSecond.IsTax ? '是' : '否'}
+                                                </TableCell>
+                                                <TableCell
+                                                    align="center"
+                                                    sx={{
+                                                        borderTop:
+                                                            idFirst !== 0 && idSecond === 0
+                                                                ? '0.5px solid black'
+                                                                : null,
+                                                    }}
+                                                >
+                                                    {handleNumber(rowSecond.FeeAmountPre)}
+                                                </TableCell>
+                                                <TableCell
+                                                    align="center"
+                                                    sx={{
+                                                        borderTop:
+                                                            idFirst !== 0 && idSecond === 0
+                                                                ? '0.5px solid black'
+                                                                : null,
+                                                    }}
+                                                >
+                                                    {rowSecond.BillMilestone}
+                                                </TableCell>
                                                 <TableCell
                                                     align="center"
                                                     sx={{
@@ -236,7 +260,9 @@ const ToBillDataList = ({ listInfo, page, setPage }) => {
                                                                 ? '0.5px solid black'
                                                                 : null,
                                                     }}
-                                                >{`${rowSecond.LBRatio}%`}</TableCell>
+                                                >
+                                                    {rowSecond.LBRatio}
+                                                </TableCell>
                                                 <TableCell
                                                     align="center"
                                                     sx={{
@@ -245,9 +271,9 @@ const ToBillDataList = ({ listInfo, page, setPage }) => {
                                                                 ? '0.5px solid black'
                                                                 : null,
                                                     }}
-                                                >{`$${handleNumber(
-                                                    rowSecond.FeeAmountPost,
-                                                )}`}</TableCell>
+                                                >
+                                                    {handleNumber(rowSecond.FeeAmountPost)}
+                                                </TableCell>
                                                 <TableCell
                                                     align="center"
                                                     sx={{
@@ -256,7 +282,9 @@ const ToBillDataList = ({ listInfo, page, setPage }) => {
                                                                 ? '0.5px solid black'
                                                                 : null,
                                                     }}
-                                                >{`$${rowSecond.Difference}`}</TableCell>
+                                                >
+                                                    {rowSecond.Difference}
+                                                </TableCell>
                                                 <TableCell
                                                     align="center"
                                                     sx={{
@@ -265,9 +293,9 @@ const ToBillDataList = ({ listInfo, page, setPage }) => {
                                                                 ? '0.5px solid black'
                                                                 : null,
                                                     }}
-                                                >{`$${handleNumber(
-                                                    afterDiff.toFixed(2),
-                                                )}`}</TableCell>
+                                                >
+                                                    {handleNumber(afterDiff.toFixed(2))}
+                                                </TableCell>
                                             </TableRow>
                                         );
                                     });
@@ -278,25 +306,15 @@ const ToBillDataList = ({ listInfo, page, setPage }) => {
                                     <StyledTableCell className="totalAmount" align="center">
                                         Total
                                     </StyledTableCell>
-                                    <StyledTableCell
-                                        className="totalAmount"
-                                        align="center"
-                                    ></StyledTableCell>
-                                    <StyledTableCell
-                                        className="totalAmount"
-                                        align="center"
-                                    ></StyledTableCell>
-                                    <StyledTableCell
-                                        className="totalAmount"
-                                        align="center"
-                                    ></StyledTableCell>
-                                    <StyledTableCell
-                                        className="totalAmount"
-                                        align="center"
-                                    ></StyledTableCell>
+                                    <StyledTableCell className="totalAmount"></StyledTableCell>
+                                    <StyledTableCell className="totalAmount"></StyledTableCell>
+                                    <StyledTableCell className="totalAmount"></StyledTableCell>
+                                    <StyledTableCell className="totalAmount"></StyledTableCell>
+                                    <StyledTableCell className="totalAmount"></StyledTableCell>
                                     <StyledTableCell className="totalAmount" align="center">
                                         {handleNumber(totalAmount.current.toFixed(2))}
                                     </StyledTableCell>
+                                    <StyledTableCell className="totalAmount"></StyledTableCell>
                                     <StyledTableCell className="totalAmount" align="center">
                                         {handleNumber(differAmount.current.toFixed(2))}
                                     </StyledTableCell>

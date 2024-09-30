@@ -10,6 +10,7 @@ import {
 } from 'components/apis';
 // material-ui
 import {
+    Box,
     Typography,
     Button,
     Table,
@@ -72,6 +73,7 @@ const ToCombineDataList = ({
     const sendComBineData = useRef({}); //按下合併帳單時送出的資料
     const totalAmount = useRef(0);
     const isAll = useRef(false);
+    const toCodeType = useRef('');
 
     let tmpBMArray = [];
 
@@ -290,13 +292,13 @@ const ToCombineDataList = ({
                             }),
                         );
                     } else {
-                        console.log('=>>>', data);
-                        setBillList(data);
                         billingNoOld.current = data.BillMaster.BillingNo;
                         data.BillDetail.forEach((i) => {
                             tmpAmount = tmpAmount + i.OrgFeeAmount;
                         });
+                        toCodeType.current = data.BillMaster.Code;
                         totalAmount.current = tmpAmount;
+                        setBillList(data);
                     }
                 })
                 .catch(() => {
@@ -429,7 +431,9 @@ const ToCombineDataList = ({
                                 自動產生
                             </Button>
                         </Grid>
-                        <Grid item md={1} lg={1} />
+                        <Grid item md={1} lg={1}>
+                            幣別：{toCodeType.current}
+                        </Grid>
                         <Grid item md={12} lg={12}>
                             <TableContainer component={Paper} sx={{ maxHeight: 350 }}>
                                 <Table sx={{ minWidth: 300 }} stickyHeader>
@@ -568,7 +572,7 @@ const ToCombineDataList = ({
                                         {dayjs(row?.IssueDate).format('YYYY/MM/DD')}
                                     </TableCell>
                                     <TableCell align="center">
-                                        ${handleNumber(row?.FeeAmountPost)}
+                                        {handleNumber(row?.FeeAmountPost)} {row.ToCode}
                                     </TableCell>
                                 </TableRow>
                             );

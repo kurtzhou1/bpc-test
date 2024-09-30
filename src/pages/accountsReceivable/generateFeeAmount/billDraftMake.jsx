@@ -146,7 +146,7 @@ const BillDraftMake = ({
     const [contactInfo, setContactInfo] = useState({});
     const [partyInfo, setPartyInfo] = useState({});
     const [submarineCableInfo, setSubmarineCableInfo] = useState({});
-    const [datailInfo, setDetailInfo] = useState([]);
+    const [detailInfo, setDetailInfo] = useState([]);
     const totalAmount = useRef(0);
     const [issueDate, setIssueDate] = useState(issueDateDefault); //發票日期
     const [dueDate, setDueDate] = useState(dueDateDefault); //發票日期
@@ -293,11 +293,11 @@ const BillDraftMake = ({
 
     useEffect(() => {
         let tmpAmount = 0;
-        datailInfo.forEach((i) => {
+        detailInfo.forEach((i) => {
             tmpAmount = tmpAmount + i.ShareAmount;
         });
         totalAmount.current = tmpAmount;
-    }, [datailInfo]);
+    }, [detailInfo]);
 
     return (
         <Dialog maxWidth="xxl" fullWidth open={isDialogOpen}>
@@ -571,6 +571,9 @@ const BillDraftMake = ({
                                         <TableHead>
                                             <TableRow>
                                                 <StyledTableCell className="theTopFirst">
+                                                    No
+                                                </StyledTableCell>
+                                                <StyledTableCell className="top">
                                                     Supplier
                                                 </StyledTableCell>
                                                 <StyledTableCell className="top">
@@ -585,18 +588,30 @@ const BillDraftMake = ({
                                                 <StyledTableCell className="top">
                                                     Liability
                                                 </StyledTableCell>
-                                                <StyledTableCell className="theTopFinal">
+                                                <StyledTableCell className="top">
                                                     Share Amount
+                                                </StyledTableCell>
+                                                <StyledTableCell className="top">
+                                                    Tax
+                                                </StyledTableCell>
+                                                <StyledTableCell className="theTopFinal">
+                                                    Total
                                                 </StyledTableCell>
                                             </TableRow>
                                         </TableHead>
                                         <TableBody>
-                                            {datailInfo?.map((row, id) => {
+                                            {detailInfo?.map((row, id) => {
                                                 return (
                                                     <TableRow key={id}>
                                                         <StyledTableCell
                                                             align="center"
                                                             className="theSecondFirst"
+                                                        >
+                                                            {id + 1}
+                                                        </StyledTableCell>
+                                                        <StyledTableCell
+                                                            align="center"
+                                                            className="theSecond"
                                                         >
                                                             {row.Supplier}
                                                         </StyledTableCell>
@@ -628,6 +643,26 @@ const BillDraftMake = ({
                                                         </StyledTableCell>
                                                         <StyledTableCell
                                                             align="right"
+                                                            className="theSecond"
+                                                        >
+                                                            {row.isTax
+                                                                ? null
+                                                                : handleNumber(
+                                                                      row.ShareAmount?.toFixed(2),
+                                                                  )}
+                                                        </StyledTableCell>
+                                                        <StyledTableCell
+                                                            align="left"
+                                                            className="theSecond"
+                                                        >
+                                                            {row.isTax
+                                                                ? handleNumber(
+                                                                      row.ShareAmount?.toFixed(2),
+                                                                  )
+                                                                : null}
+                                                        </StyledTableCell>
+                                                        <StyledTableCell
+                                                            align="left"
                                                             className="theSecondFinal"
                                                         >
                                                             {handleNumber(
@@ -655,10 +690,22 @@ const BillDraftMake = ({
                                                     className="totalAmount"
                                                 ></StyledTableCell>
                                                 <StyledTableCell
+                                                    align="center"
+                                                    className="totalAmount"
+                                                ></StyledTableCell>
+                                                <StyledTableCell
+                                                    align="center"
+                                                    className="totalAmount"
+                                                ></StyledTableCell>
+                                                <StyledTableCell
+                                                    align="center"
+                                                    className="totalAmount"
+                                                ></StyledTableCell>
+                                                <StyledTableCell
                                                     align="right"
                                                     className="totalAmount"
                                                 >
-                                                    Total
+                                                    Total Amount
                                                 </StyledTableCell>
                                                 <StyledTableCell
                                                     align="right"

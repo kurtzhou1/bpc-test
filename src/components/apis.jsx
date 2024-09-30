@@ -49,6 +49,7 @@ export const downloadInvoiceWKMasterAttachment = `${httpEnv}://${env}/api/v1/dow
 
 //Liability下拉選單
 export const updateLiability = `${httpEnv}://${env}/api/v1/updateLiability`;
+export const dropdownmenuParties = `${httpEnv}://${env}/api/v1/dropdownmenuParties`;
 
 // 查詢Liability
 export const compareLiability = `${httpEnv}://${env}/api/v1/compareLiability`;

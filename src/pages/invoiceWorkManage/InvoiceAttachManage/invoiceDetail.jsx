@@ -129,7 +129,6 @@ const InvoiceDetail = ({ toCodeType, isDetailOpen, isDetailClose, modifyItem }) 
                         </TableContainer>
                     </Grid>
                 </Grid>
-                {/* <DialogContentText sx={{ fontSize: '20px', mt: '0.5rem' }}>總金額：${handleNumber(totalAmount)}</DialogContentText> */}
             </DialogContent>
             <DialogActions>
                 <Button

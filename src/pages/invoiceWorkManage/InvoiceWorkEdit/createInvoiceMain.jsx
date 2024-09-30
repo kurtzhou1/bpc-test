@@ -64,6 +64,7 @@ const InvoiceWorkManage = ({
     submarineCableList,
     currencyListInfo,
     purpose,
+    partyNameList,
 }) => {
     const [supNmList, setSupNmList] = useState([]); //供應商下拉選單
     const dispatch = useDispatch();
@@ -82,7 +83,6 @@ const InvoiceWorkManage = ({
             })
                 .then((res) => res.json())
                 .then((data) => {
-                    console.log('data=>>', data);
                     if (data.isExist) {
                         dispatch(
                             setMessageStateOpen({
@@ -563,22 +563,26 @@ const InvoiceWorkManage = ({
                             ml: { lg: '0rem', xl: '1.5rem' },
                         }}
                     >
-                        {isLiability === false || isLiability === 'false' ? '會員名稱：' : ''}
+                        {isLiability === false || isLiability === 'false' ? '會員名稱：' : null}
                     </Typography>
                 </Grid>
                 <Grid item xs={12} sm={6} md={4} lg={4}>
                     {isLiability === false || isLiability === 'false' ? (
-                        <TextField
-                            value={partyName}
-                            variant="outlined"
-                            disabled={action === '檢視'}
-                            size="small"
-                            label="不須攤分請填寫名稱"
-                            onChange={(e) => setPartyName(e.target.value)}
-                        />
-                    ) : (
-                        ''
-                    )}
+                        <FormControl fullWidth size="small">
+                            <InputLabel>選擇會員</InputLabel>
+                            <Select
+                                value={partyName}
+                                label="不須攤分請填寫名稱"
+                                onChange={(e) => setPartyName(e.target.value)}
+                            >
+                                {partyNameList.map((i) => (
+                                    <MenuItem key={i} value={i}>
+                                        {i}
+                                    </MenuItem>
+                                ))}
+                            </Select>
+                        </FormControl>
+                    ) : null}
                 </Grid>
                 <Grid item xs={12} sm={12} md={12} lg={12} />
             </Grid>

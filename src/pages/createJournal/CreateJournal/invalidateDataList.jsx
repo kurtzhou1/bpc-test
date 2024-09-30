@@ -88,11 +88,12 @@ const BilledDataList = ({ listInfo }) => {
                         let tmpDifferAmount = 0;
                         let tmpAfterDiffAmount = 0;
                         const reduceArray = Object.values(
-                            data2.reduce((acc, item) => {
+                            data2.reduce((acc, item, index) => {
                                 const keyName = item.PartyName;
                                 if (!acc[keyName]) {
                                     acc[keyName] = [];
                                 }
+                                item.itemCount = index + 1;
                                 acc[keyName].push(item);
                                 return acc;
                             }, []),
@@ -191,8 +192,7 @@ const BilledDataList = ({ listInfo }) => {
                                                                 : null,
                                                     }}
                                                 >
-                                                    {(idFirst + 1) * rowFirst.length -
-                                                        (rowFirst.length - idSecond - 1)}
+                                                    {rowSecond.itemCount}
                                                 </TableCell>
                                                 <TableCell
                                                     align="center"
@@ -214,7 +214,7 @@ const BilledDataList = ({ listInfo }) => {
                                                                 : null,
                                                     }}
                                                 >
-                                                    ${handleNumber(rowSecond.FeeAmountPre)}
+                                                    {handleNumber(rowSecond.FeeAmountPre)}
                                                 </TableCell>
                                                 <TableCell
                                                     align="center"
@@ -235,7 +235,9 @@ const BilledDataList = ({ listInfo }) => {
                                                                 ? '0.5px solid black'
                                                                 : null,
                                                     }}
-                                                >{`${rowSecond.LBRatio}%`}</TableCell>
+                                                >
+                                                    {rowSecond.LBRatio}%
+                                                </TableCell>
                                                 <TableCell
                                                     align="center"
                                                     sx={{
@@ -245,7 +247,7 @@ const BilledDataList = ({ listInfo }) => {
                                                                 : null,
                                                     }}
                                                 >
-                                                    ${handleNumber(rowSecond.FeeAmountPost)}
+                                                    {handleNumber(rowSecond.FeeAmountPost)}
                                                 </TableCell>
                                                 <TableCell
                                                     align="center"
@@ -268,7 +270,7 @@ const BilledDataList = ({ listInfo }) => {
                                                                 : null,
                                                     }}
                                                 >
-                                                    ${rowSecond.Difference}
+                                                    {rowSecond.Difference}
                                                 </TableCell>
                                                 <TableCell
                                                     align="center"
@@ -279,7 +281,7 @@ const BilledDataList = ({ listInfo }) => {
                                                                 : null,
                                                     }}
                                                 >
-                                                    ${handleNumber(afterDiff)}
+                                                    {handleNumber(afterDiff)}
                                                 </TableCell>
                                             </TableRow>
                                         );
@@ -324,9 +326,6 @@ const BilledDataList = ({ listInfo }) => {
                             </TableBody>
                         </Table>
                     </TableContainer>
-                    {/* <DialogContentText sx={{ fontSize: '20px', mt: '0.5rem' }}>
-                        發票總金額：${handleNumber(totalAmount.current)}
-                    </DialogContentText> */}
                 </DialogContent>
                 <Box display="flex" justifyContent="end" sx={{ marginRight: '2rem' }}>
                     幣別：{codeType.current}

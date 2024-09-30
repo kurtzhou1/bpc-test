@@ -150,6 +150,11 @@ const ChosePurpose = ({
     };
 
     useEffect(() => {
+        tempSelectPurpose.current = {};
+        setDataList([]);
+    }, [submarineCable, workTitle]);
+
+    useEffect(() => {
         if (isPurposeDialogOpen) {
             setTempCurrencyExgID(currencyExgID);
         }

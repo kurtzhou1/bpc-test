@@ -181,7 +181,7 @@ const JournalQuery = ({
                         海纜名稱：
                     </Typography>
                 </Grid>
-                <Grid item sm={4} md={2} lg={2}>
+                <Grid item md={2} lg={2}>
                     <FormControl fullWidth size="small">
                         <InputLabel>選擇海纜</InputLabel>
                         <Select
@@ -198,7 +198,7 @@ const JournalQuery = ({
                         </Select>
                     </FormControl>
                 </Grid>
-                <Grid item sm={2} md={1} lg={1}>
+                <Grid item md={1} lg={1}>
                     <Typography
                         variant="h5"
                         textAlign="right"
@@ -207,7 +207,7 @@ const JournalQuery = ({
                         供應商：
                     </Typography>
                 </Grid>
-                <Grid item xs={4} sm={4} md={2} lg={2}>
+                <Grid item md={2} lg={2}>
                     <FormControl fullWidth size="small">
                         <InputLabel>選擇供應商</InputLabel>
                         <Select
@@ -224,7 +224,7 @@ const JournalQuery = ({
                         </Select>
                     </FormControl>
                 </Grid>
-                <Grid item sm={2} md={1} lg={1}>
+                <Grid item md={1} lg={1}>
                     <Typography
                         textAlign="right"
                         variant="h5"
@@ -233,7 +233,7 @@ const JournalQuery = ({
                         發票日期：
                     </Typography>
                 </Grid>
-                <Grid item sm={10} md={5} lg={5}>
+                <Grid item md={5} lg={5}>
                     <LocalizationProvider
                         dateAdapter={AdapterDayjs}
                         localeText={{ start: '起始日', end: '結束日' }}
@@ -303,7 +303,15 @@ const JournalQuery = ({
                         </Select>
                     </FormControl>
                 </Grid>
-                <Grid item md={6} lg={6} display="flex" justifyContent="end" alignItems="center">
+                <Grid
+                    item
+                    md={6}
+                    lg={6}
+                    xl={6}
+                    display="flex"
+                    justifyContent="end"
+                    alignItems="center"
+                >
                     <Button sx={{ mr: '0.5rem' }} variant="contained" onClick={journalQuery}>
                         查詢
                     </Button>

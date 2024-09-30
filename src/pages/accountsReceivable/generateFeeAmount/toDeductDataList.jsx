@@ -35,6 +35,7 @@ const ToGenerateDataList = ({ dataList, receivableQuery }) => {
     const billMaster = useRef({});
     const editBillingNo = useRef('');
     const editBillMasterID = useRef('');
+    let codeType = useRef(''); //幣別
 
     const handleDeductClose = () => {
         setIsDeductOpen(false);

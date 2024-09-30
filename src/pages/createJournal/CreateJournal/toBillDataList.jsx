@@ -70,11 +70,12 @@ const ToBillDataList = ({ listInfo, apiQuery }) => {
                 if (Array.isArray(data.InvoiceDetail) && Array.isArray(data.InvoiceMaster)) {
                     let tmpAmount = 0;
                     const reduceArray = Object.values(
-                        data.InvoiceDetail.reduce((acc, item) => {
+                        data.InvoiceDetail.reduce((acc, item, index) => {
                             const keyName = item.PartyName;
                             if (!acc[keyName]) {
                                 acc[keyName] = [];
                             }
+                            item.itemCount = index + 1;
                             acc[keyName].push(item);
                             return acc;
                         }, []),
@@ -245,8 +246,7 @@ const ToBillDataList = ({ listInfo, apiQuery }) => {
                                                                 : null,
                                                     }}
                                                 >
-                                                    {(idFirst + 1) * rowFirst.length -
-                                                        (rowFirst.length - idSecond - 1)}
+                                                    {rowSecond.itemCount}
                                                 </TableCell>
                                                 <TableCell
                                                     align="center"

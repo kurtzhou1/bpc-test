@@ -7,6 +7,7 @@ import MainCard from 'components/MainCard';
 import Decimal from 'decimal.js';
 // material-ui
 import {
+    Box,
     Typography,
     Button,
     Table,
@@ -81,6 +82,7 @@ const ToDeductWork = ({
 
     //按下折抵
     const deductWork = (data) => {
+        console.log('data=>>', data);
         let tmpArrayFilter = tmpDeductArray.current.filter(
             (i) => i.BillDetailID === data.BillDetailID,
         );
@@ -92,7 +94,9 @@ const ToDeductWork = ({
                 '&WorkTitle=' +
                 data.WorkTitle +
                 '&PartyName=' +
-                data.PartyName;
+                data.PartyName +
+                '&Code=' +
+                data.Code;
             fetch(tmpQuery, {
                 method: 'GET',
                 Authorization: 'Bearer' + localStorage.getItem('accessToken') ?? '',
@@ -274,7 +278,9 @@ const ToDeductWork = ({
 
     return (
         <Dialog maxWidth="xxl" open={isDeductOpen}>
-            <BootstrapDialogTitle>檢視帳單明細</BootstrapDialogTitle>
+            <BootstrapDialogTitle>
+                {actionName === 'deduct' ? '折抵作業' : '檢視待抵扣帳單明細'}
+            </BootstrapDialogTitle>
             <DialogContent>
                 <Grid
                     container
@@ -382,6 +388,9 @@ const ToDeductWork = ({
                         </Grid>
                     ) : null}
                     <Grid item md={12} lg={12}>
+                        <Box display="flex" justifyContent="end" sx={{ fontSize: '1rem' }}>
+                            幣別：{billMasterInfo.Code}
+                        </Box>
                         <MainCard title="帳單明細列表">
                             <TableContainer component={Paper} sx={{ maxHeight: 350 }}>
                                 <Table sx={{ minWidth: 300 }} stickyHeader>
@@ -395,16 +404,15 @@ const ToDeductWork = ({
                                                 費用項目
                                             </StyledTableCell>
                                             <StyledTableCell align="center">
+                                                是否為税
+                                            </StyledTableCell>
+                                            <StyledTableCell align="center">
                                                 費用金額
                                             </StyledTableCell>
                                             <StyledTableCell align="center">
                                                 折抵金額
                                             </StyledTableCell>
-                                            {actionName === 'view' ? (
-                                                <StyledTableCell align="center">
-                                                    預付稅款
-                                                </StyledTableCell>
-                                            ) : null}
+
                                             <StyledTableCell align="center">總金額</StyledTableCell>
                                             {actionName === 'deduct' ? (
                                                 <StyledTableCell align="center">
@@ -441,16 +449,14 @@ const ToDeductWork = ({
                                                         {row.FeeItem}
                                                     </TableCell>
                                                     <TableCell align="center">
-                                                        ${handleNumber(row.OrgFeeAmount)}
+                                                        {row?.IsTax ? '是' : '否'}
                                                     </TableCell>
                                                     <TableCell align="center">
-                                                        ${handleNumber(dedAmountTmp)}
+                                                        {handleNumber(row.OrgFeeAmount)}
                                                     </TableCell>
-                                                    {actionName === 'view' ? (
-                                                        <TableCell align="center">
-                                                            {row?.WHTAmount}
-                                                        </TableCell>
-                                                    ) : null}
+                                                    <TableCell align="center">
+                                                        {handleNumber(dedAmountTmp)}
+                                                    </TableCell>
                                                     <TableCell
                                                         align="center"
                                                         sx={{
@@ -520,22 +526,18 @@ const ToDeductWork = ({
                                                 className="totalAmount"
                                                 align="center"
                                             ></StyledTableCell>
+                                            <StyledTableCell
+                                                className="totalAmount"
+                                                align="center"
+                                            ></StyledTableCell>
                                             <StyledTableCell className="totalAmount" align="center">
-                                                ${handleNumber(orgFeeAmount.current)}
+                                                {handleNumber(orgFeeAmount.current)}
                                             </StyledTableCell>
                                             <StyledTableCell className="totalAmount" align="center">
-                                                ${handleNumber(dedAmount.current)}
+                                                {handleNumber(dedAmount.current)}
                                             </StyledTableCell>
-                                            {actionName === 'view' ? (
-                                                <StyledTableCell
-                                                    className="totalAmount"
-                                                    align="center"
-                                                >
-                                                    ${handleNumber(wHTAmountTotal.current)}
-                                                </StyledTableCell>
-                                            ) : null}
                                             <StyledTableCell className="totalAmount" align="center">
-                                                ${handleNumber(feeAmountTotal)}
+                                                {handleNumber(feeAmountTotal)}
                                             </StyledTableCell>
                                             {actionName === 'deduct' ? (
                                                 <StyledTableCell
@@ -680,7 +682,7 @@ const ToDeductWork = ({
                                                                     />
                                                                 </TableCell>
                                                                 <TableCell align="center">
-                                                                    ${handleNumber(afterDiff)}
+                                                                    {handleNumber(afterDiff)}
                                                                 </TableCell>
                                                             </TableRow>
                                                         );
@@ -707,7 +709,6 @@ const ToDeductWork = ({
                         </Grid>
                     ) : null}
                 </Grid>
-                {/* <DialogContentText sx={{ fontSize: '20px', mt: '0.5rem' }}>總金額：${handleNumber(totalAmount)}</DialogContentText> */}
             </DialogContent>
             <DialogActions>
                 {actionName === 'deduct' ? (

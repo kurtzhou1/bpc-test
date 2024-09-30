@@ -85,11 +85,12 @@ const BilledDataList = ({ listInfo, apiQuery }) => {
                         let tmpDifferAmount = 0;
                         let tmpAfterDiffAmount = 0;
                         const reduceArray = Object.values(
-                            data2.reduce((acc, item) => {
+                            data2.reduce((acc, item, index) => {
                                 const keyName = item.PartyName;
                                 if (!acc[keyName]) {
                                     acc[keyName] = [];
                                 }
+                                item.itemCount = index + 1;
                                 acc[keyName].push(item);
                                 return acc;
                             }, []),
@@ -251,8 +252,7 @@ const BilledDataList = ({ listInfo, apiQuery }) => {
                                                                 : null,
                                                     }}
                                                 >
-                                                    {(idFirst + 1) * rowFirst.length -
-                                                        (rowFirst.length - idSecond - 1)}
+                                                    {rowSecond.itemCount}
                                                 </TableCell>
                                                 <TableCell
                                                     align="center"
@@ -274,7 +274,7 @@ const BilledDataList = ({ listInfo, apiQuery }) => {
                                                                 : null,
                                                     }}
                                                 >
-                                                    ${handleNumber(rowSecond.FeeAmountPre)}
+                                                    {handleNumber(rowSecond.FeeAmountPre)}
                                                 </TableCell>
                                                 <TableCell
                                                     align="center"
@@ -307,7 +307,7 @@ const BilledDataList = ({ listInfo, apiQuery }) => {
                                                                 : null,
                                                     }}
                                                 >
-                                                    ${handleNumber(rowSecond.FeeAmountPost)}
+                                                    {handleNumber(rowSecond.FeeAmountPost)}
                                                 </TableCell>
                                                 <TableCell
                                                     align="center"
@@ -329,7 +329,7 @@ const BilledDataList = ({ listInfo, apiQuery }) => {
                                                                 : null,
                                                     }}
                                                 >
-                                                    ${rowSecond.Difference}
+                                                    {rowSecond.Difference}
                                                 </TableCell>
                                                 <TableCell
                                                     align="center"
@@ -340,7 +340,7 @@ const BilledDataList = ({ listInfo, apiQuery }) => {
                                                                 : null,
                                                     }}
                                                 >
-                                                    ${handleNumber(afterDiff)}
+                                                    {handleNumber(afterDiff)}
                                                 </TableCell>
                                             </TableRow>
                                         );
@@ -385,9 +385,6 @@ const BilledDataList = ({ listInfo, apiQuery }) => {
                             </TableBody>
                         </Table>
                     </TableContainer>
-                    {/* <DialogContentText sx={{ fontSize: '20px', mt: '0.5rem' }}>
-                        發票總金額：${handleNumber(totalAmount.current)}
-                    </DialogContentText> */}
                 </DialogContent>
                 <Box display="flex" justifyContent="end" sx={{ marginRight: '2rem' }}>
                     幣別：{codeType.current}

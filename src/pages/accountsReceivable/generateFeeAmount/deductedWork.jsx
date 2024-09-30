@@ -86,6 +86,7 @@ const DeductedWork = ({ isDeductedWorkOpen, handleDeductedClose, billDetailInfo 
                                     <TableRow>
                                         <StyledTableCell align="center">NO</StyledTableCell>
                                         <StyledTableCell align="center">費用項目</StyledTableCell>
+                                        <StyledTableCell align="center">是否為税</StyledTableCell>
                                         <StyledTableCell align="center">計帳段號</StyledTableCell>
                                         <StyledTableCell align="center">折抵CB</StyledTableCell>
                                         <StyledTableCell align="center">折抵金額</StyledTableCell>
@@ -112,14 +113,17 @@ const DeductedWork = ({ isDeductedWorkOpen, handleDeductedClose, billDetailInfo 
                                                     {row.BillDetail.FeeItem}
                                                 </TableCell>
                                                 <TableCell align="center">
+                                                    {row.BillDetail.IsTax ? '是' : '否'}
+                                                </TableCell>
+                                                <TableCell align="center">
                                                     {row.BillDetail.BillMilestone}
                                                 </TableCell>
                                                 <TableCell align="center">{row.CBTYPE}</TableCell>
                                                 <TableCell align="center">
-                                                    ${handleNumber(row.BillDetail.DedAmount)}
+                                                    {handleNumber(row.BillDetail.DedAmount)}
                                                 </TableCell>
                                                 <TableCell align="center">
-                                                    ${handleNumber(row.BillDetail.FeeAmount)}
+                                                    {handleNumber(row.BillDetail.FeeAmount)}
                                                 </TableCell>
                                             </TableRow>
                                         );
@@ -130,26 +134,15 @@ const DeductedWork = ({ isDeductedWorkOpen, handleDeductedClose, billDetailInfo 
                                         <StyledTableCell className="totalAmount" align="center">
                                             Total
                                         </StyledTableCell>
-                                        <StyledTableCell
-                                            className="totalAmount"
-                                            align="center"
-                                        ></StyledTableCell>
-                                        <StyledTableCell
-                                            className="totalAmount"
-                                            align="center"
-                                        ></StyledTableCell>
-                                        <StyledTableCell
-                                            className="totalAmount"
-                                            align="center"
-                                        ></StyledTableCell>
+                                        <StyledTableCell className="totalAmount"></StyledTableCell>
+                                        <StyledTableCell className="totalAmount"></StyledTableCell>
+                                        <StyledTableCell className="totalAmount"></StyledTableCell>
+                                        <StyledTableCell className="totalAmount"></StyledTableCell>
                                         <StyledTableCell className="totalAmount" align="center">
-                                            ${handleNumber(dedAmount.current)}
+                                            {handleNumber(dedAmount.current)}
                                         </StyledTableCell>
-                                        {/* <StyledTableCell className="totalAmount" align="center">
-                                            ${handleNumber(wHTAmountTotal.current)}
-                                        </StyledTableCell> */}
                                         <StyledTableCell className="totalAmount" align="center">
-                                            ${handleNumber(feeAmount.current)}
+                                            {handleNumber(feeAmount.current)}
                                         </StyledTableCell>
                                     </TableRow>
                                 </TableBody>
