@@ -280,6 +280,17 @@ const ToCombineDataList = ({
                                 },
                             }),
                         );
+                    } else if (data?.ToCode === 'ToCode is not unique') {
+                        handleDialogClose();
+                        dispatch(
+                            setMessageStateOpen({
+                                messageStateOpen: {
+                                    isOpen: true,
+                                    severity: 'error',
+                                    message: '請選擇同一幣別進行合併帳單',
+                                },
+                            }),
+                        );
                     } else if (data?.alert_msg) {
                         handleDialogClose();
                         dispatch(

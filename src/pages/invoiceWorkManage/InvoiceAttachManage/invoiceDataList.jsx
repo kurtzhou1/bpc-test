@@ -195,8 +195,6 @@ const InvoiceDataList = ({ listInfo, page, setPage }) => {
             });
     };
 
-    console.log('listInfo=>>', listInfo);
-
     return (
         <>
             <InvoiceDetail
@@ -283,9 +281,6 @@ const InvoiceDataList = ({ listInfo, page, setPage }) => {
                                         {handleNumber(row.InvoiceWKMaster.PaidAmount)}{' '}
                                         {row.InvoiceWKMaster.ToCode}
                                     </StyledTableCell>
-                                    {/* <StyledTableCell align="center">
-                                        {handleNumber(row.InvoiceWKMaster.TotalAmount)}
-                                    </StyledTableCell> */}
                                     <TableCell align="center">
                                         <Box
                                             sx={{
@@ -376,7 +371,6 @@ const InvoiceDataList = ({ listInfo, page, setPage }) => {
                                 page={page}
                                 onPageChange={handleChangePage}
                                 onRowsPerPageChange={handleChangeRowsPerPage}
-                                // ActionsComponent={TablePaginationActions}
                             />
                         </TableRow>
                     </TableFooter>

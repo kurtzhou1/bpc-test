@@ -2,6 +2,7 @@ import { useState, useRef } from 'react';
 
 // project import
 import { handleNumber, BootstrapDialogTitle } from 'components/commonFunction';
+import Decimal from 'decimal.js';
 // material-ui
 import { Button, Table, Dialog, DialogContent, DialogActions, TextField, Box } from '@mui/material';
 import { TableBody, TableContainer, TableHead, TableRow, Paper } from '@mui/material';
@@ -66,7 +67,6 @@ const ToBillDataList = ({ listInfo, apiQuery }) => {
         })
             .then((res) => res.json())
             .then((data) => {
-                console.log('data=>>', data);
                 if (Array.isArray(data.InvoiceDetail) && Array.isArray(data.InvoiceMaster)) {
                     let tmpAmount = 0;
                     const reduceArray = Object.values(
@@ -84,7 +84,9 @@ const ToBillDataList = ({ listInfo, apiQuery }) => {
                     toBillDataMain.current = data.InvoiceMaster;
                     setTotalAmount(data.TotalAmount.toString());
                     data.InvoiceDetail.forEach((i) => {
-                        tmpAmount = tmpAmount + i.FeeAmountPost + i.Difference;
+                        tmpAmount = new Decimal(tmpAmount)
+                            .add(new Decimal(i.FeeAmountPost))
+                            .add(new Decimal(i.Difference));
                         codeType.current = i.ToCode;
                     });
                     setCurrentAmount(tmpAmount);
@@ -126,13 +128,14 @@ const ToBillDataList = ({ listInfo, apiQuery }) => {
         tmpArray[idFirst][idSecond].Difference = Number(diff);
         tmpArray.forEach((PartyNameArray) => {
             PartyNameArray.forEach((i) => {
-                tmpAmount = tmpAmount + i.FeeAmountPost + i.Difference;
-                tmpDifferAmount = tmpDifferAmount + i.Difference;
+                tmpAmount = new Decimal(tmpAmount)
+                    .add(new Decimal(i.FeeAmountPost))
+                    .add(new Decimal(i.Difference));
+                tmpDifferAmount = new Decimal(tmpDifferAmount).add(new Decimal(i.Difference));
             });
         });
         differAmount.current = tmpDifferAmount;
         setToBillDataInfo(tmpArray);
-        console.log('tmpAmount=>>', tmpAmount);
         setCurrentAmount(tmpAmount);
     };
 
@@ -219,17 +222,16 @@ const ToBillDataList = ({ listInfo, apiQuery }) => {
                             <TableBody>
                                 {toBillDataInfo.map((rowFirst, idFirst) => {
                                     return rowFirst.map((rowSecond, idSecond) => {
-                                        let afterDiff =
-                                            rowSecond.FeeAmountPost +
-                                            rowSecond.Difference -
-                                            rowSecond.WHTAmount;
+                                        let afterDiff = new Decimal(rowSecond.FeeAmountPost)
+                                            .add(new Decimal(rowSecond.Difference))
+                                            .minus(new Decimal(rowSecond.WHTAmount));
                                         return (
                                             <TableRow
                                                 key={
+                                                    idFirst +
                                                     rowSecond.FeeAmountPre +
                                                     rowSecond?.LBRatio +
-                                                    idFirst +
-                                                    idSecond
+                                                    rowSecond.itemCount
                                                 }
                                                 sx={{
                                                     '&:last-child td, &:last-child th': {
@@ -408,12 +410,6 @@ const ToBillDataList = ({ listInfo, apiQuery }) => {
                             </TableBody>
                         </Table>
                     </TableContainer>
-                    {/* <DialogContentText sx={{ fontSize: '20px', mt: '0.5rem' }}>
-                        發票總金額：${handleNumber(totalAmount)}
-                    </DialogContentText>
-                    <DialogContentText sx={{ fontSize: '20px', color: '#CC0000' }}>
-                        目前金額：${handleNumber(currentAmount)}
-                    </DialogContentText> */}
                 </DialogContent>
                 <Box display="flex" justifyContent="end" sx={{ marginRight: '2rem' }}>
                     幣別：{codeType.current}
@@ -447,7 +443,7 @@ const ToBillDataList = ({ listInfo, apiQuery }) => {
                         {listInfo?.map((row, id) => {
                             return (
                                 <TableRow
-                                    key={row.InvoiceWKMaster?.WKMasterID + id}
+                                    key={row.InvoiceWKMaster?.InvoiceNo + id}
                                     sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                                 >
                                     <StyledTableCell align="center">{id + 1}</StyledTableCell>

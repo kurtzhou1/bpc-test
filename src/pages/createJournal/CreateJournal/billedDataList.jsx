@@ -2,6 +2,7 @@ import { useState, useRef } from 'react';
 
 // project import
 import { handleNumber, BootstrapDialogTitle } from 'components/commonFunction';
+import Decimal from 'decimal.js';
 // material-ui
 import { Button, Table, Dialog, DialogContent, DialogActions, Box } from '@mui/material';
 import TableBody from '@mui/material/TableBody';
@@ -11,9 +12,7 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import { styled } from '@mui/material/styles';
-
 import dayjs from 'dayjs';
-
 import {
     journalDetailView,
     journalMasterView,
@@ -73,8 +72,7 @@ const BilledDataList = ({ listInfo, apiQuery }) => {
             Authorization: 'Bearer' + localStorage.getItem('accessToken') ?? '',
         })
             .then((res) => res.json())
-            .then((data) => {
-                // totalAmount.current = data[0].TotalAmount;
+            .then(() => {
                 fetch(tmpQueryDetail, {
                     method: 'GET',
                     Authorization: 'Bearer' + localStorage.getItem('accessToken') ?? '',
@@ -96,10 +94,16 @@ const BilledDataList = ({ listInfo, apiQuery }) => {
                             }, []),
                         );
                         data2.forEach((i) => {
-                            tmpFeeAmountPost = tmpFeeAmountPost + i.FeeAmountPost;
-                            tmpDifferAmount = tmpDifferAmount + i.Difference;
-                            tmpAfterDiffAmount =
-                                tmpAfterDiffAmount + (i.FeeAmountPost + i.Difference - i.WHTAmount);
+                            tmpFeeAmountPost = new Decimal(tmpFeeAmountPost).add(
+                                new Decimal(i.FeeAmountPost),
+                            );
+                            tmpDifferAmount = new Decimal(tmpDifferAmount).add(
+                                new Decimal(i.Difference),
+                            );
+                            tmpAfterDiffAmount = new Decimal(tmpAfterDiffAmount)
+                                .add(new Decimal(i.FeeAmountPost))
+                                .add(new Decimal(i.Difference))
+                                .minus(new Decimal(i.WHTAmount));
                             codeType.current = i.ToCode;
                         });
                         totalAmount.current = tmpFeeAmountPost;
@@ -225,17 +229,15 @@ const BilledDataList = ({ listInfo, apiQuery }) => {
                             <TableBody>
                                 {toBillDataInfo.map((rowFirst, idFirst) => {
                                     return rowFirst.map((rowSecond, idSecond) => {
-                                        let afterDiff =
-                                            rowSecond.FeeAmountPost +
-                                            rowSecond.Difference -
-                                            rowSecond.WHTAmount;
+                                        let afterDiff = new Decimal(rowSecond.FeeAmountPost)
+                                            .add(new Decimal(rowSecond.Difference))
+                                            .minus(new Decimal(rowSecond.WHTAmount));
                                         return (
                                             <TableRow
                                                 key={
+                                                    rowSecond.itemCount +
                                                     rowSecond.PartyName +
-                                                    rowSecond.LBRatio +
-                                                    idFirst +
-                                                    idSecond
+                                                    rowSecond.LBRatio
                                                 }
                                                 sx={{
                                                     '&:last-child td, &:last-child th': {

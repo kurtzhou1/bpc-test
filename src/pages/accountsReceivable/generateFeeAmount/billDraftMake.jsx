@@ -601,6 +601,7 @@ const BillDraftMake = ({
                                         </TableHead>
                                         <TableBody>
                                             {detailInfo?.map((row, id) => {
+                                                console.log('row.isTax=>>', row);
                                                 return (
                                                     <TableRow key={id}>
                                                         <StyledTableCell
@@ -645,7 +646,7 @@ const BillDraftMake = ({
                                                             align="right"
                                                             className="theSecond"
                                                         >
-                                                            {row.isTax
+                                                            {row.IsTax
                                                                 ? null
                                                                 : handleNumber(
                                                                       row.ShareAmount?.toFixed(2),
@@ -655,7 +656,7 @@ const BillDraftMake = ({
                                                             align="left"
                                                             className="theSecond"
                                                         >
-                                                            {row.isTax
+                                                            {row.IsTax
                                                                 ? handleNumber(
                                                                       row.ShareAmount?.toFixed(2),
                                                                   )

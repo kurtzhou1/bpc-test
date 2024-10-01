@@ -119,7 +119,9 @@ const ToGenerateDataList = ({ dataList, receivableQuery }) => {
                             return (
                                 <TableRow
                                     key={
-                                        row.BillMaster.BillMasterID + row.BillMaster.BillingNo + id
+                                        row.BillMaster.BillingNo +
+                                        row.BillMaster.SubmarineCable +
+                                        id
                                     }
                                     sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                                 >
