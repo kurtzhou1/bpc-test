@@ -1,5 +1,6 @@
 // project import
 import { handleNumber } from 'components/commonFunction';
+import NumericFormatCustom from 'components/numericFormatCustom';
 // material-ui
 import { Table, Checkbox, TextField } from '@mui/material';
 import TableBody from '@mui/material/TableBody';
@@ -48,8 +49,8 @@ const CreditBalanceDataList = ({ listInfo, cbToCn, setCbToCn, cbRefundData, setC
 
     const handleRefund = (cbid) => {
         let tmpArray = cbRefundData.find((i) => i.CBID === cbid);
-        if (!tmpArray?.RefundAmount) return '0.00';
-        let tmpNumber = handleNumber(tmpArray.RefundAmount);
+        if (!tmpArray?.RefundAmount) return 0;
+        let tmpNumber = tmpArray.RefundAmount;
         return tmpNumber;
     };
 
@@ -121,6 +122,9 @@ const CreditBalanceDataList = ({ listInfo, cbToCn, setCbToCn, cbRefundData, setC
                                             sx={{ minWidth: 60 }}
                                             disabled={!cbToCn[row?.CBID]}
                                             value={handleRefund(row.CBID)}
+                                            InputProps={{
+                                                inputComponent: NumericFormatCustom,
+                                            }}
                                             onChange={(e) => {
                                                 changeRefund(e.target.value, row.CBID);
                                             }}

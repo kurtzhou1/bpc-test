@@ -170,7 +170,8 @@ const BillDraftMake = ({
     const handleDownload = () => {
         let tmpData = {
             BillMasterID: billMasterID,
-            UserID: 'chang_ty',
+            // UserID: 'chang_ty',
+            UserID: contact,
             IssueDate: dayjs(issueDate).format('YYYY/MM/DD'),
             DueDate: dayjs(dueDate).format('YYYY/MM/DD'),
             WorkTitle: subject1,
@@ -221,7 +222,7 @@ const BillDraftMake = ({
             let tmpAmount = 0;
             let tmpArray = {
                 BillMasterID: billMasterID,
-                UserID: 'chang_ty',
+                UserID: 'chang_ty', //20241007暫時不動
                 GetTemplate: true,
             };
             setIssueDate(issueDateDefault);
@@ -298,6 +299,8 @@ const BillDraftMake = ({
         });
         totalAmount.current = tmpAmount;
     }, [detailInfo]);
+
+    console.log('contactList=>>', contactList);
 
     return (
         <Dialog maxWidth="xxl" fullWidth open={isDialogOpen}>

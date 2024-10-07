@@ -154,6 +154,18 @@ const InvoiceWorkManage = () => {
             );
             return false;
         }
+        if ((!isLiability || isLiability === 'false') && partyName === '') {
+            dispatch(
+                setMessageStateOpen({
+                    messageStateOpen: {
+                        isOpen: true,
+                        severity: 'error',
+                        message: '不攤分請選擇會員名稱',
+                    },
+                }),
+            );
+            return false;
+        }
         if (submarineCable === '') {
             dispatch(
                 setMessageStateOpen({
@@ -332,8 +344,8 @@ const InvoiceWorkManage = () => {
                 partyName,
                 'TEMPORARY',
                 isPro === 'true' || isPro === true ? true : false,
-                isRecharge === 'true' || isRecharge === true ? true : false,
-                isLiability === 'true' || isLiability === true ? true : false,
+                isRecharge === 'true' || isRecharge ? true : false,
+                isLiability === 'true' || isLiability ? true : false,
                 Number(totalAmount),
                 currencyExgID,
                 rateInfo.current.Purpose,

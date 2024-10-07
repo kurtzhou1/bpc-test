@@ -104,6 +104,9 @@ const CreditBalance = () => {
             })
                 .then((res) => res.json())
                 .then(() => {
+                    setInfoTerminal(false);
+                    setNote('');
+                    setCbRefundData([]);
                     dispatch(
                         setMessageStateOpen({
                             messageStateOpen: {

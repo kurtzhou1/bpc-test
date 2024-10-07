@@ -485,7 +485,10 @@ const InvoiceWorkManage = ({
                         <RadioGroup
                             row
                             value={isLiability}
-                            onChange={(e) => setIsLiability(e.target.value)}
+                            onChange={(e) => {
+                                setIsLiability(e.target.value);
+                                setPartyName('');
+                            }}
                         >
                             <FormControlLabel
                                 value={true}
@@ -530,13 +533,6 @@ const InvoiceWorkManage = ({
                 </Grid>
                 <Grid item xs={12} sm={6} md={4} lg={4}>
                     {isLiability === false || isLiability === 'false' ? (
-                        // <TextField
-                        //     value={partyName}
-                        //     variant="outlined"
-                        //     size="small"
-                        //     label="不須攤分請填寫名稱"
-                        //     onChange={(e) => setPartyName(e.target.value)}
-                        // />
                         <FormControl fullWidth size="small">
                             <InputLabel>選擇會員</InputLabel>
                             <Select

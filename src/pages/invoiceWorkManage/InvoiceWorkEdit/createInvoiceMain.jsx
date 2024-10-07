@@ -525,7 +525,10 @@ const InvoiceWorkManage = ({
                         <RadioGroup
                             row
                             value={isLiability}
-                            onChange={(e) => setIsLiability(e.target.value)}
+                            onChange={(e) => {
+                                setIsLiability(e.target.value);
+                                setPartyName('');
+                            }}
                         >
                             <FormControlLabel
                                 value={true}
@@ -572,6 +575,7 @@ const InvoiceWorkManage = ({
                             <InputLabel>選擇會員</InputLabel>
                             <Select
                                 value={partyName}
+                                readOnly={action === '檢視'}
                                 label="不須攤分請填寫名稱"
                                 onChange={(e) => setPartyName(e.target.value)}
                             >

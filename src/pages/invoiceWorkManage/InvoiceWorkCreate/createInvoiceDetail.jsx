@@ -183,7 +183,7 @@ const CreateInvoiceDetail = ({
         <MainCard title="發票工作明細檔建立" sx={{ height: '100%' }}>
             <Grid container display="flex" justifyContent="center" alignItems="center" spacing={1}>
                 {/* row1 */}
-                <Grid item md={2}>
+                <Grid item sm={6} md={2} lg={2}>
                     <Typography
                         variant="h5"
                         sx={{
@@ -194,7 +194,7 @@ const CreateInvoiceDetail = ({
                         計帳段號：
                     </Typography>
                 </Grid>
-                <Grid item md={4}>
+                <Grid item sm={6} md={4} lg={4}>
                     <FormControl fullWidth>
                         <InputLabel size="small" id="billMilestone">
                             選擇計帳段號
@@ -213,7 +213,7 @@ const CreateInvoiceDetail = ({
                         </Select>
                     </FormControl>
                 </Grid>
-                <Grid item md={2}>
+                <Grid item sm={6} md={2} lg={2}>
                     <Typography
                         variant="h5"
                         sx={{
@@ -224,7 +224,7 @@ const CreateInvoiceDetail = ({
                         費用金額：
                     </Typography>
                 </Grid>
-                <Grid item md={4}>
+                <Grid item sm={6} md={4} lg={4}>
                     <TextField
                         fullWidth
                         variant="outlined"
@@ -242,7 +242,7 @@ const CreateInvoiceDetail = ({
                     />
                 </Grid>
                 {/* row2 */}
-                <Grid item md={2}>
+                <Grid item sm={6} md={2} lg={2}>
                     <Typography
                         variant="h5"
                         size="small"
@@ -254,7 +254,7 @@ const CreateInvoiceDetail = ({
                         費用項目：
                     </Typography>
                 </Grid>
-                <Grid item md={10}>
+                <Grid item sm={6} md={10} lg={10}>
                     <StyledEngineProvider injectFirst>
                         <CssVarsProvider>
                             <Textarea
@@ -269,7 +269,15 @@ const CreateInvoiceDetail = ({
                     </StyledEngineProvider>
                 </Grid>
                 {/* row3 */}
-                <Grid item md={12} display="flex" justifyContent="end" alignItems="center">
+                <Grid
+                    item
+                    sm={12}
+                    md={12}
+                    lg={12}
+                    display="flex"
+                    justifyContent="end"
+                    alignItems="center"
+                >
                     {isEdit ? (
                         <Button
                             size="small"

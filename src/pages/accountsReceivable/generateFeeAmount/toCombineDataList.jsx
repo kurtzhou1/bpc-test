@@ -291,6 +291,17 @@ const ToCombineDataList = ({
                                 },
                             }),
                         );
+                    } else if (data?.WorkTitle === 'WorkTitle is not unique') {
+                        handleDialogClose();
+                        dispatch(
+                            setMessageStateOpen({
+                                messageStateOpen: {
+                                    isOpen: true,
+                                    severity: 'error',
+                                    message: '請選擇同一海纜作業進行合併帳單',
+                                },
+                            }),
+                        );
                     } else if (data?.alert_msg) {
                         handleDialogClose();
                         dispatch(

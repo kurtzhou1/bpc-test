@@ -511,6 +511,18 @@ const InvoiceWorkManage = () => {
             );
             return false;
         }
+        if ((!isLiability || isLiability === 'false') && partyName === '') {
+            dispatch(
+                setMessageStateOpen({
+                    messageStateOpen: {
+                        isOpen: true,
+                        severity: 'error',
+                        message: '不攤分請選擇會員名稱',
+                    },
+                }),
+            );
+            return false;
+        }
         if (submarineCable === '') {
             dispatch(
                 setMessageStateOpen({
@@ -969,9 +981,7 @@ const InvoiceWorkManage = () => {
                                             取消編輯
                                         </Button>
                                     </Grid>
-                                ) : (
-                                    ''
-                                )}
+                                ) : null}
                             </Grid>
                         </MainCard>
                     </Grid>
