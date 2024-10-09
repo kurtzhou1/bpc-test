@@ -28,6 +28,9 @@ export const generatetoken = `${httpEnv}://${env}/api/v1/generatetoken`;
 export const checktoken = `${httpEnv}://${env}/api/v1/checktoken`;
 export const checktokenForLDAP = `${httpEnv}://${env}/api/v1/checktokenForLDAP`;
 
+// 下拉選單
+export const dropdownmenuParties = `${httpEnv}://${env}/api/v1/dropdownmenuParties`;
+
 // 產生發票工作檔
 export const generateInvoice = `${httpEnv}://${env}/api/v1/generateInvoiceWKMaster&InvoiceWKDetail`;
 
@@ -49,7 +52,6 @@ export const downloadInvoiceWKMasterAttachment = `${httpEnv}://${env}/api/v1/dow
 
 //Liability下拉選單
 export const updateLiability = `${httpEnv}://${env}/api/v1/updateLiability`;
-export const dropdownmenuParties = `${httpEnv}://${env}/api/v1/dropdownmenuParties`;
 
 // 查詢Liability
 export const compareLiability = `${httpEnv}://${env}/api/v1/compareLiability`;

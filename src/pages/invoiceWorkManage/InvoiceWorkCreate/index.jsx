@@ -527,6 +527,33 @@ const InvoiceWorkManage = () => {
                         }),
                     );
                 });
+            fetch(dropdownmenuParties, {
+                method: 'POST',
+                headers: {
+                    'Content-type': 'application/json',
+                    Authorization: 'Bearer' + localStorage.getItem('accessToken') ?? '',
+                },
+                body: JSON.stringify({
+                    SubmarineCable: submarineCable,
+                    WorkTitle: workTitle,
+                }),
+            })
+                .then((res) => res.json())
+                .then((data) => {
+                    console.log('data=>>', data);
+                    setPartyNameList(data);
+                })
+                .catch(() => {
+                    dispatch(
+                        setMessageStateOpen({
+                            messageStateOpen: {
+                                isOpen: true,
+                                severity: 'error',
+                                message: '網路異常，請檢查網路連線或與系統窗口聯絡',
+                            },
+                        }),
+                    );
+                });
         } else {
             setBmStoneList([]);
             setSupNmList([]);
@@ -534,23 +561,6 @@ const InvoiceWorkManage = () => {
     }, [workTitle, submarineCable]);
 
     useEffect(() => {
-        fetch(dropdownmenuParties, { method: 'GET' })
-            .then((res) => res.json())
-            .then((data) => {
-                console.log('data=>>', data);
-                setPartyNameList(data);
-            })
-            .catch(() => {
-                dispatch(
-                    setMessageStateOpen({
-                        messageStateOpen: {
-                            isOpen: true,
-                            severity: 'error',
-                            message: '網路異常，請檢查網路連線或與系統窗口聯絡',
-                        },
-                    }),
-                );
-            });
         fetch(submarineCableInfoList, { method: 'GET' })
             .then((res) => res.json())
             .then((data) => {

@@ -18,8 +18,6 @@ import {
 import Dialog from '@mui/material/Dialog';
 import DialogContent from '@mui/material/DialogContent';
 import DialogActions from '@mui/material/DialogActions';
-
-// day
 import { DesktopDatePicker } from '@mui/x-date-pickers/DesktopDatePicker';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
@@ -28,6 +26,7 @@ import dayjs from 'dayjs';
 // project import
 import MainCard from 'components/MainCard';
 import { BootstrapDialogTitle, handleNumber } from 'components/commonFunction';
+import Decimal from 'decimal.js';
 
 // table
 import TableBody from '@mui/material/TableBody';
@@ -219,7 +218,6 @@ const BillDraftMake = ({
 
     useEffect(() => {
         if (isDialogOpen) {
-            let tmpAmount = 0;
             let tmpArray = {
                 BillMasterID: billMasterID,
                 UserID: 'chang_ty', //20241007暫時不動
@@ -244,9 +242,10 @@ const BillDraftMake = ({
                     setSubmarineCableInfo(data.CorporateInformation);
                     setDetailInfo(data.DetailInformation);
                     data.DetailInformation.forEach((i) => {
-                        tmpAmount = tmpAmount + i.ShareAmount;
+                        totalAmount.current = new Decimal(totalAmount.current)
+                            .toDecimalPlaces(2)
+                            .add(new Decimal(i.ShareAmount).toDecimalPlaces(2));
                     });
-                    totalAmount.current = tmpAmount;
                 })
                 .catch(() => {
                     dispatch(
