@@ -6,7 +6,16 @@ import PropTypes from 'prop-types';
 import { handleNumber, BootstrapDialogTitle } from 'components/commonFunction';
 import MainCard from 'components/MainCard';
 // material-ui
-import { Typography, Button, Table, Dialog, DialogContent, Grid, DialogActions, TextField } from '@mui/material';
+import {
+    Typography,
+    Button,
+    Table,
+    Dialog,
+    DialogContent,
+    Grid,
+    DialogActions,
+    TextField,
+} from '@mui/material';
 import TableBody from '@mui/material/TableBody';
 import TableCell, { tableCellClasses } from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
@@ -26,22 +35,30 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
         // backgroundColor: theme.palette.common.gary,
         color: theme.palette.common.black,
         paddingTop: '0.2rem',
-        paddingBottom: '0.2rem'
+        paddingBottom: '0.2rem',
     },
     [`&.${tableCellClasses.body}`]: {
         fontSize: 14,
         paddingTop: '0.2rem',
-        paddingBottom: '0.2rem'
+        paddingBottom: '0.2rem',
     },
     [`&.${tableCellClasses.body}.totalAmount`]: {
         fontSize: 14,
         paddingTop: '0.2rem',
         paddingBottom: '0.2rem',
-        backgroundColor: '#CFD8DC'
-    }
+        backgroundColor: '#CFD8DC',
+    },
 }));
 
-const PaymentWork = ({ isDialogOpen, handleDialogClose, editPaymentInfo, actionName, invoiceNo, dueDate, savePaymentEdit }) => {
+const PaymentWork = ({
+    isDialogOpen,
+    handleDialogClose,
+    editPaymentInfo,
+    actionName,
+    invoiceNo,
+    dueDate,
+    savePaymentEdit,
+}) => {
     const dispatch = useDispatch();
     const [toPaymentDetailInfo, setToPaymentDetailInfo] = useState([]); //帳單明細檔
     const orgfeeAmountTotal = useRef(0); //應收金額
@@ -69,7 +86,11 @@ const PaymentWork = ({ isDialogOpen, handleDialogClose, editPaymentInfo, actionN
             }
             payAmountTotal.current =
                 payAmountTotal.current +
-                (i.PayAmount ? i.PayAmount : Number(i.ReceivedAmount - i.PaidAmount) > 0 ? Number(i.ReceivedAmount - i.PaidAmount) : 0);
+                (i.PayAmount
+                    ? i.PayAmount
+                    : Number(i.ReceivedAmount - i.PaidAmount) > 0
+                    ? Number(i.ReceivedAmount - i.PaidAmount)
+                    : 0);
         });
         setToPaymentDetailInfo(tmpArray);
     };
@@ -94,10 +115,14 @@ const PaymentWork = ({ isDialogOpen, handleDialogClose, editPaymentInfo, actionN
                         isOpen: true,
                         severity: 'info',
                         message: `已實付金額+此次付款金額超出已實收金額${handleNumber(
-                            (payAmountTotal.current + paidAmountTotal.current - receivedAmountTotal.current).toFixed(2)
-                        )}`
-                    }
-                })
+                            (
+                                payAmountTotal.current +
+                                paidAmountTotal.current -
+                                receivedAmountTotal.current
+                            ).toFixed(2),
+                        )}`,
+                    },
+                }),
             );
         }
     };
@@ -110,8 +135,11 @@ const PaymentWork = ({ isDialogOpen, handleDialogClose, editPaymentInfo, actionN
             receivedAmountTotal.current = receivedAmountTotal.current + i.ReceivedAmount;
             paidAmountTotal.current = paidAmountTotal.current + i.PaidAmount;
             toPaymentAmountTotal.current =
-                toPaymentAmountTotal.current + (i.OrgFeeAmount - i.PaidAmount > 0 ? i.OrgFeeAmount - i.PaidAmount : 0);
-            payAmountTotal.current = payAmountTotal.current + (i.PayAmount ? i.PayAmount : Number(i.ReceivedAmount - i.PaidAmount));
+                toPaymentAmountTotal.current +
+                (i.OrgFeeAmount - i.PaidAmount > 0 ? i.OrgFeeAmount - i.PaidAmount : 0);
+            payAmountTotal.current =
+                payAmountTotal.current +
+                (i.PayAmount ? i.PayAmount : Number(i.ReceivedAmount - i.PaidAmount));
         });
         if (isDialogOpen) {
             setToPaymentDetailInfo(tmpArray);
@@ -120,15 +148,34 @@ const PaymentWork = ({ isDialogOpen, handleDialogClose, editPaymentInfo, actionN
 
     return (
         <Dialog maxWidth="xxl" open={isDialogOpen}>
-            <BootstrapDialogTitle>{actionName === 'toPayment' ? '收款明細與編輯付款資訊' : '收款明細與付款資訊'}</BootstrapDialogTitle>
+            <BootstrapDialogTitle>
+                {actionName === 'toPayment' ? '收款明細與編輯付款資訊' : '收款明細與付款資訊'}
+            </BootstrapDialogTitle>
             <DialogContent>
-                <Grid container spacing={1} display="flex" justifyContent="center" alignItems="center" sx={{ fontSize: 10 }}>
+                <Grid
+                    container
+                    spacing={1}
+                    display="flex"
+                    justifyContent="center"
+                    alignItems="center"
+                    sx={{ fontSize: 10 }}
+                >
                     <Grid item xs={12} sm={12} md={12} lg={12}>
-                        <Grid container spacing={1} display="flex" justifyContent="center" alignItems="center" sx={{ fontSize: 10 }}>
+                        <Grid
+                            container
+                            spacing={1}
+                            display="flex"
+                            justifyContent="center"
+                            alignItems="center"
+                            sx={{ fontSize: 10 }}
+                        >
                             <Grid item xs={1} sm={1} md={1} lg={1}>
                                 <Typography
                                     variant="h5"
-                                    sx={{ fontSize: { lg: '0.5rem', xl: '0.88rem' }, ml: { lg: '0.5rem', xl: '1.5rem' } }}
+                                    sx={{
+                                        fontSize: { lg: '0.5rem', xl: '0.88rem' },
+                                        ml: { lg: '0.5rem', xl: '1.5rem' },
+                                    }}
                                 >
                                     發票號碼：
                                 </Typography>
@@ -146,7 +193,10 @@ const PaymentWork = ({ isDialogOpen, handleDialogClose, editPaymentInfo, actionN
                             <Grid item xs={2} sm={2} md={2} lg={2}>
                                 <Typography
                                     variant="h5"
-                                    sx={{ fontSize: { lg: '0.5rem', xl: '0.88rem' }, ml: { lg: '0.5rem', xl: '1.5rem' } }}
+                                    sx={{
+                                        fontSize: { lg: '0.5rem', xl: '0.88rem' },
+                                        ml: { lg: '0.5rem', xl: '1.5rem' },
+                                    }}
                                 >
                                     發票到期日：
                                 </Typography>
@@ -167,20 +217,42 @@ const PaymentWork = ({ isDialogOpen, handleDialogClose, editPaymentInfo, actionN
                     <Grid item xs={12} sm={12} md={12} lg={12}>
                         <MainCard title="帳單明細列表">
                             <TableContainer component={Paper} sx={{ maxHeight: 350 }}>
-                                <Table sx={{ minWidth: 300 }} stickyHeader aria-label="sticky table">
+                                <Table
+                                    sx={{ minWidth: 300 }}
+                                    stickyHeader
+                                    aria-label="sticky table"
+                                >
                                     <TableHead>
                                         <TableRow>
-                                            <StyledTableCell align="center">帳單號碼</StyledTableCell>
-                                            <StyledTableCell align="center">費用項目</StyledTableCell>
-                                            <StyledTableCell align="center">計帳段號</StyledTableCell>
+                                            <StyledTableCell align="center">
+                                                帳單號碼
+                                            </StyledTableCell>
+                                            <StyledTableCell align="center">
+                                                費用項目
+                                            </StyledTableCell>
+                                            <StyledTableCell align="center">
+                                                計帳段號
+                                            </StyledTableCell>
                                             <StyledTableCell align="center">會員</StyledTableCell>
-                                            <StyledTableCell align="center">應收金額</StyledTableCell>
-                                            <StyledTableCell align="center">已實收金額</StyledTableCell>
-                                            <StyledTableCell align="center">已實付金額</StyledTableCell>
-                                            <StyledTableCell align="center">未付款金額</StyledTableCell>
-                                            <StyledTableCell align="center">摘要說明</StyledTableCell>
+                                            <StyledTableCell align="center">
+                                                應收金額
+                                            </StyledTableCell>
+                                            <StyledTableCell align="center">
+                                                已實收金額
+                                            </StyledTableCell>
+                                            <StyledTableCell align="center">
+                                                已實付金額
+                                            </StyledTableCell>
+                                            <StyledTableCell align="center">
+                                                未付款金額
+                                            </StyledTableCell>
+                                            <StyledTableCell align="center">
+                                                摘要說明
+                                            </StyledTableCell>
                                             {actionName === 'toPayment' ? (
-                                                <StyledTableCell align="center">此次付款金額</StyledTableCell>
+                                                <StyledTableCell align="center">
+                                                    此次付款金額
+                                                </StyledTableCell>
                                             ) : (
                                                 ''
                                             )}
@@ -191,35 +263,71 @@ const PaymentWork = ({ isDialogOpen, handleDialogClose, editPaymentInfo, actionN
                                             let toPayment = row.OrgFeeAmount - row.PaidAmount;
                                             return (
                                                 <TableRow
-                                                    key={row.InvoiceNo + row?.BillMasterID + row?.BillDetailID}
-                                                    sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                                                    key={
+                                                        row.InvoiceNo +
+                                                        row?.BillMasterID +
+                                                        row?.BillDetailID
+                                                    }
+                                                    sx={{
+                                                        '&:last-child td, &:last-child th': {
+                                                            border: 0,
+                                                        },
+                                                    }}
                                                 >
-                                                    <TableCell align="center">{row?.BillingNo}</TableCell>
-                                                    <TableCell align="center">{row.FeeItem}</TableCell>
-                                                    <TableCell align="center">{row.BillMilestone}</TableCell>
-                                                    <TableCell align="center">{row.PartyName}</TableCell>
-                                                    <TableCell align="center">{`$${handleNumber(row.OrgFeeAmount.toFixed(2))}`}</TableCell>
-                                                    <TableCell align="center">{`$${handleNumber(
-                                                        row.ReceivedAmount.toFixed(2)
-                                                    )}`}</TableCell>
-                                                    <TableCell align="center">{`$${handleNumber(row.PaidAmount.toFixed(2))}`}</TableCell>
                                                     <TableCell align="center">
-                                                        {toPayment > 0 ? `$${handleNumber(toPayment.toFixed(2))}` : 0}
+                                                        {row?.BillingNo}
+                                                    </TableCell>
+                                                    <TableCell align="center">
+                                                        {row.FeeItem}
+                                                    </TableCell>
+                                                    <TableCell align="center">
+                                                        {row.BillMilestone}
+                                                    </TableCell>
+                                                    <TableCell align="center">
+                                                        {row.PartyName}
+                                                    </TableCell>
+                                                    <TableCell align="center">{`$${handleNumber(
+                                                        row.OrgFeeAmount.toFixed(2),
+                                                    )}`}</TableCell>
+                                                    <TableCell align="center">{`$${handleNumber(
+                                                        row.ReceivedAmount.toFixed(2),
+                                                    )}`}</TableCell>
+                                                    <TableCell align="center">{`$${handleNumber(
+                                                        row.PaidAmount.toFixed(2),
+                                                    )}`}</TableCell>
+                                                    <TableCell align="center">
+                                                        {toPayment > 0
+                                                            ? `$${handleNumber(
+                                                                  toPayment.toFixed(2),
+                                                              )}`
+                                                            : 0}
                                                     </TableCell>
                                                     {actionName === 'toPayment' ? (
-                                                        <TableCell sx={{ fontSize: '0.1rem' }} align="center">
+                                                        <TableCell
+                                                            sx={{ fontSize: '0.1rem' }}
+                                                            align="center"
+                                                        >
                                                             <TextField
                                                                 size="small"
                                                                 sx={{ minWidth: 75 }}
                                                                 value={row.Note}
                                                                 onChange={(e) => {
-                                                                    changeNote(e.target.value, row.BillMasterID, row.BillDetailID);
+                                                                    changeNote(
+                                                                        e.target.value,
+                                                                        row.BillMasterID,
+                                                                        row.BillDetailID,
+                                                                    );
                                                                 }}
                                                             />
                                                         </TableCell>
                                                     ) : (
-                                                        <TableCell sx={{ fontSize: '0.1rem' }} align="center">
-                                                            <TableCell align="center">{row.Note}</TableCell>
+                                                        <TableCell
+                                                            sx={{ fontSize: '0.1rem' }}
+                                                            align="center"
+                                                        >
+                                                            <TableCell align="center">
+                                                                {row.Note}
+                                                            </TableCell>
                                                         </TableCell>
                                                     )}
                                                     {actionName === 'toPayment' ? (
@@ -231,11 +339,18 @@ const PaymentWork = ({ isDialogOpen, handleDialogClose, editPaymentInfo, actionN
                                                                 value={
                                                                     row.PayAmount
                                                                         ? row.PayAmount
-                                                                        : Number(row.ReceivedAmount - row.PaidAmount)
+                                                                        : Number(
+                                                                              row.ReceivedAmount -
+                                                                                  row.PaidAmount,
+                                                                          )
                                                                 }
                                                                 type="number"
                                                                 onChange={(e) => {
-                                                                    changePayAmount(e.target.value, row.BillMasterID, row.BillDetailID);
+                                                                    changePayAmount(
+                                                                        e.target.value,
+                                                                        row.BillMasterID,
+                                                                        row.BillDetailID,
+                                                                    );
                                                                 }}
                                                             />
                                                         </TableCell>
@@ -245,29 +360,54 @@ const PaymentWork = ({ isDialogOpen, handleDialogClose, editPaymentInfo, actionN
                                                 </TableRow>
                                             );
                                         })}
-                                        <TableRow sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
+                                        <TableRow
+                                            sx={{
+                                                '&:last-child td, &:last-child th': { border: 0 },
+                                            }}
+                                        >
                                             <StyledTableCell className="totalAmount" align="center">
                                                 Total
                                             </StyledTableCell>
-                                            <StyledTableCell className="totalAmount" align="center" />
-                                            <StyledTableCell className="totalAmount" align="center" />
-                                            <StyledTableCell className="totalAmount" align="center" />
+                                            <StyledTableCell
+                                                className="totalAmount"
+                                                align="center"
+                                            />
+                                            <StyledTableCell
+                                                className="totalAmount"
+                                                align="center"
+                                            />
+                                            <StyledTableCell
+                                                className="totalAmount"
+                                                align="center"
+                                            />
                                             <StyledTableCell className="totalAmount" align="center">
                                                 {handleNumber(orgfeeAmountTotal.current.toFixed(2))}
                                             </StyledTableCell>
                                             <StyledTableCell className="totalAmount" align="center">
-                                                {handleNumber(receivedAmountTotal.current.toFixed(2))}
+                                                {handleNumber(
+                                                    receivedAmountTotal.current.toFixed(2),
+                                                )}
                                             </StyledTableCell>
                                             <StyledTableCell className="totalAmount" align="center">
                                                 {handleNumber(paidAmountTotal.current.toFixed(2))}
                                             </StyledTableCell>
                                             <StyledTableCell className="totalAmount" align="center">
-                                                {handleNumber(toPaymentAmountTotal.current.toFixed(2))}
+                                                {handleNumber(
+                                                    toPaymentAmountTotal.current.toFixed(2),
+                                                )}
                                             </StyledTableCell>
-                                            <StyledTableCell className="totalAmount" align="center" />
+                                            <StyledTableCell
+                                                className="totalAmount"
+                                                align="center"
+                                            />
                                             {actionName === 'toPayment' ? (
-                                                <StyledTableCell className="totalAmount" align="center">
-                                                    {handleNumber(payAmountTotal.current.toFixed(2))}
+                                                <StyledTableCell
+                                                    className="totalAmount"
+                                                    align="center"
+                                                >
+                                                    {handleNumber(
+                                                        payAmountTotal.current.toFixed(2),
+                                                    )}
                                                 </StyledTableCell>
                                             ) : (
                                                 ''
@@ -344,5 +484,5 @@ PaymentWork.propTypes = {
     editPaymentInfo: React.Array,
     savePaymentEdit: React.func,
     handleDialogClose: React.func,
-    isDialogOpen: React.bool
+    isDialogOpen: React.bool,
 };

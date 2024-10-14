@@ -1,4 +1,4 @@
-import { useEffect, useState, useRef } from 'react';
+import { useState } from 'react';
 import {
     Typography,
     Grid,
@@ -7,34 +7,16 @@ import {
     InputLabel,
     Select,
     MenuItem,
-    Box,
     TextField,
-    Checkbox,
-    Autocomplete,
-    Table,
 } from '@mui/material';
 
 // project
 import { BootstrapDialogTitle } from 'components/commonFunction';
-import { handleNumber } from 'components/commonFunction';
-
+import NumericFormatCustom from 'components/numericFormatCustom';
 // day
 import Dialog from '@mui/material/Dialog';
 import DialogContent from '@mui/material/DialogContent';
 import DialogActions from '@mui/material/DialogActions';
-
-// autocomplete
-import CheckBoxOutlineBlankIcon from '@mui/icons-material/CheckBoxOutlineBlank';
-import CheckBoxIcon from '@mui/icons-material/CheckBox';
-
-// table
-import TableBody from '@mui/material/TableBody';
-import TableContainer from '@mui/material/TableContainer';
-import TableHead from '@mui/material/TableHead';
-import TableRow from '@mui/material/TableRow';
-import TableCell, { tableCellClasses } from '@mui/material/TableCell';
-import Paper from '@mui/material/Paper';
-import { styled } from '@mui/material/styles';
 
 // api
 import { queryCB } from 'components/apis.jsx';
@@ -305,7 +287,10 @@ const CreditBalanceAdd = ({
                         <TextField
                             fullWidth
                             variant="outlined"
-                            value={handleNumber(currAmount)}
+                            value={currAmount}
+                            InputProps={{
+                                inputComponent: NumericFormatCustom,
+                            }}
                             size="small"
                             label="填寫金額(限制16位數)"
                             onChange={(e) => setCurrAmount(e.target.value)}
