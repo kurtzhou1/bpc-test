@@ -324,24 +324,53 @@ const LiabilityAdd = ({
                     }),
                 );
             });
-        //會員名稱
-        fetch(dropdownmenuParties, { method: 'GET' })
-            .then((res) => res.json())
-            .then((data) => {
-                setPartiesList(data);
-            })
-            .catch(() => {
-                dispatch(
-                    setMessageStateOpen({
-                        messageStateOpen: {
-                            isOpen: true,
-                            severity: 'error',
-                            message: '網路異常，請檢查網路連線或與系統窗口聯絡',
-                        },
-                    }),
-                );
-            });
     }, []);
+
+    useEffect(() => {
+        if (submarineCable && workTitle) {
+            let tmpArray = {
+                SubmarineCable: submarineCable,
+                WorkTitle: workTitle,
+            };
+            //會員名稱
+            fetch(dropdownmenuParties, {
+                method: 'POST',
+                headers: {
+                    'Content-type': 'application/json',
+                    Authorization: 'Bearer' + localStorage.getItem('accessToken') ?? '',
+                },
+                body: JSON.stringify(tmpArray),
+            })
+                .then((res) => res.json())
+                .then((data) => {
+                    console.log('data=>>', data);
+                    if (data.length === 0) {
+                        dispatch(
+                            setMessageStateOpen({
+                                messageStateOpen: {
+                                    isOpen: true,
+                                    severity: 'error',
+                                    message: '無會員資料',
+                                },
+                            }),
+                        );
+                    } else {
+                        setPartiesList(data);
+                    }
+                })
+                .catch(() => {
+                    dispatch(
+                        setMessageStateOpen({
+                            messageStateOpen: {
+                                isOpen: true,
+                                severity: 'error',
+                                message: '網路異常，請檢查網路連線或與系統窗口聯絡',
+                            },
+                        }),
+                    );
+                });
+        }
+    }, [submarineCable, workTitle]);
 
     return (
         <Dialog maxWidth="md" fullWidth open={isDialogOpen}>
@@ -516,6 +545,7 @@ const LiabilityAdd = ({
                             disabled={dialogAction === 'Edit' || dialogAction === 'Split'}
                             size="small"
                             disableCloseOnSelect
+                            // haha
                             onChange={(event, newValue) => {
                                 setPartyName(newValue);
                             }}
@@ -533,7 +563,25 @@ const LiabilityAdd = ({
                                     </li>
                                 );
                             }}
-                            renderInput={(params) => <TextField {...params} label="選擇會員名稱" />}
+                            renderInput={(params) => (
+                                <TextField
+                                    {...params}
+                                    label="選擇會員名稱"
+                                    onClick={() => {
+                                        if (partiesList.length === 0) {
+                                            dispatch(
+                                                setMessageStateOpen({
+                                                    messageStateOpen: {
+                                                        isOpen: true,
+                                                        severity: 'warning',
+                                                        message: '請先選擇海纜名稱及海纜作業',
+                                                    },
+                                                }),
+                                            );
+                                        }
+                                    }}
+                                />
+                            )}
                         />
                     </Grid>
                     {/* row3 */}
