@@ -102,6 +102,7 @@ const WorkTitleDataList = ({ infoList, setInfoList }) => {
                 }
             })
             .catch(() => {
+                setInfoList([]);
                 dispatch(
                     setMessageStateOpen({
                         messageStateOpen: {

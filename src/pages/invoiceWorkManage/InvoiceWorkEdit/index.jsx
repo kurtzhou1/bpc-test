@@ -27,6 +27,7 @@ import {
     supplierNameDropDownUnique,
     submarineCableInfoList,
     billMilestoneLiabilityList,
+    getWorkTitle,
 } from 'components/apis.jsx';
 
 // redux
@@ -59,7 +60,7 @@ const InvoiceWorkManage = () => {
     const wKMasterID = useRef(); //工作檔ID
     const [bmsList, setBmsList] = useState([]); //計帳段號下拉選單
     const [bmStoneList, setBmStoneList] = useState([]); //計帳段號下拉選單
-
+    const [workTitleList, setWorkTitleList] = useState([]); //海纜作業下拉選單
     const [billMilestone, setBillMilestone] = useState(''); //計帳段號
     const [feeItem, setFeeItem] = useState(''); //費用項目
     const [feeAmount, setFeeAmount] = useState(''); //費用金額
@@ -278,6 +279,34 @@ const InvoiceWorkManage = () => {
                 setBmsList(data);
             })
             .catch(() => {
+                dispatch(
+                    setMessageStateOpen({
+                        messageStateOpen: {
+                            isOpen: true,
+                            severity: 'error',
+                            message: '網路異常，請檢查網路連線或與系統窗口聯絡',
+                        },
+                    }),
+                );
+            });
+        fetch(getWorkTitle, {
+            method: 'POST',
+            headers: {
+                'Content-type': 'application/json',
+                Authorization: 'Bearer' + localStorage.getItem('accessToken') ?? '',
+            },
+            body: JSON.stringify({}),
+        })
+            .then((res) => res.json())
+            .then((data) => {
+                if (Array.isArray(data)) {
+                    setWorkTitleList(data);
+                } else {
+                    setWorkTitleList([]);
+                }
+            })
+            .catch(() => {
+                setWorkTitleList([]);
                 dispatch(
                     setMessageStateOpen({
                         messageStateOpen: {
@@ -841,6 +870,7 @@ const InvoiceWorkManage = () => {
                                         setPartyName={setPartyName}
                                         submarineCableList={submarineCableList}
                                         action={action}
+                                        workTitleList={workTitleList}
                                     />
                                 </Grid>
                                 {/* 右 */}

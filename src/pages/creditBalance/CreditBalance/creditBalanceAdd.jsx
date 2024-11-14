@@ -49,6 +49,7 @@ const CreditBalanceAdd = ({
     submarineCableList,
     queryApi,
     setListInfo,
+    workTitleList,
 }) => {
     const dispatch = useDispatch();
     const [cBType, setCBType] = useState(''); // CB種類
@@ -403,9 +404,11 @@ const CreditBalanceAdd = ({
                                 label="海纜作業"
                                 onChange={(e) => setWorkTitle(e.target.value)}
                             >
-                                <MenuItem value={'Construction'}>Construction</MenuItem>
-                                <MenuItem value={'Upgrade'}>Upgrade</MenuItem>
-                                <MenuItem value={'O&M'}>O&M</MenuItem>
+                                {workTitleList.map((i) => (
+                                    <MenuItem key={i.Title} value={i.Title}>
+                                        {i.Title}
+                                    </MenuItem>
+                                ))}
                             </Select>
                         </FormControl>
                     </Grid>
