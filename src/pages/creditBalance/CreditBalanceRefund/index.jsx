@@ -15,7 +15,7 @@ import DialogActions from '@mui/material/DialogActions';
 
 // api
 import {
-    getPartiesInfoList,
+    dropdownmenuParties,
     submarineCableInfoList,
     queryCB,
     creditBalanceRefund,
@@ -148,7 +148,7 @@ const CreditBalance = () => {
                 );
             });
         //會員名稱
-        fetch(getPartiesInfoList, { method: 'GET' })
+        fetch(dropdownmenuParties, { method: 'GET' })
             .then((res) => res.json())
             .then((data) => {
                 setPartiesList(data);

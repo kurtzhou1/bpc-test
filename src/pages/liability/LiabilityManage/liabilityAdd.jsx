@@ -36,7 +36,7 @@ import {
     deleteLiability,
     addLiabilityapi,
     submarineCableInfoList,
-    getPartiesInfoList,
+    dropdownmenuParties,
 } from 'components/apis.jsx';
 
 // redux
@@ -312,7 +312,7 @@ const LiabilityAdd = ({
                 );
             });
         //會員名稱
-        fetch(getPartiesInfoList, { method: 'GET' })
+        fetch(dropdownmenuParties, { method: 'GET' })
             .then((res) => res.json())
             .then((data) => {
                 setPartiesList(data);

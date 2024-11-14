@@ -11,7 +11,7 @@ import LiabilityAdd from './liabilityAdd';
 import {
     billMilestoneLiabilityList,
     submarineCableLiabilityList,
-    partiesLiabilityList,
+    dropdownmenuParties,
     queryLiability,
     compareLiability,
     addLiabilityapi,
@@ -290,7 +290,7 @@ const LiabilityManage = () => {
                     }),
                 );
             });
-        fetch(partiesLiabilityList, { method: 'GET' })
+        fetch(dropdownmenuParties, { method: 'GET' })
             .then((res) => res.json())
             .then((data) => {
                 setPartyList(data);

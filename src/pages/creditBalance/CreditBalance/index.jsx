@@ -9,7 +9,7 @@ import CreditBalanceDataList from './creditBalanceDataList';
 import CreditBalanceAdd from './creditBalanceAdd';
 
 // api
-import { getPartiesInfoList, submarineCableInfoList } from 'components/apis';
+import { dropdownmenuParties, submarineCableInfoList } from 'components/apis';
 
 // redux
 import { useDispatch } from 'react-redux';
@@ -52,7 +52,7 @@ const CreditBalance = () => {
                 );
             });
         //會員名稱
-        fetch(getPartiesInfoList, { method: 'GET' })
+        fetch(dropdownmenuParties, { method: 'GET' })
             .then((res) => res.json())
             .then((data) => {
                 setPartiesList(data);
