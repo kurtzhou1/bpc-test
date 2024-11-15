@@ -98,9 +98,6 @@ export const generateBillData = `${httpEnv}://${env}/api/v1/getBillMasterDraftSt
 export const updateBM = `${httpEnv}://${env}/api/v1/updateBillMaster`;
 // export const downBM = `${httpEnv}://${env}/api/v1/BillMaster/signedDraft`;
 
-// 產製應收帳款-帳單與附件管理
-// export const attachment = `${httpEnv}://${env}/api/v1/BillMaster/attachment`;
-
 // 銷帳
 // export const sendToWriteOff = `${httpEnv}://${env}/api/v1/BillMaster&BillDetail/toWriteOff`;
 export const getWriteOffDetail = `${httpEnv}://${env}/api/v1/getWriteOffDetail`;
@@ -127,6 +124,12 @@ export const getPayDraftStreamCBRefund = `${httpEnv}://${env}/api/v1/getPayDraft
 export const searchBillMasterByInvoiceWKMaster = `${httpEnv}://${env}/api/v1/searchBillMasterByInvoiceWKMaster`;
 export const searchInvoiceWKMasterByBillMaster = `${httpEnv}://${env}/api/v1/searchInvoiceWKMasterByBillMaster`;
 export const searchInvoiceWKMasterIsBilled = `${httpEnv}://${env}/api/v1/searchInvoiceWKMasterIsBilled`;
+
+// 基本資料-workTitle
+export const getWorkTitle = `${httpEnv}://${env}/api/v1/getWorkTitle`;
+export const addWorkTitle = `${httpEnv}://${env}/api/v1/addWorkTitle`;
+export const deleteWorkTitle = `${httpEnv}://${env}/api/v1/deleteWorkTitle`;
+export const updateWorkTitle = `${httpEnv}://${env}/api/v1/updateWorkTitle`;
 
 // 基本資料-Suppliers
 export const suppliers = `${httpEnv}://${env}/api/v1/Suppliers`;
