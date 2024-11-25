@@ -135,6 +135,7 @@ const BillDraftMake = ({
     handleDialogClose,
     billMasterID,
     pONo,
+    workTitle,
     submarineCableName,
     issueDateDefault,
     dueDateDefault,
@@ -170,7 +171,7 @@ const BillDraftMake = ({
     const handleDownload = () => {
         let tmpData = {
             BillMasterID: billMasterID,
-            UserID: 'chang_ty',
+            UserID: contact,
             IssueDate: dayjs(issueDate).format('YYYY/MM/DD'),
             DueDate: dayjs(dueDate).format('YYYY/MM/DD'),
             WorkTitle: subject1,
@@ -517,7 +518,8 @@ const BillDraftMake = ({
                                     fontWeight: 'bold',
                                 }}
                             >
-                                {submarineCableName} Cable Network {subject1} Central Billing Party
+                                {submarineCableName} {workTitle} Cable Network {subject1} Central
+                                Billing Party
                                 {subject3} Invoice
                             </Box>
                             <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>

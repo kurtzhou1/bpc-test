@@ -94,6 +94,7 @@ const ToGenerateDataList = ({ dataList, receivableQuery }) => {
                 handleDialogClose={handleDialogClose}
                 billMasterID={billMaster.current.BillMasterID}
                 pONo={billMaster.current.PONo}
+                workTitle={billMaster.current.WorkTitle}
                 submarineCableName={billMaster.current.SubmarineCable}
                 issueDateDefault={billMaster.current.IssueDate}
                 dueDateDefault={billMaster.current.DueDate}

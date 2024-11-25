@@ -110,6 +110,7 @@ const DeductedDataList = ({ dataList, receivableQuery }) => {
                 handleDialogClose={handleDialogClose}
                 billMasterID={billMasterID.current}
                 pONo={billMaster.current.PONo}
+                workTitle={billMaster.current.WorkTitle}
                 submarineCableName={billMaster.current.SubmarineCable}
                 billingNo={billMaster.current.current}
                 issueDateDefault={billMaster.current.IssueDate}

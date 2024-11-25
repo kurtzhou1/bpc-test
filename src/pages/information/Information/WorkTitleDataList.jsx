@@ -304,8 +304,8 @@ const WorkTitleDataList = ({ infoList, setInfoList }) => {
                         <TableRow>
                             <StyledTableCell align="center">Action</StyledTableCell>
                             <StyledTableCell align="center">NO</StyledTableCell>
-                            <StyledTableCell align="center">代碼</StyledTableCell>
-                            <StyledTableCell align="center">海纜名稱</StyledTableCell>
+                            <StyledTableCell align="center">海纜作業代碼</StyledTableCell>
+                            <StyledTableCell align="center">海纜作業名稱</StyledTableCell>
                             <StyledTableCell align="center">摘要</StyledTableCell>
                         </TableRow>
                     </TableHead>

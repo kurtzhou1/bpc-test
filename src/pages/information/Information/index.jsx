@@ -357,7 +357,7 @@ const Information = () => {
                                     ml: { lg: '0.5rem', xl: '1.5rem' },
                                 }}
                             >
-                                海纜名稱：
+                                {value === 0 ? '海纜作業：' : '海纜名稱：'}
                             </Typography>
                         </Grid>
                         <Grid item sm={2} md={2} lg={2}>
