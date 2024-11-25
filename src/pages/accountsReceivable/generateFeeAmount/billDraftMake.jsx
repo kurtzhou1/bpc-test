@@ -40,7 +40,7 @@ import { styled } from '@mui/material/styles';
 // print
 import './styles.css';
 
-import { generateBillData, contactUser } from 'components/apis.jsx';
+import { generateBillData, dropdownmenuUsers } from 'components/apis.jsx';
 import Logo1 from 'assets/images/logo1.gif';
 import Logo2 from 'assets/images/logo2.png';
 
@@ -259,7 +259,7 @@ const BillDraftMake = ({
                         }),
                     );
                 });
-            fetch(contactUser, {
+            fetch(dropdownmenuUsers, {
                 method: 'GET',
                 Authorization: 'Bearer' + localStorage.getItem('accessToken') ?? '',
             })
