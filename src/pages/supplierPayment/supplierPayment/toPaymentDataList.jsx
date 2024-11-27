@@ -186,6 +186,7 @@ const ToPaymentDataList = ({
 
     useEffect(() => {
         setToPaymentList(listInfo);
+        console.log('listInfo=>>', listInfo);
     }, [listInfo]);
 
     useEffect(() => {
@@ -410,6 +411,7 @@ const ToPaymentDataList = ({
                             <StyledTableCell align="center">發票到期日</StyledTableCell>
                             <StyledTableCell align="center">總金額</StyledTableCell>
                             <StyledTableCell align="center">累計實收金額</StyledTableCell>
+                            <StyledTableCell align="center">換匯後累計實收金額</StyledTableCell>
                             <StyledTableCell align="center">累計實付金額</StyledTableCell>
                             <StyledTableCell align="center">本次付款金額</StyledTableCell>
                             <StyledTableCell align="center">Action</StyledTableCell>
@@ -419,11 +421,26 @@ const ToPaymentDataList = ({
                     <TableBody>
                         {toPaymentList?.map((row, id) => {
                             row.PayAmount = 0;
-                            row.BillDetailList.forEach((i) => {
-                                row.PayAmount = new Decimal(row.PayAmount)
-                                    .add(new Decimal(i.PayAmount ? i.PayAmount : 0))
-                                    .toNumber();
-                            });
+                            row.ExgReceivedAmountTotal = 0;
+                            row?.BillDetailList &&
+                                row.BillDetailList.forEach((i) => {
+                                    row.PayAmount = new Decimal(row.PayAmount)
+                                        .add(new Decimal(i.PayAmount ? i.PayAmount : 0))
+                                        .toNumber();
+                                });
+                            row?.BillDetail &&
+                                row.BillDetail.forEach((i) => {
+                                    row.ExgReceivedAmountTotal = new Decimal(
+                                        row.ExgReceivedAmountTotal,
+                                    )
+                                        .add(
+                                            new Decimal(
+                                                i.ExgReceivedAmount ? i.ExgReceivedAmount : 0,
+                                            ),
+                                        )
+                                        .toNumber();
+                                });
+                            console.log('row=>>', row);
                             return (
                                 <TableRow
                                     key={row?.InvoiceWKMaster?.WKMasterID + id}
@@ -457,16 +474,25 @@ const ToPaymentDataList = ({
                                         {dayjs(row?.InvoiceWKMaster?.DueDate).format('YYYY/MM/DD')}
                                     </StyledTableCell>
                                     <StyledTableCell align="center">
-                                        {handleNumber(row?.InvoiceWKMaster?.TotalAmount)}
+                                        {handleNumber(row?.InvoiceWKMaster?.TotalAmount)}{' '}
+                                        {row?.InvoiceWKMaster?.Code}
                                     </StyledTableCell>
+                                    {/* 換匯後累計實收金額 */}
+                                    <StyledTableCell align="center">
+                                        {handleNumber(row?.ExgReceivedAmountTotal)}{' '}
+                                        {row?.BillDetail ? row?.BillDetail[0].Code : ''}
+                                    </StyledTableCell>
+                                    {/* 累計實付金額 */}
                                     <StyledTableCell align="center">
                                         {handleNumber(row?.ReceivedAmountSum)}
                                     </StyledTableCell>
+                                    {/* 本次付款金額 */}
                                     <StyledTableCell align="center">
-                                        {handleNumber(row?.InvoiceWKMaster?.PaidAmount)}
+                                        {handleNumber(row?.InvoiceWKMaster?.PaidAmount)}{' '}
+                                        {row?.InvoiceWKMaster?.Code}
                                     </StyledTableCell>
                                     <StyledTableCell align="center">
-                                        {handleNumber(row.PayAmount)}
+                                        {handleNumber(row.PayAmount)} {row?.InvoiceWKMaster?.Code}
                                     </StyledTableCell>
                                     <StyledTableCell align="center">
                                         <Box
@@ -476,6 +502,20 @@ const ToPaymentDataList = ({
                                                 '& button': { mx: 1, p: 0 },
                                             }}
                                         >
+                                            <Button
+                                                color="primary"
+                                                size="small"
+                                                variant="outlined"
+                                                // onClick={() => {
+                                                //     handleDialogOpen(
+                                                //         row.BillDetailList,
+                                                //         row.InvoiceWKMaster.InvoiceNo,
+                                                //         row.InvoiceWKMaster.DueDate,
+                                                //     );
+                                                // }}
+                                            >
+                                                收款換匯
+                                            </Button>
                                             <Button
                                                 color="primary"
                                                 size="small"
