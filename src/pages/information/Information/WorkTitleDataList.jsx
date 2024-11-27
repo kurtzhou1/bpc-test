@@ -17,7 +17,7 @@ import { addWorkTitle, deleteWorkTitle, getWorkTitle, updateWorkTitle } from 'co
 import { useDispatch } from 'react-redux';
 import { setMessageStateOpen } from 'store/reducers/dropdown';
 
-const WorkTitleDataList = ({ infoList, setInfoList }) => {
+const WorkTitleDataList = ({ infoList, setInfoList, getWorkTitleList }) => {
     const dispatch = useDispatch();
     const [title, setTitle] = useState(''); //海纜名稱
     const [titleCode, setTitleCode] = useState(''); //代碼
@@ -167,6 +167,7 @@ const WorkTitleDataList = ({ infoList, setInfoList }) => {
                         }),
                     );
                 });
+            getWorkTitleList();
         }
     };
 
@@ -215,6 +216,7 @@ const WorkTitleDataList = ({ infoList, setInfoList }) => {
                     }),
                 );
             });
+        getWorkTitleList();
     };
 
     const editInfo = (row) => {
@@ -293,6 +295,7 @@ const WorkTitleDataList = ({ infoList, setInfoList }) => {
                         }),
                     );
                 });
+            getWorkTitleList();
         }
     };
 
