@@ -73,8 +73,11 @@ const Information = () => {
         if (submarineCable && submarineCable !== 'All' && value !== 1) {
             tmpObject.SubmarineCable = submarineCable;
         }
-        if (workTitle && workTitle !== 'All' && value !== 1) {
+        if (workTitle && workTitle !== 'All' && value !== 1 && value !== 0) {
             tmpObject.WorkTitle = workTitle;
+        }
+        if (workTitle && workTitle !== 'All' && value === 0) {
+            tmpObject.Title = workTitle;
         }
         if (supplierName && supplierName !== 'All' && value === 2) {
             tmpObject.SupplierName = supplierName;
@@ -99,6 +102,15 @@ const Information = () => {
                         setInfoList(data);
                     } else {
                         setInfoList([]);
+                        dispatch(
+                            setMessageStateOpen({
+                                messageStateOpen: {
+                                    isOpen: true,
+                                    severity: 'error',
+                                    message: data?.alert_msg,
+                                },
+                            }),
+                        );
                     }
                 })
                 .catch(() => {

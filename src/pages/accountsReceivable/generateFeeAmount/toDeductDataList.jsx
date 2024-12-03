@@ -28,9 +28,8 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
 const ToGenerateDataList = ({ dataList, receivableQuery }) => {
     const [isDeductOpen, setIsDeductOpen] = useState(false); //檢視、折抵作業
     const [isDialogOpen, setIsDialogOpen] = useState(false); //檢視帳單
-
-    // const [isDeductWorkOpen, setIsDeductWorkOpen] = useState(false); //作廢
     const [infoBack, setInfoBack] = useState(false); //退回
+    const bmJoin = useRef([]);
     const billMasterInfo = useRef([]);
     const billDetailInfo = useRef([]);
     const actionName = useRef('');
@@ -49,9 +48,16 @@ const ToGenerateDataList = ({ dataList, receivableQuery }) => {
         setIsDeductOpen(true);
     };
 
-    const handleDialogOpen = (info) => {
+    const handleDialogOpen = (info, detail) => {
+        const uniqueKeys = [];
         billMaster.current = info;
+        detail.forEach((i) => {
+            if (!uniqueKeys.includes(i.BillMilestone)) {
+                uniqueKeys.push(i.BillMilestone);
+            }
+        });
         setIsDialogOpen(true);
+        bmJoin.current = uniqueKeys;
     };
 
     const handleDialogClose = () => {
@@ -96,6 +102,7 @@ const ToGenerateDataList = ({ dataList, receivableQuery }) => {
                 pONo={billMaster.current.PONo}
                 workTitle={billMaster.current.WorkTitle}
                 submarineCableName={billMaster.current.SubmarineCable}
+                bmJoin={bmJoin.current}
                 issueDateDefault={billMaster.current.IssueDate}
                 dueDateDefault={billMaster.current.DueDate}
                 action={'toDeduct'}
@@ -191,7 +198,10 @@ const ToGenerateDataList = ({ dataList, receivableQuery }) => {
                                                 size="small"
                                                 variant="outlined"
                                                 onClick={() => {
-                                                    handleDialogOpen(row.BillMaster);
+                                                    handleDialogOpen(
+                                                        row.BillMaster,
+                                                        row.BillDetail,
+                                                    );
                                                 }}
                                             >
                                                 預覽帳單

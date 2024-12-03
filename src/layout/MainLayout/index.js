@@ -47,49 +47,51 @@ const MainLayout = () => {
     };
 
     // idle time
-    // const [isActive, setisActive] = useState(false);
-    // let timeoutId;
-    // const timeout = 3000;
+    const [isActive, setisActive] = useState(false);
+    let timeoutId;
+    const timeout = 1000;
 
     //清除目前逾時並設定新的逾時
-    // const resetTimeout = () => {
-    //   clearTimeout(timeoutId);
-    //   timeoutId = setTimeout(() => setisActive(true), timeout);
-    // };
+    const resetTimeout = () => {
+        clearTimeout(timeoutId);
+        timeoutId = setTimeout(() => setisActive(true), timeout);
+    };
     //使用者活動時觸發，並在使用者不空閒時重置逾時
-    // const onActivity = () => {
-    //   if (isActive) {
-    //     setisActive(false);
-    //   }
-    //   resetTimeout();
-    // };
+    const onActivity = () => {
+        if (isActive) {
+            setisActive(false);
+        }
+        resetTimeout();
+    };
 
-    // useEffect(() => {
-    //   console.log('timeout=>>', timeout);
-    //   const events = ['mousemove', 'keydown', 'mousedown', 'touchstart'];
+    useEffect(() => {
+        console.log('timeout=>>', timeout);
+        const events = ['mousemove', 'keydown', 'mousedown', 'touchstart'];
 
-    //   const onVisibilityChange = () => {
-    //     if (document.visibilityState === 'visible') {
-    //       resetTimeout();
-    //     }
-    //   };
+        const onVisibilityChange = () => {
+            if (document.visibilityState === 'visible') {
+                resetTimeout();
+            }
+        };
 
-    //   events.forEach((event) => {
-    //     window.addEventListener(event, onActivity);
-    //   });
+        events.forEach((event) => {
+            window.addEventListener(event, onActivity);
+        });
 
-    //   document.addEventListener('visibilitychange', onVisibilityChange);
+        document.addEventListener('visibilitychange', onVisibilityChange);
 
-    //   resetTimeout();
+        resetTimeout();
 
-    //   return () => {
-    //     clearTimeout(timeoutId);
-    //     events.forEach((event) => {
-    //       window.removeEventListener(event, onActivity);
-    //     });
-    //     document.removeEventListener('visibilitychange', onVisibilityChange);
-    //   };
-    // }, [timeout]);
+        return () => {
+            clearTimeout(timeoutId);
+            events.forEach((event) => {
+                window.removeEventListener(event, onActivity);
+            });
+            document.removeEventListener('visibilitychange', onVisibilityChange);
+        };
+    }, [timeout]);
+
+    console.log('isActive=>>', isActive);
 
     //messageInfo
     const [isOpenNow, setIsOpenNow] = useState(false);
@@ -216,7 +218,6 @@ const MainLayout = () => {
                                     },
                                 }),
                             );
-                            // localStorage.setItem('expireTime', dayjs().add(31, 'minute'));
                             // 傳送使用者資料取得權限
                             fetch(checktokenForLDAP, {
                                 method: 'POST',

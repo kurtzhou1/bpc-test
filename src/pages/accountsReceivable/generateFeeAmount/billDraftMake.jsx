@@ -136,6 +136,7 @@ const BillDraftMake = ({
     billMasterID,
     pONo,
     workTitle,
+    bmJoin,
     submarineCableName,
     issueDateDefault,
     dueDateDefault,
@@ -518,9 +519,14 @@ const BillDraftMake = ({
                                     fontWeight: 'bold',
                                 }}
                             >
-                                {submarineCableName} {workTitle} Cable Network {subject1} Central
-                                Billing Party
-                                {subject3} Invoice
+                                <Box>
+                                    {submarineCableName} {workTitle} Cable Network {subject1}{' '}
+                                    Central Billing Party
+                                </Box>
+                                <Box>
+                                    {subject3} {bmJoin?.join(',')}
+                                </Box>
+                                <Box>Invoice</Box>
                             </Box>
                             <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
                                 <Box sx={{ m: 1, minWidth: '40%', with: '40%' }}>
