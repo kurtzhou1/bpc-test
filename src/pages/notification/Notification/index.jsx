@@ -13,7 +13,7 @@ import NotificationQuery from './notificationQuery';
 
 // api
 import {
-    submarineCableLiabilityList,
+    dropdownmenuSubmarineCable,
     dropdownmenuParties,
     getSysInvNotifyRule,
     getWorkTitle,
@@ -83,7 +83,7 @@ const Information = () => {
     };
 
     useEffect(() => {
-        fetch(submarineCableLiabilityList, { method: 'GET' })
+        fetch(dropdownmenuSubmarineCable, { method: 'GET' })
             .then((res) => res.json())
             .then((data) => {
                 setSubmarineCableList(data);
