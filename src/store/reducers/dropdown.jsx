@@ -1,9 +1,15 @@
 // types
 import { createSlice } from '@reduxjs/toolkit';
+console.log('env2:', process.env.REACT_APP_ENV_FLAGE);
+let envFlag = false;
+if (process.env.REACT_APP_ENV_FLAGE === 'ol') {
+    console.log('env3:', process.env.REACT_APP_ENV_FLAGE);
+    envFlag = true;
+}
 
 // initial state
 const initialState = {
-    isOL: true,
+    isOL: envFlag,
     isLoading: false,
     isLogin: window.location.host.includes('localhost') ? true : false,
     isTimeout: window.location.host.includes('localhost') ? true : false,
