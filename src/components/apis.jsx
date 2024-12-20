@@ -109,6 +109,8 @@ export const completeWriteOff = `${httpEnv}://${env}/api/v1/completeWriteOff`;
 // 廠商付款處理
 export const sendPayment = `${httpEnv}://${env}/api/v1/payment/submit`;
 export const getPayMasterPayStatement = `${httpEnv}://${env}/api/v1/getPayMaster&PayStatement`;
+export const paymentExchangeStart = `${httpEnv}://${env}/api/v1/payment/exchangeStart`;
+export const paymentExchangeProcess = `${httpEnv}://${env}/api/v1/payment/exchangeProcess`;
 
 // 退回-發票查詢
 export const returnToValidated = `${httpEnv}://${env}/api/v1/returnToValidated`;
