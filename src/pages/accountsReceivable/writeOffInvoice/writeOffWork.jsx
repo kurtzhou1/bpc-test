@@ -240,7 +240,6 @@ const WriteOffWork = ({ isDialogOpen, handleDialogClose, writeOffInfo, writeOffD
             setToWriteOffDetailInfo(tmpArray);
         } else {
             tmpArray.forEach((i) => {
-                console.log('i=>>', i);
                 tmpOrgFeeAmountTotal = new Decimal(tmpOrgFeeAmountTotal).add(new Decimal(i.OrgFeeAmount)).toNumber();
                 tmpDedAmountTotal = new Decimal(tmpDedAmountTotal).add(new Decimal(i.DedAmount)).toNumber();
                 tmpWHTAmountTotal = new Decimal(tmpWHTAmountTotal).add(new Decimal(i.WHTAmount ?? 0)).toNumber();
@@ -395,8 +394,6 @@ const WriteOffWork = ({ isDialogOpen, handleDialogClose, writeOffInfo, writeOffD
             setToWriteOffDetailInfo(tmpArray);
         }
     }, [isDeductOpen]);
-
-    console.log('toWriteOffDetailInfo=>>', toWriteOffDetailInfo);
 
     return (
         <>
@@ -578,7 +575,6 @@ const WriteOffWork = ({ isDialogOpen, handleDialogClose, writeOffInfo, writeOffD
                                                 tmpOverAmount = new Decimal(tmpOverAmount).add(new Decimal(row.OverAmount)).toNumber(); //溢繳加總
                                                 tmpShortAmount = new Decimal(tmpShortAmount).add(new Decimal(row.ShortAmount)).toNumber(); //短繳加總
                                                 tmpcbAmountTotal = new Decimal(tmpcbAmountTotal).add(new Decimal(row.CBWriteOffAmount || 0)).toNumber(); //CB加總
-                                                console.log('row=>>', row);
                                                 return (
                                                     <TableRow
                                                         key={id + row?.InvoiceNo + row?.FeeItem + row?.OrgFeeAmount + id}

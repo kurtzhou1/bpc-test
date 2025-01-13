@@ -67,7 +67,6 @@ const ToDeductWork = ({ isDeductOpen, handleDeductClose, cbData, writeOffInfo, t
     };
 
     const deductWork = (data) => {
-        console.log('data=>>', data, toWriteOffDetailInfo);
         let tmpWriteOffDetailInfo = [...toWriteOffDetailInfo];
         tmpWriteOffDetailInfo.forEach((i) => {
             if (i.BillMasterID === cbData.current?.BillMasterID && i.BillDetailID === cbData.current?.BillDetailID) {
@@ -75,58 +74,150 @@ const ToDeductWork = ({ isDeductOpen, handleDeductClose, cbData, writeOffInfo, t
             }
         });
         let tmpArrayFilter = tmpDeductArray.current.filter((i) => i.BillDetailID === data.BillDetailID);
-        tmpArrayFilter.ReceiveAmount += tmpArrayFilter.CBWriteOffAmount;
-        if (tmpArrayFilter.length === 0) {
-            let tmpQuery =
-                queryCB +
-                '/SubmarineCable=' +
-                writeOffInfo.SubmarineCable +
-                '&WorkTitle=' +
-                writeOffInfo.WorkTitle +
-                '&PartyName=' +
-                writeOffInfo.PartyName +
-                '&Code=' +
-                writeOffInfo.Code;
-            console.log('tmpQuery=>>', tmpQuery);
-            fetch(tmpQuery, {
-                method: 'GET',
-                Authorization: 'Bearer' + localStorage.getItem('accessToken') ?? ''
-            })
-                .then((res) => res.json())
-                .then((response) => {
-                    console.log('response=>>', response);
-                    if (Array.isArray(response) && response?.length > 0) {
-                        setCbDataList(response);
-                    } else {
-                        setCbDataList([]);
-                        dispatch(
-                            setMessageStateOpen({
-                                messageStateOpen: {
-                                    isOpen: true,
-                                    severity: 'error',
-                                    message: '無可折抵項目'
-                                }
-                            })
-                        );
+
+        const handleFetchResponse = (response) => {
+            if (Array.isArray(response) && response.length > 0) {
+                setCbDataList(response);
+            } else {
+                setCbDataList([]);
+                dispatch(
+                    setMessageStateOpen({
+                        messageStateOpen: {
+                            isOpen: true,
+                            severity: 'error',
+                            message: '無可折抵項目'
+                        }
+                    })
+                );
+            }
+        };
+
+        const handleFetchError = () => {
+            setCbDataList([]);
+            dispatch(
+                setMessageStateOpen({
+                    messageStateOpen: {
+                        isOpen: true,
+                        severity: 'error',
+                        message: '網路異常，請檢查網路連線或與系統窗口聯絡'
                     }
                 })
-                .catch(() => {
-                    setCbDataList([]);
-                    dispatch(
-                        setMessageStateOpen({
-                            messageStateOpen: {
-                                isOpen: true,
-                                severity: 'error',
-                                message: '網路異常，請檢查網路連線或與系統窗口聯絡'
-                            }
-                        })
-                    );
-                });
+            );
+        };
+
+        const fetchCBData = (query) => {
+            fetch(query, {
+                method: 'GET',
+                Authorization: 'Bearer ' + (localStorage.getItem('accessToken') ?? '')
+            })
+                .then((res) => res.json())
+                .then(handleFetchResponse)
+                .catch(handleFetchError);
+        };
+
+        let tmpQuery = `${queryCB}/SubmarineCable=${writeOffInfo.SubmarineCable}&WorkTitle=${writeOffInfo.WorkTitle}&PartyName=${writeOffInfo.PartyName}&Code=${writeOffInfo.Code}`;
+
+        if (tmpArrayFilter.length === 0) {
+            fetchCBData(tmpQuery);
         } else {
+            fetchCBData(tmpQuery);
             setTmpCBArray(tmpArrayFilter[0].CB);
         }
+
         editItem.current = data.BillDetailID;
         setIsDeductWorkOpen(true);
+        // if (tmpArrayFilter.length === 0) {
+        //     let tmpQuery =
+        //         queryCB +
+        //         '/SubmarineCable=' +
+        //         writeOffInfo.SubmarineCable +
+        //         '&WorkTitle=' +
+        //         writeOffInfo.WorkTitle +
+        //         '&PartyName=' +
+        //         writeOffInfo.PartyName +
+        //         '&Code=' +
+        //         writeOffInfo.Code;
+        //     fetch(tmpQuery, {
+        //         method: 'GET',
+        //         Authorization: 'Bearer' + localStorage.getItem('accessToken') ?? ''
+        //     })
+        //         .then((res) => res.json())
+        //         .then((response) => {
+        //             console.log('response=>>', response);
+        //             if (Array.isArray(response) && response?.length > 0) {
+        //                 setCbDataList(response);
+        //             } else {
+        //                 setCbDataList([]);
+        //                 dispatch(
+        //                     setMessageStateOpen({
+        //                         messageStateOpen: {
+        //                             isOpen: true,
+        //                             severity: 'error',
+        //                             message: '無可折抵項目'
+        //                         }
+        //                     })
+        //                 );
+        //             }
+        //         })
+        //         .catch(() => {
+        //             setCbDataList([]);
+        //             dispatch(
+        //                 setMessageStateOpen({
+        //                     messageStateOpen: {
+        //                         isOpen: true,
+        //                         severity: 'error',
+        //                         message: '網路異常，請檢查網路連線或與系統窗口聯絡'
+        //                     }
+        //                 })
+        //             );
+        //         });
+        // } else {
+        //     let tmpQuery =
+        //         queryCB +
+        //         '/SubmarineCable=' +
+        //         writeOffInfo.SubmarineCable +
+        //         '&WorkTitle=' +
+        //         writeOffInfo.WorkTitle +
+        //         '&PartyName=' +
+        //         writeOffInfo.PartyName +
+        //         '&Code=' +
+        //         writeOffInfo.Code;
+        //     fetch(tmpQuery, {
+        //         method: 'GET',
+        //         Authorization: 'Bearer' + localStorage.getItem('accessToken') ?? ''
+        //     })
+        //         .then((res) => res.json())
+        //         .then((response) => {
+        //             console.log('response=>>', response);
+        //             if (Array.isArray(response) && response?.length > 0) {
+        //                 setCbDataList(response);
+        //             } else {
+        //                 setCbDataList([]);
+        //                 dispatch(
+        //                     setMessageStateOpen({
+        //                         messageStateOpen: {
+        //                             isOpen: true,
+        //                             severity: 'error',
+        //                             message: '無可折抵項目'
+        //                         }
+        //                     })
+        //                 );
+        //             }
+        //         })
+        //         .catch(() => {
+        //             setCbDataList([]);
+        //             dispatch(
+        //                 setMessageStateOpen({
+        //                     messageStateOpen: {
+        //                         isOpen: true,
+        //                         severity: 'error',
+        //                         message: '網路異常，請檢查網路連線或與系統窗口聯絡'
+        //                     }
+        //                 })
+        //             );
+        //         });
+        //     setTmpCBArray(tmpArrayFilter[0].CB);
+        // }
     };
 
     const changeDiff = (currAmount, maxValue, value, cbid) => {
