@@ -21,8 +21,8 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
         // backgroundColor: theme.palette.common.gary,
         color: theme.palette.common.black,
         paddingTop: '0.2rem',
-        paddingBottom: '0.2rem',
-    },
+        paddingBottom: '0.2rem'
+    }
 }));
 
 const ToGenerateDataList = ({ dataList, receivableQuery }) => {
@@ -35,7 +35,7 @@ const ToGenerateDataList = ({ dataList, receivableQuery }) => {
     const billMaster = useRef({});
     const editBillingNo = useRef('');
     const editBillMasterID = useRef('');
-    let codeType = useRef(''); //幣別
+    const tmpBMArray = useRef([]);
 
     const handleDeductClose = () => {
         setIsDeductOpen(false);
@@ -48,7 +48,14 @@ const ToGenerateDataList = ({ dataList, receivableQuery }) => {
         setIsDeductOpen(true);
     };
 
-    const handleDialogOpen = (info) => {
+    const handleDialogOpen = (info, billDetail) => {
+        let bMArray = [];
+        billDetail.forEach((i) => {
+            if (!bMArray.includes(i.BillMilestone)) {
+                bMArray.push(i.BillMilestone);
+            }
+        });
+        tmpBMArray.current = bMArray;
         billMaster.current = info;
         setIsDialogOpen(true);
     };
@@ -96,7 +103,10 @@ const ToGenerateDataList = ({ dataList, receivableQuery }) => {
                 submarineCableName={billMaster.current.SubmarineCable}
                 issueDateDefault={billMaster.current.IssueDate}
                 dueDateDefault={billMaster.current.DueDate}
+                code={billMaster.current.Code}
                 action={'toDeduct'}
+                tmpBMArray={tmpBMArray.current}
+                workTitle={billMaster.current.WorkTitle}
             />
             <TableContainer component={Paper} sx={{ maxHeight: window.screen.height * 0.5 }}>
                 <Table sx={{ minWidth: 300 }} stickyHeader>
@@ -117,45 +127,22 @@ const ToGenerateDataList = ({ dataList, receivableQuery }) => {
                     <TableBody>
                         {dataList?.map((row, id) => {
                             return (
-                                <TableRow
-                                    key={
-                                        row.BillMaster.BillingNo +
-                                        row.BillMaster.SubmarineCable +
-                                        id
-                                    }
-                                    sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-                                >
+                                <TableRow key={row.BillMaster.BillingNo + row.BillMaster.SubmarineCable + id} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
                                     <StyledTableCell align="center">{id + 1}</StyledTableCell>
-                                    <StyledTableCell align="center">
-                                        {row.BillMaster.PartyName}
-                                    </StyledTableCell>
-                                    <StyledTableCell align="center">
-                                        {row.BillMaster.SubmarineCable}
-                                    </StyledTableCell>
-                                    <StyledTableCell align="center">
-                                        {row.BillMaster.WorkTitle}
-                                    </StyledTableCell>
-                                    <StyledTableCell align="center">
-                                        {row.BillMaster.BillingNo}
-                                    </StyledTableCell>
-                                    <StyledTableCell align="center">
-                                        {dayjs(row.BillMaster.IssueDate).format('YYYY/MM/DD')}
-                                    </StyledTableCell>
-                                    <StyledTableCell align="center">
-                                        {dayjs(row.BillMaster.DueDate).format('YYYY/MM/DD')}
-                                    </StyledTableCell>
-                                    <StyledTableCell align="center">
-                                        {row.BillDetail ? row.BillDetail.length : 0}
-                                    </StyledTableCell>
-                                    <StyledTableCell align="center">
-                                        {row.BillMaster.IsPro === 1 ? '是' : '否'}
-                                    </StyledTableCell>
+                                    <StyledTableCell align="center">{row.BillMaster.PartyName}</StyledTableCell>
+                                    <StyledTableCell align="center">{row.BillMaster.SubmarineCable}</StyledTableCell>
+                                    <StyledTableCell align="center">{row.BillMaster.WorkTitle}</StyledTableCell>
+                                    <StyledTableCell align="center">{row.BillMaster.BillingNo}</StyledTableCell>
+                                    <StyledTableCell align="center">{dayjs(row.BillMaster.IssueDate).format('YYYY/MM/DD')}</StyledTableCell>
+                                    <StyledTableCell align="center">{dayjs(row.BillMaster.DueDate).format('YYYY/MM/DD')}</StyledTableCell>
+                                    <StyledTableCell align="center">{row.BillDetail ? row.BillDetail.length : 0}</StyledTableCell>
+                                    <StyledTableCell align="center">{row.BillMaster.IsPro === 1 ? '是' : '否'}</StyledTableCell>
                                     <StyledTableCell align="center">
                                         <Box
                                             sx={{
                                                 display: 'flex',
                                                 justifyContent: 'center',
-                                                '& button': { mx: 0.2, p: 0 },
+                                                '& button': { mx: 0.2, p: 0 }
                                             }}
                                         >
                                             <Button
@@ -166,7 +153,7 @@ const ToGenerateDataList = ({ dataList, receivableQuery }) => {
                                                     handleDeductOpen('view', {
                                                         BillDetail: row.BillDetail,
                                                         BillMaster: row.BillMaster,
-                                                        PartyName: row.BillMaster.PartyName,
+                                                        PartyName: row.BillMaster.PartyName
                                                     });
                                                 }}
                                             >
@@ -180,7 +167,7 @@ const ToGenerateDataList = ({ dataList, receivableQuery }) => {
                                                     handleDeductOpen('deduct', {
                                                         BillDetail: row.BillDetail,
                                                         BillMaster: row.BillMaster,
-                                                        PartyName: row.BillMaster.PartyName,
+                                                        PartyName: row.BillMaster.PartyName
                                                     });
                                                 }}
                                             >
@@ -191,7 +178,7 @@ const ToGenerateDataList = ({ dataList, receivableQuery }) => {
                                                 size="small"
                                                 variant="outlined"
                                                 onClick={() => {
-                                                    handleDialogOpen(row.BillMaster);
+                                                    handleDialogOpen(row.BillMaster, row.BillDetail);
                                                 }}
                                             >
                                                 預覽帳單
@@ -201,10 +188,7 @@ const ToGenerateDataList = ({ dataList, receivableQuery }) => {
                                                 size="small"
                                                 variant="outlined"
                                                 onClick={() => {
-                                                    handleInfoBack(
-                                                        row.BillMaster.BillingNo,
-                                                        row.BillMaster.BillMasterID,
-                                                    );
+                                                    handleInfoBack(row.BillMaster.BillingNo, row.BillMaster.BillMasterID);
                                                 }}
                                             >
                                                 退回

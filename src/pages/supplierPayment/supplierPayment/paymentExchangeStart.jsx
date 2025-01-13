@@ -63,6 +63,7 @@ const PaymentExchangeStart = ({
     savePaymentEdit,
     queryApi,
     setListInfo,
+    codeInfo,
 }) => {
     const dispatch = useDispatch();
     const [isRateDialogOpen, setIsRateDialogOpen] = useState(false);
@@ -354,7 +355,7 @@ const PaymentExchangeStart = ({
                                                     會員
                                                 </StyledTableCell>
                                                 <StyledTableCell align="center">
-                                                    應收金額
+                                                    原始費用
                                                 </StyledTableCell>
                                                 <StyledTableCell align="center">
                                                     已實收金額
@@ -404,29 +405,36 @@ const PaymentExchangeStart = ({
                                                         <TableCell align="center">
                                                             {row.PartyName}
                                                         </TableCell>
-                                                        {/* 應收金額 */}
+                                                        {/* 原始費用 */}
                                                         <TableCell align="center">
-                                                            {handleNumber(row.FeeAmount)}
+                                                            {/* {handleNumber(row.FeeAmount)}{' '} */}
+                                                            {handleNumber(row.OrgFeeAmount)}{' '}
+                                                            {codeInfo.fromCode}
                                                         </TableCell>
                                                         {/* 已實收金額 */}
                                                         <TableCell align="center">
-                                                            {handleNumber(row.ReceivedAmount)}
+                                                            {handleNumber(row.ReceivedAmount)}{' '}
+                                                            {codeInfo.fromCode}
                                                         </TableCell>
                                                         {/* 原幣已換匯累計金額 */}
                                                         <TableCell align="center">
-                                                            {handleNumber(row.ExgOriReceivedAmount)}
+                                                            {handleNumber(row.ExgOriReceivedAmount)}{' '}
+                                                            {codeInfo.fromCode}
                                                         </TableCell>
                                                         {/* 待換匯金額 */}
                                                         <TableCell align="center">
-                                                            {handleNumber(row.ToExgAmount)}
+                                                            {handleNumber(row.ToExgAmount)}{' '}
+                                                            {codeInfo.fromCode}
                                                         </TableCell>
                                                         {/* 換匯後已實收金額 */}
                                                         <TableCell align="center">
-                                                            {handleNumber(row.ExgReceivedAmount)}
+                                                            {handleNumber(row.ExgReceivedAmount)}{' '}
+                                                            {codeInfo.payCode}
                                                         </TableCell>
                                                         {/* 換匯匯差 */}
                                                         <TableCell align="center">
-                                                            {handleNumber(row.ExgDiffAmount)}
+                                                            {handleNumber(row.ExgDiffAmount)}{' '}
+                                                            {codeInfo.payCode}
                                                         </TableCell>
                                                         <TableCell align="center">
                                                             <TextField
@@ -488,37 +496,43 @@ const PaymentExchangeStart = ({
                                                     className="totalAmount"
                                                     align="center"
                                                 >
-                                                    {handleNumber(feeAmountTotal.current)}
+                                                    {handleNumber(feeAmountTotal.current)}{' '}
+                                                    {codeInfo.fromCode}
                                                 </StyledTableCell>
                                                 <StyledTableCell
                                                     className="totalAmount"
                                                     align="center"
                                                 >
-                                                    {handleNumber(receivedAmountTotal.current)}
+                                                    {handleNumber(receivedAmountTotal.current)}{' '}
+                                                    {codeInfo.fromCode}
                                                 </StyledTableCell>
                                                 <StyledTableCell
                                                     className="totalAmount"
                                                     align="center"
                                                 >
-                                                    {handleNumber(exgOriReceivedAmount.current)}
+                                                    {handleNumber(exgOriReceivedAmount.current)}{' '}
+                                                    {codeInfo.fromCode}
                                                 </StyledTableCell>
                                                 <StyledTableCell
                                                     className="totalAmount"
                                                     align="center"
                                                 >
-                                                    {handleNumber(toExgAmount.current)}
+                                                    {handleNumber(toExgAmount.current)}{' '}
+                                                    {codeInfo.fromCode}
                                                 </StyledTableCell>
                                                 <StyledTableCell
                                                     className="totalAmount"
                                                     align="center"
                                                 >
-                                                    {handleNumber(exgReceivedAmount.current)}
+                                                    {handleNumber(exgReceivedAmount.current)}{' '}
+                                                    {codeInfo.payCode}
                                                 </StyledTableCell>
                                                 <StyledTableCell
                                                     className="totalAmount"
                                                     align="center"
                                                 >
-                                                    {handleNumber(exgDiffAmount.current)}
+                                                    {handleNumber(exgDiffAmount.current)}{' '}
+                                                    {codeInfo.payCode}
                                                 </StyledTableCell>
                                                 <StyledTableCell
                                                     className="totalAmount"

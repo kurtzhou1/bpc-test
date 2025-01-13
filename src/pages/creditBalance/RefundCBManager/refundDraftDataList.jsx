@@ -38,11 +38,13 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
 const CreditBalanceDataList = ({ listInfo }) => {
     const dispatch = useDispatch();
     const payDraftID = useRef(-1);
+    const payCode = useRef('');
     const [isDialogOpen, setIsDialogOpen] = useState(false);
     const [isUploadOpen, setIsUploadOpen] = useState(false); //上傳函稿
     // const payDraftID = useRef(-1);
-    const handleDialogOpen = (id) => {
+    const handleDialogOpen = (id, code) => {
         payDraftID.current = id;
+        payCode.current = code;
         setIsDialogOpen(true);
     };
 
@@ -104,6 +106,7 @@ const CreditBalanceDataList = ({ listInfo }) => {
             <CorrespondenceMake
                 isDialogOpen={isDialogOpen}
                 payDraftID={payDraftID.current}
+                payCode={payCode.current}
                 handleDialogClose={handleDialogClose}
             />
             <PayDraftUpload
@@ -120,6 +123,7 @@ const CreditBalanceDataList = ({ listInfo }) => {
                             <StyledTableCell align="center">海纜名稱</StyledTableCell>
                             <StyledTableCell align="center">海纜作業</StyledTableCell>
                             <StyledTableCell align="center">匯款總金額</StyledTableCell>
+                            <StyledTableCell align="center">幣別</StyledTableCell>
                             <StyledTableCell align="center">Action</StyledTableCell>
                         </TableRow>
                     </TableHead>
@@ -138,9 +142,10 @@ const CreditBalanceDataList = ({ listInfo }) => {
                                     <StyledTableCell align="center">
                                         {row.WorkTitle}
                                     </StyledTableCell>
-                                    <StyledTableCell align="center">{`$${handleNumber(
-                                        row.TotalFeeAmount,
-                                    )}`}</StyledTableCell>
+                                    <StyledTableCell align="center">
+                                        {handleNumber(row.TotalFeeAmount)}
+                                    </StyledTableCell>
+                                    <StyledTableCell align="center">{row.Code}</StyledTableCell>
                                     <StyledTableCell align="center">
                                         <Box
                                             sx={{
@@ -157,7 +162,7 @@ const CreditBalanceDataList = ({ listInfo }) => {
                                                 size="small"
                                                 variant="outlined"
                                                 onClick={() => {
-                                                    handleDialogOpen(row?.PayDraftID);
+                                                    handleDialogOpen(row?.PayDraftID, row?.PayCode);
                                                 }}
                                             >
                                                 產製

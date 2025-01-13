@@ -36,8 +36,10 @@ const ToEditDataList = ({ listInfo, initQuery }) => {
     const dispatch = useDispatch();
     const [isDialogOpen, setIsDialogOpen] = useState(false);
     const payDraftID = useRef(-1);
-    const handleDialogOpen = (id) => {
+    const payCode = useRef('');
+    const handleDialogOpen = (id, code) => {
         payDraftID.current = id;
+        payCode.current = code;
         setIsDialogOpen(true);
     };
     const handleDialogClose = () => {
@@ -143,6 +145,7 @@ const ToEditDataList = ({ listInfo, initQuery }) => {
             <CorrespondenceMake
                 isDialogOpen={isDialogOpen}
                 payDraftID={payDraftID.current}
+                payCode={payCode.current}
                 handleDialogClose={handleDialogClose}
             />
             <TableContainer component={Paper} sx={{ maxHeight: window.screen.height * 0.45 }}>
@@ -154,6 +157,7 @@ const ToEditDataList = ({ listInfo, initQuery }) => {
                             <StyledTableCell align="center">海纜名稱</StyledTableCell>
                             <StyledTableCell align="center">海纜作業</StyledTableCell>
                             <StyledTableCell align="center">匯款總金額</StyledTableCell>
+                            <StyledTableCell align="center">匯款幣別</StyledTableCell>
                             <StyledTableCell align="center">Action</StyledTableCell>
                         </TableRow>
                     </TableHead>
@@ -175,8 +179,9 @@ const ToEditDataList = ({ listInfo, initQuery }) => {
                                         {row?.WorkTitle}
                                     </StyledTableCell>
                                     <StyledTableCell align="center">
-                                        {row?.TotalFeeAmount} {row?.PayCode}
+                                        {row?.TotalFeeAmount}
                                     </StyledTableCell>
+                                    <StyledTableCell align="center">{row?.PayCode}</StyledTableCell>
                                     <StyledTableCell align="center">
                                         <Box
                                             sx={{
@@ -193,7 +198,7 @@ const ToEditDataList = ({ listInfo, initQuery }) => {
                                                 size="small"
                                                 variant="outlined"
                                                 onClick={() => {
-                                                    handleDialogOpen(row?.PayDraftID);
+                                                    handleDialogOpen(row?.PayDraftID, row?.PayCode);
                                                 }}
                                             >
                                                 製作函稿

@@ -60,7 +60,6 @@ const PaymentWork = ({
     invoiceNo,
     dueDate,
     savePaymentEdit,
-    code,
     exgRate,
 }) => {
     const dispatch = useDispatch();
@@ -85,7 +84,7 @@ const PaymentWork = ({
         console.log(payment, typeof new Decimal(payment));
         payAmountTotal.current = 0;
         let tmpArray = toPaymentDetailInfo.map((i) => i);
-        tmpArray.forEach((i, index) => {
+        tmpArray.forEach((i) => {
             if (i.BillMasterID === billMasterID && i.BillDetailID === billDetailID) {
                 i.PayAmount = Number(payment);
             }
@@ -103,9 +102,13 @@ const PaymentWork = ({
     };
 
     const handleSaveEdit = () => {
+        // haha
         let tmpArray = toPaymentDetailInfo.map((i) => i);
         tmpArray.forEach((i) => {
-            i.PayAmount = i.PayAmount ? i.PayAmount : Number(i.ReceivedAmount - i.PaidAmount);
+            // i.PayAmount = i.PayAmount ? i.PayAmount : Number(i.ReceivedAmount - i.PaidAmount);
+            i.PayAmount = i.PayAmount
+                ? i.PayAmount
+                : new Decimal(i.ExgReceivedAmount).minus(new Decimal(i.PaidAmount)).toNumber();
         });
         savePaymentEdit(tmpArray);
     };
@@ -150,11 +153,10 @@ const PaymentWork = ({
                         ? new Decimal(i.FeeAmount / exgRate).minus(new Decimal(i.PaidAmount))
                         : 0,
                 );
-                // row.FeeAmount / exgRate - row.PaidAmount
                 payAmountTotal.current = new Decimal(payAmountTotal.current).add(
                     i.PayAmount
                         ? i.PayAmount
-                        : new Decimal(i.ReceivedAmount).minus(new Decimal(i.PaidAmount)),
+                        : new Decimal(i.ExgReceivedAmount).minus(new Decimal(i.PaidAmount)),
                 );
             });
             setToPaymentDetailInfo(tmpArray);
@@ -251,9 +253,6 @@ const PaymentWork = ({
                                                 計帳段號
                                             </StyledTableCell>
                                             <StyledTableCell align="center">會員</StyledTableCell>
-                                            {/* <StyledTableCell align="center">
-                                                應收金額
-                                            </StyledTableCell> */}
                                             <StyledTableCell align="center">
                                                 已實收金額
                                             </StyledTableCell>
@@ -269,18 +268,22 @@ const PaymentWork = ({
                                             <StyledTableCell align="center">
                                                 摘要說明
                                             </StyledTableCell>
-                                            {actionName === 'toPayment' ? (
-                                                <StyledTableCell align="center">
-                                                    此次付款金額
-                                                </StyledTableCell>
-                                            ) : null}
+                                            <StyledTableCell align="center">
+                                                此次付款金額
+                                            </StyledTableCell>
                                         </TableRow>
                                     </TableHead>
                                     <TableBody>
                                         {toPaymentDetailInfo?.map((row) => {
                                             // let toPayment = row.OrgFeeAmount - row.PaidAmount;
                                             let toPayment =
-                                                row.FeeAmount / exgRate - row.PaidAmount;
+                                                // row.FeeAmount / exgRate - row.PaidAmount;
+                                                new Decimal(row.FeeAmount / exgRate)
+                                                    .minus(new Decimal(row.PaidAmount))
+                                                    .toNumber();
+                                            let defaultPayment = new Decimal(row.ExgReceivedAmount)
+                                                .minus(new Decimal(row.PaidAmount))
+                                                .toNumber();
                                             return (
                                                 <TableRow
                                                     key={
@@ -366,21 +369,13 @@ const PaymentWork = ({
                                                                         NumericFormatCustom,
                                                                 }}
                                                                 disabled={toPayment <= 0}
+                                                                // row.FeeAmount / exgRate - row.PaidAmount;
                                                                 value={
                                                                     row.PayAmount ||
                                                                     row.PayAmount === 0
                                                                         ? row.PayAmount
-                                                                        : new Decimal(
-                                                                              row.ExgReceivedAmount,
-                                                                          )
-                                                                              .minus(
-                                                                                  new Decimal(
-                                                                                      row.PaidAmount,
-                                                                                  ),
-                                                                              )
-                                                                              .toNumber()
+                                                                        : defaultPayment
                                                                 }
-                                                                // type="number"
                                                                 onChange={(e) => {
                                                                     changePayAmount(
                                                                         e.target.value,
@@ -430,14 +425,9 @@ const PaymentWork = ({
                                                 className="totalAmount"
                                                 align="center"
                                             />
-                                            {actionName === 'toPayment' ? (
-                                                <StyledTableCell
-                                                    className="totalAmount"
-                                                    align="center"
-                                                >
-                                                    {handleNumber(payAmountTotal.current)}
-                                                </StyledTableCell>
-                                            ) : null}
+                                            <StyledTableCell className="totalAmount" align="center">
+                                                {handleNumber(payAmountTotal.current)}
+                                            </StyledTableCell>
                                         </TableRow>
                                     </TableBody>
                                 </Table>
