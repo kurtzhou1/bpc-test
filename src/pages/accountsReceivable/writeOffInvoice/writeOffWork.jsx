@@ -563,12 +563,6 @@ const WriteOffWork = ({ isDialogOpen, handleDialogClose, writeOffInfo, writeOffD
                                         </TableHead>
                                         <TableBody>
                                             {toWriteOffDetailInfo?.map((row, id) => {
-                                                tmpBankFee = 0; //本次手續費
-                                                tmpReceiveAmount = 0; //本次實收
-                                                tmpTotal = 0; //本次總金額
-                                                tmpOverAmount = 0; //重溢繳
-                                                tmpShortAmount = 0; //短繳
-                                                tmpcbAmountTotal = 0; //CB
                                                 tmpBankFee = new Decimal(tmpBankFee).add(new Decimal(row.BankFee)).toNumber();
                                                 tmpReceiveAmount = new Decimal(tmpReceiveAmount).add(new Decimal(row.ReceiveAmount)).toNumber();
                                                 tmpTotal = new Decimal(tmpTotal).add(new Decimal(row.BRAmount)).toNumber(); //實收加總
@@ -620,7 +614,7 @@ const WriteOffWork = ({ isDialogOpen, handleDialogClose, writeOffInfo, writeOffD
                                                         </TableCell>
                                                         {/* 原始費用 */}
                                                         <TableCell align="center">{handleNumber(row?.OrgFeeAmount)}</TableCell>
-                                                        {/* 折抵 */}
+                                                        {/* 抵扣 */}
                                                         <TableCell align="center">{handleNumber(row?.DedAmount)}</TableCell>
                                                         {/* 預付稅款 */}
                                                         <TableCell align="center">{handleNumber(row?.WHTAmount)}</TableCell>
@@ -657,7 +651,7 @@ const WriteOffWork = ({ isDialogOpen, handleDialogClose, writeOffInfo, writeOffD
                                                                         minWidth: 80
                                                                     }}
                                                                     size="small"
-                                                                    value={tmpReceiveAmount}
+                                                                    value={row.ReceiveAmount}
                                                                     InputProps={{
                                                                         inputComponent: NumericFormatCustom
                                                                     }}

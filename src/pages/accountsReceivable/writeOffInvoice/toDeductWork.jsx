@@ -354,10 +354,15 @@ const ToDeductWork = ({ isDeductOpen, handleDeductClose, cbData, writeOffInfo, t
                                             <TableCell
                                                 align="center"
                                                 sx={{
-                                                    color: cbData.current?.OrgFeeAmount - cbData.current?.CBWriteOffAmount >= 0 ? 'black' : 'red'
+                                                    color: cbData.current?.FeeAmount - cbData.current?.WHTAmount - cbData.current?.CBWriteOffAmount >= 0 ? 'black' : 'red'
                                                 }}
                                             >
-                                                {handleNumber(new Decimal(cbData.current?.OrgFeeAmount || 0).minus(new Decimal(cbData.current?.CBWriteOffAmount || 0)).toNumber())}
+                                                {handleNumber(
+                                                    new Decimal(cbData.current?.FeeAmount || 0)
+                                                        .minus(new Decimal(cbData.current?.WHTAmount || 0))
+                                                        .minus(new Decimal(cbData.current?.CBWriteOffAmount || 0))
+                                                        .toNumber()
+                                                )}
                                             </TableCell>
                                             <TableCell align="center">
                                                 <Button
